@@ -1,20 +1,15 @@
-import * as vscode from "vscode";
+import type { ExtensionContext } from "vscode";
+import type Command from "./commands/command";
+import NewProjectCommand from "./commands/newProject";
 
-export function activate(context: vscode.ExtensionContext): void {
-  console.log(
-    'Congratulations, your extension "raspberry-pi-pico" is now active!'
-  );
+const COMMANDS: Command[] = [new NewProjectCommand()];
 
-  const disposable = vscode.commands.registerCommand(
-    "raspberry-pi-pico.newProject",
-    () => {
-      void vscode.window.showInformationMessage(
-        "Hello World from raspberry-pi-pico!"
-      );
-    }
-  );
+export function activate(context: ExtensionContext): void {
+  console.log('Congratulations, extension "raspberry-pi-pico" is now active!');
 
-  context.subscriptions.push(disposable);
+  COMMANDS.forEach(command => {
+    context.subscriptions.push(command.register());
+  });
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
