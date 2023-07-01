@@ -1,0 +1,22 @@
+{
+    "files.exclude": {
+        // set them to true to hide them in vscode
+        "out": false,
+        "dist": false
+    },
+    "search.exclude": {
+        "out": true,
+        "dist": true
+    },
+    // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
+    "typescript.tsc.autoDetect": "off",
+    "editor.tabSize": 2,
+
+    // custom
+    "prettier.tabWidth": 2,
+    "prettier.singleQuote": false,
+    "prettier.useTabs": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "typescript.tsdk": "node_modules/typescript/lib"
+}

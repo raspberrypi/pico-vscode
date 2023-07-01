@@ -1,0 +1,77 @@
+{
+  "name": "raspberry-pi-pico",
+  "displayName": "Raspberry Pi Pico",
+  "description": "The official Raspberry Pi Pico VS Code extension.",
+  "version": "0.1.0",
+  "author": "paulober",
+  "publisher": "paulober",
+  "license": "MPL-2.0",
+  "engines": {
+    "vscode": "^1.79.0"
+  },
+  "keywords": [
+    "raspberry",
+    "pi",
+    "raspberry pi",
+    "pico",
+    "pico w",
+    "raspberry pi pico",
+    "raspberry pi pico w",
+    "pico sdk"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.cjs",
+  "markdown": "github",
+  "minimumNodeVersion": 16,
+  "capabilities": {
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "Raspberry Pi Pico extension is intended to be used localy."
+    },
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Raspberry Pi Pico extension is intended to be used in trusted workspaces."
+    }
+  },
+  "activationEvents": [ ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "raspberry-pi-pico.newProject",
+        "title": "New Pico Project",
+        "category": "Raspberry Pi Pico"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile-production",
+    "compile-production": "rollup -c --environment BUILD:production --sourcemap hidden",
+    "compile": "rollup -c",
+    "watch": "rollup -cw",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.2",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@rollup/plugin-typescript": "^11.1.2",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "20.3.2",
+    "@types/vscode": "^1.79.1",
+    "@typescript-eslint/eslint-plugin": "^5.60.1",
+    "@typescript-eslint/parser": "^5.60.1",
+    "@vscode/test-electron": "^2.3.3",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "glob": "^8.1.0",
+    "mocha": "^10.2.0",
+    "rollup": "^3.25.3",
+    "typescript": "^5.1.6"
+  }
+}
