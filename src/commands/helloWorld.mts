@@ -1,9 +1,9 @@
 import { window } from "vscode";
-import Command from "./command";
+import Command from "./command.mjs";
 
-export default class NewProjectCommand extends Command {
+export default class HelloWorldCommand extends Command {
   constructor() {
-    super("newProject");
+    super("helloWorld");
   }
 
   async execute(): Promise<void> {

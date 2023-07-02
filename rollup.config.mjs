@@ -5,7 +5,7 @@ import typescript from '@rollup/plugin-typescript';
 //const isProduction = process.env.BUILD === 'production';
 
 export default {
-    input: 'src/extension.ts',
+    input: 'src/extension.mts',
     output: {
         //dir: 'dist',
         file: 'dist/extension.cjs',

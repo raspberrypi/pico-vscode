@@ -35,9 +35,16 @@
       "description": "Raspberry Pi Pico extension is intended to be used in trusted workspaces."
     }
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "workspaceContains:**/pico_sdk_import.cmake"
+  ],
   "contributes": {
     "commands": [
+      {
+        "command": "raspberry-pi-pico.helloWorld",
+        "title": "Hello World",
+        "category": "Raspberry Pi Pico"
+      },
       {
         "command": "raspberry-pi-pico.newProject",
         "title": "New Pico Project",
@@ -64,6 +71,7 @@
     "@types/mocha": "^10.0.1",
     "@types/node": "20.3.3",
     "@types/vscode": "^1.79.1",
+    "@types/which": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "@vscode/test-electron": "^2.3.3",
@@ -74,6 +82,9 @@
     "rollup": "^3.26.0",
     "tslib": "^2.6.0",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "which": "^3.0.1"
   },
   "packageManager": "yarn@3.6.1"
 }
