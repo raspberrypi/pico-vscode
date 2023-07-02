@@ -1,22 +1,28 @@
 {
-    "files.exclude": {
-        // set them to true to hide them in vscode
-        "out": false,
-        "dist": false
-    },
-    "search.exclude": {
-        "out": true,
-        "dist": true
-    },
-    // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
-    "typescript.tsc.autoDetect": "off",
-    "editor.tabSize": 2,
+  "files.exclude": {
+    // set them to true to hide them in vscode
+    "out": false,
+    "dist": false
+  },
+  "search.exclude": {
+    "out": true,
+    "dist": true,
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
+  "typescript.tsc.autoDetect": "off",
 
-    // custom
-    "prettier.tabWidth": 2,
-    "prettier.singleQuote": false,
-    "prettier.useTabs": false,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "typescript.tsdk": "node_modules/typescript/lib"
+  // custom
+  "prettier.tabWidth": 2,
+  "prettier.singleQuote": false,
+  "prettier.useTabs": false,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+
+  // yarn pnp vscode config
+  "eslint.nodePath": ".yarn/sdks",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }

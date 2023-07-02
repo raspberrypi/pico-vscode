@@ -1,6 +1,7 @@
 {
-	"recommendations": [
-		"dbaeumer.vscode-eslint",
-		"paulober.rollup-problem-matcher"
-	]
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "paulober.rollup-problem-matcher",
+    "arcanis.vscode-zipfs"
+  ]
 }

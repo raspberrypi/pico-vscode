@@ -9,7 +9,8 @@
 			"problemMatcher": "$rollup-ts-watch",
 			"isBackground": true,
 			"presentation": {
-				"reveal": "never"
+				"reveal": "never",
+				"group": "watchers"
 			},
 			"group": {
 				"kind": "build",

@@ -46,13 +46,13 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile-production",
-    "compile-production": "rollup -c --environment BUILD:production --sourcemap hidden",
+    "vscode:prepublish": "yarn run package",
     "compile": "rollup -c",
     "watch": "rollup -cw",
+    "package": "rollup -c --environment BUILD:production --sourcemap hidden",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run lint",
+    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
   },
@@ -62,7 +62,7 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
-    "@types/node": "20.3.2",
+    "@types/node": "20.3.3",
     "@types/vscode": "^1.79.1",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
@@ -71,7 +71,9 @@
     "eslint-config-prettier": "^8.8.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "rollup": "^3.25.3",
+    "rollup": "^3.26.0",
+    "tslib": "^2.6.0",
     "typescript": "^5.1.6"
-  }
+  },
+  "packageManager": "yarn@3.6.1"
 }
