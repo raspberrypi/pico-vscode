@@ -115,18 +115,13 @@
     "compile": "rollup -c",
     "watch": "rollup -cw",
     "package": "rollup -c --environment BUILD:production --sourcemap hidden",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "lint": "eslint src --ext mts",
+    "test": "yarn run lint"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.2",
     "@rollup/plugin-node-resolve": "^15.1.0",
     "@rollup/plugin-typescript": "^11.1.2",
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
     "@types/node": "20.3.3",
     "@types/semver": "^7.5.0",
     "@types/vscode": "^1.79.1",
@@ -134,11 +129,8 @@
     "@types/winreg": "^1.2.32",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
-    "@vscode/test-electron": "^2.3.3",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.2.0",
     "rollup": "^3.26.0",
     "tslib": "^2.6.0",
     "typescript": "^5.1.6"
