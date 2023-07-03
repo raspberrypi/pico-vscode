@@ -282,7 +282,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.3.12":
+"@types/semver@npm:^7.3.12, @types/semver@npm:^7.5.0":
   version: 7.5.0
   resolution: "@types/semver@npm:7.5.0"
   checksum: 0a64b9b9c7424d9a467658b18dd70d1d781c2d6f033096a6e05762d20ebbad23c1b69b0083b0484722aabf35640b78ccc3de26368bcae1129c87e9df028a22e2
@@ -300,6 +300,13 @@ __metadata:
   version: 3.0.0
   resolution: "@types/which@npm:3.0.0"
   checksum: 0dccb4b39b19dbf24e45461da581e1e6329ca06f28e467348d982d57ce4da342762c6594d3aa759682d26b9238e0a05938eb64221e7420ea890a1aaca22c2fca
+  languageName: node
+  linkType: hard
+
+"@types/winreg@npm:^1.2.32":
+  version: 1.2.32
+  resolution: "@types/winreg@npm:1.2.32"
+  checksum: 7ecb75b61afba7f7e38bde2314b6f59f81360643848d10761b279b750b705ede0bd68087121c3d1f788942c5c652af1bb6b8a2e3b82d79a7d72b49b6f7a5d481
   languageName: node
   linkType: hard
 
@@ -2233,8 +2240,10 @@ __metadata:
     "@types/glob": ^8.1.0
     "@types/mocha": ^10.0.1
     "@types/node": 20.3.3
+    "@types/semver": ^7.5.0
     "@types/vscode": ^1.79.1
     "@types/which": ^3.0.0
+    "@types/winreg": ^1.2.32
     "@typescript-eslint/eslint-plugin": ^5.60.1
     "@typescript-eslint/parser": ^5.60.1
     "@vscode/test-electron": ^2.3.3
@@ -2243,9 +2252,11 @@ __metadata:
     glob: ^8.1.0
     mocha: ^10.2.0
     rollup: ^3.26.0
+    semver: ^7.5.3
     tslib: ^2.6.0
     typescript: ^5.1.6
     which: ^3.0.1
+    winreg: ^1.2.4
   languageName: unknown
   linkType: soft
 
@@ -2393,7 +2404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8":
+"semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.3.8, semver@npm:^7.5.3":
   version: 7.5.3
   resolution: "semver@npm:7.5.3"
   dependencies:
@@ -2744,6 +2755,13 @@ __metadata:
   dependencies:
     string-width: ^1.0.2 || 2 || 3 || 4
   checksum: d5fc37cd561f9daee3c80e03b92ed3e84d80dde3365a8767263d03dacfc8fa06b065ffe1df00d8c2a09f731482fcacae745abfbb478d4af36d0a891fad4834d3
+  languageName: node
+  linkType: hard
+
+"winreg@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "winreg@npm:1.2.4"
+  checksum: 6b28ed0c289bdbae87bd05c69fe676765fa51ca28a904cceb89a30ee1ddd61ae1432d0d4f51621a86c4fbdefa8ad380e9eaa90cbdc722ccae11396231475e3cf
   languageName: node
   linkType: hard
 
