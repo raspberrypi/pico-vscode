@@ -50,7 +50,47 @@
         "title": "New Pico Project",
         "category": "Raspberry Pi Pico"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Raspberry Pi Pico Extension",
+      "properties": {
+        "raspberry-pi-pico.sdk": {
+          "type": "string",
+          "default": "",
+          "description": "Pico SDK selected for the project"
+        },
+        "raspberry-pi-pico.sdkPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the Pico SDK"
+        },
+        "raspberry-pi-pico.toolchainPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the ARM Toolchain"
+        },
+        "raspberry-pi-pico.cmakePath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the CMake executable [TODO]"
+        },
+        "raspberry-pi-pico.pythonPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the Python executable [TODO]"
+        },
+        "raspberry-pi-pico.ninjaPath": {
+          "type": "string",
+          "default": "Debug",
+          "description": "Path to Ninja executable [TODO]"
+        },
+        "raspberry-pi-pico.cmakeAutoConfigure": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Automatically run `cmake -G` when opening a Pico project"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
