@@ -1,5 +1,5 @@
 import type { Memento, WorkspaceConfiguration } from "vscode";
-import { extensions, workspace } from "vscode";
+import { workspace } from "vscode";
 
 export enum SettingsKey {
   picoSDK = "sdk",
@@ -8,6 +8,7 @@ export enum SettingsKey {
   cmakePath = "cmakePath",
   pythonPath = "pythonPath",
   ninjaPath = "ninjaPath",
+  cmakeAutoConfigure = "cmakeAutoConfigure",
 }
 
 export type Setting = string | boolean | string[] | null | undefined;
@@ -16,10 +17,6 @@ export interface PackageJSON {
   name: string;
   publisher: string;
 }
-
-const pkg: PackageJSON | undefined = extensions.getExtension(
-  "paulober.raspberry-pi-pico"
-)?.packageJSON as PackageJSON;
 
 export default class Settings {
   private config: WorkspaceConfiguration;
@@ -60,12 +57,11 @@ export default class Settings {
   }
 
   // helpers
-}
+  public getExtensionName(): string {
+    return this.pkg.name;
+  }
 
-export function getExtensionName(): string | undefined {
-  return pkg?.name;
-}
-
-export function getExtensionId(): string {
-  return [pkg?.publisher, pkg?.name].join(".");
+  public getExtensionId(): string {
+    return [this.pkg.publisher, this.pkg.name].join(".");
+  }
 }

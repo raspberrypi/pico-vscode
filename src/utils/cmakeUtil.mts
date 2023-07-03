@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
 
-export async function configureCmakeForNinja(folder: Uri): Promise<boolean> {
+export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
   try {
     // check if CMakeLists.txt exists in the root folder
     await workspace.fs.stat(
