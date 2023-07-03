@@ -1,4 +1,4 @@
-import { window } from "vscode";
+import { type Uri, window } from "vscode";
 import Command from "./command.mjs";
 import Logger from "../logger.mjs";
 import which from "which";
@@ -60,6 +60,7 @@ function enumToParam(e: BoardType | ConsoleOptions | Libraries): string {
 
 interface NewProjectOptions {
   name: string;
+  projectRoot: string;
   boardType: BoardType;
   consoleOptions: ConsoleOptions[];
   libraries: Libraries[];
@@ -87,6 +88,19 @@ export default class NewProjectCommand extends Command {
           "Please install and restart VS Code."
       );
 
+      return;
+    }
+
+    // TODO: maybe make it posible to also select a folder and
+    // not always create a new one with selectedName
+    const projectRoot: Uri[] | undefined = await window.showOpenDialog({
+      canSelectFiles: false,
+      canSelectFolders: true,
+      canSelectMany: false,
+      openLabel: "Select project root",
+    });
+
+    if (!projectRoot || projectRoot.length !== 1) {
       return;
     }
 
@@ -137,6 +151,7 @@ export default class NewProjectCommand extends Command {
 
     this.executePicoProjectGenerator({
       name: selectedName,
+      projectRoot: projectRoot[0].fsPath,
       boardType: selectedBoardType,
       consoleOptions: selectedConsoleOptions,
       libraries: selectedLibraries,
@@ -152,7 +167,7 @@ export default class NewProjectCommand extends Command {
     const ninja: string | null = await which("ninja", { nothrow: true });
     const cmake: string | null = await which("cmake", { nothrow: true });
     const python3: string | null = await which(
-      this._isWindows ? "python3" : "python",
+      this._isWindows ? "python" : "python3",
       { nothrow: true }
     );
 
@@ -177,22 +192,28 @@ export default class NewProjectCommand extends Command {
     };
     customEnv["PATH"] = `${COMPILER_PATH}:${customEnv.PATH}`;
 
+    // TODO: --projectRoot
     const command: string = [
       "python3",
       join(getScriptsRoot(), "pico_project.py"),
       enumToParam(options.boardType),
       ...options.consoleOptions.map(option => enumToParam(option)),
       ...options.libraries.map(option => enumToParam(option)),
+      "--projectRoot",
+      `"${options.projectRoot}"`,
       options.name,
     ].join(" ");
 
-    this._logger.debug(`Executing command: ${command}`);
+    this._logger.debug(`Executing project generator command: ${command}`);
 
     // execute command
     exec(
       command,
       {
         env: customEnv,
+        cwd: getScriptsRoot(),
+        windowsHide: true,
+        timeout: 5000,
       },
       (error, stdout, stderr) => {
         if (error) {
