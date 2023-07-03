@@ -1,5 +1,5 @@
 import { window } from "vscode";
-import Command from "./command.mjs";
+import { Command } from "./command.mjs";
 
 export default class HelloWorldCommand extends Command {
   constructor() {

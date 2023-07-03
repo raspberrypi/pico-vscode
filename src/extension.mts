@@ -1,5 +1,5 @@
 import { workspace, type ExtensionContext } from "vscode";
-import type Command from "./commands/command.mjs";
+import type { Command, CommandWithResult } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import HelloWorldCommand from "./commands/helloWorld.mjs";
 import Logger from "./logger.mjs";

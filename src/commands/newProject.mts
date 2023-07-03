@@ -1,5 +1,5 @@
 import { type Uri, window } from "vscode";
-import Command from "./command.mjs";
+import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import which from "which";
 import { dirname, join } from "path";
