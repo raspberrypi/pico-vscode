@@ -957,7 +957,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.43.0":
+"eslint@npm:^8.44.0":
   version: 8.44.0
   resolution: "eslint@npm:8.44.0"
   dependencies:
@@ -2238,7 +2238,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.60.1
     "@typescript-eslint/parser": ^5.60.1
     "@vscode/test-electron": ^2.3.3
-    eslint: ^8.43.0
+    eslint: ^8.44.0
     eslint-config-prettier: ^8.8.0
     glob: ^8.1.0
     mocha: ^10.2.0
