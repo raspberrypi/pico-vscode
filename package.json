@@ -49,6 +49,24 @@
         "command": "raspberry-pi-pico.newProject",
         "title": "New Pico Project",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.switchSDK",
+        "title": "Switch Pico SDK",
+        "category": "Raspberry Pi Pico",
+        "enablement": "inQuickOpen"
+      },
+      {
+        "command": "raspberry-pi-pico.getSDKPath",
+        "title": "Get Pico SDK Path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getToolchainPath",
+        "title": "Get ARM Toolchain Path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
       }
     ],
     "configuration": {
@@ -57,17 +75,17 @@
         "raspberry-pi-pico.sdk": {
           "type": "string",
           "default": "",
-          "description": "Pico SDK selected for the project"
+          "description": "Pico SDK selected for the project [requires registration of the SDK and the corresponding toolchain in the system (on Windows in the registry and on macOS and Linux in an external configuration file)]"
         },
         "raspberry-pi-pico.sdkPath": {
           "type": "string",
           "default": "",
-          "description": "Path to the Pico SDK"
+          "description": "Path to the Pico SDK root"
         },
         "raspberry-pi-pico.toolchainPath": {
           "type": "string",
           "default": "",
-          "description": "Path to the ARM Toolchain"
+          "markdownDescription": "Path to the ARM Toolchain (folder containing compiler executable; so if installed as `/usr/bin/arm-none-eabi-gcc`, set this to `/usr/bin`; if installed as `C:\\arm-toolchain\\bin\\arm-none-eabi-gcc.exe`, set this to `C:\\arm-toolchain\\bin`)"
         },
         "raspberry-pi-pico.cmakePath": {
           "type": "string",

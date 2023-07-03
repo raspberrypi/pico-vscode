@@ -1,10 +1,16 @@
 import { type Uri, window } from "vscode";
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
-import which from "which";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-import { exec } from "child_process";
+import { type ExecOptions, exec } from "child_process";
+import { getSDKAndToolchainPath } from "../utils/picoSDKUtil.mjs";
+import type Settings from "../settings.mjs";
+import {
+  checkForRequirements,
+  showRquirementsNotMetErrorMessage,
+} from "../utils/requirementsUtil.mjs";
+import { redirectVSCodeConfig } from "../utils/vscodeConfigUtil.mjs";
 
 enum BoardType {
   pico = "Pico",
@@ -74,19 +80,18 @@ export default class NewProjectCommand extends Command {
   private readonly _logger: Logger = new Logger("NewProjectCommand");
   // check at runtime if the OS is Windows
   private readonly _isWindows: boolean = process.platform === "win32";
+  private readonly _settings: Settings;
 
-  constructor() {
+  constructor(settings: Settings) {
     super("newProject");
+
+    this._settings = settings;
   }
 
   async execute(): Promise<void> {
     // check if all requirements are met
-    if (!(await this.checkForRequirements())) {
-      await window.showErrorMessage(
-        "The Pico development requires Ninja, CMake and Python 3 " +
-          "to be installed and available in the PATH. " +
-          "Please install and restart VS Code."
-      );
+    if (!(await checkForRequirements())) {
+      void showRquirementsNotMetErrorMessage();
 
       return;
     }
@@ -149,7 +154,7 @@ export default class NewProjectCommand extends Command {
       return;
     }
 
-    this.executePicoProjectGenerator({
+    await this.executePicoProjectGenerator({
       name: selectedName,
       projectRoot: projectRoot[0].fsPath,
       boardType: selectedBoardType,
@@ -158,21 +163,23 @@ export default class NewProjectCommand extends Command {
     });
   }
 
-  /**
-   * Checks if all requirements are met to run the Pico Project Generator
-   *
-   * @returns true if all requirements are met, false otherwise
-   */
-  private async checkForRequirements(): Promise<boolean> {
-    const ninja: string | null = await which("ninja", { nothrow: true });
-    const cmake: string | null = await which("cmake", { nothrow: true });
-    const python3: string | null = await which(
-      this._isWindows ? "python" : "python3",
-      { nothrow: true }
-    );
+  private runGenerator(
+    command: string,
+    options: ExecOptions
+  ): Promise<number | null> {
+    return new Promise<number | null>(resolve => {
+      const generatorProcess = exec(command, options, error => {
+        if (error) {
+          console.error(`Error: ${error.message}`);
+          resolve(null); // Indicate error
+        }
+      });
 
-    // TODO: check python version
-    return ninja !== null && cmake !== null && python3 !== null;
+      generatorProcess.on("exit", code => {
+        // Resolve with exit code or -1 if code is undefined
+        resolve(code);
+      });
+    });
   }
 
   /**
@@ -180,9 +187,21 @@ export default class NewProjectCommand extends Command {
    *
    * @param options {@link NewProjectOptions} to pass to the Pico Project Generator
    */
-  private executePicoProjectGenerator(options: NewProjectOptions): void {
-    const PICO_SDK_PATH = "";
-    const COMPILER_PATH = "compiler-path/bin";
+  private async executePicoProjectGenerator(
+    options: NewProjectOptions
+  ): Promise<void> {
+    const [PICO_SDK_PATH, COMPILER_PATH] = (await getSDKAndToolchainPath(
+      this._settings
+    )) ?? [undefined, undefined];
+
+    if (!PICO_SDK_PATH || !COMPILER_PATH) {
+      void window.showErrorMessage(
+        "Could not find Pico SDK or Toolchain. Please check your settings."
+      );
+
+      return;
+    }
+
     const customEnv: { [key: string]: string } = {
       ...process.env,
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -199,6 +218,8 @@ export default class NewProjectCommand extends Command {
       enumToParam(options.boardType),
       ...options.consoleOptions.map(option => enumToParam(option)),
       ...options.libraries.map(option => enumToParam(option)),
+      // generate .vscode config
+      "--project",
       "--projectRoot",
       `"${options.projectRoot}"`,
       options.name,
@@ -207,29 +228,29 @@ export default class NewProjectCommand extends Command {
     this._logger.debug(`Executing project generator command: ${command}`);
 
     // execute command
-    exec(
-      command,
-      {
-        env: customEnv,
-        cwd: getScriptsRoot(),
-        windowsHide: true,
-        timeout: 5000,
-      },
-      (error, stdout, stderr) => {
-        if (error) {
-          this._logger.error(`Error: ${error.message}`);
+    // TODO: use exit codes to determine why the project generator failed (if it did)
+    // to be able to show the user a more detailed error message
+    const generatorExitCode = await this.runGenerator(command, {
+      env: customEnv,
+      cwd: getScriptsRoot(),
+      windowsHide: true,
+      timeout: 5000,
+    });
+    if (generatorExitCode === 0) {
+      await redirectVSCodeConfig(
+        join(options.projectRoot, options.name, ".vscode"),
+        this._settings.getExtensionId(),
+        this._settings.getExtensionName()
+      );
+      void window.showInformationMessage(
+        `Successfully created project ${options.name}`
+      );
+    } else {
+      this._logger.error(
+        `Generator Process exited with code: ${generatorExitCode ?? "null"}`
+      );
 
-          return;
-        }
-
-        if (stderr) {
-          this._logger.error(`Error: ${stderr}`);
-
-          return;
-        }
-
-        this._logger.debug(`Output: ${stdout}`);
-      }
-    );
+      void window.showErrorMessage(`Could not create project ${options.name}`);
+    }
   }
 }
