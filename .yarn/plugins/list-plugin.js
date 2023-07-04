@@ -28,14 +28,14 @@ module.exports = {
         if (!this.prod || !this.json) {
           throw new Error(
             "This command can only be used with the --prod and --json " +
-              "args to match the behavior required by VSCE. See: " +
-              "https://github.com/microsoft/vscode-vsce/blob/main/src/npm.ts",
+            "args to match the behavior required by VSCE. See: " +
+            "https://github.com/microsoft/vscode-vsce/blob/main/src/npm.ts",
           );
         }
 
         const packageJsonContents = fs.readFileSync("package.json", "utf-8");
         const { dependencies = {} } = JSON.parse(packageJsonContents);
- 
+
         const lockContents = fs.readFileSync("yarn.lock", "utf-8");
         const resolved = parseSyml(lockContents);
 
@@ -108,7 +108,21 @@ function getLockFileKey(packageName, versionSpecifier) {
  *                      `lockFileKey()`.
  */
 function lookup(resolved, dependencyKey) {
-  const packageInfo = resolved[dependencyKey];
+  let packageInfo;
+  if (dependencyKey.includes("file:")) {
+    const keys = Object.keys(resolved);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+
+      if (key.includes(dependencyKey)) {
+        packageInfo = resolved[key];
+        break;
+      }
+    }
+  } else {
+    packageInfo = resolved[dependencyKey];
+  }
   if (packageInfo) {
     return packageInfo;
   }
