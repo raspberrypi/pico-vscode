@@ -61,7 +61,11 @@ export function setPicoSDKPath(path: string, extensionId?: string): void {
 
 export function setToolchainPath(path: string): void {
   process.env.PICO_TOOLCHAIN_PATH = path;
-  process.env.PATH = `${path};${process.env.PATH ?? ""}`;
+  if (process.platform === "win32") {
+    process.env.Path = `${path};${process.env.Path ?? ""}`;
+  } else {
+    process.env.PATH = `${path};${process.env.PATH ?? ""}`;
+  }
 }
 
 /**

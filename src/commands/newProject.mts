@@ -214,10 +214,14 @@ export default class NewProjectCommand extends Command {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       PICO_TOOLCHAIN_PATH: TOOLCHAIN_PATH,
     };
-    customEnv["PATH"] = `${TOOLCHAIN_PATH}:${customEnv["PATH"]}`;
+    customEnv[
+      process.platform === "win32" ? "Path" : "PATH"
+    ] = `${TOOLCHAIN_PATH}:${
+      customEnv[process.platform === "win32" ? "Path" : "PATH"]
+    }`;
 
     const command: string = [
-      "python3",
+      process.platform === "win32" ? "python" : "python3",
       join(getScriptsRoot(), "pico_project.py"),
       enumToParam(options.boardType),
       ...options.consoleOptions.map(option => enumToParam(option)),

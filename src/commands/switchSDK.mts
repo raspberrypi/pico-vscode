@@ -25,6 +25,7 @@ export default class SwitchSDKCommand extends Command {
       .sort((a, b) => compare(a.version, b.version))
       .map(sdk => ({
         label: `Pico SDK v${sdk.version}`,
+        version: sdk.version,
         // TODO: maybe remove description
         description: `${sdk.sdkPath}; ${sdk.toolchainPath}`,
         sdkPath: sdk.sdkPath,
@@ -57,6 +58,6 @@ export default class SwitchSDKCommand extends Command {
     // TODO: maybe ensure workspace settings are used
     // save selected SDK version to settings
     await this._settings.update(SettingsKey.picoSDK, selectedSDK.label);
-    this._ui.updateSDKVersion(selectedSDK.label);
+    this._ui.updateSDKVersion(selectedSDK.version);
   }
 }

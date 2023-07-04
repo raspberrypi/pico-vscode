@@ -26,7 +26,15 @@ export default {
         typescript({
             tsconfig: 'tsconfig.json',
         }),
-        run({
+        process.platform === "win32" ? run({
+            execPath: 'powershell',
+            execArgv: [
+                '-ExecutionPolicy',
+                'Bypass',
+                '-File',
+                './scripts/replace.ps1'
+            ]
+        }) : run({
             execPath: 'yarn',
             execArgv: ['run', 'postcompile']
         })

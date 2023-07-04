@@ -5,6 +5,7 @@ import { SettingsKey } from "../settings.mjs";
 import which from "which";
 import { getSystemPicoSDKPath } from "./picoSDKEnvUtil.mjs";
 import { EnumRegKeyKeys, GetStringRegKey } from "vscode-windows-registry";
+import { EnumRegKeyValues } from "../../vendor/vscode-windows-registry/dist/index.js";
 
 // implements QuickPickItem does not work somehow
 export class PicoSDK {
@@ -123,15 +124,15 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
   try {
     const sdks = EnumRegKeyKeys(
       "HKEY_LOCAL_MACHINE",
-      "\\SOFTWARE\\WOW6432Node\\Raspberry Pi"
+      "SOFTWARE\\WOW6432Node\\Raspberry Pi"
     );
 
     return sdks
       .map(sdk => {
         const installDir = GetStringRegKey(
           "HKEY_LOCAL_MACHINE",
-          "\\SOFTWARE\\WOW6432Node\\Raspberry Pi\\" + sdk,
-          "InstallDir"
+          "SOFTWARE\\WOW6432Node\\Raspberry Pi\\" + sdk,
+          "InstallPath"
         );
 
         if (!installDir) {
