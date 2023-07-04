@@ -135,7 +135,6 @@
     "@types/semver": "^7.5.0",
     "@types/vscode": "^1.79.1",
     "@types/which": "^3.0.0",
-    "@types/winreg": "^1.2.32",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "eslint": "^8.44.0",
@@ -146,8 +145,8 @@
   },
   "dependencies": {
     "semver": "^7.5.3",
-    "which": "^3.0.1",
-    "winreg": "^1.2.4"
+    "vscode-windows-registry": "file:./vendor/vscode-windows-registry",
+    "which": "^3.0.1"
   },
   "packageManager": "yarn@3.6.1"
 }

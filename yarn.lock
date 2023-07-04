@@ -272,13 +272,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/winreg@npm:^1.2.32":
-  version: 1.2.32
-  resolution: "@types/winreg@npm:1.2.32"
-  checksum: 7ecb75b61afba7f7e38bde2314b6f59f81360643848d10761b279b750b705ede0bd68087121c3d1f788942c5c652af1bb6b8a2e3b82d79a7d72b49b6f7a5d481
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/eslint-plugin@npm:^5.60.1":
   version: 5.60.1
   resolution: "@typescript-eslint/eslint-plugin@npm:5.60.1"
@@ -1904,7 +1897,6 @@ __metadata:
     "@types/semver": ^7.5.0
     "@types/vscode": ^1.79.1
     "@types/which": ^3.0.0
-    "@types/winreg": ^1.2.32
     "@typescript-eslint/eslint-plugin": ^5.60.1
     "@typescript-eslint/parser": ^5.60.1
     eslint: ^8.44.0
@@ -1913,8 +1905,8 @@ __metadata:
     semver: ^7.5.3
     tslib: ^2.6.0
     typescript: ^5.1.6
+    vscode-windows-registry: "file:./vendor/vscode-windows-registry"
     which: ^3.0.1
-    winreg: ^1.2.4
   languageName: unknown
   linkType: soft
 
@@ -2313,6 +2305,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"vscode-windows-registry@file:./vendor/vscode-windows-registry::locator=raspberry-pi-pico%40workspace%3A.":
+  version: 1.2.0
+  resolution: "vscode-windows-registry@file:./vendor/vscode-windows-registry#./vendor/vscode-windows-registry::hash=a3921a&locator=raspberry-pi-pico%40workspace%3A."
+  checksum: 8c5e8a7393ceb6824afd28071ce61f13d544fc8db5e0c6160141e8daa6a243dc8efc68a8be730fbaf1ba0e62f32f972a12b58c40d84ec5e4cfe2dff7297223c6
+  languageName: node
+  linkType: hard
+
 "which@npm:^2.0.1, which@npm:^2.0.2":
   version: 2.0.2
   resolution: "which@npm:2.0.2"
@@ -2341,13 +2340,6 @@ __metadata:
   dependencies:
     string-width: ^1.0.2 || 2 || 3 || 4
   checksum: d5fc37cd561f9daee3c80e03b92ed3e84d80dde3365a8767263d03dacfc8fa06b065ffe1df00d8c2a09f731482fcacae745abfbb478d4af36d0a891fad4834d3
-  languageName: node
-  linkType: hard
-
-"winreg@npm:^1.2.4":
-  version: 1.2.4
-  resolution: "winreg@npm:1.2.4"
-  checksum: 6b28ed0c289bdbae87bd05c69fe676765fa51ca28a904cceb89a30ee1ddd61ae1432d0d4f51621a86c4fbdefa8ad380e9eaa90cbdc722ccae11396231475e3cf
   languageName: node
   linkType: hard
 

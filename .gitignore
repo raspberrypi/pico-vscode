@@ -495,3 +495,5 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/node,macos,python,webstorm,visualstudiocode,yarn
 
 *.zip
+
+!vendor/**/dist

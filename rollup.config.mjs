@@ -15,10 +15,11 @@ export default {
     },
     external: [
         'vscode',
+        'vscode-windows-registry'
     ],
     plugins: [
         nodeResolve({
-            preferBuiltins: true,
+            preferBuiltins: true
         }),
         commonjs(),
         typescript({

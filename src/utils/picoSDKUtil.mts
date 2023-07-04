@@ -1,23 +1,20 @@
 import { dirname, join } from "path";
 import { promisify } from "util";
-import * as Winreg from "winreg";
 import Logger from "../logger.mjs";
-import { type QuickPickItem, QuickPickItemKind } from "vscode";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
 import which from "which";
 import { getSystemPicoSDKPath } from "./picoSDKEnvUtil.mjs";
+import { EnumRegKeyKeys, GetStringRegKey } from "vscode-windows-registry";
 
-export class PicoSDK implements QuickPickItem {
+// implements QuickPickItem does not work somehow
+export class PicoSDK {
   public version: string;
-  public label: string;
   public sdkPath: string;
   public toolchainPath: string;
-  public kind: QuickPickItemKind = QuickPickItemKind.Default;
 
   constructor(version: string, sdkPath: string, toolchainPath: string) {
     this.version = version;
-    this.label = `Pico SDK v${version}`;
     this.sdkPath = sdkPath;
     this.toolchainPath = toolchainPath;
   }
@@ -43,7 +40,7 @@ export async function getSDKAndToolchainPath(
   let sdkPath: string | undefined;
   let toolchainPath: string | undefined;
 
-  const sdks = await detectInstalledSDKs();
+  const sdks = detectInstalledSDKs();
 
   const manualPicoSDKPath = settings.getString(SettingsKey.picoSDKPath);
   const manualToolchainPath = settings.getString(SettingsKey.toolchainPath);
@@ -100,7 +97,7 @@ async function detectSDKAndToolchainFromEnv(): Promise<
   return undefined;
 }
 
-export async function detectInstalledSDKs(): Promise<PicoSDK[]> {
+export function detectInstalledSDKs(): PicoSDK[] {
   if (process.platform === "win32") {
     return detectInstalledSDKsWindows();
   } else if (process.platform === "darwin") {
@@ -123,29 +120,32 @@ export async function detectInstalledSDKs(): Promise<PicoSDK[]> {
   }
 }
 
-async function detectInstalledSDKsWindows(): Promise<PicoSDK[]> {
-  const reg = new Winreg({
-    hive: Winreg.HKLM,
-    key: "\\SOFTWARE\\WOW6432Node\\Raspberry Pi",
-  });
-
-  const keysAsync = promisify(reg.keys.bind(reg));
-
+function detectInstalledSDKsWindows(): PicoSDK[] {
   try {
-    const sdks = await keysAsync();
+    const sdks = EnumRegKeyKeys(
+      "HKEY_LOCAL_MACHINE",
+      "\\SOFTWARE\\WOW6432Node\\Raspberry Pi"
+    );
 
-    return await Promise.all(
-      sdks.map(async sdk => {
-        const getAsync = promisify(sdk.get.bind(sdk));
-        const installDir = await getAsync("InstallDir");
+    return sdks
+      .map(sdk => {
+        const installDir = GetStringRegKey(
+          "HKEY_LOCAL_MACHINE",
+          "\\SOFTWARE\\WOW6432Node\\Raspberry Pi\\" + sdk,
+          "InstallDir"
+        );
+
+        if (!installDir) {
+          return undefined;
+        }
 
         return {
-          version: sdk.key.split(" ").pop()?.replace("v", ""),
-          sdkPath: join(installDir.value, "pico-sdk"),
-          toolchainPath: join(installDir.value, "gcc-arm-none-eabi", "bin"),
+          version: sdk.split(" ").pop()?.replace("v", ""),
+          sdkPath: join(installDir, "pico-sdk"),
+          toolchainPath: join(installDir, "gcc-arm-none-eabi", "bin"),
         } as PicoSDK;
       })
-    );
+      .filter(sdk => sdk !== undefined) as PicoSDK[];
   } catch (error) {
     return [];
   }

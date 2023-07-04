@@ -192,7 +192,7 @@ export default class NewProjectCommand extends Command {
     /*const [PICO_SDK_PATH, COMPILER_PATH] = (await getSDKAndToolchainPath(
       this._settings
     )) ?? [];*/
-    const installedSDKs = (await detectInstalledSDKs()).sort((a, b) =>
+    const installedSDKs = detectInstalledSDKs().sort((a, b) =>
       compare(a.version, b.version)
     );
 
@@ -200,6 +200,8 @@ export default class NewProjectCommand extends Command {
       void window.showErrorMessage(
         "Could not find Pico SDK or Toolchain. Please check the wiki."
       );
+
+      return;
     }
 
     const PICO_SDK_PATH = installedSDKs[0].sdkPath;

@@ -21,7 +21,7 @@ export default class SwitchSDKCommand extends Command {
   }
 
   async execute(): Promise<void> {
-    const availableSDKs = (await detectInstalledSDKs())
+    const availableSDKs = detectInstalledSDKs()
       .sort((a, b) => compare(a.version, b.version))
       .map(sdk => ({
         label: `Pico SDK v${sdk.version}`,
