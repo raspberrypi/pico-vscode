@@ -6,6 +6,14 @@
   "author": "paulober",
   "publisher": "paulober",
   "license": "MPL-2.0",
+  "homepage": "https://github.com/paulober/vscode-raspberry-pi-pico/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/paulober/vscode-raspberry-pi-pico/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/paulober/vscode-raspberry-pi-pico"
+  },
   "engines": {
     "vscode": "^1.79.2"
   },
@@ -20,6 +28,7 @@
     "pico sdk"
   ],
   "categories": [
+    "Snippets",
     "Other"
   ],
   "main": "./dist/extension.cjs",

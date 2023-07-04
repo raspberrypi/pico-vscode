@@ -10,6 +10,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 
 ## Requirements
 
+- Python 3.9 or later
 - cmake
 - ninja
 - Pico SDK with arm-none-eabi-gcc toolchain
@@ -20,6 +21,12 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 This extension contributes the following settings:
 
 * `raspberry-pi-pico.picoSDK`: Set pico sdk version
+* `raspberry-pi-pico.picoSDKPath`: Set pico sdk path
+* `raspberry-pi-pico.toolchainPath`: Set arm-none-eabi-gcc toolchain path
+* `raspberry-pi-pico.cmakePath`: Set cmake path
+* `raspberry-pi-pico.pythonPath`: Set python path
+* `raspberry-pi-pico.ninjaPath`: Set ninja path
+* `raspberry-pi-pico.cmakeAutoConfigure`: Set cmake auto configure
 
 ## Known Issues
 
