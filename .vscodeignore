@@ -16,3 +16,6 @@ rollup.config.mjs
 **/*.ts
 .pnp*
 *.vsix
+
+# make sure scripts are always included
+!scripts/**

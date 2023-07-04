@@ -6,22 +6,29 @@ import { type QuickPickItem, QuickPickItemKind } from "vscode";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
 import which from "which";
+import { getSystemPicoSDKPath } from "./picoSDKEnvUtil.mjs";
 
 export class PicoSDK implements QuickPickItem {
   public version: string;
+  public label: string;
   public sdkPath: string;
   public toolchainPath: string;
   public kind: QuickPickItemKind = QuickPickItemKind.Default;
 
   constructor(version: string, sdkPath: string, toolchainPath: string) {
     this.version = version;
+    this.label = `Pico SDK v${version}`;
     this.sdkPath = sdkPath;
     this.toolchainPath = toolchainPath;
   }
 
-  get label(): string {
+  /*get label(): string {
     return `Pico SDK v${this.version}`;
-  }
+  }*/
+
+  /*get description(): string {
+    return this.sdkPath;
+  }*/
 }
 
 /**
@@ -56,10 +63,10 @@ export async function getSDKAndToolchainPath(
   }
 
   // use manual paths if set
-  if (manualPicoSDKPath) {
+  if (manualPicoSDKPath !== undefined && manualPicoSDKPath !== "") {
     sdkPath = manualPicoSDKPath;
   }
-  if (manualToolchainPath) {
+  if (manualToolchainPath !== undefined && manualToolchainPath !== "") {
     toolchainPath = manualToolchainPath;
   }
 
@@ -76,15 +83,17 @@ export async function getSDKAndToolchainPath(
 async function detectSDKAndToolchainFromEnv(): Promise<
   [string, string] | undefined
 > {
-  if (process.env.PICO_SDK_PATH) {
+  const PICO_SDK_PATH = getSystemPicoSDKPath();
+  if (PICO_SDK_PATH) {
     // TODO: move compiler name into variable (global)
+    // TODO: maybe also check PICO_TOOLCHAIN_PATH variable
     const toolchainPath: string | null = await which("arm-none-eabi-gcc", {
       nothrow: true,
     });
 
     if (toolchainPath !== null) {
       // get grandparent directory of compiler
-      return [process.env.PICO_SDK_PATH, dirname(toolchainPath)];
+      return [PICO_SDK_PATH, dirname(toolchainPath)];
     }
   }
 
@@ -102,7 +111,7 @@ export async function detectInstalledSDKs(): Promise<PicoSDK[]> {
         sdkPath: "/Users/paulober/pico-sdk",
         toolchainPath:
           "/Applications/ArmGNUToolchain/12.2.mpacbti-rel1" +
-          "/arm-none-eabi/bin/arm-none-eabi-gcc",
+          "/arm-none-eabi/bin",
       } as PicoSDK,
     ];
   } else {

@@ -37,6 +37,10 @@ export default class UI {
     });
   }
 
+  public showStatusBarItems(): void {
+    Object.values(this._items).forEach(item => item.show());
+  }
+
   public updateSDKVersion(version: string): void {
     this._items[StatusBarItemKey.picoSDKQuickPick].text = STATUS_BAR_ITEMS[
       StatusBarItemKey.picoSDKQuickPick

@@ -1,16 +1,17 @@
-import { type Uri, window } from "vscode";
+import { Uri, commands, window } from "vscode";
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { type ExecOptions, exec } from "child_process";
-import { getSDKAndToolchainPath } from "../utils/picoSDKUtil.mjs";
+import { detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
 import type Settings from "../settings.mjs";
 import {
   checkForRequirements,
   showRquirementsNotMetErrorMessage,
 } from "../utils/requirementsUtil.mjs";
 import { redirectVSCodeConfig } from "../utils/vscodeConfigUtil.mjs";
+import { compare } from "semver";
 
 enum BoardType {
   pico = "Pico",
@@ -36,13 +37,13 @@ enum Libraries {
 function enumToParam(e: BoardType | ConsoleOptions | Libraries): string {
   switch (e) {
     case BoardType.pico:
-      return "--board pico";
+      return "-board pico";
     case BoardType.picoW:
-      return "--board pico_w";
+      return "-board pico_w";
     case ConsoleOptions.consoleOverUART:
-      return "--uart";
+      return "-uart";
     case ConsoleOptions.consoleOverUSB:
-      return "--usb";
+      return "-usb";
     case Libraries.spi:
       return "-f spi";
     case Libraries.i2c:
@@ -73,13 +74,11 @@ interface NewProjectOptions {
 }
 
 function getScriptsRoot(): string {
-  return join(dirname(fileURLToPath(import.meta.url)), "scripts");
+  return join(dirname(fileURLToPath(import.meta.url)), "..", "scripts");
 }
 
 export default class NewProjectCommand extends Command {
   private readonly _logger: Logger = new Logger("NewProjectCommand");
-  // check at runtime if the OS is Windows
-  private readonly _isWindows: boolean = process.platform === "win32";
   private readonly _settings: Settings;
 
   constructor(settings: Settings) {
@@ -190,36 +189,43 @@ export default class NewProjectCommand extends Command {
   private async executePicoProjectGenerator(
     options: NewProjectOptions
   ): Promise<void> {
-    const [PICO_SDK_PATH, COMPILER_PATH] = (await getSDKAndToolchainPath(
+    /*const [PICO_SDK_PATH, COMPILER_PATH] = (await getSDKAndToolchainPath(
       this._settings
-    )) ?? [undefined, undefined];
+    )) ?? [];*/
+    const installedSDKs = (await detectInstalledSDKs()).sort((a, b) =>
+      compare(a.version, b.version)
+    );
 
-    if (!PICO_SDK_PATH || !COMPILER_PATH) {
+    if (installedSDKs.length === 0) {
       void window.showErrorMessage(
-        "Could not find Pico SDK or Toolchain. Please check your settings."
+        "Could not find Pico SDK or Toolchain. Please check the wiki."
       );
-
-      return;
     }
+
+    const PICO_SDK_PATH = installedSDKs[0].sdkPath;
+    const TOOLCHAIN_PATH = installedSDKs[0].toolchainPath;
 
     const customEnv: { [key: string]: string } = {
       ...process.env,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       PICO_SDK_PATH: PICO_SDK_PATH,
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      PICO_TOOLCHAIN_PATH: COMPILER_PATH,
+      PICO_TOOLCHAIN_PATH: TOOLCHAIN_PATH,
     };
-    customEnv["PATH"] = `${COMPILER_PATH}:${customEnv.PATH}`;
+    customEnv["PATH"] = `${TOOLCHAIN_PATH}:${customEnv["PATH"]}`;
 
-    // TODO: --projectRoot
     const command: string = [
       "python3",
       join(getScriptsRoot(), "pico_project.py"),
       enumToParam(options.boardType),
       ...options.consoleOptions.map(option => enumToParam(option)),
+      !options.consoleOptions.includes(ConsoleOptions.consoleOverUART)
+        ? "-nouart"
+        : "",
       ...options.libraries.map(option => enumToParam(option)),
       // generate .vscode config
       "--project",
+      "vscode",
       "--projectRoot",
       `"${options.projectRoot}"`,
       options.name,
@@ -240,10 +246,18 @@ export default class NewProjectCommand extends Command {
       await redirectVSCodeConfig(
         join(options.projectRoot, options.name, ".vscode"),
         this._settings.getExtensionId(),
-        this._settings.getExtensionName()
+        this._settings.getExtensionName(),
+        TOOLCHAIN_PATH,
+        installedSDKs[0].version
       );
       void window.showInformationMessage(
-        `Successfully created project ${options.name}`
+        `Successfully created project: ${options.name}`
+      );
+      // open new folder
+      void commands.executeCommand(
+        "vscode.openFolder",
+        Uri.file(join(options.projectRoot, options.name)),
+        true
       );
     } else {
       this._logger.error(

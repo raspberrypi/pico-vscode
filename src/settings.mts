@@ -24,10 +24,10 @@ export default class Settings {
   private pkg: PackageJSON;
 
   constructor(context: Memento, packageJSON: PackageJSON) {
-    this.config = workspace.getConfiguration("raspberry-pi-pico");
-
     this.context = context;
     this.pkg = packageJSON;
+
+    this.config = workspace.getConfiguration(packageJSON.name);
   }
 
   public get(key: SettingsKey): Setting {

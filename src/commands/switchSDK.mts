@@ -1,28 +1,37 @@
 import { compare } from "semver";
-import { type PicoSDK, detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
+import { detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
 import { Command } from "./command.mjs";
-import { window } from "vscode";
+import { window, workspace } from "vscode";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
 import type UI from "../ui.mjs";
+import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
+import { join } from "path";
+import { setPicoSDKPath, setToolchainPath } from "../utils/picoSDKEnvUtil.mjs";
 
 export default class SwitchSDKCommand extends Command {
-  private _settigs: Settings;
+  private _settings: Settings;
   private _ui: UI;
 
   constructor(settings: Settings, ui: UI) {
     super("switchSDK");
 
-    this._settigs = settings;
+    this._settings = settings;
     this._ui = ui;
   }
 
   async execute(): Promise<void> {
-    const availableSDKs = (await detectInstalledSDKs()).sort((a, b) =>
-      compare(a.version, b.version)
-    );
+    const availableSDKs = (await detectInstalledSDKs())
+      .sort((a, b) => compare(a.version, b.version))
+      .map(sdk => ({
+        label: `Pico SDK v${sdk.version}`,
+        // TODO: maybe remove description
+        description: `${sdk.sdkPath}; ${sdk.toolchainPath}`,
+        sdkPath: sdk.sdkPath,
+        toolchainPath: sdk.toolchainPath,
+      }));
 
-    const selectedSDK = await window.showQuickPick<PicoSDK>(availableSDKs, {
+    const selectedSDK = await window.showQuickPick(availableSDKs, {
       placeHolder: "Select Pico SDK",
       canPickMany: false,
       ignoreFocusOut: false,
@@ -33,9 +42,21 @@ export default class SwitchSDKCommand extends Command {
       return;
     }
 
+    if (workspace.workspaceFolders && workspace.workspaceFolders.length > 0) {
+      await updateVSCodeStaticConfigs(
+        join(workspace.workspaceFolders?.[0].uri.fsPath, ".vscode"),
+        selectedSDK.toolchainPath
+      );
+    }
+
+    setPicoSDKPath(selectedSDK.sdkPath, this._settings.getExtensionId());
+    setToolchainPath(selectedSDK.toolchainPath);
+    void window.showWarningMessage(
+      "Reload window to apply changes to linting."
+    );
     // TODO: maybe ensure workspace settings are used
     // save selected SDK version to settings
-    await this._settigs.update(SettingsKey.picoSDK, selectedSDK.version);
-    this._ui.updateSDKVersion(selectedSDK.version);
+    await this._settings.update(SettingsKey.picoSDK, selectedSDK.label);
+    this._ui.updateSDKVersion(selectedSDK.label);
   }
 }
