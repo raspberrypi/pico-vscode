@@ -1,6 +1,7 @@
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
+import run from "@rollup/plugin-run";
 
 //const isProduction = process.env.BUILD === 'production';
 
@@ -24,6 +25,10 @@ export default {
         commonjs(),
         typescript({
             tsconfig: 'tsconfig.json',
+        }),
+        run({
+            execPath: 'yarn',
+            execArgv: ['run', 'postcompile']
         })
     ],
 };

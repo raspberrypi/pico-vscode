@@ -181,6 +181,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@rollup/plugin-run@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "@rollup/plugin-run@npm:3.0.1"
+  dependencies:
+    "@types/node": 14.18.30
+  peerDependencies:
+    rollup: ^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: f07d234ce09c118c863aa09e690061d3aaeec13aab9c161b386c7baf2fc91cb5c6598b000e94dccb98efd8f9fec82119ec37795afb9d57f794a8f162f90c9c0d
+  languageName: node
+  linkType: hard
+
 "@rollup/plugin-typescript@npm:^11.1.2":
   version: 11.1.2
   resolution: "@rollup/plugin-typescript@npm:11.1.2"
@@ -234,6 +248,13 @@ __metadata:
   version: 7.0.12
   resolution: "@types/json-schema@npm:7.0.12"
   checksum: 00239e97234eeb5ceefb0c1875d98ade6e922bfec39dd365ec6bd360b5c2f825e612ac4f6e5f1d13601b8b30f378f15e6faa805a3a732f4a1bbe61915163d293
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:14.18.30":
+  version: 14.18.30
+  resolution: "@types/node@npm:14.18.30"
+  checksum: 347b2aa53631a2b2056f5d7b98e695eac40e8a83cbc4ee40ab7b2684f1fd4ada3d6522343a3f1ab610fbcd8457c4ad77103240474d568c905d62c1b5d6666589
   languageName: node
   linkType: hard
 
@@ -1892,6 +1913,7 @@ __metadata:
   dependencies:
     "@rollup/plugin-commonjs": ^25.0.2
     "@rollup/plugin-node-resolve": ^15.1.0
+    "@rollup/plugin-run": ^3.0.1
     "@rollup/plugin-typescript": ^11.1.2
     "@types/node": 20.3.3
     "@types/semver": ^7.5.0

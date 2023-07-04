@@ -1,5 +1,4 @@
 import { dirname, join } from "path";
-import { promisify } from "util";
 import Logger from "../logger.mjs";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
