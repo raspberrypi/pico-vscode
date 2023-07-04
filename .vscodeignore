@@ -19,3 +19,4 @@ rollup.config.mjs
 
 # make sure scripts are always included
 !scripts/**
+scripts/*.ps1

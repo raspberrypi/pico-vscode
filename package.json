@@ -121,7 +121,9 @@
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",
-    "postcompile": "sed -i '' 's/require(\\x27vscode-windows-registry\\x27)/require(\\x27..\\/vendor\\/vscode-windows-registry\\x27)/g' dist/extension.cjs",
+    "postcompile-unix": "sed -i '' 's/require(\\x27vscode-windows-registry\\x27)/require(\\x27..\\/vendor\\/vscode-windows-registry\\x27)/g' dist/extension.cjs",
+    "postcompile-win": "Powershell -ExecutionPolicy Bypass .\\\\scripts\\\\replace.ps1",
+    "postcompile": "node -e \"process.platform === 'win32' ? require('child_process').execSync('yarn run postcompile-win') : require('child_process').execSync('yarn run postcompile-unix')\"",
     "compile": "rollup -c",
     "watch": "rollup -cw",
     "package": "rollup -c --environment BUILD:production --sourcemap hidden",
