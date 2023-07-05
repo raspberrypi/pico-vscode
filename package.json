@@ -50,11 +50,6 @@
   "contributes": {
     "commands": [
       {
-        "command": "raspberry-pi-pico.helloWorld",
-        "title": "Hello World",
-        "category": "Raspberry Pi Pico"
-      },
-      {
         "command": "raspberry-pi-pico.newProject",
         "title": "New Pico Project",
         "category": "Raspberry Pi Pico"

@@ -1,7 +1,6 @@
 import { workspace, type ExtensionContext } from "vscode";
 import type { Command, CommandWithResult } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
-import HelloWorldCommand from "./commands/helloWorld.mjs";
 import Logger from "./logger.mjs";
 import { configureCmakeNinja } from "./utils/cmakeUtil.mjs";
 import Settings, { SettingsKey, type PackageJSON } from "./settings.mjs";
@@ -41,7 +40,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   const COMMANDS: Array<Command | CommandWithResult<string>> = [
-    new HelloWorldCommand(),
     new GetSDKPathCommand(settings),
     new GetToolchainPathCommand(settings),
     new NewProjectCommand(settings),
