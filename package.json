@@ -99,22 +99,22 @@
         "raspberry-pi-pico.cmakePath": {
           "type": "string",
           "default": "",
-          "description": "Path to the CMake executable [TODO]"
+          "description": "Path to the CMake executable [no spaces]"
         },
-        "raspberry-pi-pico.pythonPath": {
+        "raspberry-pi-pico.python3Path": {
           "type": "string",
           "default": "",
-          "description": "Path to the Python executable [TODO]"
+          "description": "Path to the Python executable [no spaces]"
         },
         "raspberry-pi-pico.ninjaPath": {
           "type": "string",
           "default": "Debug",
-          "description": "Path to Ninja executable [TODO]"
+          "description": "Path to Ninja executable [no spaces]"
         },
         "raspberry-pi-pico.cmakeAutoConfigure": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Automatically run `cmake -G` when opening a Pico project"
+          "markdownDescription": "Automatically run configure when opening a Pico project"
         }
       }
     }
@@ -139,11 +139,11 @@
     "@types/semver": "^7.5.0",
     "@types/vscode": "^1.79.1",
     "@types/which": "^3.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.60.1",
-    "@typescript-eslint/parser": "^5.60.1",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
     "eslint": "^8.44.0",
     "eslint-config-prettier": "^8.8.0",
-    "rollup": "^3.26.0",
+    "rollup": "^3.26.1",
     "tslib": "^2.6.0",
     "typescript": "^5.1.6"
   },
