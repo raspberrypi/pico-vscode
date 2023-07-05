@@ -78,6 +78,8 @@
       "properties": {
         "raspberry-pi-pico.sdk": {
           "type": "string",
+          "pattern": "^$|^\\d+\\.\\d+\\.\\d+$",
+          "patternErrorMessage": "The version must be in the format MAJOR.MINOR.PATCH (e.g. 1.5.1)",
           "default": "",
           "description": "Pico SDK selected for the project [requires registration of the SDK and the corresponding toolchain in the system (on Windows in the registry and on macOS and Linux in an external configuration file)]"
         },
@@ -103,7 +105,7 @@
         },
         "raspberry-pi-pico.ninjaPath": {
           "type": "string",
-          "default": "Debug",
+          "default": "",
           "description": "Path to Ninja executable [no spaces]"
         },
         "raspberry-pi-pico.cmakeAutoConfigure": {

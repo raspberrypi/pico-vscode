@@ -34,6 +34,17 @@ export default class Settings {
     return this.config.get(key);
   }
 
+  public getIt<T>(key: SettingsKey): T | undefined {
+    const value = this.config.get(key);
+    // TODO: typeof value !== T does currently not work in TypeScript
+    // but if it could be a good backend for getString, getBoolean and so on
+    if (value === undefined) {
+      return undefined;
+    }
+
+    return value as T;
+  }
+
   public getString(key: SettingsKey): string | undefined {
     const value = this.get(key);
 
