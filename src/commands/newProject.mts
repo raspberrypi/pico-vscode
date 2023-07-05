@@ -12,6 +12,7 @@ import {
 } from "../utils/requirementsUtil.mjs";
 import { redirectVSCodeConfig } from "../utils/vscodeConfigUtil.mjs";
 import { compare } from "semver";
+import { SettingsKey } from "../settings.mjs";
 
 enum BoardType {
   pico = "Pico",
@@ -89,7 +90,7 @@ export default class NewProjectCommand extends Command {
 
   async execute(): Promise<void> {
     // check if all requirements are met
-    if (!(await checkForRequirements())) {
+    if (!(await checkForRequirements(this._settings))) {
       void showRquirementsNotMetErrorMessage();
 
       return;
@@ -219,9 +220,14 @@ export default class NewProjectCommand extends Command {
     ] = `${TOOLCHAIN_PATH}:${
       customEnv[process.platform === "win32" ? "Path" : "PATH"]
     }`;
+    const pythonExe =
+      this._settings.getString(SettingsKey.python3Path) ??
+      process.platform === "win32"
+        ? "python"
+        : "python3";
 
     const command: string = [
-      process.platform === "win32" ? "python" : "python3",
+      pythonExe,
       join(getScriptsRoot(), "pico_project.py"),
       enumToParam(options.boardType),
       ...options.consoleOptions.map(option => enumToParam(option)),

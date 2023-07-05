@@ -7,6 +7,7 @@ import {
 import { join } from "path";
 import { getSDKAndToolchainPath } from "./picoSDKUtil.mjs";
 import type Settings from "../settings.mjs";
+import { SettingsKey } from "../settings.mjs";
 
 export async function configureCmakeNinja(
   folder: Uri,
@@ -18,7 +19,7 @@ export async function configureCmakeNinja(
       folder.with({ path: join(folder.path, "CMakeLists.txt") })
     );
 
-    const rquirementsAvailable = await checkForRequirements();
+    const rquirementsAvailable = await checkForRequirements(settings);
 
     if (!rquirementsAvailable) {
       void showRquirementsNotMetErrorMessage();
@@ -35,10 +36,11 @@ export async function configureCmakeNinja(
       // eslint-disable-next-line @typescript-eslint/require-await
       async (progress, token) => {
         const sdkPaths = await getSDKAndToolchainPath(settings);
+        const cmake = settings.getString(SettingsKey.cmakePath) ?? "cmake";
 
         // TODO: analyze command result
         // TODO: option for the user to choose the generator
-        const child = exec(`cmake -G Ninja -B ./build ${folder.fsPath}`, {
+        const child = exec(`${cmake} -G Ninja -B ./build ${folder.fsPath}`, {
           cwd: folder.fsPath,
           env: {
             ...process.env,

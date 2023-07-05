@@ -44,8 +44,8 @@ export function setPicoSDKPath(path: string, extensionId?: string): void {
       // Add 'extensid' to 'extensionDependencies' array if not already present
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       const extensionDependencies = jsonData.extensionDependencies as string[];
-      if (!extensionDependencies.includes("paulober.raspberry-pi-pico")) {
-        extensionDependencies.push("paulober.raspberry-pi-pico");
+      if (!extensionDependencies.includes(extensionId)) {
+        extensionDependencies.push(extensionId);
       } else {
         // don't write to avoid vscode asking to reload because ext changed on disk
         return;

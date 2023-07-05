@@ -5,7 +5,7 @@ import { SettingsKey } from "../settings.mjs";
 import which from "which";
 import { getSystemPicoSDKPath } from "./picoSDKEnvUtil.mjs";
 import { EnumRegKeyKeys, GetStringRegKey } from "vscode-windows-registry";
-import { EnumRegKeyValues } from "../../vendor/vscode-windows-registry/dist/index.js";
+import UnixSDKManager, { UnixConfig } from "./picoSDKUnixUtil.mjs";
 
 // implements QuickPickItem does not work somehow
 export class PicoSDK {
@@ -100,20 +100,22 @@ async function detectSDKAndToolchainFromEnv(): Promise<
 export function detectInstalledSDKs(): PicoSDK[] {
   if (process.platform === "win32") {
     return detectInstalledSDKsWindows();
-  } else if (process.platform === "darwin") {
-    // TODO: implement
-    return [
-      {
-        version: "1.5.1",
-        sdkPath: "/Users/paulober/pico-sdk",
-        toolchainPath:
-          "/Applications/ArmGNUToolchain/12.2.mpacbti-rel1" +
-          "/arm-none-eabi/bin",
-      } as PicoSDK,
-    ];
+  } else if (process.platform === "darwin" || process.platform === "linux") {
+    const config = UnixSDKManager.loadConfig();
+
+    return config
+      ? Object.entries(config.sdks).map(
+          ([version, { picoSDKPath, toolchainPath }]) => ({
+            version: version.replace("v", ""),
+            sdkPath: picoSDKPath,
+            toolchainPath,
+          })
+        )
+      : [];
   } else {
     Logger.log(
-      "Auto pico-sdk detection isn't currently supported on this platform."
+      "Automatic pico-sdk detection isn't supported on " +
+        "this platform use settings to specifc custom paths."
     );
 
     return [];
@@ -135,12 +137,13 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
           "InstallPath"
         );
 
-        if (!installDir) {
+        const version = sdk.split(" ").pop();
+        if (!installDir || !version) {
           return undefined;
         }
 
         return {
-          version: sdk.split(" ").pop()?.replace("v", ""),
+          version: version,
           sdkPath: join(installDir, "pico-sdk"),
           toolchainPath: join(installDir, "gcc-arm-none-eabi", "bin"),
         } as PicoSDK;

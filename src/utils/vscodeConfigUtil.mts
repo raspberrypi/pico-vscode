@@ -179,17 +179,7 @@ export async function redirectVSCodeConfig(
   // eslint-disable-next-line max-len
   // WORKAROUND: const redirectedToolchainPathVariable = `\${command:${extensionName}.getToolchainPath}`;
 
-  const cppPropertiesFile = join(folder, "c_cpp_properties.json");
-  await updateCppPropertiesFile(
-    cppPropertiesFile,
-    join(
-      // WORKAROUND: redirectedToolchainPathVariable,
-      toolchainPath,
-      process.platform === "win32"
-        ? "arm-none-eabi-gcc.exe"
-        : "arm-none-eabi-gcc"
-    )
-  );
+  await updateVSCodeStaticConfigs(folder, toolchainPath);
 
   // WORKAROUND: c_cpp_properties.json from vscode-cpptools
   // does not support ${command:} variables at the moment

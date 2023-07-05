@@ -6,7 +6,7 @@ export enum SettingsKey {
   picoSDKPath = "sdkPath",
   toolchainPath = "toolchainPath",
   cmakePath = "cmakePath",
-  pythonPath = "pythonPath",
+  python3Path = "python3Path",
   ninjaPath = "ninjaPath",
   cmakeAutoConfigure = "cmakeAutoConfigure",
 }
