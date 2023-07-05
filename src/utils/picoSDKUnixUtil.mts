@@ -14,7 +14,7 @@ export interface SDKPaths {
 
 export default class UnixSDKManager {
   public static isValidVersion(version: string): boolean {
-    const pattern = /^v\d+\.\d+\.\d+$/;
+    const pattern = /^\d+\.\d+\.\d+$/;
 
     return pattern.test(version);
   }

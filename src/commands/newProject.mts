@@ -197,7 +197,12 @@ export default class NewProjectCommand extends Command {
       compare(a.version, b.version)
     );
 
-    if (installedSDKs.length === 0) {
+    if (
+      installedSDKs.length === 0 ||
+      // "protection" against empty settings
+      installedSDKs[0].sdkPath === "" ||
+      installedSDKs[0].toolchainPath === ""
+    ) {
       void window.showErrorMessage(
         "Could not find Pico SDK or Toolchain. Please check the wiki."
       );
@@ -221,7 +226,7 @@ export default class NewProjectCommand extends Command {
       customEnv[process.platform === "win32" ? "Path" : "PATH"]
     }`;
     const pythonExe =
-      this._settings.getString(SettingsKey.python3Path) ??
+      this._settings.getString(SettingsKey.python3Path) ||
       process.platform === "win32"
         ? "python"
         : "python3";

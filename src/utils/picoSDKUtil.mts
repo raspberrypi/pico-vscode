@@ -5,7 +5,7 @@ import { SettingsKey } from "../settings.mjs";
 import which from "which";
 import { getSystemPicoSDKPath } from "./picoSDKEnvUtil.mjs";
 import { EnumRegKeyKeys, GetStringRegKey } from "vscode-windows-registry";
-import UnixSDKManager, { UnixConfig } from "./picoSDKUnixUtil.mjs";
+import UnixSDKManager from "./picoSDKUnixUtil.mjs";
 
 // implements QuickPickItem does not work somehow
 export class PicoSDK {
@@ -47,7 +47,9 @@ export async function getSDKAndToolchainPath(
   const sdkVersion = settings.getString(SettingsKey.picoSDK);
 
   if (sdkVersion) {
-    const sdk = sdks.find(sdk => sdk.version === sdkVersion);
+    const sdk = sdks.find(
+      sdk => sdk.version.replace("v", "") === sdkVersion.replace("v", "")
+    );
 
     if (!sdk) {
       Logger.log(`Pico SDK v${sdkVersion} not found.`);
@@ -143,7 +145,7 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
         }
 
         return {
-          version: version,
+          version: version.replace("v", ""),
           sdkPath: join(installDir, "pico-sdk"),
           toolchainPath: join(installDir, "gcc-arm-none-eabi", "bin"),
         } as PicoSDK;

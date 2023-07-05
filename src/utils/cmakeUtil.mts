@@ -36,11 +36,11 @@ export async function configureCmakeNinja(
       // eslint-disable-next-line @typescript-eslint/require-await
       async (progress, token) => {
         const sdkPaths = await getSDKAndToolchainPath(settings);
-        const cmake = settings.getString(SettingsKey.cmakePath) ?? "cmake";
+        const cmake = settings.getString(SettingsKey.cmakePath) || "cmake";
 
         // TODO: analyze command result
         // TODO: option for the user to choose the generator
-        const child = exec(`${cmake} -G Ninja -B ./build ${folder.fsPath}`, {
+        const child = exec(`${cmake} -G Ninja -S . -B ./build`, {
           cwd: folder.fsPath,
           env: {
             ...process.env,
