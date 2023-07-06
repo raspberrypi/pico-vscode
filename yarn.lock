@@ -258,10 +258,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.3.3":
-  version: 20.3.3
-  resolution: "@types/node@npm:20.3.3"
-  checksum: 7a0d00800451ca8cd8df63a8cc218c697edadb3143bf46cd6afeb974542a6a1665c3679459be0016c29216ccfed6616b7e55851747527dfa71c5608d9157528c
+"@types/node@npm:20.4.0":
+  version: 20.4.0
+  resolution: "@types/node@npm:20.4.0"
+  checksum: 8ad632ee131611651fc5f4ac3a47427640e2492ab314fe1c4d0c3b97af71784ef48c53221d5f9922aab4724375dcb4f33137b3107ba2c356d9366216a31678aa
   languageName: node
   linkType: hard
 
@@ -1908,7 +1908,7 @@ __metadata:
     "@rollup/plugin-node-resolve": ^15.1.0
     "@rollup/plugin-run": ^3.0.1
     "@rollup/plugin-typescript": ^11.1.2
-    "@types/node": 20.3.3
+    "@types/node": 20.4.0
     "@types/semver": ^7.5.0
     "@types/vscode": ^1.79.1
     "@types/which": ^3.0.0
@@ -1916,7 +1916,7 @@ __metadata:
     "@typescript-eslint/parser": ^5.61.0
     eslint: ^8.44.0
     eslint-config-prettier: ^8.8.0
-    rollup: ^3.26.1
+    rollup: ^3.26.2
     semver: ^7.5.3
     tslib: ^2.6.0
     typescript: ^5.1.6
@@ -1994,9 +1994,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.26.1":
-  version: 3.26.1
-  resolution: "rollup@npm:3.26.1"
+"rollup@npm:^3.26.2":
+  version: 3.26.2
+  resolution: "rollup@npm:3.26.2"
   dependencies:
     fsevents: ~2.3.2
   dependenciesMeta:
@@ -2004,7 +2004,7 @@ __metadata:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 3fd4f88510ec1b54b07309ee63b7b363a1cd4ed6d05e93ec0e883a73df1ffe8bb88169538cb4f2c1ec2d4a7340216f9a8b4b8ce7c2ee054ded725f39d9e3ba36
+  checksum: 7186beeba0e6fd33b37aa33ede7157e77af0a0be4b75d345a51dab4be5962a8e7a1c5ec8868e7c4cd361b456eb1b47bdb75e5db32ab37a546bed383d06b40384
   languageName: node
   linkType: hard
 

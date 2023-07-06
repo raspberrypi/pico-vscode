@@ -15,8 +15,6 @@ import { join } from "path";
 import { updateVSCodeStaticConfigs } from "./utils/vscodeConfigUtil.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  Logger.log("Congratulations the extension is now active!");
-
   const settings = new Settings(
     context.workspaceState,
     context.extension.packageJSON as PackageJSON
