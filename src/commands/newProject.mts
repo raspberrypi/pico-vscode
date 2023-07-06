@@ -264,6 +264,7 @@ export default class NewProjectCommand extends Command {
         join(options.projectRoot, options.name, ".vscode"),
         this._settings.getExtensionId(),
         this._settings.getExtensionName(),
+        PICO_SDK_PATH,
         TOOLCHAIN_PATH,
         installedSDKs[0].version
       );

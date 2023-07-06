@@ -48,11 +48,12 @@ export default class SwitchSDKCommand extends Command {
     if (workspace.workspaceFolders && workspace.workspaceFolders.length > 0) {
       await updateVSCodeStaticConfigs(
         join(workspace.workspaceFolders?.[0].uri.fsPath, ".vscode"),
+        selectedSDK.sdkPath,
         selectedSDK.toolchainPath
       );
     }
 
-    setPicoSDKPath(selectedSDK.sdkPath, this._settings.getExtensionId());
+    setPicoSDKPath(selectedSDK.sdkPath);
     setToolchainPath(selectedSDK.toolchainPath);
     void window.showWarningMessage(
       "Reload window to apply changes to linting."

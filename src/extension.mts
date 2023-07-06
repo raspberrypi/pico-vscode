@@ -12,6 +12,7 @@ import GetToolchainPathCommand from "./commands/getToolchainPath.mjs";
 import { setPicoSDKPath, setToolchainPath } from "./utils/picoSDKEnvUtil.mjs";
 import { existsSync } from "fs";
 import { join } from "path";
+import { updateVSCodeStaticConfigs } from "./utils/vscodeConfigUtil.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Congratulations the extension is now active!");
@@ -88,8 +89,16 @@ export async function activate(context: ExtensionContext): Promise<void> {
     // only one path is custom
     (customSDKPath === undefined || customToolchainPath === undefined)
   ) {
-    setPicoSDKPath(sdkPath[0], settings.getExtensionId());
+    setPicoSDKPath(sdkPath[0]);
     setToolchainPath(sdkPath[1]);
+    if (workspace.workspaceFolders && workspace.workspaceFolders.length > 0) {
+      await updateVSCodeStaticConfigs(
+        workspace.workspaceFolders[0].uri.fsPath,
+        sdkPath[0],
+        sdkPath[1]
+      );
+    }
+
     ui.updateSDKVersion(
       sdkVersion +
         // if one custom path is set then the picoSDK is only partly replaced/modifed
@@ -100,8 +109,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
   } else {
     // both paths are custom, show "custom"
     if (sdkPath !== undefined) {
-      setPicoSDKPath(sdkPath[0], settings.getExtensionId());
+      setPicoSDKPath(sdkPath[0]);
       setToolchainPath(sdkPath[1]);
+      if (workspace.workspaceFolders && workspace.workspaceFolders.length > 0) {
+        await updateVSCodeStaticConfigs(
+          workspace.workspaceFolders[0].uri.fsPath,
+          sdkPath[0],
+          sdkPath[1]
+        );
+      }
       ui.updateSDKVersion("custom");
     } else {
       // could not find SDK && toolchain

@@ -21,6 +21,7 @@ interface CppProperties {
 
 export async function updateCppPropertiesFile(
   file: string,
+  newSDKPath: string,
   newCompilerPath: string
 ): Promise<void> {
   try {
@@ -28,8 +29,10 @@ export async function updateCppPropertiesFile(
     const jsonData = await readFile(file, "utf8");
     const cppProperties: CppProperties = JSON.parse(jsonData) as CppProperties;
 
+    const newIncludePath = ["${workspaceFolder}/**", `${newSDKPath}/**`];
     // Update the compilerPath value
     cppProperties.configurations.forEach(config => {
+      config.includePath = newIncludePath;
       config.compilerPath = newCompilerPath;
     });
 
@@ -171,6 +174,7 @@ export async function redirectVSCodeConfig(
   extensionName: string,
   // WORKAROUND: as c_cpp_properties.json from vscode-cpptools
   // does not support ${command:} variables at the moment
+  sdkPath: string,
   toolchainPath: string,
   newSDKVersion?: string
 ): Promise<void> {
@@ -179,7 +183,7 @@ export async function redirectVSCodeConfig(
   // eslint-disable-next-line max-len
   // WORKAROUND: const redirectedToolchainPathVariable = `\${command:${extensionName}.getToolchainPath}`;
 
-  await updateVSCodeStaticConfigs(folder, toolchainPath);
+  await updateVSCodeStaticConfigs(folder, sdkPath, toolchainPath);
 
   // WORKAROUND: c_cpp_properties.json from vscode-cpptools
   // does not support ${command:} variables at the moment
@@ -233,6 +237,7 @@ export async function redirectVSCodeConfig(
 
 export async function updateVSCodeStaticConfigs(
   folder: string,
+  sdkPath: string,
   toolchainPath: string
 ): Promise<void> {
   const cppPropertiesFile = join(folder, "c_cpp_properties.json");
@@ -240,6 +245,7 @@ export async function updateVSCodeStaticConfigs(
   // does not support dynamic variables
   await updateCppPropertiesFile(
     cppPropertiesFile,
+    sdkPath,
     join(
       toolchainPath,
       process.platform === "win32"
