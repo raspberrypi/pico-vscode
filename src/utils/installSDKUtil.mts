@@ -13,18 +13,55 @@ async function downloadWindowsInstaller(
     "https://github.com/raspberrypi/pico-setup-windows/releases" +
     `/download/v${version}/pico-setup-windows-x64-standalone.exe`;
 
+  //const installerFile = createWriteStream(destinationPath);
+
   const installerFile = createWriteStream(destinationPath);
 
   return new Promise<void>((resolve, reject) => {
-    httpsGet(url, response => {
-      response.pipe(installerFile);
+    const request = httpsGet(url, response => {
+      if (response.statusCode === 302) {
+        const redirectedUrl = response.headers.location || "";
+        httpsGet(redirectedUrl, redirectedResponse => {
+          redirectedResponse.pipe(installerFile);
 
-      installerFile.on("finish", () => {
-        installerFile.close();
+          redirectedResponse.on("end", () => {
+            installerFile.on("finish", () => {
+              installerFile.close();
+              console.log(`File downloaded!`);
+              resolve();
+            });
+          });
 
-        resolve();
-      });
-    }).on("error", error => {
+          redirectedResponse.on("error", error => {
+            unlink(destinationPath, () => {
+              /* nothing */
+            });
+
+            reject(error);
+          });
+        });
+      } else {
+        response.pipe(installerFile);
+
+        response.on("end", () => {
+          installerFile.on("finish", () => {
+            installerFile.close();
+            console.log(`File downloaded!`);
+            resolve();
+          });
+        });
+
+        response.on("error", error => {
+          unlink(destinationPath, () => {
+            /* nothing */
+          });
+
+          reject(error);
+        });
+      }
+    });
+
+    request.on("error", error => {
       unlink(destinationPath, () => {
         /* nothing */
       });
@@ -37,9 +74,15 @@ async function downloadWindowsInstaller(
 async function runInstaller(installerPath: string): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const installerName = basename(installerPath);
-    const silentArgs = "/S"; // Specify the silent mode argument
+    // cant spawn installer directly and with silent falg because error EACCESS
+    //const silentArgs = "/S"; // Specify the silent mode argument
 
-    const child = spawn(installerPath, [silentArgs]);
+    const child = spawn("explorer.exe", [installerPath], {
+      cwd: tmpdir(),
+      windowsHide: false,
+      env: process.env,
+      detached: true,
+    });
 
     child.on("error", error => {
       console.error(
@@ -50,7 +93,7 @@ async function runInstaller(installerPath: string): Promise<void> {
 
     child.on("exit", code => {
       if (code === 0) {
-        console.log(`Installer "${installerName}" executed successfully.`);
+        console.log(`Installer "${installerName}" started successfully.`);
         resolve();
       } else {
         console.error(
@@ -79,7 +122,7 @@ export async function downloadAndInstallPicoSDKWindows(
     Logger.log(`Download of installer v${version} finished.`);
 
     await runInstaller(destinationPath);
-    Logger.log(`Installation of SDK v${version} finished.`);
+    Logger.log(`Installation of SDK v${version} started.`);
 
     return true;
   } catch (error) {

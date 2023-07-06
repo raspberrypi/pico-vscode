@@ -10,11 +10,11 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 - Easy option to switch between pico-sdk versions together with the toolchain verison
 - No configuration of environment variables required
 - Auto SDK detection thought environment variables (detects PICO_SDK_PATH and compiler in PATH; support for PICO_TOOLCHAIN_PATH comming soon)
-- Automatic brackground installation of a Toolchain and SDK if required by project (currently Windows only)
+- Automatic download of a Toolchain and SDK if required by project and selected by the user (currently Windows only)
 
 ## Requirements
 
-- Python 3.9 or later
+- Python 3.9 or later (in PATH or set in settings)
 - cmake (in PATH or set in settings)
 - ninja (in PATH or set in settings)
 - Pico SDK with arm-none-eabi-gcc toolchain (installed by Windows installer [Windows] or pico-sdk-manager [Linux, macOS], or set in settings)
