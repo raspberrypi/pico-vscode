@@ -6,6 +6,8 @@ import which from "which";
 import { getSystemPicoSDKPath } from "./picoSDKEnvUtil.mjs";
 import { EnumRegKeyKeys, GetStringRegKey } from "vscode-windows-registry";
 import UnixSDKManager from "./picoSDKUnixUtil.mjs";
+import { window } from "vscode";
+import { downloadAndInstallPicoSDKWindows } from "./installSDKUtil.mjs";
 
 // implements QuickPickItem does not work somehow
 export class PicoSDK {
@@ -53,6 +55,27 @@ export async function getSDKAndToolchainPath(
 
     if (!sdk) {
       Logger.log(`Pico SDK v${sdkVersion} not found.`);
+      if (process.platform === "win32") {
+        const choice = await window.showErrorMessage(
+          `Pico SDK v${sdkVersion} not found. Do you want to install it?`,
+          "Install"
+        );
+
+        if (choice === "Install") {
+          // download file
+          const result = await downloadAndInstallPicoSDKWindows(sdkVersion);
+          if (result) {
+            void window.showErrorMessage(
+              "Successfully installed Pico SDK. " +
+                "Please restart VSCode to apply changes."
+            );
+          } else {
+            void window.showErrorMessage(
+              "Download or Installation failed. See logs for more details."
+            );
+          }
+        }
+      }
 
       return undefined;
     } else {

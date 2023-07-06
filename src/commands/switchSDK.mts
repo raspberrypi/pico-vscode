@@ -57,7 +57,6 @@ export default class SwitchSDKCommand extends Command {
     void window.showWarningMessage(
       "Reload window to apply changes to linting."
     );
-    // TODO: maybe ensure workspace settings are used
     // save selected SDK version to settings
     await this._settings.update(SettingsKey.picoSDK, selectedSDK.label);
     this._ui.updateSDKVersion(selectedSDK.version);
