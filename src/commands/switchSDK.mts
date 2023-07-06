@@ -59,7 +59,7 @@ export default class SwitchSDKCommand extends Command {
       "Reload window to apply changes to linting."
     );
     // save selected SDK version to settings
-    await this._settings.update(SettingsKey.picoSDK, selectedSDK.label);
+    await this._settings.update(SettingsKey.picoSDK, selectedSDK.version);
     this._ui.updateSDKVersion(selectedSDK.version);
   }
 }

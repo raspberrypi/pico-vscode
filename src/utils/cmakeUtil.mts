@@ -16,7 +16,7 @@ export async function configureCmakeNinja(
   try {
     // check if CMakeLists.txt exists in the root folder
     await workspace.fs.stat(
-      folder.with({ path: join(folder.path, "CMakeLists.txt") })
+      folder.with({ path: join(folder.fsPath, "CMakeLists.txt") })
     );
 
     const rquirementsAvailable = await checkForRequirements(settings);
@@ -40,7 +40,7 @@ export async function configureCmakeNinja(
 
         // TODO: analyze command result
         // TODO: option for the user to choose the generator
-        const child = exec(`${cmake} -G Ninja -S . -B ./build`, {
+        const child = exec(`${cmake} -G Ninja -B ./build "${folder.fsPath}"`, {
           cwd: folder.fsPath,
           env: {
             ...process.env,
@@ -52,11 +52,18 @@ export async function configureCmakeNinja(
           },
         });
 
+        child.on("error", err => {
+          console.error(err);
+        });
+
         //child.stdout?.on("data", data => {});
         child.on("close", () => {
           progress.report({ increment: 100 });
         });
-        child.on("exit", () => {
+        child.on("exit", code => {
+          if (code !== 0) {
+            console.error(`CMake exited with code ${code ?? "unknown"}`);
+          }
           progress.report({ increment: 100 });
         });
 

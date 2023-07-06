@@ -92,7 +92,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       setToolchainPath(sdkPath[1]);
 
       await updateVSCodeStaticConfigs(
-        workspace.workspaceFolders[0].uri.fsPath,
+        join(workspace.workspaceFolders[0].uri.fsPath, ".vscode"),
         sdkPath[0],
         sdkPath[1]
       );
