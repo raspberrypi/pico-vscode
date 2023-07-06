@@ -71,6 +71,11 @@
         "title": "Get ARM Toolchain Path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.resetCmakeTools",
+        "title": "Remove the extension from CMake Tools dependencies",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {
