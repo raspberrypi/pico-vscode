@@ -72,54 +72,53 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.subscriptions.push(command.register());
   });
 
-  // check selected SDK version
-  const sdkVersion = settings.getString(SettingsKey.picoSDK);
-  const sdkPath = await getSDKAndToolchainPath(settings);
-  const customSDKPath =
-    settings.getString(SettingsKey.picoSDKPath) || undefined;
-  const customToolchainPath =
-    settings.getString(SettingsKey.toolchainPath) || undefined;
+  if (workspace.workspaceFolders && workspace.workspaceFolders.length > 0) {
+    // check selected SDK version
+    const sdkVersion = settings.getString(SettingsKey.picoSDK);
+    const sdkPath = await getSDKAndToolchainPath(settings);
+    const customSDKPath =
+      settings.getString(SettingsKey.picoSDKPath) || undefined;
+    const customToolchainPath =
+      settings.getString(SettingsKey.toolchainPath) || undefined;
 
-  if (
-    // a SDK version is selected
-    sdkVersion &&
-    sdkPath &&
-    // only one path is custom
-    (customSDKPath === undefined || customToolchainPath === undefined)
-  ) {
-    setPicoSDKPath(sdkPath[0]);
-    setToolchainPath(sdkPath[1]);
-    if (workspace.workspaceFolders && workspace.workspaceFolders.length > 0) {
+    if (
+      // a SDK version is selected
+      sdkVersion &&
+      sdkPath &&
+      // only one path is custom
+      (customSDKPath === undefined || customToolchainPath === undefined)
+    ) {
+      setPicoSDKPath(sdkPath[0]);
+      setToolchainPath(sdkPath[1]);
+
       await updateVSCodeStaticConfigs(
         workspace.workspaceFolders[0].uri.fsPath,
         sdkPath[0],
         sdkPath[1]
       );
-    }
 
-    ui.updateSDKVersion(
-      sdkVersion +
-        // if one custom path is set then the picoSDK is only partly replaced/modifed
-        (customSDKPath !== undefined || customToolchainPath !== undefined
-          ? " [MODIFIED]"
-          : "")
-    );
-  } else {
-    // both paths are custom, show "custom"
-    if (sdkPath !== undefined) {
-      setPicoSDKPath(sdkPath[0]);
-      setToolchainPath(sdkPath[1]);
-      if (workspace.workspaceFolders && workspace.workspaceFolders.length > 0) {
+      ui.updateSDKVersion(
+        sdkVersion +
+          // if one custom path is set then the picoSDK is only partly replaced/modifed
+          (customSDKPath !== undefined || customToolchainPath !== undefined
+            ? " [MODIFIED]"
+            : "")
+      );
+    } else {
+      // both paths are custom, show "custom"
+      if (sdkPath !== undefined) {
+        setPicoSDKPath(sdkPath[0]);
+        setToolchainPath(sdkPath[1]);
         await updateVSCodeStaticConfigs(
           workspace.workspaceFolders[0].uri.fsPath,
           sdkPath[0],
           sdkPath[1]
         );
+        ui.updateSDKVersion("custom");
+      } else {
+        // could not find SDK && toolchain
+        ui.updateSDKVersion("N/A");
       }
-      ui.updateSDKVersion("custom");
-    } else {
-      // could not find SDK && toolchain
-      ui.updateSDKVersion("N/A");
     }
   }
 }

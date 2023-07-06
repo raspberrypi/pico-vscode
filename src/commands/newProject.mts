@@ -194,7 +194,7 @@ export default class NewProjectCommand extends Command {
       this._settings
     )) ?? [];*/
     const installedSDKs = detectInstalledSDKs().sort((a, b) =>
-      compare(a.version, b.version)
+      compare(a.version.replace("v", ""), b.version.replace("v", ""))
     );
 
     if (
