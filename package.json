@@ -156,7 +156,6 @@
     "@rollup/plugin-run": "^3.0.1",
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/node": "20.4.0",
-    "@types/semver": "^7.5.0",
     "@types/uuid": "^9.0.2",
     "@types/vscode": "^1.79.1",
     "@types/which": "^3.0.0",
@@ -169,7 +168,6 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "semver": "^7.5.3",
     "uuid": "^9.0.0",
     "vscode-windows-registry": "file:./vendor/vscode-windows-registry",
     "which": "^3.0.1"

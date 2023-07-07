@@ -272,7 +272,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.3.12, @types/semver@npm:^7.5.0":
+"@types/semver@npm:^7.3.12":
   version: 7.5.0
   resolution: "@types/semver@npm:7.5.0"
   checksum: 0a64b9b9c7424d9a467658b18dd70d1d781c2d6f033096a6e05762d20ebbad23c1b69b0083b0484722aabf35640b78ccc3de26368bcae1129c87e9df028a22e2
@@ -1916,7 +1916,6 @@ __metadata:
     "@rollup/plugin-run": ^3.0.1
     "@rollup/plugin-typescript": ^11.1.2
     "@types/node": 20.4.0
-    "@types/semver": ^7.5.0
     "@types/uuid": ^9.0.2
     "@types/vscode": ^1.79.1
     "@types/which": ^3.0.0
@@ -1925,7 +1924,6 @@ __metadata:
     eslint: ^8.44.0
     eslint-config-prettier: ^8.8.0
     rollup: ^3.26.2
-    semver: ^7.5.3
     tslib: ^2.6.0
     typescript: ^5.1.6
     uuid: ^9.0.0
@@ -2040,7 +2038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^7.3.5, semver@npm:^7.3.7, semver@npm:^7.5.3":
+"semver@npm:^7.3.5, semver@npm:^7.3.7":
   version: 7.5.3
   resolution: "semver@npm:7.5.3"
   dependencies:

@@ -10,12 +10,12 @@ import {
   checkForRequirements,
   showRquirementsNotMetErrorMessage,
 } from "../utils/requirementsUtil.mjs";
-import { compare } from "semver";
 import { SettingsKey } from "../settings.mjs";
 import {
   generateNewEnvVarSuffix,
   setGlobalEnvVar,
 } from "../utils/globalEnvironmentUtil.mjs";
+import { compare } from "../utils/semverUtil.mjs";
 
 enum BoardType {
   pico = "Pico",

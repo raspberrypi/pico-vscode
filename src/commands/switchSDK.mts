@@ -1,4 +1,3 @@
-import { compare } from "semver";
 import { detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
 import { Command } from "./command.mjs";
 import { window, workspace } from "vscode";
@@ -13,6 +12,7 @@ import {
 } from "../utils/globalEnvironmentUtil.mjs";
 import { cmakeUpdateSuffix } from "../utils/cmakeUtil.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
+import { compare } from "../utils/semverUtil.mjs";
 
 export default class SwitchSDKCommand extends Command {
   private _settings: Settings;
