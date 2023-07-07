@@ -11,9 +11,12 @@ import { cmakeUpdateSuffix } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
 import { getSDKAndToolchainPath } from "../utils/picoSDKUtil.mjs";
 import { setPicoSDKPath, setToolchainPath } from "../utils/picoSDKEnvUtil.mjs";
+import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
+import Logger from "../logger.mjs";
 
 export default class ClearEnvSuffixesCommand extends Command {
   private _settings: Settings;
+  private _logger: Logger = new Logger("ClearEnvSuffixesCommand");
 
   constructor(settings: Settings) {
     super("clearEnvSuffixes");
@@ -48,6 +51,16 @@ export default class ClearEnvSuffixesCommand extends Command {
       setToolchainPath(sdkPath[1]);
       setGlobalEnvVar(`PICO_SDK_PATH_${newSuffix}`, sdkPath[0]);
       setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${newSuffix}`, sdkPath[1]);
+
+      await updateVSCodeStaticConfigs(
+        join(workspaceFolder.uri.fsPath, ".vscode"),
+        newSuffix,
+        sdkPath[1]
+      );
+    } else {
+      this._logger.error(
+        "Could not find SDK and Toolchain paths after reseting suffixes."
+      );
     }
   }
 }

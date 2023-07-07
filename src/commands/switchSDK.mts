@@ -1,4 +1,7 @@
-import { detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
+import {
+  detectInstalledSDKs,
+  getSDKAndToolchainPath,
+} from "../utils/picoSDKUtil.mjs";
 import { Command } from "./command.mjs";
 import { window, workspace } from "vscode";
 import type Settings from "../settings.mjs";
@@ -43,6 +46,16 @@ export default class SwitchSDKCommand extends Command {
         join(workspace.workspaceFolders[0].uri.fsPath, "CMakeLists.txt"),
         envSuffix
       );
+      const sdkPath = await getSDKAndToolchainPath(this._settings);
+      if (sdkPath) {
+        setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
+        setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
+        await updateVSCodeStaticConfigs(
+          join(workspace.workspaceFolders[0].uri.fsPath, ".vscode"),
+          envSuffix,
+          sdkPath[1]
+        );
+      }
     }
 
     const availableSDKs = detectInstalledSDKs()
@@ -83,6 +96,7 @@ export default class SwitchSDKCommand extends Command {
     await this._settings.update(SettingsKey.picoSDK, selectedSDK.version);
     await updateVSCodeStaticConfigs(
       join(workspace.workspaceFolders[0].uri.fsPath, ".vscode"),
+      envSuffix,
       selectedSDK.toolchainPath
     );
     this._ui.updateSDKVersion(selectedSDK.version);

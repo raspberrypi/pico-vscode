@@ -112,13 +112,12 @@ async function setupEnvironment(
   ) {
     setPicoSDKPath(sdkPath[0]);
     setToolchainPath(sdkPath[1]);
-    if (envSuffix) {
-      setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
-      setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
-    }
+    setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
+    setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
 
     await updateVSCodeStaticConfigs(
       join(folder.uri.fsPath, ".vscode"),
+      envSuffix,
       sdkPath[1]
     );
 
@@ -134,12 +133,11 @@ async function setupEnvironment(
     if (sdkPath !== undefined) {
       setPicoSDKPath(sdkPath[0]);
       setToolchainPath(sdkPath[1]);
-      if (envSuffix) {
-        setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
-        setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
-      }
+      setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
+      setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
       await updateVSCodeStaticConfigs(
         join(folder.uri.fsPath, ".vscode"),
+        envSuffix,
         sdkPath[1]
       );
       ui.updateSDKVersion("custom");

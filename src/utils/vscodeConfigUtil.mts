@@ -3,6 +3,7 @@ import Logger from "../logger.mjs";
 import { join } from "path";
 
 interface Configuration {
+  includePath: string[];
   compilerPath: string;
 }
 
@@ -12,6 +13,7 @@ interface CppProperties {
 
 async function updateCppPropertiesFile(
   file: string,
+  newEnvSuffix: string,
   newCompilerPath: string
 ): Promise<void> {
   try {
@@ -21,6 +23,15 @@ async function updateCppPropertiesFile(
 
     // Update the compilerPath value
     cppProperties.configurations.forEach(config => {
+      config.includePath.forEach((path, index) => {
+        const regExp = new RegExp(/\$\{env:PICO_SDK_PATH_\w+\}/);
+        if (regExp.test(path)) {
+          config.includePath[index] = path.replace(
+            regExp,
+            `\${env:PICO_SDK_PATH_${newEnvSuffix}}`
+          );
+        }
+      });
       config.compilerPath = newCompilerPath;
     });
 
@@ -36,6 +47,7 @@ async function updateCppPropertiesFile(
 
 export async function updateVSCodeStaticConfigs(
   folder: string,
+  envSuffix: string,
   toolchainPath: string
 ): Promise<void> {
   const cppPropertiesFile = join(folder, "c_cpp_properties.json");
@@ -43,6 +55,7 @@ export async function updateVSCodeStaticConfigs(
   // does not support dynamic variables
   await updateCppPropertiesFile(
     cppPropertiesFile,
+    envSuffix,
     join(
       toolchainPath,
       process.platform === "win32"
