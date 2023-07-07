@@ -11,6 +11,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 - No configuration of environment variables required
 - Auto SDK detection thought environment variables (detects PICO_SDK_PATH and compiler in PATH; support for PICO_TOOLCHAIN_PATH comming soon)
 - Automatic download of a Toolchain and SDK if required by project and selected by the user (currently Windows only)
+- Compile project status bar button
 
 ## Requirements
 

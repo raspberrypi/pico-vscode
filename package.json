@@ -1,8 +1,8 @@
 {
   "name": "raspberry-pi-pico",
   "displayName": "Raspberry Pi Pico",
-  "description": "The official VS Code extension for Raspberry Pi Pico development. It includeds serveral features to simplify project creation and deployment.",
-  "version": "0.1.0",
+  "description": "The official VS Code extension for Raspberry Pi Pico development. It includeds serveral features to simplify project creation and deployment. (Single folder workspaces only)",
+  "version": "0.2.0",
   "author": "paulober",
   "publisher": "paulober",
   "license": "MPL-2.0",
@@ -45,7 +45,7 @@
     }
   },
   "activationEvents": [
-    "workspaceContains:**/pico_sdk_import.cmake"
+    "workspaceContains:./pico_sdk_import.cmake"
   ],
   "contributes": {
     "commands": [
@@ -71,6 +71,24 @@
         "title": "Get ARM Toolchain Path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.launchTargetPath",
+        "title": "Get path of the project executable",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.compileProject",
+        "title": "Compile Pico Project",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.clearEnvSuffixes",
+        "title": "Clear environment suffixes (cleans PICO_SDK_... variables in your shell profile)",
+        "shortTitle": "Clean Environment Suffixes",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {
@@ -87,6 +105,11 @@
           "type": "string",
           "default": "",
           "description": "Path to the Pico SDK root"
+        },
+        "raspberry-pi-pico.envSuffix": {
+          "type": "string",
+          "default": "",
+          "description": "[DO NOT CHANGE] Suffix for the environment variables so changes of the SDK do also take effect in the terminal"
         },
         "raspberry-pi-pico.toolchainPath": {
           "type": "string",
@@ -134,6 +157,7 @@
     "@rollup/plugin-typescript": "^11.1.2",
     "@types/node": "20.4.0",
     "@types/semver": "^7.5.0",
+    "@types/uuid": "^9.0.2",
     "@types/vscode": "^1.79.1",
     "@types/which": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
@@ -146,6 +170,7 @@
   },
   "dependencies": {
     "semver": "^7.5.3",
+    "uuid": "^9.0.0",
     "vscode-windows-registry": "file:./vendor/vscode-windows-registry",
     "which": "^3.0.1"
   },

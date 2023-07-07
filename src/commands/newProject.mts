@@ -10,9 +10,12 @@ import {
   checkForRequirements,
   showRquirementsNotMetErrorMessage,
 } from "../utils/requirementsUtil.mjs";
-import { redirectVSCodeConfig } from "../utils/vscodeConfigUtil.mjs";
 import { compare } from "semver";
 import { SettingsKey } from "../settings.mjs";
+import {
+  generateNewEnvVarSuffix,
+  setGlobalEnvVar,
+} from "../utils/globalEnvironmentUtil.mjs";
 
 enum BoardType {
   pico = "Pico",
@@ -212,13 +215,16 @@ export default class NewProjectCommand extends Command {
 
     const PICO_SDK_PATH = installedSDKs[0].sdkPath;
     const TOOLCHAIN_PATH = installedSDKs[0].toolchainPath;
+    const ENV_SUFFIX = generateNewEnvVarSuffix();
+    setGlobalEnvVar(`PICO_SDK_PATH_${ENV_SUFFIX}`, PICO_SDK_PATH);
+    setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${ENV_SUFFIX}`, TOOLCHAIN_PATH);
 
     const customEnv: { [key: string]: string } = {
-      ...process.env,
+      ...(process.env as { [key: string]: string }),
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      PICO_SDK_PATH: PICO_SDK_PATH,
+      [`PICO_SDK_PATH_${ENV_SUFFIX}`]: PICO_SDK_PATH,
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      PICO_TOOLCHAIN_PATH: TOOLCHAIN_PATH,
+      [`PICO_TOOLCHAIN_PATH_${ENV_SUFFIX}`]: TOOLCHAIN_PATH,
     };
     customEnv[
       process.platform === "win32" ? "Path" : "PATH"
@@ -245,6 +251,10 @@ export default class NewProjectCommand extends Command {
       "vscode",
       "--projectRoot",
       `"${options.projectRoot}"`,
+      "--envSuffix",
+      ENV_SUFFIX,
+      "--sdkVersion",
+      installedSDKs[0].version,
       options.name,
     ].join(" ");
 
@@ -260,14 +270,6 @@ export default class NewProjectCommand extends Command {
       timeout: 5000,
     });
     if (generatorExitCode === 0) {
-      await redirectVSCodeConfig(
-        join(options.projectRoot, options.name, ".vscode"),
-        this._settings.getExtensionId(),
-        this._settings.getExtensionName(),
-        PICO_SDK_PATH,
-        TOOLCHAIN_PATH,
-        installedSDKs[0].version
-      );
       void window.showInformationMessage(
         `Successfully created project: ${options.name}`
       );

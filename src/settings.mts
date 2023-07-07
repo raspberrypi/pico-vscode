@@ -3,6 +3,7 @@ import { workspace } from "vscode";
 
 export enum SettingsKey {
   picoSDK = "sdk",
+  envSuffix = "envSuffix",
   picoSDKPath = "sdkPath",
   toolchainPath = "toolchainPath",
   cmakePath = "cmakePath",
@@ -64,6 +65,10 @@ export default class Settings {
   }
 
   public update<T>(key: SettingsKey, value: T): Thenable<void> {
+    return this.config.update(key, value, false);
+  }
+
+  public updateGlobal<T>(key: SettingsKey, value: T): Thenable<void> {
     return this.config.update(key, value, true);
   }
 

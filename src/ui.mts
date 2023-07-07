@@ -2,13 +2,18 @@ import { window, type StatusBarItem, StatusBarAlignment } from "vscode";
 import Logger from "./logger.mjs";
 
 enum StatusBarItemKey {
+  compile = "raspberry-pi-pico.compileProject",
   picoSDKQuickPick = "raspberry-pi-pico.sdk-quick-pick",
 }
 
 const STATUS_BAR_ITEMS: {
   [key: string]: { text: string; command: string; tooltip: string };
 } = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+  [StatusBarItemKey.compile]: {
+    text: "$(gear) Compile",
+    command: "raspberry-pi-pico.compileProject",
+    tooltip: "Compile project",
+  },
   [StatusBarItemKey.picoSDKQuickPick]: {
     text: "Pico SDK: <version>",
     command: "raspberry-pi-pico.switchSDK",

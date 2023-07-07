@@ -34,6 +34,7 @@ VSCODE_LAUNCH_FILENAME = 'launch.json'
 VSCODE_C_PROPERTIES_FILENAME = 'c_cpp_properties.json'
 VSCODE_SETTINGS_FILENAME ='settings.json'
 VSCODE_EXTENSIONS_FILENAME ='extensions.json'
+VSCODE_TASKS_FILENAME ='tasks.json'
 VSCODE_FOLDER='.vscode'
 
 CONFIG_UNSET="Not set"
@@ -840,6 +841,7 @@ class ProjectWindow(tk.Frame):
                 'rtti'          : self.wantCPPRTTI.get(),
                 'ssid'          : self.ssid,
                 'password'      : self.password,
+                'envSuffix'     : self.envSuffix,
                 }
 
         DoEverything(self, params)
@@ -916,6 +918,8 @@ def ParseCommandLine():
     parser.add_argument("-bl", "--boardlist", action="store_true", help="List available board types")
     parser.add_argument("-cp", "--cpath", help="Override default VSCode compiler path")
     parser.add_argument("-root", "--projectRoot", help="Override default project root where the new project will be created")
+    parser.add_argument("-envSuffix", "--envSuffix", help="[A suffix ot the PICO_SDK_PATH environment variable]")
+    parser.add_argument("-sdkVersion", "--sdkVersion", help="[A sdkVersion to set in settings]")
 
     return parser.parse_args()
 
@@ -994,7 +998,6 @@ def GenerateCMake(folder, params):
     # OK, for the path, CMake will accept forward slashes on Windows, and thats
     # seemingly a bit easier to handle than the backslashes
     p = str(params['sdkPath']).replace('\\','/')
-    sdk_path = f'"{p}"'
 
     cmake_header1 = (f"# Generated Cmake Pico project file\n\n"
                  "cmake_minimum_required(VERSION 3.13)\n\n"
@@ -1002,7 +1005,9 @@ def GenerateCMake(folder, params):
                  "set(CMAKE_CXX_STANDARD 17)\n\n"
                  "# Initialise pico_sdk from installed location\n"
                  "# (note this can come from environment, CMake cache etc)\n"
-                 f"set(PICO_SDK_PATH {sdk_path})\n\n"
+                 "# DO NOT EDIT THE NEXT TWO LINES for RaspberryPiPico VS Code Extension to work \n"
+                 f"set(PICO_SDK_PATH $ENV{{PICO_SDK_PATH_{params['envSuffix']}}})\n"
+                 f"set(PICO_TOOLCHAIN_PATH $ENV{{PICO_TOOLCHAIN_PATH_{params['envSuffix']}}})\n\n"
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
                  "include(pico_sdk_import.cmake)\n\n"
@@ -1116,7 +1121,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, envSuffix, sdkVersion):
 
     oldCWD = os.getcwd()
 
@@ -1125,137 +1130,155 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger):
     debugger = debugger_config_list[debugger]
     gdbPath =  "arm-none-eabi-gdb" if isWindows else "gdb-multiarch"
     # Need to escape windows files paths backslashes
+    # TODO: env in currently not supported in compilerPath var
+    #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
     cPath = str(compilerPath).replace('\\', '\\\\' )
 
     for p in projects :
         if p == 'vscode':
-            launch = ('{\n'
-                  '  "version": "0.2.0",\n'
-                  '  "configurations": [\n'
-                  '    {\n'
-                  '      "name": "Pico Debug (Cortex-Debug)",\n'
-                  '      "cwd": "${workspaceRoot}",\n'
-                  '      "executable": "${command:cmake.launchTargetPath}",\n'
-                  '      "request": "launch",\n'
-                  '      "type": "cortex-debug",\n'
-                  '      "servertype": "openocd",\n'
-                  f'      "gdbPath": "{gdbPath}",\n'
-                  '      "device": "RP2040",\n'
-                  '      "configFiles": [\n'
-                  f'        "interface/{debugger}",\n'
-                  '        "target/rp2040.cfg"\n'
-                  '        ],\n'
-                  '      "svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",\n'
-                  '      "runToEntryPoint": "main",\n'
-                  '      // Give restart the same functionality as runToEntryPoint - main\n'
-                  '      "postRestartCommands": [\n'
-                  '          "break main",\n'
-                  '          "continue"\n'
-                  '      ],\n'
-                  '      "openOCDLaunchCommands": [\n'
-                  '          "adapter speed 1000"\n'
-                  '      ]\n'
-                  '    },\n'
-                  '    {\n'
-                  '      "name": "Pico Debug (Cortex-Debug with external OpenOCD)",\n'
-                  '      "cwd": "${workspaceRoot}",\n'
-                  '      "executable": "${command:cmake.launchTargetPath}",\n'
-                  '      "request": "launch",\n'
-                  '      "type": "cortex-debug",\n'
-                  '      "servertype": "external",\n'
-                  '      "gdbTarget": "localhost:3333",\n'
-                  f'      "gdbPath": "{gdbPath}",\n'
-                  '      "device": "RP2040",\n'
-                  '      "svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",\n'
-                  '      "runToEntryPoint": "main",\n'
-                  '      // Give restart the same functionality as runToEntryPoint - main\n'
-                  '      "postRestartCommands": [\n'
-                  '          "break main",\n'
-                  '          "continue"\n'
-                  '      ]\n'
-                  '    },\n'
-                  '    {\n'
-                  '      "name": "Pico Debug (C++ Debugger)",\n'
-                  '      "type": "cppdbg",\n'
-                  '      "request": "launch",\n'
-                  '      "cwd": "${workspaceRoot}",\n'
-                  '      "program": "${command:cmake.launchTargetPath}",\n'
-                  '      "MIMode": "gdb",\n'
-                  '      "miDebuggerPath": "{gdbPath}",\n'
-                  '      "miDebuggerServerAddress": "localhost:3333",\n'
-                  '      "debugServerPath": "openocd",\n'
-                  '      "debugServerArgs": "-f interface/cmsis-dap.cfg -f target/rp2040.cfg -c \\"adapter speed 1000\\"",\n'
-                  '      "serverStarted": "Listening on port .* for gdb connections",\n'
-                  '      "filterStderr": true,\n'
-                  '      "stopAtEntry": true,\n'
-                  '      "hardwareBreakpoints": {\n'
-                  '        "require": true,\n'
-                  '        "limit": 4\n'
-                  '      },\n'
-                  '      "preLaunchTask": "Flash",\n'
-                  '      "svdPath": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd"\n'
-                  '    },\n'
-                  '  ]\n'
-                  '}\n')
+            launch = f'''{{
+    "version": "0.2.0",
+    "configurations": [
+        {{
+            "name": "Pico Debug (Cortex-Debug)",
+            "cwd": "${{workspaceRoot}}",
+            "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "gdbPath": "{gdbPath}",
+            "device": "RP2040",
+            "configFiles": [
+                "interface/{debugger}",
+                "target/rp2040.cfg"
+            ],
+            "svdFile": "${{command:raspberry-pi-pico.getSDKPath}}/src/rp2040/hardware_regs/rp2040.svd",
+            "runToEntryPoint": "main",
+            // Give restart the same functionality as runToEntryPoint - main
+            "postRestartCommands": [
+                "break main",
+                "continue"
+            ],
+            "openOCDLaunchCommands": [
+                "adapter speed 1000"
+            ],
+            "preLaunchTask": "Compile Project"
+        }},
+        {{
+            "name": "Pico Debug (Cortex-Debug with external OpenOCD)",
+            "cwd": "${{workspaceRoot}}",
+            "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "external",
+            "gdbTarget": "localhost:3333",
+            "gdbPath": "{gdbPath}",
+            "device": "RP2040",
+            "svdFile": "${{command:raspberry-pi-pico.getSDKPath}}/src/rp2040/hardware_regs/rp2040.svd",
+            "runToEntryPoint": "main",
+            // Give restart the same functionality as runToEntryPoint - main
+            "postRestartCommands": [
+                "break main",
+                "continue"
+            ],
+            "preLaunchTask": "Compile Project"
+        }},
+        {{
+            "name": "Pico Debug (C++ Debugger)",
+            "type": "cppdbg",
+            "request": "launch",
+            "cwd": "${{workspaceRoot}}",
+            "program": "${{command:raspberry-pi-pico.launchTargetPath}}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "{gdbPath}",
+            "miDebuggerServerAddress": "localhost:3333",
+            "debugServerPath": "openocd",
+            "debugServerArgs": "-f interface/cmsis-dap.cfg -f target/rp2040.cfg -c \\"adapter speed 1000\\"",
+            "serverStarted": "Listening on port .* for gdb connections",
+            "filterStderr": true,
+            "stopAtEntry": true,
+            "hardwareBreakpoints": {{
+                "require": true,
+                "limit": 4
+            }},
+            "preLaunchTask": "Flash",
+            "svdPath": "${{command:raspberry-pi-pico.getSDKPath}}/src/rp2040/hardware_regs/rp2040.svd"
+        }},
+    ]
+}}
+'''
 
-            properties = ('{\n'
-                  '  "configurations": [\n'
-                  '    {\n'
-                  '      "name": "Pico",\n'
-                  '      "includePath": [\n'
-                  '        "${workspaceFolder}/**",\n'
-                  '        "${env:PICO_SDK_PATH}/**"\n'
-                  '      ],\n'
-                  '      "defines": [],\n'
-                  f'      "compilerPath": "{cPath}",\n'
-                  '      "cStandard": "c17",\n'
-                  '      "cppStandard": "c++14",\n'
-                  '      "intelliSenseMode": "linux-gcc-arm",\n'
-                  '      "configurationProvider" : "ms-vscode.cmake-tools"\n'
-                  '    }\n'
-                  '  ],\n'
-                  '  "version": 4\n'
-                  '}\n')
+            properties = f'''{{
+    "configurations": [
+        {{
+            "name": "Pico",
+            "includePath": [
+                "${{workspaceFolder}}/**",
+                "${{env:PICO_SDK_PATH_{envSuffix}}}/**"
+            ],
+            "defines": [],
+            "compilerPath": "{cPath}",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-gcc-arm"
+        }}
+    ],
+    "version": 4
+}}
+'''
 
-            settings = ( '{\n'
-                   '  "cmake.statusbar.advanced": {\n'
-                   '    "debug": {\n'
-                   '      "visibility": "hidden"\n'
-                   '    },\n'
-                   '    "launch": {\n'
-                   '      "visibility": "hidden"\n'
-                   '    },\n'
-                   '    "build": {\n'
-                   '      "visibility": "hidden"\n'
-                   '    },\n'
-                   '    "buildTarget": {\n'
-                   '      "visibility": "hidden"\n'
-                   '    }\n'
-                   '  },\n'
-                   '  "cmake.buildBeforeRun": true,\n'
-                   '  "cmake.configureOnOpen": true,\n'
-                   '  "cmake.configureSettings": {\n'
-                   '    "CMAKE_MODULE_PATH": "${env:PICO_INSTALL_PATH}/pico-sdk-tools"\n'
-                   '  },\n'
-                   '  "cmake.generator": "Ninja",\n'
-                   '  "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"\n'
-                   '}\n')
 
-            extensions = ( '{\n'
-                   '  "recommendations": [\n'
-                   '    "marus25.cortex-debug",\n'
-                   '    "ms-vscode.cmake-tools",\n'
-                   '    "ms-vscode.cpptools",\n'
-                   '    "ms-vscode.cpptools-extension-pack",\n'
-                   '    "ms-vscode.vscode-serial-monitor"\n'
-                   '  ]\n'
-                   '}\n')
+            # settings
+            settings = f'''{{
+    "cmake.statusbar.visibility": "hidden",
+    "cmake.configureOnEdit": false,
+    "cmake.automaticReconfigure": false,
+    "cmake.configureOnOpen": false,
+    "cmake.generator": "Ninja",
+    "raspberry-pi-pico.sdk": "{sdkVersion}",
+    "raspberry-pi-pico.envSuffix": "{envSuffix}",
+}}
+'''
+
+            # extensions
+            extensions = f'''{{
+    "recommendations": [
+        "marus25.cortex-debug",
+        "ms-vscode.cpptools",
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode.vscode-serial-monitor",
+        "paulober.raspberry-pi-pico",
+    ]
+}}
+'''
+            tasks = f'''{{
+    "version": "2.0.0",
+    "tasks": [
+        {{
+            "label": "Compile Project",
+            "type": "shell",
+            "command": "ninja",
+            "args": ["-C", "${{workspaceFolder}}/build"],
+            "group": "build",
+            "presentation": {{
+                "reveal": "always",
+                "panel": "dedicated"
+            }},
+            "problemMatcher": "$gcc"
+        }}
+    ]
+}}
+'''
 
             # Create a build folder, and run our cmake project build from it
             if not os.path.exists(VSCODE_FOLDER):
                 os.mkdir(VSCODE_FOLDER)
 
             os.chdir(VSCODE_FOLDER)
+
+            file = open(VSCODE_TASKS_FILENAME, 'w')
+            file.write(tasks)
+            file.close()
 
             filename = VSCODE_LAUNCH_FILENAME
             file = open(filename, 'w')
@@ -1416,7 +1439,7 @@ def DoEverything(parent, params):
         os.system(cmakeCmd)
 
     if params['projects']:
-        generateProjectFiles(projectPath, params['projectName'], params['sdkPath'], params['projects'], params['debugger'])
+        generateProjectFiles(projectPath, params['projectName'], params['sdkPath'], params['projects'], params['debugger'], params["envSuffix"], params["sdkVersion"])
 
     if params['wantBuild']:
         if params['wantGUI']:
@@ -1527,6 +1550,8 @@ else :
         'rtti'          : args.cpprtti,
         'ssid'          : '',
         'password'      : '',
+        'envSuffix'     : args.envSuffix,
+        'sdkVersion'    : args.sdkVersion,
         }
 
     DoEverything(None, params)
