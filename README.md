@@ -2,6 +2,8 @@
 
 This is the official Visual Studio Code extension for Raspberry Pi Pico development. It provides a set of tools to help you develop for the Pico using Visual Studio Code.
 
+[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/v0.3.0)
+
 ## Features
 
 - Project generator (supports options for Board-Type and Libraries; targets ninja build system)
