@@ -6,12 +6,11 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 
 - Project generator (supports options for Board-Type and Libraries; targets ninja build system)
 - Automatic CMake configuration on project load
-- Auto SDK detection on Windows, Linux and macOS (linux and macOS requires custom configuration with [pico-sdk-manager tool](https://github.com/paulober/pico-sdk-manager))
+- Auto SDK detection on Windows, Linux and macOS (linux and macOS require one-time custom configuration with [pico-sdk-manager tool](https://github.com/paulober/pico-sdk-manager))
 - Easy option to switch between pico-sdk versions together with the toolchain verison
 - No configuration of environment variables required
-- Auto SDK detection thought environment variables (detects PICO_SDK_PATH and compiler in PATH; support for PICO_TOOLCHAIN_PATH comming soon)
 - Automatic download of a Toolchain and SDK if required by project and selected by the user (currently Windows only)
-- Compile project status bar button
+- On-click project compilation per status bar button (with the selected Pico SDK and Toolchain)
 
 ## Requirements
 
