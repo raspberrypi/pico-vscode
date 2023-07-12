@@ -20,3 +20,4 @@ rollup.config.mjs
 # make sure scripts are always included
 !scripts/**
 scripts/*.ps1
+scripts/fix_windows_reg.py
