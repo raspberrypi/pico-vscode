@@ -30,6 +30,8 @@ export class PicoSDK {
   }*/
 }
 
+let uninstallerPicoSDKs: PicoSDK[] = [];
+
 /**
  * Returns selected sdk or undefined if not found
  *
@@ -118,6 +120,13 @@ async function detectSDKAndToolchainFromEnv(): Promise<
     if (toolchainPath !== null) {
       // get grandparent directory of compiler
       return [PICO_SDK_PATH, dirname(toolchainPath)];
+    } else {
+      if (
+        process.env.PICO_TOOLCHAIN_PATH &&
+        process.env.PICO_TOOLCHAIN_PATH !== ""
+      ) {
+        return [PICO_SDK_PATH, process.env.PICO_TOOLCHAIN_PATH];
+      }
     }
   }
 
@@ -149,6 +158,82 @@ export function detectInstalledSDKs(): PicoSDK[] {
   }
 }
 
+export function queryInstalledSDKsFromUninstallers(): void {
+  try {
+    const uninstallers = EnumRegKeyKeys(
+      "HKEY_LOCAL_MACHINE",
+      "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+    );
+
+    uninstallers.forEach(element => {
+      if (element.startsWith("Raspberry Pi Pico SDK")) {
+        try {
+          const installPath = GetStringRegKey(
+            "HKEY_LOCAL_MACHINE",
+            "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" +
+              element,
+            "InstallPath"
+          );
+
+          if (installPath) {
+            uninstallerPicoSDKs.push(
+              new PicoSDK(
+                element.split(" ").pop()?.replace("v", "") ?? "0.0.0",
+                join(installPath, "pico-sdk"),
+                join(installPath, "gcc-arm-none-eabi", "bin")
+              )
+            );
+          }
+        } catch (error) {
+          Logger.log("No InstallPath found for uninstaller: " + element);
+        }
+      }
+    });
+  } catch (error) {
+    Logger.log("Error while fixing registry keys for Windows Pico SDK.");
+  }
+}
+
+// needs admin access
+/*
+export function fixRegistryKeys(): void {
+  try {
+    const uninstallers = EnumRegKeyKeys(
+      "HKEY_LOCAL_MACHINE",
+      "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
+    );
+
+    uninstallers.forEach(element => {
+      if (element.startsWith("Raspberry Pi Pico SDK")) {
+        try {
+          const installPath = GetStringRegKey(
+            "HKEY_LOCAL_MACHINE",
+            "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" +
+              element,
+            "InstallPath"
+          );
+
+          if (installPath) {
+            // needs admin access
+            SetStringRegKey(
+              "HKEY_LOCAL_MACHINE",
+              "SOFTWARE\\WOW6432Node\\Raspberry Pi\\" +
+                element.split(" ").slice(2).join(" "),
+              "InstallPath",
+              installPath
+            );
+          }
+        } catch (error) {
+          Logger.log("No InstallPath found for uninstaller: " + element);
+        }
+      }
+    });
+  } catch (error) {
+    Logger.log("Error while fixing registry keys for Windows Pico SDK.");
+  }
+}
+*/
+
 function detectInstalledSDKsWindows(): PicoSDK[] {
   try {
     const sdks = EnumRegKeyKeys(
@@ -156,7 +241,7 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
       "SOFTWARE\\WOW6432Node\\Raspberry Pi"
     );
 
-    return sdks
+    const locatedSDKs = sdks
       .map(sdk => {
         const installDir = GetStringRegKey(
           "HKEY_LOCAL_MACHINE",
@@ -169,6 +254,13 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
           return undefined;
         }
 
+        // avoid duplicates
+        const finalVersion = version.replace("v", "");
+
+        uninstallerPicoSDKs = uninstallerPicoSDKs.filter(
+          sdk => sdk.version !== finalVersion
+        );
+
         return {
           version: version.replace("v", ""),
           sdkPath: join(installDir, "pico-sdk"),
@@ -176,6 +268,17 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
         } as PicoSDK;
       })
       .filter(sdk => sdk !== undefined) as PicoSDK[];
+
+    // done above
+    /*uninstallerPicoSDKs
+      .filter(sdk => !locatedSDKs.find(sdk2 => sdk2.version === sdk.version))
+      .forEach(sdk => locatedSDKs.push(sdk));*/
+    const count = locatedSDKs.push(...uninstallerPicoSDKs);
+    if (count !== uninstallerPicoSDKs.length) {
+      Logger.log("Problems while adding uninstaller SDKs.");
+    }
+
+    return locatedSDKs;
   } catch (error) {
     return [];
   }

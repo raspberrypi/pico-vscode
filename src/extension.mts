@@ -5,7 +5,10 @@ import Logger from "./logger.mjs";
 import { cmakeUpdateSuffix, configureCmakeNinja } from "./utils/cmakeUtil.mjs";
 import Settings, { SettingsKey, type PackageJSON } from "./settings.mjs";
 import UI from "./ui.mjs";
-import { getSDKAndToolchainPath } from "./utils/picoSDKUtil.mjs";
+import {
+  getSDKAndToolchainPath,
+  queryInstalledSDKsFromUninstallers,
+} from "./utils/picoSDKUtil.mjs";
 import SwitchSDKCommand from "./commands/switchSDK.mjs";
 import GetSDKPathCommand from "./commands/getSDKPath.mjs";
 import GetToolchainPathCommand from "./commands/getToolchainPath.mjs";
@@ -22,6 +25,10 @@ import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
 import { updateVSCodeStaticConfigs } from "./utils/vscodeConfigUtil.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
+  if (process.platform === "win32") {
+    queryInstalledSDKsFromUninstallers();
+  }
+
   const settings = new Settings(
     context.workspaceState,
     context.extension.packageJSON as PackageJSON

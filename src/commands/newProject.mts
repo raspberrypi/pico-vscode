@@ -1,4 +1,4 @@
-import { Uri, commands, window } from "vscode";
+import { Uri, commands, window, workspace } from "vscode";
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { dirname, join } from "path";
@@ -273,11 +273,12 @@ export default class NewProjectCommand extends Command {
       void window.showInformationMessage(
         `Successfully created project: ${options.name}`
       );
+
       // open new folder
       void commands.executeCommand(
         "vscode.openFolder",
         Uri.file(join(options.projectRoot, options.name)),
-        true
+        (workspace.workspaceFolders?.length ?? 0) > 0
       );
     } else {
       this._logger.error(
