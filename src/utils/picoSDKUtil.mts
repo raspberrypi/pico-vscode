@@ -92,9 +92,11 @@ export async function getSDKAndToolchainPath(
     toolchainPath = manualToolchainPath;
   }
 
-  return sdkPath && toolchainPath
-    ? [sdkPath, toolchainPath]
-    : detectSDKAndToolchainFromEnv();
+  return sdkPath && toolchainPath ? [sdkPath, toolchainPath] : undefined;
+  /*? [sdkPath, toolchainPath]
+    : // TODO: maybe remove this as its also not supported
+      // to create new project with sdk and toolchain from env
+      detectSDKAndToolchainFromEnv();*/
 }
 
 /**
