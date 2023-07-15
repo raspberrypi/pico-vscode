@@ -143,9 +143,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-commonjs@npm:^25.0.2":
-  version: 25.0.2
-  resolution: "@rollup/plugin-commonjs@npm:25.0.2"
+"@rollup/plugin-commonjs@npm:^25.0.3":
+  version: 25.0.3
+  resolution: "@rollup/plugin-commonjs@npm:25.0.3"
   dependencies:
     "@rollup/pluginutils": ^5.0.1
     commondir: ^1.0.1
@@ -158,7 +158,7 @@ __metadata:
   peerDependenciesMeta:
     rollup:
       optional: true
-  checksum: d8c4e22d264c5b9286f697653c2f9288149c0fe0169d49b83b5dc8b542f96cc0b9113da3f30d241f2f277513fbf3f8c207d95def5559eb3800190f1872add794
+  checksum: 1b94218cc80364d218e5d526e9199620151fe8ac489abc293a75741af5ffb2bfa90da06cffc4a1b9a4091a6f8cda63a6f7c557881b12188f9e0a05f08c147fd0
   languageName: node
   linkType: hard
 
@@ -258,10 +258,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.4.1":
-  version: 20.4.1
-  resolution: "@types/node@npm:20.4.1"
-  checksum: 22cbcc792f2eb636fe4188778ed0f32658ab872aa7fcb9847b3fa289a42b14b9f5e30c6faec50ef3c7adbc6c2a246926e5858136bb8b10c035a3fcaa6afbeed2
+"@types/node@npm:20.4.2":
+  version: 20.4.2
+  resolution: "@types/node@npm:20.4.2"
+  checksum: 99e544ea7560d51f01f95627fc40394c24a13da8f041121a0da13e4ef0a2aa332932eaf9a5e8d0e30d1c07106e96a183be392cbba62e8cf0bf6a085d5c0f4149
   languageName: node
   linkType: hard
 
@@ -850,9 +850,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.44.0":
-  version: 8.44.0
-  resolution: "eslint@npm:8.44.0"
+"eslint@npm:^8.45.0":
+  version: 8.45.0
+  resolution: "eslint@npm:8.45.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.4.0
@@ -879,7 +879,6 @@ __metadata:
     globals: ^13.19.0
     graphemer: ^1.4.0
     ignore: ^5.2.0
-    import-fresh: ^3.0.0
     imurmurhash: ^0.1.4
     is-glob: ^4.0.0
     is-path-inside: ^3.0.3
@@ -891,11 +890,10 @@ __metadata:
     natural-compare: ^1.4.0
     optionator: ^0.9.3
     strip-ansi: ^6.0.1
-    strip-json-comments: ^3.1.0
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: d06309ce4aafb9d27d558c8e5e5aa5cba3bbec3ce8ceccbc7d4b7a35f2b67fd40189159155553270e2e6febeb69bd8a3b60d6241c8f5ddc2ef1702ccbd328501
+  checksum: 3e6dcce5cc43c5e301662db88ee26d1d188b22c177b9f104d7eefd1191236980bd953b3670fe2fac287114b26d7c5420ab48407d7ea1c3a446d6313c000009da
   languageName: node
   linkType: hard
 
@@ -1308,7 +1306,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import-fresh@npm:^3.0.0, import-fresh@npm:^3.2.1":
+"import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
   dependencies:
@@ -1922,17 +1920,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "raspberry-pi-pico@workspace:."
   dependencies:
-    "@rollup/plugin-commonjs": ^25.0.2
+    "@rollup/plugin-commonjs": ^25.0.3
     "@rollup/plugin-node-resolve": ^15.1.0
     "@rollup/plugin-run": ^3.0.1
     "@rollup/plugin-typescript": ^11.1.2
-    "@types/node": 20.4.1
+    "@types/node": 20.4.2
     "@types/uuid": ^9.0.2
     "@types/vscode": ^1.80.0
     "@types/which": ^3.0.0
     "@typescript-eslint/eslint-plugin": ^6.0.0
     "@typescript-eslint/parser": ^6.0.0
-    eslint: ^8.44.0
+    eslint: ^8.45.0
     eslint-config-prettier: ^8.8.0
     rollup: ^3.26.2
     tslib: ^2.6.0
@@ -2201,7 +2199,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"strip-json-comments@npm:^3.1.0, strip-json-comments@npm:^3.1.1":
+"strip-json-comments@npm:^3.1.1":
   version: 3.1.1
   resolution: "strip-json-comments@npm:3.1.1"
   checksum: 492f73e27268f9b1c122733f28ecb0e7e8d8a531a6662efbd08e22cccb3f9475e90a1b82cab06a392f6afae6d2de636f977e231296400d0ec5304ba70f166443
