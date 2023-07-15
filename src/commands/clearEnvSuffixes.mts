@@ -1,4 +1,4 @@
-import { workspace } from "vscode";
+import { window, workspace } from "vscode";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
 import {
@@ -42,6 +42,10 @@ export default class ClearEnvSuffixesCommand extends Command {
     cmakeUpdateSuffix(
       join(workspaceFolder.uri.fsPath, "CMakeLists.txt"),
       newSuffix
+    );
+
+    void window.showWarningMessage(
+      "You may need to quit and restart VSCode for intellisense to work."
     );
 
     const sdkPath = await getSDKAndToolchainPath(this._settings);

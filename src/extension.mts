@@ -1,4 +1,9 @@
-import { workspace, type ExtensionContext, type WorkspaceFolder } from "vscode";
+import {
+  workspace,
+  type ExtensionContext,
+  type WorkspaceFolder,
+  window,
+} from "vscode";
 import type { Command, CommandWithResult } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
@@ -71,6 +76,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
     cmakeUpdateSuffix(
       join(workspaceFolder.uri.fsPath, "CMakeLists.txt"),
       envSuffix
+    );
+    void window.showWarningMessage(
+      "You may need to quit and restart VSCode for intellisense to work."
     );
   }
 

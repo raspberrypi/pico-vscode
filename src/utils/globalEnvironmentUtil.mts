@@ -34,6 +34,7 @@ function getShellConfigFilePaths(): string[] {
 
 export function setGlobalEnvVar(variable: string, value: string): void {
   deleteGlobalEnvVar(variable);
+  process.env[variable] = value;
   switch (process.platform) {
     case "darwin":
     case "linux": {

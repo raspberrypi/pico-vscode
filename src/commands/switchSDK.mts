@@ -56,6 +56,9 @@ export default class SwitchSDKCommand extends Command {
           sdkPath[1]
         );
       }
+      void window.showWarningMessage(
+        "You may need to quit and restart VSCode for intellisense to work."
+      );
     }
 
     const availableSDKs = detectInstalledSDKs()
