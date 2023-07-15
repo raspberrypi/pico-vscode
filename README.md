@@ -37,4 +37,4 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- After a new project is created, intellisense and auto-completion may not work until you completly restart VSCode (on macOS this means `right-click on VSCode icon > quit` and not just closing the window).
