@@ -280,6 +280,6 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
 
     return locatedSDKs;
   } catch (error) {
-    return [];
+    return uninstallerPicoSDKs;
   }
 }
