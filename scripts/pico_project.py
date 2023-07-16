@@ -863,7 +863,7 @@ def CheckPrerequisites():
     isWindows = (platform.system() == 'Windows')
 
     # Do we have a compiler?
-    return shutil.which(COMPILER_NAME)
+    return shutil.which(COMPILER_NAME, 1, os.environ["Path" if isWindows else "PATH"])
 
 
 def CheckSDKPath(gui):
@@ -1555,3 +1555,4 @@ else :
         }
 
     DoEverything(None, params)
+    sys.exit(0)

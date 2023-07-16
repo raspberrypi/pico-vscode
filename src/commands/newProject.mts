@@ -387,7 +387,7 @@ export default class NewProjectCommand extends Command {
       env: customEnv,
       cwd: getScriptsRoot(),
       windowsHide: true,
-      timeout: 5000,
+      timeout: 15000,
     });
     if (generatorExitCode === 0) {
       void window.showInformationMessage(
