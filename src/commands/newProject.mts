@@ -331,15 +331,22 @@ export default class NewProjectCommand extends Command {
 
     const customEnv: { [key: string]: string } = {
       ...(process.env as { [key: string]: string }),
+      // set PICO_SDK_PATH
+      ["PICO_SDK_PATH"]: PICO_SDK_PATH,
+      // set PICO_TOOLCHAIN_PATH i needed someday
+      ["PICO_TOOLCHAIN_PATH"]: TOOLCHAIN_PATH,
+
+      // if project generator compiles the project, it needs the suffixed env vars
       // not requiret any more because of process.env above
       // eslint-disable-next-line @typescript-eslint/naming-convention
       [`PICO_SDK_PATH_${ENV_SUFFIX}`]: PICO_SDK_PATH,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       [`PICO_TOOLCHAIN_PATH_${ENV_SUFFIX}`]: TOOLCHAIN_PATH,
     };
+    // add compiler to PATH
     customEnv[
       process.platform === "win32" ? "Path" : "PATH"
-    ] = `${TOOLCHAIN_PATH}:${
+    ] = `${TOOLCHAIN_PATH};${
       customEnv[process.platform === "win32" ? "Path" : "PATH"]
     }`;
     const pythonExe =
