@@ -344,14 +344,12 @@ export default class NewProjectCommand extends Command {
       [`PICO_TOOLCHAIN_PATH_${ENV_SUFFIX}`]: TOOLCHAIN_PATH,
     };
     // add compiler to PATH
-    customEnv[
-      process.platform === "win32" ? "Path" : "PATH"
-    ] = `${TOOLCHAIN_PATH};${
-      customEnv[process.platform === "win32" ? "Path" : "PATH"]
-    }`;
+    const isWindows = process.platform === "win32";
+    customEnv[isWindows ? "Path" : "PATH"] = `${TOOLCHAIN_PATH}${
+      isWindows ? ";" : ":"
+    }${customEnv[isWindows ? "Path" : "PATH"]}`;
     const pythonExe =
-      this._settings.getString(SettingsKey.python3Path) ||
-      process.platform === "win32"
+      this._settings.getString(SettingsKey.python3Path) || isWindows
         ? "python"
         : "python3";
 
