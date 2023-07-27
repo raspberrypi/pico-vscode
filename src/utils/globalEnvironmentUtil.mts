@@ -27,9 +27,11 @@ function base62Encode(uuid: string): string {
 function getShellConfigFilePaths(): string[] {
   const zshPofilePath = `${homedir()}/.zprofile`;
   const bashProfilePath = `${homedir()}/.bash_profile`;
+  // not all distros source from .profile when bashrc is loaded
+  const bashrcPath = `${homedir()}/.bashrc`;
   const profilePath = `${homedir()}/.profile`;
 
-  return [zshPofilePath, bashProfilePath, profilePath];
+  return [zshPofilePath, bashProfilePath, bashrcPath, profilePath];
 }
 
 export function setGlobalEnvVar(variable: string, value: string): void {
