@@ -12,7 +12,6 @@
   },
   // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
   "typescript.tsc.autoDetect": "off",
-
   // custom
   "prettier.tabWidth": 2,
   "prettier.singleQuote": false,
@@ -20,7 +19,6 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
-
   // yarn pnp vscode config
   "eslint.nodePath": ".yarn/sdks",
   "typescript.tsdk": ".yarn/sdks/typescript/lib",
