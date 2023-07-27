@@ -140,10 +140,12 @@
     }
   },
   "scripts": {
+    "postinstall": "yarn dlx @yarnpkg/sdks vscode",
     "vscode:prepublish": "yarn run package",
-    "postcompile-unix": "sed -i '' 's/require(\\x27vscode-windows-registry\\x27)/require(\\x27..\\/vendor\\/vscode-windows-registry\\x27)/g' dist/extension.cjs",
+    "postcompile-darwin": "sed -i '' 's/require(\\x27vscode-windows-registry\\x27)/require(\\x27..\\/vendor\\/vscode-windows-registry\\x27)/g' dist/extension.cjs",
+    "postcompile-linux": "sed -i 's/require(\\x27vscode-windows-registry\\x27)/require(\\x27..\\/vendor\\/vscode-windows-registry\\x27)/g' dist/extension.cjs",
     "postcompile-win": "Powershell -ExecutionPolicy Bypass .\\\\scripts\\\\replace.ps1",
-    "postcompile": "node -e \"process.platform === 'win32' ? require('child_process').execSync('yarn run postcompile-win') : require('child_process').execSync('yarn run postcompile-unix')\"",
+    "postcompile": "node -e \"require('child_process').execSync(process.platform === 'win32' ? 'yarn run postcompile-win' : (process.platform === 'darwin' ? 'yarn run postcompile-darwin' : 'yarn run postcompile-linux'))\"",
     "compile": "rollup -c",
     "watch": "rollup -cw",
     "package": "rollup -c --environment BUILD:production --sourcemap hidden",
