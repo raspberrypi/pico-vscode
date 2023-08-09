@@ -28,6 +28,7 @@ import {
 import ClearEnvSuffixesCommand from "./commands/clearEnvSuffixes.mjs";
 import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
 import { updateVSCodeStaticConfigs } from "./utils/vscodeConfigUtil.mjs";
+import EditSDKsCommand from "./commands/editSdks.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   if (process.platform === "win32") {
@@ -50,6 +51,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new LaunchTargetPathCommand(),
     new CompileProjectCommand(),
     new ClearEnvSuffixesCommand(settings),
+    new EditSDKsCommand(),
   ];
 
   // register all command handlers

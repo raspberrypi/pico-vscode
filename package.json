@@ -89,6 +89,13 @@
         "title": "Clear environment suffixes (cleans PICO_SDK_... variables in your shell profile)",
         "shortTitle": "Clean Environment Suffixes",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.editSDKs",
+        "title": "Edit Pico SDKs",
+        "shortTitle": "Edit SDKs",
+        "category": "Raspberry Pi Pico",
+        "enablement": "isLinux || isMac"
       }
     ],
     "configuration": {
