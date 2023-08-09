@@ -102,7 +102,7 @@ export default class EditSDKsCommand extends Command {
 
         //get version, sdk path selecter and toolchain path selector
         version = await window.showInputBox({
-          placeHolder: "Enter SDK version",
+          placeHolder: "Enter SDK version (e.g. 1.2.3)",
           ignoreFocusOut: true,
           title: "Add SDK",
         });
