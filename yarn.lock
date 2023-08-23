@@ -265,10 +265,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:20.5.1":
-  version: 20.5.1
-  resolution: "@types/node@npm:20.5.1"
-  checksum: 3dbe611cd67afa987102c8558ee70f848949c5dcfee5f60abc073e55c0d7b048e391bf06bb1e0dc052cb7210ca97136ac496cbaf6e89123c989de6bd125fde82
+"@types/node@npm:16.x":
+  version: 16.18.43
+  resolution: "@types/node@npm:16.18.43"
+  checksum: a3ae424834818d1aa53d05e9de954b4559aaa9c02294e654403d9bd2a2b1db608c328755970071369a0c85159a6f2969502e1b9c7e1f29d2629ca677c33c8bdb
   languageName: node
   linkType: hard
 
@@ -1915,7 +1915,7 @@ __metadata:
     "@rollup/plugin-node-resolve": ^15.2.0
     "@rollup/plugin-run": ^3.0.1
     "@rollup/plugin-typescript": ^11.1.2
-    "@types/node": 20.5.1
+    "@types/node": 16.x
     "@types/uuid": ^9.0.2
     "@types/vscode": ^1.81.0
     "@types/which": ^3.0.0

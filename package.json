@@ -164,7 +164,7 @@
     "@rollup/plugin-node-resolve": "^15.2.0",
     "@rollup/plugin-run": "^3.0.1",
     "@rollup/plugin-typescript": "^11.1.2",
-    "@types/node": "20.5.1",
+    "@types/node": "16.x",
     "@types/uuid": "^9.0.2",
     "@types/vscode": "^1.81.0",
     "@types/which": "^3.0.0",
