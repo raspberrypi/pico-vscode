@@ -1,6 +1,6 @@
 import { commands, type Disposable } from "vscode";
 
-const extensionId = "raspberry-pi-pico";
+const extensionName = "raspberry-pi-pico";
 
 export abstract class Command {
   private readonly commandId: string;
@@ -11,7 +11,7 @@ export abstract class Command {
 
   register(): Disposable {
     return commands.registerCommand(
-      extensionId + "." + this.commandId,
+      extensionName + "." + this.commandId,
       this.execute.bind(this)
     );
   }
@@ -28,7 +28,7 @@ export abstract class CommandWithResult<T> {
 
   register(): Disposable {
     return commands.registerCommand(
-      extensionId + "." + this.commandId,
+      extensionName + "." + this.commandId,
       this.execute.bind(this)
     );
   }
