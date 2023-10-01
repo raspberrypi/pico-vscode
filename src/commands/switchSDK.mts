@@ -1,31 +1,25 @@
-import {
-  detectInstalledSDKs,
-  getSDKAndToolchainPath,
-} from "../utils/picoSDKUtil.mjs";
 import { Command } from "./command.mjs";
-import { window, workspace } from "vscode";
-import type Settings from "../settings.mjs";
-import { SettingsKey } from "../settings.mjs";
+import { ProgressLocation, window, workspace } from "vscode";
 import type UI from "../ui.mjs";
-import { join } from "path";
-import { setPicoSDKPath, setToolchainPath } from "../utils/picoSDKEnvUtil.mjs";
-import {
-  generateNewEnvVarSuffix,
-  setGlobalEnvVar,
-} from "../utils/globalEnvironmentUtil.mjs";
-import { cmakeUpdateSuffix } from "../utils/cmakeUtil.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
-import { compare } from "../utils/semverUtil.mjs";
+import { getSDKReleases } from "../utils/githubREST.mjs";
+import {
+  downloadAndInstallSDK,
+  downloadAndInstallToolchain,
+} from "../utils/download.mjs";
+import { cmakeUpdateSDK } from "../utils/cmakeUtil.mjs";
+import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
+import type Settings from "../settings.mjs";
 
 export default class SwitchSDKCommand extends Command {
-  private _settings: Settings;
   private _ui: UI;
+  private _settings: Settings;
 
-  constructor(settings: Settings, ui: UI) {
+  constructor(ui: UI, settings: Settings) {
     super("switchSDK");
 
-    this._settings = settings;
     this._ui = ui;
+    this._settings = settings;
   }
 
   async execute(): Promise<void> {
@@ -38,70 +32,119 @@ export default class SwitchSDKCommand extends Command {
       return;
     }
 
-    let envSuffix = this._settings.getString(SettingsKey.envSuffix);
-    if (!envSuffix) {
-      envSuffix = generateNewEnvVarSuffix();
-      await this._settings.update(SettingsKey.envSuffix, envSuffix);
-      cmakeUpdateSuffix(
-        join(workspace.workspaceFolders[0].uri.fsPath, "CMakeLists.txt"),
-        envSuffix
-      );
-      const sdkPath = await getSDKAndToolchainPath(this._settings);
-      if (sdkPath) {
-        setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
-        setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
-        await updateVSCodeStaticConfigs(
-          join(workspace.workspaceFolders[0].uri.fsPath, ".vscode"),
-          envSuffix,
-          sdkPath[1]
-        );
+    const workspaceFolder = workspace.workspaceFolders[0];
+
+    const sdks = await getSDKReleases();
+
+    // show quick pick
+    const selectedSDK = await window.showQuickPick(
+      sdks.map(sdk => ({
+        label: `v${sdk.tagName}`,
+        sdk: sdk,
+      })),
+      {
+        placeHolder: "Select SDK version",
       }
-      void window.showWarningMessage(
-        "You may need to quit and restart VSCode for intellisense to work."
-      );
-    }
+    );
 
-    const availableSDKs = detectInstalledSDKs()
-      .sort((a, b) =>
-        compare(a.version.replace("v", ""), b.version.replace("v", ""))
-      )
-      .map(sdk => ({
-        label: `Pico SDK v${sdk.version}`,
-        version: sdk.version,
-        // TODO: maybe remove description
-        description: `${sdk.sdkPath}; ${sdk.toolchainPath}`,
-        sdkPath: sdk.sdkPath,
-        toolchainPath: sdk.toolchainPath,
-      }));
-
-    const selectedSDK = await window.showQuickPick(availableSDKs, {
-      placeHolder: "Select Pico SDK",
-      canPickMany: false,
-      ignoreFocusOut: false,
-      title: "Switch Pico SDK",
-    });
-
-    if (!selectedSDK) {
+    if (selectedSDK === undefined) {
       return;
     }
 
-    setPicoSDKPath(selectedSDK.sdkPath);
-    setToolchainPath(selectedSDK.toolchainPath);
-    setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, selectedSDK.sdkPath);
-    setGlobalEnvVar(
-      `PICO_TOOLCHAIN_PATH_${envSuffix}`,
-      selectedSDK.toolchainPath
+    // TODO: catch promis failure
+    const supportedToolchainVersions = await getSupportedToolchains();
+    // show quick pick for toolchain version
+    const selectedToolchainVersion = await window.showQuickPick(
+      supportedToolchainVersions.map(toolchain => ({
+        label: toolchain.version.replaceAll("_", "."),
+        toolchain: toolchain,
+      })),
+      {
+        placeHolder: "Select ARM Embeded Toolchain version",
+      }
     );
-    void window.showWarningMessage(
-      "Reload window to apply changes to linting."
+
+    if (selectedToolchainVersion === undefined) {
+      return;
+    }
+
+    // show progress bar while installing
+    const result = await window.withProgress(
+      {
+        title:
+          `Installing SDK ${selectedSDK.label} and ` +
+          `toolchain ${selectedToolchainVersion.label}...`,
+        location: ProgressLocation.Notification,
+      },
+      async progress => {
+        // download and install selected SDK
+        if (
+          await downloadAndInstallSDK(
+            selectedSDK.sdk.tagName,
+            selectedSDK.sdk.downloadUrl
+          )
+        ) {
+          progress.report({
+            increment: 40,
+          });
+
+          if (
+            await downloadAndInstallToolchain(
+              selectedToolchainVersion.toolchain
+            )
+          ) {
+            progress.report({
+              increment: 40,
+            });
+
+            await updateVSCodeStaticConfigs(
+              workspaceFolder.uri.fsPath,
+              selectedSDK.sdk.tagName,
+              selectedToolchainVersion.toolchain.version
+            );
+
+            progress.report({
+              increment: 10,
+            });
+
+            await cmakeUpdateSDK(
+              workspaceFolder.uri,
+              this._settings,
+              selectedSDK.sdk.tagName,
+              selectedToolchainVersion.toolchain.version
+            );
+
+            progress.report({
+              // show sdk installed notification
+              message: `Successfully installed SDK ${selectedSDK.label}.`,
+              increment: 10,
+            });
+
+            return true;
+          } else {
+            progress.report({
+              message:
+                "Failed to install " +
+                `toolchain ${selectedToolchainVersion.label}.`,
+              increment: 60,
+            });
+
+            return false;
+          }
+        }
+
+        progress.report({
+          // show sdk install failed notification
+          message: `Failed to install SDK ${selectedSDK.label}.`,
+          increment: 100,
+        });
+
+        return false;
+      }
     );
-    // save selected SDK version to settings
-    await this._settings.update(SettingsKey.picoSDK, selectedSDK.version);
-    await updateVSCodeStaticConfigs(
-      join(workspace.workspaceFolders[0].uri.fsPath, ".vscode"),
-      envSuffix,
-      selectedSDK.toolchainPath
-    );
-    this._ui.updateSDKVersion(selectedSDK.version);
+
+    if (result) {
+      this._ui.updateSDKVersion(selectedSDK.label);
+    }
   }
 }

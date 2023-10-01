@@ -13,8 +13,8 @@ interface CppProperties {
 
 async function updateCppPropertiesFile(
   file: string,
-  newEnvSuffix: string,
-  newCompilerPath: string
+  newSDKVersion: string,
+  newToolchainVersion: string
 ): Promise<void> {
   try {
     // Read the JSON file
@@ -23,16 +23,22 @@ async function updateCppPropertiesFile(
 
     // Update the compilerPath value
     cppProperties.configurations.forEach(config => {
-      config.includePath.forEach((path, index) => {
-        const regExp = new RegExp(/\$\{env:PICO_SDK_PATH_\w+\}/);
-        if (regExp.test(path)) {
-          config.includePath[index] = path.replace(
-            regExp,
-            `\${env:PICO_SDK_PATH_${newEnvSuffix}}`
-          );
-        }
-      });
-      config.compilerPath = newCompilerPath;
+      // Remove the old pico-sdk includePath values set by this extension
+      config.includePath = config.includePath.filter(
+        item => !item.startsWith("${env:HOME}/.pico-sdk")
+      );
+      // Add the new pico-sdk includePath
+      config.includePath.push(`\${env:HOME}/.pico-sdk/sdk/${newSDKVersion}/**`);
+      // Update the compilerPath
+      config.compilerPath =
+        "${env:HOME}/.pico-sdk/toolchain" +
+        `/${newToolchainVersion}/bin/${
+          // "arm-none-eabi-gcc" should work on all platforms no need for extension on Windows
+          /*process.platform === "win32"
+          ? "arm-none-eabi-gcc.exe"
+          : "arm-none-eabi-gcc"*/
+          "arm-none-eabi-gcc"
+        }`;
     });
 
     // Write the updated JSON back to the file
@@ -45,22 +51,22 @@ async function updateCppPropertiesFile(
   }
 }
 
+/**
+ * Updates the configs in .vscode/*.json files with the new SDK and toolchain versions.
+ *
+ * @param folder Path to the workspace folder containing the .vscode folder.
+ * @param newSDKVersion The new SDK version to set.
+ * @param newToolchainVersion The new toolchain version to set.
+ */
 export async function updateVSCodeStaticConfigs(
   folder: string,
-  envSuffix: string,
-  toolchainPath: string
+  newSDKVersion: string,
+  newToolchainVersion: string
 ): Promise<void> {
-  const cppPropertiesFile = join(folder, "c_cpp_properties.json");
-  // WORKAROUND: because c_cpp_properties.json from vscode-cpptools
-  // does not support dynamic variables
+  const cppPropertiesFile = join(folder, ".vscode", "c_cpp_properties.json");
   await updateCppPropertiesFile(
     cppPropertiesFile,
-    envSuffix,
-    join(
-      toolchainPath,
-      process.platform === "win32"
-        ? "arm-none-eabi-gcc.exe"
-        : "arm-none-eabi-gcc"
-    )
+    newSDKVersion,
+    newToolchainVersion
   );
 }

@@ -224,6 +224,24 @@ isMac = False
 isWindows = False
 compilerPath = Path("/usr/bin/arm-none-eabi-gcc")
 
+def relativeSDKPath(sdkVersion):
+    return f"/.pico-sdk/sdk/{sdkVersion}"
+
+def relativeToolchainPath(toolchainVersion):
+    return f"/.pico-sdk/toolchain/{toolchainVersion}"
+
+def cmakeSdkPath(sdkVersion):
+    return f"$ENV{{HOME}}{relativeSDKPath(sdkVersion)}"
+
+def cmakeToolchainPath(toolchainVersion):
+    return f"$ENV{{HOME}}{relativeToolchainPath(toolchainVersion)}"
+
+def codeSdkPath(sdkVersion):
+    return f"${{env:HOME}}{relativeSDKPath(sdkVersion)}"
+
+def codeToolchainPath(toolchainVersion):
+    return f"${{env:HOME}}{relativeToolchainPath(toolchainVersion)}"
+
 def GetBackground():
     return 'white'
 
@@ -848,7 +866,6 @@ if ENABLE_TK_GUI:
                     'rtti'          : self.wantCPPRTTI.get(),
                     'ssid'          : self.ssid,
                     'password'      : self.password,
-                    'envSuffix'     : self.envSuffix,
                     }
 
             DoEverything(self, params)
@@ -925,8 +942,8 @@ def ParseCommandLine():
     parser.add_argument("-bl", "--boardlist", action="store_true", help="List available board types")
     parser.add_argument("-cp", "--cpath", help="Override default VSCode compiler path")
     parser.add_argument("-root", "--projectRoot", help="Override default project root where the new project will be created")
-    parser.add_argument("-envSuffix", "--envSuffix", help="[A suffix ot the PICO_SDK_PATH environment variable]")
-    parser.add_argument("-sdkVersion", "--sdkVersion", help="[A sdkVersion to set in settings]")
+    parser.add_argument("-sdkVersion", "--sdkVersion", help="Pico SDK version to use (required)")
+    parser.add_argument("-tcVersion", "--toolchainVersion", help="ARM Embeded Toolchain version to use (required)")
 
     return parser.parse_args()
 
@@ -1011,10 +1028,11 @@ def GenerateCMake(folder, params):
                  "set(CMAKE_C_STANDARD 11)\n"
                  "set(CMAKE_CXX_STANDARD 17)\n\n"
                  "# Initialise pico_sdk from installed location\n"
-                 "# (note this can come from environment, CMake cache etc)\n"
-                 "# DO NOT EDIT THE NEXT TWO LINES for RaspberryPiPico VS Code Extension to work \n"
-                 f"set(PICO_SDK_PATH $ENV{{PICO_SDK_PATH_{params['envSuffix']}}})\n"
-                 f"set(PICO_TOOLCHAIN_PATH $ENV{{PICO_TOOLCHAIN_PATH_{params['envSuffix']}}})\n\n"
+                 "# (note this can come from environment, CMake cache etc)\n\n"
+                 "# == DO NEVER EDIT THE NEXT TWO LINES for RaspberryPiPico VS Code Extension to work == \n"
+                 f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
+                 f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
+                 "# ====================================================================================\n"
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
                  "include(pico_sdk_import.cmake)\n\n"
@@ -1128,7 +1146,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, envSuffix, sdkVersion):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion):
 
     oldCWD = os.getcwd()
 
@@ -1159,7 +1177,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "interface/{debugger}",
                 "target/rp2040.cfg"
             ],
-            "svdFile": "${{command:raspberry-pi-pico.getSDKPath}}/src/rp2040/hardware_regs/rp2040.svd",
+            "svdFile": "{codeSdkPath(sdkVersion)}/src/rp2040/hardware_regs/rp2040.svd",
             "runToEntryPoint": "main",
             // Give restart the same functionality as runToEntryPoint - main
             "postRestartCommands": [
@@ -1181,7 +1199,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "gdbTarget": "localhost:3333",
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
-            "svdFile": "${{command:raspberry-pi-pico.getSDKPath}}/src/rp2040/hardware_regs/rp2040.svd",
+            "svdFile": "{codeSdkPath(sdkVersion)}/src/rp2040/hardware_regs/rp2040.svd",
             "runToEntryPoint": "main",
             // Give restart the same functionality as runToEntryPoint - main
             "postRestartCommands": [
@@ -1209,7 +1227,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "limit": 4
             }},
             "preLaunchTask": "Flash",
-            "svdPath": "${{command:raspberry-pi-pico.getSDKPath}}/src/rp2040/hardware_regs/rp2040.svd"
+            "svdPath": "{codeSdkPath(sdkVersion)}/src/rp2040/hardware_regs/rp2040.svd"
         }},
     ]
 }}
@@ -1221,7 +1239,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "name": "Pico",
             "includePath": [
                 "${{workspaceFolder}}/**",
-                "${{env:PICO_SDK_PATH_{envSuffix}}}/**"
+                "{codeSdkPath(sdkVersion)}/**"
             ],
             "defines": [],
             "compilerPath": "{cPath}",
@@ -1242,8 +1260,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "cmake.automaticReconfigure": false,
     "cmake.configureOnOpen": false,
     "cmake.generator": "Ninja",
-    "raspberry-pi-pico.sdk": "{sdkVersion}",
-    "raspberry-pi-pico.envSuffix": "{envSuffix}",
+    "raspberry-pi-pico.cmakeAutoConfigure": true,
 }}
 '''
 
@@ -1446,7 +1463,7 @@ def DoEverything(parent, params):
         os.system(cmakeCmd)
 
     if params['projects']:
-        generateProjectFiles(projectPath, params['projectName'], params['sdkPath'], params['projects'], params['debugger'], params["envSuffix"], params["sdkVersion"])
+        generateProjectFiles(projectPath, params['projectName'], params['sdkPath'], params['projects'], params['debugger'], params["sdkVersion"])
 
     if params['wantBuild']:
         if params['wantGUI'] and ENABLE_TK_GUI:
@@ -1494,6 +1511,8 @@ if args.name == None and not args.gui and not args.list and not args.configs and
 # Check if we were provided a compiler path, and override the default if so
 if args.cpath:
     compilerPath = Path(args.cpath)
+elif args.toolchainVersion:
+    compilerPath = Path(codeToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME)
 else:
     compilerPath = Path(c)
 
@@ -1557,8 +1576,8 @@ else :
         'rtti'          : args.cpprtti,
         'ssid'          : '',
         'password'      : '',
-        'envSuffix'     : args.envSuffix,
         'sdkVersion'    : args.sdkVersion,
+        'toolchainVersion': args.toolchainVersion,
         }
 
     DoEverything(None, params)

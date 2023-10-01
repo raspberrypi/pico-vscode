@@ -2,10 +2,6 @@ import type { Memento, WorkspaceConfiguration } from "vscode";
 import { workspace } from "vscode";
 
 export enum SettingsKey {
-  picoSDK = "sdk",
-  envSuffix = "envSuffix",
-  picoSDKPath = "sdkPath",
-  toolchainPath = "toolchainPath",
   cmakePath = "cmakePath",
   python3Path = "python3Path",
   ninjaPath = "ninjaPath",

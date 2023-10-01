@@ -1,4 +1,4 @@
-import { Uri, commands, window, workspace } from "vscode";
+import { ProgressLocation, Uri, commands, window, workspace } from "vscode";
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { dirname, join } from "path";
@@ -11,11 +11,18 @@ import {
   showRquirementsNotMetErrorMessage,
 } from "../utils/requirementsUtil.mjs";
 import { SettingsKey } from "../settings.mjs";
-import {
-  generateNewEnvVarSuffix,
-  setGlobalEnvVar,
-} from "../utils/globalEnvironmentUtil.mjs";
 import { compare } from "../utils/semverUtil.mjs";
+import {
+  detectInstalledToolchains,
+  getSupportedToolchains,
+} from "../utils/toolchainUtil.mjs";
+import { getSDKReleases } from "../utils/githubREST.mjs";
+import {
+  buildSDKPath,
+  buildToolchainPath,
+  downloadAndInstallSDK,
+  downloadAndInstallToolchain,
+} from "../utils/download.mjs";
 
 enum BoardType {
   pico = "Pico",
@@ -126,6 +133,12 @@ interface NewProjectOptions {
   libraries: Array<Library | PicoWirelessOption>;
   codeOptions: CodeOption[];
   debugger: Debugger;
+  toolchainAndSDK: {
+    toolchainVersion: string;
+    toolchainPath: string;
+    sdkVersion: string;
+    sdkPath: string;
+  };
 }
 
 function getScriptsRoot(): string {
@@ -140,6 +153,129 @@ export default class NewProjectCommand extends Command {
     super("newProject");
 
     this._settings = settings;
+  }
+
+  private async selectSDKAndToolchain(): Promise<
+    | {
+        toolchainVersion: string;
+        toolchainPath: string;
+        sdkVersion: string;
+        sdkPath: string;
+      }
+    | undefined
+  > {
+    const installedSDKs = detectInstalledSDKs();
+    const installedToolchains = detectInstalledToolchains();
+
+    try {
+      if (installedSDKs.length === 0 || installedToolchains.length === 0) {
+        // TODO: add offline handling
+        const availableSDKs = await getSDKReleases();
+        const supportedToolchains = await getSupportedToolchains();
+
+        // show quick pick for sdk and toolchain
+        const selectedSDK = await window.showQuickPick(
+          availableSDKs.map(sdk => ({
+            label: `v${sdk.tagName}`,
+            sdk: sdk,
+          })),
+          {
+            placeHolder: "Select Pico SDK version",
+            title: "New Pico Project",
+          }
+        );
+
+        if (selectedSDK === undefined) {
+          return;
+        }
+
+        // show quick pick for toolchain version
+        const selectedToolchain = await window.showQuickPick(
+          supportedToolchains.map(toolchain => ({
+            label: toolchain.version.replaceAll("_", "."),
+            toolchain: toolchain,
+          })),
+          {
+            placeHolder: "Select ARM Embeded Toolchain version",
+            title: "New Pico Project",
+          }
+        );
+
+        if (selectedToolchain === undefined) {
+          return;
+        }
+
+        // show user feedback as downloads can take a while
+        let installedSuccessfully = false;
+        await window.withProgress(
+          {
+            location: ProgressLocation.Notification,
+            title: "Downloading SDK and Toolchain",
+            cancellable: false,
+          },
+          async progress => {
+            // download both
+            if (
+              !(await downloadAndInstallSDK(
+                selectedSDK.sdk.tagName,
+                selectedSDK.sdk.downloadUrl
+              )) ||
+              !(await downloadAndInstallToolchain(selectedToolchain.toolchain))
+            ) {
+              Logger.log(`Failed to download and install toolchain and SDK.`);
+
+              progress.report({
+                message: "Failed to download and install toolchain and sdk.",
+                increment: 100,
+              });
+
+              installedSuccessfully = false;
+            } else {
+              installedSuccessfully = true;
+            }
+          }
+        );
+
+        if (!installedSuccessfully) {
+          return;
+        } else {
+          return {
+            toolchainVersion: selectedToolchain.toolchain.version,
+            toolchainPath: buildToolchainPath(
+              selectedToolchain.toolchain.version
+            ),
+            sdkVersion: selectedSDK.sdk.tagName,
+            sdkPath: buildSDKPath(selectedSDK.sdk.tagName),
+          };
+        }
+      }
+
+      // sort installed sdks from newest to oldest
+      installedSDKs.sort((a, b) =>
+        compare(a.version.replace("v", ""), b.version.replace("v", ""))
+      );
+      // toolchains should be sorted and cant be sorted by compare because
+      // of their alphanumeric structure
+
+      return {
+        toolchainVersion: installedToolchains[0].version,
+        toolchainPath: installedToolchains[0].path,
+        sdkVersion: installedSDKs[0].version,
+        sdkPath: installedSDKs[0].sdkPath,
+      };
+    } catch (error) {
+      Logger.log(
+        `Error while retrieving SDK and toolchain versions: ${
+          error instanceof Error ? error.message : (error as string)
+        }`
+      );
+
+      void window.showErrorMessage(
+        "Error while retrieving SDK and toolchain versions."
+      );
+
+      return;
+    }
   }
 
   async execute(): Promise<void> {
@@ -259,6 +395,12 @@ export default class NewProjectCommand extends Command {
       return;
     }
 
+    const selectedToolchainAndSDK = await this.selectSDKAndToolchain();
+
+    if (selectedToolchainAndSDK === undefined) {
+      return;
+    }
+
     void window.showWarningMessage(
       "Generating project, this may take a while. " +
         "For linting and auto-complete to work, " +
@@ -273,6 +415,7 @@ export default class NewProjectCommand extends Command {
       libraries: selectedFeatures,
       codeOptions: selectedCodeOptions,
       debugger: selectedDebugger,
+      toolchainAndSDK: selectedToolchainAndSDK,
     });
   }
 
@@ -296,58 +439,26 @@ export default class NewProjectCommand extends Command {
   }
 
   /**
-   * Executes the Pico Project Generator with the given options
+   * Executes the Pico Project Generator with the given options.
    *
    * @param options {@link NewProjectOptions} to pass to the Pico Project Generator
    */
   private async executePicoProjectGenerator(
     options: NewProjectOptions
   ): Promise<void> {
-    /*const [PICO_SDK_PATH, COMPILER_PATH] = (await getSDKAndToolchainPath(
-      this._settings
-    )) ?? [];*/
-    const installedSDKs = detectInstalledSDKs().sort((a, b) =>
-      compare(a.version.replace("v", ""), b.version.replace("v", ""))
-    );
-
-    if (
-      installedSDKs.length === 0 ||
-      // "protection" against empty settings
-      installedSDKs[0].sdkPath === "" ||
-      installedSDKs[0].toolchainPath === ""
-    ) {
-      void window.showErrorMessage(
-        "Could not find Pico SDK or Toolchain. Please check the wiki."
-      );
-
-      return;
-    }
-
-    const PICO_SDK_PATH = installedSDKs[0].sdkPath;
-    const TOOLCHAIN_PATH = installedSDKs[0].toolchainPath;
-    const ENV_SUFFIX = generateNewEnvVarSuffix();
-    setGlobalEnvVar(`PICO_SDK_PATH_${ENV_SUFFIX}`, PICO_SDK_PATH);
-    setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${ENV_SUFFIX}`, TOOLCHAIN_PATH);
-
     const customEnv: { [key: string]: string } = {
       ...(process.env as { [key: string]: string }),
       // set PICO_SDK_PATH
-      ["PICO_SDK_PATH"]: PICO_SDK_PATH,
+      ["PICO_SDK_PATH"]: options.toolchainAndSDK.sdkPath,
       // set PICO_TOOLCHAIN_PATH i needed someday
-      ["PICO_TOOLCHAIN_PATH"]: TOOLCHAIN_PATH,
-
-      // if project generator compiles the project, it needs the suffixed env vars
-      // not requiret any more because of process.env above
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      [`PICO_SDK_PATH_${ENV_SUFFIX}`]: PICO_SDK_PATH,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      [`PICO_TOOLCHAIN_PATH_${ENV_SUFFIX}`]: TOOLCHAIN_PATH,
+      ["PICO_TOOLCHAIN_PATH"]: options.toolchainAndSDK.toolchainPath,
     };
     // add compiler to PATH
     const isWindows = process.platform === "win32";
-    customEnv[isWindows ? "Path" : "PATH"] = `${TOOLCHAIN_PATH}${
-      isWindows ? ";" : ":"
-    }${customEnv[isWindows ? "Path" : "PATH"]}`;
+    customEnv[isWindows ? "Path" : "PATH"] = `${join(
+      options.toolchainAndSDK.toolchainPath,
+      "bin"
+    )}${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
     const pythonExe =
       this._settings.getString(SettingsKey.python3Path) || isWindows
         ? "python"
@@ -369,10 +480,10 @@ export default class NewProjectCommand extends Command {
       "vscode",
       "--projectRoot",
       `"${options.projectRoot}"`,
-      "--envSuffix",
-      ENV_SUFFIX,
       "--sdkVersion",
-      installedSDKs[0].version,
+      options.toolchainAndSDK.sdkVersion,
+      "--toolchainVersion",
+      options.toolchainAndSDK.toolchainVersion,
       options.name,
     ].join(" ");
 
@@ -389,7 +500,7 @@ export default class NewProjectCommand extends Command {
     });
     if (generatorExitCode === 0) {
       void window.showInformationMessage(
-        `Successfully created project: ${options.name}`
+        `Successfully generated new project: ${options.name}`
       );
 
       // open new folder
@@ -403,7 +514,9 @@ export default class NewProjectCommand extends Command {
         `Generator Process exited with code: ${generatorExitCode ?? "null"}`
       );
 
-      void window.showErrorMessage(`Could not create project ${options.name}`);
+      void window.showErrorMessage(
+        `Could not create new project: ${options.name}`
+      );
     }
   }
 }

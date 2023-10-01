@@ -15,7 +15,8 @@
     "url": "https://github.com/paulober/vscode-raspberry-pi-pico"
   },
   "engines": {
-    "vscode": "^1.82.0"
+    "vscode": "^1.82.0",
+    "node": ">=18.15.0"
   },
   "keywords": [
     "raspberry",
@@ -33,7 +34,7 @@
   ],
   "main": "./dist/extension.cjs",
   "markdown": "github",
-  "minimumNodeVersion": 16,
+  "minimumNodeVersion": 18,
   "capabilities": {
     "virtualWorkspaces": {
       "supported": false,
@@ -101,28 +102,6 @@
     "configuration": {
       "title": "Raspberry Pi Pico Extension",
       "properties": {
-        "raspberry-pi-pico.sdk": {
-          "type": "string",
-          "pattern": "^$|^\\d+\\.\\d+\\.\\d+$",
-          "patternErrorMessage": "The version must be in the format MAJOR.MINOR.PATCH (e.g. 1.5.1)",
-          "default": "",
-          "description": "Pico SDK selected for the project [requires registration of the SDK and the corresponding toolchain in the system (on Windows in the registry and on macOS and Linux in an external configuration file)]"
-        },
-        "raspberry-pi-pico.sdkPath": {
-          "type": "string",
-          "default": "",
-          "description": "Path to the Pico SDK root"
-        },
-        "raspberry-pi-pico.envSuffix": {
-          "type": "string",
-          "default": "",
-          "description": "[DO NOT CHANGE] Suffix for the environment variables so changes of the SDK do also take effect in the terminal"
-        },
-        "raspberry-pi-pico.toolchainPath": {
-          "type": "string",
-          "default": "",
-          "markdownDescription": "Path to the ARM Toolchain (folder containing compiler executable; so if installed as `/usr/bin/arm-none-eabi-gcc`, set this to `/usr/bin`; if installed as `C:\\arm-toolchain\\bin\\arm-none-eabi-gcc.exe`, set this to `C:\\arm-toolchain\\bin`)"
-        },
         "raspberry-pi-pico.cmakePath": {
           "type": "string",
           "default": "",
@@ -164,7 +143,9 @@
     "@rollup/plugin-node-resolve": "^15.2.1",
     "@rollup/plugin-run": "^3.0.1",
     "@rollup/plugin-typescript": "^11.1.4",
+    "@types/ini": "^1.3.31",
     "@types/node": "18.x",
+    "@types/unzipper": "^0.10.7",
     "@types/uuid": "^9.0.4",
     "@types/vscode": "^1.82.0",
     "@types/which": "^3.0.0",
@@ -177,6 +158,10 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "ini": "^4.1.1",
+    "octokit": "^3.1.1",
+    "rimraf": "^5.0.5",
+    "unzipper": "^0.10.14",
     "uuid": "^9.0.1",
     "vscode-windows-registry": "file:./vendor/vscode-windows-registry",
     "which": "^4.0.0"

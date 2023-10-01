@@ -21,3 +21,4 @@ rollup.config.mjs
 !scripts/**
 scripts/*.ps1
 scripts/fix_windows_reg.py
+supportedToolchains.ini

@@ -1,13 +1,8 @@
-import { dirname, join } from "path";
+import { join } from "path";
 import Logger from "../logger.mjs";
-import type Settings from "../settings.mjs";
-import { SettingsKey } from "../settings.mjs";
-import which from "which";
-import { getSystemPicoSDKPath } from "./picoSDKEnvUtil.mjs";
-import { EnumRegKeyKeys, GetStringRegKey } from "vscode-windows-registry";
-import UnixSDKManager from "./picoSDKUnixUtil.mjs";
-import { window } from "vscode";
-import { downloadAndInstallPicoSDKWindows } from "./installSDKUtil.mjs";
+//import { EnumRegKeyKeys, GetStringRegKey } from "vscode-windows-registry";
+import { homedir } from "os";
+import { readdirSync, statSync } from "fs";
 
 // implements QuickPickItem does not work somehow
 export class PicoSDK {
@@ -20,143 +15,51 @@ export class PicoSDK {
     this.sdkPath = sdkPath;
     this.toolchainPath = toolchainPath;
   }
-
-  /*get label(): string {
-    return `Pico SDK v${this.version}`;
-  }*/
-
-  /*get description(): string {
-    return this.sdkPath;
-  }*/
 }
 
-let uninstallerPicoSDKs: PicoSDK[] = [];
+export interface InstalledSDK {
+  version: string;
+  sdkPath: string;
+}
 
-/**
- * Returns selected sdk or undefined if not found
- *
- * @param settings Workspace settings
- * @returns [Pcio SDK path, toolchain path]
- */
-export async function getSDKAndToolchainPath(
-  settings: Settings
-): Promise<[string, string] | undefined> {
-  let sdkPath: string | undefined;
-  let toolchainPath: string | undefined;
+export function detectInstalledSDKs(): InstalledSDK[] {
+  // detect installed sdks by foldernames in $HOME/.pico-sdk/<version>
+  const homeDirectory = homedir();
+  const picoSDKDirectory = join(homeDirectory, ".pico-sdk", "sdk");
 
-  const sdks = detectInstalledSDKs();
-
-  const manualPicoSDKPath = settings.getString(SettingsKey.picoSDKPath);
-  const manualToolchainPath = settings.getString(SettingsKey.toolchainPath);
-  const sdkVersion = settings.getString(SettingsKey.picoSDK);
-
-  if (sdkVersion) {
-    const sdk = sdks.find(
-      sdk => sdk.version.replace("v", "") === sdkVersion.replace("v", "")
-    );
-
-    if (!sdk) {
-      Logger.log(`Pico SDK v${sdkVersion} not found.`);
-      if (process.platform === "win32") {
-        const choice = await window.showErrorMessage(
-          `Pico SDK v${sdkVersion} not found. Do you want to install it?`,
-          "Install"
-        );
-
-        if (choice === "Install") {
-          // download file
-          const result = await downloadAndInstallPicoSDKWindows(sdkVersion);
-          if (result) {
-            void window.showErrorMessage(
-              "Successfully installed Pico SDK. " +
-                "Please restart VSCode to apply changes."
-            );
-          } else {
-            void window.showErrorMessage(
-              "Download or Installation failed. See logs for more details."
-            );
-          }
-        }
-      }
-
-      return undefined;
-    } else {
-      sdkPath = sdk.sdkPath;
-      toolchainPath = sdk.toolchainPath;
+  try {
+    // check if pico-sdk directory exists
+    if (!statSync(picoSDKDirectory).isDirectory()) {
+      return [];
     }
-  }
-
-  // use manual paths if set
-  if (manualPicoSDKPath !== undefined && manualPicoSDKPath !== "") {
-    sdkPath = manualPicoSDKPath;
-  }
-  if (manualToolchainPath !== undefined && manualToolchainPath !== "") {
-    toolchainPath = manualToolchainPath;
-  }
-
-  return sdkPath && toolchainPath ? [sdkPath, toolchainPath] : undefined;
-  /*? [sdkPath, toolchainPath]
-    : // TODO: maybe remove this as its also not supported
-      // to create new project with sdk and toolchain from env
-      detectSDKAndToolchainFromEnv();*/
-}
-
-/**
- * Returns SDK and toolchain path from environment variables or undefined if not found
- *
- * @returns [Pcio SDK path, toolchain path]
- */
-async function detectSDKAndToolchainFromEnv(): Promise<
-  [string, string] | undefined
-> {
-  const PICO_SDK_PATH = getSystemPicoSDKPath();
-  if (PICO_SDK_PATH) {
-    // TODO: move compiler name into variable (global)
-    // TODO: maybe also check PICO_TOOLCHAIN_PATH variable
-    const toolchainPath: string | null = await which("arm-none-eabi-gcc", {
-      nothrow: true,
-    });
-
-    if (toolchainPath !== null) {
-      // get grandparent directory of compiler
-      return [PICO_SDK_PATH, dirname(toolchainPath)];
-    } else {
-      if (
-        process.env.PICO_TOOLCHAIN_PATH &&
-        process.env.PICO_TOOLCHAIN_PATH !== ""
-      ) {
-        return [PICO_SDK_PATH, process.env.PICO_TOOLCHAIN_PATH];
-      }
-    }
-  }
-
-  return undefined;
-}
-
-export function detectInstalledSDKs(): PicoSDK[] {
-  if (process.platform === "win32") {
-    return detectInstalledSDKsWindows();
-  } else if (process.platform === "darwin" || process.platform === "linux") {
-    const config = UnixSDKManager.loadConfig();
-
-    return config
-      ? Object.entries(config.sdks).map(
-          ([version, { picoSDKPath, toolchainPath }]) => ({
-            version: version.replace("v", ""),
-            sdkPath: picoSDKPath,
-            toolchainPath,
-          })
-        )
-      : [];
-  } else {
-    Logger.log(
-      "Automatic pico-sdk detection isn't supported on " +
-        "this platform use settings to specifc custom paths."
-    );
+  } catch {
+    Logger.log("No installed sdk found.");
 
     return [];
   }
+
+  // scan foldernames in picoSDKDirectory/sdk
+  const installedSDKs: InstalledSDK[] = [];
+  try {
+    const versions = readdirSync(picoSDKDirectory);
+    for (const version of versions.filter(
+      version =>
+        /^\d+_\d+_\d+$/.test(version) &&
+        statSync(`${picoSDKDirectory}/${version}`).isDirectory()
+    )) {
+      const sdkPath = join(picoSDKDirectory, version);
+
+      installedSDKs.push({ version, sdkPath });
+    }
+  } catch (error) {
+    Logger.log("Error while detecting installed SDKs.");
+  }
+
+  return installedSDKs;
 }
+
+/*
+let uninstallerPicoSDKs: PicoSDK[] = [];
 
 export function queryInstalledSDKsFromUninstallers(): void {
   try {
@@ -194,46 +97,6 @@ export function queryInstalledSDKsFromUninstallers(): void {
   }
 }
 
-// needs admin access
-/*
-export function fixRegistryKeys(): void {
-  try {
-    const uninstallers = EnumRegKeyKeys(
-      "HKEY_LOCAL_MACHINE",
-      "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall"
-    );
-
-    uninstallers.forEach(element => {
-      if (element.startsWith("Raspberry Pi Pico SDK")) {
-        try {
-          const installPath = GetStringRegKey(
-            "HKEY_LOCAL_MACHINE",
-            "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" +
-              element,
-            "InstallPath"
-          );
-
-          if (installPath) {
-            // needs admin access
-            SetStringRegKey(
-              "HKEY_LOCAL_MACHINE",
-              "SOFTWARE\\WOW6432Node\\Raspberry Pi\\" +
-                element.split(" ").slice(2).join(" "),
-              "InstallPath",
-              installPath
-            );
-          }
-        } catch (error) {
-          Logger.log("No InstallPath found for uninstaller: " + element);
-        }
-      }
-    });
-  } catch (error) {
-    Logger.log("Error while fixing registry keys for Windows Pico SDK.");
-  }
-}
-*/
-
 function detectInstalledSDKsWindows(): PicoSDK[] {
   try {
     const sdks = EnumRegKeyKeys(
@@ -269,10 +132,6 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
       })
       .filter(sdk => sdk !== undefined) as PicoSDK[];
 
-    // done above
-    /*uninstallerPicoSDKs
-      .filter(sdk => !locatedSDKs.find(sdk2 => sdk2.version === sdk.version))
-      .forEach(sdk => locatedSDKs.push(sdk));*/
     const count = locatedSDKs.push(...uninstallerPicoSDKs);
     if (count !== uninstallerPicoSDKs.length) {
       Logger.log("Problems while adding uninstaller SDKs.");
@@ -283,3 +142,4 @@ function detectInstalledSDKsWindows(): PicoSDK[] {
     return uninstallerPicoSDKs;
   }
 }
+*/

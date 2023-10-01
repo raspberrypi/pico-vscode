@@ -1,39 +1,29 @@
-import {
-  workspace,
-  type ExtensionContext,
-  type WorkspaceFolder,
-  window,
-} from "vscode";
+import { workspace, type ExtensionContext, window } from "vscode";
 import type { Command, CommandWithResult } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
-import { cmakeUpdateSuffix, configureCmakeNinja } from "./utils/cmakeUtil.mjs";
+import {
+  cmakeGetSelectedToolchainAndSDKVersions,
+  configureCmakeNinja,
+} from "./utils/cmakeUtil.mjs";
 import Settings, { SettingsKey, type PackageJSON } from "./settings.mjs";
 import UI from "./ui.mjs";
-import {
-  getSDKAndToolchainPath,
-  queryInstalledSDKsFromUninstallers,
-} from "./utils/picoSDKUtil.mjs";
 import SwitchSDKCommand from "./commands/switchSDK.mjs";
-import GetSDKPathCommand from "./commands/getSDKPath.mjs";
-import GetToolchainPathCommand from "./commands/getToolchainPath.mjs";
-import { setPicoSDKPath, setToolchainPath } from "./utils/picoSDKEnvUtil.mjs";
 import { existsSync } from "fs";
 import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
-import {
-  generateNewEnvVarSuffix,
-  setGlobalEnvVar,
-} from "./utils/globalEnvironmentUtil.mjs";
-import ClearEnvSuffixesCommand from "./commands/clearEnvSuffixes.mjs";
 import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
-import { updateVSCodeStaticConfigs } from "./utils/vscodeConfigUtil.mjs";
-import EditSDKsCommand from "./commands/editSdks.mjs";
+import {
+  downloadAndInstallSDK,
+  downloadAndInstallToolchain,
+} from "./utils/download.mjs";
+import { getSDKReleases } from "./utils/githubREST.mjs";
+import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  if (process.platform === "win32") {
+  /*if (process.platform === "win32") {
     queryInstalledSDKsFromUninstallers();
-  }
+  }*/
 
   const settings = new Settings(
     context.workspaceState,
@@ -44,14 +34,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
   ui.init();
 
   const COMMANDS: Array<Command | CommandWithResult<string>> = [
-    new GetSDKPathCommand(settings),
-    new GetToolchainPathCommand(settings),
     new NewProjectCommand(settings),
-    new SwitchSDKCommand(settings, ui),
+    new SwitchSDKCommand(ui, settings),
     new LaunchTargetPathCommand(),
     new CompileProjectCommand(),
-    new ClearEnvSuffixesCommand(settings),
-    new EditSDKsCommand(),
   ];
 
   // register all command handlers
@@ -67,32 +53,91 @@ export async function activate(context: ExtensionContext): Promise<void> {
     !existsSync(join(workspaceFolder.uri.fsPath, "pico_sdk_import.cmake"))
   ) {
     // finish activation
+    Logger.log("No workspace folder or pico project found.");
+
     return;
   }
 
-  ui.showStatusBarItems();
-  let envSuffix = settings.getString(SettingsKey.envSuffix);
-  if (!envSuffix) {
-    envSuffix = generateNewEnvVarSuffix();
-    await settings.update(SettingsKey.envSuffix, envSuffix);
-    cmakeUpdateSuffix(
-      join(workspaceFolder.uri.fsPath, "CMakeLists.txt"),
-      envSuffix
+  // get sdk selected in the project
+  const selectedToolchainAndSDKVersions =
+    cmakeGetSelectedToolchainAndSDKVersions(
+      join(workspaceFolder.uri.fsPath, "CMakeLists.txt")
     );
-    void window.showWarningMessage(
-      "You may need to quit and restart VSCode for intellisense to work."
+  if (selectedToolchainAndSDKVersions === null) {
+    return;
+  }
+
+  // get all availabe SDKs for download link of current selected one
+  const sdks = await getSDKReleases();
+  const selectedSDKDownloadUrl = sdks.find(
+    sdk => sdk.tagName === selectedToolchainAndSDKVersions[0]
+  )?.downloadUrl;
+
+  // get all available toolchains for download link of current selected one
+  const toolchains = await getSupportedToolchains();
+  const selectedToolchain = toolchains.find(
+    toolchain => toolchain.version === selectedToolchainAndSDKVersions[1]
+  );
+
+  // install if needed
+  if (
+    selectedSDKDownloadUrl === undefined ||
+    !(await downloadAndInstallSDK(
+      selectedToolchainAndSDKVersions[0],
+      selectedSDKDownloadUrl
+    ))
+  ) {
+    Logger.log(
+      "Failed to install project SDK " +
+        `version: ${selectedToolchainAndSDKVersions[0]}`
+    );
+
+    void window.showErrorMessage("Failed to install project SDK version.");
+
+    return;
+  } else {
+    Logger.log(
+      "Found/installed project SDK " +
+        `version: ${selectedToolchainAndSDKVersions[0]}`
     );
   }
+
+  // install if needed
+  if (
+    selectedToolchain === undefined ||
+    !(await downloadAndInstallToolchain(selectedToolchain))
+  ) {
+    Logger.log(
+      "Failed to install project toolchain " +
+        `version: ${selectedToolchainAndSDKVersions[1]}`
+    );
+
+    void window.showErrorMessage(
+      "Failed to install project toolchain version."
+    );
+
+    return;
+  } else {
+    Logger.log(
+      "Found/installed project toolchain " +
+        `version: ${selectedToolchainAndSDKVersions[1]}`
+    );
+  }
+
+  ui.showStatusBarItems();
+  ui.updateSDKVersion(selectedToolchainAndSDKVersions[0]);
 
   // auto project configuration with cmake
   if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
     //run `cmake -G Ninja -B ./build ` in the root folder
-    await configureCmakeNinja(workspaceFolder.uri, settings, envSuffix);
+    await configureCmakeNinja(workspaceFolder.uri, settings);
 
     workspace.onDidChangeTextDocument(event => {
       // Check if the changed document is the file you are interested in
       if (basename(event.document.fileName) === "CMakeLists.txt") {
         // File has changed, do something here
+        // TODO: rerun configure project
+        // TODO: maybe conflicts with cmake extension which also does this
         console.log("File changed:", event.document.fileName);
       }
     });
@@ -101,67 +146,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "No workspace folder for configuration found " +
         "or cmakeAutoConfigure disabled."
     );
-  }
-
-  await setupEnvironment(settings, ui, envSuffix, workspaceFolder);
-}
-
-async function setupEnvironment(
-  settings: Settings,
-  ui: UI,
-  envSuffix: string,
-  folder: WorkspaceFolder
-): Promise<void> {
-  // check selected SDK version
-  const sdkVersion = settings.getString(SettingsKey.picoSDK);
-  const sdkPath = await getSDKAndToolchainPath(settings);
-  const customSDKPath =
-    settings.getString(SettingsKey.picoSDKPath) || undefined;
-  const customToolchainPath =
-    settings.getString(SettingsKey.toolchainPath) || undefined;
-
-  if (
-    // a SDK version is selected
-    sdkVersion &&
-    sdkPath &&
-    // only one path is custom
-    (customSDKPath === undefined || customToolchainPath === undefined)
-  ) {
-    setPicoSDKPath(sdkPath[0]);
-    setToolchainPath(sdkPath[1]);
-    setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
-    setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
-
-    await updateVSCodeStaticConfigs(
-      join(folder.uri.fsPath, ".vscode"),
-      envSuffix,
-      sdkPath[1]
-    );
-
-    ui.updateSDKVersion(
-      sdkVersion +
-        // if one custom path is set then the picoSDK is only partly replaced/modifed
-        (customSDKPath !== undefined || customToolchainPath !== undefined
-          ? " [MODIFIED]"
-          : "")
-    );
-  } else {
-    // both paths are custom, show "custom"
-    if (sdkPath !== undefined) {
-      setPicoSDKPath(sdkPath[0]);
-      setToolchainPath(sdkPath[1]);
-      setGlobalEnvVar(`PICO_SDK_PATH_${envSuffix}`, sdkPath[0]);
-      setGlobalEnvVar(`PICO_TOOLCHAIN_PATH_${envSuffix}`, sdkPath[1]);
-      await updateVSCodeStaticConfigs(
-        join(folder.uri.fsPath, ".vscode"),
-        envSuffix,
-        sdkPath[1]
-      );
-      ui.updateSDKVersion("custom");
-    } else {
-      // could not find SDK && toolchain
-      ui.updateSDKVersion("N/A");
-    }
   }
 }
 
