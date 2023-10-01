@@ -18,6 +18,15 @@
     "vscode": "^1.82.0",
     "node": ">=18.15.0"
   },
+  "os": [
+    "win32",
+    "darwin",
+    "linux"
+  ],
+  "cpu": [
+    "x64",
+    "arm64"
+  ],
   "keywords": [
     "raspberry",
     "pi",
