@@ -2,7 +2,7 @@
   "name": "raspberry-pi-pico",
   "displayName": "Raspberry Pi Pico",
   "description": "The official VS Code extension for Raspberry Pi Pico development. It includeds serveral features to simplify project creation and deployment. (Single folder workspaces only)",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "author": "paulober",
   "publisher": "paulober",
   "license": "MPL-2.0",
@@ -71,18 +71,6 @@
         "enablement": "inQuickOpen"
       },
       {
-        "command": "raspberry-pi-pico.getSDKPath",
-        "title": "Get Pico SDK Path",
-        "category": "Raspberry Pi Pico",
-        "enablement": "false"
-      },
-      {
-        "command": "raspberry-pi-pico.getToolchainPath",
-        "title": "Get ARM Toolchain Path",
-        "category": "Raspberry Pi Pico",
-        "enablement": "false"
-      },
-      {
         "command": "raspberry-pi-pico.launchTargetPath",
         "title": "Get path of the project executable",
         "category": "Raspberry Pi Pico",
@@ -93,19 +81,6 @@
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
-      },
-      {
-        "command": "raspberry-pi-pico.clearEnvSuffixes",
-        "title": "Clear environment suffixes (cleans PICO_SDK_... variables in your shell profile)",
-        "shortTitle": "Clean Environment Suffixes",
-        "category": "Raspberry Pi Pico"
-      },
-      {
-        "command": "raspberry-pi-pico.editSDKs",
-        "title": "Edit Pico SDKs",
-        "shortTitle": "Edit SDKs",
-        "category": "Raspberry Pi Pico",
-        "enablement": "isLinux || isMac"
       }
     ],
     "configuration": {
