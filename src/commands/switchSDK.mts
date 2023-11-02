@@ -2,7 +2,7 @@ import { Command } from "./command.mjs";
 import { ProgressLocation, window, workspace } from "vscode";
 import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
-import { getSDKReleases } from "../utils/githubREST.mjs";
+import { SDK_REPOSITORY_URL, getSDKReleases } from "../utils/githubREST.mjs";
 import {
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
@@ -81,7 +81,7 @@ export default class SwitchSDKCommand extends Command {
         if (
           await downloadAndInstallSDK(
             selectedSDK.sdk.tagName,
-            selectedSDK.sdk.downloadUrl
+            SDK_REPOSITORY_URL
           )
         ) {
           progress.report({

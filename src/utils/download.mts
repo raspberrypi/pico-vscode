@@ -12,9 +12,9 @@ import { basename, join } from "path";
 import Logger from "../logger.mjs";
 import { get } from "https";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
-//import { extract as TarExtract } from "tar";
 import { Extract as UnzipperExtract } from "unzipper";
 import { exec } from "child_process";
+import { cloneRepository, initSubmodules } from "./gitUtil.mjs";
 
 export function buildToolchainPath(version: string): string {
   // TODO: maybe put homedir() into global
@@ -29,18 +29,6 @@ async function unzipFile(
   zipFilePath: string,
   targetDirectory: string
 ): Promise<boolean> {
-  // does not work
-  /*const unzip = createUnzip();
-  const input = createReadStream(zipFilePath);
-  const output = createWriteStream(targetDirectory);
-
-  try {
-    await pipeline(input, unzip, output);
-    return true;
-  } catch (error) {
-    return false;
-  }*/
-
   const input = createReadStream(zipFilePath);
 
   return new Promise<boolean>(resolve => {
@@ -120,69 +108,24 @@ async function unxzFile(
 
 export async function downloadAndInstallSDK(
   version: string,
-  zipballUrl: string,
-  isRedirect: boolean = false
+  repositoryUrl: string
 ): Promise<boolean> {
   const targetDirectory = buildSDKPath(version);
 
   // Check if the SDK is already installed
-  if (!isRedirect && existsSync(targetDirectory)) {
+  if (existsSync(targetDirectory)) {
     Logger.log(`SDK ${version} is already installed.`);
 
     return true;
   }
 
   // Ensure the target directory exists
-  await mkdir(targetDirectory, { recursive: true });
+  //await mkdir(targetDirectory, { recursive: true });
+  if (await cloneRepository(repositoryUrl, version, targetDirectory)) {
+    return initSubmodules(targetDirectory);
+  }
 
-  const tmpBasePath = join(tmpdir(), "pico-sdk");
-  await mkdir(tmpBasePath, { recursive: true });
-  const zipFilePath = join(tmpBasePath, `${version}.zip`);
-
-  return new Promise(resolve => {
-    const requestOptions = {
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Accept: "*/*",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "Accept-Encoding": "gzip, deflate, br",
-      },
-    };
-
-    get(zipballUrl, requestOptions, response => {
-      const code = response.statusCode ?? 0;
-
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log("Error while downloading SDK: " + response.statusMessage);
-
-        return resolve(false);
-      }
-
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadAndInstallSDK(version, response.headers.location, true)
-        );
-      }
-
-      // save the file to disk
-      const fileWriter = createWriteStream(zipFilePath).on("finish", () => {
-        unzipFile(zipFilePath, targetDirectory)
-          .then(success => resolve(success))
-          .catch(() => {
-            resolve(false);
-          });
-      });
-
-      response.pipe(fileWriter);
-    }).on("error", error => {
-      Logger.log("Error while downloading SDK: " + error?.message);
-      resolve(false);
-    });
-  });
+  return false;
 }
 
 export async function downloadAndInstallToolchain(

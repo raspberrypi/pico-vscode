@@ -17,7 +17,7 @@ import {
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
 } from "./utils/download.mjs";
-import { getSDKReleases } from "./utils/githubREST.mjs";
+import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
@@ -67,12 +67,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return;
   }
 
-  // get all availabe SDKs for download link of current selected one
-  const sdks = await getSDKReleases();
-  const selectedSDKDownloadUrl = sdks.find(
-    sdk => sdk.tagName === selectedToolchainAndSDKVersions[0]
-  )?.downloadUrl;
-
   // get all available toolchains for download link of current selected one
   const toolchains = await getSupportedToolchains();
   const selectedToolchain = toolchains.find(
@@ -81,10 +75,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // install if needed
   if (
-    selectedSDKDownloadUrl === undefined ||
     !(await downloadAndInstallSDK(
       selectedToolchainAndSDKVersions[0],
-      selectedSDKDownloadUrl
+      SDK_REPOSITORY_URL
     ))
   ) {
     Logger.log(

@@ -1,9 +1,11 @@
-import { Octokit, App } from "octokit";
+import { Octokit } from "octokit";
 
 interface SDKRelease {
   tagName: string;
-  downloadUrl: string;
+  //downloadUrl: string;
 }
+
+export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
 
 export async function getSDKReleases(): Promise<SDKRelease[]> {
   const octokit = new Octokit();
@@ -12,18 +14,14 @@ export async function getSDKReleases(): Promise<SDKRelease[]> {
     owner: "raspberrypi",
     repo: "pico-sdk",
     headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       "X-GitHub-Api-Version": "2022-11-28",
     },
   });
 
   return response.data
-    .flatMap(release => {
-      return {
-        tagName: release.tag_name,
-        downloadUrl: release.zipball_url,
-        // browser download: https://github.com/octocat/Hello-World/archive/refs/tags/v1.0.0.zip
-        // "zipball_url": "https://api.github.com/repos/octocat/Hello-World/zipball/v1.0.0",
-      };
-    })
-    .filter(release => release.downloadUrl !== null) as SDKRelease[];
+    .flatMap(release => ({
+      tagName: release.tag_name,
+    }))
+    .filter(release => release !== null) as SDKRelease[];
 }

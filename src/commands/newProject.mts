@@ -16,7 +16,7 @@ import {
   detectInstalledToolchains,
   getSupportedToolchains,
 } from "../utils/toolchainUtil.mjs";
-import { getSDKReleases } from "../utils/githubREST.mjs";
+import { SDK_REPOSITORY_URL, getSDKReleases } from "../utils/githubREST.mjs";
 import {
   buildSDKPath,
   buildToolchainPath,
@@ -218,7 +218,7 @@ export default class NewProjectCommand extends Command {
             if (
               !(await downloadAndInstallSDK(
                 selectedSDK.sdk.tagName,
-                selectedSDK.sdk.downloadUrl
+                SDK_REPOSITORY_URL
               )) ||
               !(await downloadAndInstallToolchain(selectedToolchain.toolchain))
             ) {
