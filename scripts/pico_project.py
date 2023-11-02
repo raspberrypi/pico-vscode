@@ -231,16 +231,22 @@ def relativeToolchainPath(toolchainVersion):
     return f"/.pico-sdk/toolchain/{toolchainVersion}"
 
 def cmakeSdkPath(sdkVersion):
-    return f"$ENV{{HOME}}{relativeSDKPath(sdkVersion)}"
+    return f"${{USERHOME}}{relativeSDKPath(sdkVersion)}"
 
 def cmakeToolchainPath(toolchainVersion):
-    return f"$ENV{{HOME}}{relativeToolchainPath(toolchainVersion)}"
+    return f"${{USERHOME}}{relativeToolchainPath(toolchainVersion)}"
 
 def codeSdkPath(sdkVersion):
-    return f"${{env:HOME}}{relativeSDKPath(sdkVersion)}"
+    if isWindows:
+        return f"${{env:USERPROFILE}}{relativeSDKPath(sdkVersion)}"
+    else:
+        return f"${{env:HOME}}{relativeSDKPath(sdkVersion)}"
 
 def codeToolchainPath(toolchainVersion):
-    return f"${{env:HOME}}{relativeToolchainPath(toolchainVersion)}"
+    if isWindows:
+        return f"${{env:USERPROFILE}}{relativeToolchainPath(toolchainVersion)}"
+    else:
+        return f"${{env:HOME}}{relativeToolchainPath(toolchainVersion)}"
 
 def GetBackground():
     return 'white'
@@ -1029,7 +1035,12 @@ def GenerateCMake(folder, params):
                  "set(CMAKE_CXX_STANDARD 17)\n\n"
                  "# Initialise pico_sdk from installed location\n"
                  "# (note this can come from environment, CMake cache etc)\n\n"
-                 "# == DO NEVER EDIT THE NEXT TWO LINES for RaspberryPiPico VS Code Extension to work == \n"
+                 "# == DO NEVER EDIT THE NEXT LINES for RaspberryPiPico VS Code Extension to work == \n"
+                 "if(WIN32)\n"
+                 "   set(USERHOME $ENV{USERPROFILE})\n"
+                 "else()\n"
+                 "    set(USERHOME $ENV{HOME})\n"
+                 "endif()\n"
                  f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
                  f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
                  "# ====================================================================================\n"
@@ -1146,14 +1157,14 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion):
 
     oldCWD = os.getcwd()
 
     os.chdir(projectPath)
 
     debugger = debugger_config_list[debugger]
-    gdbPath =  "arm-none-eabi-gdb" if isWindows else "gdb-multiarch"
+    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb") if isWindows else "gdb-multiarch"
     # Need to escape windows files paths backslashes
     # TODO: env in currently not supported in compilerPath var
     #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
@@ -1463,7 +1474,7 @@ def DoEverything(parent, params):
         os.system(cmakeCmd)
 
     if params['projects']:
-        generateProjectFiles(projectPath, params['projectName'], params['sdkPath'], params['projects'], params['debugger'], params["sdkVersion"])
+        generateProjectFiles(projectPath, params['projectName'], params['sdkPath'], params['projects'], params['debugger'], params["sdkVersion"], params["toolchainVersion"])
 
     if params['wantBuild']:
         if params['wantGUI'] and ENABLE_TK_GUI:

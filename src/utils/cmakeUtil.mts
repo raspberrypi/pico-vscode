@@ -105,11 +105,11 @@ export async function cmakeUpdateSDK(
     const modifiedContent = content
       .replace(
         sdkPathRegex,
-        `set(PICO_SDK_PATH $ENV{HOME}/.pico-sdk/sdk/${newSDKVersion})`
+        `set(PICO_SDK_PATH \${USERHOME}/.pico-sdk/sdk/${newSDKVersion})`
       )
       .replace(
         toolchainPathRegex,
-        "set(PICO_TOOLCHAIN_PATH $ENV{HOME}/.pico-sdk" +
+        "set(PICO_TOOLCHAIN_PATH ${USERHOME}/.pico-sdk" +
           `/toolchain/${newToolchainVersion})`
       );
 
@@ -152,8 +152,8 @@ export function cmakeGetSelectedToolchainAndSDKVersions(
 
   const path = match[1];
   const path2 = match2[1];
-  const versionRegex = /^\$ENV{HOME}\/\.pico-sdk\/sdk\/([^)]+)$/m;
-  const versionRegex2 = /^\$ENV{HOME}\/\.pico-sdk\/toolchain\/([^)]+)$/m;
+  const versionRegex = /^\${USERHOME}\/\.pico-sdk\/sdk\/([^)]+)$/m;
+  const versionRegex2 = /^\${USERHOME}\/\.pico-sdk\/toolchain\/([^)]+)$/m;
   const versionMatch = path.match(versionRegex);
   const versionMatch2 = path2.match(versionRegex2);
 
