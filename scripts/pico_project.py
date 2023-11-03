@@ -1164,11 +1164,11 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     os.chdir(projectPath)
 
     debugger = debugger_config_list[debugger]
-    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb") if isWindows else "gdb-multiarch"
+    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb").as_posix() if isWindows else "gdb-multiarch"
     # Need to escape windows files paths backslashes
     # TODO: env in currently not supported in compilerPath var
     #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
-    cPath = str(compilerPath).replace('\\', '\\\\' )
+    cPath = compilerPath.as_posix()
 
     for p in projects :
         if p == 'vscode':
