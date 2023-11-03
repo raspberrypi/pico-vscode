@@ -703,10 +703,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/vscode@npm:^1.83.2":
-  version: 1.83.2
-  resolution: "@types/vscode@npm:1.83.2"
-  checksum: c2178cb8614ccc3bd092d4fc92f62a53b89ab86036c572a399a3f0d8d891d9e01851b924c9caad6887b5f7b2812354795d988cfd47571149c0290826d722d198
+"@types/vscode@npm:^1.83.0":
+  version: 1.84.0
+  resolution: "@types/vscode@npm:1.84.0"
+  checksum: 212ee49aa32da96870870516c48cd176eb1639a64c365d9f3b11ba05af0fb251220dbef7ac7b24a98e6ad182ea47f51da1a8f9cc63bb0de382923d320365b77b
   languageName: node
   linkType: hard
 
@@ -2673,7 +2673,7 @@ __metadata:
     "@types/node": "npm:18.x"
     "@types/unzipper": "npm:^0.10.8"
     "@types/uuid": "npm:^9.0.6"
-    "@types/vscode": "npm:^1.83.2"
+    "@types/vscode": "npm:^1.83.0"
     "@types/which": "npm:^3.0.1"
     "@typescript-eslint/eslint-plugin": "npm:^6.9.1"
     "@typescript-eslint/parser": "npm:^6.9.1"
