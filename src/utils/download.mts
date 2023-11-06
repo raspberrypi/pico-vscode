@@ -15,7 +15,10 @@ import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
 import { Extract as UnzipperExtract } from "unzipper";
 import { exec } from "child_process";
 import { cloneRepository, initSubmodules } from "./gitUtil.mjs";
-import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
+import {
+  checkForInstallationRequirements,
+  showInstallationRequirementsNotMetErrorMessage,
+} from "./requirementsUtil.mjs";
 
 export function buildToolchainPath(version: string): string {
   // TODO: maybe put homedir() into global
@@ -111,7 +114,10 @@ export async function downloadAndInstallSDK(
   version: string,
   repositoryUrl: string
 ): Promise<boolean> {
-  if (!(await checkForInstallationRequirements())) {
+  const requirementsCheck = await checkForInstallationRequirements();
+  if (!requirementsCheck[0]) {
+    void showInstallationRequirementsNotMetErrorMessage(requirementsCheck[1]);
+
     return false;
   }
 

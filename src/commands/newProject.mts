@@ -8,7 +8,7 @@ import { detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
 import type Settings from "../settings.mjs";
 import {
   checkForRequirements,
-  showRquirementsNotMetErrorMessage,
+  showRequirementsNotMetErrorMessage,
 } from "../utils/requirementsUtil.mjs";
 import { SettingsKey } from "../settings.mjs";
 import { compare } from "../utils/semverUtil.mjs";
@@ -282,8 +282,9 @@ export default class NewProjectCommand extends Command {
 
   async execute(): Promise<void> {
     // check if all requirements are met
-    if (!(await checkForRequirements(this._settings))) {
-      void showRquirementsNotMetErrorMessage();
+    const requirementsCheck = await checkForRequirements(this._settings);
+    if (!requirementsCheck[0]) {
+      void showRequirementsNotMetErrorMessage(requirementsCheck[1]);
 
       return;
     }

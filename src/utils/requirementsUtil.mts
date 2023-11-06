@@ -10,7 +10,7 @@ import { SettingsKey } from "../settings.mjs";
  */
 export async function checkForRequirements(
   settings: Settings
-): Promise<boolean> {
+): Promise<[boolean, string[]]> {
   const ninjaExe: string = settings.getString(SettingsKey.ninjaPath) || "ninja";
   const cmakeExe: string = settings.getString(SettingsKey.cmakePath) || "cmake";
   const python3Exe: string =
@@ -22,13 +22,27 @@ export async function checkForRequirements(
   const cmake: string | null = await which(cmakeExe, { nothrow: true });
   const python3: string | null = await which(python3Exe, { nothrow: true });
 
+  const missing: string[] = [];
+  if (ninja === null) {
+    missing.push("Ninja");
+  }
+  if (cmake === null) {
+    missing.push("CMake");
+  }
+  if (python3 === null) {
+    missing.push("Python 3");
+  }
+
   // TODO: check python version
-  return ninja !== null && cmake !== null && python3 !== null;
+  return [missing.length === 0, missing];
 }
 
-export async function showRquirementsNotMetErrorMessage(): Promise<void> {
+export async function showRequirementsNotMetErrorMessage(
+  missing: string[]
+): Promise<void> {
   await window.showErrorMessage(
-    "Development for the Pico (W) requires Ninja, CMake and Python 3 " +
+    "Development for the Pico (W) requires " +
+      missing.join(", ") +
       "to be installed and available in the PATH. " +
       "Please install and restart VS Code."
   );
@@ -40,7 +54,9 @@ export async function showRquirementsNotMetErrorMessage(): Promise<void> {
  *
  * @returns true if all requirements are met, false otherwise
  */
-export async function checkForInstallationRequirements(): Promise<boolean> {
+export async function checkForInstallationRequirements(): Promise<
+  [boolean, string[]]
+> {
   const gitExe: string = "git";
   const compilerExe: string[] = ["clang", "gcc", "cl"];
 
@@ -52,5 +68,24 @@ export async function checkForInstallationRequirements(): Promise<boolean> {
       .map(p => p.catch(() => null))
   );
 
-  return git !== null && compiler !== null;
+  const missing: string[] = [];
+  if (git === null) {
+    missing.push("Git");
+  }
+  if (compiler === null) {
+    missing.push("C/C++ Compiler (clang or gcc)");
+  }
+
+  return [missing.length === 0, missing];
+}
+
+export async function showInstallationRequirementsNotMetErrorMessage(
+  missing: string[]
+): Promise<void> {
+  await window.showErrorMessage(
+    "Compilation of the Pico-SDK tools requires " +
+      missing.join(", ") +
+      "to be installed and available in the PATH. " +
+      "Please install and restart VS Code."
+  );
 }

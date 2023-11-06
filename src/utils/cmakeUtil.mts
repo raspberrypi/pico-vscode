@@ -2,7 +2,7 @@ import { exec } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
 import {
   checkForRequirements,
-  showRquirementsNotMetErrorMessage,
+  showRequirementsNotMetErrorMessage,
 } from "./requirementsUtil.mjs";
 import { join } from "path";
 import type Settings from "../settings.mjs";
@@ -22,10 +22,10 @@ export async function configureCmakeNinja(
       folder.with({ path: join(folder.fsPath, "CMakeLists.txt") })
     );
 
-    const rquirementsAvailable = await checkForRequirements(settings);
+    const requirementsCheck = await checkForRequirements(settings);
 
-    if (!rquirementsAvailable) {
-      void showRquirementsNotMetErrorMessage();
+    if (!requirementsCheck[0]) {
+      void showRequirementsNotMetErrorMessage(requirementsCheck[1]);
 
       return false;
     }
