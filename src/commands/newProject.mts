@@ -405,9 +405,7 @@ export default class NewProjectCommand extends Command {
     }
 
     void window.showWarningMessage(
-      "Generating project, this may take a while. " +
-        "For linting and auto-complete to work, " +
-        "please completly restart VSCode after the project has been generated."
+      "Generating project, this may take a while..."
     );
 
     await this.executePicoProjectGenerator({
