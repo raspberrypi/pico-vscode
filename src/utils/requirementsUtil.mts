@@ -33,3 +33,24 @@ export async function showRquirementsNotMetErrorMessage(): Promise<void> {
       "Please install and restart VS Code."
   );
 }
+
+/**
+ * Checks if all requirements for installing a Pico-SDK are met
+ * TODO: add support for custom compiler and git paths in settings
+ *
+ * @returns true if all requirements are met, false otherwise
+ */
+export async function checkForInstallationRequirements(): Promise<boolean> {
+  const gitExe: string = "git";
+  const compilerExe: string[] = ["clang", "gcc", "cl"];
+
+  const git: string | null = await which(gitExe, { nothrow: true });
+  //check if any of the compilers is available
+  const compiler: string | null = await Promise.any(
+    compilerExe
+      .map(compiler => which(compiler, { nothrow: true }))
+      .map(p => p.catch(() => null))
+  );
+
+  return git !== null && compiler !== null;
+}

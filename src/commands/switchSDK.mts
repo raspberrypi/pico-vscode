@@ -135,7 +135,9 @@ export default class SwitchSDKCommand extends Command {
 
         progress.report({
           // show sdk install failed notification
-          message: `Failed to install SDK ${selectedSDK.label}.`,
+          message:
+            `Failed to install SDK ${selectedSDK.label}.` +
+            "Make sure all requirements are met.",
           increment: 100,
         });
 

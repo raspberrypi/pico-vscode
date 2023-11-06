@@ -82,7 +82,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   ) {
     Logger.log(
       "Failed to install project SDK " +
-        `version: ${selectedToolchainAndSDKVersions[0]}`
+        `version: ${selectedToolchainAndSDKVersions[0]}.` +
+        "Make sure all requirements are met."
     );
 
     void window.showErrorMessage("Failed to install project SDK version.");

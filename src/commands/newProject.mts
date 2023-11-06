@@ -225,7 +225,9 @@ export default class NewProjectCommand extends Command {
               Logger.log(`Failed to download and install toolchain and SDK.`);
 
               progress.report({
-                message: "Failed to download and install toolchain and sdk.",
+                message:
+                  "Failed to download and install toolchain and sdk. " +
+                  "Make sure all requirements are met.",
                 increment: 100,
               });
 
