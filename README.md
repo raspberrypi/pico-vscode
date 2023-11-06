@@ -2,7 +2,7 @@
 
 This is the official Visual Studio Code extension for Raspberry Pi Pico development. It provides a set of tools to help you develop for the Pico using Visual Studio Code.
 
-[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/v0.7.1)
+[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/v0.7.2)
 
 ## Features
 
@@ -23,7 +23,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 - Tar (on Linux, in PATH)
 - cmake (in PATH or set in settings)
 - ninja (in PATH or set in settings)
-- C/C++ compiler (in PATH): gcc on Linux and Windows, clang on macOS
+- Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 - \[Optional\] OpenOCD for debuging
 
 ## Extension Settings
