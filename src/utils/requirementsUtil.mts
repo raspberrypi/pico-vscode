@@ -43,7 +43,7 @@ export async function showRequirementsNotMetErrorMessage(
   await window.showErrorMessage(
     "Development for the Pico (W) requires " +
       missing.join(", ") +
-      "to be installed and available in the PATH. " +
+      " to be installed and available in the PATH. " +
       "Please install and restart VS Code."
   );
 }
