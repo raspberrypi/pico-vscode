@@ -54,11 +54,10 @@ export async function showRequirementsNotMetErrorMessage(
  *
  * @returns true if all requirements are met, false otherwise
  */
-export async function checkForInstallationRequirements(): Promise<
-  [boolean, string[]]
-> {
+export async function checkForInstallationRequirements(): Promise<boolean> {
   const gitExe: string = "git";
   const compilerExe: string[] = ["clang", "gcc", "cl"];
+  const tools: string[] = ["pioasm", "elf2uf2"];
 
   const git: string | null = await which(gitExe, { nothrow: true });
   //check if any of the compilers is available
@@ -67,25 +66,53 @@ export async function checkForInstallationRequirements(): Promise<
       .map(compiler => which(compiler, { nothrow: true }))
       .map(p => p.catch(() => null))
   );
+  // check for avialbility of tools
+  let allToolsAvailable: boolean = true;
+  for (const tool of tools) {
+    const toolPath: string | null = await which(tool, { nothrow: true });
+    if (toolPath === null) {
+      allToolsAvailable = false;
+      break;
+    }
+  }
 
-  const missing: string[] = [];
+  let requirementsMet: boolean = true;
   if (git === null) {
-    missing.push("Git");
+    requirementsMet = false;
   }
-  if (compiler === null) {
-    missing.push("C/C++ Compiler (clang or gcc)");
+  if (!allToolsAvailable) {
+    // only check for compilers if pioasm
+    if (compiler === null) {
+      requirementsMet = false;
+    }
   }
 
-  return [missing.length === 0, missing];
+  if (!requirementsMet) {
+    void showInstallationRequirementsNotMetErrorMessage(
+      git !== null,
+      allToolsAvailable || compiler !== null
+    );
+  }
+
+  return requirementsMet;
 }
 
 export async function showInstallationRequirementsNotMetErrorMessage(
-  missing: string[]
+  isGitInstalled: boolean,
+  allToolsAvailableOrCompilerInstalled: boolean
 ): Promise<void> {
-  await window.showErrorMessage(
-    "Compilation of the Pico-SDK tools requires " +
-      missing.join(", ") +
-      "to be installed and available in the PATH. " +
-      "Please install and restart VS Code."
-  );
+  if (!isGitInstalled) {
+    await window.showErrorMessage(
+      "Installation of the Pico-SDK requires Git " +
+        "to be installed and available in the PATH."
+    );
+  }
+  if (!allToolsAvailableOrCompilerInstalled) {
+    await window.showErrorMessage(
+      "Either pioasm and elf2uf2 need to be installed and in PATH or " +
+        "a native C/C++ compiler (clang or gcc) needs to be installed and in " +
+        "PATH for manuall compilation of the tools." +
+        "Please install and restart VS Code."
+    );
+  }
 }
