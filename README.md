@@ -17,7 +17,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 
 > Supported Platforms: Windows x64, macOS x64 and arm64, Linux x64 and arm64
 
-- Visual Studio Code v1.83.0 or later
+- Visual Studio Code v1.84.2 or later
 - Python 3.9 or later (in PATH or set in settings)
 - Git (in PATH)
 - Tar (on Linux, in PATH)
