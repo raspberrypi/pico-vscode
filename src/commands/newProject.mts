@@ -1,17 +1,13 @@
-import { ProgressLocation, Uri, commands, window, workspace } from "vscode";
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
-import { type ExecOptions, exec } from "child_process";
 import { detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
 import type Settings from "../settings.mjs";
 import {
   checkForRequirements,
   showRequirementsNotMetErrorMessage,
 } from "../utils/requirementsUtil.mjs";
-import { SettingsKey } from "../settings.mjs";
 import { compare } from "../utils/semverUtil.mjs";
+import { ProgressLocation, type Uri, window } from "vscode";
 import {
   detectInstalledToolchains,
   getSupportedToolchains,
@@ -23,6 +19,7 @@ import {
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
 } from "../utils/download.mjs";
+import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
 
 enum BoardType {
   pico = "Pico",
@@ -141,18 +138,16 @@ interface NewProjectOptions {
   };
 }
 
-function getScriptsRoot(): string {
-  return join(dirname(fileURLToPath(import.meta.url)), "..", "scripts");
-}
-
 export default class NewProjectCommand extends Command {
   private readonly _logger: Logger = new Logger("NewProjectCommand");
   private readonly _settings: Settings;
+  private readonly _extensionUri: Uri;
 
-  constructor(settings: Settings) {
+  constructor(settings: Settings, extensionUri: Uri) {
     super("newProject");
 
     this._settings = settings;
+    this._extensionUri = extensionUri;
   }
 
   private async selectSDKAndToolchain(): Promise<
@@ -289,7 +284,12 @@ export default class NewProjectCommand extends Command {
       return;
     }
 
-    // TODO: maybe make it posible to also select a folder and
+    // show webview
+    await NewProjectPanel.createOrShow(this._settings, this._extensionUri);
+
+    return;
+
+    /*// TODO: maybe make it posible to also select a folder and
     // not always create a new one with selectedName
     const projectRoot: Uri[] | undefined = await window.showOpenDialog({
       canSelectFiles: false,
@@ -417,107 +417,6 @@ export default class NewProjectCommand extends Command {
       codeOptions: selectedCodeOptions,
       debugger: selectedDebugger,
       toolchainAndSDK: selectedToolchainAndSDK,
-    });
-  }
-
-  private runGenerator(
-    command: string,
-    options: ExecOptions
-  ): Promise<number | null> {
-    return new Promise<number | null>(resolve => {
-      const generatorProcess = exec(command, options, error => {
-        if (error) {
-          console.error(`Error: ${error.message}`);
-          resolve(null); // Indicate error
-        }
-      });
-
-      generatorProcess.on("exit", code => {
-        // Resolve with exit code or -1 if code is undefined
-        resolve(code);
-      });
-    });
-  }
-
-  /**
-   * Executes the Pico Project Generator with the given options.
-   *
-   * @param options {@link NewProjectOptions} to pass to the Pico Project Generator
-   */
-  private async executePicoProjectGenerator(
-    options: NewProjectOptions
-  ): Promise<void> {
-    const customEnv: { [key: string]: string } = {
-      ...(process.env as { [key: string]: string }),
-      // set PICO_SDK_PATH
-      ["PICO_SDK_PATH"]: options.toolchainAndSDK.sdkPath,
-      // set PICO_TOOLCHAIN_PATH i needed someday
-      ["PICO_TOOLCHAIN_PATH"]: options.toolchainAndSDK.toolchainPath,
-    };
-    // add compiler to PATH
-    const isWindows = process.platform === "win32";
-    customEnv[isWindows ? "Path" : "PATH"] = `${join(
-      options.toolchainAndSDK.toolchainPath,
-      "bin"
-    )}${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
-    const pythonExe =
-      this._settings.getString(SettingsKey.python3Path) || isWindows
-        ? "python"
-        : "python3";
-
-    const command: string = [
-      pythonExe,
-      join(getScriptsRoot(), "pico_project.py"),
-      enumToParam(options.boardType),
-      ...options.consoleOptions.map(option => enumToParam(option)),
-      !options.consoleOptions.includes(ConsoleOption.consoleOverUART)
-        ? "-nouart"
-        : "",
-      ...options.libraries.map(option => enumToParam(option)),
-      ...options.codeOptions.map(option => enumToParam(option)),
-      enumToParam(options.debugger),
-      // generate .vscode config
-      "--project",
-      "vscode",
-      "--projectRoot",
-      `"${options.projectRoot}"`,
-      "--sdkVersion",
-      options.toolchainAndSDK.sdkVersion,
-      "--toolchainVersion",
-      options.toolchainAndSDK.toolchainVersion,
-      options.name,
-    ].join(" ");
-
-    this._logger.debug(`Executing project generator command: ${command}`);
-
-    // execute command
-    // TODO: use exit codes to determine why the project generator failed (if it did)
-    // to be able to show the user a more detailed error message
-    const generatorExitCode = await this.runGenerator(command, {
-      env: customEnv,
-      cwd: getScriptsRoot(),
-      windowsHide: true,
-      timeout: 15000,
-    });
-    if (generatorExitCode === 0) {
-      void window.showInformationMessage(
-        `Successfully generated new project: ${options.name}`
-      );
-
-      // open new folder
-      void commands.executeCommand(
-        "vscode.openFolder",
-        Uri.file(join(options.projectRoot, options.name)),
-        (workspace.workspaceFolders?.length ?? 0) > 0
-      );
-    } else {
-      this._logger.error(
-        `Generator Process exited with code: ${generatorExitCode ?? "null"}`
-      );
-
-      void window.showErrorMessage(
-        `Could not create new project: ${options.name}`
-      );
-    }
+    }); */
   }
 }

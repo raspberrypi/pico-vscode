@@ -1,4 +1,9 @@
-import { workspace, type ExtensionContext, window } from "vscode";
+import {
+  workspace,
+  type ExtensionContext,
+  window,
+  type WebviewPanel,
+} from "vscode";
 import type { Command, CommandWithResult } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
@@ -19,6 +24,10 @@ import {
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
+import {
+  NewProjectPanel,
+  getWebviewOptions,
+} from "./webview/newProjectPanel.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   /*if (process.platform === "win32") {
@@ -34,7 +43,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   ui.init();
 
   const COMMANDS: Array<Command | CommandWithResult<string>> = [
-    new NewProjectCommand(settings),
+    new NewProjectCommand(settings, context.extensionUri),
     new SwitchSDKCommand(ui, settings),
     new LaunchTargetPathCommand(),
     new CompileProjectCommand(),
@@ -43,6 +52,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // register all command handlers
   COMMANDS.forEach(command => {
     context.subscriptions.push(command.register());
+  });
+
+  window.registerWebviewPanelSerializer(NewProjectPanel.viewType, {
+    // eslint-disable-next-line @typescript-eslint/require-await
+    async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+      // Reset the webview options so we use latest uri for `localResourceRoots`.
+      webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+      NewProjectPanel.revive(webviewPanel, settings, context.extensionUri);
+    },
   });
 
   const workspaceFolder = workspace.workspaceFolders?.[0];
