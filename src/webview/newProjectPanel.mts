@@ -555,32 +555,54 @@ export class NewProjectPanel {
     let toolchainsHtml = "";
     let picoSDKsHtml = "";
 
-    const availableSDKs = await getSDKReleases();
-    const supportedToolchains = await getSupportedToolchains();
+    //const installedSDKs = detectInstalledSDKs();
+    //const installedToolchains = detectInstalledToolchains();
+    //installedSDKs.sort((a, b) =>
+    //compare(a.version.replace("v", ""), b.version.replace("v", ""))
+    //);
 
-    availableSDKs
-      .sort((a, b) => compare(b.tagName, a.tagName))
-      .forEach(sdk => {
-        picoSDKsHtml += `<option ${
-          picoSDKsHtml.length === 0 ? "selected " : ""
-        }value="${sdk.tagName}">v${sdk.tagName}</option>`;
+    try {
+      const availableSDKs = await getSDKReleases();
+      const supportedToolchains = await getSupportedToolchains();
+
+      availableSDKs
+        .sort((a, b) => compare(b.tagName, a.tagName))
+        .forEach(sdk => {
+          picoSDKsHtml += `<option ${
+            picoSDKsHtml.length === 0 ? "selected " : ""
+          }value="${sdk.tagName}">v${sdk.tagName}</option>`;
+        });
+
+      supportedToolchains.forEach(toolchain => {
+        toolchainsHtml += `<option ${
+          toolchainsHtml.length === 0 ? "selected " : ""
+        }value="${toolchain.version}">${toolchain.version.replaceAll(
+          "_",
+          "."
+        )}</option>`;
       });
 
-    supportedToolchains.forEach(toolchain => {
-      toolchainsHtml += `<option ${
-        toolchainsHtml.length === 0 ? "selected " : ""
-      }value="${toolchain.version}">${toolchain.version.replaceAll(
-        "_",
-        "."
-      )}</option>`;
-    });
+      if (toolchainsHtml.length === 0 || picoSDKsHtml.length === 0) {
+        this._logger.error("Failed to load toolchains or SDKs.");
 
-    if (toolchainsHtml.length === 0 || picoSDKsHtml.length === 0) {
-      this._logger.error("Failed to load toolchains or SDKs.");
+        return "";
+      }
+      this._supportedToolchains = supportedToolchains;
+      // toolchains should be sorted and cant be sorted by compare because
+      // of their alphanumeric structure
+    } catch (error) {
+      this._logger.error(
+        `Error while retrieving SDK and toolchain versions: ${
+          error instanceof Error ? error.message : (error as string)
+        }`
+      );
+
+      void window.showErrorMessage(
+        "Error while retrieving SDK and toolchain versions."
+      );
 
       return "";
     }
-    this._supportedToolchains = supportedToolchains;
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
