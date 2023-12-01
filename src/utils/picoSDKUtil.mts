@@ -23,7 +23,7 @@ export interface InstalledSDK {
 }
 
 export function detectInstalledSDKs(): InstalledSDK[] {
-  // detect installed sdks by foldernames in $HOME/.pico-sdk/<version>
+  // detect installed sdks by foldernames in $HOME/.pico-sdk/sdk/<version>
   const homeDirectory = homedir();
   const picoSDKDirectory = join(homeDirectory, ".pico-sdk", "sdk");
 
@@ -44,7 +44,7 @@ export function detectInstalledSDKs(): InstalledSDK[] {
     const versions = readdirSync(picoSDKDirectory);
     for (const version of versions.filter(
       version =>
-        /^\d+_\d+_\d+$/.test(version) &&
+        /^\d+\.\d+\.\d+$/.test(version) &&
         statSync(`${picoSDKDirectory}/${version}`).isDirectory()
     )) {
       const sdkPath = join(picoSDKDirectory, version);

@@ -7,7 +7,7 @@ import {
   rmdirSync,
 } from "fs";
 import { mkdir } from "fs/promises";
-import { homedir, tmpdir } from "os";
+import { homedir, platform, tmpdir } from "os";
 import { basename, join } from "path";
 import Logger from "../logger.mjs";
 import { get } from "https";
@@ -16,6 +16,7 @@ import { Extract as UnzipperExtract } from "unzipper";
 import { exec } from "child_process";
 import { cloneRepository, initSubmodules } from "./gitUtil.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
+import { Octokit } from "octokit";
 
 export function buildToolchainPath(version: string): string {
   // TODO: maybe put homedir() into global
@@ -23,7 +24,12 @@ export function buildToolchainPath(version: string): string {
 }
 
 export function buildSDKPath(version: string): string {
+  // TODO: maybe replace . with _
   return join(homedir(), ".pico-sdk", "sdk", version);
+}
+
+export function buildNinjaPath(version: string): string {
+  return join(homedir(), ".pico-sdk", "ninja", version);
 }
 
 async function unzipFile(
@@ -226,6 +232,93 @@ export async function downloadAndInstallToolchain(
       Logger.log("Error while downloading toolchain.");
 
       return false;
+    });
+  });
+}
+
+export async function downloadAndInstallNinja(
+  version: string
+): Promise<boolean> {
+  if (process.platform === "linux") {
+    Logger.log("Ninja installation on Linux is not supported.");
+
+    return false;
+  }
+
+  const targetDirectory = buildNinjaPath(version);
+
+  // Check if the SDK is already installed
+  if (existsSync(targetDirectory)) {
+    Logger.log(`Ninja ${version} is already installed.`);
+
+    return true;
+  }
+
+  // Ensure the target directory exists
+  await mkdir(targetDirectory, { recursive: true });
+
+  const tmpBasePath = join(tmpdir(), "pico-sdk");
+  await mkdir(tmpBasePath, { recursive: true });
+  const archiveFilePath = join(tmpBasePath, `${version}.zip`);
+
+  const octokit = new Octokit();
+
+  const releaseResponse = await octokit.rest.repos.getReleaseByTag({
+    owner: "ninja-build",
+    repo: "ninja",
+    tag: version,
+  });
+  if (releaseResponse.status !== 200 && releaseResponse.data === undefined) {
+    Logger.log(`Error fetching ninja release ${version}.`);
+
+    return false;
+  }
+  const release = releaseResponse.data;
+  const assetName = `ninja-${
+    process.platform === "darwin" ? "mac" : "win"
+  }.zip`;
+
+  // Find the asset with the name 'ninja-win.zip'
+  const ninjaWinAsset = release.assets.find(asset => asset.name === assetName);
+
+  if (!ninjaWinAsset) {
+    Logger.log(`Error release asset for ninja release ${version} not found.`);
+
+    return false;
+  }
+
+  // Download the asset
+  const assetUrl = ninjaWinAsset.browser_download_url;
+
+  return new Promise(resolve => {
+    // Use https.get to download the asset
+    get(assetUrl, response => {
+      const code = response.statusCode ?? 0;
+
+      // redirects not supported
+      if (code >= 300) {
+        //return reject(new Error(response.statusMessage));
+        Logger.log(
+          "Error while downloading toolchain: " + response.statusMessage
+        );
+
+        return resolve(false);
+      }
+
+      // save the file to disk
+      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // unpack the archive
+        unzipFile(archiveFilePath, targetDirectory)
+          .then(success => resolve(success))
+          .catch(() => {
+            resolve(false);
+          });
+      });
+
+      response.pipe(fileWriter);
+    }).on("error", error => {
+      console.error("Error downloading asset:", error.message);
+      resolve(false);
     });
   });
 }

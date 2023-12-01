@@ -86,13 +86,13 @@ export interface InstalledToolchain {
 }
 
 export function detectInstalledToolchains(): InstalledToolchain[] {
-  // detect installed sdks by foldernames in $HOME/.pico-sdk/<version>
+  // detect installed toolchains by foldernames in $HOME/.pico-sdk/toolchain/<version>
   const homeDirectory = homedir();
-  const picoSDKDirectory = join(homeDirectory, ".pico-sdk", "toolchain");
+  const toolchainDirectory = join(homeDirectory, ".pico-sdk", "toolchain");
 
   try {
     // check if pico-sdk directory exists
-    if (!statSync(picoSDKDirectory).isDirectory()) {
+    if (!statSync(toolchainDirectory).isDirectory()) {
       Logger.log("No installed toolchain found.");
 
       return [];
@@ -106,14 +106,14 @@ export function detectInstalledToolchains(): InstalledToolchain[] {
   // scan foldernames in picoSDKDirectory/toolchain
   const installedToolchains: InstalledToolchain[] = [];
   try {
-    const versions = readdirSync(picoSDKDirectory);
+    const versions = readdirSync(toolchainDirectory);
     // TODO: better regex or alternative
     for (const version of versions.filter(
       version =>
         /^\d+_\d+_(?:\w+(?:-|\.))?(\d+)$/.test(version) &&
-        statSync(`${picoSDKDirectory}/${version}`).isDirectory()
+        statSync(`${toolchainDirectory}/${version}`).isDirectory()
     )) {
-      const toolchainPath = join(picoSDKDirectory, version);
+      const toolchainPath = join(toolchainDirectory, version);
 
       installedToolchains.push({ version, path: toolchainPath });
     }

@@ -51,6 +51,8 @@ var isPicoWireless = false;
     const selectedSDK = document.getElementById('sel-pico-sdk').value;
     // selected toolchain
     const selectedToolchain = document.getElementById('sel-toolchain').value;
+    // selected ninja version
+    const selectedNinja = document.getElementById('sel-ninja').value;
 
     // features
     const spiFeature = document.getElementById('spi-features-cblist').checked;
@@ -110,6 +112,7 @@ var isPicoWireless = false;
         boardType: boardType,
         selectedSDK: selectedSDK,
         selectedToolchain: selectedToolchain,
+        selectedNinja: selectedNinja,
 
         // features
         spiFeature: spiFeature,

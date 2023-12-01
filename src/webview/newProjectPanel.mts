@@ -23,7 +23,11 @@ import {
   type SupportedToolchainVersion,
   getSupportedToolchains,
 } from "../utils/toolchainUtil.mjs";
-import { SDK_REPOSITORY_URL, getSDKReleases } from "../utils/githubREST.mjs";
+import {
+  SDK_REPOSITORY_URL,
+  getNinjaReleases,
+  getSDKReleases,
+} from "../utils/githubREST.mjs";
 import {
   buildSDKPath,
   buildToolchainPath,
@@ -37,6 +41,7 @@ interface SubmitMessageValue {
   boardType: string;
   selectedSDK: string;
   selectedToolchain: string;
+  selectedNinja: string;
 
   // features (libraries)
   spiFeature: boolean;
@@ -423,6 +428,9 @@ export class NewProjectPanel {
                   return;
                 }
 
+                // TODO: implement ninja downloading and installation in project-generator
+                // if not linux
+
                 const args: NewProjectOptions = {
                   name: data.projectName,
                   projectRoot: projectPath,
@@ -554,6 +562,7 @@ export class NewProjectPanel {
     // TODO: add offline handling - only load installed ones
     let toolchainsHtml = "";
     let picoSDKsHtml = "";
+    let ninjasHtml = "";
 
     //const installedSDKs = detectInstalledSDKs();
     //const installedToolchains = detectInstalledToolchains();
@@ -564,6 +573,7 @@ export class NewProjectPanel {
     try {
       const availableSDKs = await getSDKReleases();
       const supportedToolchains = await getSupportedToolchains();
+      const ninjaReleases = await getNinjaReleases();
 
       availableSDKs
         .sort((a, b) => compare(b.tagName, a.tagName))
@@ -582,7 +592,21 @@ export class NewProjectPanel {
         )}</option>`;
       });
 
-      if (toolchainsHtml.length === 0 || picoSDKsHtml.length === 0) {
+      ninjaReleases
+        .sort((a, b) =>
+          compare(b.tagName.replace("v", ""), a.tagName.replace("v", ""))
+        )
+        .forEach(ninja => {
+          ninjasHtml += `<option ${
+            ninjasHtml.length === 0 ? "selected " : ""
+          }value="${ninja.tagName}">v${ninja.tagName}</option>`;
+        });
+
+      if (
+        toolchainsHtml.length === 0 ||
+        picoSDKsHtml.length === 0 ||
+        (process.platform !== "linux" && ninjasHtml.length === 0)
+      ) {
         this._logger.error("Failed to load toolchains or SDKs.");
 
         return "";
@@ -709,6 +733,14 @@ export class NewProjectPanel {
                         <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM Embeded Toolchain version</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                               ${toolchainsHtml}
+                        </select>
+                      </div>
+                    </div>
+                    <div class="grid gap-6 md:grid-cols-2">
+                      <div>
+                        <label for="sel-ninja class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Ninja version</label>
+                        <select id="sel-ninja" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                              ${ninjasHtml}
                         </select>
                       </div>
                     </div>
