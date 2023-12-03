@@ -5,8 +5,11 @@ export enum SettingsKey {
   cmakePath = "cmakePath",
   python3Path = "python3Path",
   ninjaPath = "ninjaPath",
+  gitPath = "gitPath",
   cmakeAutoConfigure = "cmakeAutoConfigure",
 }
+
+export const HOME_VAR = "${HOME}";
 
 export type Setting = string | boolean | string[] | null | undefined;
 
@@ -61,7 +64,8 @@ export default class Settings {
   }
 
   public update<T>(key: SettingsKey, value: T): Thenable<void> {
-    return this.config.update(key, value, false);
+    // null == workspace folder settings, false == workspace settings
+    return this.config.update(key, value, null);
   }
 
   public updateGlobal<T>(key: SettingsKey, value: T): Thenable<void> {

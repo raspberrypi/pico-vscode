@@ -6,11 +6,12 @@ import {
 } from "./requirementsUtil.mjs";
 import { join } from "path";
 import type Settings from "../settings.mjs";
-import { SettingsKey } from "../settings.mjs";
+import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { readFileSync } from "fs";
 import Logger from "../logger.mjs";
 import { readFile, writeFile } from "fs/promises";
 import { rimraf, windows as rimrafWindows } from "rimraf";
+import { homedir } from "os";
 
 export async function configureCmakeNinja(
   folder: Uri,
@@ -38,7 +39,10 @@ export async function configureCmakeNinja(
       },
       // eslint-disable-next-line @typescript-eslint/require-await
       async (progress, token) => {
-        const cmake = settings.getString(SettingsKey.cmakePath) || "cmake";
+        const cmake =
+          settings
+            .getString(SettingsKey.cmakePath)
+            ?.replace(HOME_VAR, homedir()) || "cmake";
 
         // TODO: analyze command result
         // TODO: option for the user to choose the generator

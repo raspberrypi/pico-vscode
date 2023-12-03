@@ -236,17 +236,23 @@ def cmakeSdkPath(sdkVersion):
 def cmakeToolchainPath(toolchainVersion):
     return f"${{USERHOME}}{relativeToolchainPath(toolchainVersion)}"
 
-def codeSdkPath(sdkVersion):
+def propertiesSdkPath(sdkVersion):
     if isWindows:
         return f"${{env:USERPROFILE}}{relativeSDKPath(sdkVersion)}"
     else:
         return f"${{env:HOME}}{relativeSDKPath(sdkVersion)}"
 
-def codeToolchainPath(toolchainVersion):
+def codeSdkPath(sdkVersion):
+    return f"${{userHome}}{relativeSDKPath(sdkVersion)}"
+
+def propertiesToolchainPath(toolchainVersion):
     if isWindows:
         return f"${{env:USERPROFILE}}{relativeToolchainPath(toolchainVersion)}"
     else:
         return f"${{env:HOME}}{relativeToolchainPath(toolchainVersion)}"
+
+def codeToolchainPath(toolchainVersion):
+    return f"${{userHome}}{relativeToolchainPath(toolchainVersion)}"
 
 def GetBackground():
     return 'white'
@@ -950,6 +956,8 @@ def ParseCommandLine():
     parser.add_argument("-root", "--projectRoot", help="Override default project root where the new project will be created")
     parser.add_argument("-sdkVersion", "--sdkVersion", help="Pico SDK version to use (required)")
     parser.add_argument("-tcVersion", "--toolchainVersion", help="ARM Embeded Toolchain version to use (required)")
+    parser.add_argument("-np", "--ninjaPath", help="Ninja path")
+    parser.add_argument("-cmp", "--cmakePath", help="CMake path")
 
     return parser.parse_args()
 
@@ -1157,7 +1165,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath):
 
     oldCWD = os.getcwd()
 
@@ -1250,7 +1258,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "name": "Pico",
             "includePath": [
                 "${{workspaceFolder}}/**",
-                "{codeSdkPath(sdkVersion)}/**"
+                "{propertiesSdkPath(sdkVersion)}/**"
             ],
             "defines": [],
             "compilerPath": "{cPath}",
@@ -1271,7 +1279,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "cmake.automaticReconfigure": false,
     "cmake.configureOnOpen": false,
     "cmake.generator": "Ninja",
+    "cmake.cmakePath": "{cmakePath}",
     "raspberry-pi-pico.cmakeAutoConfigure": true,
+    "raspberry-pi-pico.cmakePath": "{cmakePath}",
+    "raspberry-pi-pico.ninjaPath": "{ninjaPath}"
 }}
 '''
 
@@ -1292,7 +1303,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
         {{
             "label": "Compile Project",
             "type": "shell",
-            "command": "ninja",
+            "command": "{ninjaPath}",
             "args": ["-C", "${{workspaceFolder}}/build"],
             "group": "build",
             "presentation": {{
@@ -1446,26 +1457,21 @@ def DoEverything(parent, params):
         cpus = 1
 
     if isWindows:
-        # Had a special case report, when using MinGW, need to check if using nmake or mingw32-make.
-        if shutil.which("mingw32-make"):
-            # Assume MinGW environment
-            cmakeCmd = 'cmake -DCMAKE_BUILD_TYPE=Debug -G "MinGW Makefiles" ..'
-            makeCmd = 'mingw32-make '
-        elif shutil.which("ninja"):
+        if shutil.which("ninja") or (params["ninjaPath"] != None and params["ninjaPath"] != ""):
             # When installing SDK version 1.5.0 on windows with installer pico-setup-windows-x64-standalone.exe, ninja is used 
-            cmakeCmd = 'cmake -DCMAKE_BUILD_TYPE=Debug -G Ninja ..'
-            makeCmd = 'ninja '        
+            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug -G Ninja ..'
+            makeCmd = params['ninjaPath'] + ' '        
         else:
             # Everything else assume nmake
-            cmakeCmd = 'cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" ..'
+            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" ..'
             makeCmd = 'nmake '
     else:
         # Ninja now works OK under Linux, so if installed use it by default. It's faster.
-        if shutil.which("ninja"):
-            cmakeCmd = 'cmake -DCMAKE_BUILD_TYPE=Debug -G Ninja ..'
-            makeCmd = 'ninja '
+        if shutil.which("ninja") or (params["ninjaPath"] != None and params["ninjaPath"] != ""):
+            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug -G Ninja ..'
+            makeCmd = params['ninjaPath'] + ' '
         else:
-            cmakeCmd = 'cmake -DCMAKE_BUILD_TYPE=Debug ..'
+            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug ..'
             makeCmd = 'make -j' + str(cpus)
 
     if params['wantGUI'] and ENABLE_TK_GUI:
@@ -1474,7 +1480,16 @@ def DoEverything(parent, params):
         os.system(cmakeCmd)
 
     if params['projects']:
-        generateProjectFiles(projectPath, params['projectName'], params['sdkPath'], params['projects'], params['debugger'], params["sdkVersion"], params["toolchainVersion"])
+        generateProjectFiles(
+            projectPath, 
+            params['projectName'], 
+            params['sdkPath'], 
+            params['projects'], 
+            params['debugger'], 
+            params["sdkVersion"], 
+            params["toolchainVersion"], 
+            params["ninjaPath"], 
+            params["cmakePath"])
 
     if params['wantBuild']:
         if params['wantGUI'] and ENABLE_TK_GUI:
@@ -1523,7 +1538,7 @@ if args.name == None and not args.gui and not args.list and not args.configs and
 if args.cpath:
     compilerPath = Path(args.cpath)
 elif args.toolchainVersion:
-    compilerPath = Path(codeToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME)
+    compilerPath = Path(propertiesToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME)
 else:
     compilerPath = Path(c)
 
@@ -1589,6 +1604,8 @@ else :
         'password'      : '',
         'sdkVersion'    : args.sdkVersion,
         'toolchainVersion': args.toolchainVersion,
+        'ninjaPath'     : args.ninjaPath,
+        'cmakePath'     : args.cmakePath,
         }
 
     DoEverything(None, params)

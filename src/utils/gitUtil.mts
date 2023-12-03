@@ -10,10 +10,14 @@ const execAsync = promisify(exec);
  * @param sdkDirectory The directory of the downloaded Pico-SDK.
  * @returns True if the submodules were initialized successfully, false otherwise.
  */
-export async function initSubmodules(sdkDirectory: string): Promise<boolean> {
+export async function initSubmodules(
+  sdkDirectory: string,
+  gitExecutable: string = "git"
+): Promise<boolean> {
   try {
     // Use the "git submodule update --init" command in the specified directory
-    const command = `cd ${sdkDirectory} && git submodule update --init`;
+    const command =
+      `cd ${sdkDirectory} && ` + `${gitExecutable} submodule update --init`;
     await execAsync(command);
 
     return true;
@@ -27,11 +31,12 @@ export async function initSubmodules(sdkDirectory: string): Promise<boolean> {
 export async function cloneRepository(
   repository: string,
   branch: string,
-  targetDirectory: string
+  targetDirectory: string,
+  gitExecutable: string = "git"
 ): Promise<boolean> {
   // Clone the repository at the specified tag into the target directory
   const cloneCommand =
-    "git -c advice.detachedHead=false clone --branch " +
+    `${gitExecutable} -c advice.detachedHead=false clone --branch ` +
     `${branch} ${repository} ${targetDirectory}`;
 
   try {

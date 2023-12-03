@@ -2,6 +2,8 @@ import { window } from "vscode";
 import which from "which";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
+import { downloadEmbedPython, downloadGit } from "./download.mjs";
+import { homedir } from "os";
 
 /**
  * Checks if all requirements are met (to run the Pico Project Generator and cmake generator)
@@ -11,10 +13,20 @@ import { SettingsKey } from "../settings.mjs";
 export async function checkForRequirements(
   settings: Settings
 ): Promise<[boolean, string[]]> {
-  const ninjaExe: string = settings.getString(SettingsKey.ninjaPath) || "ninja";
-  const cmakeExe: string = settings.getString(SettingsKey.cmakePath) || "cmake";
+  const ninjaExe: string =
+    settings
+      .getString(SettingsKey.ninjaPath)
+      ?.replace("${env:HOME}", homedir()) || "ninja";
+  const cmakeExe: string =
+    settings
+      .getString(SettingsKey.cmakePath)
+      ?.replace("${env:HOME}", homedir()) || "cmake";
+  // TODO: this may need to be updated for other systems only
+  // having python as executable for python3
   const python3Exe: string =
-    settings.getString(SettingsKey.python3Path) || process.platform === "win32"
+    settings
+      .getString(SettingsKey.python3Path)
+      ?.replace("${env:HOME}", homedir()) || process.platform === "win32"
       ? "python"
       : "python3";
 
@@ -30,7 +42,16 @@ export async function checkForRequirements(
     missing.push("CMake");
   }
   if (python3 === null) {
-    missing.push("Python 3");
+    if (process.platform !== "win32") {
+      missing.push("Python");
+    } else {
+      const python3Path = await downloadEmbedPython();
+      if (python3Path !== undefined) {
+        await settings.updateGlobal(SettingsKey.python3Path, python3Path);
+      } else {
+        missing.push("Python 3");
+      }
+    }
   }
 
   // TODO: check python version
@@ -54,7 +75,9 @@ export async function showRequirementsNotMetErrorMessage(
  *
  * @returns true if all requirements are met, false otherwise
  */
-export async function checkForInstallationRequirements(): Promise<boolean> {
+export async function checkForInstallationRequirements(
+  settings: Settings
+): Promise<boolean> {
   const gitExe: string = "git";
   const compilerExe: string[] = ["clang", "gcc", "cl"];
   const tools: string[] = ["pioasm", "elf2uf2"];
@@ -78,7 +101,20 @@ export async function checkForInstallationRequirements(): Promise<boolean> {
 
   let requirementsMet: boolean = true;
   if (git === null) {
-    requirementsMet = false;
+    // if git is not available but os=win32 and it will download git and
+    // if successfull then requirementsMet will not set to false
+    if (process.platform !== "win32") {
+      requirementsMet = false;
+    } else {
+      const gitDownloaded: string | undefined = await downloadGit();
+
+      if (gitDownloaded === undefined) {
+        requirementsMet = false;
+      } else {
+        // if git is downloaded for win32 set custom git path
+        await settings.updateGlobal(SettingsKey.gitPath, gitDownloaded);
+      }
+    }
   }
   if (!allToolsAvailable) {
     // only check for compilers if pioasm

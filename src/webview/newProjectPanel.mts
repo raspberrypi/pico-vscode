@@ -25,23 +25,38 @@ import {
 } from "../utils/toolchainUtil.mjs";
 import {
   SDK_REPOSITORY_URL,
+  getCmakeReleases,
   getNinjaReleases,
   getSDKReleases,
 } from "../utils/githubREST.mjs";
 import {
+  buildCMakePath,
+  buildNinjaPath,
   buildSDKPath,
   buildToolchainPath,
+  downloadAndInstallCmake,
+  downloadAndInstallNinja,
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
 } from "../utils/download.mjs";
 import { compare } from "../utils/semverUtil.mjs";
+import VersionBundlesLoader, {
+  type VersionBundle,
+} from "../utils/versionBundles.mjs";
+import which from "which";
 
 interface SubmitMessageValue {
   projectName: string;
   boardType: string;
   selectedSDK: string;
   selectedToolchain: string;
-  selectedNinja: string;
+
+  ninjaMode: number;
+  ninjaPath: string;
+  ninjaVersion: string;
+  cmakeMode: number;
+  cmakePath: string;
+  cmakeVersion: string;
 
   // features (libraries)
   spiFeature: boolean;
@@ -73,7 +88,7 @@ interface SubmitMessageValue {
 
 interface WebviewMessage {
   command: string;
-  value: object | SubmitMessageValue;
+  value: object | string | SubmitMessageValue;
 }
 
 enum BoardType {
@@ -191,6 +206,8 @@ interface NewProjectOptions {
     sdkVersion: string;
     sdkPath: string;
   };
+  ninjaExecutable: string;
+  cmakeExecutable: string;
 }
 
 export function getWebviewOptions(extensionUri: Uri): WebviewOptions {
@@ -226,11 +243,9 @@ export class NewProjectPanel {
 
   private _projectRoot?: Uri;
   private _supportedToolchains?: SupportedToolchainVersion[];
+  private _versionBundle: VersionBundle | undefined;
 
-  public static async createOrShow(
-    settings: Settings,
-    extensionUri: Uri
-  ): Promise<void> {
+  public static createOrShow(settings: Settings, extensionUri: Uri): void {
     const column = window.activeTextEditor
       ? window.activeTextEditor.viewColumn
       : undefined;
@@ -238,31 +253,6 @@ export class NewProjectPanel {
     if (NewProjectPanel.currentPanel) {
       NewProjectPanel.currentPanel._panel.reveal(column);
 
-      return;
-    }
-
-    // TODO: maybe make it posible to also select a folder and
-    // not always create a new one with selectedName
-    const projectRoot: Uri[] | undefined = await window.showOpenDialog({
-      canSelectFiles: false,
-      canSelectFolders: true,
-      canSelectMany: false,
-      openLabel: "Select project root",
-    });
-
-    // user focused out of the quick pick
-    if (!projectRoot || projectRoot.length !== 1) {
-      return;
-    }
-
-    // get project name
-    const selectedName: string | undefined = await window.showInputBox({
-      placeHolder: "Enter a project name",
-      title: "New Pico Project",
-    });
-
-    // user focused out of the quick pick
-    if (!selectedName) {
       return;
     }
 
@@ -276,9 +266,7 @@ export class NewProjectPanel {
     NewProjectPanel.currentPanel = new NewProjectPanel(
       panel,
       settings,
-      extensionUri,
-      projectRoot[0],
-      selectedName
+      extensionUri
     );
   }
 
@@ -297,16 +285,13 @@ export class NewProjectPanel {
   private constructor(
     panel: WebviewPanel,
     settings: Settings,
-    extensionUri: Uri,
-    projectRoot?: Uri,
-    projectName?: string
+    extensionUri: Uri
   ) {
     this._panel = panel;
     this._extensionUri = extensionUri;
     this._settings = settings;
-    this._projectRoot = projectRoot;
 
-    void this._update(projectRoot, projectName);
+    void this._update();
 
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
@@ -351,9 +336,29 @@ export class NewProjectPanel {
               }
             }
             break;
+          case "cancel":
+            this.dispose();
+            break;
+          case "error":
+            void window.showErrorMessage(message.value as string);
+            break;
           case "submit":
             {
               const data = message.value as SubmitMessageValue;
+
+              if (
+                this._projectRoot === undefined ||
+                this._projectRoot.fsPath === ""
+              ) {
+                void window.showErrorMessage(
+                  "No project root selected. Please select a project root."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
 
               // give feedback to user
               // TODO: change into progress message
@@ -363,7 +368,7 @@ export class NewProjectPanel {
                 }, this may take a while...`
               );
 
-              // close panel
+              // close panel before generating project
               this.dispose();
 
               const projectPath = this._projectRoot?.fsPath ?? "";
@@ -402,7 +407,8 @@ export class NewProjectPanel {
                     if (
                       !(await downloadAndInstallSDK(
                         selectedSDK,
-                        SDK_REPOSITORY_URL
+                        SDK_REPOSITORY_URL,
+                        this._settings
                       )) ||
                       !(await downloadAndInstallToolchain(selectedToolchain))
                     ) {
@@ -428,8 +434,152 @@ export class NewProjectPanel {
                   return;
                 }
 
-                // TODO: implement ninja downloading and installation in project-generator
-                // if not linux
+                let ninjaExecutable: string;
+                let cmakeExecutable: string;
+                switch (data.ninjaMode) {
+                  case 0:
+                    if (this._versionBundle !== undefined) {
+                      data.ninjaVersion = this._versionBundle.ninja;
+                    } else {
+                      this._logger.error(
+                        "Failed to get version bundle for ninja."
+                      );
+                      await window.showErrorMessage(
+                        "Failed to get ninja version for the selected Pico-SDK version."
+                      );
+
+                      return;
+                    }
+                  // eslint-disable-next-line no-fallthrough
+                  case 2:
+                    installedSuccessfully = false;
+                    await window.withProgress(
+                      {
+                        location: ProgressLocation.Notification,
+                        title: "Download and install ninja",
+                        cancellable: false,
+                      },
+                      async progress => {
+                        if (await downloadAndInstallNinja(data.ninjaVersion)) {
+                          progress.report({
+                            message:
+                              "Successfully downloaded and installed ninja.",
+                            increment: 100,
+                          });
+
+                          installedSuccessfully = true;
+                        } else {
+                          installedSuccessfully = false;
+                          progress.report({
+                            message:
+                              "Failed to download and install ninja. Make sure all requirements are met.",
+                            increment: 100,
+                          });
+                        }
+                      }
+                    );
+
+                    if (!installedSuccessfully) {
+                      return;
+                    } else {
+                      // TODO: maybe custom with normal / also on windows for json
+                      ninjaExecutable = join(
+                        buildNinjaPath(data.ninjaVersion),
+                        //process.platform !== "win32" ? "ninja" : "ninja.exe"
+                        "ninja"
+                      );
+                    }
+                    break;
+                  case 1:
+                    ninjaExecutable = "ninja";
+                    break;
+                  case 3:
+                    ninjaExecutable = data.ninjaPath;
+                    break;
+
+                  default:
+                    await window.showErrorMessage("Unknown ninja selection.");
+                    this._logger.error("Unknown ninja selection.");
+
+                    return;
+                }
+
+                switch (data.cmakeMode) {
+                  case 0:
+                    if (this._versionBundle !== undefined) {
+                      data.cmakeVersion = this._versionBundle.cmake;
+                    }
+                  // eslint-disable-next-line no-fallthrough
+                  case 2:
+                    installedSuccessfully = false;
+                    await window.withProgress(
+                      {
+                        location: ProgressLocation.Notification,
+                        title: "Download and install cmake",
+                        cancellable: false,
+                      },
+                      async progress => {
+                        if (await downloadAndInstallCmake(data.cmakeVersion)) {
+                          progress.report({
+                            message:
+                              "Successfully downloaded and installed cmake.",
+                            increment: 100,
+                          });
+
+                          installedSuccessfully = true;
+                        } else {
+                          installedSuccessfully = false;
+                          progress.report({
+                            message:
+                              "Failed to download and install cmake. Make sure all requirements are met.",
+                            increment: 100,
+                          });
+                        }
+                      }
+                    );
+
+                    if (!installedSuccessfully) {
+                      return;
+                    } else {
+                      // TODO: create platform independent cmake paths with symlinks
+                      // so .pico-sdk/cmake/3.20.0/cmake always points to the executable
+                      if (process.platform === "win32") {
+                        cmakeExecutable = join(
+                          buildCMakePath(data.cmakeVersion),
+                          "bin",
+                          //"cmake.exe"
+                          // make it more platform independent
+                          "cmake"
+                        );
+                      } else if (process.platform === "darwin") {
+                        cmakeExecutable = join(
+                          buildCMakePath(data.cmakeVersion),
+                          "CMake.app",
+                          "Contents",
+                          "bin",
+                          "cmake"
+                        );
+                      } else {
+                        cmakeExecutable = join(
+                          buildCMakePath(data.cmakeVersion),
+                          "bin",
+                          "cmake"
+                        );
+                      }
+                    }
+                    break;
+                  case 1:
+                    cmakeExecutable = "cmake";
+                    break;
+                  case 3:
+                    cmakeExecutable = data.cmakePath;
+                    break;
+                  default:
+                    await window.showErrorMessage("Unknown cmake selection.");
+                    this._logger.error("Unknown cmake selection.");
+
+                    return;
+                }
 
                 const args: NewProjectOptions = {
                   name: data.projectName,
@@ -471,6 +621,8 @@ export class NewProjectPanel {
                     sdkVersion: selectedSDK,
                     sdkPath: buildSDKPath(selectedSDK),
                   },
+                  ninjaExecutable,
+                  cmakeExecutable,
                 };
 
                 await this._executePicoProjectGenerator(args);
@@ -484,21 +636,14 @@ export class NewProjectPanel {
     );
   }
 
-  private async _update(
-    projectRoot?: Uri,
-    projectName?: string
-  ): Promise<void> {
+  private async _update(): Promise<void> {
     this._panel.title = "New Pico Project";
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
       "web",
       "raspberry-24.png"
     );
-    const html = await this._getHtmlForWebview(
-      this._panel.webview,
-      projectRoot,
-      projectName
-    );
+    const html = await this._getHtmlForWebview(this._panel.webview);
 
     if (html !== "") {
       this._panel.webview.html = html;
@@ -533,11 +678,7 @@ export class NewProjectPanel {
     }
   }
 
-  private async _getHtmlForWebview(
-    webview: Webview,
-    projectRoot?: Uri,
-    projectName?: string
-  ): Promise<string> {
+  private async _getHtmlForWebview(webview: Webview): Promise<string> {
     // TODO: sore in memory so on future update static stuff doesn't need to be read again
     const mainScriptUri = webview.asWebviewUri(
       Uri.joinPath(this._extensionUri, "web", "main.js")
@@ -558,11 +699,14 @@ export class NewProjectPanel {
       Uri.joinPath(this._extensionUri, "web", "raspberrypi-nav-header.svg")
     );
 
+    const versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
+
     // construct auxiliar html
     // TODO: add offline handling - only load installed ones
     let toolchainsHtml = "";
     let picoSDKsHtml = "";
     let ninjasHtml = "";
+    let cmakesHtml = "";
 
     //const installedSDKs = detectInstalledSDKs();
     //const installedToolchains = detectInstalledToolchains();
@@ -574,6 +718,10 @@ export class NewProjectPanel {
       const availableSDKs = await getSDKReleases();
       const supportedToolchains = await getSupportedToolchains();
       const ninjaReleases = await getNinjaReleases();
+      const cmakeReleases = await getCmakeReleases();
+      this._versionBundle = versionBundlesLoader.getModuleVersion(
+        availableSDKs[0].tagName.replace("v", "")
+      );
 
       availableSDKs
         .sort((a, b) => compare(b.tagName, a.tagName))
@@ -599,8 +747,14 @@ export class NewProjectPanel {
         .forEach(ninja => {
           ninjasHtml += `<option ${
             ninjasHtml.length === 0 ? "selected " : ""
-          }value="${ninja.tagName}">v${ninja.tagName}</option>`;
+          }value="${ninja.tagName}">${ninja.tagName}</option>`;
         });
+
+      cmakeReleases.forEach(cmake => {
+        cmakesHtml += `<option ${
+          cmakesHtml.length === 0 ? "selected " : ""
+        }value="${cmake.tagName}">${cmake.tagName}</option>`;
+      });
 
       if (
         toolchainsHtml.length === 0 ||
@@ -627,6 +781,9 @@ export class NewProjectPanel {
 
       return "";
     }
+
+    const isNinjaSystemAvailable = (await which("ninja")) !== null;
+    const isCmakeSystemAvailable = (await which("cmake")) !== null;
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
@@ -671,7 +828,7 @@ export class NewProjectPanel {
                 <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-stdio">
                     Stdio support
                 </li>
-                <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-pico-wireless">
+                <li class="nav-item hidden text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-pico-wireless">
                     Pico wireless options
                 </li>
                 <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-code-gen">
@@ -689,9 +846,7 @@ export class NewProjectPanel {
                     <div class="grid gap-6 md:grid-cols-2">
                         <div>
                             <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MyProject" value="${
-                              projectName ?? ""
-                            }" required/>
+                            <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MyProject" required/>
                         </div>
                         <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
@@ -708,9 +863,7 @@ export class NewProjectPanel {
                                 <span class="inline-flex items-center px-3 text-lg text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
                                     💾
                                 </span>
-                                <input type="text" id="inp-project-location" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="C:\\MyProject" value="${
-                                  projectRoot ? projectRoot.fsPath : ""
-                                }" disabled/>
+                                <input type="text" id="inp-project-location" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="C:\\MyProject" disabled/>
                             </div>
                             <button 
                                 id="btn-change-project-location"
@@ -722,7 +875,7 @@ export class NewProjectPanel {
                             </button>
                         </div>
                     </div>
-                    <div class="grid gap-6 md:grid-cols-2">
+                    <div class="grid gap-6 md:grid-cols-2 mt-6">
                       <div>
                         <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Pico-SDK version</label>
                         <select id="sel-pico-sdk" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -736,12 +889,77 @@ export class NewProjectPanel {
                         </select>
                       </div>
                     </div>
-                    <div class="grid gap-6 md:grid-cols-2">
-                      <div>
-                        <label for="sel-ninja class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Ninja version</label>
-                        <select id="sel-ninja" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                              ${ninjasHtml}
-                        </select>
+                    <div class="grid gap-6 md:grid-cols-4 mt-6">
+                      <div class="col-span-2">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
+
+                        ${
+                          this._versionBundle !== undefined
+                            ? `<div class="flex items-center mb-2">
+                                <input type="radio" id="ninja-radio-default-version" name="ninja-version-radio" value="0" class="mr-1 text-blue-500">
+                                <label for="ninja-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
+                              </div>`
+                            : ""
+                        }
+
+                        ${
+                          isNinjaSystemAvailable
+                            ? `<div class="flex items-center mb-2" >
+                                <input type="radio" id="ninja-radio-system-version" name="ninja-version-radio" value="1" class="mr-1 text-blue-500">
+                                <label for="ninja-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+                              </div>`
+                            : ""
+                        }
+
+                        <div class="flex items-center mb-2">
+                          <input type="radio" id="ninja-radio-select-version" name="ninja-version-radio" value="2" class="mr-1 text-blue-500">
+                          <label for="ninja-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
+                          <select id="sel-ninja" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            ${ninjasHtml}
+                          </select>
+                        </div>
+
+                        <div class="flex items-center mb-2">
+                          <input type="radio" id="ninja-radio-path-executable" name="ninja-version-radio" value="3" class="mr-1 text-blue-500">
+                          <label for="ninja-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+                          <input type="file" id="ninja-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+                        </div>
+                      </div>
+                    
+                      <div class="col-span-2">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CMake Version:</label>
+
+                        ${
+                          this._versionBundle !== undefined
+                            ? `<div class="flex items-center mb-2">
+                                <input type="radio" id="cmake-radio-default-version" name="cmake-version-radio" value="0" class="mr-1 text-blue-500">
+                                <label for="cmake-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
+                              </div>`
+                            : ""
+                        }
+
+                        ${
+                          isCmakeSystemAvailable
+                            ? `<div class="flex items-center mb-2" >
+                                <input type="radio" id="cmake-radio-system-version" name="cmake-version-radio" value="1" class="mr-1 text-blue-500">
+                                <label for="cmake-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+                              </div>`
+                            : ""
+                        }
+
+                        <div class="flex items-center mb-2">
+                          <input type="radio" id="cmake-radio-select-version" name="cmake-version-radio" value="2" class="mr-1 text-blue-500">
+                          <label for="cmake-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
+                          <select id="sel-cmake" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            ${cmakesHtml}
+                          </select>
+                        </div>
+
+                        <div class="flex items-center mb-2">
+                          <input type="radio" id="cmake-radio-path-executable" name="cmake-version-radio" value="3" class="mr-1 text-blue-500">
+                          <label for="cmake-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+                          <input type="file" id="cmake-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+                        </div>
                       </div>
                     </div>
                 </form>
@@ -818,23 +1036,23 @@ export class NewProjectPanel {
                   </li>
                 </ul>
             </div>
-            <div id="section-pico-wireless" class="snap-start mt-10">
+            <div id="section-pico-wireless" class="snap-start mt-10" hidden>
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Pico wireless options</h3>
                 <div class="flex items-stretch space-x-4">
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input checked disabled id="pico-wireless-radio-none" type="radio" value="0" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                        <input checked id="pico-wireless-radio-none" type="radio" value="0" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
                         <label for="pico-wireless-radio-none" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">None</label>
                     </div>
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input disabled id="pico-wireless-radio-led" type="radio" value="1" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                        <input id="pico-wireless-radio-led" type="radio" value="1" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
                         <label for="pico-wireless-radio-led" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pico W onboard LED</label>
                     </div>
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input disabled id="pico-wireless-radio-pool" type="radio" value="2" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                        <input id="pico-wireless-radio-pool" type="radio" value="2" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
                         <label for="pico-wireless-radio-pool" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Polled lwIP</label>
                     </div>
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input disabled id="pico-wireless-radio-background" type="radio" value="3" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                        <input id="pico-wireless-radio-background" type="radio" value="3" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
                         <label for="pico-wireless-radio-background" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Background lwIP</label>
                     </div>
                 </div>
@@ -933,7 +1151,7 @@ export class NewProjectPanel {
       ...(process.env as { [key: string]: string }),
       // set PICO_SDK_PATH
       ["PICO_SDK_PATH"]: options.toolchainAndSDK.sdkPath,
-      // set PICO_TOOLCHAIN_PATH i needed someday
+      // set PICO_TOOLCHAIN_PATH
       ["PICO_TOOLCHAIN_PATH"]: options.toolchainAndSDK.toolchainPath,
     };
     // add compiler to PATH
@@ -941,7 +1159,11 @@ export class NewProjectPanel {
     customEnv[isWindows ? "Path" : "PATH"] = `${join(
       options.toolchainAndSDK.toolchainPath,
       "bin"
-    )}${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
+    )}${isWindows ? ";" : ":"}${join(dirname(options.cmakeExecutable))}${
+      isWindows ? ";" : ":"
+    }${join(dirname(options.ninjaExecutable))}${isWindows ? ";" : ":"}${
+      customEnv[isWindows ? "Path" : "PATH"]
+    }`;
     const pythonExe =
       this._settings.getString(SettingsKey.python3Path) || isWindows
         ? "python"
@@ -967,6 +1189,10 @@ export class NewProjectPanel {
       options.toolchainAndSDK.sdkVersion,
       "--toolchainVersion",
       options.toolchainAndSDK.toolchainVersion,
+      "--ninjaPath",
+      options.ninjaExecutable,
+      "--cmakePath",
+      options.cmakeExecutable,
       options.name,
     ].join(" ");
 

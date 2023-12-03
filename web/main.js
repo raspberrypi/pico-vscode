@@ -4,6 +4,8 @@ const CMD_CHANGE_LOCATION = 'changeLocation';
 const CMD_SUBMIT = 'submit';
 const CMD_CANCEL = 'cancel';
 const CMD_SET_THEME = 'setTheme';
+const CMD_ERROR = 'error';
+const CMD_SUBMIT_DENIED = 'submitDenied';
 
 var submitted = false;
 var isPicoWireless = false;
@@ -51,8 +53,91 @@ var isPicoWireless = false;
     const selectedSDK = document.getElementById('sel-pico-sdk').value;
     // selected toolchain
     const selectedToolchain = document.getElementById('sel-toolchain').value;
+
     // selected ninja version
-    const selectedNinja = document.getElementById('sel-ninja').value;
+    const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
+    let ninjaMode = null;
+    let ninjaPath = null;
+    let ninjaVersion = null;
+    for (let i = 0; i < ninjaVersionRadio.length; i++) {
+      if (ninjaVersionRadio[i].checked) {
+        ninjaMode = ninjaVersionRadio[i].value;
+        break;
+      }
+    }
+    // if ninja version is null or not a number, smaller than 0 or bigger than 3, set it to 0
+    if (ninjaMode === null || isNaN(ninjaMode) || ninjaMode < 0 || ninjaMode > 4) {
+      ninjaMode = 0;
+      console.debug('Invalid ninja version value: ' + ninjaMode.toString());
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid ninja version."
+      });
+      submitted = false;
+
+      return;
+    }
+    if (ninjaMode == 2) {
+      ninjaVersion = document.getElementById('sel-ninja').value;
+    } else if (ninjaMode == 3) {
+      const files = document.getElementById('ninja-path-executable').files;
+
+      if (files.length == 1) {
+        ninjaPath = files[0].name;
+      } else {
+        console.debug("Please select a valid ninja executable file");
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: "Please select a valid ninja executable file."
+        });
+        submitted = false;
+
+        return;
+      }
+    }
+
+    // selected cmake version
+    const cmakeVersionRadio = document.getElementsByName('cmake-version-radio');
+    let cmakeMode = null;
+    let cmakePath = null;
+    let cmakeVersion = null;
+    for (let i = 0; i < cmakeVersionRadio.length; i++) {
+      if (cmakeVersionRadio[i].checked) {
+        cmakeMode = cmakeVersionRadio[i].value;
+        break;
+      }
+    }
+    // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
+    if (cmakeMode === null || isNaN(cmakeMode) || cmakeMode < 0 || cmakeMode > 4) {
+      // TODO: first check if defaul is supported
+      cmakeMode = 0;
+      console.debug('Invalid cmake version value: ' + cmakeMode.toString());
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid cmake version."
+      });
+      submitted = false;
+
+      return;
+    }
+    if (cmakeMode == 2) {
+      cmakeVersion = document.getElementById('sel-cmake').value;
+    } else if (cmakeMode == 3) {
+      const files = document.getElementById('cmake-path-executable').files;
+
+      if (files.length == 1) {
+        cmakePath = files[0].name;
+      } else {
+        console.debug("Please select a valid cmake executable file");
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: "Please select a valid cmake executable file."
+        });
+        submitted = false;
+
+        return;
+      }
+    }
 
     // features
     const spiFeature = document.getElementById('spi-features-cblist').checked;
@@ -80,6 +165,12 @@ var isPicoWireless = false;
     if (picoWireless === null || isNaN(picoWireless) || picoWireless < 0 || picoWireless > 3) {
       picoWireless = 0;
       console.debug('Invalid pico wireless value: ' + picoWireless);
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid pico wireless option"
+      });
+      submitted = false;
+      return;
     }
 
     // code-gen options
@@ -102,6 +193,12 @@ var isPicoWireless = false;
     if (debuggerSelection === null || isNaN(debuggerSelection) || debuggerSelection < 0 || debuggerSelection > 1) {
       debuggerSelection = 0;
       console.debug('Invalid debugger selection value: ' + debuggerSelection);
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid debugger"
+      });
+      submitted = false;
+      return;
     }
 
     //post all data values to the extension
@@ -112,7 +209,12 @@ var isPicoWireless = false;
         boardType: boardType,
         selectedSDK: selectedSDK,
         selectedToolchain: selectedToolchain,
-        selectedNinja: selectedNinja,
+        ninjaMode: Number(ninjaMode),
+        ninjaPath: ninjaPath,
+        ninjaVersion: ninjaVersion,
+        cmakeMode: Number(cmakeMode),
+        cmakePath: cmakePath,
+        cmakeVersion: cmakeVersion,
 
         // features
         spiFeature: spiFeature,
@@ -165,6 +267,9 @@ var isPicoWireless = false;
           localStorage.theme = 'light'
         }
         break;
+      case CMD_SUBMIT_DENIED:
+        submitted = false;
+        break;
       default:
         console.error('Unknown command: ' + message.command);
         break;
@@ -182,18 +287,25 @@ var isPicoWireless = false;
     document.getElementById('sel-board-type').addEventListener('change', function () {
       const isPicoWireless = selectBoardTypeElement.value === "pico-w";
 
-      const radioButtons = document.querySelectorAll('input[name="pico-wireless-radio"]');
+      if (!isPicoWireless) {
+        navItemOnClick('nav-basic');
+      }
 
-      // Disable all radio buttons
-      Array.prototype.forEach.call(radioButtons, function (radioButton) {
-        radioButton.disabled = !isPicoWireless;
-      });
+      // hide pico wireless nav item
+      document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
+      // hide pico wireless section
+      document.getElementById('section-pico-wireless').hidden = !isPicoWireless;
 
       // reset selection
       if (!isPicoWireless) {
         // Check the first radio button (none)
-        radioButtons[0].checked = true;
+        document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
       }
     });
   }
+
+  const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
+  ninjaVersionRadio[0].checked = true;
+  const cmakeVersionRadio = document.getElementsByName('cmake-version-radio');
+  cmakeVersionRadio[0].checked = true;
 }());

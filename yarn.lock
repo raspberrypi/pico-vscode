@@ -615,6 +615,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/adm-zip@npm:^0.5.5":
+  version: 0.5.5
+  resolution: "@types/adm-zip@npm:0.5.5"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 78c5e7472d21eeaf11738c6127e9a774fedf8fd94fdc9a96807930337fadb09ac6d3a264f69d0e15dffb2608d415a97457095e9e50d4c221bd43249d371f33fd
+  languageName: node
+  linkType: hard
+
 "@types/aws-lambda@npm:^8.10.83":
   version: 8.10.122
   resolution: "@types/aws-lambda@npm:8.10.122"
@@ -868,6 +877,13 @@ __metadata:
   bin:
     acorn: bin/acorn
   checksum: 243af601b8dfe859008c49ebf75a5bf3ad55d243aed7fdd16966ffb3e0276d070381dce95813b77796b87b1997c01946103744e3fcddaefc40b96bda4d94c075
+  languageName: node
+  linkType: hard
+
+"adm-zip@npm:^0.5.10":
+  version: 0.5.10
+  resolution: "adm-zip@npm:0.5.10"
+  checksum: c5ab79b77114d8277f0cbfd6cca830198d6c7ee4971f6960f48e08cd2375953b11dc71729b7f396abd51d2d6cce8c862fad185ea90cb2c84ab5161c37ed1b099
   languageName: node
   linkType: hard
 
@@ -2666,9 +2682,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "raspberry-pi-pico@workspace:."
   dependencies:
+    "@octokit/auth-token": "npm:^4.0.0"
     "@rollup/plugin-commonjs": "npm:^25.0.7"
     "@rollup/plugin-node-resolve": "npm:^15.2.3"
     "@rollup/plugin-typescript": "npm:^11.1.5"
+    "@types/adm-zip": "npm:^0.5.5"
     "@types/ini": "npm:^1.3.33"
     "@types/node": "npm:18.x"
     "@types/unzipper": "npm:^0.10.9"
@@ -2677,6 +2695,7 @@ __metadata:
     "@types/which": "npm:^3.0.3"
     "@typescript-eslint/eslint-plugin": "npm:^6.13.1"
     "@typescript-eslint/parser": "npm:^6.13.1"
+    adm-zip: "npm:^0.5.10"
     eslint: "npm:^8.54.0"
     eslint-config-prettier: "npm:^9.0.0"
     ini: "npm:^4.1.1"

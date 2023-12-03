@@ -1,13 +1,11 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { detectInstalledSDKs } from "../utils/picoSDKUtil.mjs";
 import type Settings from "../settings.mjs";
 import {
   checkForRequirements,
   showRequirementsNotMetErrorMessage,
 } from "../utils/requirementsUtil.mjs";
-import { compare } from "../utils/semverUtil.mjs";
-import { ProgressLocation, type Uri, window } from "vscode";
+import { type Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
 
 export default class NewProjectCommand extends Command {
@@ -32,6 +30,6 @@ export default class NewProjectCommand extends Command {
     }
 
     // show webview where the process of creating a new project is continued
-    await NewProjectPanel.createOrShow(this._settings, this._extensionUri);
+    NewProjectPanel.createOrShow(this._settings, this._extensionUri);
   }
 }
