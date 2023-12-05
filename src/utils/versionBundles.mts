@@ -2,6 +2,11 @@ import { readFileSync } from "fs";
 import { Uri } from "vscode";
 
 export interface VersionBundle {
+  python: {
+    version: string;
+    macos: string;
+    windowsAmd64: string;
+  };
   ninja: string;
   cmake: string;
 }

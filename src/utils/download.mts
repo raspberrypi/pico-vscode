@@ -1,6 +1,4 @@
 import {
-  chmodSync,
-  createReadStream,
   createWriteStream,
   existsSync,
   readdirSync,
@@ -14,7 +12,6 @@ import { basename, join } from "path";
 import Logger from "../logger.mjs";
 import { get } from "https";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
-import { Extract as UnzipperExtract } from "unzipper";
 import { exec } from "child_process";
 import { cloneRepository, initSubmodules } from "./gitUtil.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
@@ -22,6 +19,9 @@ import { Octokit } from "octokit";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import type Settings from "../settings.mjs";
 import AdmZip from "adm-zip";
+import type { VersionBundle } from "./versionBundles.mjs";
+import MacOSPythonPkgExtractor from "./macOSUtils.mjs";
+import which from "which";
 
 export function buildToolchainPath(version: string): string {
   // TODO: maybe put homedir() into global
@@ -39,6 +39,10 @@ export function buildNinjaPath(version: string): string {
 
 export function buildCMakePath(version: string): string {
   return join(homedir(), ".pico-sdk", "cmake", version);
+}
+
+export function buildPython3Path(version: string): string {
+  return join(homedir(), ".pico-sdk", "python", version);
 }
 
 function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
@@ -141,14 +145,42 @@ export async function downloadAndInstallSDK(
   const gitExecutable =
     settings.getString(SettingsKey.gitPath)?.replace(HOME_VAR, homedir()) ||
     "git";
+  const gitPath = await which(gitExecutable, { nothrow: true });
+  if (gitPath === null) {
+    // try to install git
+    if (!(await downloadGit())) {
+      Logger.log("Error: Git is not installed and could not be downloaded.");
+
+      return false;
+    }
+  }
+  // using deferred execution to avoid git clone if git is not available
   if (
-    await cloneRepository(
+    gitPath !== null &&
+    (await cloneRepository(
       repositoryUrl,
       version,
       targetDirectory,
       gitExecutable
-    )
+    ))
   ) {
+    // check python requirements
+    const python3Exe: string =
+      settings
+        .getString(SettingsKey.python3Path)
+        ?.replace("${env:HOME}", homedir()) || process.platform === "win32"
+        ? "python"
+        : "python3";
+    const python3: string | null = await which(python3Exe, { nothrow: true });
+
+    if (python3 === null) {
+      Logger.log(
+        "Error: Python3 is not installed and could not be downloaded."
+      );
+
+      return false;
+    }
+
     return initSubmodules(targetDirectory, gitExecutable);
   }
 
@@ -412,7 +444,7 @@ export async function downloadAndInstallCmake(
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(tmpBasePath, `${version}.${assetExt}`);
+  const archiveFilePath = join(tmpBasePath, `cmake-${version}.${assetExt}`);
 
   const octokit = new Octokit();
 
@@ -531,31 +563,41 @@ export async function downloadAndInstallCmake(
   });
 }
 
-const PYTHON_DOWNLOAD_URL_WIN_AMD64 =
-  "https://www.python.org/ftp/python/3.12.0/python-3.12.0-embed-amd64.zip";
-const PYTHON_DOWNLOAD_URL_WIN_ARM64 =
-  "https://www.python.org/ftp/python/3.12.0/python-3.12.0-embed-arm64.zip";
-
 /**
  * Only supported Windows amd64 and arm64.
  *
  * @returns
  */
-export async function downloadEmbedPython(): Promise<string | undefined> {
-  if (process.platform !== "win32") {
-    Logger.log("Embed Python installation on Windows only.");
+export async function downloadEmbedPython(
+  versionBundle: VersionBundle
+): Promise<string | undefined> {
+  if (
+    process.platform === "linux" ||
+    (process.platform === "win32" && process.arch !== "x64")
+  ) {
+    Logger.log(
+      "Embed Python installation on Windows x64 and macOS arm64 only."
+    );
 
     return;
   }
 
-  const targetDirectory = join(homedir(), ".pico-sdk", "python");
-  const settingsTargetDirectory = `${HOME_VAR}/.pico-sdk/python`;
+  const targetDirectory = buildPython3Path(versionBundle.python.version);
+  const settingsTargetDirectory =
+    `${HOME_VAR}/.pico-sdk` + `/python/${versionBundle.python.version}`;
 
   // Check if the Embed Python is already installed
   if (existsSync(targetDirectory)) {
-    Logger.log(`Embed Python is already installed.`);
+    Logger.log(`Embed correct Python is already installed.`);
 
-    return;
+    // TODO: move into helper function
+    return (
+      `${settingsTargetDirectory}/Versions/` +
+      `${versionBundle.python.version.substring(
+        0,
+        versionBundle.python.version.lastIndexOf(".")
+      )}/bin/python3`
+    );
   }
 
   // Ensure the target directory exists
@@ -563,13 +605,18 @@ export async function downloadEmbedPython(): Promise<string | undefined> {
 
   // select download url for platform()_arch()
   const downloadUrl =
-    process.arch === "arm64"
-      ? PYTHON_DOWNLOAD_URL_WIN_ARM64
-      : PYTHON_DOWNLOAD_URL_WIN_AMD64;
+    process.platform === "darwin"
+      ? versionBundle.python.macos
+      : versionBundle.python.windowsAmd64;
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(tmpBasePath, `python.zip`);
+  const archiveFilePath = join(
+    tmpBasePath,
+    `python-${versionBundle.python.version}.${
+      process.platform === "darwin" ? "pkg" : "zip"
+    }`
+  );
 
   return new Promise(resolve => {
     const requestOptions = {
@@ -595,11 +642,45 @@ export async function downloadEmbedPython(): Promise<string | undefined> {
 
       // save the file to disk
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
-        // unpack the archive
-        const success = unzipFile(archiveFilePath, targetDirectory);
-        // delete tmp file
-        unlinkSync(archiveFilePath);
-        resolve(success ? `${settingsTargetDirectory}/python.exe` : undefined);
+        if (process.platform === "darwin") {
+          const pkgExtractor = new MacOSPythonPkgExtractor(
+            archiveFilePath,
+            targetDirectory
+          );
+
+          pkgExtractor
+            .extractPkg()
+            .then(success => {
+              if (versionBundle.python.version.lastIndexOf(".") <= 2) {
+                Logger.log(
+                  "Error while extracting Python: " +
+                    "Python version has wrong format."
+                );
+                resolve(undefined);
+              }
+
+              resolve(
+                success
+                  ? `${settingsTargetDirectory}/Versions/` +
+                      `${versionBundle.python.version.substring(
+                        0,
+                        versionBundle.python.version.lastIndexOf(".")
+                      )}/bin/python3`
+                  : undefined
+              );
+            })
+            .catch(() => {
+              resolve(undefined);
+            });
+        } else {
+          // unpack the archive
+          const success = unzipFile(archiveFilePath, targetDirectory);
+          // delete tmp file
+          unlinkSync(archiveFilePath);
+          resolve(
+            success ? `${settingsTargetDirectory}/python.exe` : undefined
+          );
+        }
       });
 
       response.pipe(fileWriter);
@@ -614,15 +695,21 @@ export async function downloadEmbedPython(): Promise<string | undefined> {
 const GIT_DOWNLOAD_URL_WIN_AMD64 =
   "https://github.com/git-for-windows/git/releases/download" +
   "/v2.43.0.windows.1/MinGit-2.43.0-64-bit.zip";
+const GIT_MACOS_VERSION = "2.43.0";
+const GIT_DOWNLOAD_URL_MACOS_ARM64 = "git-2.43.0-arm64_sonoma.bottle.tar.gz";
+const GIT_DOWNLOAD_URL_MACOS_INTEL = "git-2.43.0-intel_sonoma.bottle.tar.gz";
 
 /**
- * Only supported Windows amd64.
+ * Only supported Windows amd64 and macOS arm64 and amd64.
  *
  * @returns
  */
 export async function downloadGit(): Promise<string | undefined> {
-  if (process.platform !== "win32" || process.arch !== "x64") {
-    Logger.log("Git installation on Windows x64 bonly.");
+  if (
+    process.platform === "linux" ||
+    (process.platform === "win32" && process.arch !== "x64")
+  ) {
+    Logger.log("Git installation on Windows x64 and macOS only.");
 
     return;
   }
@@ -634,18 +721,26 @@ export async function downloadGit(): Promise<string | undefined> {
   if (existsSync(targetDirectory)) {
     Logger.log(`Git is already installed.`);
 
-    return;
+    return `${settingsTargetDirectory}/git` + `/${GIT_MACOS_VERSION}/bin/git`;
   }
 
   // Ensure the target directory exists
   await mkdir(targetDirectory, { recursive: true });
 
   // select download url for platform()_arch()
-  const downloadUrl = GIT_DOWNLOAD_URL_WIN_AMD64;
+  const downloadUrl =
+    process.platform === "darwin"
+      ? process.arch === "arm64"
+        ? GIT_DOWNLOAD_URL_MACOS_ARM64
+        : GIT_DOWNLOAD_URL_MACOS_INTEL
+      : GIT_DOWNLOAD_URL_WIN_AMD64;
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(tmpBasePath, `git.zip`);
+  const archiveFilePath = join(
+    tmpBasePath,
+    `git.${process.platform === "darwin" ? "tar.gz" : "zip"}`
+  );
 
   return new Promise(resolve => {
     const requestOptions = {
@@ -671,11 +766,29 @@ export async function downloadGit(): Promise<string | undefined> {
 
       // save the file to disk
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
-        // unpack the archive
-        const success = unzipFile(archiveFilePath, targetDirectory);
-        // delete tmp file
-        unlinkSync(archiveFilePath);
-        resolve(success ? `${settingsTargetDirectory}/cmd/git.exe` : undefined);
+        if (process.platform === "darwin") {
+          unxzFile(archiveFilePath, targetDirectory)
+            .then(success => {
+              unlinkSync(archiveFilePath);
+              resolve(
+                success
+                  ? `${settingsTargetDirectory}/git` +
+                      `/${GIT_MACOS_VERSION}/bin/git`
+                  : undefined
+              );
+            })
+            .catch(() => {
+              resolve(undefined);
+            });
+        } else {
+          // unpack the archive
+          const success = unzipFile(archiveFilePath, targetDirectory);
+          // delete tmp file
+          unlinkSync(archiveFilePath);
+          resolve(
+            success ? `${settingsTargetDirectory}/cmd/git.exe` : undefined
+          );
+        }
       });
 
       response.pipe(fileWriter);

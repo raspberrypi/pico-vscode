@@ -1,10 +1,7 @@
 import { exec } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
-import {
-  checkForRequirements,
-  showRequirementsNotMetErrorMessage,
-} from "./requirementsUtil.mjs";
-import { join } from "path";
+import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
+import { dirname, join } from "path";
 import type Settings from "../settings.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { readFileSync } from "fs";
@@ -12,6 +9,7 @@ import Logger from "../logger.mjs";
 import { readFile, writeFile } from "fs/promises";
 import { rimraf, windows as rimrafWindows } from "rimraf";
 import { homedir } from "os";
+import which from "which";
 
 export async function configureCmakeNinja(
   folder: Uri,
@@ -23,10 +21,38 @@ export async function configureCmakeNinja(
       folder.with({ path: join(folder.fsPath, "CMakeLists.txt") })
     );
 
-    const requirementsCheck = await checkForRequirements(settings);
+    const ninjaPath = await which(
+      settings.getString(SettingsKey.ninjaPath)?.replace(HOME_VAR, homedir()) ||
+        "ninja",
+      { nothrow: true }
+    );
+    const cmakePath = await which(
+      settings.getString(SettingsKey.cmakePath)?.replace(HOME_VAR, homedir()) ||
+        "cmake",
+      { nothrow: true }
+    );
+    // TODO: maybe also check for "python" on unix systems
+    const pythonPath = await which(
+      settings
+        .getString(SettingsKey.python3Path)
+        ?.replace(HOME_VAR, homedir()) || process.platform === "win32"
+        ? "python"
+        : "python3",
+      { nothrow: true }
+    );
 
-    if (!requirementsCheck[0]) {
-      void showRequirementsNotMetErrorMessage(requirementsCheck[1]);
+    if (ninjaPath === null || cmakePath === null) {
+      const missingTools = [];
+      if (ninjaPath === null) {
+        missingTools.push("Ninja");
+      }
+      if (cmakePath === null) {
+        missingTools.push("CMake");
+      }
+      if (pythonPath === null) {
+        missingTools.push("Python 3");
+      }
+      void showRequirementsNotMetErrorMessage(missingTools);
 
       return false;
     }
@@ -48,10 +74,25 @@ export async function configureCmakeNinja(
         // TODO: option for the user to choose the generator
         // TODO: maybe delete the build folder before running cmake so
         // all configuration files in build get updates
+        const customEnv = process.env;
+        const isWindows = process.platform === "win32";
+        customEnv[isWindows ? "Path" : "PATH"] = `${
+          ninjaPath.includes("/") ? dirname(ninjaPath) : ""
+        }${
+          cmakePath.includes("/")
+            ? `${isWindows ? ";" : ":"}${dirname(cmakePath)}`
+            : ""
+        }${
+          pythonPath.includes("/")
+            ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
+            : ""
+        }${customEnv[isWindows ? "Path" : "PATH"]}`;
+        // TODO: !IMPORTANT! support directory with spaces for cmake executable path
         const child = exec(
           `${cmake} -DCMAKE_BUILD_TYPE=Debug ` +
             `-G Ninja -B ./build "${folder.fsPath}"`,
           {
+            env: customEnv,
             cwd: folder.fsPath,
           }
         );

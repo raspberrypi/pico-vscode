@@ -2,61 +2,7 @@ import { window } from "vscode";
 import which from "which";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
-import { downloadEmbedPython, downloadGit } from "./download.mjs";
-import { homedir } from "os";
-
-/**
- * Checks if all requirements are met (to run the Pico Project Generator and cmake generator)
- *
- * @returns true if all requirements are met, false otherwise
- */
-export async function checkForRequirements(
-  settings: Settings
-): Promise<[boolean, string[]]> {
-  const ninjaExe: string =
-    settings
-      .getString(SettingsKey.ninjaPath)
-      ?.replace("${env:HOME}", homedir()) || "ninja";
-  const cmakeExe: string =
-    settings
-      .getString(SettingsKey.cmakePath)
-      ?.replace("${env:HOME}", homedir()) || "cmake";
-  // TODO: this may need to be updated for other systems only
-  // having python as executable for python3
-  const python3Exe: string =
-    settings
-      .getString(SettingsKey.python3Path)
-      ?.replace("${env:HOME}", homedir()) || process.platform === "win32"
-      ? "python"
-      : "python3";
-
-  const ninja: string | null = await which(ninjaExe, { nothrow: true });
-  const cmake: string | null = await which(cmakeExe, { nothrow: true });
-  const python3: string | null = await which(python3Exe, { nothrow: true });
-
-  const missing: string[] = [];
-  if (ninja === null) {
-    missing.push("Ninja");
-  }
-  if (cmake === null) {
-    missing.push("CMake");
-  }
-  if (python3 === null) {
-    if (process.platform !== "win32") {
-      missing.push("Python");
-    } else {
-      const python3Path = await downloadEmbedPython();
-      if (python3Path !== undefined) {
-        await settings.updateGlobal(SettingsKey.python3Path, python3Path);
-      } else {
-        missing.push("Python 3");
-      }
-    }
-  }
-
-  // TODO: check python version
-  return [missing.length === 0, missing];
-}
+import { downloadGit } from "./download.mjs";
 
 export async function showRequirementsNotMetErrorMessage(
   missing: string[]
@@ -101,17 +47,16 @@ export async function checkForInstallationRequirements(
 
   let requirementsMet: boolean = true;
   if (git === null) {
-    // if git is not available but os=win32 and it will download git and
-    // if successfull then requirementsMet will not set to false
-    if (process.platform !== "win32") {
+    if (process.platform === "linux") {
       requirementsMet = false;
     } else {
+      // install if not available
       const gitDownloaded: string | undefined = await downloadGit();
 
       if (gitDownloaded === undefined) {
         requirementsMet = false;
       } else {
-        // if git is downloaded for win32 set custom git path
+        // if git is downloaded set custom git path
         await settings.updateGlobal(SettingsKey.gitPath, gitDownloaded);
       }
     }

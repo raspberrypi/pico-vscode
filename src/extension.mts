@@ -95,7 +95,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (
     !(await downloadAndInstallSDK(
       selectedToolchainAndSDKVersions[0],
-      SDK_REPOSITORY_URL
+      SDK_REPOSITORY_URL,
+      settings
     ))
   ) {
     Logger.log(

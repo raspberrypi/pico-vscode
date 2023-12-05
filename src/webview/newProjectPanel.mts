@@ -14,7 +14,7 @@ import {
   ProgressLocation,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
-import { SettingsKey } from "../settings.mjs";
+import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import type Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
 import { dirname, join } from "path";
@@ -38,12 +38,14 @@ import {
   downloadAndInstallNinja,
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
+  downloadEmbedPython,
 } from "../utils/download.mjs";
 import { compare } from "../utils/semverUtil.mjs";
 import VersionBundlesLoader, {
   type VersionBundle,
 } from "../utils/versionBundles.mjs";
 import which from "which";
+import { homedir } from "os";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -57,6 +59,8 @@ interface SubmitMessageValue {
   cmakeMode: number;
   cmakePath: string;
   cmakeVersion: string;
+  pythonMode: number;
+  pythonPath: string;
 
   // features (libraries)
   spiFeature: boolean;
@@ -243,6 +247,7 @@ export class NewProjectPanel {
 
   private _projectRoot?: Uri;
   private _supportedToolchains?: SupportedToolchainVersion[];
+  private _versionBundlesLoader?: VersionBundlesLoader;
   private _versionBundle: VersionBundle | undefined;
 
   public static createOrShow(settings: Settings, extensionUri: Uri): void {
@@ -377,7 +382,9 @@ export class NewProjectPanel {
               if (
                 typeof message.value === "object" &&
                 message.value !== null &&
-                projectPath !== ""
+                projectPath !== "" &&
+                this._versionBundlesLoader !== undefined &&
+                this._versionBundle !== undefined
               ) {
                 const selectedSDK = data.selectedSDK.slice(0);
                 const selectedToolchain = this._supportedToolchains?.find(
@@ -389,6 +396,34 @@ export class NewProjectPanel {
                   void window.showErrorMessage(
                     "Failed to find selected toolchain."
                   );
+
+                  return;
+                }
+
+                // update to new selected sdk);
+                this._versionBundle =
+                  this._versionBundlesLoader.getModuleVersion(selectedSDK);
+
+                // TODO: check if no selection is based on versionBundle then maybe proceed
+                if (this._versionBundle === undefined) {
+                  void window.showErrorMessage(
+                    "Failed to find selected SDK version."
+                  );
+
+                  return;
+                }
+
+                // install python
+
+                // TODO: support python modes other than default with a switch like other radio
+                const python3Path = await downloadEmbedPython(
+                  this._versionBundle
+                );
+                if (python3Path !== undefined) {
+                  await settings.update(SettingsKey.python3Path, python3Path);
+                } else {
+                  await window.showErrorMessage("Failed to download python3.");
+                  this._logger.error("Failed to download python3.");
 
                   return;
                 }
@@ -625,7 +660,10 @@ export class NewProjectPanel {
                   cmakeExecutable,
                 };
 
-                await this._executePicoProjectGenerator(args);
+                await this._executePicoProjectGenerator(
+                  args,
+                  python3Path.replace(HOME_VAR, homedir())
+                );
               }
             }
             break;
@@ -699,7 +737,7 @@ export class NewProjectPanel {
       Uri.joinPath(this._extensionUri, "web", "raspberrypi-nav-header.svg")
     );
 
-    const versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
+    this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
 
     // construct auxiliar html
     // TODO: add offline handling - only load installed ones
@@ -719,7 +757,7 @@ export class NewProjectPanel {
       const supportedToolchains = await getSupportedToolchains();
       const ninjaReleases = await getNinjaReleases();
       const cmakeReleases = await getCmakeReleases();
-      this._versionBundle = versionBundlesLoader.getModuleVersion(
+      this._versionBundle = this._versionBundlesLoader.getModuleVersion(
         availableSDKs[0].tagName.replace("v", "")
       );
 
@@ -784,6 +822,9 @@ export class NewProjectPanel {
 
     const isNinjaSystemAvailable = (await which("ninja")) !== null;
     const isCmakeSystemAvailable = (await which("cmake")) !== null;
+    // TODO: check python version, workaround, ownly allow python3 commands on unix
+    const isPythonSystemAvailable =
+      (await which("python3")) !== null || (await which("python")) !== null;
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
@@ -889,7 +930,7 @@ export class NewProjectPanel {
                         </select>
                       </div>
                     </div>
-                    <div class="grid gap-6 md:grid-cols-4 mt-6">
+                    <div class="grid gap-6 md:grid-cols-6 mt-6">
                       <div class="col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
 
@@ -959,6 +1000,34 @@ export class NewProjectPanel {
                           <input type="radio" id="cmake-radio-path-executable" name="cmake-version-radio" value="3" class="mr-1 text-blue-500">
                           <label for="cmake-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
                           <input type="file" id="cmake-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+                        </div>
+                      </div>
+
+                      <div class="col-span-2">
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
+
+                        ${
+                          this._versionBundle !== undefined
+                            ? `<div class="flex items-center mb-2">
+                                <input type="radio" id="python-radio-default-version" name="python-version-radio" value="0" class="mr-1 text-blue-500">
+                                <label for="python-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
+                              </div>`
+                            : ""
+                        }
+
+                        ${
+                          isPythonSystemAvailable
+                            ? `<div class="flex items-center mb-2" >
+                                <input type="radio" id="python-radio-system-version" name="python-version-radio" value="1" class="mr-1 text-blue-500">
+                                <label for="python-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+                              </div>`
+                            : ""
+                        }
+
+                        <div class="flex items-center mb-2">
+                          <input type="radio" id="python-radio-path-executable" name="python-version-radio" value="2" class="mr-1 text-blue-500">
+                          <label for="python-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+                          <input type="file" id="python-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
                         </div>
                       </div>
                     </div>
@@ -1145,7 +1214,8 @@ export class NewProjectPanel {
    * @param options {@link NewProjectOptions} to pass to the Pico Project Generator
    */
   private async _executePicoProjectGenerator(
-    options: NewProjectOptions
+    options: NewProjectOptions,
+    pythonExe: string
   ): Promise<void> {
     const customEnv: { [key: string]: string } = {
       ...(process.env as { [key: string]: string }),
@@ -1159,15 +1229,19 @@ export class NewProjectPanel {
     customEnv[isWindows ? "Path" : "PATH"] = `${join(
       options.toolchainAndSDK.toolchainPath,
       "bin"
-    )}${isWindows ? ";" : ":"}${join(dirname(options.cmakeExecutable))}${
-      isWindows ? ";" : ":"
-    }${join(dirname(options.ninjaExecutable))}${isWindows ? ";" : ":"}${
-      customEnv[isWindows ? "Path" : "PATH"]
-    }`;
-    const pythonExe =
-      this._settings.getString(SettingsKey.python3Path) || isWindows
-        ? "python"
-        : "python3";
+    )}${
+      options.cmakeExecutable.includes("/")
+        ? `${isWindows ? ";" : ":"}${dirname(options.cmakeExecutable)}`
+        : ""
+    }${
+      options.ninjaExecutable.includes("/")
+        ? `${isWindows ? ";" : ":"}${dirname(options.ninjaExecutable)}`
+        : ""
+    }${
+      pythonExe.includes("/")
+        ? `${isWindows ? ";" : ":"}${dirname(pythonExe)}`
+        : ""
+    }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
     const command: string = [
       pythonExe,
@@ -1190,10 +1264,10 @@ export class NewProjectPanel {
       "--toolchainVersion",
       options.toolchainAndSDK.toolchainVersion,
       "--ninjaPath",
-      options.ninjaExecutable,
+      `"${options.ninjaExecutable}"`,
       "--cmakePath",
-      options.cmakeExecutable,
-      options.name,
+      `"${options.cmakeExecutable}"`,
+      `"${options.name}"`,
     ].join(" ");
 
     this._logger.debug(`Executing project generator command: ${command}`);

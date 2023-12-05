@@ -1,9 +1,19 @@
 {
   "1.5.0": {
+    "python": {
+      "version": "3.9.13",
+      "macos": "https://www.python.org/ftp/python/3.9.13/python-3.9.13-macos11.pkg",
+      "windowsAmd64": "https://www.python.org/ftp/python/3.9.13/python-3.9.13-embed-amd64.zip"
+    },
     "ninja": "v1.11.1",
     "cmake": "v3.28.0-rc6"
   },
   "1.5.1": {
+    "python": {
+      "version": "3.12.0",
+      "macos": "https://www.python.org/ftp/python/3.12.0/python-3.12.0-macos11.pkg",
+      "windowsAmd64": "https://www.python.org/ftp/python/3.12.0/python-3.12.0-embed-amd64.zip"
+    },
     "ninja": "v1.11.1",
     "cmake": "v3.28.0-rc6"
   }

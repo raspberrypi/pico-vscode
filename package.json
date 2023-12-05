@@ -101,6 +101,11 @@
           "default": "",
           "description": "Path to Ninja executable [no spaces]"
         },
+        "raspberry-pi-pico.gitPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to git executable [no spaces]"
+        },
         "raspberry-pi-pico.cmakeAutoConfigure": {
           "type": "boolean",
           "default": true,

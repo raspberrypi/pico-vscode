@@ -139,6 +139,46 @@ var isPicoWireless = false;
       }
     }
 
+    // selected cmake version
+    const pythonVersionRadio = document.getElementsByName('python-version-radio');
+    let pythonMode = null;
+    let pythonPath = null;
+    for (let i = 0; i < pythonVersionRadio.length; i++) {
+      if (pythonVersionRadio[i].checked) {
+        pythonMode = pythonVersionRadio[i].value;
+        break;
+      }
+    }
+    // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
+    if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
+      // TODO: first check if defaul is supported
+      pythonMode = 0;
+      console.debug('Invalid python version value: ' + pythonMode.toString());
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid python version."
+      });
+      submitted = false;
+
+      return;
+    }
+    if (cmakeMode == 2) {
+      const files = document.getElementById('python-path-executable').files;
+
+      if (files.length == 1) {
+        cmakePath = files[0].name;
+      } else {
+        console.debug("Please select a valid python executable file");
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: "Please select a valid python executable file."
+        });
+        submitted = false;
+
+        return;
+      }
+    }
+
     // features
     const spiFeature = document.getElementById('spi-features-cblist').checked;
     const pioFeature = document.getElementById('pio-features-cblist').checked;
@@ -215,6 +255,8 @@ var isPicoWireless = false;
         cmakeMode: Number(cmakeMode),
         cmakePath: cmakePath,
         cmakeVersion: cmakeVersion,
+        pythonMode: Number(pythonMode),
+        pythonPath: pythonPath,
 
         // features
         spiFeature: spiFeature,
@@ -308,4 +350,6 @@ var isPicoWireless = false;
   ninjaVersionRadio[0].checked = true;
   const cmakeVersionRadio = document.getElementsByName('cmake-version-radio');
   cmakeVersionRadio[0].checked = true;
+  const pythonVersionRadio = document.getElementsByName('python-version-radio');
+  pythonVersionRadio[0].checked = true;
 }());
