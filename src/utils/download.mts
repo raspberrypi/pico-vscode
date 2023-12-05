@@ -22,6 +22,7 @@ import AdmZip from "adm-zip";
 import type { VersionBundle } from "./versionBundles.mjs";
 import MacOSPythonPkgExtractor from "./macOSUtils.mjs";
 import which from "which";
+import { window } from "vscode";
 
 export function buildToolchainPath(version: string): string {
   // TODO: maybe put homedir() into global
@@ -181,6 +182,8 @@ export async function downloadAndInstallSDK(
       Logger.log(
         "Error: Python3 is not installed and could not be downloaded."
       );
+
+      void window.showErrorMessage("Python3 is not installed and in PATH.");
 
       return false;
     }

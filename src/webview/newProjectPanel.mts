@@ -417,27 +417,34 @@ export class NewProjectPanel {
 
                 // install python (if necessary)
                 let python3Path: string | undefined;
-                switch (data.pythonMode) {
-                  case 0:
-                    python3Path = await downloadEmbedPython(
-                      this._versionBundle
+                if (
+                  process.platform === "darwin" ||
+                  process.platform === "win32"
+                ) {
+                  switch (data.pythonMode) {
+                    case 0:
+                      python3Path = await downloadEmbedPython(
+                        this._versionBundle
+                      );
+                      break;
+                    case 1:
+                      python3Path =
+                        process.platform === "win32" ? "python" : "python3";
+                      break;
+                    case 2:
+                      python3Path = data.pythonPath;
+                      break;
+                  }
+
+                  if (python3Path === undefined) {
+                    await window.showErrorMessage(
+                      "Failed to find python3 executable."
                     );
-                    break;
-                  case 1:
-                    python3Path =
-                      process.platform === "win32" ? "python" : "python3";
-                    break;
-                  case 2:
-                    python3Path = data.pythonPath;
-                    break;
-                }
 
-                if (python3Path === undefined) {
-                  await window.showErrorMessage(
-                    "Failed to find python3 executable."
-                  );
-
-                  return;
+                    return;
+                  }
+                } else {
+                  python3Path = "python3";
                 }
 
                 // install selected sdk and toolchain if necessary
@@ -952,7 +959,12 @@ export class NewProjectPanel {
                         </select>
                       </div>
                     </div>
-                    <div class="grid gap-6 md:grid-cols-6 mt-6">
+                    <div class="grid gap-6 md:grid-cols-${
+                      process.platform === "darwin" ||
+                      process.platform === "win32"
+                        ? "6"
+                        : "4"
+                    } mt-6">
                       <div class="col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
 
@@ -1025,33 +1037,39 @@ export class NewProjectPanel {
                         </div>
                       </div>
 
-                      <div class="col-span-2">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
+                      ${
+                        process.platform === "darwin" ||
+                        process.platform === "win32"
+                          ? `
+                          <div class="col-span-2">
+                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
 
-                        ${
-                          this._versionBundle !== undefined
-                            ? `<div class="flex items-center mb-2">
-                                <input type="radio" id="python-radio-default-version" name="python-version-radio" value="0" class="mr-1 text-blue-500">
-                                <label for="python-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
-                              </div>`
-                            : ""
-                        }
+                            ${
+                              this._versionBundle !== undefined
+                                ? `<div class="flex items-center mb-2">
+                                    <input type="radio" id="python-radio-default-version" name="python-version-radio" value="0" class="mr-1 text-blue-500">
+                                    <label for="python-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
+                                  </div>`
+                                : ""
+                            }
 
-                        ${
-                          isPythonSystemAvailable
-                            ? `<div class="flex items-center mb-2" >
-                                <input type="radio" id="python-radio-system-version" name="python-version-radio" value="1" class="mr-1 text-blue-500">
-                                <label for="python-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
-                              </div>`
-                            : ""
-                        }
+                            ${
+                              isPythonSystemAvailable
+                                ? `<div class="flex items-center mb-2" >
+                                    <input type="radio" id="python-radio-system-version" name="python-version-radio" value="1" class="mr-1 text-blue-500">
+                                    <label for="python-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+                                  </div>`
+                                : ""
+                            }
 
-                        <div class="flex items-center mb-2">
-                          <input type="radio" id="python-radio-path-executable" name="python-version-radio" value="2" class="mr-1 text-blue-500">
-                          <label for="python-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
-                          <input type="file" id="python-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
-                        </div>
-                      </div>
+                            <div class="flex items-center mb-2">
+                              <input type="radio" id="python-radio-path-executable" name="python-version-radio" value="2" class="mr-1 text-blue-500">
+                              <label for="python-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+                              <input type="file" id="python-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+                            </div>
+                          </div>`
+                          : ""
+                      }
                     </div>
                 </form>
             </div>
