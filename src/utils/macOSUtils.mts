@@ -44,12 +44,12 @@ export default class MacOSPythonPkgExtractor {
     let exceptionOccurred = false;
     try {
       // Step 1: Extract the pkg file using pkgutil
-      const extractCmd = `pkgutil --expand ${this.pkgFilePath} ${tempDir}`;
+      const extractCmd = `pkgutil --expand "${this.pkgFilePath}" "${tempDir}"`;
       this.runCommand(extractCmd);
 
       // Step 2: Extract the payload using tar
       const payloadPath = join(tempDir, "Python_Framework.pkg", "Payload");
-      const tarCmd = `tar -xvf ${payloadPath} -C ${this.targetDirectory}`;
+      const tarCmd = `tar -xvf "${payloadPath}" -C "${this.targetDirectory}"`;
       this.runCommand(tarCmd);
     } catch (error) {
       exceptionOccurred = true;

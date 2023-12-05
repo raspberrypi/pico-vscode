@@ -14,10 +14,11 @@ import {
   ProgressLocation,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
-import { HOME_VAR, SettingsKey } from "../settings.mjs";
+import { HOME_VAR } from "../settings.mjs";
 import type Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
+import { join as joinPosix } from "path/posix";
 import { fileURLToPath } from "url";
 import {
   type SupportedToolchainVersion,
@@ -46,6 +47,7 @@ import VersionBundlesLoader, {
 } from "../utils/versionBundles.mjs";
 import which from "which";
 import { homedir } from "os";
+import { symlink } from "fs/promises";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -413,17 +415,27 @@ export class NewProjectPanel {
                   return;
                 }
 
-                // install python
+                // install python (if necessary)
+                let python3Path: string | undefined;
+                switch (data.pythonMode) {
+                  case 0:
+                    python3Path = await downloadEmbedPython(
+                      this._versionBundle
+                    );
+                    break;
+                  case 1:
+                    python3Path =
+                      process.platform === "win32" ? "python" : "python3";
+                    break;
+                  case 2:
+                    python3Path = data.pythonPath;
+                    break;
+                }
 
-                // TODO: support python modes other than default with a switch like other radio
-                const python3Path = await downloadEmbedPython(
-                  this._versionBundle
-                );
-                if (python3Path !== undefined) {
-                  await settings.update(SettingsKey.python3Path, python3Path);
-                } else {
-                  await window.showErrorMessage("Failed to download python3.");
-                  this._logger.error("Failed to download python3.");
+                if (python3Path === undefined) {
+                  await window.showErrorMessage(
+                    "Failed to find python3 executable."
+                  );
 
                   return;
                 }
@@ -517,10 +529,8 @@ export class NewProjectPanel {
                     if (!installedSuccessfully) {
                       return;
                     } else {
-                      // TODO: maybe custom with normal / also on windows for json
-                      ninjaExecutable = join(
+                      ninjaExecutable = joinPosix(
                         buildNinjaPath(data.ninjaVersion),
-                        //process.platform !== "win32" ? "ninja" : "ninja.exe"
                         "ninja"
                       );
                     }
@@ -529,7 +539,12 @@ export class NewProjectPanel {
                     ninjaExecutable = "ninja";
                     break;
                   case 3:
-                    ninjaExecutable = data.ninjaPath;
+                    // normalize path returned by the os selector to posix path for the settings json
+                    // and cross platform compatibility
+                    ninjaExecutable =
+                      process.platform === "win32"
+                        ? joinPosix(...data.ninjaPath.split("\\"))
+                        : data.ninjaPath;
                     break;
 
                   default:
@@ -576,38 +591,45 @@ export class NewProjectPanel {
                     if (!installedSuccessfully) {
                       return;
                     } else {
-                      // TODO: create platform independent cmake paths with symlinks
-                      // so .pico-sdk/cmake/3.20.0/cmake always points to the executable
-                      if (process.platform === "win32") {
-                        cmakeExecutable = join(
-                          buildCMakePath(data.cmakeVersion),
-                          "bin",
-                          //"cmake.exe"
-                          // make it more platform independent
-                          "cmake"
-                        );
-                      } else if (process.platform === "darwin") {
-                        cmakeExecutable = join(
-                          buildCMakePath(data.cmakeVersion),
-                          "CMake.app",
-                          "Contents",
-                          "bin",
-                          "cmake"
-                        );
-                      } else {
-                        cmakeExecutable = join(
-                          buildCMakePath(data.cmakeVersion),
-                          "bin",
-                          "cmake"
-                        );
+                      const cmakeVersionBasePath = buildCMakePath(
+                        data.cmakeVersion
+                      );
+                      if (process.platform === "darwin") {
+                        // create symlink on macOS from .pico-sdk/cmake/3.20.0/bin to .pico-sdk/cmake/3.20.0/CMake.app/Contents/bin
+                        // TODO: move into download and install cmake
+                        try {
+                          await symlink(
+                            join(
+                              cmakeVersionBasePath,
+                              "CMake.app",
+                              "Contents",
+                              "bin"
+                            ),
+                            join(cmakeVersionBasePath, "bin"),
+                            "dir"
+                          );
+                        } catch {
+                          // ignore
+                        }
                       }
+
+                      cmakeExecutable = joinPosix(
+                        cmakeVersionBasePath,
+                        "bin",
+                        "cmake"
+                      );
                     }
                     break;
                   case 1:
                     cmakeExecutable = "cmake";
                     break;
                   case 3:
-                    cmakeExecutable = data.cmakePath;
+                    // normalize path returned by the os selector to posix path for the settings json
+                    // and cross platform compatibility
+                    cmakeExecutable =
+                      process.platform === "win32"
+                        ? joinPosix(...data.cmakePath.split("\\"))
+                        : data.cmakePath;
                     break;
                   default:
                     await window.showErrorMessage("Unknown cmake selection.");
@@ -717,7 +739,7 @@ export class NewProjectPanel {
   }
 
   private async _getHtmlForWebview(webview: Webview): Promise<string> {
-    // TODO: sore in memory so on future update static stuff doesn't need to be read again
+    // TODO: store in memory so on future update static stuff doesn't need to be read again
     const mainScriptUri = webview.asWebviewUri(
       Uri.joinPath(this._extensionUri, "web", "main.js")
     );
@@ -1226,6 +1248,9 @@ export class NewProjectPanel {
     };
     // add compiler to PATH
     const isWindows = process.platform === "win32";
+    customEnv["PYTHONHOME"] = pythonExe.includes("/")
+      ? resolve(join(dirname(pythonExe), ".."))
+      : "";
     customEnv[isWindows ? "Path" : "PATH"] = `${join(
       options.toolchainAndSDK.toolchainPath,
       "bin"
@@ -1244,8 +1269,8 @@ export class NewProjectPanel {
     }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
     const command: string = [
-      pythonExe,
-      join(getScriptsRoot(), "pico_project.py"),
+      `${process.platform === "win32" ? "&" : ""}"${pythonExe}"`,
+      `"${joinPosix(getScriptsRoot(), "pico_project.py")}"`,
       enumToParam(options.boardType),
       ...options.consoleOptions.map(option => enumToParam(option)),
       !options.consoleOptions.includes(ConsoleOption.consoleOverUART)

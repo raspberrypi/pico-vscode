@@ -1,6 +1,7 @@
 import { promisify } from "util";
 import { exec } from "child_process";
 import Logger from "../logger.mjs";
+import { unlink } from "fs/promises";
 
 const execAsync = promisify(exec);
 
@@ -17,7 +18,10 @@ export async function initSubmodules(
   try {
     // Use the "git submodule update --init" command in the specified directory
     const command =
-      `cd ${sdkDirectory} && ` + `${gitExecutable} submodule update --init`;
+      `cd "${sdkDirectory}" && ` +
+      `${
+        process.platform === "win32" ? "&" : ""
+      }"${gitExecutable}" submodule update --init`;
     await execAsync(command);
 
     return true;
@@ -36,8 +40,10 @@ export async function cloneRepository(
 ): Promise<boolean> {
   // Clone the repository at the specified tag into the target directory
   const cloneCommand =
-    `${gitExecutable} -c advice.detachedHead=false clone --branch ` +
-    `${branch} ${repository} ${targetDirectory}`;
+    `${
+      process.platform === "win32" ? "&" : ""
+    }"${gitExecutable}" -c advice.detachedHead=false clone --branch ` +
+    `${branch} ${repository} "${targetDirectory}"`;
 
   try {
     await execAsync(cloneCommand);
@@ -46,6 +52,8 @@ export async function cloneRepository(
 
     return true;
   } catch (error) {
+    await unlink(targetDirectory);
+
     const err = error instanceof Error ? error.message : (error as string);
     Logger.log(`Error while cloning SDK: ${err}`);
 

@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
 import type Settings from "../settings.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { readFileSync } from "fs";
@@ -75,6 +75,9 @@ export async function configureCmakeNinja(
         // TODO: maybe delete the build folder before running cmake so
         // all configuration files in build get updates
         const customEnv = process.env;
+        customEnv["PYTHONHOME"] = pythonPath.includes("/")
+          ? resolve(join(dirname(pythonPath), ".."))
+          : "";
         const isWindows = process.platform === "win32";
         customEnv[isWindows ? "Path" : "PATH"] = `${
           ninjaPath.includes("/") ? dirname(ninjaPath) : ""
@@ -87,9 +90,11 @@ export async function configureCmakeNinja(
             ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
             : ""
         }${customEnv[isWindows ? "Path" : "PATH"]}`;
-        // TODO: !IMPORTANT! support directory with spaces for cmake executable path
+
         const child = exec(
-          `${cmake} -DCMAKE_BUILD_TYPE=Debug ` +
+          `${
+            process.platform === "win32" ? "?" : ""
+          }"${cmake}" -DCMAKE_BUILD_TYPE=Debug ` +
             `-G Ninja -B ./build "${folder.fsPath}"`,
           {
             env: customEnv,

@@ -22,9 +22,10 @@ export async function showRequirementsNotMetErrorMessage(
  * @returns true if all requirements are met, false otherwise
  */
 export async function checkForInstallationRequirements(
-  settings: Settings
+  settings: Settings,
+  gitPath?: string
 ): Promise<boolean> {
-  const gitExe: string = "git";
+  const gitExe: string = gitPath || "git";
   const compilerExe: string[] = ["clang", "gcc", "cl"];
   const tools: string[] = ["pioasm", "elf2uf2"];
 

@@ -8,7 +8,10 @@ import {
   downloadAndInstallToolchain,
 } from "../utils/download.mjs";
 import { cmakeUpdateSDK } from "../utils/cmakeUtil.mjs";
-import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
+import {
+  type SupportedToolchainVersion,
+  getSupportedToolchains,
+} from "../utils/toolchainUtil.mjs";
 import type Settings from "../settings.mjs";
 
 export default class SwitchSDKCommand extends Command {
@@ -51,18 +54,30 @@ export default class SwitchSDKCommand extends Command {
       return;
     }
 
-    // TODO: catch promis failure
-    const supportedToolchainVersions = await getSupportedToolchains();
-    // show quick pick for toolchain version
-    const selectedToolchainVersion = await window.showQuickPick(
-      supportedToolchainVersions.map(toolchain => ({
-        label: toolchain.version.replaceAll("_", "."),
-        toolchain: toolchain,
-      })),
-      {
-        placeHolder: "Select ARM Embeded Toolchain version",
-      }
-    );
+    let selectedToolchainVersion:
+      | { label: string; toolchain: SupportedToolchainVersion }
+      | undefined;
+
+    try {
+      const supportedToolchainVersions = await getSupportedToolchains();
+      // show quick pick for toolchain version
+      selectedToolchainVersion = await window.showQuickPick(
+        supportedToolchainVersions.map(toolchain => ({
+          label: toolchain.version.replaceAll("_", "."),
+          toolchain: toolchain,
+        })),
+        {
+          placeHolder: "Select ARM Embeded Toolchain version",
+        }
+      );
+    } catch (error) {
+      void window.showErrorMessage(
+        "Failed to get supported toolchain versions. " +
+          "Make sure you are connected to the internet."
+      );
+
+      return;
+    }
 
     if (selectedToolchainVersion === undefined) {
       return;
@@ -81,7 +96,8 @@ export default class SwitchSDKCommand extends Command {
         if (
           await downloadAndInstallSDK(
             selectedSDK.sdk.tagName,
-            SDK_REPOSITORY_URL
+            SDK_REPOSITORY_URL,
+            this._settings
           )
         ) {
           progress.report({
@@ -90,7 +106,7 @@ export default class SwitchSDKCommand extends Command {
 
           if (
             await downloadAndInstallToolchain(
-              selectedToolchainVersion.toolchain
+              selectedToolchainVersion!.toolchain
             )
           ) {
             progress.report({
@@ -100,7 +116,7 @@ export default class SwitchSDKCommand extends Command {
             await updateVSCodeStaticConfigs(
               workspaceFolder.uri.fsPath,
               selectedSDK.sdk.tagName,
-              selectedToolchainVersion.toolchain.version
+              selectedToolchainVersion!.toolchain.version
             );
 
             progress.report({
@@ -111,7 +127,7 @@ export default class SwitchSDKCommand extends Command {
               workspaceFolder.uri,
               this._settings,
               selectedSDK.sdk.tagName,
-              selectedToolchainVersion.toolchain.version
+              selectedToolchainVersion!.toolchain.version
             );
 
             progress.report({
@@ -125,7 +141,7 @@ export default class SwitchSDKCommand extends Command {
             progress.report({
               message:
                 "Failed to install " +
-                `toolchain ${selectedToolchainVersion.label}.`,
+                `toolchain ${selectedToolchainVersion!.label}.`,
               increment: 60,
             });
 

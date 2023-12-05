@@ -126,7 +126,14 @@ export async function downloadAndInstallSDK(
   repositoryUrl: string,
   settings: Settings
 ): Promise<boolean> {
-  const requirementsCheck = await checkForInstallationRequirements(settings);
+  const gitExecutable =
+    settings.getString(SettingsKey.gitPath)?.replace(HOME_VAR, homedir()) ||
+    "git";
+
+  const requirementsCheck = await checkForInstallationRequirements(
+    settings,
+    gitExecutable
+  );
   if (!requirementsCheck) {
     return false;
   }
@@ -142,9 +149,6 @@ export async function downloadAndInstallSDK(
 
   // Ensure the target directory exists
   //await mkdir(targetDirectory, { recursive: true });
-  const gitExecutable =
-    settings.getString(SettingsKey.gitPath)?.replace(HOME_VAR, homedir()) ||
-    "git";
   const gitPath = await which(gitExecutable, { nothrow: true });
   if (gitPath === null) {
     // try to install git
@@ -168,7 +172,7 @@ export async function downloadAndInstallSDK(
     const python3Exe: string =
       settings
         .getString(SettingsKey.python3Path)
-        ?.replace("${env:HOME}", homedir()) || process.platform === "win32"
+        ?.replace(HOME_VAR, homedir()) || process.platform === "win32"
         ? "python"
         : "python3";
     const python3: string | null = await which(python3Exe, { nothrow: true });
@@ -265,14 +269,21 @@ export async function downloadAndInstallToolchain(
               resolve(success);
             })
             .catch(() => {
+              unlinkSync(archiveFilePath);
+              unlinkSync(targetDirectory);
               resolve(false);
             });
         } else if (artifactExt === "zip") {
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
           unlinkSync(archiveFilePath);
+          if (!success) {
+            unlinkSync(targetDirectory);
+          }
           resolve(success);
         } else {
+          unlinkSync(archiveFilePath);
+          unlinkSync(targetDirectory);
           Logger.log(`Error: unknown archive extension: ${artifactExt}`);
           resolve(false);
         }
@@ -280,7 +291,9 @@ export async function downloadAndInstallToolchain(
 
       response.pipe(fileWriter);
     }).on("error", () => {
-      // TODO: delete directories where the archive should be extracted to
+      // clean
+      unlinkSync(archiveFilePath);
+      unlinkSync(targetDirectory);
       Logger.log("Error while downloading toolchain.");
 
       return false;
@@ -541,6 +554,8 @@ export async function downloadAndInstallCmake(
               resolve(success);
             })
             .catch(() => {
+              unlinkSync(archiveFilePath);
+              unlinkSync(targetDirectory);
               resolve(false);
             });
         } else if (process.platform === "win32") {
@@ -550,6 +565,8 @@ export async function downloadAndInstallCmake(
           resolve(success);
         } else {
           Logger.log(`Error: platform not supported for downloading cmake.`);
+          unlinkSync(archiveFilePath);
+          unlinkSync(targetDirectory);
 
           resolve(false);
         }
