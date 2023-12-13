@@ -849,11 +849,14 @@ export class NewProjectPanel {
       return "";
     }
 
-    const isNinjaSystemAvailable = (await which("ninja")) !== null;
-    const isCmakeSystemAvailable = (await which("cmake")) !== null;
+    const isNinjaSystemAvailable =
+      (await which("ninja", { nothrow: true })) !== null;
+    const isCmakeSystemAvailable =
+      (await which("cmake", { nothrow: true })) !== null;
     // TODO: check python version, workaround, ownly allow python3 commands on unix
     const isPythonSystemAvailable =
-      (await which("python3")) !== null || (await which("python")) !== null;
+      (await which("python3", { nothrow: true })) !== null ||
+      (await which("python", { nothrow: true })) !== null;
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
