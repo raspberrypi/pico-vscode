@@ -1326,6 +1326,9 @@ export class NewProjectPanel {
       cwd: getScriptsRoot(),
       windowsHide: true,
       timeout: 15000,
+      // TODO: maybe zsh on new macOS systems
+      // default on win32 is cmd, switchted to powershell cause cmd doesn't support the & for running string commands
+      shell: process.platform === "win32" ? "powershell.exe" : "/bin/bash",
     });
     if (generatorExitCode === 0) {
       void window.showInformationMessage(

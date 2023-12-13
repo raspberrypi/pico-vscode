@@ -68,7 +68,7 @@ export async function configureCmakeNinja(
         const cmake =
           settings
             .getString(SettingsKey.cmakePath)
-            ?.replace(HOME_VAR, homedir()) || "cmake";
+            ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "cmake";
 
         // TODO: analyze command result
         // TODO: option for the user to choose the generator
@@ -93,7 +93,7 @@ export async function configureCmakeNinja(
 
         const child = exec(
           `${
-            process.platform === "win32" ? "?" : ""
+            process.platform === "win32" ? "&" : ""
           }"${cmake}" -DCMAKE_BUILD_TYPE=Debug ` +
             `-G Ninja -B ./build "${folder.fsPath}"`,
           {
