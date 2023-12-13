@@ -88,7 +88,7 @@ function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
         // Use fs.renameSync to move the item
         renameSync(itemPath, newItemPath);
       });
-      unlinkSync(subfolderPath);
+      rmdirSync(subfolderPath);
     }
 
     return true;

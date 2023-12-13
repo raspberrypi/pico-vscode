@@ -167,6 +167,9 @@ export async function cmakeUpdateSDK(
     Logger.log("Updated paths in CMakeLists.txt successfully.");
 
     // reconfigure so .build gets updated
+    // TODO: To get a behavior similar to the rm -rf Unix command,
+    // use rmSync with options { recursive: true, force: true }
+    // to remove rimraf requirement
     if (process.platform === "win32") {
       await rimrafWindows(join(folder.fsPath, "build"), { maxRetries: 2 });
     } else {
