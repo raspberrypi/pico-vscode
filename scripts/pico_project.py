@@ -1178,6 +1178,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
     cPath = compilerPath.as_posix()
 
+    # if this is a path in the .pico-sdk homedir tell the settings to use the homevar
+    user_home = os.path.expanduser("~").replace("\\\\", "/")
+    use_home_var = f"{user_home}/.pico-sdk" in ninjaPath
+
     for p in projects :
         if p == 'vscode':
             launch = f'''{{
@@ -1281,8 +1285,8 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "cmake.generator": "Ninja",
     "cmake.cmakePath": "{cmakePath}",
     "raspberry-pi-pico.cmakeAutoConfigure": true,
-    "raspberry-pi-pico.cmakePath": "{cmakePath}",
-    "raspberry-pi-pico.ninjaPath": "{ninjaPath}"
+    "raspberry-pi-pico.cmakePath": "{cmakePath.replace(user_home, "${HOME}") if use_home_var else cmakePath}",
+    "raspberry-pi-pico.ninjaPath": "{ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath}"
 }}
 '''
 
@@ -1303,7 +1307,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
         {{
             "label": "Compile Project",
             "type": "shell",
-            "command": "{ninjaPath}",
+            "command": "{ninjaPath.replace(user_home, "${userHome}") if use_home_var else ninjaPath}",
             "args": ["-C", "${{workspaceFolder}}/build"],
             "group": "build",
             "presentation": {{

@@ -168,8 +168,9 @@ export async function downloadAndInstallSDK(
   settings: Settings
 ): Promise<boolean> {
   const gitExecutable =
-    settings.getString(SettingsKey.gitPath)?.replace(HOME_VAR, homedir()) ||
-    "git";
+    settings
+      .getString(SettingsKey.gitPath)
+      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
 
   const requirementsCheck = await checkForInstallationRequirements(
     settings,
@@ -213,7 +214,8 @@ export async function downloadAndInstallSDK(
     const python3Exe: string =
       settings
         .getString(SettingsKey.python3Path)
-        ?.replace(HOME_VAR, homedir()) || process.platform === "win32"
+        ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ||
+      process.platform === "win32"
         ? "python"
         : "python3";
     const python3: string | null = await which(python3Exe, { nothrow: true });
@@ -794,7 +796,9 @@ export async function downloadGit(): Promise<string | undefined> {
   if (existsSync(targetDirectory)) {
     Logger.log(`Git is already installed.`);
 
-    return `${settingsTargetDirectory}/git` + `/${GIT_MACOS_VERSION}/bin/git`;
+    return process.platform === "win32"
+      ? `${settingsTargetDirectory}/cmd/git.exe`
+      : `${settingsTargetDirectory}/bin/git`;
   }
 
   // Ensure the target directory exists
@@ -844,10 +848,7 @@ export async function downloadGit(): Promise<string | undefined> {
             .then(success => {
               unlinkSync(archiveFilePath);
               resolve(
-                success
-                  ? `${settingsTargetDirectory}/git` +
-                      `/${GIT_MACOS_VERSION}/bin/git`
-                  : undefined
+                success ? `${settingsTargetDirectory}/bin/git` : undefined
               );
             })
             .catch(() => {
