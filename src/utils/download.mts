@@ -73,20 +73,23 @@ function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
     const zip = new AdmZip(zipFilePath);
     zip.extractAllTo(targetDirectory, true, true);
 
-    // AdmZip creates a folder with the zip filename, this is a workaround
-    // to extract contents into the targetDirectory
+    if (
+      process.platform === "win32" &&
+      readdirSync(targetDirectory).length === 1
+    ) {
+      const subfolderPath = join(
+        targetDirectory,
+        readdirSync(targetDirectory)[0]
+      );
+      readdirSync(subfolderPath).forEach(item => {
+        const itemPath = join(subfolderPath, item);
+        const newItemPath = join(targetDirectory, item);
 
-    // move all files and folders from targetDirectory/basename(filePath)
-    // to targetDirectory and delete folder
-    const subfolderPath = join(targetDirectory, basename(zipFilePath));
-    readdirSync(subfolderPath).forEach(item => {
-      const itemPath = join(subfolderPath, item);
-      const newItemPath = join(targetDirectory, item);
-
-      // Use fs.renameSync to move the item
-      renameSync(itemPath, newItemPath);
-    });
-    unlinkSync(subfolderPath);
+        // Use fs.renameSync to move the item
+        renameSync(itemPath, newItemPath);
+      });
+      unlinkSync(subfolderPath);
+    }
 
     return true;
   } catch (error) {
