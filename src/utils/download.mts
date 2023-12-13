@@ -33,19 +33,39 @@ export function buildToolchainPath(version: string): string {
 
 export function buildSDKPath(version: string): string {
   // TODO: maybe replace . with _
-  return joinPosix(homedir(), ".pico-sdk", "sdk", version);
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "sdk",
+    version
+  );
 }
 
 export function buildNinjaPath(version: string): string {
-  return joinPosix(homedir(), ".pico-sdk", "ninja", version);
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "ninja",
+    version
+  );
 }
 
 export function buildCMakePath(version: string): string {
-  return joinPosix(homedir(), ".pico-sdk", "cmake", version);
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "cmake",
+    version
+  );
 }
 
 export function buildPython3Path(version: string): string {
-  return joinPosix(homedir(), ".pico-sdk", "python", version);
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "python",
+    version
+  );
 }
 
 function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
