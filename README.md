@@ -41,4 +41,4 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-- After a new project is created, intellisense and auto-completion may not work until you completly restart VSCode (on macOS this means `right-click on VSCode icon > quit` and not just closing the window).
+- If the extension installs Python it can't currently be used due to an issue with dynlib include paths (macOS only)

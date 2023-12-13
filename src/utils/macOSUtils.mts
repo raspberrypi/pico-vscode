@@ -4,6 +4,7 @@ import { mkdir } from "fs";
 import { rimrafSync } from "rimraf";
 import { dirname, join } from "path";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ensureDir(dirPath: string): Promise<void> {
   return new Promise(resolve => {
     mkdir(dirPath, { recursive: true }, () => {

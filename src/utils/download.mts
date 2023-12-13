@@ -4,11 +4,13 @@ import {
   readdirSync,
   renameSync,
   rmdirSync,
+  symlinkSync,
   unlinkSync,
 } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
 import { basename, join } from "path";
+import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
 import { get } from "https";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
@@ -25,25 +27,25 @@ import which from "which";
 import { window } from "vscode";
 
 export function buildToolchainPath(version: string): string {
-  // TODO: maybe put homedir() into global
-  return join(homedir(), ".pico-sdk", "toolchain", version);
+  // TODO: maybe put homedir() into a global
+  return joinPosix(homedir(), ".pico-sdk", "toolchain", version);
 }
 
 export function buildSDKPath(version: string): string {
   // TODO: maybe replace . with _
-  return join(homedir(), ".pico-sdk", "sdk", version);
+  return joinPosix(homedir(), ".pico-sdk", "sdk", version);
 }
 
 export function buildNinjaPath(version: string): string {
-  return join(homedir(), ".pico-sdk", "ninja", version);
+  return joinPosix(homedir(), ".pico-sdk", "ninja", version);
 }
 
 export function buildCMakePath(version: string): string {
-  return join(homedir(), ".pico-sdk", "cmake", version);
+  return joinPosix(homedir(), ".pico-sdk", "cmake", version);
 }
 
 export function buildPython3Path(version: string): string {
-  return join(homedir(), ".pico-sdk", "python", version);
+  return joinPosix(homedir(), ".pico-sdk", "python", version);
 }
 
 function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
@@ -331,6 +333,7 @@ export async function downloadAndInstallNinja(
   const archiveFilePath = join(tmpBasePath, `ninja.zip`);
 
   const octokit = new Octokit();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   let ninjaAsset: { name: string; browser_download_url: string } | undefined;
 
   try {
@@ -362,6 +365,7 @@ export async function downloadAndInstallNinja(
     } else {
       ninjaAsset = {
         name: version,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         browser_download_url: redirectURL,
       };
     }
@@ -608,16 +612,9 @@ export async function downloadEmbedPython(
 
   // Check if the Embed Python is already installed
   if (existsSync(targetDirectory)) {
-    Logger.log(`Embed correct Python is already installed.`);
+    Logger.log(`Embed Python is already installed correctly.`);
 
-    // TODO: move into helper function
-    return (
-      `${settingsTargetDirectory}/Versions/` +
-      `${versionBundle.python.version.substring(
-        0,
-        versionBundle.python.version.lastIndexOf(".")
-      )}/bin/python3`
-    );
+    return `${settingsTargetDirectory}/python`;
   }
 
   // Ensure the target directory exists
@@ -679,15 +676,31 @@ export async function downloadEmbedPython(
                 resolve(undefined);
               }
 
-              resolve(
-                success
-                  ? `${settingsTargetDirectory}/Versions/` +
-                      `${versionBundle.python.version.substring(
+              if (success) {
+                try {
+                  // create symlink, so the same path can be used as on Windows
+                  symlinkSync(
+                    joinPosix(
+                      settingsTargetDirectory,
+                      "/Versions/",
+                      versionBundle.python.version.substring(
                         0,
                         versionBundle.python.version.lastIndexOf(".")
-                      )}/bin/python3`
-                  : undefined
-              );
+                      ),
+                      "bin",
+                      "python3"
+                    ),
+                    join(settingsTargetDirectory, "python"),
+                    "file"
+                  );
+                } catch {
+                  resolve(undefined);
+                }
+
+                resolve(`${settingsTargetDirectory}/python`);
+              } else {
+                resolve(undefined);
+              }
             })
             .catch(() => {
               resolve(undefined);
@@ -697,9 +710,7 @@ export async function downloadEmbedPython(
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
           unlinkSync(archiveFilePath);
-          resolve(
-            success ? `${settingsTargetDirectory}/python.exe` : undefined
-          );
+          resolve(success ? `${settingsTargetDirectory}/python` : undefined);
         }
       });
 
@@ -716,8 +727,12 @@ const GIT_DOWNLOAD_URL_WIN_AMD64 =
   "https://github.com/git-for-windows/git/releases/download" +
   "/v2.43.0.windows.1/MinGit-2.43.0-64-bit.zip";
 const GIT_MACOS_VERSION = "2.43.0";
-const GIT_DOWNLOAD_URL_MACOS_ARM64 = "git-2.43.0-arm64_sonoma.bottle.tar.gz";
-const GIT_DOWNLOAD_URL_MACOS_INTEL = "git-2.43.0-intel_sonoma.bottle.tar.gz";
+const GIT_DOWNLOAD_URL_MACOS_ARM64 =
+  "https://bd752571.vscode-raspberry-pi-pico.pages.dev" +
+  "/git-2.43.0-arm64_sonoma.bottle.tar.gz";
+const GIT_DOWNLOAD_URL_MACOS_INTEL =
+  "https://bd752571.vscode-raspberry-pi-pico.pages.dev" +
+  "/git-2.43.0-intel_sonoma.bottle.tar.gz";
 
 /**
  * Only supported Windows amd64 and macOS arm64 and amd64.
