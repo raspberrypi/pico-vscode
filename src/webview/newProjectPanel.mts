@@ -691,7 +691,7 @@ export class NewProjectPanel {
 
                 await this._executePicoProjectGenerator(
                   args,
-                  python3Path.replace(HOME_VAR, homedir())
+                  python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
                 );
               }
             }
@@ -1362,5 +1362,9 @@ function getNonce(): string {
 }
 
 function getScriptsRoot(): string {
-  return join(dirname(fileURLToPath(import.meta.url)), "..", "scripts");
+  return joinPosix(
+    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
+    "..",
+    "scripts"
+  );
 }
