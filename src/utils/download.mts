@@ -74,13 +74,17 @@ function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
     const zip = new AdmZip(zipFilePath);
     zip.extractAllTo(targetDirectory, true, true);
 
+    // TODO: improve this
     const targetDirContents = readdirSync(targetDirectory);
+    const subfolderPath =
+      targetDirContents.length === 1
+        ? join(targetDirectory, targetDirContents[0])
+        : "";
     if (
       process.platform === "win32" &&
       targetDirContents.length === 1 &&
-      statSync(targetDirContents[0]).isDirectory()
+      statSync(subfolderPath).isDirectory()
     ) {
-      const subfolderPath = join(targetDirectory, targetDirContents[0]);
       readdirSync(subfolderPath).forEach(item => {
         const itemPath = join(subfolderPath, item);
         const newItemPath = join(targetDirectory, item);
