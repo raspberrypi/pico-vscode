@@ -4,6 +4,7 @@ import {
   readdirSync,
   renameSync,
   rmdirSync,
+  statSync,
   symlinkSync,
   unlinkSync,
 } from "fs";
@@ -73,14 +74,13 @@ function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
     const zip = new AdmZip(zipFilePath);
     zip.extractAllTo(targetDirectory, true, true);
 
+    const targetDirContents = readdirSync(targetDirectory);
     if (
       process.platform === "win32" &&
-      readdirSync(targetDirectory).length === 1
+      targetDirContents.length === 1 &&
+      statSync(targetDirContents[0]).isDirectory()
     ) {
-      const subfolderPath = join(
-        targetDirectory,
-        readdirSync(targetDirectory)[0]
-      );
+      const subfolderPath = join(targetDirectory, targetDirContents[0]);
       readdirSync(subfolderPath).forEach(item => {
         const itemPath = join(subfolderPath, item);
         const newItemPath = join(targetDirectory, item);

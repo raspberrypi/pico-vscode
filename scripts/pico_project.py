@@ -1179,7 +1179,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     cPath = compilerPath.as_posix()
 
     # if this is a path in the .pico-sdk homedir tell the settings to use the homevar
-    user_home = os.path.expanduser("~").replace("\\\\", "/")
+    user_home = os.path.expanduser("~").replace("\\", "/")
     use_home_var = f"{user_home}/.pico-sdk" in ninjaPath
 
     for p in projects :

@@ -162,7 +162,7 @@ var isPicoWireless = false;
 
       return;
     }
-    if (cmakeMode == 2) {
+    if (pythonMode == 2) {
       const files = document.getElementById('python-path-executable').files;
 
       if (files.length == 1) {
