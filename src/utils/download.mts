@@ -637,7 +637,8 @@ export async function downloadAndInstallCmake(
  * @returns
  */
 export async function downloadEmbedPython(
-  versionBundle: VersionBundle
+  versionBundle: VersionBundle,
+  redirectURL?: string
 ): Promise<string | undefined> {
   if (
     process.platform === "linux" ||
@@ -655,7 +656,7 @@ export async function downloadEmbedPython(
     `${HOME_VAR}/.pico-sdk` + `/python/${versionBundle.python.version}`;
 
   // Check if the Embed Python is already installed
-  if (existsSync(targetDirectory)) {
+  if (redirectURL === undefined && existsSync(targetDirectory)) {
     Logger.log(`Embed Python is already installed correctly.`);
 
     return `${settingsTargetDirectory}/python.exe`;
@@ -666,9 +667,10 @@ export async function downloadEmbedPython(
 
   // select download url for platform()_arch()
   const downloadUrl =
-    process.platform === "darwin"
+    redirectURL ??
+    (process.platform === "darwin"
       ? versionBundle.python.macos
-      : versionBundle.python.windowsAmd64;
+      : versionBundle.python.windowsAmd64);
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
@@ -699,6 +701,13 @@ export async function downloadEmbedPython(
         Logger.log("Error while downloading python: " + response.statusMessage);
 
         return resolve(undefined);
+      }
+
+      // handle redirects
+      if (code > 300 && code < 400 && !!response.headers.location) {
+        return resolve(
+          downloadEmbedPython(versionBundle, response.headers.location)
+        );
       }
 
       // save the file to disk
@@ -786,7 +795,9 @@ const GIT_DOWNLOAD_URL_MACOS_INTEL =
  *
  * @returns
  */
-export async function downloadGit(): Promise<string | undefined> {
+export async function downloadGit(
+  redirectURL?: string
+): Promise<string | undefined> {
   if (
     process.platform === "linux" ||
     (process.platform === "win32" && process.arch !== "x64")
@@ -800,7 +811,7 @@ export async function downloadGit(): Promise<string | undefined> {
   const settingsTargetDirectory = `${HOME_VAR}/.pico-sdk/git`;
 
   // Check if the Embed Python is already installed
-  if (existsSync(targetDirectory)) {
+  if (redirectURL === undefined && existsSync(targetDirectory)) {
     Logger.log(`Git is already installed.`);
 
     return process.platform === "win32"
@@ -813,11 +824,12 @@ export async function downloadGit(): Promise<string | undefined> {
 
   // select download url for platform()_arch()
   const downloadUrl =
-    process.platform === "darwin"
+    redirectURL ??
+    (process.platform === "darwin"
       ? process.arch === "arm64"
         ? GIT_DOWNLOAD_URL_MACOS_ARM64
         : GIT_DOWNLOAD_URL_MACOS_INTEL
-      : GIT_DOWNLOAD_URL_WIN_AMD64;
+      : GIT_DOWNLOAD_URL_WIN_AMD64);
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
@@ -846,6 +858,11 @@ export async function downloadGit(): Promise<string | undefined> {
         Logger.log("Error while downloading git: " + response.statusMessage);
 
         resolve(undefined);
+      }
+
+      // handle redirects
+      if (code > 300 && code < 400 && !!response.headers.location) {
+        return resolve(downloadGit(response.headers.location));
       }
 
       // save the file to disk
