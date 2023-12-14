@@ -658,7 +658,7 @@ export async function downloadEmbedPython(
   if (existsSync(targetDirectory)) {
     Logger.log(`Embed Python is already installed correctly.`);
 
-    return `${settingsTargetDirectory}/python`;
+    return `${settingsTargetDirectory}/python.exe`;
   }
 
   // Ensure the target directory exists
@@ -734,14 +734,15 @@ export async function downloadEmbedPython(
                       "bin",
                       "python3"
                     ),
-                    join(settingsTargetDirectory, "python"),
+                    // use .exe as python is already used in the directory
+                    join(settingsTargetDirectory, "python.exe"),
                     "file"
                   );
                 } catch {
                   resolve(undefined);
                 }
 
-                resolve(`${settingsTargetDirectory}/python`);
+                resolve(`${settingsTargetDirectory}/python.exe`);
               } else {
                 resolve(undefined);
               }
@@ -754,7 +755,9 @@ export async function downloadEmbedPython(
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
           unlinkSync(archiveFilePath);
-          resolve(success ? `${settingsTargetDirectory}/python` : undefined);
+          resolve(
+            success ? `${settingsTargetDirectory}/python.exe` : undefined
+          );
         }
       });
 

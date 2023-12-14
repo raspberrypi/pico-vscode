@@ -42,3 +42,4 @@ This extension contributes the following settings:
 ## Known Issues
 
 - If the extension installs Python it can't currently be used due to an issue with dynlib include paths (macOS only)
+- Cannot run project generator 2 times in a row without restarting the extension
