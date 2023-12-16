@@ -805,7 +805,7 @@ export async function downloadGit(
   redirectURL?: string
 ): Promise<string | undefined> {
   if (
-    process.platform === "linux" ||
+    process.platform !== "win32" ||
     (process.platform === "win32" && process.arch !== "x64")
   ) {
     Logger.log("Git installation on Windows x64 and macOS only.");
@@ -829,20 +829,11 @@ export async function downloadGit(
   await mkdir(targetDirectory, { recursive: true });
 
   // select download url for platform()_arch()
-  const downloadUrl =
-    redirectURL ??
-    (process.platform === "darwin"
-      ? process.arch === "arm64"
-        ? GIT_DOWNLOAD_URL_MACOS_ARM64
-        : GIT_DOWNLOAD_URL_MACOS_INTEL
-      : GIT_DOWNLOAD_URL_WIN_AMD64);
+  const downloadUrl = redirectURL ?? GIT_DOWNLOAD_URL_WIN_AMD64;
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(
-    tmpBasePath,
-    `git.${process.platform === "darwin" ? "tar.gz" : "zip"}`
-  );
+  const archiveFilePath = join(tmpBasePath, `git.zip`);
 
   return new Promise(resolve => {
     const requestOptions = {
@@ -873,6 +864,7 @@ export async function downloadGit(
 
       // save the file to disk
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // TODO: remove unused code-path here
         if (process.platform === "darwin") {
           unxzFile(archiveFilePath, targetDirectory)
             .then(success => {

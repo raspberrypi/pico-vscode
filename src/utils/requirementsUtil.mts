@@ -50,6 +50,13 @@ export async function checkForInstallationRequirements(
   if (git === null) {
     if (process.platform === "linux") {
       requirementsMet = false;
+    } else if (process.platform === "darwin") {
+      void window.showErrorMessage(
+        "Installation of the Pico-SDK requires Git to be installed " +
+          "and in PATH. You can install it by running " +
+          "`xcode-select --install` in the terminal and restart your computer."
+      );
+      requirementsMet = false;
     } else {
       // install if not available
       const gitDownloaded: string | undefined = await downloadGit();
@@ -83,7 +90,7 @@ export async function showInstallationRequirementsNotMetErrorMessage(
   isGitInstalled: boolean,
   allToolsAvailableOrCompilerInstalled: boolean
 ): Promise<void> {
-  if (!isGitInstalled) {
+  if (!isGitInstalled && process.platform !== "darwin") {
     await window.showErrorMessage(
       "Installation of the Pico-SDK requires Git " +
         "to be installed and available in the PATH."
