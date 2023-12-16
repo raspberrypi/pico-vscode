@@ -2,7 +2,7 @@
 
 This is the official Visual Studio Code extension for Raspberry Pi Pico development. It provides a set of tools to help you develop for the Pico using Visual Studio Code.
 
-[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/v0.8.2)
+[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/v0.9.0)
 
 ## Features
 
@@ -22,6 +22,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 - \[Optional\] OpenOCD for debuging
 
 ### macOS
+- Git (in PATH, you can install it by running `xcode-select --install`)
 - Tar (in PATH)
 
 ### Linux
