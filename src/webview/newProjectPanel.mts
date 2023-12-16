@@ -12,6 +12,7 @@ import {
   commands,
   ColorThemeKind,
   ProgressLocation,
+  Location,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
@@ -48,6 +49,7 @@ import VersionBundlesLoader, {
 import which from "which";
 import { homedir } from "os";
 import { symlink } from "fs/promises";
+import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -422,11 +424,52 @@ export class NewProjectPanel {
                   process.platform === "win32"
                 ) {
                   switch (data.pythonMode) {
-                    case 0:
-                      python3Path = await downloadEmbedPython(
-                        this._versionBundle
+                    case 0: {
+                      const versionBundle = this._versionBundle;
+                      await window.withProgress(
+                        {
+                          location: ProgressLocation.Notification,
+                          title:
+                            "Download and installing Python. This may take a while...",
+                          cancellable: false,
+                        },
+                        async progress => {
+                          if (process.platform === "win32") {
+                            python3Path = await downloadEmbedPython(
+                              versionBundle
+                            );
+                          } else if (process.platform === "darwin") {
+                            const result1 = await setupPyenv();
+                            if (!result1) {
+                              progress.report({
+                                increment: 100,
+                              });
+
+                              return;
+                            }
+                            const result = await pyenvInstallPython(
+                              versionBundle.python.version
+                            );
+
+                            if (result !== null) {
+                              python3Path = result;
+                            }
+                          } else {
+                            this._logger.error(
+                              "Automatic python installation is only supported on Windows and macOS."
+                            );
+
+                            await window.showErrorMessage(
+                              "Automatic python installation is only supported on Windows and macOS."
+                            );
+                          }
+                          progress.report({
+                            increment: 100,
+                          });
+                        }
                       );
                       break;
+                    }
                     case 1:
                       python3Path =
                         process.platform === "win32" ? "python" : "python3";
@@ -1269,9 +1312,9 @@ export class NewProjectPanel {
     };
     // add compiler to PATH
     const isWindows = process.platform === "win32";
-    customEnv["PYTHONHOME"] = pythonExe.includes("/")
+    /*customEnv["PYTHONHOME"] = pythonExe.includes("/")
       ? resolve(join(dirname(pythonExe), ".."))
-      : "";
+      : "";*/
     customEnv[isWindows ? "Path" : "PATH"] = `${join(
       options.toolchainAndSDK.toolchainPath,
       "bin"
@@ -1282,10 +1325,6 @@ export class NewProjectPanel {
     }${
       options.ninjaExecutable.includes("/")
         ? `${isWindows ? ";" : ":"}${dirname(options.ninjaExecutable)}`
-        : ""
-    }${
-      pythonExe.includes("/")
-        ? `${isWindows ? ";" : ":"}${dirname(pythonExe)}`
         : ""
     }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
@@ -1313,7 +1352,8 @@ export class NewProjectPanel {
       `"${options.ninjaExecutable}"`,
       "--cmakePath",
       `"${options.cmakeExecutable}"`,
-      `"${options.name}"`,
+      // set custom python executable path used flag if python executable is not in PATH
+      pythonExe.includes("/") ? `-cupy "${options.name}"` : `"${options.name}"`,
     ].join(" ");
 
     this._logger.debug(`Executing project generator command: ${command}`);

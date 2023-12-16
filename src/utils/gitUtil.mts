@@ -48,14 +48,21 @@ export async function cloneRepository(
   try {
     await execAsync(cloneCommand);
 
-    Logger.log(`SDK ${branch} has been cloned and installed.`);
+    Logger.log(`SDK/Pyenv ${branch} has been cloned and installed.`);
 
     return true;
   } catch (error) {
-    await unlink(targetDirectory);
+    try {
+      await unlink(targetDirectory);
+    } catch {
+      /* */
+    }
 
     const err = error instanceof Error ? error.message : (error as string);
-    Logger.log(`Error while cloning SDK: ${err}`);
+    if (err.includes("already exists")) {
+      return true;
+    }
+    Logger.log(`Error while cloning repository: ${err}`);
 
     return false;
   }

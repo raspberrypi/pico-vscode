@@ -1,7 +1,7 @@
 import { exec } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
-import { dirname, join, resolve } from "path";
+import { dirname, join } from "path";
 import type Settings from "../settings.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { readFileSync } from "fs";
@@ -31,13 +31,15 @@ export async function configureCmakeNinja(
         "cmake",
       { nothrow: true }
     );
+    console.log(
+      settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
+    );
     // TODO: maybe also check for "python" on unix systems
     const pythonPath = await which(
       settings
         .getString(SettingsKey.python3Path)
-        ?.replace(HOME_VAR, homedir()) || process.platform === "win32"
-        ? "python"
-        : "python3",
+        ?.replace(HOME_VAR, homedir()) ||
+        (process.platform === "win32" ? "python" : "python3"),
       { nothrow: true }
     );
 
@@ -75,9 +77,9 @@ export async function configureCmakeNinja(
         // TODO: maybe delete the build folder before running cmake so
         // all configuration files in build get updates
         const customEnv = process.env;
-        customEnv["PYTHONHOME"] = pythonPath.includes("/")
+        /*customEnv["PYTHONHOME"] = pythonPath.includes("/")
           ? resolve(join(dirname(pythonPath), ".."))
-          : "";
+          : "";*/
         const isWindows = process.platform === "win32";
         customEnv[isWindows ? "Path" : "PATH"] = `${
           ninjaPath.includes("/") ? dirname(ninjaPath) : ""
@@ -94,8 +96,11 @@ export async function configureCmakeNinja(
         const child = exec(
           `${
             process.platform === "win32" ? "&" : ""
-          }"${cmake}" -DCMAKE_BUILD_TYPE=Debug ` +
-            `-G Ninja -B ./build "${folder.fsPath}"`,
+          }"${cmake}" -DCMAKE_BUILD_TYPE=Debug ${
+            pythonPath.includes("/")
+              ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `
+              : ""
+          }` + `-G Ninja -B ./build "${folder.fsPath}"`,
           {
             env: customEnv,
             cwd: folder.fsPath,

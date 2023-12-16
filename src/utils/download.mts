@@ -641,7 +641,10 @@ export async function downloadEmbedPython(
   redirectURL?: string
 ): Promise<string | undefined> {
   if (
-    process.platform === "linux" ||
+    // even tough this function supports downloading python3 on macOS arm64
+    // it doesn't work correctly therefore it's excluded here
+    // use pyenvInstallPython instead
+    process.platform !== "win32" ||
     (process.platform === "win32" && process.arch !== "x64")
   ) {
     Logger.log(
@@ -665,20 +668,14 @@ export async function downloadEmbedPython(
   // Ensure the target directory exists
   await mkdir(targetDirectory, { recursive: true });
 
-  // select download url for platform()_arch()
-  const downloadUrl =
-    redirectURL ??
-    (process.platform === "darwin"
-      ? versionBundle.python.macos
-      : versionBundle.python.windowsAmd64);
+  // select download url
+  const downloadUrl = versionBundle.python.windowsAmd64;
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(
     tmpBasePath,
-    `python-${versionBundle.python.version}.${
-      process.platform === "darwin" ? "pkg" : "zip"
-    }`
+    `python-${versionBundle.python.version}.zip`
   );
 
   return new Promise(resolve => {
@@ -712,6 +709,8 @@ export async function downloadEmbedPython(
 
       // save the file to disk
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // doesn't work correctly therefore use pyenvInstallPython instead
+        // TODO: remove unused darwin code-path here
         if (process.platform === "darwin") {
           const pkgExtractor = new MacOSPythonPkgExtractor(
             archiveFilePath,
@@ -732,19 +731,26 @@ export async function downloadEmbedPython(
               if (success) {
                 try {
                   // create symlink, so the same path can be used as on Windows
-                  symlinkSync(
-                    joinPosix(
-                      settingsTargetDirectory,
-                      "/Versions/",
-                      versionBundle.python.version.substring(
-                        0,
-                        versionBundle.python.version.lastIndexOf(".")
-                      ),
-                      "bin",
-                      "python3"
+                  const srcPath = joinPosix(
+                    settingsTargetDirectory,
+                    "/Versions/",
+                    versionBundle.python.version.substring(
+                      0,
+                      versionBundle.python.version.lastIndexOf(".")
                     ),
+                    "bin",
+                    "python3"
+                  );
+                  symlinkSync(
+                    srcPath,
                     // use .exe as python is already used in the directory
                     join(settingsTargetDirectory, "python.exe"),
+                    "file"
+                  );
+                  symlinkSync(
+                    srcPath,
+                    // use .exe as python is already used in the directory
+                    join(settingsTargetDirectory, "python3.exe"),
                     "file"
                   );
                 } catch {

@@ -10,6 +10,7 @@ interface GithubRelease {
 export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
 export const NINJA_REPOSITORY_URL = "https://github.com/ninja-build/ninja.git";
 export const CMAKE_REPOSITORY_URL = "https://github.com/Kitware/CMake.git";
+export const PYENV_REPOSITORY_URL = "https://github.com/pyenv/pyenv.git";
 
 export async function getSDKReleases(): Promise<GithubRelease[]> {
   const octokit = new Octokit();

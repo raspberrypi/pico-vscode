@@ -958,6 +958,7 @@ def ParseCommandLine():
     parser.add_argument("-tcVersion", "--toolchainVersion", help="ARM Embeded Toolchain version to use (required)")
     parser.add_argument("-np", "--ninjaPath", help="Ninja path")
     parser.add_argument("-cmp", "--cmakePath", help="CMake path")
+    parser.add_argument("-cupy", "--customPython", action='store_true', help="Custom python path used to execute the script.")
 
     return parser.parse_args()
 
@@ -1165,7 +1166,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython):
 
     oldCWD = os.getcwd()
 
@@ -1286,9 +1287,13 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "cmake.cmakePath": "{cmakePath}",
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.cmakePath": "{cmakePath.replace(user_home, "${HOME}") if use_home_var else cmakePath}",
-    "raspberry-pi-pico.ninjaPath": "{ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath}"
-}}
-'''
+    "raspberry-pi-pico.ninjaPath": "{ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath}"'''
+
+            if customPython:
+                settings += f''',
+    "raspberry-pi-pico.python3Path": "{sys.executable.replace(user_home, "${HOME}") if use_home_var else sys.executable}"'''
+                
+            settings += '\n}\n'
 
             # extensions
             extensions = f'''{{
@@ -1493,7 +1498,8 @@ def DoEverything(parent, params):
             params["sdkVersion"], 
             params["toolchainVersion"], 
             params["ninjaPath"], 
-            params["cmakePath"])
+            params["cmakePath"],
+            params["customPython"])
 
     if params['wantBuild']:
         if params['wantGUI'] and ENABLE_TK_GUI:
@@ -1610,6 +1616,7 @@ else :
         'toolchainVersion': args.toolchainVersion,
         'ninjaPath'     : args.ninjaPath,
         'cmakePath'     : args.cmakePath,
+        'customPython'  : args.customPython
         }
 
     DoEverything(None, params)
