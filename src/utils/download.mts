@@ -27,6 +27,20 @@ import MacOSPythonPkgExtractor from "./macOSUtils.mjs";
 import which from "which";
 import { window } from "vscode";
 
+/// Translate nodejs platform names to ninja platform names
+const NINJA_PLATFORMS: { [key: string]: string } = {
+  darwin: "mac",
+  linux: "lin",
+  win32: "win",
+};
+
+/// Translate nodejs platform names to cmake platform names
+const CMAKE_PLATFORMS: { [key: string]: string } = {
+  darwin: "macos",
+  linux: "linux",
+  win32: "windows",
+};
+
 export function buildToolchainPath(version: string): string {
   // TODO: maybe put homedir() into a global
   return joinPosix(homedir(), ".pico-sdk", "toolchain", version);
@@ -396,13 +410,7 @@ export async function downloadAndInstallNinja(
         return false;
       }
       const release = releaseResponse.data;
-      const assetName = `ninja-${
-        process.platform === "darwin"
-          ? "mac"
-          : process.platform === "win32"
-          ? "win"
-          : "lin"
-      }.zip`;
+      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}.zip`;
 
       // Find the asset with the name 'ninja-win.zip'
       ninjaAsset = release.assets.find(asset => asset.name === assetName);
@@ -532,7 +540,7 @@ export async function downloadAndInstallCmake(
       }
       const release = releaseResponse.data;
       const assetName = `cmake-${version.replace("v", "")}-${
-        process.platform === "darwin" ? "macos" : "windows"
+        CMAKE_PLATFORMS[process.platform]
       }-${
         process.platform === "darwin"
           ? "universal"
