@@ -54,6 +54,8 @@ var isPicoWireless = false;
     // selected toolchain
     const selectedToolchain = document.getElementById('sel-toolchain').value;
 
+    // TODO: maybe move these duplicate sections for ninja, cmake and python into a generic helper function
+
     // selected ninja version
     const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
     let ninjaMode = null;
@@ -159,6 +161,11 @@ var isPicoWireless = false;
         break;
       }
     }
+    if (pythonVersionRadio.length == 0) {
+      // default to python mode 1 == System version
+      pythonMode = 1;
+    }
+
     // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
     if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
       // TODO: first check if defaul is supported
