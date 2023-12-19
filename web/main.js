@@ -65,6 +65,11 @@ var isPicoWireless = false;
         break;
       }
     }
+    if (ninjaVersionRadio.length == 0) {
+      // default to ninja mode 1 == System version
+      ninjaMode = 1;
+    }
+
     // if ninja version is null or not a number, smaller than 0 or bigger than 3, set it to 0
     if (ninjaMode === null || isNaN(ninjaMode) || ninjaMode < 0 || ninjaMode > 4) {
       ninjaMode = 0;
@@ -107,6 +112,11 @@ var isPicoWireless = false;
         break;
       }
     }
+    if (cmakeVersionRadio.length == 0) {
+      // default to cmake mode 1 == System version
+      cmakeMode = 1;
+    }
+
     // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
     if (cmakeMode === null || isNaN(cmakeMode) || cmakeMode < 0 || cmakeMode > 4) {
       // TODO: first check if defaul is supported

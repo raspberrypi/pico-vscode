@@ -12,13 +12,12 @@ import {
   commands,
   ColorThemeKind,
   ProgressLocation,
-  Location,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
 import type Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
-import { dirname, join, resolve } from "path";
+import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
 import { fileURLToPath } from "url";
 import {
@@ -50,6 +49,9 @@ import which from "which";
 import { homedir } from "os";
 import { symlink } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
+
+const NINJA_AUTO_INSTALL_DISABLED =
+  process.platform === "linux" && process.arch === "arm64";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -901,6 +903,14 @@ export class NewProjectPanel {
       (await which("python3", { nothrow: true })) !== null ||
       (await which("python", { nothrow: true })) !== null;
 
+    if (!isNinjaSystemAvailable && NINJA_AUTO_INSTALL_DISABLED) {
+      await window.showErrorMessage(
+        "Automatic ninja installation is currently not supported on aarch64 Linux systems. Please install ninja manually."
+      );
+
+      return "";
+    }
+
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
 
@@ -1011,7 +1021,9 @@ export class NewProjectPanel {
                         ? "6"
                         : "4"
                     } mt-6">
-                      <div class="col-span-2">
+                      ${
+                        !NINJA_AUTO_INSTALL_DISABLED
+                          ? `<div class="col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
 
                         ${
@@ -1045,7 +1057,9 @@ export class NewProjectPanel {
                           <label for="ninja-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
                           <input type="file" id="ninja-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
                         </div>
-                      </div>
+                      </div>`
+                          : ""
+                      }
                     
                       <div class="col-span-2">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CMake Version:</label>
