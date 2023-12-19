@@ -12,6 +12,7 @@ import {
   commands,
   ColorThemeKind,
   ProgressLocation,
+  type Progress,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
@@ -382,363 +383,16 @@ export class NewProjectPanel {
               // close panel before generating project
               this.dispose();
 
-              const projectPath = this._projectRoot?.fsPath ?? "";
-
-              // check if message is valid
-              if (
-                typeof message.value === "object" &&
-                message.value !== null &&
-                projectPath !== "" &&
-                this._versionBundlesLoader !== undefined &&
-                this._versionBundle !== undefined
-              ) {
-                const selectedSDK = data.selectedSDK.slice(0);
-                const selectedToolchain = this._supportedToolchains?.find(
-                  tc =>
-                    tc.version === data.selectedToolchain.replaceAll(".", "_")
-                );
-
-                if (!selectedToolchain) {
-                  void window.showErrorMessage(
-                    "Failed to find selected toolchain."
-                  );
-
-                  return;
-                }
-
-                // update to new selected sdk);
-                this._versionBundle =
-                  this._versionBundlesLoader.getModuleVersion(selectedSDK);
-
-                // TODO: check if no selection is based on versionBundle then maybe proceed
-                if (this._versionBundle === undefined) {
-                  void window.showErrorMessage(
-                    "Failed to find selected SDK version."
-                  );
-
-                  return;
-                }
-
-                // install python (if necessary)
-                let python3Path: string | undefined;
-                if (
-                  process.platform === "darwin" ||
-                  process.platform === "win32"
-                ) {
-                  switch (data.pythonMode) {
-                    case 0: {
-                      const versionBundle = this._versionBundle;
-                      await window.withProgress(
-                        {
-                          location: ProgressLocation.Notification,
-                          title:
-                            "Download and installing Python. This may take a while...",
-                          cancellable: false,
-                        },
-                        async progress => {
-                          if (process.platform === "win32") {
-                            python3Path = await downloadEmbedPython(
-                              versionBundle
-                            );
-                          } else if (process.platform === "darwin") {
-                            const result1 = await setupPyenv();
-                            if (!result1) {
-                              progress.report({
-                                increment: 100,
-                              });
-
-                              return;
-                            }
-                            const result = await pyenvInstallPython(
-                              versionBundle.python.version
-                            );
-
-                            if (result !== null) {
-                              python3Path = result;
-                            }
-                          } else {
-                            this._logger.error(
-                              "Automatic python installation is only supported on Windows and macOS."
-                            );
-
-                            await window.showErrorMessage(
-                              "Automatic python installation is only supported on Windows and macOS."
-                            );
-                          }
-                          progress.report({
-                            increment: 100,
-                          });
-                        }
-                      );
-                      break;
-                    }
-                    case 1:
-                      python3Path =
-                        process.platform === "win32" ? "python" : "python3";
-                      break;
-                    case 2:
-                      python3Path = data.pythonPath;
-                      break;
-                  }
-
-                  if (python3Path === undefined) {
-                    await window.showErrorMessage(
-                      "Failed to find python3 executable."
-                    );
-
-                    return;
-                  }
-                } else {
-                  python3Path = "python3";
-                }
-
-                // install selected sdk and toolchain if necessary
-                // show user feedback as downloads can take a while
-                let installedSuccessfully = false;
-                await window.withProgress(
-                  {
-                    location: ProgressLocation.Notification,
-                    title: "Downloading SDK and Toolchain",
-                    cancellable: false,
-                  },
-                  async progress => {
-                    // download both
-                    if (
-                      !(await downloadAndInstallSDK(
-                        selectedSDK,
-                        SDK_REPOSITORY_URL,
-                        this._settings
-                      )) ||
-                      !(await downloadAndInstallToolchain(selectedToolchain))
-                    ) {
-                      this._logger.error(
-                        `Failed to download and install toolchain and SDK.`
-                      );
-
-                      progress.report({
-                        message:
-                          "Failed to download and install toolchain and sdk. " +
-                          "Make sure all requirements are met.",
-                        increment: 100,
-                      });
-
-                      installedSuccessfully = false;
-                    } else {
-                      installedSuccessfully = true;
-                    }
-                  }
-                );
-
-                if (!installedSuccessfully) {
-                  return;
-                }
-
-                let ninjaExecutable: string;
-                let cmakeExecutable: string;
-                switch (data.ninjaMode) {
-                  case 0:
-                    if (this._versionBundle !== undefined) {
-                      data.ninjaVersion = this._versionBundle.ninja;
-                    } else {
-                      this._logger.error(
-                        "Failed to get version bundle for ninja."
-                      );
-                      await window.showErrorMessage(
-                        "Failed to get ninja version for the selected Pico-SDK version."
-                      );
-
-                      return;
-                    }
-                  // eslint-disable-next-line no-fallthrough
-                  case 2:
-                    installedSuccessfully = false;
-                    await window.withProgress(
-                      {
-                        location: ProgressLocation.Notification,
-                        title: "Download and install ninja",
-                        cancellable: false,
-                      },
-                      async progress => {
-                        if (await downloadAndInstallNinja(data.ninjaVersion)) {
-                          progress.report({
-                            message:
-                              "Successfully downloaded and installed ninja.",
-                            increment: 100,
-                          });
-
-                          installedSuccessfully = true;
-                        } else {
-                          installedSuccessfully = false;
-                          progress.report({
-                            message:
-                              "Failed to download and install ninja. Make sure all requirements are met.",
-                            increment: 100,
-                          });
-                        }
-                      }
-                    );
-
-                    if (!installedSuccessfully) {
-                      return;
-                    } else {
-                      ninjaExecutable = joinPosix(
-                        buildNinjaPath(data.ninjaVersion),
-                        "ninja"
-                      );
-                    }
-                    break;
-                  case 1:
-                    ninjaExecutable = "ninja";
-                    break;
-                  case 3:
-                    // normalize path returned by the os selector to posix path for the settings json
-                    // and cross platform compatibility
-                    ninjaExecutable =
-                      process.platform === "win32"
-                        ? joinPosix(...data.ninjaPath.split("\\"))
-                        : data.ninjaPath;
-                    break;
-
-                  default:
-                    await window.showErrorMessage("Unknown ninja selection.");
-                    this._logger.error("Unknown ninja selection.");
-
-                    return;
-                }
-
-                switch (data.cmakeMode) {
-                  case 0:
-                    if (this._versionBundle !== undefined) {
-                      data.cmakeVersion = this._versionBundle.cmake;
-                    }
-                  // eslint-disable-next-line no-fallthrough
-                  case 2:
-                    installedSuccessfully = false;
-                    await window.withProgress(
-                      {
-                        location: ProgressLocation.Notification,
-                        title: "Download and install cmake",
-                        cancellable: false,
-                      },
-                      async progress => {
-                        if (await downloadAndInstallCmake(data.cmakeVersion)) {
-                          progress.report({
-                            message:
-                              "Successfully downloaded and installed cmake.",
-                            increment: 100,
-                          });
-
-                          installedSuccessfully = true;
-                        } else {
-                          installedSuccessfully = false;
-                          progress.report({
-                            message:
-                              "Failed to download and install cmake. Make sure all requirements are met.",
-                            increment: 100,
-                          });
-                        }
-                      }
-                    );
-
-                    if (!installedSuccessfully) {
-                      return;
-                    } else {
-                      const cmakeVersionBasePath = buildCMakePath(
-                        data.cmakeVersion
-                      );
-                      if (process.platform === "darwin") {
-                        // create symlink on macOS from .pico-sdk/cmake/3.20.0/bin to .pico-sdk/cmake/3.20.0/CMake.app/Contents/bin
-                        // TODO: move into download and install cmake
-                        try {
-                          await symlink(
-                            join(
-                              cmakeVersionBasePath,
-                              "CMake.app",
-                              "Contents",
-                              "bin"
-                            ),
-                            join(cmakeVersionBasePath, "bin"),
-                            "dir"
-                          );
-                        } catch {
-                          // ignore
-                        }
-                      }
-
-                      cmakeExecutable = joinPosix(
-                        cmakeVersionBasePath,
-                        "bin",
-                        "cmake"
-                      );
-                    }
-                    break;
-                  case 1:
-                    cmakeExecutable = "cmake";
-                    break;
-                  case 3:
-                    // normalize path returned by the os selector to posix path for the settings json
-                    // and cross platform compatibility
-                    cmakeExecutable =
-                      process.platform === "win32"
-                        ? joinPosix(...data.cmakePath.split("\\"))
-                        : data.cmakePath;
-                    break;
-                  default:
-                    await window.showErrorMessage("Unknown cmake selection.");
-                    this._logger.error("Unknown cmake selection.");
-
-                    return;
-                }
-
-                const args: NewProjectOptions = {
-                  name: data.projectName,
-                  projectRoot: projectPath,
-                  boardType:
-                    data.boardType === "pico-w"
-                      ? BoardType.picoW
-                      : BoardType.pico,
-                  consoleOptions: [
-                    data.uartStdioSupport
-                      ? ConsoleOption.consoleOverUART
-                      : null,
-                    data.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
-                  ].filter(option => option !== null) as ConsoleOption[],
-                  libraries: [
-                    data.spiFeature ? Library.spi : null,
-                    data.i2cFeature ? Library.i2c : null,
-                    data.dmaFeature ? Library.dma : null,
-                    data.pioFeature ? Library.pio : null,
-                    data.hwinterpolationFeature ? Library.interp : null,
-                    data.hwtimerFeature ? Library.timer : null,
-                    data.hwwatchdogFeature ? Library.watch : null,
-                    data.hwclocksFeature ? Library.clocks : null,
-                  ].filter(option => option !== null) as Library[],
-                  codeOptions: [
-                    data.addExamples ? CodeOption.addExamples : null,
-                    data.runFromRAM ? CodeOption.runFromRAM : null,
-                    data.cpp ? CodeOption.cpp : null,
-                    data.cppRtti ? CodeOption.cppRtti : null,
-                    data.cppExceptions ? CodeOption.cppExceptions : null,
-                  ].filter(option => option !== null) as CodeOption[],
-                  debugger:
-                    data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
-                  toolchainAndSDK: {
-                    toolchainVersion: selectedToolchain.version,
-                    toolchainPath: buildToolchainPath(
-                      selectedToolchain.version
-                    ),
-                    sdkVersion: selectedSDK,
-                    sdkPath: buildSDKPath(selectedSDK),
-                  },
-                  ninjaExecutable,
-                  cmakeExecutable,
-                };
-
-                await this._executePicoProjectGenerator(
-                  args,
-                  python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
-                );
-              }
+              await window.withProgress(
+                {
+                  location: ProgressLocation.Notification,
+                  title: `Generating project ${
+                    data.projectName ?? "undefined"
+                  } in ${this._projectRoot?.fsPath}, this may take a while...`,
+                },
+                async progress =>
+                  this._generateProjectOperation(progress, data, message)
+              );
             }
             break;
         }
@@ -746,6 +400,375 @@ export class NewProjectPanel {
       null,
       this._disposables
     );
+  }
+
+  private async _generateProjectOperation(
+    progress: Progress<{ message?: string; increment?: number }>,
+    data: SubmitMessageValue,
+    message: WebviewMessage
+  ): Promise<void> {
+    const projectPath = this._projectRoot?.fsPath ?? "";
+
+    // check if message is valid
+    if (
+      typeof message.value === "object" &&
+      message.value !== null &&
+      projectPath !== "" &&
+      this._versionBundlesLoader !== undefined &&
+      this._versionBundle !== undefined
+    ) {
+      const selectedSDK = data.selectedSDK.slice(0);
+      const selectedToolchain = this._supportedToolchains?.find(
+        tc => tc.version === data.selectedToolchain.replaceAll(".", "_")
+      );
+
+      if (!selectedToolchain) {
+        void window.showErrorMessage("Failed to find selected toolchain.");
+
+        return;
+      }
+
+      // update to new selected sdk);
+      this._versionBundle =
+        this._versionBundlesLoader.getModuleVersion(selectedSDK);
+
+      // TODO: check if no selection is based on versionBundle then maybe proceed
+      if (this._versionBundle === undefined) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+        await window.showErrorMessage("Failed to find selected SDK version.");
+
+        return;
+      }
+
+      // install python (if necessary)
+      let python3Path: string | undefined;
+      if (process.platform === "darwin" || process.platform === "win32") {
+        switch (data.pythonMode) {
+          case 0: {
+            const versionBundle = this._versionBundle;
+            await window.withProgress(
+              {
+                location: ProgressLocation.Notification,
+                title:
+                  "Download and installing Python. This may take a while...",
+                cancellable: false,
+              },
+              async progress2 => {
+                if (process.platform === "win32") {
+                  python3Path = await downloadEmbedPython(versionBundle);
+                } else if (process.platform === "darwin") {
+                  const result1 = await setupPyenv();
+                  if (!result1) {
+                    progress2.report({
+                      increment: 100,
+                    });
+
+                    return;
+                  }
+                  const result = await pyenvInstallPython(
+                    versionBundle.python.version
+                  );
+
+                  if (result !== null) {
+                    python3Path = result;
+                  }
+                } else {
+                  this._logger.error(
+                    "Automatic Python installation is only supported on Windows and macOS."
+                  );
+
+                  await window.showErrorMessage(
+                    "Automatic Python installation is only supported on Windows and macOS."
+                  );
+                }
+                progress2.report({
+                  increment: 100,
+                });
+              }
+            );
+            break;
+          }
+          case 1:
+            python3Path = process.platform === "win32" ? "python" : "python3";
+            break;
+          case 2:
+            python3Path = data.pythonPath;
+            break;
+        }
+
+        if (python3Path === undefined) {
+          progress.report({
+            message: "Failed",
+            increment: 100,
+          });
+          await window.showErrorMessage("Failed to find python3 executable.");
+
+          return;
+        }
+      } else {
+        python3Path = "python3";
+      }
+
+      // install selected sdk and toolchain if necessary
+      // show user feedback as downloads can take a while
+      let installedSuccessfully = false;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading SDK and Toolchain",
+          cancellable: false,
+        },
+        async progress2 => {
+          // download both
+          if (
+            !(await downloadAndInstallSDK(
+              selectedSDK,
+              SDK_REPOSITORY_URL,
+              this._settings
+            )) ||
+            !(await downloadAndInstallToolchain(selectedToolchain))
+          ) {
+            this._logger.error(
+              `Failed to download and install toolchain and SDK.`
+            );
+
+            progress2.report({
+              message: "Failed - Make sure all requirements are met.",
+              increment: 100,
+            });
+
+            installedSuccessfully = false;
+          } else {
+            installedSuccessfully = true;
+          }
+        }
+      );
+
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+        await window.showErrorMessage(
+          "Failed to download and install SDK and/or toolchain."
+        );
+
+        return;
+      }
+
+      let ninjaExecutable: string;
+      let cmakeExecutable: string;
+      switch (data.ninjaMode) {
+        case 0:
+          if (this._versionBundle !== undefined) {
+            data.ninjaVersion = this._versionBundle.ninja;
+          } else {
+            this._logger.error("Failed to get version bundle for ninja.");
+            progress.report({
+              message: "Failed",
+              increment: 100,
+            });
+            await window.showErrorMessage(
+              "Failed to get ninja version for the selected Pico-SDK version."
+            );
+
+            return;
+          }
+        // eslint-disable-next-line no-fallthrough
+        case 2:
+          installedSuccessfully = false;
+          await window.withProgress(
+            {
+              location: ProgressLocation.Notification,
+              title: "Download and install ninja",
+              cancellable: false,
+            },
+            async progress2 => {
+              if (await downloadAndInstallNinja(data.ninjaVersion)) {
+                progress2.report({
+                  message: "Successfully downloaded and installed ninja.",
+                  increment: 100,
+                });
+
+                installedSuccessfully = true;
+              } else {
+                installedSuccessfully = false;
+                progress2.report({
+                  message: "Failed",
+                  increment: 100,
+                });
+              }
+            }
+          );
+
+          if (!installedSuccessfully) {
+            progress.report({
+              message: "Failed",
+              increment: 100,
+            });
+            await window.showErrorMessage(
+              "Failed to download and install ninja. Make sure all requirements are met."
+            );
+
+            return;
+          } else {
+            ninjaExecutable = joinPosix(
+              buildNinjaPath(data.ninjaVersion),
+              "ninja"
+            );
+          }
+          break;
+        case 1:
+          ninjaExecutable = "ninja";
+          break;
+        case 3:
+          // normalize path returned by the os selector to posix path for the settings json
+          // and cross platform compatibility
+          ninjaExecutable =
+            process.platform === "win32"
+              ? joinPosix(...data.ninjaPath.split("\\"))
+              : data.ninjaPath;
+          break;
+
+        default:
+          progress.report({
+            message: "Failed",
+            increment: 100,
+          });
+          await window.showErrorMessage("Unknown ninja selection.");
+          this._logger.error("Unknown ninja selection.");
+
+          return;
+      }
+
+      switch (data.cmakeMode) {
+        case 0:
+          if (this._versionBundle !== undefined) {
+            data.cmakeVersion = this._versionBundle.cmake;
+          }
+        // eslint-disable-next-line no-fallthrough
+        case 2:
+          installedSuccessfully = false;
+          await window.withProgress(
+            {
+              location: ProgressLocation.Notification,
+              title: "Download and install cmake",
+              cancellable: false,
+            },
+            async progress2 => {
+              if (await downloadAndInstallCmake(data.cmakeVersion)) {
+                progress.report({
+                  message: "Successfully downloaded and installed cmake.",
+                  increment: 100,
+                });
+
+                installedSuccessfully = true;
+              } else {
+                installedSuccessfully = false;
+                progress2.report({
+                  message: "Failed",
+                  increment: 100,
+                });
+              }
+            }
+          );
+
+          if (!installedSuccessfully) {
+            progress.report({
+              message: "Failed",
+              increment: 100,
+            });
+            await window.showErrorMessage(
+              "Failed to download and install cmake. Make sure all requirements are met."
+            );
+
+            return;
+          } else {
+            const cmakeVersionBasePath = buildCMakePath(data.cmakeVersion);
+            if (process.platform === "darwin") {
+              // create symlink on macOS from .pico-sdk/cmake/3.20.0/bin to .pico-sdk/cmake/3.20.0/CMake.app/Contents/bin
+              // TODO: move into download and install cmake
+              try {
+                await symlink(
+                  join(cmakeVersionBasePath, "CMake.app", "Contents", "bin"),
+                  join(cmakeVersionBasePath, "bin"),
+                  "dir"
+                );
+              } catch {
+                // ignore
+              }
+            }
+
+            cmakeExecutable = joinPosix(cmakeVersionBasePath, "bin", "cmake");
+          }
+          break;
+        case 1:
+          cmakeExecutable = "cmake";
+          break;
+        case 3:
+          // normalize path returned by the os selector to posix path for the settings json
+          // and cross platform compatibility
+          cmakeExecutable =
+            process.platform === "win32"
+              ? joinPosix(...data.cmakePath.split("\\"))
+              : data.cmakePath;
+          break;
+        default:
+          progress.report({
+            message: "Failed",
+            increment: 100,
+          });
+          await window.showErrorMessage("Unknown cmake selection.");
+          this._logger.error("Unknown cmake selection.");
+
+          return;
+      }
+
+      const args: NewProjectOptions = {
+        name: data.projectName,
+        projectRoot: projectPath,
+        boardType:
+          data.boardType === "pico-w" ? BoardType.picoW : BoardType.pico,
+        consoleOptions: [
+          data.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
+          data.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
+        ].filter(option => option !== null) as ConsoleOption[],
+        libraries: [
+          data.spiFeature ? Library.spi : null,
+          data.i2cFeature ? Library.i2c : null,
+          data.dmaFeature ? Library.dma : null,
+          data.pioFeature ? Library.pio : null,
+          data.hwinterpolationFeature ? Library.interp : null,
+          data.hwtimerFeature ? Library.timer : null,
+          data.hwwatchdogFeature ? Library.watch : null,
+          data.hwclocksFeature ? Library.clocks : null,
+        ].filter(option => option !== null) as Library[],
+        codeOptions: [
+          data.addExamples ? CodeOption.addExamples : null,
+          data.runFromRAM ? CodeOption.runFromRAM : null,
+          data.cpp ? CodeOption.cpp : null,
+          data.cppRtti ? CodeOption.cppRtti : null,
+          data.cppExceptions ? CodeOption.cppExceptions : null,
+        ].filter(option => option !== null) as CodeOption[],
+        debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
+        toolchainAndSDK: {
+          toolchainVersion: selectedToolchain.version,
+          toolchainPath: buildToolchainPath(selectedToolchain.version),
+          sdkVersion: selectedSDK,
+          sdkPath: buildSDKPath(selectedSDK),
+        },
+        ninjaExecutable,
+        cmakeExecutable,
+      };
+
+      await this._executePicoProjectGenerator(
+        args,
+        python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+      );
+    }
   }
 
   private async _update(): Promise<void> {
