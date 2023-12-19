@@ -1366,7 +1366,7 @@ export class NewProjectPanel {
     }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
     const command: string = [
-      `${process.platform === "win32" ? "&" : ""}"${pythonExe}"`,
+      `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
       `"${joinPosix(getScriptsRoot(), "pico_project.py")}"`,
       enumToParam(options.boardType),
       ...options.consoleOptions.map(option => enumToParam(option)),
@@ -1403,9 +1403,6 @@ export class NewProjectPanel {
       cwd: getScriptsRoot(),
       windowsHide: true,
       timeout: 15000,
-      // TODO: maybe zsh on new macOS systems
-      // default on win32 is cmd, switchted to powershell cause cmd doesn't support the & for running string commands
-      shell: process.platform === "win32" ? "powershell.exe" : "/bin/bash",
     });
     if (generatorExitCode === 0) {
       void window.showInformationMessage(

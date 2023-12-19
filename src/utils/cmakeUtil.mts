@@ -95,7 +95,7 @@ export async function configureCmakeNinja(
 
         const child = exec(
           `${
-            process.platform === "win32" ? "&" : ""
+            process.env.ComSpec === "powershell.exe" ? "&" : ""
           }"${cmake}" -DCMAKE_BUILD_TYPE=Debug ${
             pythonPath.includes("/")
               ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `

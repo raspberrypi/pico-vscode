@@ -20,7 +20,7 @@ export async function initSubmodules(
     const command =
       `cd "${sdkDirectory}" && ` +
       `${
-        process.platform === "win32" ? "&" : ""
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${gitExecutable}" submodule update --init`;
     await execAsync(command);
 
@@ -41,7 +41,7 @@ export async function cloneRepository(
   // Clone the repository at the specified tag into the target directory
   const cloneCommand =
     `${
-      process.platform === "win32" ? "&" : ""
+      process.env.ComSpec === "powershell.exe" ? "&" : ""
     }"${gitExecutable}" -c advice.detachedHead=false clone --branch ` +
     `${branch} ${repository} "${targetDirectory}"`;
 
