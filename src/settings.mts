@@ -30,6 +30,10 @@ export default class Settings {
     this.config = workspace.getConfiguration(packageJSON.name);
   }
 
+  public reload(): void {
+    this.config = workspace.getConfiguration(this.pkg.name);
+  }
+
   public get(key: SettingsKey): Setting {
     return this.config.get(key);
   }

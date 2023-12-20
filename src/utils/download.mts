@@ -185,7 +185,7 @@ export async function downloadAndInstallSDK(
   repositoryUrl: string,
   settings: Settings
 ): Promise<boolean> {
-  const gitExecutable =
+  let gitExecutable: string | undefined =
     settings
       .getString(SettingsKey.gitPath)
       ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
@@ -211,9 +211,19 @@ export async function downloadAndInstallSDK(
   //await mkdir(targetDirectory, { recursive: true });
   const gitPath = await which(gitExecutable, { nothrow: true });
   if (gitPath === null) {
-    // try to install git
-    if (!(await downloadGit())) {
-      Logger.log("Error: Git is not installed and could not be downloaded.");
+    // if git is not in path then checkForInstallationRequirements
+    // maye downloaded it, so reload
+    settings.reload();
+    gitExecutable = settings
+      .getString(SettingsKey.gitPath)
+      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/"));
+    if (gitExecutable === null) {
+      Logger.log("Error: Git not found.");
+
+      await window.showErrorMessage(
+        "Git not found. Please install and add to PATH or " +
+          "set the path to the git executable in global settings."
+      );
 
       return false;
     }
@@ -233,9 +243,7 @@ export async function downloadAndInstallSDK(
       settings
         .getString(SettingsKey.python3Path)
         ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ||
-      process.platform === "win32"
-        ? "python"
-        : "python3";
+      (process.platform === "win32" ? "python" : "python3");
     const python3: string | null = await which(python3Exe, { nothrow: true });
 
     if (python3 === null) {

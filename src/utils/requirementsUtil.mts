@@ -3,6 +3,7 @@ import which from "which";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
 import { downloadGit } from "./download.mjs";
+import Logger from "../logger.mjs";
 
 export async function showRequirementsNotMetErrorMessage(
   missing: string[]
@@ -62,6 +63,7 @@ export async function checkForInstallationRequirements(
       const gitDownloaded: string | undefined = await downloadGit();
 
       if (gitDownloaded === undefined) {
+        Logger.log("Error: Git is not installed and could not be downloaded.");
         requirementsMet = false;
       } else {
         // if git is downloaded set custom git path
