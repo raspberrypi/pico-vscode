@@ -372,14 +372,6 @@ export class NewProjectPanel {
                 return;
               }
 
-              // give feedback to user
-              // TODO: change into progress message
-              void window.showInformationMessage(
-                `Generating project ${data.projectName ?? "undefined"} in ${
-                  this._projectRoot?.fsPath
-                }, this may take a while...`
-              );
-
               // close panel before generating project
               this.dispose();
 

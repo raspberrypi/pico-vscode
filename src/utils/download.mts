@@ -897,9 +897,32 @@ export async function downloadGit(
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
           unlinkSync(archiveFilePath);
-          resolve(
-            success ? `${settingsTargetDirectory}/cmd/git.exe` : undefined
-          );
+
+          if (success) {
+            // remove include section from gitconfig included in MiniGit
+            // which hardcodes the a path in Programm Files to be used by this git executable
+            exec(
+              `${
+                process.env.ComSpec === "powershell.exe" ? "&" : ""
+              }"${targetDirectory}/cmd/git.exe" config ` +
+                `--file "${targetDirectory}/etc/gitconfig" ` +
+                "--remove-section include",
+              error => {
+                if (error) {
+                  Logger.log(
+                    `Error executing git: ${
+                      error instanceof Error ? error.message : (error as string)
+                    }`
+                  );
+                  resolve(undefined);
+                } else {
+                  resolve(`${settingsTargetDirectory}/cmd/git.exe`);
+                }
+              }
+            );
+          } else {
+            resolve(undefined);
+          }
         }
       });
 
