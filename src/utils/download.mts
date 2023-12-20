@@ -191,6 +191,7 @@ export async function downloadAndInstallSDK(
       .getString(SettingsKey.gitPath)
       ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
 
+  // TODO: this does take about 2s - may be reduced
   const requirementsCheck = await checkForInstallationRequirements(
     settings,
     gitExecutable
