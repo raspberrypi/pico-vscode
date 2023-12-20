@@ -519,7 +519,9 @@ export class NewProjectPanel {
             !(await downloadAndInstallSDK(
               selectedSDK,
               SDK_REPOSITORY_URL,
-              this._settings
+              this._settings,
+              // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
+              python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
             )) ||
             !(await downloadAndInstallToolchain(selectedToolchain))
           ) {

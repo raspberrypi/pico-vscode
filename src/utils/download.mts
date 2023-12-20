@@ -183,7 +183,8 @@ async function unxzFile(
 export async function downloadAndInstallSDK(
   version: string,
   repositoryUrl: string,
-  settings: Settings
+  settings: Settings,
+  python3Path?: string
 ): Promise<boolean> {
   let gitExecutable: string | undefined =
     settings
@@ -238,8 +239,10 @@ export async function downloadAndInstallSDK(
       gitExecutable
     ))
   ) {
+    settings.reload();
     // check python requirements
     const python3Exe: string =
+      python3Path ||
       settings
         .getString(SettingsKey.python3Path)
         ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ||
