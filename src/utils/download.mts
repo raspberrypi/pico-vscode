@@ -36,6 +36,13 @@ const NINJA_PLATFORMS: { [key: string]: string } = {
   win32: "win",
 };
 
+/// Translate nodejs platform names to ninja platform names
+const OPENOCD_PLATFORMS: { [key: string]: string } = {
+  darwin: "mac",
+  linux: "lin",
+  win32: "x64-standalone",
+};
+
 /// Translate nodejs platform names to cmake platform names
 const CMAKE_PLATFORMS: { [key: string]: string } = {
   darwin: "macos",
@@ -85,6 +92,15 @@ export function buildNinjaPath(version: string): string {
   );
 }
 
+export function buildOpenOCDPath(version: string): string {
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "openocd",
+    version
+  );
+}
+
 export function buildCMakePath(version: string): string {
   return joinPosix(
     homedir().replaceAll("\\", "/"),
@@ -103,10 +119,39 @@ export function buildPython3Path(version: string): string {
   );
 }
 
-function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
+function tryUnzipFiles(zipFilePath: string, targetDirectory: string): boolean {
+  let success = true;
+  const zip = new AdmZip(zipFilePath);
+  const zipEntries = zip.getEntries();
+  zipEntries.forEach(function (zipEntry) {
+    if (!zipEntry.isDirectory) {
+      try {
+        zip.extractEntryTo(zipEntry, targetDirectory, true, true, true);
+      } catch (error) {
+        Logger.log(
+          `Error extracting archive file: ${
+            error instanceof Error ? error.message : (error as string)
+          }`
+        );
+        success = false;
+      }
+    }
+  });
+
+  return success;
+}
+
+function unzipFile(
+  zipFilePath: string, targetDirectory: string,
+  enforceSuccess: boolean = true
+): boolean {
   try {
-    const zip = new AdmZip(zipFilePath);
-    zip.extractAllTo(targetDirectory, true, true);
+    if (enforceSuccess) {
+      const zip = new AdmZip(zipFilePath);
+      zip.extractAllTo(targetDirectory, true, true);
+    } else {
+      tryUnzipFiles(zipFilePath, targetDirectory);
+    }
 
     // TODO: improve this
     const targetDirContents = readdirSync(targetDirectory);
@@ -536,6 +581,128 @@ export async function downloadAndInstallNinja(
 
         // delete tmp file
         unlinkSync(archiveFilePath);
+
+        // unzipper would require custom permission handling as it
+        // doesn't preserve the executable flag
+        /*if (process.platform !== "win32") {
+          chmodSync(join(targetDirectory, "ninja"), 0o755);
+        }*/
+
+        resolve(success);
+      });
+
+      response.pipe(fileWriter);
+    }).on("error", error => {
+      Logger.log("Error downloading asset:" + error.message);
+      resolve(false);
+    });
+  });
+}
+
+export async function downloadAndInstallOpenOCD(
+  version: string,
+  redirectURL?: string
+): Promise<boolean> {
+  if (process.platform !== "win32") {
+    Logger.log("OpenOCD installation not on Windows is not supported.");
+
+    return false;
+  }
+
+  const targetDirectory = buildOpenOCDPath(version);
+
+  // Check if the SDK is already installed
+  if (redirectURL === undefined && existsSync(targetDirectory)) {
+    Logger.log(`OpenOCD ${version} is already installed.`);
+
+    return true;
+  }
+
+  // Ensure the target directory exists
+  await mkdir(targetDirectory, { recursive: true });
+
+  const tmpBasePath = join(tmpdir(), "pico-sdk");
+  await mkdir(tmpBasePath, { recursive: true });
+  const archiveFilePath = join(tmpBasePath, `openocd.zip`);
+
+  const octokit = new Octokit();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  let openocdAsset: { name: string; browser_download_url: string } | undefined;
+
+  try {
+    if (redirectURL === undefined) {
+      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
+        owner: "raspberrypi",
+        repo: "pico-setup-windows",
+        tag: version,
+      });
+      if (
+        releaseResponse.status !== 200 &&
+        releaseResponse.data === undefined
+      ) {
+        Logger.log(`Error fetching OpenOCD release ${version}.`);
+
+        return false;
+      }
+      const release = releaseResponse.data;
+      const assetName = `openocd-${OPENOCD_PLATFORMS[process.platform]}.zip`;
+
+      // Find the asset with the name 'ninja-win.zip'
+      Logger.log(release.assets_url);
+      openocdAsset = release.assets.find(asset => asset.name === assetName);
+    } else {
+      openocdAsset = {
+        name: version,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        browser_download_url: redirectURL,
+      };
+    }
+  } catch (error) {
+    Logger.log(
+      `Error fetching OpenOCD release ${version}. ${
+        error instanceof Error ? error.message : (error as string)
+      }`
+    );
+
+    return false;
+  }
+
+  if (!openocdAsset) {
+    Logger.log(`Error release asset for OpenOCD release ${version} not found.`);
+
+    return false;
+  }
+
+  // Download the asset
+  const assetUrl = openocdAsset.browser_download_url;
+
+  return new Promise(resolve => {
+    // Use https.get to download the asset
+    get(assetUrl, response => {
+      const code = response.statusCode ?? 404;
+
+      // redirects not supported
+      if (code >= 400) {
+        //return reject(new Error(response.statusMessage));
+        Logger.log("Error downloading OpenOCD: " + response.statusMessage);
+
+        return resolve(false);
+      }
+
+      // handle redirects
+      if (code > 300 && code < 400 && !!response.headers.location) {
+        return resolve(
+          downloadAndInstallOpenOCD(version, response.headers.location)
+        );
+      }
+
+      // save the file to disk
+      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // unpack the archive
+        const success = unzipFile(archiveFilePath, targetDirectory, false);
+
+        // delete tmp file
+        // unlinkSync(archiveFilePath);
 
         // unzipper would require custom permission handling as it
         // doesn't preserve the executable flag

@@ -37,6 +37,7 @@ import {
   buildToolchainPath,
   downloadAndInstallCmake,
   downloadAndInstallNinja,
+  downloadAndInstallOpenOCD,
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
   downloadAndInstallTools,
@@ -539,6 +540,15 @@ export class NewProjectPanel {
             installedSuccessfully = false;
           } else {
             installedSuccessfully = true;
+            if (!(await downloadAndInstallOpenOCD("v1.5.1"))) {
+              this._logger.error(
+                `Failed to download and install openocd.`
+              );
+            } else {
+              this._logger.info(
+                `Successfully downloaded and installed openocd.`
+              );
+            }
           }
         }
       );

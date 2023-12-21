@@ -233,6 +233,9 @@ def relativeToolchainPath(toolchainVersion):
 def relativeToolsPath(sdkVersion):
     return f"/.pico-sdk/tools/{sdkVersion}"
 
+def relativeOpenOCDPath(openocdVersion):
+    return f"/.pico-sdk/openocd/{openocdVersion}"
+
 def cmakeSdkPath(sdkVersion):
     return f"${{USERHOME}}{relativeSDKPath(sdkVersion)}"
 
@@ -250,6 +253,9 @@ def propertiesSdkPath(sdkVersion):
 
 def codeSdkPath(sdkVersion):
     return f"${{userHome}}{relativeSDKPath(sdkVersion)}"
+
+def codeOpenOCDPath(openocdVersion):
+    return f"${{userHome}}{relativeOpenOCDPath(openocdVersion)}"
 
 def propertiesToolchainPath(toolchainVersion):
     if isWindows:
@@ -1201,11 +1207,12 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "configurations": [
         {{
             "name": "Pico Debug (Cortex-Debug)",
-            "cwd": "${{workspaceRoot}}",
+            "cwd": "{"${workspaceRoot}" if not isWindows else f"{codeOpenOCDPath('v1.5.1')}/scripts"}",
             "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
+            {f'"serverpath": "{codeOpenOCDPath("v1.5.1")}/openocd.exe",' if isWindows else ""}
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
             "configFiles": [
