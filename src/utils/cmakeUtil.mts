@@ -35,13 +35,13 @@ export async function configureCmakeNinja(
       settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
     );
     // TODO: maybe also check for "python" on unix systems
-    const pythonPath = await which(
+    const pythonPath = (await which(
       settings
         .getString(SettingsKey.python3Path)
         ?.replace(HOME_VAR, homedir()) ||
         (process.platform === "win32" ? "python" : "python3"),
       { nothrow: true }
-    );
+    )).replaceAll("\\", "/");
 
     if (ninjaPath === null || cmakePath === null) {
       const missingTools = [];
