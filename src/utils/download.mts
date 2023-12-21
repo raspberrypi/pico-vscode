@@ -1,4 +1,5 @@
 import {
+  cp,
   createWriteStream,
   existsSync,
   readdirSync,
@@ -10,7 +11,7 @@ import {
 } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
-import { basename, join } from "path";
+import { basename, dirname, join, resolve } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
 import { get } from "https";
@@ -26,6 +27,7 @@ import type { VersionBundle } from "./versionBundles.mjs";
 import MacOSPythonPkgExtractor from "./macOSUtils.mjs";
 import which from "which";
 import { window } from "vscode";
+import { fileURLToPath } from "url";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -53,6 +55,24 @@ export function buildSDKPath(version: string): string {
     ".pico-sdk",
     "sdk",
     version
+  );
+}
+
+export function buildToolsPath(version: string): string {
+  // TODO: maybe replace . with _
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "tools",
+    version
+  );
+}
+
+export function getScriptsRoot(): string {
+  return joinPosix(
+    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
+    "..",
+    "scripts"
   );
 }
 
@@ -264,6 +284,43 @@ export async function downloadAndInstallSDK(
   }
 
   return false;
+}
+
+export function downloadAndInstallTools(
+  version: string,
+): boolean {
+  const targetDirectory = buildToolsPath(version);
+
+  // Check if the SDK is already installed
+  if (existsSync(targetDirectory)) {
+    Logger.log(`SDK Tools ${version} is already installed.`);
+
+    return true;
+  }
+
+  // Check we are on a supported OS
+  if (process.platform !== "win32" ||
+        (process.platform === "win32" && process.arch !== "x64")) {
+    Logger.log("Not installing SDK Tools as not on windows");
+
+    return true;
+  }
+
+  Logger.log(`Installing SDK Tools ${version}`);
+
+  // Ensure the target directory exists
+  // await mkdir(targetDirectory, { recursive: true });
+
+  cp(joinPosix(getScriptsRoot(), `tools/${version}`),
+    targetDirectory,
+    { recursive: true }, function(err) {
+      Logger.log(err?.message || "No error");
+      Logger.log(err?.code || "No code");
+      resolve();
+    }
+  );
+
+  return true;
 }
 
 export async function downloadAndInstallToolchain(

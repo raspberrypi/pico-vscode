@@ -21,6 +21,7 @@ import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
 import {
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
+  downloadAndInstallTools,
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
@@ -97,7 +98,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       selectedToolchainAndSDKVersions[0],
       SDK_REPOSITORY_URL,
       settings
-    ))
+    )) ||
+    !(await downloadAndInstallTools(selectedToolchainAndSDKVersions[0]))
   ) {
     Logger.log(
       "Failed to install project SDK " +

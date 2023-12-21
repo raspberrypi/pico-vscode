@@ -20,7 +20,6 @@ import type Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
-import { fileURLToPath } from "url";
 import {
   type SupportedToolchainVersion,
   getSupportedToolchains,
@@ -40,7 +39,9 @@ import {
   downloadAndInstallNinja,
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
+  downloadAndInstallTools,
   downloadEmbedPython,
+  getScriptsRoot,
 } from "../utils/download.mjs";
 import { compare } from "../utils/semverUtil.mjs";
 import VersionBundlesLoader, {
@@ -523,7 +524,8 @@ export class NewProjectPanel {
               // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
               python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
             )) ||
-            !(await downloadAndInstallToolchain(selectedToolchain))
+            !(await downloadAndInstallToolchain(selectedToolchain)) ||
+            !(await downloadAndInstallTools(selectedSDK))
           ) {
             this._logger.error(
               `Failed to download and install toolchain and SDK.`
@@ -1432,12 +1434,4 @@ function getNonce(): string {
   }
 
   return text;
-}
-
-function getScriptsRoot(): string {
-  return joinPosix(
-    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
-    "..",
-    "scripts"
-  );
 }

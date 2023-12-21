@@ -6,6 +6,7 @@ import { SDK_REPOSITORY_URL, getSDKReleases } from "../utils/githubREST.mjs";
 import {
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
+  downloadAndInstallTools,
 } from "../utils/download.mjs";
 import { cmakeUpdateSDK } from "../utils/cmakeUtil.mjs";
 import {
@@ -98,7 +99,8 @@ export default class SwitchSDKCommand extends Command {
             selectedSDK.sdk.tagName,
             SDK_REPOSITORY_URL,
             this._settings
-          )
+          ) &&
+          (await downloadAndInstallTools(selectedSDK.sdk.tagName))
         ) {
           progress.report({
             increment: 40,

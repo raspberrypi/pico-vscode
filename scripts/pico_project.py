@@ -230,11 +230,17 @@ def relativeSDKPath(sdkVersion):
 def relativeToolchainPath(toolchainVersion):
     return f"/.pico-sdk/toolchain/{toolchainVersion}"
 
+def relativeToolsPath(sdkVersion):
+    return f"/.pico-sdk/tools/{sdkVersion}"
+
 def cmakeSdkPath(sdkVersion):
     return f"${{USERHOME}}{relativeSDKPath(sdkVersion)}"
 
 def cmakeToolchainPath(toolchainVersion):
     return f"${{USERHOME}}{relativeToolchainPath(toolchainVersion)}"
+
+def cmakeToolsPath(sdkVersion):
+    return f"${{USERHOME}}{relativeToolsPath(sdkVersion)}"
 
 def propertiesSdkPath(sdkVersion):
     if isWindows:
@@ -1052,6 +1058,11 @@ def GenerateCMake(folder, params):
                  "endif()\n"
                  f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
                  f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
+                 "if(WIN32)\n"
+                 f"    set(pico-sdk-tools_DIR {cmakeToolsPath(params['sdkVersion'])})\n"
+                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)\n"
+                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)\n"
+                 "endif()\n"
                  "# ====================================================================================\n"
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
