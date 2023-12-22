@@ -99,7 +99,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
       SDK_REPOSITORY_URL,
       settings
     )) ||
-    !(await downloadAndInstallTools(selectedToolchainAndSDKVersions[0]))
+    !(await downloadAndInstallTools(
+      selectedToolchainAndSDKVersions[0], process.platform === "win32")
+    )
   ) {
     Logger.log(
       "Failed to install project SDK " +

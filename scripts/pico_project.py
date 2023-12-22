@@ -971,6 +971,7 @@ def ParseCommandLine():
     parser.add_argument("-np", "--ninjaPath", help="Ninja path")
     parser.add_argument("-cmp", "--cmakePath", help="CMake path")
     parser.add_argument("-cupy", "--customPython", action='store_true', help="Custom python path used to execute the script.")
+    parser.add_argument("-openOCDVersion", "--openOCDVersion", help="OpenOCD version to use - defaults to 0", default=0)
 
     return parser.parse_args()
 
@@ -1183,7 +1184,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython, openOCDVersion):
 
     oldCWD = os.getcwd()
 
@@ -1207,12 +1208,12 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "configurations": [
         {{
             "name": "Pico Debug (Cortex-Debug)",
-            "cwd": "{"${workspaceRoot}" if not isWindows else f"{codeOpenOCDPath('v1.5.1')}/scripts"}",
+            "cwd": "{"${workspaceRoot}" if not isWindows else f"{codeOpenOCDPath(openOCDVersion)}/scripts"}",
             "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
-            {f'"serverpath": "{codeOpenOCDPath("v1.5.1")}/openocd.exe",' if isWindows else ""}
+            {f'"serverpath": "{codeOpenOCDPath(openOCDVersion)}/openocd.exe",' if isWindows else ""}
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
             "configFiles": [
@@ -1518,7 +1519,8 @@ def DoEverything(parent, params):
             params["toolchainVersion"], 
             params["ninjaPath"], 
             params["cmakePath"],
-            params["customPython"])
+            params["customPython"],
+            params["openOCDVersion"])
 
     if params['wantBuild']:
         if params['wantGUI'] and ENABLE_TK_GUI:
@@ -1635,7 +1637,8 @@ else :
         'toolchainVersion': args.toolchainVersion,
         'ninjaPath'     : args.ninjaPath,
         'cmakePath'     : args.cmakePath,
-        'customPython'  : args.customPython
+        'customPython'  : args.customPython,
+        'openOCDVersion': args.openOCDVersion
         }
 
     DoEverything(None, params)

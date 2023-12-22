@@ -37,10 +37,10 @@ const NINJA_PLATFORMS: { [key: string]: string } = {
 };
 
 /// Translate nodejs platform names to ninja platform names
-const OPENOCD_PLATFORMS: { [key: string]: string } = {
+const TOOLS_PLATFORMS: { [key: string]: string } = {
   darwin: "mac",
   linux: "lin",
-  win32: "x64-standalone",
+  win32: "x64-win",
 };
 
 /// Translate nodejs platform names to cmake platform names
@@ -331,41 +331,127 @@ export async function downloadAndInstallSDK(
   return false;
 }
 
-export function downloadAndInstallTools(
+export async function downloadAndInstallTools(
   version: string,
-): boolean {
+  required: boolean,
+  redirectURL?: string
+): Promise<boolean> {
+  if (process.platform !== "win32") {
+    Logger.log("SDK Tools installation not on Windows is not supported.");
+
+    return !required;
+  }
+
   const targetDirectory = buildToolsPath(version);
 
   // Check if the SDK is already installed
-  if (existsSync(targetDirectory)) {
+  if (redirectURL === undefined && existsSync(targetDirectory)) {
     Logger.log(`SDK Tools ${version} is already installed.`);
 
     return true;
   }
 
-  // Check we are on a supported OS
-  if (process.platform !== "win32" ||
-        (process.platform === "win32" && process.arch !== "x64")) {
-    Logger.log("Not installing SDK Tools as not on windows");
+  // Ensure the target directory exists
+  await mkdir(targetDirectory, { recursive: true });
 
-    return true;
+  const tmpBasePath = join(tmpdir(), "pico-sdk");
+  await mkdir(tmpBasePath, { recursive: true });
+  const archiveFilePath = join(tmpBasePath, `sdk-tools.zip`);
+
+  const octokit = new Octokit();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  let sdkToolsAsset: { name: string; browser_download_url: string } | undefined;
+
+  try {
+    if (redirectURL === undefined) {
+      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
+        owner: "will-v-pi",
+        repo: "pico-sdk-tools",
+        tag: "v1.5.1-alpha-1",
+      });
+      if (
+        releaseResponse.status !== 200 &&
+        releaseResponse.data === undefined
+      ) {
+        Logger.log(`Error fetching SDK Tools release ${version}.`);
+
+        return false;
+      }
+      const release = releaseResponse.data;
+      const assetName = `pico-sdk-tools-${version}-${TOOLS_PLATFORMS[process.platform]}.zip`;
+
+      // Find the asset
+      Logger.log(release.assets_url);
+      sdkToolsAsset = release.assets.find(asset => asset.name === assetName);
+    } else {
+      sdkToolsAsset = {
+        name: version,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        browser_download_url: redirectURL,
+      };
+    }
+  } catch (error) {
+    Logger.log(
+      `Error fetching SDK Tools release ${version}. ${
+        error instanceof Error ? error.message : (error as string)
+      }`
+    );
+
+    return false;
   }
 
-  Logger.log(`Installing SDK Tools ${version}`);
+  if (!sdkToolsAsset) {
+    Logger.log(`Error release asset for SDK Tools release ${version} not found.`);
 
-  // Ensure the target directory exists
-  // await mkdir(targetDirectory, { recursive: true });
+    return false;
+  }
 
-  cp(joinPosix(getScriptsRoot(), `tools/${version}`),
-    targetDirectory,
-    { recursive: true }, function(err) {
-      Logger.log(err?.message || "No error");
-      Logger.log(err?.code || "No code");
-      resolve();
-    }
-  );
+  // Download the asset
+  const assetUrl = sdkToolsAsset.browser_download_url;
 
-  return true;
+  return new Promise(resolve => {
+    // Use https.get to download the asset
+    get(assetUrl, response => {
+      const code = response.statusCode ?? 404;
+
+      // redirects not supported
+      if (code >= 400) {
+        //return reject(new Error(response.statusMessage));
+        Logger.log("Error downloading SDK Tools: " + response.statusMessage);
+
+        return resolve(false);
+      }
+
+      // handle redirects
+      if (code > 300 && code < 400 && !!response.headers.location) {
+        return resolve(
+          downloadAndInstallTools(version, required, response.headers.location)
+        );
+      }
+
+      // save the file to disk
+      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // unpack the archive
+        const success = unzipFile(archiveFilePath, targetDirectory, false);
+
+        // delete tmp file
+        unlinkSync(archiveFilePath);
+
+        // unzipper would require custom permission handling as it
+        // doesn't preserve the executable flag
+        /*if (process.platform !== "win32") {
+          chmodSync(join(targetDirectory, "ninja"), 0o755);
+        }*/
+
+        resolve(success);
+      });
+
+      response.pipe(fileWriter);
+    }).on("error", error => {
+      Logger.log("Error downloading asset:" + error.message);
+      resolve(false);
+    });
+  });
 }
 
 export async function downloadAndInstallToolchain(
@@ -632,9 +718,10 @@ export async function downloadAndInstallOpenOCD(
   try {
     if (redirectURL === undefined) {
       const releaseResponse = await octokit.rest.repos.getReleaseByTag({
-        owner: "raspberrypi",
-        repo: "pico-setup-windows",
-        tag: version,
+        owner: "will-v-pi",
+        repo: "pico-sdk-tools",
+        // TODO: version lookup
+        tag: "v1.5.1-alpha-1",
       });
       if (
         releaseResponse.status !== 200 &&
@@ -645,9 +732,10 @@ export async function downloadAndInstallOpenOCD(
         return false;
       }
       const release = releaseResponse.data;
-      const assetName = `openocd-${OPENOCD_PLATFORMS[process.platform]}.zip`;
+      const assetName = 
+        `openocd-${version}-${TOOLS_PLATFORMS[process.platform]}.zip`;
 
-      // Find the asset with the name 'ninja-win.zip'
+      // Find the asset
       Logger.log(release.assets_url);
       openocdAsset = release.assets.find(asset => asset.name === assetName);
     } else {
@@ -702,7 +790,7 @@ export async function downloadAndInstallOpenOCD(
         const success = unzipFile(archiveFilePath, targetDirectory, false);
 
         // delete tmp file
-        // unlinkSync(archiveFilePath);
+        unlinkSync(archiveFilePath);
 
         // unzipper would require custom permission handling as it
         // doesn't preserve the executable flag

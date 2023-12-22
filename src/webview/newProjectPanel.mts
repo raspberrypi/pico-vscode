@@ -218,6 +218,7 @@ interface NewProjectOptions {
     toolchainPath: string;
     sdkVersion: string;
     sdkPath: string;
+    openOCDVersion: string;
   };
   ninjaExecutable: string;
   cmakeExecutable: string;
@@ -415,6 +416,8 @@ export class NewProjectPanel {
       const selectedToolchain = this._supportedToolchains?.find(
         tc => tc.version === data.selectedToolchain.replaceAll(".", "_")
       );
+      // TODO: read from user
+      const openOCDVersion = "0.12.0";
 
       if (!selectedToolchain) {
         void window.showErrorMessage("Failed to find selected toolchain.");
@@ -526,7 +529,7 @@ export class NewProjectPanel {
               python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
             )) ||
             !(await downloadAndInstallToolchain(selectedToolchain)) ||
-            !(await downloadAndInstallTools(selectedSDK))
+            !(await downloadAndInstallTools(selectedSDK, process.platform === "win32"))
           ) {
             this._logger.error(
               `Failed to download and install toolchain and SDK.`
@@ -540,7 +543,7 @@ export class NewProjectPanel {
             installedSuccessfully = false;
           } else {
             installedSuccessfully = true;
-            if (!(await downloadAndInstallOpenOCD("v1.5.1"))) {
+            if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
               this._logger.error(
                 `Failed to download and install openocd.`
               );
@@ -765,6 +768,7 @@ export class NewProjectPanel {
           toolchainPath: buildToolchainPath(selectedToolchain.version),
           sdkVersion: selectedSDK,
           sdkPath: buildSDKPath(selectedSDK),
+          openOCDVersion: openOCDVersion,
         },
         ninjaExecutable,
         cmakeExecutable,
@@ -1393,6 +1397,8 @@ export class NewProjectPanel {
       options.toolchainAndSDK.sdkVersion,
       "--toolchainVersion",
       options.toolchainAndSDK.toolchainVersion,
+      "--openOCDVersion",
+      options.toolchainAndSDK.openOCDVersion,
       "--ninjaPath",
       `"${options.ninjaExecutable}"`,
       "--cmakePath",

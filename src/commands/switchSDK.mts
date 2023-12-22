@@ -100,7 +100,9 @@ export default class SwitchSDKCommand extends Command {
             SDK_REPOSITORY_URL,
             this._settings
           ) &&
-          (await downloadAndInstallTools(selectedSDK.sdk.tagName))
+          (await downloadAndInstallTools(
+            selectedSDK.sdk.tagName, process.platform === "win32")
+          )
         ) {
           progress.report({
             increment: 40,
