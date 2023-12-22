@@ -364,9 +364,11 @@ var isPicoWireless = false;
   }
 
   const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
-  ninjaVersionRadio[0].checked = true;
+  if (ninjaVersionRadio.length > 0)
+    ninjaVersionRadio[0].checked = true;
   const cmakeVersionRadio = document.getElementsByName('cmake-version-radio');
   cmakeVersionRadio[0].checked = true;
   const pythonVersionRadio = document.getElementsByName('python-version-radio');
-  pythonVersionRadio[0].checked = true;
+  if (pythonVersionRadio.length > 0)
+    pythonVersionRadio[0].checked = true;
 }());
