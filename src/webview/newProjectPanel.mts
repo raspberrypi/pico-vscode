@@ -892,7 +892,7 @@ export class NewProjectPanel {
       ) {
         this._logger.error("Failed to load toolchains or SDKs.");
 
-        return "";
+        throw new Error("Failed to load toolchains or SDKs.");
       }
       this._supportedToolchains = supportedToolchains;
       // toolchains should be sorted and cant be sorted by compare because
@@ -904,6 +904,7 @@ export class NewProjectPanel {
         }`
       );
 
+      this.dispose();
       void window.showErrorMessage(
         "Error while retrieving SDK and toolchain versions."
       );
@@ -921,8 +922,9 @@ export class NewProjectPanel {
       (await which("python", { nothrow: true })) !== null;
 
     if (!isNinjaSystemAvailable && NINJA_AUTO_INSTALL_DISABLED) {
+      this.dispose();
       await window.showErrorMessage(
-        "Automatic ninja installation is currently not supported on aarch64 Linux systems. Please install ninja manually."
+        "Not all requirements are met. Automatic ninja installation is currently not supported on aarch64 Linux systems. Please install ninja manually."
       );
 
       return "";
