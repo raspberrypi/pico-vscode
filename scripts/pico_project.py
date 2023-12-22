@@ -1276,6 +1276,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 }}
 '''
 
+            pythonExe = sys.executable.replace("\\", "/").replace(user_home, "${HOME}") if use_home_var else sys.executable
 
             # settings
             settings = f'''{{
@@ -1291,7 +1292,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
             if customPython:
                 settings += f''',
-    "raspberry-pi-pico.python3Path": "{sys.executable.replace("\\", "/").replace(user_home, "${HOME}") if use_home_var else sys.executable}"'''
+    "raspberry-pi-pico.python3Path": "{pythonExe}"'''
                 
             settings += '\n}\n'
 
