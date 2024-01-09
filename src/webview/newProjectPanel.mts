@@ -529,7 +529,10 @@ export class NewProjectPanel {
               python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
             )) ||
             !(await downloadAndInstallToolchain(selectedToolchain)) ||
-            !(await downloadAndInstallTools(selectedSDK, process.platform === "win32"))
+            !(await downloadAndInstallTools(
+              selectedSDK,
+              process.platform === "win32"
+            ))
           ) {
             this._logger.error(
               `Failed to download and install toolchain and SDK.`
@@ -544,9 +547,7 @@ export class NewProjectPanel {
           } else {
             installedSuccessfully = true;
             if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
-              this._logger.error(
-                `Failed to download and install openocd.`
-              );
+              this._logger.error(`Failed to download and install openocd.`);
             } else {
               this._logger.info(
                 `Successfully downloaded and installed openocd.`
@@ -975,7 +976,7 @@ export class NewProjectPanel {
       <body class="scroll-smooth w-screen">
         <div id="above-nav" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-0 z-10 pl-5 h-5">
         </div>
-        <nav class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 h-24 bg-opacity-95 bg-slate-800 rounded-md">
+        <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 h-24 bg-opacity-95 bg-slate-800 rounded-md">
             <div class="inline-flex h-16 align-middle">
                 <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-16 rounded cursor-not-allowed block mb-2"/>
             </div>
@@ -1007,7 +1008,8 @@ export class NewProjectPanel {
                     <div class="grid gap-6 md:grid-cols-2">
                         <div>
                             <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="MyProject" required/>
+                            <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="MyProject" required/>
+                            <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden><span class="font-medium">Error</span> Please enter a valid project name.</p>
                         </div>
                         <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>

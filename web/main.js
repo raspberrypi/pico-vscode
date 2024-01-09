@@ -17,6 +17,32 @@ var isPicoWireless = false;
 
   console.log("oldState", oldState);
 
+  // needed so a element isn't hidden behind the navbar on scroll
+  const navbarOffsetHeight = document.getElementById('top-navbar').offsetHeight;
+
+  // returns true if project name input is valid
+  function projectNameFormValidation(projectNameElement) {
+    const projectNameError = document.getElementById('inp-project-name-error');
+    const projectName = projectNameElement.value;
+
+    var invalidChars = /[\/:*?"<>|]/;
+    // check for reserved names in Windows
+    var reservedNames = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
+    if (projectName.trim().length == 0 || invalidChars.test(projectName) || reservedNames.test(projectName)) {
+      projectNameError.hidden = false;
+      //projectNameElement.scrollIntoView({ behavior: "smooth" });
+      window.scrollTo({
+        top: projectNameElement.offsetTop - navbarOffsetHeight,
+        behavior: 'smooth'
+      });
+
+      return false;
+    }
+
+    projectNameError.hidden = true;
+    return true;
+  }
+
   window.changeLocation = () => {
     // Send a message back to the extension
     vscode.postMessage({
@@ -42,7 +68,13 @@ var isPicoWireless = false;
     submitted = true;
 
     // get all values of inputs
-    const projectName = document.getElementById('inp-project-name').value;
+    const projectNameElement = document.getElementById('inp-project-name');
+    const projectName = projectNameElement.value;
+    if (!projectNameFormValidation(projectNameElement)) {
+      submitted = false;
+      return;
+    }
+
     // already stored in the extension, readonly
     //const projectLocation = document.getElementById('inp-project-location').value;
 
