@@ -28,7 +28,6 @@ export async function checkForInstallationRequirements(
 ): Promise<boolean> {
   const gitExe: string = gitPath || "git";
   const compilerExe: string[] = ["clang", "gcc", "cl"];
-  const tools: string[] = ["pioasm", "elf2uf2"];
 
   const git: string | null = await which(gitExe, { nothrow: true });
   //check if any of the compilers is available
@@ -37,15 +36,8 @@ export async function checkForInstallationRequirements(
       .map(compiler => which(compiler, { nothrow: true }))
       .map(p => p.catch(() => null))
   );
-  // check for avialbility of tools
-  let allToolsAvailable: boolean = true;
-  for (const tool of tools) {
-    const toolPath: string | null = await which(tool, { nothrow: true });
-    if (toolPath === null) {
-      allToolsAvailable = false;
-      break;
-    }
-  }
+  // set availability of tools on windows
+  const allToolsAvailable: boolean = process.platform === "win32";
 
   let requirementsMet: boolean = true;
   if (git === null) {
@@ -100,9 +92,8 @@ export async function showInstallationRequirementsNotMetErrorMessage(
   }
   if (!allToolsAvailableOrCompilerInstalled) {
     await window.showErrorMessage(
-      "Either pioasm and elf2uf2 need to be installed and in PATH or " +
-        "a native C/C++ compiler (clang or gcc) needs to be installed and in " +
-        "PATH for manuall compilation of the tools." +
+      "A native C/C++ compiler (clang or gcc) needs to be installed and in " +
+        "PATH for manual compilation of the tools." +
         "Please install and restart VS Code."
     );
   }

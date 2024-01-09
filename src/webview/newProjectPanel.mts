@@ -20,7 +20,6 @@ import type Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
-import { fileURLToPath } from "url";
 import {
   type SupportedToolchainVersion,
   getSupportedToolchains,
@@ -38,9 +37,12 @@ import {
   buildToolchainPath,
   downloadAndInstallCmake,
   downloadAndInstallNinja,
+  downloadAndInstallOpenOCD,
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
+  downloadAndInstallTools,
   downloadEmbedPython,
+  getScriptsRoot,
 } from "../utils/download.mjs";
 import { compare } from "../utils/semverUtil.mjs";
 import VersionBundlesLoader, {
@@ -216,6 +218,7 @@ interface NewProjectOptions {
     toolchainPath: string;
     sdkVersion: string;
     sdkPath: string;
+    openOCDVersion: string;
   };
   ninjaExecutable: string;
   cmakeExecutable: string;
@@ -413,6 +416,8 @@ export class NewProjectPanel {
       const selectedToolchain = this._supportedToolchains?.find(
         tc => tc.version === data.selectedToolchain.replaceAll(".", "_")
       );
+      // TODO: read from user
+      const openOCDVersion = "0.12.0";
 
       if (!selectedToolchain) {
         void window.showErrorMessage("Failed to find selected toolchain.");
@@ -523,7 +528,8 @@ export class NewProjectPanel {
               // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
               python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
             )) ||
-            !(await downloadAndInstallToolchain(selectedToolchain))
+            !(await downloadAndInstallToolchain(selectedToolchain)) ||
+            !(await downloadAndInstallTools(selectedSDK, process.platform === "win32"))
           ) {
             this._logger.error(
               `Failed to download and install toolchain and SDK.`
@@ -537,6 +543,15 @@ export class NewProjectPanel {
             installedSuccessfully = false;
           } else {
             installedSuccessfully = true;
+            if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
+              this._logger.error(
+                `Failed to download and install openocd.`
+              );
+            } else {
+              this._logger.info(
+                `Successfully downloaded and installed openocd.`
+              );
+            }
           }
         }
       );
@@ -753,6 +768,7 @@ export class NewProjectPanel {
           toolchainPath: buildToolchainPath(selectedToolchain.version),
           sdkVersion: selectedSDK,
           sdkPath: buildSDKPath(selectedSDK),
+          openOCDVersion: openOCDVersion,
         },
         ninjaExecutable,
         cmakeExecutable,
@@ -1381,6 +1397,8 @@ export class NewProjectPanel {
       options.toolchainAndSDK.sdkVersion,
       "--toolchainVersion",
       options.toolchainAndSDK.toolchainVersion,
+      "--openOCDVersion",
+      options.toolchainAndSDK.openOCDVersion,
       "--ninjaPath",
       `"${options.ninjaExecutable}"`,
       "--cmakePath",
@@ -1432,12 +1450,4 @@ function getNonce(): string {
   }
 
   return text;
-}
-
-function getScriptsRoot(): string {
-  return joinPosix(
-    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
-    "..",
-    "scripts"
-  );
 }

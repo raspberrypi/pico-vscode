@@ -1,4 +1,5 @@
 import {
+  cp,
   createWriteStream,
   existsSync,
   readdirSync,
@@ -10,7 +11,7 @@ import {
 } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
-import { basename, join } from "path";
+import { basename, dirname, join, resolve } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
 import { get } from "https";
@@ -26,12 +27,20 @@ import type { VersionBundle } from "./versionBundles.mjs";
 import MacOSPythonPkgExtractor from "./macOSUtils.mjs";
 import which from "which";
 import { window } from "vscode";
+import { fileURLToPath } from "url";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
   darwin: "mac",
   linux: "lin",
   win32: "win",
+};
+
+/// Translate nodejs platform names to ninja platform names
+const TOOLS_PLATFORMS: { [key: string]: string } = {
+  darwin: "mac",
+  linux: "lin",
+  win32: "x64-win",
 };
 
 /// Translate nodejs platform names to cmake platform names
@@ -56,11 +65,38 @@ export function buildSDKPath(version: string): string {
   );
 }
 
+export function buildToolsPath(version: string): string {
+  // TODO: maybe replace . with _
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "tools",
+    version
+  );
+}
+
+export function getScriptsRoot(): string {
+  return joinPosix(
+    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
+    "..",
+    "scripts"
+  );
+}
+
 export function buildNinjaPath(version: string): string {
   return joinPosix(
     homedir().replaceAll("\\", "/"),
     ".pico-sdk",
     "ninja",
+    version
+  );
+}
+
+export function buildOpenOCDPath(version: string): string {
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "openocd",
     version
   );
 }
@@ -83,10 +119,39 @@ export function buildPython3Path(version: string): string {
   );
 }
 
-function unzipFile(zipFilePath: string, targetDirectory: string): boolean {
+function tryUnzipFiles(zipFilePath: string, targetDirectory: string): boolean {
+  let success = true;
+  const zip = new AdmZip(zipFilePath);
+  const zipEntries = zip.getEntries();
+  zipEntries.forEach(function (zipEntry) {
+    if (!zipEntry.isDirectory) {
+      try {
+        zip.extractEntryTo(zipEntry, targetDirectory, true, true, true);
+      } catch (error) {
+        Logger.log(
+          `Error extracting archive file: ${
+            error instanceof Error ? error.message : (error as string)
+          }`
+        );
+        success = false;
+      }
+    }
+  });
+
+  return success;
+}
+
+function unzipFile(
+  zipFilePath: string, targetDirectory: string,
+  enforceSuccess: boolean = true
+): boolean {
   try {
-    const zip = new AdmZip(zipFilePath);
-    zip.extractAllTo(targetDirectory, true, true);
+    if (enforceSuccess) {
+      const zip = new AdmZip(zipFilePath);
+      zip.extractAllTo(targetDirectory, true, true);
+    } else {
+      tryUnzipFiles(zipFilePath, targetDirectory);
+    }
 
     // TODO: improve this
     const targetDirContents = readdirSync(targetDirectory);
@@ -264,6 +329,129 @@ export async function downloadAndInstallSDK(
   }
 
   return false;
+}
+
+export async function downloadAndInstallTools(
+  version: string,
+  required: boolean,
+  redirectURL?: string
+): Promise<boolean> {
+  if (process.platform !== "win32") {
+    Logger.log("SDK Tools installation not on Windows is not supported.");
+
+    return !required;
+  }
+
+  const targetDirectory = buildToolsPath(version);
+
+  // Check if the SDK is already installed
+  if (redirectURL === undefined && existsSync(targetDirectory)) {
+    Logger.log(`SDK Tools ${version} is already installed.`);
+
+    return true;
+  }
+
+  // Ensure the target directory exists
+  await mkdir(targetDirectory, { recursive: true });
+
+  const tmpBasePath = join(tmpdir(), "pico-sdk");
+  await mkdir(tmpBasePath, { recursive: true });
+  const archiveFilePath = join(tmpBasePath, `sdk-tools.zip`);
+
+  const octokit = new Octokit();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  let sdkToolsAsset: { name: string; browser_download_url: string } | undefined;
+
+  try {
+    if (redirectURL === undefined) {
+      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
+        owner: "will-v-pi",
+        repo: "pico-sdk-tools",
+        tag: "v1.5.1-alpha-1",
+      });
+      if (
+        releaseResponse.status !== 200 &&
+        releaseResponse.data === undefined
+      ) {
+        Logger.log(`Error fetching SDK Tools release ${version}.`);
+
+        return false;
+      }
+      const release = releaseResponse.data;
+      const assetName = `pico-sdk-tools-${version}-${TOOLS_PLATFORMS[process.platform]}.zip`;
+
+      // Find the asset
+      Logger.log(release.assets_url);
+      sdkToolsAsset = release.assets.find(asset => asset.name === assetName);
+    } else {
+      sdkToolsAsset = {
+        name: version,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        browser_download_url: redirectURL,
+      };
+    }
+  } catch (error) {
+    Logger.log(
+      `Error fetching SDK Tools release ${version}. ${
+        error instanceof Error ? error.message : (error as string)
+      }`
+    );
+
+    return false;
+  }
+
+  if (!sdkToolsAsset) {
+    Logger.log(`Error release asset for SDK Tools release ${version} not found.`);
+
+    return false;
+  }
+
+  // Download the asset
+  const assetUrl = sdkToolsAsset.browser_download_url;
+
+  return new Promise(resolve => {
+    // Use https.get to download the asset
+    get(assetUrl, response => {
+      const code = response.statusCode ?? 404;
+
+      // redirects not supported
+      if (code >= 400) {
+        //return reject(new Error(response.statusMessage));
+        Logger.log("Error downloading SDK Tools: " + response.statusMessage);
+
+        return resolve(false);
+      }
+
+      // handle redirects
+      if (code > 300 && code < 400 && !!response.headers.location) {
+        return resolve(
+          downloadAndInstallTools(version, required, response.headers.location)
+        );
+      }
+
+      // save the file to disk
+      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // unpack the archive
+        const success = unzipFile(archiveFilePath, targetDirectory, false);
+
+        // delete tmp file
+        unlinkSync(archiveFilePath);
+
+        // unzipper would require custom permission handling as it
+        // doesn't preserve the executable flag
+        /*if (process.platform !== "win32") {
+          chmodSync(join(targetDirectory, "ninja"), 0o755);
+        }*/
+
+        resolve(success);
+      });
+
+      response.pipe(fileWriter);
+    }).on("error", error => {
+      Logger.log("Error downloading asset:" + error.message);
+      resolve(false);
+    });
+  });
 }
 
 export async function downloadAndInstallToolchain(
@@ -476,6 +664,130 @@ export async function downloadAndInstallNinja(
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
         // unpack the archive
         const success = unzipFile(archiveFilePath, targetDirectory);
+
+        // delete tmp file
+        unlinkSync(archiveFilePath);
+
+        // unzipper would require custom permission handling as it
+        // doesn't preserve the executable flag
+        /*if (process.platform !== "win32") {
+          chmodSync(join(targetDirectory, "ninja"), 0o755);
+        }*/
+
+        resolve(success);
+      });
+
+      response.pipe(fileWriter);
+    }).on("error", error => {
+      Logger.log("Error downloading asset:" + error.message);
+      resolve(false);
+    });
+  });
+}
+
+export async function downloadAndInstallOpenOCD(
+  version: string,
+  redirectURL?: string
+): Promise<boolean> {
+  if (process.platform !== "win32") {
+    Logger.log("OpenOCD installation not on Windows is not supported.");
+
+    return false;
+  }
+
+  const targetDirectory = buildOpenOCDPath(version);
+
+  // Check if the SDK is already installed
+  if (redirectURL === undefined && existsSync(targetDirectory)) {
+    Logger.log(`OpenOCD ${version} is already installed.`);
+
+    return true;
+  }
+
+  // Ensure the target directory exists
+  await mkdir(targetDirectory, { recursive: true });
+
+  const tmpBasePath = join(tmpdir(), "pico-sdk");
+  await mkdir(tmpBasePath, { recursive: true });
+  const archiveFilePath = join(tmpBasePath, `openocd.zip`);
+
+  const octokit = new Octokit();
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  let openocdAsset: { name: string; browser_download_url: string } | undefined;
+
+  try {
+    if (redirectURL === undefined) {
+      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
+        owner: "will-v-pi",
+        repo: "pico-sdk-tools",
+        // TODO: version lookup
+        tag: "v1.5.1-alpha-1",
+      });
+      if (
+        releaseResponse.status !== 200 &&
+        releaseResponse.data === undefined
+      ) {
+        Logger.log(`Error fetching OpenOCD release ${version}.`);
+
+        return false;
+      }
+      const release = releaseResponse.data;
+      const assetName = 
+        `openocd-${version}-${TOOLS_PLATFORMS[process.platform]}.zip`;
+
+      // Find the asset
+      Logger.log(release.assets_url);
+      openocdAsset = release.assets.find(asset => asset.name === assetName);
+    } else {
+      openocdAsset = {
+        name: version,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        browser_download_url: redirectURL,
+      };
+    }
+  } catch (error) {
+    Logger.log(
+      `Error fetching OpenOCD release ${version}. ${
+        error instanceof Error ? error.message : (error as string)
+      }`
+    );
+
+    return false;
+  }
+
+  if (!openocdAsset) {
+    Logger.log(`Error release asset for OpenOCD release ${version} not found.`);
+
+    return false;
+  }
+
+  // Download the asset
+  const assetUrl = openocdAsset.browser_download_url;
+
+  return new Promise(resolve => {
+    // Use https.get to download the asset
+    get(assetUrl, response => {
+      const code = response.statusCode ?? 404;
+
+      // redirects not supported
+      if (code >= 400) {
+        //return reject(new Error(response.statusMessage));
+        Logger.log("Error downloading OpenOCD: " + response.statusMessage);
+
+        return resolve(false);
+      }
+
+      // handle redirects
+      if (code > 300 && code < 400 && !!response.headers.location) {
+        return resolve(
+          downloadAndInstallOpenOCD(version, response.headers.location)
+        );
+      }
+
+      // save the file to disk
+      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // unpack the archive
+        const success = unzipFile(archiveFilePath, targetDirectory, false);
 
         // delete tmp file
         unlinkSync(archiveFilePath);

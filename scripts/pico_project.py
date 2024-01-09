@@ -230,11 +230,20 @@ def relativeSDKPath(sdkVersion):
 def relativeToolchainPath(toolchainVersion):
     return f"/.pico-sdk/toolchain/{toolchainVersion}"
 
+def relativeToolsPath(sdkVersion):
+    return f"/.pico-sdk/tools/{sdkVersion}"
+
+def relativeOpenOCDPath(openocdVersion):
+    return f"/.pico-sdk/openocd/{openocdVersion}"
+
 def cmakeSdkPath(sdkVersion):
     return f"${{USERHOME}}{relativeSDKPath(sdkVersion)}"
 
 def cmakeToolchainPath(toolchainVersion):
     return f"${{USERHOME}}{relativeToolchainPath(toolchainVersion)}"
+
+def cmakeToolsPath(sdkVersion):
+    return f"${{USERHOME}}{relativeToolsPath(sdkVersion)}"
 
 def propertiesSdkPath(sdkVersion):
     if isWindows:
@@ -244,6 +253,9 @@ def propertiesSdkPath(sdkVersion):
 
 def codeSdkPath(sdkVersion):
     return f"${{userHome}}{relativeSDKPath(sdkVersion)}"
+
+def codeOpenOCDPath(openocdVersion):
+    return f"${{userHome}}{relativeOpenOCDPath(openocdVersion)}"
 
 def propertiesToolchainPath(toolchainVersion):
     if isWindows:
@@ -959,6 +971,7 @@ def ParseCommandLine():
     parser.add_argument("-np", "--ninjaPath", help="Ninja path")
     parser.add_argument("-cmp", "--cmakePath", help="CMake path")
     parser.add_argument("-cupy", "--customPython", action='store_true', help="Custom python path used to execute the script.")
+    parser.add_argument("-openOCDVersion", "--openOCDVersion", help="OpenOCD version to use - defaults to 0", default=0)
 
     return parser.parse_args()
 
@@ -1052,6 +1065,11 @@ def GenerateCMake(folder, params):
                  "endif()\n"
                  f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
                  f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
+                 "if(WIN32)\n"
+                 f"    set(pico-sdk-tools_DIR {cmakeToolsPath(params['sdkVersion'])})\n"
+                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)\n"
+                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)\n"
+                 "endif()\n"
                  "# ====================================================================================\n"
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
@@ -1166,7 +1184,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython, openOCDVersion):
 
     oldCWD = os.getcwd()
 
@@ -1190,11 +1208,12 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "configurations": [
         {{
             "name": "Pico Debug (Cortex-Debug)",
-            "cwd": "${{workspaceRoot}}",
+            "cwd": "{"${workspaceRoot}" if not isWindows else f"{codeOpenOCDPath(openOCDVersion)}/scripts"}",
             "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
+            {f'"serverpath": "{codeOpenOCDPath(openOCDVersion)}/openocd.exe",' if isWindows else ""}
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
             "configFiles": [
@@ -1511,7 +1530,8 @@ def DoEverything(parent, params):
             params["toolchainVersion"], 
             params["ninjaPath"], 
             params["cmakePath"],
-            params["customPython"])
+            params["customPython"],
+            params["openOCDVersion"])
 
     if params['wantBuild']:
         if params['wantGUI'] and ENABLE_TK_GUI:
@@ -1628,7 +1648,8 @@ else :
         'toolchainVersion': args.toolchainVersion,
         'ninjaPath'     : args.ninjaPath,
         'cmakePath'     : args.cmakePath,
-        'customPython'  : args.customPython
+        'customPython'  : args.customPython,
+        'openOCDVersion': args.openOCDVersion
         }
 
     DoEverything(None, params)
