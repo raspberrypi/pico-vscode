@@ -1315,7 +1315,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "cmake.automaticReconfigure": false,
     "cmake.configureOnOpen": false,
     "cmake.generator": "Ninja",
-    "cmake.cmakePath": "{cmakePath}",
+    "cmake.cmakePath": "{cmakePath.replace(user_home, "${userHome}") if use_home_var else cmakePath}",
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.cmakePath": "{cmakePath.replace(user_home, "${HOME}") if use_home_var else cmakePath}",
     "raspberry-pi-pico.ninjaPath": "{ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath}"'''
