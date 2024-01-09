@@ -6,9 +6,8 @@ import { exec } from "child_process";
 import { buildPython3Path } from "./download.mjs";
 import { HOME_VAR } from "../settings.mjs";
 import { existsSync, mkdirSync, symlinkSync } from "fs";
-import { join } from "path";
 
-export function buildPyEnvPath(): string {
+export function buildPyenvPath(): string {
   // TODO: maybe replace . with _
   return joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "pyenv");
 }
@@ -17,7 +16,7 @@ export function buildPyEnvPath(): string {
  * Download pyenv and install it.
  */
 export async function setupPyenv(): Promise<boolean> {
-  const targetDirectory = buildPyEnvPath();
+  const targetDirectory = buildPyenvPath();
   const result = await cloneRepository(
     PYENV_REPOSITORY_URL,
     "master",
@@ -34,7 +33,7 @@ export async function setupPyenv(): Promise<boolean> {
 export async function pyenvInstallPython(
   version: string
 ): Promise<string | null> {
-  const targetDirectory = buildPyEnvPath();
+  const targetDirectory = buildPyenvPath();
   const binDirectory = joinPosix(targetDirectory, "bin");
   const command = `${binDirectory}/pyenv install ${version}`;
 
@@ -53,28 +52,24 @@ export async function pyenvInstallPython(
   }
 
   return new Promise(resolve => {
-    exec(
-      command,
-      { env: customEnv, cwd: binDirectory },
-      (error, stdout, stderr) => {
-        if (error) {
-          resolve(null);
-        }
-
-        const versionFolder = joinPosix(targetDirectory, "versions", version);
-        const pyBin = joinPosix(versionFolder, "bin");
-        mkdirSync(pythonVersionPath, { recursive: true });
-        symlinkSync(
-          joinPosix(pyBin, "python3"),
-          joinPosix(pythonVersionPath, "python.exe")
-        );
-        symlinkSync(
-          joinPosix(pyBin, "python3"),
-          joinPosix(pythonVersionPath, "python3exe")
-        );
-
-        resolve(settingsTarget);
+    exec(command, { env: customEnv, cwd: binDirectory }, error => {
+      if (error) {
+        resolve(null);
       }
-    );
+
+      const versionFolder = joinPosix(targetDirectory, "versions", version);
+      const pyBin = joinPosix(versionFolder, "bin");
+      mkdirSync(pythonVersionPath, { recursive: true });
+      symlinkSync(
+        joinPosix(pyBin, "python3"),
+        joinPosix(pythonVersionPath, "python.exe")
+      );
+      symlinkSync(
+        joinPosix(pyBin, "python3"),
+        joinPosix(pythonVersionPath, "python3exe")
+      );
+
+      resolve(settingsTarget);
+    });
   });
 }

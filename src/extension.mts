@@ -100,8 +100,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
       settings
     )) ||
     !(await downloadAndInstallTools(
-      selectedToolchainAndSDKVersions[0], process.platform === "win32")
-    )
+      selectedToolchainAndSDKVersions[0],
+      process.platform === "win32"
+    ))
   ) {
     Logger.log(
       "Failed to install project SDK " +

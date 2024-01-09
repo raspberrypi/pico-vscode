@@ -35,8 +35,10 @@ export async function getSDKReleases(): Promise<GithubRelease[]> {
         });
 
         response.on("end", () => {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const releases: Array<{ tag_name: string }> = JSON.parse(
             data
+            // eslint-disable-next-line @typescript-eslint/naming-convention
           ) as Array<{ tag_name: string }>;
 
           resolve(
@@ -81,8 +83,10 @@ export async function getNinjaReleases(): Promise<Array<{ tagName: string }>> {
         });
 
         response.on("end", () => {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const releases: Array<{ tag_name: string }> = JSON.parse(
             data
+            // eslint-disable-next-line @typescript-eslint/naming-convention
           ) as Array<{ tag_name: string }>;
 
           resolve(
@@ -130,8 +134,10 @@ export async function getCmakeReleases(): Promise<Array<{ tagName: string }>> {
         });
 
         response.on("end", () => {
+          // eslint-disable-next-line @typescript-eslint/naming-convention
           const releases: Array<{ tag_name: string }> = JSON.parse(
             data
+            // eslint-disable-next-line @typescript-eslint/naming-convention
           ) as Array<{ tag_name: string }>;
 
           resolve(

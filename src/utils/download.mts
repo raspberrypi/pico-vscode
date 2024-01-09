@@ -1,5 +1,4 @@
 import {
-  cp,
   createWriteStream,
   existsSync,
   readdirSync,
@@ -11,7 +10,7 @@ import {
 } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
-import { basename, dirname, join, resolve } from "path";
+import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
 import { get } from "https";
@@ -142,7 +141,8 @@ function tryUnzipFiles(zipFilePath: string, targetDirectory: string): boolean {
 }
 
 function unzipFile(
-  zipFilePath: string, targetDirectory: string,
+  zipFilePath: string,
+  targetDirectory: string,
   enforceSuccess: boolean = true
 ): boolean {
   try {
@@ -378,7 +378,9 @@ export async function downloadAndInstallTools(
         return false;
       }
       const release = releaseResponse.data;
-      const assetName = `pico-sdk-tools-${version}-${TOOLS_PLATFORMS[process.platform]}.zip`;
+      const assetName = `pico-sdk-tools-${version}-${
+        TOOLS_PLATFORMS[process.platform]
+      }.zip`;
 
       // Find the asset
       Logger.log(release.assets_url);
@@ -401,7 +403,9 @@ export async function downloadAndInstallTools(
   }
 
   if (!sdkToolsAsset) {
-    Logger.log(`Error release asset for SDK Tools release ${version} not found.`);
+    Logger.log(
+      `Error release asset for SDK Tools release ${version} not found.`
+    );
 
     return false;
   }
@@ -732,8 +736,9 @@ export async function downloadAndInstallOpenOCD(
         return false;
       }
       const release = releaseResponse.data;
-      const assetName = 
-        `openocd-${version}-${TOOLS_PLATFORMS[process.platform]}.zip`;
+      const assetName = `openocd-${version}-${
+        TOOLS_PLATFORMS[process.platform]
+      }.zip`;
 
       // Find the asset
       Logger.log(release.assets_url);
@@ -1120,13 +1125,6 @@ export async function downloadEmbedPython(
 const GIT_DOWNLOAD_URL_WIN_AMD64 =
   "https://github.com/git-for-windows/git/releases/download" +
   "/v2.43.0.windows.1/MinGit-2.43.0-64-bit.zip";
-const GIT_MACOS_VERSION = "2.43.0";
-const GIT_DOWNLOAD_URL_MACOS_ARM64 =
-  "https://bd752571.vscode-raspberry-pi-pico.pages.dev" +
-  "/git-2.43.0-arm64_sonoma.bottle.tar.gz";
-const GIT_DOWNLOAD_URL_MACOS_INTEL =
-  "https://bd752571.vscode-raspberry-pi-pico.pages.dev" +
-  "/git-2.43.0-intel_sonoma.bottle.tar.gz";
 
 /**
  * Only supported Windows amd64 and macOS arm64 and amd64.
