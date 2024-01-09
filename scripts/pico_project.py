@@ -1280,7 +1280,18 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
             # settings
             settings = f'''{{
-    "cmake.statusbar.visibility": "hidden",
+    "cmake.options.statusBarVisibility": "hidden",
+    "cmake.options.advanced": {{
+        "build": {{
+            "statusBarVisibility": "hidden"
+        }},
+        "launch": {{
+            "statusBarVisibility": "hidden"
+        }},
+        "debug": {{
+            "statusBarVisibility": "hidden"
+        }}
+    }},
     "cmake.configureOnEdit": false,
     "cmake.automaticReconfigure": false,
     "cmake.configureOnOpen": false,
