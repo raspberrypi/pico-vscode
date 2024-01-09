@@ -3,7 +3,10 @@
 const SELECTED_ITEM_BG_CLASS = 'bg-slate-600';
 
 function navItemOnClick(itemId) {
-  // Remove the bg-slate-600 class from all nav items
+  // needed so a element isn't hidden behind the navbar on scroll
+  const navbarOffsetHeight = document.getElementById('top-navbar').offsetHeight;
+
+  // remove the SELECTED_ITEM_BG_CLASS class from all nav items
   const navItems = document.getElementsByClassName('nav-item');
   for (let i = 0; i < navItems.length; i++) {
     navItems[i].classList.remove(SELECTED_ITEM_BG_CLASS);
@@ -19,18 +22,38 @@ function navItemOnClick(itemId) {
       document.documentElement.scrollTop = 0;
       break;
     case "nav-features":
-      document.getElementById("section-features").scrollIntoView();
+      //document.getElementById("section-features").scrollIntoView();
+      window.scrollTo({
+        top: document.getElementById("section-features").offsetTop - navbarOffsetHeight,
+        behavior: 'smooth'
+      });
       break;
     case "nav-stdio":
-      document.getElementById("section-stdio").scrollIntoView();
+      //document.getElementById("section-stdio").scrollIntoView();
+      window.scrollTo({
+        top: document.getElementById("section-stdio").offsetTop - navbarOffsetHeight,
+        behavior: 'smooth'
+      });
     case "nav-pico-wireless":
-      document.getElementById("section-pico-wireless").scrollIntoView();
+      // document.getElementById("section-pico-wireless").scrollIntoView();
+      window.scrollTo({
+        top: document.getElementById("section-pico-wireless").offsetTop - navbarOffsetHeight,
+        behavior: 'smooth'
+      });
       break;
     case "nav-code-gen":
-      document.getElementById("section-code-gen").scrollIntoView();
+      // document.getElementById("section-code-gen").scrollIntoView();
+      window.scrollTo({
+        top: document.getElementById("section-code-gen").offsetTop - navbarOffsetHeight,
+        behavior: 'smooth'
+      });
       break;
     case "nav-debugger":
-      document.getElementById("section-debugger").scrollIntoView();
+      // document.getElementById("section-debugger").scrollIntoView();
+      window.scrollTo({
+        top: document.getElementById("section-debugger").offsetTop - navbarOffsetHeight,
+        behavior: 'smooth'
+      });
       break;
     default:
       break;
