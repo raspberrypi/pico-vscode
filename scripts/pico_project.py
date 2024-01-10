@@ -1284,6 +1284,9 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "${{workspaceFolder}}/**",
                 "{propertiesSdkPath(sdkVersion)}/**"
             ],
+            "forcedInclude": [
+                "{propertiesSdkPath(sdkVersion)}/src/common/pico_base/include/pico.h"
+            ],
             "defines": [],
             "compilerPath": "{cPath}",
             "cStandard": "c17",
@@ -1316,6 +1319,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "cmake.configureOnOpen": false,
     "cmake.generator": "Ninja",
     "cmake.cmakePath": "{cmakePath.replace(user_home, "${userHome}") if use_home_var else cmakePath}",
+    "C_Cpp.debugShortcut": false,
     "terminal.integrated.env.windows": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_windows=True)}",
         "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(sdkVersion, force_windows=True)}",
