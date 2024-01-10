@@ -372,6 +372,17 @@ var isPicoWireless = false;
   // add onclick event handlers to avoid inline handlers
   document.getElementById('btn-change-project-location').addEventListener('click', changeLocation);
   document.getElementById('btn-cancel').addEventListener('click', cancelBtnClick);
+  document.getElementById('btn-advanced-options').addEventListener('click', function () {
+    // get elements with class 'advanced-option' and toggle hidden
+    const advancedOptions = document.getElementsByClassName('advanced-option');
+    for (let i = 0; i < advancedOptions.length; i++) {
+      advancedOptions[i].hidden = !advancedOptions[i].hidden;
+    }
+    const advancedOptions2 = document.getElementsByClassName('advanced-option-2');
+    for (let i = 0; i < advancedOptions2.length; i++) {
+      advancedOptions2[i].disabled = !advancedOptions2[i].disabled;
+    }
+  });
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);
   const selectBoardTypeElement = document.getElementById('sel-board-type');
   if (selectBoardTypeElement) {

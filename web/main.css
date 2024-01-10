@@ -48,3 +48,8 @@ input[type="checkbox"] {
 .standard-button-size {
   width: 6.5rem;
 }
+
+/* give hidden more power if added on advanced-option so it can cope with stuff like grid and flex */
+.advanced-option[hidden] {
+  display: none !important;
+}
