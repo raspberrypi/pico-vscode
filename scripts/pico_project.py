@@ -245,8 +245,8 @@ def cmakeToolchainPath(toolchainVersion):
 def cmakeToolsPath(sdkVersion):
     return f"${{USERHOME}}{relativeToolsPath(sdkVersion)}"
 
-def propertiesSdkPath(sdkVersion):
-    if isWindows:
+def propertiesSdkPath(sdkVersion, force_windows=False, force_non_windows=False):
+    if (isWindows or force_windows) and not force_non_windows:
         return f"${{env:USERPROFILE}}{relativeSDKPath(sdkVersion)}"
     else:
         return f"${{env:HOME}}{relativeSDKPath(sdkVersion)}"
@@ -257,8 +257,8 @@ def codeSdkPath(sdkVersion):
 def codeOpenOCDPath(openocdVersion):
     return f"${{userHome}}{relativeOpenOCDPath(openocdVersion)}"
 
-def propertiesToolchainPath(toolchainVersion):
-    if isWindows:
+def propertiesToolchainPath(toolchainVersion, force_windows=False, force_non_windows=False):
+    if (isWindows or force_windows) and not force_non_windows:
         return f"${{env:USERPROFILE}}{relativeToolchainPath(toolchainVersion)}"
     else:
         return f"${{env:HOME}}{relativeToolchainPath(toolchainVersion)}"
@@ -1316,6 +1316,21 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "cmake.configureOnOpen": false,
     "cmake.generator": "Ninja",
     "cmake.cmakePath": "{cmakePath.replace(user_home, "${userHome}") if use_home_var else cmakePath}",
+    "terminal.integrated.env.windows": {{
+        "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_windows=True)}",
+        "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(sdkVersion, force_windows=True)}",
+        "Path": "{propertiesToolchainPath(toolchainVersion, force_windows=True)}/bin;{os.path.dirname(cmakePath.replace(user_home, "${env:USERPROFILE}") if use_home_var else cmakePath)};{os.path.dirname(ninjaPath.replace(user_home, "${USERPROFILE}") if use_home_var else ninjaPath)}"
+    }},
+    "terminal.integrated.env.osx": {{
+        "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_non_windows=True)}",
+        "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}",
+        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath)}"
+    }},
+    "terminal.integrated.env.linux": {{
+        "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_non_windows=True)}",
+        "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}",
+        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath)}"
+    }},
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.cmakePath": "{cmakePath.replace(user_home, "${HOME}") if use_home_var else cmakePath}",
     "raspberry-pi-pico.ninjaPath": "{ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath}"'''
