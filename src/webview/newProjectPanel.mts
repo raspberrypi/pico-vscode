@@ -52,6 +52,7 @@ import which from "which";
 import { homedir } from "os";
 import { symlink } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
+import { existsSync } from "fs";
 
 const NINJA_AUTO_INSTALL_DISABLED =
   process.platform === "linux" && process.arch === "arm64";
@@ -367,6 +368,20 @@ export class NewProjectPanel {
               ) {
                 void window.showErrorMessage(
                   "No project root selected. Please select a project root."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
+              // check if projectRoot/projectName folder already exists
+              if (
+                existsSync(join(this._projectRoot.fsPath, data.projectName))
+              ) {
+                void window.showErrorMessage(
+                  "Project already exists. Please select a different project name or root."
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
