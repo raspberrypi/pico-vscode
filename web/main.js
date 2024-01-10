@@ -26,7 +26,7 @@ var isPicoWireless = false;
     const projectNameError = document.getElementById('inp-project-name-error');
     const projectName = projectNameElement.value;
 
-    var invalidChars = /[\/:*?"<>|]/;
+    var invalidChars = /[\/:*?"<>| ]/;
     // check for reserved names in Windows
     var reservedNames = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
     if (projectName.trim().length == 0 || invalidChars.test(projectName) || reservedNames.test(projectName)) {
