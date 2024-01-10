@@ -6,6 +6,7 @@ const CMD_CANCEL = 'cancel';
 const CMD_SET_THEME = 'setTheme';
 const CMD_ERROR = 'error';
 const CMD_SUBMIT_DENIED = 'submitDenied';
+const CMD_VERSION_BUNDLE_AVAILABLE_TEST = 'versionBundleAvailableTest';
 
 var submitted = false;
 var isPicoWireless = false;
@@ -358,6 +359,57 @@ var isPicoWireless = false;
           localStorage.theme = 'light'
         }
         break;
+      case CMD_VERSION_BUNDLE_AVAILABLE_TEST:
+        // update UI
+        const result = message.value;
+        const requiresVersionBundleElements = document.getElementsByClassName('requires-version-bundle');
+        for (let i = 0; i < requiresVersionBundleElements.length; i++) {
+          requiresVersionBundleElements[i].disabled = !result;
+        }
+
+        // get all radio buttons with the specified names and select the first non-disabled option for each if the currently selected option is disabled
+        // TODO: move in a helper function
+        var pythonRadioButtons = document.querySelectorAll('input[name="python-version-radio"]');
+        var ninjaRadioButtons = document.querySelectorAll('input[name="ninja-version-radio"]');
+        var cmakeRadioButtons = document.querySelectorAll('input[name="cmake-version-radio"]');
+
+        // Check if the first radio button is selected and disabled
+        if (pythonRadioButtons[0].checked && pythonRadioButtons[0].disabled) {
+          // Find the first non-disabled radio button
+          for (var i = 1; i < pythonRadioButtons.length; i++) {
+            if (!pythonRadioButtons[i].disabled) {
+              // Select the first non-disabled radio button
+              pythonRadioButtons[i].checked = true;
+              break;
+            }
+          }
+        }
+
+        // Check if the first radio button is selected and disabled
+        if (ninjaRadioButtons[0].checked && ninjaRadioButtons[0].disabled) {
+          // Find the first non-disabled radio button
+          for (var i = 1; i < ninjaRadioButtons.length; i++) {
+            if (!ninjaRadioButtons[i].disabled) {
+              // Select the first non-disabled radio button
+              ninjaRadioButtons[i].checked = true;
+              break;
+            }
+          }
+        }
+
+        // Check if the first radio button is selected and disabled
+        if (cmakeRadioButtons[0].checked && cmakeRadioButtons[0].disabled) {
+          // Find the first non-disabled radio button
+          for (var i = 1; i < cmakeRadioButtons.length; i++) {
+            if (!cmakeRadioButtons[i].disabled) {
+              // Select the first non-disabled radio button
+              cmakeRadioButtons[i].checked = true;
+              break;
+            }
+          }
+        }
+
+        break;
       case CMD_SUBMIT_DENIED:
         submitted = false;
         break;
@@ -405,6 +457,14 @@ var isPicoWireless = false;
       }
     });
   }
+  document.getElementById('sel-pico-sdk').addEventListener('change', function () {
+    const sdkVersion = document.getElementById('sel-pico-sdk').value;
+    // send message to extension
+    vscode.postMessage({
+      command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
+      value: sdkVersion.replace("v", "")
+    });
+  });
 
   const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
   if (ninjaVersionRadio.length > 0)

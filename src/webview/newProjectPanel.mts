@@ -352,6 +352,20 @@ export class NewProjectPanel {
               }
             }
             break;
+          case "versionBundleAvailableTest":
+            {
+              // test if versionBundle for sdk version is available
+              const versionBundle =
+                this._versionBundlesLoader?.getModuleVersion(
+                  message.value as string
+                );
+              // return result in message of command versionBundleAvailableTest
+              await this._panel.webview.postMessage({
+                command: "versionBundleAvailableTest",
+                value: versionBundle !== undefined,
+              });
+            }
+            break;
           case "cancel":
             this.dispose();
             break;
@@ -420,12 +434,12 @@ export class NewProjectPanel {
     const projectPath = this._projectRoot?.fsPath ?? "";
 
     // check if message is valid
+    // TODO: add an else block if error handling
     if (
       typeof message.value === "object" &&
       message.value !== null &&
       projectPath !== "" &&
-      this._versionBundlesLoader !== undefined &&
-      this._versionBundle !== undefined
+      this._versionBundlesLoader !== undefined
     ) {
       const selectedSDK = data.selectedSDK.slice(0);
       const selectedToolchain = this._supportedToolchains?.find(
@@ -444,8 +458,11 @@ export class NewProjectPanel {
       this._versionBundle =
         this._versionBundlesLoader.getModuleVersion(selectedSDK);
 
-      // TODO: check if no selection is based on versionBundle then maybe proceed
-      if (this._versionBundle === undefined) {
+      if (
+        this._versionBundle === undefined &&
+        // if no versionBundle then all version options the could be dependent on it must be custom (=> independent of versionBundle)
+        (data.pythonMode === 0 || data.ninjaMode === 0 || data.cmakeMode === 0)
+      ) {
         progress.report({
           message: "Failed",
           increment: 100,
@@ -470,7 +487,8 @@ export class NewProjectPanel {
               },
               async progress2 => {
                 if (process.platform === "win32") {
-                  python3Path = await downloadEmbedPython(versionBundle);
+                  // ! because data.pythonMode === 0 => versionBundle !== undefined
+                  python3Path = await downloadEmbedPython(versionBundle!);
                 } else if (process.platform === "darwin") {
                   const result1 = await setupPyenv();
                   if (!result1) {
@@ -481,7 +499,7 @@ export class NewProjectPanel {
                     return;
                   }
                   const result = await pyenvInstallPython(
-                    versionBundle.python.version
+                    versionBundle!.python.version
                   );
 
                   if (result !== null) {
@@ -1103,13 +1121,13 @@ export class NewProjectPanel {
                       <div>
                         <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Pico-SDK version</label>
                         <select id="sel-pico-sdk" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                              ${picoSDKsHtml}
+                            ${picoSDKsHtml}
                         </select>
                       </div>
                       <div class="advanced-option" hidden>
                         <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM Embeded Toolchain version</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                              ${toolchainsHtml}
+                            ${toolchainsHtml}
                         </select>
                       </div>
                     </div>
@@ -1125,9 +1143,10 @@ export class NewProjectPanel {
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
 
                         ${
+                          // TODO: use versionBundleAvailableTest instead of this._versionBundle !== undefined cause if a version with bundle is later selected this section wouldn't be present
                           this._versionBundle !== undefined
                             ? `<div class="flex items-center mb-2">
-                                <input type="radio" id="ninja-radio-default-version" name="ninja-version-radio" value="0" class="mr-1 text-blue-500">
+                                <input type="radio" id="ninja-radio-default-version" name="ninja-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
                                 <label for="ninja-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
                               </div>`
                             : ""
@@ -1165,7 +1184,7 @@ export class NewProjectPanel {
                         ${
                           this._versionBundle !== undefined
                             ? `<div class="flex items-center mb-2">
-                                <input type="radio" id="cmake-radio-default-version" name="cmake-version-radio" value="0" class="mr-1 text-blue-500">
+                                <input type="radio" id="cmake-radio-default-version" name="cmake-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
                                 <label for="cmake-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
                               </div>`
                             : ""
@@ -1205,7 +1224,7 @@ export class NewProjectPanel {
                             ${
                               this._versionBundle !== undefined
                                 ? `<div class="flex items-center mb-2">
-                                    <input type="radio" id="python-radio-default-version" name="python-version-radio" value="0" class="mr-1 text-blue-500">
+                                    <input type="radio" id="python-radio-default-version" name="python-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
                                     <label for="python-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
                                   </div>`
                                 : ""
