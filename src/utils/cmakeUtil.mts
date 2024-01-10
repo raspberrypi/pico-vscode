@@ -21,16 +21,16 @@ export async function configureCmakeNinja(
       folder.with({ path: join(folder.fsPath, "CMakeLists.txt") })
     );
 
-    const ninjaPath = await which(
+    const ninjaPath = (await which(
       settings.getString(SettingsKey.ninjaPath)?.replace(HOME_VAR, homedir()) ||
         "ninja",
       { nothrow: true }
-    );
-    const cmakePath = await which(
+    )).replaceAll("\\", "/");
+    const cmakePath = (await which(
       settings.getString(SettingsKey.cmakePath)?.replace(HOME_VAR, homedir()) ||
         "cmake",
       { nothrow: true }
-    );
+    )).replaceAll("\\", "/");
     console.log(
       settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
     );
