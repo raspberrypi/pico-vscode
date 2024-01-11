@@ -55,14 +55,14 @@ LIB_NAME = 3
 ANCILLARY_FILE = 4
 
 features_list = {
-    'spi' :             ("SPI",             "spi.c",            "hardware/spi.h",       "hardware_spi"),
-    'i2c' :             ("I2C interface",   "i2c.c",            "hardware/i2c.h",       "hardware_i2c"),
-    'dma' :             ("DMA support",     "dma.c",            "hardware/dma.h",       "hardware_dma"),
-    'pio' :             ("PIO interface",   "pio.c",            "hardware/pio.h",       "hardware_pio"),
-    'interp' :          ("HW interpolation", "interp.c",        "hardware/interp.h",    "hardware_interp"),
-    'timer' :           ("HW timer",        "timer.c",          "hardware/timer.h",     "hardware_timer"),
-    'watchdog' :        ("HW watchdog",     "watch.c",          "hardware/watchdog.h",  "hardware_watchdog"),
-    'clocks' :          ("HW clocks",       "clocks.c",         "hardware/clocks.h",    "hardware_clocks"),
+    'spi' :             ("SPI",             "spi.c",            "hardware/spi.h",       "hardware_spi",         ""),
+    'i2c' :             ("I2C interface",   "i2c.c",            "hardware/i2c.h",       "hardware_i2c",         ""),
+    'dma' :             ("DMA support",     "dma.c",            "hardware/dma.h",       "hardware_dma",         ""),
+    'pio' :             ("PIO interface",   "pio.c",            "hardware/pio.h",       "hardware_pio",         "blink.pio"),
+    'interp' :          ("HW interpolation", "interp.c",        "hardware/interp.h",    "hardware_interp",      ""),
+    'timer' :           ("HW timer",        "timer.c",          "hardware/timer.h",     "hardware_timer",       ""),
+    'watchdog' :        ("HW watchdog",     "watch.c",          "hardware/watchdog.h",  "hardware_watchdog",    ""),
+    'clocks' :          ("HW clocks",       "clocks.c",         "hardware/clocks.h",    "hardware_clocks",      ""),
 }
 
 picow_options_list = {
@@ -90,33 +90,39 @@ INITIALISERS = 1
 # This also contains example code for the standard library (see stdlib_examples_list)
 code_fragments_per_feature = {
     'uart' : [
-               ("// UART defines",
+              (
+                "// UART defines",
                 "// By default the stdout UART is `uart0`, so we will use the second one",
                 "#define UART_ID uart1",
                 "#define BAUD_RATE 9600", "",
                 "// Use pins 4 and 5 for UART1",
                 "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
                 "#define UART_TX_PIN 4",
-                "#define UART_RX_PIN 5" ),
-
-               ( "// Set up our UART",
-                 "uart_init(UART_ID, BAUD_RATE);",
-                 "// Set the TX and RX pins by using the function select on the GPIO",
-                 "// Set datasheet for more information on function select",
-                 "gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);",
-                 "gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);", "" )
+                "#define UART_RX_PIN 5"
+              ),
+              (
+                "// Set up our UART",
+                "uart_init(UART_ID, BAUD_RATE);",
+                "// Set the TX and RX pins by using the function select on the GPIO",
+                "// Set datasheet for more information on function select",
+                "gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);",
+                "gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);",
+                "// For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart"
+              )
             ],
     'spi' : [
-              ( "// SPI Defines",
+              (
+                "// SPI Defines",
                 "// We are going to use SPI 0, and allocate it to the following GPIO pins",
                 "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
                 "#define SPI_PORT spi0",
                 "#define PIN_MISO 16",
                 "#define PIN_CS   17",
                 "#define PIN_SCK  18",
-                "#define PIN_MOSI 19" ),
-
-              ( "// SPI initialisation. This example will use SPI at 1MHz.",
+                "#define PIN_MOSI 19"
+              ),
+              (
+                "// SPI initialisation. This example will use SPI at 1MHz.",
                 "spi_init(SPI_PORT, 1000*1000);",
                 "gpio_set_function(PIN_MISO, GPIO_FUNC_SPI);",
                 "gpio_set_function(PIN_CS,   GPIO_FUNC_SIO);",
@@ -124,7 +130,9 @@ code_fragments_per_feature = {
                 "gpio_set_function(PIN_MOSI, GPIO_FUNC_SPI);", "",
                 "// Chip select is active-low, so we'll initialise it to a driven-high state",
                 "gpio_set_dir(PIN_CS, GPIO_OUT);",
-                "gpio_put(PIN_CS, 1);", "")
+                "gpio_put(PIN_CS, 1);",
+                "// For more examples of SPI use see https://github.com/raspberrypi/pico-examples/tree/master/spi"
+              )
             ],
     'i2c' : [
               (
@@ -141,9 +149,87 @@ code_fragments_per_feature = {
                 "gpio_set_function(I2C_SDA, GPIO_FUNC_I2C);",
                 "gpio_set_function(I2C_SCL, GPIO_FUNC_I2C);",
                 "gpio_pull_up(I2C_SDA);",
-                "gpio_pull_up(I2C_SCL);"
+                "gpio_pull_up(I2C_SCL);",
+                "// For more examples of I2C use see https://github.com/raspberrypi/pico-examples/tree/master/i2c",
               )
             ],
+    "dma" : [
+              (
+                '// Data will be copied from src to dst',
+                'const char src[] = "Hello, world! (from DMA)";',
+                'char dst[count_of(src)];',
+              ),
+              (
+                '// Get a free channel, panic() if there are none',
+                'int chan = dma_claim_unused_channel(true);',
+                '',
+                '// 8 bit transfers. Both read and write address increment after each',
+                '// transfer (each pointing to a location in src or dst respectively).',
+                '// No DREQ is selected, so the DMA transfers as fast as it can.',
+                '',
+                'dma_channel_config c = dma_channel_get_default_config(chan);',
+                'channel_config_set_transfer_data_size(&c, DMA_SIZE_8);',
+                'channel_config_set_read_increment(&c, true);',
+                'channel_config_set_write_increment(&c, true);',
+                '',
+                'dma_channel_configure(',
+                '    chan,          // Channel to be configured',
+                '    &c,            // The configuration we just created',
+                '    dst,           // The initial write address',
+                '    src,           // The initial read address',
+                '    count_of(src), // Number of transfers; in this case each is 1 byte.',
+                '    true           // Start immediately.',
+                ');',
+                '',
+                '// We could choose to go and do something else whilst the DMA is doing its',
+                '// thing. In this case the processor has nothing else to do, so we just',
+                '// wait for the DMA to finish.',
+                'dma_channel_wait_for_finish_blocking(chan);',
+                '',
+                '// The DMA has now copied our text from the transmit buffer (src) to the',
+                '// receive buffer (dst), so we can print it out from there.',
+                'puts(dst);',
+              )
+            ],
+
+    "pio" : [
+              (
+                '#include "blink.pio.h"','',
+                'void blink_pin_forever(PIO pio, uint sm, uint offset, uint pin, uint freq) {',
+                '    blink_program_init(pio, sm, offset, pin);',
+                '    pio_sm_set_enabled(pio, sm, true);',
+                '',
+                '    printf("Blinking pin %d at %d Hz\\n", pin, freq);',
+                '',
+                '    // PIO counter program takes 3 more cycles in total than we pass as',
+                '    // input (wait for n + 1; mov; jmp)',
+                '    pio->txf[sm] = (125000000 / (2 * freq)) - 3;',
+                '}',
+              ),
+              (
+                '// PIO Blinking example',
+                'PIO pio = pio0;',
+                'uint offset = pio_add_program(pio, &blink_program);',
+                'printf("Loaded program at %d\\n", offset);',
+                '',
+                '#ifdef PICO_DEFAULT_LED_PIN',
+                'blink_pin_forever(pio, 0, offset, PICO_DEFAULT_LED_PIN, 3);',
+                '#else',
+                'blink_pin_forever(pio, 0, offset, 6, 3);',
+                '#endif',
+                '// For more pio examples see https://github.com/raspberrypi/pico-examples/tree/master/pio',
+              )
+            ],
+
+    "clocks" :  [
+                  (),
+                  (
+                    'printf("System Clock Frequency is %d Hz\\n", clock_get_hz(clk_sys));',
+                    'printf("USB Clock Frequency is %d Hz\\n", clock_get_hz(clk_usb));',
+                    '// For more examples of clocks use see https://github.com/raspberrypi/pico-examples/tree/master/clocks',
+                  )
+                ],
+
     "gpio" : [
               (
                 "// GPIO defines",
@@ -155,7 +241,8 @@ code_fragments_per_feature = {
                 "// We will make this GPIO an input, and pull it up by default",
                 "gpio_init(GPIO);",
                 "gpio_set_dir(GPIO, GPIO_IN);",
-                "gpio_pull_up(GPIO);","",
+                "gpio_pull_up(GPIO);",
+                "// See https://github.com/raspberrypi/pico-examples/tree/master/gpio for other gpio examples, including using interrupts",
               )
             ],
     "interp" :[
@@ -168,6 +255,7 @@ code_fragments_per_feature = {
                 "//      interp_config_shift(&cfg, 2);",
                 "// Then set the config ",
                 "interp_set_config(interp0, 0, &cfg);",
+                "// For examples of interpolator use see https://github.com/raspberrypi/pico-examples/tree/master/interp"
                )
               ],
 
@@ -180,7 +268,8 @@ code_fragments_per_feature = {
                 ),
                 (
                  "// Timer example code - This example fires off the callback after 2000ms",
-                 "add_alarm_in_ms(2000, alarm_callback, NULL, false);"
+                 "add_alarm_in_ms(2000, alarm_callback, NULL, false);",
+                 "// For more examples of timer use see https://github.com/raspberrypi/pico-examples/tree/master/timer"
                 )
               ],
 
@@ -188,12 +277,13 @@ code_fragments_per_feature = {
                 (
                     "// Watchdog example code",
                     "if (watchdog_caused_reboot()) {",
+                    "    printf(\"Rebooted by Watchdog!\\n\");",
                     "    // Whatever action you may take if a watchdog caused a reboot",
                     "}","",
                     "// Enable the watchdog, requiring the watchdog to be updated every 100ms or the chip will reboot",
                     "// second arg is pause on debug which means the watchdog will pause when stepping through code",
                     "watchdog_enable(100, 1);","",
-                    "// You need to call this function at least more often than the 100ms in the enable call to prevent a reboot"
+                    "// You need to call this function at least more often than the 100ms in the enable call to prevent a reboot",
                     "watchdog_update();",
                 )
               ],
@@ -213,10 +303,39 @@ code_fragments_per_feature = {
                     "int32_t udividend = 123456;",
                     "int32_t udivisor = 321;",
                     "divmod_result_t uresult = hw_divider_divmod_u32(udividend, udivisor);",
-                    "printf(\"%d/%d = %d remainder %d\\n\", udividend, udivisor, to_quotient_u32(uresult), to_remainder_u32(uresult));"
+                    "printf(\"%d/%d = %d remainder %d\\n\", udividend, udivisor, to_quotient_u32(uresult), to_remainder_u32(uresult));",
+                    "// See https://github.com/raspberrypi/pico-examples/tree/master/divider for more complex use"
                  )
+                ],
+
+    "picow_led":[ (),
+                  (
+                    "// Example to turn on the Pico W LED",
+                    "cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);"
+                  )
+                ],
+
+    "picow_wifi":[ (),
+                  (
+                    '// Enable wifi station',
+                    'cyw43_arch_enable_sta_mode();\n',
+                    'printf("Connecting to Wi-Fi...\\n");',
+                    'if (cyw43_arch_wifi_connect_timeout_ms("Your Wi-Fi SSID", "Your Wi-Fi Password", CYW43_AUTH_WPA2_AES_PSK, 30000)) {',
+                    '    printf("failed to connect.\\n");',
+                    '    return 1;',
+                    '} else {',
+                    '    printf("Connected.\\n");',
+                    '    // Read the ip address in a human readable way',
+                    '    uint8_t *ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr);',
+                    '    printf("IP address %d.%d.%d.%d\\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3]);',
+                    '}',
+                  )
                 ]
 }
+
+# Add wifi example for poll and background modes
+code_fragments_per_feature["picow_poll"] = code_fragments_per_feature["picow_wifi"]
+code_fragments_per_feature["picow_background"] = code_fragments_per_feature["picow_wifi"]
 
 configuration_dictionary = list(dict())
 
@@ -995,12 +1114,18 @@ def GenerateMain(folder, projectName, features, cpp):
         # Add any includes
         for feat in features:
             if (feat in features_list):
+                if len(features_list[feat][H_FILE]) == 0:
+                    continue
                 o = f'#include "{features_list[feat][H_FILE]}"\n'
                 file.write(o)
             if (feat in stdlib_examples_list):
+                if len(stdlib_examples_list[feat][H_FILE]) == 0:
+                    continue
                 o = f'#include "{stdlib_examples_list[feat][H_FILE]}"\n'
                 file.write(o)
             if (feat in picow_options_list):
+                if len(picow_options_list[feat][H_FILE]) == 0:
+                    continue
                 o = f'#include "{picow_options_list[feat][H_FILE]}"\n'
                 file.write(o)
 
@@ -1020,6 +1145,14 @@ def GenerateMain(folder, projectName, features, cpp):
             '    stdio_init_all();\n\n'
             )
 
+    if any([feat in picow_options_list and feat != "picow_none" for feat in features]):
+        main += (
+            '    // Initialise the Wi-Fi chip\n'
+            '    if (cyw43_arch_init()) {\n'
+            '        printf("Wi-Fi init failed\\n");\n'
+            '        return -1;\n'
+            '    }\n\n')
+
     if (features):
         # Add any initialisers
         indent = 4
@@ -1029,10 +1162,12 @@ def GenerateMain(folder, projectName, features, cpp):
                     main += (" " * indent)
                     main += s
                     main += '\n'
-            main += '\n'
+                main += '\n'
 
-    main += ('    puts("Hello, world!");\n\n'
-             '    return 0;\n'
+    main += ('    while (true) {\n'
+             '        printf("Hello, world!\\n");\n'
+             '        sleep_ms(1000);\n'
+             '    }\n'
              '}\n'
             )
 
@@ -1125,7 +1260,13 @@ def GenerateCMake(folder, params):
         file.write(f'# no_flash means the target is to run from RAM\n')
         file.write(f'pico_set_binary_type({projectName} no_flash)\n\n')
 
+    # Add pio output
+    if params['features'] and "pio" in params['features']:
+        file.write(f'# Generate PIO header\n')
+        file.write(f'pico_generate_pio_header({projectName} ${{CMAKE_CURRENT_LIST_DIR}}/blink.pio)\n\n')
+
     # Console output destinations
+    file.write("# Modify the below lines to enable/disable output over UART/USB\n")
     if params['wantUART']:
         file.write(f'pico_enable_stdio_uart({projectName} 1)\n')
     else:
@@ -1191,7 +1332,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     os.chdir(projectPath)
 
     debugger = debugger_config_list[debugger]
-    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb").as_posix() if isWindows else "gdb-multiarch"
+    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb").as_posix() if isWindows else "gdb-multiarch" if isMac else "gdb"
     # Need to escape windows files paths backslashes
     # TODO: env in currently not supported in compilerPath var
     #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
@@ -1323,17 +1464,17 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "terminal.integrated.env.windows": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_windows=True)}",
         "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(sdkVersion, force_windows=True)}",
-        "Path": "{propertiesToolchainPath(toolchainVersion, force_windows=True)}/bin;{os.path.dirname(cmakePath.replace(user_home, "${env:USERPROFILE}") if use_home_var else cmakePath)};{os.path.dirname(ninjaPath.replace(user_home, "${USERPROFILE}") if use_home_var else ninjaPath)}"
+        "Path": "{propertiesToolchainPath(toolchainVersion, force_windows=True)}/bin;{os.path.dirname(cmakePath.replace(user_home, "${env:USERPROFILE}") if use_home_var else cmakePath)};{os.path.dirname(ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath)};${{env:PATH}}"
     }},
     "terminal.integrated.env.osx": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_non_windows=True)}",
         "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}",
-        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath)}"
+        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${env:HOME}") if use_home_var else ninjaPath)}:${{env:PATH}}"
     }},
     "terminal.integrated.env.linux": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_non_windows=True)}",
         "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}",
-        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath)}"
+        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${env:HOME}") if use_home_var else ninjaPath)}:${{env:PATH}}"
     }},
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.cmakePath": "{cmakePath.replace(user_home, "${HOME}") if use_home_var else cmakePath}",
@@ -1495,6 +1636,9 @@ def DoEverything(parent, params):
     # If we have any ancilliary files, copy them to our project folder
     # Currently only the picow with lwIP support needs an extra file, so just check that list
     for feat in features_and_examples:
+        if feat in features_list:
+            if features_list[feat][ANCILLARY_FILE] != "":
+                shutil.copy(sourcefolder + "/" + features_list[feat][ANCILLARY_FILE], projectPath / features_list[feat][ANCILLARY_FILE])
         if feat in picow_options_list:
             if picow_options_list[feat][ANCILLARY_FILE] != "":
                 shutil.copy(sourcefolder + "/" + picow_options_list[feat][ANCILLARY_FILE], projectPath / picow_options_list[feat][ANCILLARY_FILE])

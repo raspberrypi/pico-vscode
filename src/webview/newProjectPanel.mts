@@ -177,7 +177,7 @@ function enumToParam(
     case Library.timer:
       return "-f timer";
     case Library.watch:
-      return "-f watch";
+      return "-f watchdog";
     case Library.clocks:
       return "-f clocks";
     case PicoWirelessOption.none:
