@@ -110,6 +110,11 @@
           "type": "boolean",
           "default": true,
           "markdownDescription": "Automatically run configure when opening a Pico project"
+        },
+        "raspberry-pi-pico.githubToken": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "A GitHub personal access token (classic) with the `public_repo` scope. Used to check GitHub for available versions of the Pico SDK and other tools."
         }
       }
     }

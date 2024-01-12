@@ -18,15 +18,19 @@ import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
 import { exec } from "child_process";
 import { cloneRepository, initSubmodules } from "./gitUtil.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
-import { Octokit } from "octokit";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
-import type Settings from "../settings.mjs";
+import Settings from "../settings.mjs";
 import AdmZip from "adm-zip";
 import type { VersionBundle } from "./versionBundles.mjs";
 import MacOSPythonPkgExtractor from "./macOSUtils.mjs";
 import which from "which";
 import { window } from "vscode";
 import { fileURLToPath } from "url";
+import {
+  type GithubReleaseAssetData,
+  GithubRepository,
+  getGithubReleaseByTag,
+} from "./githubREST.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -248,9 +252,15 @@ async function unxzFile(
 export async function downloadAndInstallSDK(
   version: string,
   repositoryUrl: string,
-  settings: Settings,
   python3Path?: string
 ): Promise<boolean> {
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.log("Error: Settings not initialized.");
+
+    return false;
+  }
+
   let gitExecutable: string | undefined =
     settings
       .getString(SettingsKey.gitPath)
@@ -280,7 +290,7 @@ export async function downloadAndInstallSDK(
   if (gitPath === null) {
     // if git is not in path then checkForInstallationRequirements
     // maye downloaded it, so reload
-    settings.reload();
+    //settings.reload();
     gitExecutable = settings
       .getString(SettingsKey.gitPath)
       ?.replace(HOME_VAR, homedir().replaceAll("\\", "/"));
@@ -358,32 +368,24 @@ export async function downloadAndInstallTools(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, `sdk-tools.zip`);
 
-  const octokit = new Octokit();
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  let sdkToolsAsset: { name: string; browser_download_url: string } | undefined;
+  let sdkToolsAsset: GithubReleaseAssetData | undefined;
 
   try {
     if (redirectURL === undefined) {
-      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
-        owner: "will-v-pi",
-        repo: "pico-sdk-tools",
-        tag: "v1.5.1-alpha-1",
-      });
-      if (
-        releaseResponse.status !== 200 &&
-        releaseResponse.data === undefined
-      ) {
-        Logger.log(`Error fetching SDK Tools release ${version}.`);
-
+      const release = await getGithubReleaseByTag(
+        GithubRepository.tools,
+        "v1.5.1-alpha-1"
+      );
+      if (release === undefined) {
         return false;
       }
-      const release = releaseResponse.data;
       const assetName = `pico-sdk-tools-${version}-${
         TOOLS_PLATFORMS[process.platform]
       }.zip`;
 
       // Find the asset
-      Logger.log(release.assets_url);
+      Logger.log(release.assetsUrl);
       sdkToolsAsset = release.assets.find(asset => asset.name === assetName);
     } else {
       sdkToolsAsset = {
@@ -594,28 +596,20 @@ export async function downloadAndInstallNinja(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, `ninja.zip`);
 
-  const octokit = new Octokit();
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  let ninjaAsset: { name: string; browser_download_url: string } | undefined;
+  let ninjaAsset: GithubReleaseAssetData | undefined;
 
   try {
     if (redirectURL === undefined) {
-      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
-        owner: "ninja-build",
-        repo: "ninja",
-        tag: version,
-      });
-      if (
-        releaseResponse.status !== 200 &&
-        releaseResponse.data === undefined
-      ) {
-        Logger.log(`Error fetching ninja release ${version}.`);
-
+      const release = await getGithubReleaseByTag(
+        GithubRepository.ninja,
+        version
+      );
+      if (release === undefined) {
         return false;
       }
-      const release = releaseResponse.data;
-      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}.zip`;
 
+      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}.zip`;
       // Find the asset with the name 'ninja-win.zip'
       ninjaAsset = release.assets.find(asset => asset.name === assetName);
     } else {
@@ -715,33 +709,25 @@ export async function downloadAndInstallOpenOCD(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, `openocd.zip`);
 
-  const octokit = new Octokit();
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  let openocdAsset: { name: string; browser_download_url: string } | undefined;
+  let openocdAsset: GithubReleaseAssetData | undefined;
 
   try {
     if (redirectURL === undefined) {
-      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
-        owner: "will-v-pi",
-        repo: "pico-sdk-tools",
-        // TODO: version lookup
-        tag: "v1.5.1-alpha-1",
-      });
-      if (
-        releaseResponse.status !== 200 &&
-        releaseResponse.data === undefined
-      ) {
-        Logger.log(`Error fetching OpenOCD release ${version}.`);
-
+      const release = await getGithubReleaseByTag(
+        GithubRepository.tools,
+        "v1.5.1-alpha-1"
+      );
+      if (release === undefined) {
         return false;
       }
-      const release = releaseResponse.data;
+
       const assetName = `openocd-${version}-${
         TOOLS_PLATFORMS[process.platform]
       }.zip`;
 
       // Find the asset
-      Logger.log(release.assets_url);
+      Logger.log(release.assetsUrl);
       openocdAsset = release.assets.find(asset => asset.name === assetName);
     } else {
       openocdAsset = {
@@ -847,27 +833,19 @@ export async function downloadAndInstallCmake(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, `cmake-${version}.${assetExt}`);
 
-  const octokit = new Octokit();
-
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  let cmakeAsset: { name: string; browser_download_url: string } | undefined;
+  let cmakeAsset: GithubReleaseAssetData | undefined;
 
   try {
     if (redirectURL === undefined) {
-      const releaseResponse = await octokit.rest.repos.getReleaseByTag({
-        owner: "Kitware",
-        repo: "CMake",
-        tag: version,
-      });
-      if (
-        releaseResponse.status !== 200 &&
-        releaseResponse.data === undefined
-      ) {
-        Logger.log(`Error fetching CMake release ${version}.`);
-
+      const release = await getGithubReleaseByTag(
+        GithubRepository.cmake,
+        version
+      );
+      if (release === undefined) {
         return false;
       }
-      const release = releaseResponse.data;
+
       const assetName = `cmake-${version.replace("v", "")}-${
         CMAKE_PLATFORMS[process.platform]
       }-${

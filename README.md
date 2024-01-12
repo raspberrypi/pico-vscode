@@ -40,8 +40,13 @@ This extension contributes the following settings:
 * `raspberry-pi-pico.ninjaPath`: Set custom ninja path
 * `raspberry-pi-pico.gitPath`: Set custom git path
 * `raspberry-pi-pico.cmakeAutoConfigure`: Enable/Disable cmake auto configure on project load
+* `raspberry-pi-pico.githubToken`: Set a Github personal access token (classic) with the `public_repo` scope to increase the rate limit. A GitHub personal access token (classic) with the `public_repo` scope. It is used to check GitHub for available versions of the Pico SDK and other tools.
 
 ## Known Issues
 
 - Cannot run project generator 2 times in a row without restarting the extension
 - Custom Ninja, Python3 or git paths are not stored in CMakeLists.txt like SDK and Toolchain paths so using them would require to build and configure the project thought the extension
+
+### Github Rate Limit
+
+If the extension fails to get available pico-sdk versions, it might be because of the Github API rate limit. You can create a personal access token (classic) with the `public_repo` and set it in the global extension settings to increase the rate limit.

@@ -29,6 +29,7 @@ import {
   NewProjectPanel,
   getWebviewOptions,
 } from "./webview/newProjectPanel.mjs";
+import GithubApiCache from "./utils/githubApiCache.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Extension activated.");
@@ -37,6 +38,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.workspaceState,
     context.extension.packageJSON as PackageJSON
   );
+  GithubApiCache.createInstance(context);
 
   const ui = new UI();
   ui.init();
