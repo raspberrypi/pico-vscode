@@ -9,6 +9,7 @@ export interface VersionBundle {
   };
   ninja: string;
   cmake: string;
+  toolchain: string;
 }
 
 export interface VersionBundles {
