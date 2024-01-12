@@ -22,7 +22,8 @@ export default class VersionBundlesLoader {
   constructor(extensionUri: Uri) {
     try {
       const bundles = readFileSync(
-        Uri.joinPath(extensionUri, "scripts", "versionBundles.json").fsPath,
+        Uri.joinPath(
+          extensionUri, "data", "0.10.0", "versionBundles.json").fsPath,
         "utf8"
       );
       this.bundles = JSON.parse(bundles) as VersionBundles;
