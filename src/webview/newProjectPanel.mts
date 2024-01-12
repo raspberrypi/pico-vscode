@@ -54,7 +54,7 @@ import { symlink } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync } from "fs";
 
-const NINJA_AUTO_INSTALL_DISABLED =
+export const NINJA_AUTO_INSTALL_DISABLED =
   process.platform === "linux" && process.arch === "arm64";
 
 interface SubmitMessageValue {
@@ -756,7 +756,8 @@ export class NewProjectPanel {
           // and cross platform compatibility
           cmakeExecutable =
             process.platform === "win32"
-              ? joinPosix(...data.cmakePath.split("\\"))
+              ? // TODO: maybe use path.sep for split
+                joinPosix(...data.cmakePath.split("\\"))
               : data.cmakePath;
           break;
         default:

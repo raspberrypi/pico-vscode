@@ -21,27 +21,35 @@ export async function configureCmakeNinja(
       folder.with({ path: join(folder.fsPath, "CMakeLists.txt") })
     );
 
-    const ninjaPath = (await which(
-      settings.getString(SettingsKey.ninjaPath)?.replace(HOME_VAR, homedir()) ||
-        "ninja",
-      { nothrow: true }
-    )).replaceAll("\\", "/");
-    const cmakePath = (await which(
-      settings.getString(SettingsKey.cmakePath)?.replace(HOME_VAR, homedir()) ||
-        "cmake",
-      { nothrow: true }
-    )).replaceAll("\\", "/");
+    const ninjaPath = (
+      await which(
+        settings
+          .getString(SettingsKey.ninjaPath)
+          ?.replace(HOME_VAR, homedir()) || "ninja",
+        { nothrow: true }
+      )
+    ).replaceAll("\\", "/");
+    const cmakePath = (
+      await which(
+        settings
+          .getString(SettingsKey.cmakePath)
+          ?.replace(HOME_VAR, homedir()) || "cmake",
+        { nothrow: true }
+      )
+    ).replaceAll("\\", "/");
     console.log(
       settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
     );
     // TODO: maybe also check for "python" on unix systems
-    const pythonPath = (await which(
-      settings
-        .getString(SettingsKey.python3Path)
-        ?.replace(HOME_VAR, homedir()) ||
-        (process.platform === "win32" ? "python" : "python3"),
-      { nothrow: true }
-    )).replaceAll("\\", "/");
+    const pythonPath = (
+      await which(
+        settings
+          .getString(SettingsKey.python3Path)
+          ?.replace(HOME_VAR, homedir()) ||
+          (process.platform === "win32" ? "python" : "python3"),
+        { nothrow: true }
+      )
+    ).replaceAll("\\", "/");
 
     if (ninjaPath === null || cmakePath === null) {
       const missingTools = [];
@@ -151,6 +159,7 @@ export async function cmakeUpdateSDK(
   const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
   const sdkPathRegex = /^set\(PICO_SDK_PATH\s+([^)]+)\)$/m;
   const toolchainPathRegex = /^set\(PICO_TOOLCHAIN_PATH\s+([^)]+)\)$/m;
+  const toolsPathRegex = /^set\(pico-sdk-tools_DIR\s+([^)]+)\)$/m;
 
   try {
     // check if CMakeLists.txt exists in the root folder
@@ -166,6 +175,10 @@ export async function cmakeUpdateSDK(
         toolchainPathRegex,
         "set(PICO_TOOLCHAIN_PATH ${USERHOME}/.pico-sdk" +
           `/toolchain/${newToolchainVersion})`
+      )
+      .replace(
+        toolsPathRegex,
+        `set(pico-sdk-tools_DIR \${USERHOME}/.pico-sdk/tools/${newSDKVersion})`
       );
 
     await writeFile(cmakeFilePath, modifiedContent, "utf8");

@@ -45,7 +45,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   const COMMANDS: Array<Command | CommandWithResult<string>> = [
     new NewProjectCommand(settings, context.extensionUri),
-    new SwitchSDKCommand(ui, settings),
+    new SwitchSDKCommand(ui, settings, context.extensionUri),
     new LaunchTargetPathCommand(),
     new CompileProjectCommand(),
   ];
