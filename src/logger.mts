@@ -23,7 +23,7 @@ export default class Logger {
     this.className = className;
   }
 
-  static log(message: string): void {
+  static log(message: string | undefined): void {
     console.log(`[raspberry-pi-pico] ${message}`);
   }
 

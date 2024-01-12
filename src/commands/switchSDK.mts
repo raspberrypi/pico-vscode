@@ -20,7 +20,6 @@ import {
   type SupportedToolchainVersion,
   getSupportedToolchains,
 } from "../utils/toolchainUtil.mjs";
-import type Settings from "../settings.mjs";
 import which from "which";
 import VersionBundlesLoader, {
   type VersionBundle,
@@ -42,14 +41,12 @@ interface SwitchSDKOptions {
 
 export default class SwitchSDKCommand extends Command {
   private _ui: UI;
-  private _settings: Settings;
   private _versionBundlesLoader: VersionBundlesLoader;
 
-  constructor(ui: UI, settings: Settings, extensionUri: Uri) {
+  constructor(ui: UI, extensionUri: Uri) {
     super("switchSDK");
 
     this._ui = ui;
-    this._settings = settings;
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
   }
 
@@ -88,20 +85,15 @@ export default class SwitchSDKCommand extends Command {
         return "Default";
       case quickPickItems[1]: {
         // show quick pick for cmake version
-        const selectedCmakeVersion = await window.showQuickPick(
-          cmakeVersions.map(cmake => ({
-            label: cmake.tagName,
-          })),
-          {
-            placeHolder: "Select CMake version",
-          }
-        );
+        const selectedCmakeVersion = await window.showQuickPick(cmakeVersions, {
+          placeHolder: "Select CMake version",
+        });
 
         if (selectedCmakeVersion === undefined) {
           return;
         }
 
-        return selectedCmakeVersion.label;
+        return selectedCmakeVersion;
       }
       case quickPickItems[2]:
         return "cmake";
@@ -158,20 +150,15 @@ export default class SwitchSDKCommand extends Command {
         return "Default";
       case quickPickItems[1]: {
         // show quick pick for ninja version
-        const selectedNinjaVersion = await window.showQuickPick(
-          ninjaVersions.map(ninja => ({
-            label: ninja.tagName,
-          })),
-          {
-            placeHolder: "Select Ninja version",
-          }
-        );
+        const selectedNinjaVersion = await window.showQuickPick(ninjaVersions, {
+          placeHolder: "Select Ninja version",
+        });
 
         if (selectedNinjaVersion === undefined) {
           return;
         }
 
-        return selectedNinjaVersion.label;
+        return selectedNinjaVersion;
       }
       case quickPickItems[2]:
         return "ninja";
@@ -303,7 +290,7 @@ export default class SwitchSDKCommand extends Command {
     // show quick pick
     const selectedSDK = await window.showQuickPick(
       sdks.map(sdk => ({
-        label: `v${sdk.tagName}`,
+        label: `v${sdk}`,
         sdk: sdk,
       })),
       {
@@ -388,13 +375,9 @@ export default class SwitchSDKCommand extends Command {
       async progress => {
         // download and install selected SDK
         if (
-          (await downloadAndInstallSDK(
-            selectedSDK.sdk.tagName,
-            SDK_REPOSITORY_URL,
-            this._settings
-          )) &&
+          (await downloadAndInstallSDK(selectedSDK.sdk, SDK_REPOSITORY_URL)) &&
           (await downloadAndInstallTools(
-            selectedSDK.sdk.tagName,
+            selectedSDK.sdk,
             process.platform === "win32"
           ))
         ) {
@@ -434,7 +417,7 @@ export default class SwitchSDKCommand extends Command {
 
             await updateVSCodeStaticConfigs(
               workspaceFolder.uri.fsPath,
-              selectedSDK.sdk.tagName,
+              selectedSDK.sdk,
               selectedToolchain.toolchain.version,
               options.advancedOptions?.ninjaVersion,
               options.advancedOptions?.cmakeVersion
@@ -446,8 +429,7 @@ export default class SwitchSDKCommand extends Command {
 
             await cmakeUpdateSDK(
               workspaceFolder.uri,
-              this._settings,
-              selectedSDK.sdk.tagName,
+              selectedSDK.sdk,
               selectedToolchain.toolchain.version
             );
 

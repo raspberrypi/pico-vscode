@@ -1,14 +1,22 @@
 import type { Memento, WorkspaceConfiguration } from "vscode";
 import { workspace } from "vscode";
 
+/**
+ * SettingsKey is a list of all settings keys added by this extension (with the extension prefix).
+ */
 export enum SettingsKey {
   cmakePath = "cmakePath",
   python3Path = "python3Path",
   ninjaPath = "ninjaPath",
   gitPath = "gitPath",
   cmakeAutoConfigure = "cmakeAutoConfigure",
+  githubToken = "githubToken",
 }
 
+/**
+ * HOME_VAR is a placeholder for the home directory of the current user
+ * that the extension must replace when loading paths from settings.
+ */
 export const HOME_VAR = "${HOME}";
 
 export type Setting = string | boolean | string[] | null | undefined;
@@ -19,15 +27,32 @@ export interface PackageJSON {
 }
 
 export default class Settings {
+  private static instance?: Settings;
   private config: WorkspaceConfiguration;
   public context: Memento;
   private pkg: PackageJSON;
 
-  constructor(context: Memento, packageJSON: PackageJSON) {
+  private constructor(context: Memento, packageJSON: PackageJSON) {
     this.context = context;
     this.pkg = packageJSON;
 
     this.config = workspace.getConfiguration(packageJSON.name);
+  }
+
+  public static createInstance(
+    context: Memento,
+    packageJSON: PackageJSON
+  ): Settings {
+    Settings.instance = new Settings(context, packageJSON);
+
+    return Settings.instance;
+  }
+
+  public static getInstance(): Settings | undefined {
+    // TODO: maybe remove to increase performance
+    Settings.instance?.reload();
+
+    return Settings.instance;
   }
 
   public reload(): void {

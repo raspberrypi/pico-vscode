@@ -2,7 +2,7 @@ import { exec } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
 import { dirname, join } from "path";
-import type Settings from "../settings.mjs";
+import Settings from "../settings.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { readFileSync } from "fs";
 import Logger from "../logger.mjs";
@@ -11,10 +11,14 @@ import { rimraf, windows as rimrafWindows } from "rimraf";
 import { homedir } from "os";
 import which from "which";
 
-export async function configureCmakeNinja(
-  folder: Uri,
-  settings: Settings
-): Promise<boolean> {
+export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.log("Error: Settings not initialized.");
+
+    return false;
+  }
+
   try {
     // check if CMakeLists.txt exists in the root folder
     await workspace.fs.stat(
@@ -37,7 +41,7 @@ export async function configureCmakeNinja(
         { nothrow: true }
       )
     ).replaceAll("\\", "/");
-    console.log(
+    Logger.log(
       settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
     );
     // TODO: maybe also check for "python" on unix systems
@@ -151,7 +155,6 @@ export async function configureCmakeNinja(
  */
 export async function cmakeUpdateSDK(
   folder: Uri,
-  settings: Settings,
   newSDKVersion: string,
   newToolchainVersion: string
 ): Promise<void> {
@@ -160,6 +163,13 @@ export async function cmakeUpdateSDK(
   const sdkPathRegex = /^set\(PICO_SDK_PATH\s+([^)]+)\)$/m;
   const toolchainPathRegex = /^set\(PICO_TOOLCHAIN_PATH\s+([^)]+)\)$/m;
   const toolsPathRegex = /^set\(pico-sdk-tools_DIR\s+([^)]+)\)$/m;
+
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.log("Error: Settings not initialized.");
+
+    return;
+  }
 
   try {
     // check if CMakeLists.txt exists in the root folder
@@ -193,7 +203,7 @@ export async function cmakeUpdateSDK(
     } else {
       await rimraf(join(folder.fsPath, "build"), { maxRetries: 2 });
     }
-    await configureCmakeNinja(folder, settings);
+    await configureCmakeNinja(folder);
 
     Logger.log("Reconfigured CMake successfully.");
   } catch (error) {

@@ -31,11 +31,9 @@ import {
 } from "./webview/newProjectPanel.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  /*if (process.platform === "win32") {
-    queryInstalledSDKsFromUninstallers();
-  }*/
+  Logger.log("Extension activated.");
 
-  const settings = new Settings(
+  const settings = Settings.createInstance(
     context.workspaceState,
     context.extension.packageJSON as PackageJSON
   );
@@ -44,8 +42,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   ui.init();
 
   const COMMANDS: Array<Command | CommandWithResult<string>> = [
-    new NewProjectCommand(settings, context.extensionUri),
-    new SwitchSDKCommand(ui, settings, context.extensionUri),
+    new NewProjectCommand(context.extensionUri),
+    new SwitchSDKCommand(ui, context.extensionUri),
     new LaunchTargetPathCommand(),
     new CompileProjectCommand(),
   ];
@@ -60,7 +58,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
       // Reset the webview options so we use latest uri for `localResourceRoots`.
       webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
-      NewProjectPanel.revive(webviewPanel, settings, context.extensionUri);
+      NewProjectPanel.revive(webviewPanel, context.extensionUri);
     },
   });
 
@@ -96,8 +94,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (
     !(await downloadAndInstallSDK(
       selectedToolchainAndSDKVersions[0],
-      SDK_REPOSITORY_URL,
-      settings
+      SDK_REPOSITORY_URL
     )) ||
     !(await downloadAndInstallTools(
       selectedToolchainAndSDKVersions[0],
@@ -148,7 +145,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // auto project configuration with cmake
   if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
     //run `cmake -G Ninja -B ./build ` in the root folder
-    await configureCmakeNinja(workspaceFolder.uri, settings);
+    await configureCmakeNinja(workspaceFolder.uri);
 
     workspace.onDidChangeTextDocument(event => {
       // Check if the changed document is the file you are interested in
@@ -168,4 +165,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-export function deactivate(): void {}
+export function deactivate(): void {
+  Logger.log("Extension deactivated.");
+}

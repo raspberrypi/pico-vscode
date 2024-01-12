@@ -16,7 +16,7 @@ import {
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
-import type Settings from "../settings.mjs";
+import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
@@ -261,7 +261,7 @@ export class NewProjectPanel {
   private _versionBundlesLoader?: VersionBundlesLoader;
   private _versionBundle: VersionBundle | undefined;
 
-  public static createOrShow(settings: Settings, extensionUri: Uri): void {
+  public static createOrShow(extensionUri: Uri): void {
     const column = window.activeTextEditor
       ? window.activeTextEditor.viewColumn
       : undefined;
@@ -279,6 +279,16 @@ export class NewProjectPanel {
       getWebviewOptions(extensionUri)
     );
 
+    const settings = Settings.getInstance();
+    if (settings === undefined) {
+      // TODO: maybe add restart button
+      void window.showErrorMessage(
+        "Failed to load settings. Please restart VSCode."
+      );
+
+      return;
+    }
+
     NewProjectPanel.currentPanel = new NewProjectPanel(
       panel,
       settings,
@@ -286,11 +296,17 @@ export class NewProjectPanel {
     );
   }
 
-  public static revive(
-    panel: WebviewPanel,
-    settings: Settings,
-    extensionUri: Uri
-  ): void {
+  public static revive(panel: WebviewPanel, extensionUri: Uri): void {
+    const settings = Settings.getInstance();
+    if (settings === undefined) {
+      // TODO: maybe add restart button
+      void window.showErrorMessage(
+        "Failed to load settings. Please restart VSCode."
+      );
+
+      return;
+    }
+
     NewProjectPanel.currentPanel = new NewProjectPanel(
       panel,
       settings,
@@ -557,7 +573,6 @@ export class NewProjectPanel {
             !(await downloadAndInstallSDK(
               selectedSDK,
               SDK_REPOSITORY_URL,
-              this._settings,
               // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
               python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
             )) ||
@@ -907,19 +922,19 @@ export class NewProjectPanel {
       }
 
       this._versionBundle = this._versionBundlesLoader.getModuleVersion(
-        availableSDKs[0].tagName.replace("v", "")
+        availableSDKs[0].replace("v", "")
       );
 
       availableSDKs
-        .sort((a, b) => compare(b.tagName, a.tagName))
+        .sort((a, b) => compare(b, a))
         .forEach(sdk => {
           picoSDKsHtml += `<option ${
             picoSDKsHtml.length === 0 ? "selected " : ""
-          }value="${sdk.tagName}" ${
-            compare(sdk.tagName, "1.5.0") < 0
+          }value="${sdk}" ${
+            compare(sdk, "1.5.0") < 0
               ? `class="advanced-option-2" disabled`
               : ""
-          }>v${sdk.tagName}</option>`;
+          }>v${sdk}</option>`;
         });
 
       supportedToolchains.forEach(toolchain => {
@@ -932,19 +947,17 @@ export class NewProjectPanel {
       });
 
       ninjaReleases
-        .sort((a, b) =>
-          compare(b.tagName.replace("v", ""), a.tagName.replace("v", ""))
-        )
+        .sort((a, b) => compare(b.replace("v", ""), a.replace("v", "")))
         .forEach(ninja => {
           ninjasHtml += `<option ${
             ninjasHtml.length === 0 ? "selected " : ""
-          }value="${ninja.tagName}">${ninja.tagName}</option>`;
+          }value="${ninja}">${ninja}</option>`;
         });
 
       cmakeReleases.forEach(cmake => {
         cmakesHtml += `<option ${
           cmakesHtml.length === 0 ? "selected " : ""
-        }value="${cmake.tagName}">${cmake.tagName}</option>`;
+        }value="${cmake}">${cmake}</option>`;
       });
 
       if (
