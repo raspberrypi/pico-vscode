@@ -1427,8 +1427,8 @@ export class NewProjectPanel {
     return new Promise<number | null>(resolve => {
       const generatorProcess = exec(command, options, error => {
         if (error) {
-          console.error(`Error: ${error.message}`);
-          resolve(null); // Indicate error
+          this._logger.error(`Generator Process error: ${error.message}`);
+          resolve(null); // indicate error
         }
       });
 
@@ -1515,7 +1515,10 @@ export class NewProjectPanel {
       windowsHide: true,
       timeout: 15000,
     });
-    if (generatorExitCode === 0) {
+    if (
+      (process.platform === "linux" && generatorExitCode === null) ||
+      generatorExitCode === 0
+    ) {
       void window.showInformationMessage(
         `Successfully generated new project: ${options.name}`
       );
