@@ -177,9 +177,11 @@ function enumToParam(
     case Library.timer:
       return "-f timer";
     case Library.watch:
-      return "-f watch";
+      return "-f watchdog";
     case Library.clocks:
       return "-f clocks";
+    case PicoWirelessOption.none:
+      return "-f picow_none";
     case PicoWirelessOption.picoWLed:
       return "-f picow_led";
     case PicoWirelessOption.picoWPoll:
@@ -804,6 +806,7 @@ export class NewProjectPanel {
           data.hwtimerFeature ? Library.timer : null,
           data.hwwatchdogFeature ? Library.watch : null,
           data.hwclocksFeature ? Library.clocks : null,
+          data.boardType === "pico-w" ? Object.values(PicoWirelessOption)[data.picoWireless] : null,
         ].filter(option => option !== null) as Library[],
         codeOptions: [
           data.addExamples ? CodeOption.addExamples : null,

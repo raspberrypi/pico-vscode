@@ -275,7 +275,7 @@ var isPicoWireless = false;
     let debuggerSelection = null;
     for (let i = 0; i < debuggerRadio.length; i++) {
       if (debuggerRadio[i].checked) {
-        debuggerSelection = debuggerRadio[i].value;
+        debuggerSelection = parseInt(debuggerRadio[i].value);
         break;
       }
     }
@@ -325,14 +325,14 @@ var isPicoWireless = false;
         picoWireless: picoWireless,
 
         // code-gen options
-        addExamplesCodeGen: addExamplesCodeGen,
-        runFromRamCodeGen: runFromRamCodeGen,
-        cppCodeGen: cppCodeGen,
-        cppRttiCodeGen: cppRttiCodeGen,
-        cppExceptionsCodeGen: cppExceptionsCodeGen,
+        addExamples: addExamplesCodeGen,
+        runFromRam: runFromRamCodeGen,
+        cpp: cppCodeGen,
+        cppRtti: cppRttiCodeGen,
+        cppExceptions: cppExceptionsCodeGen,
 
         // debugger selection
-        debuggerSelection: debuggerSelection
+        debugger: debuggerSelection
       }
     });
   }
