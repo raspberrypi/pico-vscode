@@ -10,7 +10,8 @@ import { readdirSync, statSync } from "fs";
 //  "https://raw.githubusercontent.com/paulober
 // /vscode-raspberry-pi-pico/main/supportedToolchains.ini";
 const iniUrl =
-  "https://vscode-raspberry-pi-pico.pages.dev/supportedToolchains.ini";
+  "https://paulober.github.io/vscode-raspberry-pi-pico/" +
+  "0.10.0/supportedToolchains.ini";
 const supportedDistros = [
   "win32_x64",
   "darwin_arm64",
