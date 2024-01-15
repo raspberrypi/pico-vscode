@@ -2,7 +2,7 @@ import { window } from "vscode";
 import which from "which";
 import type Settings from "../settings.mjs";
 import { SettingsKey } from "../settings.mjs";
-import { downloadGit } from "./download.mjs";
+import { downloadGit } from "./downloadGit.mjs";
 import Logger from "../logger.mjs";
 
 export async function showRequirementsNotMetErrorMessage(
