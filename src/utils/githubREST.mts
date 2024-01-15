@@ -1,4 +1,5 @@
-import { Octokit } from "octokit";
+import { Octokit } from "@octokit/rest";
+import { RequestError } from "@octokit/request-error";
 import Settings, { SettingsKey } from "../settings.mjs";
 import Logger from "../logger.mjs";
 import GithubApiCache, {
@@ -95,19 +96,6 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
       }
     );
 
-    // DOESN'T CURRENTLY WORK
-    // check if we got a 304 Not Modified response and load the cached response
-    /*if (response.status === HTTP_STATUS_NOT_MODIFIED) {
-      const cachedResponse = await GithubApiCache.getInstance().getResponse(
-        repository,
-        GithubApiCacheEntryDataType.releases
-      );
-      if (cachedResponse) {
-        // TODO: getResponse different prototypes for different entry data types
-        return cachedResponse.data as string[];
-      }
-    }*/
-
     if (response.status !== 200) {
       return [];
     }
@@ -127,11 +115,11 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
 
     return responseData;
   } catch (error) {
-    // TODO: VERY UGLY WORKAROUND CAUSE OCTOKIT WON'T accept 304 Not Modified status codes
     if (
-      error instanceof Error &&
-      error.message === "Unexpected end of JSON input"
+      error instanceof RequestError &&
+      error.status === HTTP_STATUS_NOT_MODIFIED
     ) {
+      // TODO: maybe debug message to verify that we are actually using the cached response
       const cachedResponse = await GithubApiCache.getInstance().getResponse(
         repository,
         GithubApiCacheEntryDataType.releases
