@@ -30,6 +30,7 @@ import {
   getWebviewOptions,
 } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
+import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Extension activated.");
@@ -48,6 +49,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new SwitchSDKCommand(ui, context.extensionUri),
     new LaunchTargetPathCommand(),
     new CompileProjectCommand(),
+    new ClearGithubApiCacheCommand(),
   ];
 
   // register all command handlers

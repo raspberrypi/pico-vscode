@@ -1,12 +1,14 @@
-import { Octokit } from "@octokit/rest";
-import { RequestError } from "@octokit/request-error";
 import Settings, { SettingsKey } from "../settings.mjs";
 import Logger from "../logger.mjs";
 import GithubApiCache, {
   GithubApiCacheEntryDataType,
 } from "./githubApiCache.mjs";
+import { type RequestOptions, request } from "https";
 
+const HTTP_STATUS_OK = 200;
 const HTTP_STATUS_NOT_MODIFIED = 304;
+const EXT_USER_AGENT = "Raspberry-Pi Pico VS Code Extension";
+const GITHUB_API_BASE_URL = "https://api.github.com";
 
 export enum GithubRepository {
   picoSDK = 0,
@@ -58,19 +60,86 @@ function repoNameOfRepository(repository: GithubRepository): string {
   }
 }
 
-export function getOctokitConfig(): { auth?: string } {
-  const config: { auth?: string } = {};
+interface AuthorizationHeaders {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  Authorization?: string;
+}
+
+export function getAuthorizationHeaders(): AuthorizationHeaders {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const headers: AuthorizationHeaders = {};
+  // takes some time to execute (noticable in UI)
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
-  if (githubPAT) {
-    config.auth = githubPAT;
+  if (githubPAT && githubPAT.length > 0) {
+    Logger.log("Using GitHub Personal Access Token for authentication");
+    headers.Authorization = githubPAT;
   }
 
-  return config;
+  return headers;
+}
+
+async function makeAsyncGetRequest<T>(
+  url: string,
+  headers: { [key: string]: string }
+): Promise<{
+  status: number;
+  data: T | null;
+  headers: { etag?: string };
+}> {
+  return new Promise((resolve, reject) => {
+    const urlObj = new URL(url);
+    const options: RequestOptions = {
+      method: "GET",
+      headers: {
+        ...getAuthorizationHeaders(),
+        ...headers,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "User-Agent": EXT_USER_AGENT,
+      },
+      hostname: urlObj.hostname,
+      path: urlObj.pathname,
+      minVersion: "TLSv1.2",
+      protocol: urlObj.protocol,
+    };
+
+    const req = request(options, res => {
+      const chunks: Buffer[] = [];
+
+      res.on("data", (chunk: Buffer) => {
+        chunks.push(chunk);
+      });
+
+      res.on("end", () => {
+        const responseBody = Buffer.concat(chunks).toString();
+        try {
+          const jsonData =
+            res.statusCode && res.statusCode === HTTP_STATUS_OK
+              ? (JSON.parse(responseBody) as T)
+              : null;
+          const response = {
+            status: res.statusCode ?? -1,
+            data: jsonData,
+            headers: { etag: res.headers.etag },
+          };
+          resolve(response);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+          reject(error);
+        }
+      });
+    });
+
+    req.on("error", error => {
+      console.error("Error making GET request:", error.message);
+      reject(error);
+    });
+
+    req.end();
+  });
 }
 
 async function getReleases(repository: GithubRepository): Promise<string[]> {
   try {
-    const octokit = new Octokit(getOctokitConfig());
     const owner = ownerOfRepository(repository);
     const repo = repoNameOfRepository(repository);
     const lastEtag = await GithubApiCache.getInstance().getLastEtag(
@@ -85,50 +154,46 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
       headers["if-none-match"] = lastEtag;
     }
 
-    const response = await octokit.request(
-      "GET /repos/{owner}/{repo}/releases",
-      {
-        owner: owner,
-        repo: repo,
-        headers: headers,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        per_page: 20,
-      }
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const response = await makeAsyncGetRequest<Array<{ tag_name: string }>>(
+      `${GITHUB_API_BASE_URL}/repos/${owner}/${repo}/releases`,
+      headers
     );
 
-    if (response.status !== 200) {
-      return [];
-    }
+    if (response.status === HTTP_STATUS_NOT_MODIFIED) {
+      Logger.log("Using cached response for", repo, "releases");
 
-    const responseData = response.data
-      //.slice(0, 10)
-      .flatMap(release => release.tag_name)
-      .filter(release => release !== null);
-
-    // store the response in the cache
-    await GithubApiCache.getInstance().saveResponse(
-      repository,
-      GithubApiCacheEntryDataType.releases,
-      responseData,
-      response.headers.etag
-    );
-
-    return responseData;
-  } catch (error) {
-    if (
-      error instanceof RequestError &&
-      error.status === HTTP_STATUS_NOT_MODIFIED
-    ) {
-      // TODO: maybe debug message to verify that we are actually using the cached response
       const cachedResponse = await GithubApiCache.getInstance().getResponse(
         repository,
         GithubApiCacheEntryDataType.releases
       );
       if (cachedResponse) {
-        // TODO: getResponse different prototypes for different entry data types
         return cachedResponse.data as string[];
       }
+    } else if (response.status !== 200) {
+      throw new Error("Error http status code: " + response.status);
     }
+
+    if (response.data !== null) {
+      const responseData = response.data
+        //.slice(0, 10)
+        .flatMap(release => release.tag_name)
+        .filter(release => release !== null);
+
+      // store the response in the cache
+      await GithubApiCache.getInstance().saveResponse(
+        repository,
+        GithubApiCacheEntryDataType.releases,
+        responseData,
+        response.headers.etag
+      );
+
+      return responseData;
+    } else {
+      throw new Error("response.data is null");
+    }
+  } catch (error) {
+    Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
 
     return [];
   }
@@ -151,12 +216,11 @@ export async function getGithubReleaseByTag(
   tag: string
 ): Promise<GithubReleaseResponse | undefined> {
   try {
-    const octokit = new Octokit(getOctokitConfig());
     const owner = ownerOfRepository(repository);
     const repo = repoNameOfRepository(repository);
     const lastEtag = await GithubApiCache.getInstance().getLastEtag(
       repository,
-      GithubApiCacheEntryDataType.releases
+      GithubApiCacheEntryDataType.tag
     );
     const headers: { [key: string]: string } = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -166,60 +230,49 @@ export async function getGithubReleaseByTag(
       headers["if-none-match"] = lastEtag;
     }
 
-    const releaseResponse = await octokit.rest.repos.getReleaseByTag({
-      owner: owner,
-      repo: repo,
-      tag: tag,
-      headers: headers,
-    });
-
-    // DOESN'T CURRENTLY WORK
-    // check if we got a 304 Not Modified response and load the cached response
-    /*if (releaseResponse.status === HTTP_STATUS_NOT_MODIFIED) {
-    const cachedResponse = await GithubApiCache.getInstance().getResponse(
-      repository,
-      GithubApiCacheEntryDataType.tag
-    );
-    if (cachedResponse) {
-      return cachedResponse.data as GithubReleaseResponse;
-    }
-    }*/
-
-    if (releaseResponse.status !== 200 || releaseResponse.data === undefined) {
-      Logger.log(`Error fetching ${repo} release ${tag}.`);
-
-      return;
-    }
-
-    const responseData = {
-      assets: releaseResponse.data.assets,
-      assetsUrl: releaseResponse.data.assets_url,
-    };
-
-    // store the response in the cache
-    await GithubApiCache.getInstance().saveResponse(
-      repository,
-      GithubApiCacheEntryDataType.tag,
-      responseData,
-      releaseResponse.headers.etag
+    const response = await makeAsyncGetRequest<{
+      assets: GithubReleaseAssetData[];
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      assets_url: string;
+    }>(
+      `${GITHUB_API_BASE_URL}/repos/${owner}/${repo}/releases/tags/${tag}`,
+      headers
     );
 
-    return responseData;
-  } catch (error) {
-    // TODO: VERY UGLY WORKAROUND CAUSE OCTOKIT WON'T accept 304 Not Modified status codes
-    if (
-      error instanceof Error &&
-      error.message === "Unexpected end of JSON input"
-    ) {
+    if (response.status === HTTP_STATUS_NOT_MODIFIED) {
+      Logger.log("Using cached response for", repo, "release by tag", tag);
+
       const cachedResponse = await GithubApiCache.getInstance().getResponse(
         repository,
-        GithubApiCacheEntryDataType.releases
+        GithubApiCacheEntryDataType.tag
       );
       if (cachedResponse) {
-        // TODO: getResponse different prototypes for different entry data types
         return cachedResponse.data as GithubReleaseResponse;
       }
+    } else if (response.status !== 200) {
+      throw new Error("Error http status code: " + response.status);
     }
+
+    if (response.data !== null) {
+      const responseData = {
+        assets: response.data.assets,
+        assetsUrl: response.data.assets_url,
+      };
+
+      // store the response in the cache
+      await GithubApiCache.getInstance().saveResponse(
+        repository,
+        GithubApiCacheEntryDataType.tag,
+        responseData,
+        response.headers.etag
+      );
+
+      return responseData;
+    } else {
+      throw new Error("response.data is null");
+    }
+  } catch (error) {
+    Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
 
     return;
   }

@@ -37,12 +37,25 @@ export default class GithubApiCache {
     this.globalState = context.globalState;
   }
 
+  /**
+   * Creates a new instance of the GithubApiCache as singleton.
+   *
+   * @param context The extension context.
+   * @returns A reference to the created singleton instance.
+   */
   public static createInstance(context: ExtensionContext): GithubApiCache {
     GithubApiCache.instance = new GithubApiCache(context);
 
     return GithubApiCache.instance;
   }
 
+  /**
+   * Returns the singleton instance of the GithubApiCache if available.
+   *
+   * @throws An error if the singleton instance is not available. It can be created
+   * by calling createInstance() with the extension context.
+   * @returns The requested singleton instance or throws an error if the instance is not available.
+   */
   public static getInstance(): GithubApiCache {
     if (GithubApiCache.instance === undefined) {
       throw new Error("GithubApiCache not initialized.");
@@ -51,6 +64,15 @@ export default class GithubApiCache {
     return GithubApiCache.instance;
   }
 
+  /**
+   * Saves the given response in the cache together with its etag.
+   *
+   * @param repository The repository the response is for.
+   * @param dataType The type of the request (for this repository) the response is from.
+   * @param data The response data to save.
+   * @param etag The etag of the response.
+   * @returns A promise that resolves when the response is saved.
+   */
   public async saveResponse(
     repository: GithubRepository,
     dataType: GithubApiCacheEntryDataType,
@@ -79,16 +101,32 @@ export default class GithubApiCache {
     return this.globalState.get(`githubApiCache-${repository}-${dataType}`);
   }
 
+  /**
+   * Returns the last etag of the given repository and data type.
+   *
+   * @param repository The repository to get the last etag for.
+   * @param dataType The type of request (for this repository) to get the last etag for.
+   * @returns The last etag of the given repository and data type combination or
+   * undefined if no etag is stored.
+   */
   public async getLastEtag(
     repository: GithubRepository,
     dataType: GithubApiCacheEntryDataType
   ): Promise<string | undefined> {
-    /*await this.globalState.update(
-      `githubApiCache-${repository}-${dataType}`,
-      undefined
-    );*/
     const response = await this.getResponse(repository, dataType);
 
     return response?.etag;
+  }
+
+  /**
+   * Clears the github api cache.
+   */
+  public async clear(): Promise<void> {
+    // for all keys in global state starting with githubApiCache- delete
+    for (const key of this.globalState.keys()) {
+      if (key.startsWith("githubApiCache-")) {
+        await this.globalState.update(key, undefined);
+      }
+    }
   }
 }

@@ -81,6 +81,11 @@
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.clearGithubApiCache",
+        "title": "Clear GitHub API cache",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {
@@ -148,8 +153,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@octokit/request-error": "^5.0.1",
-    "@octokit/rest": "^20.0.2",
     "adm-zip": "^0.5.10",
     "ini": "^4.1.1",
     "rimraf": "^5.0.5",
