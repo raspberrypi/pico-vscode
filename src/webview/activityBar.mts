@@ -12,8 +12,12 @@ import { extensionName } from "../commands/command.mjs";
 import NewProjectCommand from "../commands/newProject.mjs";
 import CompileProjectCommand from "../commands/compileProject.mjs";
 import SwitchSDKCommand from "../commands/switchSDK.mjs";
-import type UI from "../ui.mjs";
 import ConditionalDebuggingCommand from "../commands/conditionalDebugging.mjs";
+import DebugLayoutCommand from "../commands/debugLayout.mjs";
+import OpenSdkDocumentationCommand, {
+  DOCUMENTATION_LABEL_BY_ID,
+  DocumentationId,
+} from "../commands/openSdkDocumentation.mjs";
 
 export class QuickAccessCommand extends TreeItem {
   constructor(
@@ -27,11 +31,13 @@ export class QuickAccessCommand extends TreeItem {
 
 const COMMON_COMMANDS_PARENT_LABEL = "General";
 const PROJECT_COMMANDS_PARENT_LABEL = "Project";
+const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
 
 const NEW_PROJECT_LABEL = "New Project";
 const SWITCH_SDK_LABEL = "Switch SDK";
 const COMPILE_PROJECT_LABEL = "Compile Project";
 const DEBUG_PROJECT_LABEL = "Debug Project";
+const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
 
 export class PicoProjectActivityBar
   implements TreeDataProvider<QuickAccessCommand>
@@ -77,6 +83,22 @@ export class PicoProjectActivityBar
         element.iconPath = new ThemeIcon("find-replace-all");
         element.description = `Current: ${this._sdkVersion}`;
         break;
+      case DEBUG_LAYOUT_PROJECT_LABEL:
+        element.iconPath = new ThemeIcon("debug-console");
+        break;
+
+      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware]:
+        element.iconPath = new ThemeIcon("device-camera");
+        break;
+      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel]:
+        element.iconPath = new ThemeIcon("device-camera-video");
+        break;
+      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking]:
+        element.iconPath = new ThemeIcon("server");
+        break;
+      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure]:
+        element.iconPath = new ThemeIcon("server-process");
+        break;
     }
 
     return element;
@@ -93,6 +115,10 @@ export class PicoProjectActivityBar
         ),
         new QuickAccessCommand(
           PROJECT_COMMANDS_PARENT_LABEL,
+          TreeItemCollapsibleState.Expanded
+        ),
+        new QuickAccessCommand(
+          DOCUMENTATION_COMMANDS_PARENT_LABEL,
           TreeItemCollapsibleState.Expanded
         ),
       ];
@@ -131,6 +157,55 @@ export class PicoProjectActivityBar
           {
             command: `${extensionName}.${SwitchSDKCommand.id}`,
             title: SWITCH_SDK_LABEL,
+          }
+        ),
+        new QuickAccessCommand(
+          DEBUG_LAYOUT_PROJECT_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${DebugLayoutCommand.id}`,
+            title: DEBUG_LAYOUT_PROJECT_LABEL,
+            arguments: [true],
+          }
+        ),
+      ];
+    } else if (element.label === DOCUMENTATION_COMMANDS_PARENT_LABEL) {
+      return [
+        new QuickAccessCommand(
+          DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware],
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware],
+            arguments: [DocumentationId.hardware],
+          }
+        ),
+        new QuickAccessCommand(
+          DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel],
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel],
+            arguments: [DocumentationId.highLevel],
+          }
+        ),
+        new QuickAccessCommand(
+          DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking],
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking],
+            arguments: [DocumentationId.networking],
+          }
+        ),
+        new QuickAccessCommand(
+          DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure],
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            title:
+              DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure],
+            arguments: [DocumentationId.runtimeInfrastructure],
           }
         ),
       ];

@@ -12,7 +12,7 @@ export default class ConditionalDebuggingCommand extends Command {
   public static readonly id = "conditionalDebugging";
 
   constructor() {
-    super("conditionalDebugging");
+    super(ConditionalDebuggingCommand.id);
   }
 
   async execute(): Promise<void> {

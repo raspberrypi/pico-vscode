@@ -1546,7 +1546,7 @@ export class NewProjectPanel {
   }
 }
 
-function getNonce(): string {
+export function getNonce(): string {
   let text = "";
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

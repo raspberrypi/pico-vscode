@@ -5,7 +5,11 @@ import {
   type WebviewPanel,
   commands,
 } from "vscode";
-import type { Command, CommandWithResult } from "./commands/command.mjs";
+import type {
+  Command,
+  CommandWithArgs,
+  CommandWithResult,
+} from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
 import {
@@ -35,6 +39,8 @@ import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
 import { ContextKeys } from "./contextKeys.mjs";
 import { PicoProjectActivityBar } from "./webview/activityBar.mjs";
 import ConditionalDebuggingCommand from "./commands/conditionalDebugging.mjs";
+import DebugLayoutCommand from "./commands/debugLayout.mjs";
+import OpenSdkDocumentationCommand from "./commands/openSdkDocumentation.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Extension activated.");
@@ -49,14 +55,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const ui = new UI(picoProjectActivityBarProvider);
   ui.init();
 
-  const COMMANDS: Array<Command | CommandWithResult<string>> = [
-    new NewProjectCommand(context.extensionUri),
-    new SwitchSDKCommand(ui, context.extensionUri),
-    new LaunchTargetPathCommand(),
-    new CompileProjectCommand(),
-    new ClearGithubApiCacheCommand(),
-    new ConditionalDebuggingCommand(),
-  ];
+  const COMMANDS: Array<Command | CommandWithResult<string> | CommandWithArgs> =
+    [
+      new NewProjectCommand(context.extensionUri),
+      new SwitchSDKCommand(ui, context.extensionUri),
+      new LaunchTargetPathCommand(),
+      new CompileProjectCommand(),
+      new ClearGithubApiCacheCommand(),
+      new ConditionalDebuggingCommand(),
+      new DebugLayoutCommand(),
+      new OpenSdkDocumentationCommand(context.extensionUri),
+    ];
 
   // register all command handlers
   COMMANDS.forEach(command => {

@@ -91,7 +91,18 @@
         "command": "raspberry-pi-pico.conditionalDebugging",
         "title": "Conditional Debugging",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !isQuickPick"
+        "enablement": "raspberry-pi-pico.isPicoProject && !inQuickOpen"
+      },
+      {
+        "command": "raspberry-pi-pico.debugLayout",
+        "title": "Debug Layout",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
+      },
+      {
+        "command": "raspberry-pi-pico.openSdkDocumentation",
+        "title": "Open SDK Documentation",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {
