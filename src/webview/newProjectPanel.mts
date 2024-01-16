@@ -806,7 +806,9 @@ export class NewProjectPanel {
           data.hwtimerFeature ? Library.timer : null,
           data.hwwatchdogFeature ? Library.watch : null,
           data.hwclocksFeature ? Library.clocks : null,
-          data.boardType === "pico-w" ? Object.values(PicoWirelessOption)[data.picoWireless] : null,
+          data.boardType === "pico-w"
+            ? Object.values(PicoWirelessOption)[data.picoWireless]
+            : null,
         ].filter(option => option !== null) as Library[],
         codeOptions: [
           data.addExamples ? CodeOption.addExamples : null,

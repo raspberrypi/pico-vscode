@@ -40,13 +40,13 @@ interface SwitchSDKOptions {
 }
 
 export default class SwitchSDKCommand extends Command {
-  private _ui: UI;
   private _versionBundlesLoader: VersionBundlesLoader;
 
-  constructor(ui: UI, extensionUri: Uri) {
-    super("switchSDK");
+  public static readonly id = "switchSDK";
 
-    this._ui = ui;
+  constructor(private readonly _ui: UI, extensionUri: Uri) {
+    super(SwitchSDKCommand.id);
+
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
   }
 

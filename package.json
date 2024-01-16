@@ -68,7 +68,7 @@
         "command": "raspberry-pi-pico.switchSDK",
         "title": "Switch Pico SDK",
         "category": "Raspberry Pi Pico",
-        "enablement": "inQuickOpen"
+        "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPath",
@@ -80,12 +80,18 @@
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
-        "enablement": "false"
+        "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.clearGithubApiCache",
         "title": "Clear GitHub API cache",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.conditionalDebugging",
+        "title": "Conditional Debugging",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject && !isQuickPick"
       }
     ],
     "configuration": {
@@ -122,6 +128,24 @@
           "markdownDescription": "A GitHub personal access token (classic) with the `public_repo` scope. Used to check GitHub for available versions of the Pico SDK and other tools."
         }
       }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "raspberry-pi-pico-project",
+          "title": "Raspberry Pi Pico Project",
+          "icon": "images/logo-black.svg"
+        }
+      ]
+    },
+    "views": {
+      "raspberry-pi-pico-project": [
+        {
+          "id": "raspberry-pi-pico-project-quick-access",
+          "name": "Quick Access",
+          "type": "tree"
+        }
+      ]
     }
   },
   "scripts": {

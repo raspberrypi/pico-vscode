@@ -1,5 +1,6 @@
 import { window, type StatusBarItem, StatusBarAlignment } from "vscode";
 import Logger from "./logger.mjs";
+import type { PicoProjectActivityBar } from "./webview/activityBar.mjs";
 
 enum StatusBarItemKey {
   compile = "raspberry-pi-pico.compileProject",
@@ -25,7 +26,7 @@ export default class UI {
   private _logger: Logger;
   private _items: { [key: string]: StatusBarItem } = {};
 
-  constructor() {
+  constructor(private readonly _activityBarProvider: PicoProjectActivityBar) {
     this._logger = new Logger("UI");
   }
 
@@ -50,7 +51,22 @@ export default class UI {
     this._items[StatusBarItemKey.picoSDKQuickPick].text = STATUS_BAR_ITEMS[
       StatusBarItemKey.picoSDKQuickPick
     ].text.replace("<version>", version);
+    this._activityBarProvider.refresh(version);
   }
+
+  /*
+  /**
+   * Returns the selected Pico SDK version from the status bar.
+   *
+   * @returns
+  public getUIPicoSDKVersion(): string {
+    /* unsafe, Needs to be updated if the status bar item format ever changes
+    
+    return this._items[StatusBarItemKey.picoSDKQuickPick].text
+      .split(":")[1]
+      .trim();
+    return this._sdkVersion;
+  }*/
 
   private createStatusBarItem(
     key: string,

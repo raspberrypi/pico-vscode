@@ -7,8 +7,10 @@ export default class NewProjectCommand extends Command {
   private readonly _logger: Logger = new Logger("NewProjectCommand");
   private readonly _extensionUri: Uri;
 
+  public static readonly id = "newProject";
+
   constructor(extensionUri: Uri) {
-    super("newProject");
+    super(NewProjectCommand.id);
 
     this._extensionUri = extensionUri;
   }

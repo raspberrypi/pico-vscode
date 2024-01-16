@@ -1,6 +1,6 @@
 import { commands, type Disposable } from "vscode";
 
-const extensionName = "raspberry-pi-pico";
+export const extensionName = "raspberry-pi-pico";
 
 export abstract class Command {
   private readonly commandId: string;

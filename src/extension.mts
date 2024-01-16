@@ -3,6 +3,7 @@ import {
   type ExtensionContext,
   window,
   type WebviewPanel,
+  commands,
 } from "vscode";
 import type { Command, CommandWithResult } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
@@ -31,6 +32,9 @@ import {
 } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
 import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
+import { ContextKeys } from "./contextKeys.mjs";
+import { PicoProjectActivityBar } from "./webview/activityBar.mjs";
+import ConditionalDebuggingCommand from "./commands/conditionalDebugging.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Extension activated.");
@@ -41,7 +45,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
   GithubApiCache.createInstance(context);
 
-  const ui = new UI();
+  const picoProjectActivityBarProvider = new PicoProjectActivityBar();
+  const ui = new UI(picoProjectActivityBarProvider);
   ui.init();
 
   const COMMANDS: Array<Command | CommandWithResult<string>> = [
@@ -50,6 +55,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new LaunchTargetPathCommand(),
     new CompileProjectCommand(),
     new ClearGithubApiCacheCommand(),
+    new ConditionalDebuggingCommand(),
   ];
 
   // register all command handlers
@@ -57,14 +63,23 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.subscriptions.push(command.register());
   });
 
-  window.registerWebviewPanelSerializer(NewProjectPanel.viewType, {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
-      // Reset the webview options so we use latest uri for `localResourceRoots`.
-      webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
-      NewProjectPanel.revive(webviewPanel, context.extensionUri);
-    },
-  });
+  context.subscriptions.push(
+    window.registerWebviewPanelSerializer(NewProjectPanel.viewType, {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+        // Reset the webview options so we use latest uri for `localResourceRoots`.
+        webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+        NewProjectPanel.revive(webviewPanel, context.extensionUri);
+      },
+    })
+  );
+
+  context.subscriptions.push(
+    window.registerTreeDataProvider(
+      PicoProjectActivityBar.viewType,
+      picoProjectActivityBarProvider
+    )
+  );
 
   const workspaceFolder = workspace.workspaceFolders?.[0];
 
@@ -75,9 +90,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
   ) {
     // finish activation
     Logger.log("No workspace folder or pico project found.");
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isPicoProject,
+      false
+    );
 
     return;
   }
+  await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
 
   // get sdk selected in the project
   const selectedToolchainAndSDKVersions =
@@ -170,5 +191,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 export function deactivate(): void {
+  void commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
+
   Logger.log("Extension deactivated.");
 }

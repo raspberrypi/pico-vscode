@@ -5,8 +5,10 @@ import Logger from "../logger.mjs";
 export default class CompileProjectCommand extends Command {
   private _logger: Logger = new Logger("CompileProjectCommand");
 
+  public static readonly id = "compileProject";
+
   constructor() {
-    super("compileProject");
+    super(CompileProjectCommand.id);
   }
 
   async execute(): Promise<void> {
