@@ -1,3 +1,9 @@
+/* add for vscode theming */
+div {
+  color: var(--vscode-editor-foreground) !important;
+}
+/* end */
+
 :root {
   --red: #cd2355;
   --red-tint: #d75a64;
