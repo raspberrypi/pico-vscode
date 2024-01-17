@@ -72,7 +72,7 @@ export function getAuthorizationHeaders(): AuthorizationHeaders {
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
   if (githubPAT && githubPAT.length > 0) {
     Logger.log("Using GitHub Personal Access Token for authentication");
-    headers.Authorization = githubPAT;
+    headers.Authorization = `Bearer ${githubPAT}`;
   }
 
   return headers;

@@ -7,7 +7,7 @@ import Logger from "../logger.mjs";
 const versionBundlesVersion = "0.10.0";
 const versionBundlesUrl =
   "https://paulober.github.io/vscode-raspberry-pi-pico/" +
-  `${versionBundlesVersion}/versionBundles1.json`;
+  `${versionBundlesVersion}/versionBundles.json`;
 
 export interface VersionBundle {
   python: {
