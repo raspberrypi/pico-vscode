@@ -1,0 +1,13 @@
+var searchData=
+[
+  ['watchdog_2eh_0',['watchdog.h',['../rp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h.html',1,'']]],
+  ['watchdog_5fcaused_5freboot_1',['watchdog_caused_reboot',['../group__hardware__watchdog.html#ga65f5d24169045b8c7dc709e572535d94',1,'watchdog_caused_reboot(void):&#160;watchdog.c'],['../group__hardware__watchdog.html#ga65f5d24169045b8c7dc709e572535d94',1,'watchdog_caused_reboot(void):&#160;watchdog.c']]],
+  ['watchdog_5fenable_2',['watchdog_enable',['../group__hardware__watchdog.html#ga87042933bd6c335c21131991c83c161d',1,'watchdog_enable(uint32_t delay_ms, bool pause_on_debug):&#160;watchdog.c'],['../group__hardware__watchdog.html#ga87042933bd6c335c21131991c83c161d',1,'watchdog_enable(uint32_t delay_ms, bool pause_on_debug):&#160;watchdog.c']]],
+  ['watchdog_5fenable_5fcaused_5freboot_3',['watchdog_enable_caused_reboot',['../group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085',1,'watchdog_enable_caused_reboot(void):&#160;watchdog.c'],['../group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085',1,'watchdog_enable_caused_reboot(void):&#160;watchdog.c']]],
+  ['watchdog_5fget_5fcount_4',['watchdog_get_count',['../group__hardware__watchdog.html#ga6fdbd72f3a22c9e8af0fb407acb9002b',1,'watchdog_get_count(void):&#160;watchdog.c'],['../group__hardware__watchdog.html#ga6fdbd72f3a22c9e8af0fb407acb9002b',1,'watchdog_get_count(void):&#160;watchdog.c']]],
+  ['watchdog_5fhw_5ft_5',['watchdog_hw_t',['../structwatchdog__hw__t.html',1,'']]],
+  ['watchdog_5freboot_6',['watchdog_reboot',['../group__hardware__watchdog.html#gaa73ccd43d6d755817e71bc3d7eb1fda6',1,'watchdog_reboot(uint32_t pc, uint32_t sp, uint32_t delay_ms):&#160;watchdog.c'],['../group__hardware__watchdog.html#gaa73ccd43d6d755817e71bc3d7eb1fda6',1,'watchdog_reboot(uint32_t pc, uint32_t sp, uint32_t delay_ms):&#160;watchdog.c']]],
+  ['watchdog_5fstart_5ftick_7',['watchdog_start_tick',['../group__hardware__watchdog.html#gaab9cfb964649bc7928c72335d964e425',1,'watchdog_start_tick(uint cycles):&#160;watchdog.c'],['../group__hardware__watchdog.html#gaab9cfb964649bc7928c72335d964e425',1,'watchdog_start_tick(uint cycles):&#160;watchdog.c']]],
+  ['watchdog_5fupdate_8',['watchdog_update',['../group__hardware__watchdog.html#ga329b748919954f8b48c58049115a5c54',1,'watchdog_update(void):&#160;watchdog.c'],['../group__hardware__watchdog.html#ga329b748919954f8b48c58049115a5c54',1,'watchdog_update(void):&#160;watchdog.c']]],
+  ['work_5fpending_9',['work_pending',['../structasync__when__pending__worker.html#a71770fa6b79959b936ca07f36c3f555a',1,'async_when_pending_worker']]]
+];

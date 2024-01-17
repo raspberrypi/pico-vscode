@@ -1,0 +1,28 @@
+var group__pico__divider =
+[
+    [ "divider.h", "common_2pico__divider_2include_2pico_2divider_8h.html", null ],
+    [ "div_s32s32", "group__pico__divider.html#ga60b86237e096a13f871015a28dceb88a", null ],
+    [ "div_s32s32_unsafe", "group__pico__divider.html#ga87e79e05c5490fcef2efb156a721fd6f", null ],
+    [ "div_s64s64", "group__pico__divider.html#ga053ab24ac7d6145b0229a6c111cb9d1b", null ],
+    [ "div_s64s64_unsafe", "group__pico__divider.html#gaf7847d0648463a6235c9e7844025d0fb", null ],
+    [ "div_u32u32", "group__pico__divider.html#ga9f9526e8653805bf2fe737afd4e490da", null ],
+    [ "div_u32u32_unsafe", "group__pico__divider.html#gaf3c85d6165a3c2a16b7ecad9cf077a58", null ],
+    [ "div_u64u64", "group__pico__divider.html#ga3004f0218e26a762031ec7ed3c369ad1", null ],
+    [ "div_u64u64_unsafe", "group__pico__divider.html#ga5ef2b5c7b1e6f12573ec35cbc822ab5a", null ],
+    [ "divmod_s32s32", "group__pico__divider.html#gace9d9d5ff4290c52bc4d5e07f6f7e15a", null ],
+    [ "divmod_s32s32_rem", "group__pico__divider.html#gaae6ff276cc2275c0734600b981a5d677", null ],
+    [ "divmod_s32s32_rem_unsafe", "group__pico__divider.html#ga18a5bbbeb6c84d0357d803b2c5b25039", null ],
+    [ "divmod_s32s32_unsafe", "group__pico__divider.html#ga832132d1124737c9316dac6c7fe5c752", null ],
+    [ "divmod_s64s64", "group__pico__divider.html#ga936872c9df9360e2b32b5d8b2c345913", null ],
+    [ "divmod_s64s64_rem", "group__pico__divider.html#ga7f6ec69ce8ef4406923d56a0a6e1d409", null ],
+    [ "divmod_s64s64_rem_unsafe", "group__pico__divider.html#gacfbc03721cfa18f7f1865d0cb17a62f9", null ],
+    [ "divmod_s64s64_unsafe", "group__pico__divider.html#ga47233b8d21888b733c5f271fdf290a33", null ],
+    [ "divmod_u32u32", "group__pico__divider.html#ga71d8e53c72b078f1334061ff0aebe8d8", null ],
+    [ "divmod_u32u32_rem", "group__pico__divider.html#ga02bac0aea2fa383a28bd05bcd682a07a", null ],
+    [ "divmod_u32u32_rem_unsafe", "group__pico__divider.html#ga110fad3fe5af8415e2c4bc4272c38591", null ],
+    [ "divmod_u32u32_unsafe", "group__pico__divider.html#gaca386ee7c507716df3a0b6c1d5ad6502", null ],
+    [ "divmod_u64u64", "group__pico__divider.html#ga523fd2399753e2e1c9ebeb3bbc3ad175", null ],
+    [ "divmod_u64u64_rem", "group__pico__divider.html#gad4a811e1113b670a7b67df9d7e8c17f8", null ],
+    [ "divmod_u64u64_rem_unsafe", "group__pico__divider.html#ga9f37bfee18ba829fe4249b309dcb4fad", null ],
+    [ "divmod_u64u64_unsafe", "group__pico__divider.html#ga18f537358cd342a32fa6781e7ca4b475", null ]
+];
