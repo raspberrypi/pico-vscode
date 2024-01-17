@@ -11,7 +11,8 @@ const STATUS_BAR_ITEMS: {
   [key: string]: { text: string; command: string; tooltip: string };
 } = {
   [StatusBarItemKey.compile]: {
-    text: "$(gear) Compile",
+    // alt. "$(gear) Compile"
+    text: "$(file-binary) Build UF2",
     command: "raspberry-pi-pico.compileProject",
     tooltip: "Compile project",
   },

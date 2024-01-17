@@ -41,6 +41,7 @@ import { PicoProjectActivityBar } from "./webview/activityBar.mjs";
 import ConditionalDebuggingCommand from "./commands/conditionalDebugging.mjs";
 import DebugLayoutCommand from "./commands/debugLayout.mjs";
 import OpenSdkDocumentationCommand from "./commands/openSdkDocumentation.mjs";
+import ConfigureCmakeCommand from "./commands/configureCmake.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Extension activated.");
@@ -65,6 +66,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       new ConditionalDebuggingCommand(),
       new DebugLayoutCommand(),
       new OpenSdkDocumentationCommand(context.extensionUri),
+      new ConfigureCmakeCommand(),
     ];
 
   // register all command handlers

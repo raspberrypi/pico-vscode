@@ -103,6 +103,12 @@
         "command": "raspberry-pi-pico.openSdkDocumentation",
         "title": "Open SDK Documentation",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.configureCmake",
+        "title": "Configure CMake",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
       }
     ],
     "configuration": {

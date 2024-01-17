@@ -18,6 +18,7 @@ import OpenSdkDocumentationCommand, {
   DOCUMENTATION_LABEL_BY_ID,
   DocumentationId,
 } from "../commands/openSdkDocumentation.mjs";
+import ConfigureCmakeCommand from "../commands/configureCmake.mjs";
 
 export class QuickAccessCommand extends TreeItem {
   constructor(
@@ -36,6 +37,7 @@ const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
 const NEW_PROJECT_LABEL = "New Project";
 const SWITCH_SDK_LABEL = "Switch SDK";
 const COMPILE_PROJECT_LABEL = "Compile Project";
+const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
 const DEBUG_PROJECT_LABEL = "Debug Project";
 const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
 
@@ -75,8 +77,12 @@ export class PicoProjectActivityBar
         element.iconPath = new ThemeIcon("debug-alt");
         break;
       case COMPILE_PROJECT_LABEL:
-        // alt. "gear"
-        element.iconPath = new ThemeIcon("notifications-configure");
+        // alt. "gear", "notifications-configure"
+        element.iconPath = new ThemeIcon("file-binary");
+        break;
+      case CONFIGURE_CMAKE_PROJECT_LABEL:
+        // alt. "gather"
+        element.iconPath = new ThemeIcon("beaker");
         break;
       case SWITCH_SDK_LABEL:
         // repo-forked or extensions; alt. "replace-all"
@@ -152,6 +158,14 @@ export class PicoProjectActivityBar
           }
         ),
         new QuickAccessCommand(
+          CONFIGURE_CMAKE_PROJECT_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${ConfigureCmakeCommand.id}`,
+            title: CONFIGURE_CMAKE_PROJECT_LABEL,
+          }
+        ),
+        new QuickAccessCommand(
           SWITCH_SDK_LABEL,
           TreeItemCollapsibleState.None,
           {
@@ -165,7 +179,6 @@ export class PicoProjectActivityBar
           {
             command: `${extensionName}.${DebugLayoutCommand.id}`,
             title: DEBUG_LAYOUT_PROJECT_LABEL,
-            arguments: [true],
           }
         ),
       ];
