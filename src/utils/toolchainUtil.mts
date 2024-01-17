@@ -1,17 +1,15 @@
-import { get } from "https";
+import { get, request } from "https";
 import * as ini from "ini";
 import { homedir } from "os";
 import { join } from "path";
 import Logger from "../logger.mjs";
-import { readdirSync, statSync } from "fs";
+import { readdirSync, statSync, readFileSync } from "fs";
+import { getScriptsRoot } from "./download.mjs";
 
-// github blocks this
-//const iniUrl =
-//  "https://raw.githubusercontent.com/paulober
-// /vscode-raspberry-pi-pico/main/supportedToolchains.ini";
+const supportedToolchainsVersion = "0.10.0";
 const iniUrl =
   "https://paulober.github.io/vscode-raspberry-pi-pico/" +
-  "0.10.0/supportedToolchains.ini";
+  `${supportedToolchainsVersion}/supportedToolchains.ini`;
 const supportedDistros = [
   "win32_x64",
   "darwin_arm64",
@@ -26,64 +24,131 @@ export interface SupportedToolchainVersion {
   downloadUrls: { [key: string]: string };
 }
 
-export async function getSupportedToolchains(): Promise<
-  SupportedToolchainVersion[]
-> {
-  return new Promise<SupportedToolchainVersion[]>((resolve, reject) => {
-    try {
-      // Download the INI file
-      get(iniUrl, response => {
-        let data = "";
-
-        // Append data as it arrives
-        response.on("data", chunk => {
-          data += chunk;
-        });
-
-        // Parse the INI data when the download is complete
-        response.on("end", () => {
-          const parsedIni: { [key: string]: { [key: string]: string } } =
-            ini.parse(data);
-          const supportedToolchains: SupportedToolchainVersion[] = [];
-
-          // Iterate through sections
-          for (const version in parsedIni) {
-            const section: { [key: string]: string } = parsedIni[version];
-
-            const downloadUrls: {
-              [key in (typeof supportedDistros)[number]]: string;
-            } = {};
-
-            // Create an object with supported distros and their URLs
-            for (const distro of supportedDistros) {
-              if (section[distro]) {
-                downloadUrls[distro] = section[distro];
-              }
-            }
-
-            // Add the version and downloadUrls to the result array
-            supportedToolchains.push({ version, downloadUrls });
-          }
-
-          // Resolve with the array of SupportedToolchainVersion
-          resolve(supportedToolchains);
-        });
-
-        // Handle errors
-        response.on("error", error => {
-          reject(error);
-        });
-      });
-    } catch (error) {
-      Logger.log("Error while downloading supported toolchains list.");
-      reject(error);
-    }
-  });
-}
-
 export interface InstalledToolchain {
   version: string;
   path: string;
+}
+
+export async function isInternetConnected(): Promise<boolean> {
+  return new Promise<boolean>(resolve => {
+    const options = {
+      host: "pages.github.com",
+      port: 443,
+      path: "/?",
+      method: "HEAD",
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Host: "pages.github.com",
+      },
+    };
+
+    const req = request(options, res => {
+      resolve(res.statusCode === 200);
+    });
+
+    req.on("error", () => {
+      resolve(false);
+    });
+
+    req.end();
+  });
+}
+
+function parseIni(data: string): SupportedToolchainVersion[] {
+  const parsedIni: { [key: string]: { [key: string]: string } } =
+    ini.parse(data);
+  const supportedToolchains: SupportedToolchainVersion[] = [];
+
+  // Iterate through sections
+  for (const version in parsedIni) {
+    const section: { [key: string]: string } = parsedIni[version];
+
+    const downloadUrls: {
+      [key in (typeof supportedDistros)[number]]: string;
+    } = {};
+
+    // Create an object with supported distros and their URLs
+    for (const distro of supportedDistros) {
+      if (section[distro]) {
+        downloadUrls[distro] = section[distro];
+      }
+    }
+
+    // Add the version and downloadUrls to the result array
+    supportedToolchains.push({ version, downloadUrls });
+  }
+
+  return supportedToolchains;
+}
+
+export async function getSupportedToolchains(): Promise<
+  SupportedToolchainVersion[]
+> {
+  try {
+    if (!(await isInternetConnected())) {
+      throw new Error(
+        "Error while downloading supported toolchains list. " +
+          "No internet connection"
+      );
+    }
+    const result = await new Promise<SupportedToolchainVersion[]>(
+      (resolve, reject) => {
+        // Download the INI file
+        get(iniUrl, response => {
+          if (response.statusCode !== 200) {
+            reject(
+              new Error(
+                "Error while downloading supported toolchains list. " +
+                  `Status code: ${response.statusCode}`
+              )
+            );
+          }
+          let data = "";
+
+          // Append data as it arrives
+          response.on("data", chunk => {
+            data += chunk;
+          });
+
+          // Parse the INI data when the download is complete
+          response.on("end", () => {
+            // Resolve with the array of SupportedToolchainVersion
+            resolve(parseIni(data));
+          });
+
+          // Handle errors
+          response.on("error", error => {
+            reject(error);
+          });
+        });
+      }
+    );
+
+    return result;
+  } catch (error) {
+    Logger.log(error instanceof Error ? error.message : (error as string));
+
+    try {
+      // try to load local supported toolchains list
+      const supportedToolchains = parseIni(
+        readFileSync(
+          join(
+            getScriptsRoot(),
+            "..",
+            "data",
+            supportedToolchainsVersion,
+            "supportedToolchains.ini"
+          )
+        ).toString("utf-8")
+      );
+
+      return supportedToolchains;
+    } catch (error2) {
+      Logger.log("Error while loading local supported toolchains list.");
+
+      return [];
+    }
+  }
 }
 
 export function detectInstalledToolchains(): InstalledToolchain[] {

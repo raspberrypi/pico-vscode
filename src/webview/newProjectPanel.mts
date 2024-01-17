@@ -374,7 +374,7 @@ export class NewProjectPanel {
             {
               // test if versionBundle for sdk version is available
               const versionBundle =
-                this._versionBundlesLoader?.getModuleVersion(
+                await this._versionBundlesLoader?.getModuleVersion(
                   message.value as string
                 );
               // return result in message of command versionBundleAvailableTest
@@ -473,8 +473,9 @@ export class NewProjectPanel {
       }
 
       // update to new selected sdk);
-      this._versionBundle =
-        this._versionBundlesLoader.getModuleVersion(selectedSDK);
+      this._versionBundle = await this._versionBundlesLoader.getModuleVersion(
+        selectedSDK
+      );
 
       if (
         this._versionBundle === undefined &&
@@ -926,7 +927,7 @@ export class NewProjectPanel {
         throw new Error("Failed to load toolchains or SDKs.");
       }
 
-      this._versionBundle = this._versionBundlesLoader.getModuleVersion(
+      this._versionBundle = await this._versionBundlesLoader.getModuleVersion(
         availableSDKs[0].replace("v", "")
       );
 

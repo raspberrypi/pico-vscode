@@ -17,8 +17,8 @@ rollup.config.mjs
 .pnp*
 *.vsix
 
-# make sure scripts are always included
+# make sure scripts and data are always included
 !scripts/**
+!data/**
 scripts/*.ps1
 scripts/fix_windows_reg.py
-supportedToolchains.ini

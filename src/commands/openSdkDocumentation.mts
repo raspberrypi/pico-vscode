@@ -3,7 +3,6 @@ import { CommandWithArgs } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { type QuickPickItem, ViewColumn, window, Uri } from "vscode";
 import { readFileSync } from "fs";
-import { getNonce } from "../webview/newProjectPanel.mjs";
 
 export enum DocumentationId {
   hardware = 0,
@@ -19,6 +18,7 @@ export const DOCUMENTATION_LABEL_BY_ID: string[] = [
   "Runtime Infrastructure",
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DOCUMENTATION_URLS_BY_ID: string[] = [
   //"https://raspberrypi.github.io/pico-sdk-doxygen/index.html",
   "https://www.raspberrypi.com/documentation/pico-sdk/hardware.html",

@@ -304,7 +304,7 @@ export default class SwitchSDKCommand extends Command {
     const options: SwitchSDKOptions = {
       sdkVersion: selectedSDK.label,
     };
-    const versionBundle = this._versionBundlesLoader.getModuleVersion(
+    const versionBundle = await this._versionBundlesLoader.getModuleVersion(
       selectedSDK.label.replace("v", "")
     );
 
