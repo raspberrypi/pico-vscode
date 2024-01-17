@@ -38,6 +38,7 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
   private _logger: Logger = new Logger("OpenSdkDocumentationCommand");
 
   public static readonly id = "openSdkDocumentation";
+  private _panel: WebviewPanel|undefined = undefined;
 
   constructor(private readonly _extensionUri: Uri) {
     super(OpenSdkDocumentationCommand.id);
@@ -72,18 +73,23 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
 
     // show webview
     this._logger.info("Opening SDK documentation in browser...");
-    const panel = window.createWebviewPanel(
-      "pico-sdk-documentation",
-      "Pico SDK Documentation",
-      { viewColumn: ViewColumn.Two, preserveFocus: false },
-      {
-        enableScripts: true,
-        retainContextWhenHidden: true,
-        enableFindWidget: true,
-        localResourceRoots: [Uri.joinPath(this._extensionUri, "web", "docs")],
-        enableCommandUris: true,
-      }
-    );
+    if (this._panel === undefined){
+      Logger.log("New panel");
+      this._panel = window.createWebviewPanel(
+        "pico-sdk-documentation",
+        "Pico SDK Documentation",
+        { viewColumn: ViewColumn.Two, preserveFocus: false },
+        {
+          enableScripts: true,
+          retainContextWhenHidden: true,
+          enableFindWidget: true,
+          localResourceRoots: [Uri.joinPath(this._extensionUri, "web", "docs")],
+          enableCommandUris: true,
+        }
+      );
+    }
+
+    const panel = this._panel;
 
     panel.webview.html = this._getHtmlForWebview(
       Uri.joinPath(this._extensionUri, "web", "docs", url).fsPath,
@@ -97,6 +103,13 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
       this._extensionUri
     );
     panel.reveal();
+
+    // dispose when hidden
+    panel.onDidDispose(
+      event => {
+        this._panel = undefined;
+      }, this
+    );
   }
 
   private _getHtmlForWebview(
