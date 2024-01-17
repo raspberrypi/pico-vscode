@@ -77,7 +77,7 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
         retainContextWhenHidden: true,
         enableFindWidget: true,
         localResourceRoots: [Uri.joinPath(this._extensionUri, "web", "docs")],
-        enableCommandUris: false,
+        enableCommandUris: true,
       }
     );
 
