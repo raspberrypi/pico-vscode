@@ -416,6 +416,8 @@ def ParseCommandLine():
     parser.add_argument("-c", "--configs", action='store_true', help="List available project configuration items")
     parser.add_argument("-f", "--feature", action='append', help="Add feature to generated project")
     parser.add_argument("-over", "--overwrite", action='store_true', help="Overwrite any existing project AND files")
+    parser.add_argument("-conv", "--convert", action='store_true', help="Convert any existing project - risks data loss")
+    parser.add_argument("-exam", "--example", action='store_true', help="Convert an examples folder to standalone project")
     parser.add_argument("-b", "--build", action='store_true', help="Build after project created")
     parser.add_argument("-g", "--gui", action='store_true', help="Run a GUI version of the project generator")
     parser.add_argument("-p", "--project", action='append', help="Generate projects files for IDE. Options are: vscode")
@@ -538,20 +540,26 @@ def GenerateCMake(folder, params):
                  "set(CMAKE_CXX_STANDARD 17)\n\n"
                  "# Initialise pico_sdk from installed location\n"
                  "# (note this can come from environment, CMake cache etc)\n\n"
-                 "# == DO NEVER EDIT THE NEXT LINES for RaspberryPiPico VS Code Extension to work == \n"
-                 "if(WIN32)\n"
-                 "   set(USERHOME $ENV{USERPROFILE})\n"
-                 "else()\n"
-                 "    set(USERHOME $ENV{HOME})\n"
-                 "endif()\n"
-                 f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
-                 f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
-                 "if(WIN32)\n"
-                 f"    set(pico-sdk-tools_DIR {cmakeToolsPath(params['sdkVersion'])})\n"
-                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)\n"
-                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)\n"
-                 "endif()\n"
-                 "# ====================================================================================\n"
+                )
+    
+    cmake_header_us = (
+                "# == DO NEVER EDIT THE NEXT LINES for RaspberryPiPico VS Code Extension to work == \n"
+                "if(WIN32)\n"
+                "   set(USERHOME $ENV{USERPROFILE})\n"
+                "else()\n"
+                "    set(USERHOME $ENV{HOME})\n"
+                "endif()\n"
+                f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
+                f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
+                "if(WIN32)\n"
+                f"    set(pico-sdk-tools_DIR {cmakeToolsPath(params['sdkVersion'])})\n"
+                "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)\n"
+                "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)\n"
+                "endif()\n"
+                "# ====================================================================================\n"
+                )
+    
+    cmake_header2 = (
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
                  "include(pico_sdk_import.cmake)\n\n"
@@ -566,11 +574,46 @@ def GenerateCMake(folder, params):
                 "pico_sdk_init()\n\n"
                 "# Add executable. Default name is the project name, version 0.1\n\n"
                 )
+    
+
+    if params['wantConvert']:
+        with open(filename, 'r+') as file:
+            content = file.read()
+            file.seek(0)
+            lines = file.readlines()
+            file.seek(0)
+            if not params['wantExample']:
+                # Prexisting CMake configuration - just adding cmake_header_us
+                file.write(cmake_header_us)
+                file.write(content)
+            else:
+                # Get project name
+                for line in lines:
+                    if "add_executable" in line:
+                        newProjectName = line.split('(')[1].strip()
+                        print(newProjectName)
+                        cmake_header2 = cmake_header2.replace(projectName, newProjectName)
+                # Write all headers
+                file.write(cmake_header1)
+                file.write(cmake_header_us)
+                file.write(cmake_header2)
+                file.write(cmake_header3)
+                file.flush()
+                # Remove example_auto_set_url
+                for i, line in enumerate(lines):
+                    if "example_auto_set_url" in line:
+                        lines[i] = ""
+                        print("Removed", line, lines[i])
+                    print(line, lines[i])
+                file.writelines(lines)
+        return
 
 
     file = open(filename, 'w')
 
     file.write(cmake_header1)
+    file.write(cmake_header_us)
+    file.write(cmake_header2)
 
     if params['exceptions']:
         file.write("\nset(PICO_CXX_ENABLE_EXCEPTIONS 1)\n")
@@ -943,7 +986,7 @@ def DoEverything(parent, params):
     # First check if there is already a project in the folder
     # If there is we abort unless the overwrite flag it set
     if os.path.exists(CMAKELIST_FILENAME):
-        if not params['wantOverwrite']:
+        if not (params['wantOverwrite'] or params['wantConvert']):
             print('There already appears to be a project in this folder. Use the --overwrite option to overwrite the existing project')
             sys.exit(-1)
 
@@ -965,19 +1008,20 @@ def DoEverything(parent, params):
     if params['wantExamples']:
         features_and_examples = list(stdlib_examples_list.keys()) + features_and_examples
 
-    GenerateMain('.', params['projectName'], features_and_examples, params['wantCPP'])
+    if not (params['wantConvert']):
+        GenerateMain('.', params['projectName'], features_and_examples, params['wantCPP'])
+
+        # If we have any ancilliary files, copy them to our project folder
+        # Currently only the picow with lwIP support needs an extra file, so just check that list
+        for feat in features_and_examples:
+            if feat in features_list:
+                if features_list[feat][ANCILLARY_FILE] != "":
+                    shutil.copy(sourcefolder + "/" + features_list[feat][ANCILLARY_FILE], projectPath / features_list[feat][ANCILLARY_FILE])
+            if feat in picow_options_list:
+                if picow_options_list[feat][ANCILLARY_FILE] != "":
+                    shutil.copy(sourcefolder + "/" + picow_options_list[feat][ANCILLARY_FILE], projectPath / picow_options_list[feat][ANCILLARY_FILE])
 
     GenerateCMake('.', params)
-
-    # If we have any ancilliary files, copy them to our project folder
-    # Currently only the picow with lwIP support needs an extra file, so just check that list
-    for feat in features_and_examples:
-        if feat in features_list:
-            if features_list[feat][ANCILLARY_FILE] != "":
-                shutil.copy(sourcefolder + "/" + features_list[feat][ANCILLARY_FILE], projectPath / features_list[feat][ANCILLARY_FILE])
-        if feat in picow_options_list:
-            if picow_options_list[feat][ANCILLARY_FILE] != "":
-                shutil.copy(sourcefolder + "/" + picow_options_list[feat][ANCILLARY_FILE], projectPath / picow_options_list[feat][ANCILLARY_FILE])
 
     # Create a build folder, and run our cmake project build from it
     if not os.path.exists('build'):
@@ -1116,6 +1160,8 @@ else :
         'projectName'   : args.name,
         'wantGUI'       : False,
         'wantOverwrite' : args.overwrite,
+        'wantConvert'   : args.convert or args.example,
+        'wantExample'   : args.example,
         'boardtype'     : args.boardtype,
         'wantBuild'     : args.build,
         'features'      : args.feature,
