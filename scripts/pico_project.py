@@ -19,15 +19,6 @@ import platform
 import shlex
 import csv
 
-ENABLE_TK_GUI = False
-
-if ENABLE_TK_GUI:
-    import tkinter as tk
-    from tkinter import messagebox as mb
-    from tkinter import filedialog as fd
-    from tkinter import simpledialog as sd
-    from tkinter import ttk
-
 CMAKELIST_FILENAME = 'CMakeLists.txt'
 CMAKECACHE_FILENAME = 'CMakeCache.txt'
 
@@ -385,645 +376,6 @@ def propertiesToolchainPath(toolchainVersion, force_windows=False, force_non_win
 def codeToolchainPath(toolchainVersion):
     return f"${{userHome}}{relativeToolchainPath(toolchainVersion)}"
 
-def GetBackground():
-    return 'white'
-
-def GetButtonBackground():
-    return 'white'
-
-def GetTextColour():
-    return 'black'
-
-def GetButtonTextColour():
-    return '#c51a4a'
-
-if ENABLE_TK_GUI:
-    def RunGUI(sdkpath, args):
-        root = tk.Tk()
-        style = ttk.Style(root)
-        style.theme_use('default')
-
-        style.configure("TButton", padding=6, relief="groove", border=2, foreground=GetButtonTextColour(), background=GetButtonBackground())
-        style.configure("TLabel", foreground=GetTextColour(), background=GetBackground() )
-        style.configure("TCheckbutton", foreground=GetTextColour(), background=GetBackground())
-        style.configure("TRadiobutton", foreground=GetTextColour(), background=GetBackground() )
-        style.configure("TLabelframe", foreground=GetTextColour(), background=GetBackground() )
-        style.configure("TLabelframe.Label", foreground=GetTextColour(), background=GetBackground() )
-        style.configure("TCombobox", foreground=GetTextColour(), background=GetBackground() )
-        style.configure("TListbox", foreground=GetTextColour(), background=GetBackground() )
-
-        style.map("TCheckbutton", background = [('disabled', GetBackground())])
-        style.map("TRadiobutton", background = [('disabled', GetBackground())])
-        style.map("TButton", background = [('disabled', GetBackground())])
-        style.map("TLabel", background = [('background', GetBackground())])
-        style.map("TComboBox", background = [('readonly', GetBackground())])
-
-        app = ProjectWindow(root, sdkpath, args)
-
-        app.configure(background=GetBackground())
-
-        root.mainloop()
-        sys.exit(0)
-
-if ENABLE_TK_GUI:
-    def RunWarning(message):
-        mb.showwarning('Raspberry Pi Pico Project Generator', message)
-        sys.exit(0)
-
-import threading
-
-if ENABLE_TK_GUI:
-    def thread_function(text, command, ok):
-        l = shlex.split(command)
-        proc = subprocess.Popen(l, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-        for line in iter(proc.stdout.readline,''):
-            if not line:
-                if ok:
-                    ok["state"] = tk.NORMAL
-                return
-            text.insert(tk.END, line)
-            text.see(tk.END)
-
-# Function to run an OS command and display the output in a new modal window
-if ENABLE_TK_GUI:
-    class DisplayWindow(tk.Toplevel):
-        def __init__(self, parent, title):
-            tk.Toplevel.__init__(self, parent)
-            self.parent = parent
-            self.init_window(title)
-
-        def init_window(self, title):
-            self.title(title)
-
-            frame = tk.Frame(self, borderwidth=5, relief=tk.RIDGE)
-            frame.pack(fill=tk.X, expand=True, side=tk.TOP)
-
-            scrollbar = tk.Scrollbar(frame)
-            self.text = tk.Text(frame, bg='gray14', fg='gray99')
-            scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-            self.text.pack(side=tk.LEFT, fill=tk.Y)
-            scrollbar.config(command=self.text.yview)
-            self.text.config(yscrollcommand=scrollbar.set)
-
-            frame1 = tk.Frame(self, borderwidth=1)
-            frame1.pack(fill=tk.X, expand=True, side=tk.BOTTOM)
-            self.OKButton = ttk.Button(frame1, text="OK", command=self.OK)
-            self.OKButton["state"] = tk.DISABLED
-            self.OKButton.pack()
-
-            # make dialog modal
-            self.transient(self.parent)
-            self.grab_set()
-
-        def OK(self):
-            self.grab_release()
-            self.destroy()
-
-    def RunCommandInWindow(parent, command):
-        w = DisplayWindow(parent, command)
-        x = threading.Thread(target=thread_function, args=(w.text, command, w.OKButton))
-        x.start()
-        parent.wait_window(w)
-
-    class EditBoolWindow(sd.Dialog):
-
-        def __init__(self, parent, configitem, current):
-            self.parent = parent
-            self.config_item = configitem
-            self.current = current
-            sd.Dialog.__init__(self, parent, "Edit boolean configuration")
-
-
-        def body(self, master):
-            self.configure(background=GetBackground())
-            ttk.Label(self, text=self.config_item['name']).pack()
-            self.result = tk.StringVar()
-            self.result.set(self.current)
-            ttk.Radiobutton(master, text="True", variable=self.result, value="True").pack(anchor=tk.W)
-            ttk.Radiobutton(master, text="False", variable=self.result, value="False").pack(anchor=tk.W)
-            ttk.Radiobutton(master, text=CONFIG_UNSET, variable=self.result, value=CONFIG_UNSET).pack(anchor=tk.W)
-
-        def get(self):
-            return self.result.get()
-
-    class EditIntWindow(sd.Dialog):
-
-        def __init__(self, parent, configitem, current):
-            self.parent = parent
-            self.config_item = configitem
-            self.current = current
-            sd.Dialog.__init__(self, parent, "Edit integer configuration")
-
-        def body(self, master):
-            self.configure(background=GetBackground())
-            str = self.config_item['name'] + "  Max = " + self.config_item['max'] + "  Min = " + self.config_item['min']
-            ttk.Label(self, text=str).pack()
-            self.input =  tk.Entry(self)
-            self.input.pack(pady=4)
-            self.input.insert(0, self.current)
-            ttk.Button(self, text=CONFIG_UNSET, command=self.unset).pack(pady=5)
-
-        def validate(self):
-            self.result = self.input.get()
-            # Check for numeric entry
-            return True
-
-        def unset(self):
-            self.result = CONFIG_UNSET
-            self.destroy()
-
-        def get(self):
-            return self.result
-
-    class EditEnumWindow(sd.Dialog):
-        def __init__(self, parent, configitem, current):
-            self.parent = parent
-            self.config_item = configitem
-            self.current = current
-            sd.Dialog.__init__(self, parent, "Edit Enumeration configuration")
-
-        def body(self, master):
-            #self.configure(background=GetBackground())
-            values = self.config_item['enumvalues'].split('|')
-            values.insert(0,'Not set')
-            self.input =  ttk.Combobox(self, values=values, state='readonly')
-            self.input.set(self.current)
-            self.input.pack(pady=12)
-
-        def validate(self):
-            self.result = self.input.get()
-            return True
-
-        def get(self):
-            return self.result
-
-
-    class ConfigurationWindow(tk.Toplevel):
-
-        def __init__(self, parent, initial_config):
-            tk.Toplevel.__init__(self, parent)
-            self.master = parent
-            self.results = initial_config
-            self.init_window(self)
-
-        def init_window(self, args):
-            self.configure(background=GetBackground())
-            self.title("Advanced Configuration")
-            ttk.Label(self, text="Select the advanced options you wish to enable or change. Note that you really should understand the implications of changing these items before using them!").grid(row=0, column=0, columnspan=5)
-            ttk.Label(self, text="Name").grid(row=1, column=0, sticky=tk.W)
-            ttk.Label(self, text="Type").grid(row=1, column=1, sticky=tk.W)
-            ttk.Label(self, text="Min").grid(row=1, column=2, sticky=tk.W)
-            ttk.Label(self, text="Max").grid(row=1, column=3, sticky=tk.W)
-            ttk.Label(self, text="Default").grid(row=1, column=4, sticky=tk.W)
-            ttk.Label(self, text="User").grid(row=1, column=5, sticky=tk.W)
-
-            okButton = ttk.Button(self, text="OK", command=self.ok)
-            cancelButton = ttk.Button(self, text="Cancel", command=self.cancel)
-
-            self.namelist = tk.Listbox(self, selectmode=tk.SINGLE)
-            self.typelist = tk.Listbox(self, selectmode=tk.SINGLE)
-            self.minlist = tk.Listbox(self, selectmode=tk.SINGLE)
-            self.maxlist = tk.Listbox(self, selectmode=tk.SINGLE)
-            self.defaultlist = tk.Listbox(self, selectmode=tk.SINGLE)
-            self.valuelist = tk.Listbox(self, selectmode=tk.SINGLE)
-
-            self.descriptionText = tk.Text(self, state=tk.DISABLED, height=2)
-
-            ## Make a list of our list boxes to make it all easier to handle
-            self.listlist = [self.namelist, self.typelist, self.minlist, self.maxlist, self.defaultlist, self.valuelist]
-
-            scroll = tk.Scrollbar(self, orient=tk.VERTICAL, command=self.yview)
-
-            for box in self.listlist:
-                box.config(width=0)
-                box.config(yscrollcommand=scroll.set)
-                box.bind("<MouseWheel>", self.mousewheel)
-                box.bind("<Button-4>", self.mousewheel)
-                box.bind("<Button-5>", self.mousewheel)
-                box.bind("<<ListboxSelect>>", self.changeSelection)
-                box.bind("<Double-Button>", self.doubleClick)
-                box.config(exportselection=False)
-                box.bind("<Down>", self.OnEntryUpDown)
-                box.bind("<Up>", self.OnEntryUpDown)
-
-            scroll.grid(column=7, sticky=tk.N + tk.S)
-
-            i = 0
-            for box in self.listlist:
-                box.grid(row=2, column=i, padx=0, sticky=tk.W + tk.E)
-                i+=1
-
-            self.descriptionText.grid(row = 3, column=0, columnspan=4, sticky=tk.W + tk.E)
-            cancelButton.grid(column=5, row = 3, padx=5)
-            okButton.grid(column=4, row = 3, sticky=tk.E, padx=5)
-
-            # populate the list box with our config options
-            for conf in configuration_dictionary:
-                self.namelist.insert(tk.END, conf['name'])
-                s = conf['type']
-                if s == "":
-                    s = "int"
-                self.typelist.insert(tk.END, s)
-                self.maxlist.insert(tk.END, conf['max'])
-                self.minlist.insert(tk.END, conf['min'])
-                self.defaultlist.insert(tk.END, conf['default'])
-
-                # see if this config has a setting, our results member has this predefined from init
-                val = self.results.get(conf['name'], CONFIG_UNSET)
-                self.valuelist.insert(tk.END, val)
-                if val != CONFIG_UNSET:
-                    self.valuelist.itemconfig(self.valuelist.size() - 1, {'bg':'green'})
-
-        def yview(self, *args):
-            for box in self.listlist:
-                box.yview(*args)
-
-        def mousewheel(self, event):
-            if (event.num == 4):    # Linux encodes wheel as 'buttons' 4 and 5
-                delta = -1
-            elif (event.num == 5):
-                delta = 1
-            else:                   # Windows & OSX
-                delta = event.delta
-
-            for box in self.listlist:
-                box.yview("scroll", delta, "units")
-            return "break"
-
-        def changeSelection(self, evt):
-            box = evt.widget
-            sellist = box.curselection()
-
-            if sellist:
-                index = int(sellist[0])
-                config = self.namelist.get(index)
-                # Now find the description for that config in the dictionary
-                for conf in configuration_dictionary:
-                    if conf['name'] == config:
-                        self.descriptionText.config(state=tk.NORMAL)
-                        self.descriptionText.delete(1.0,tk.END)
-                        str = config + "\n" + conf['description']
-                        self.descriptionText.insert(1.0, str)
-                        self.descriptionText.config(state=tk.DISABLED)
-                        break
-                # Set all the other list boxes to the same index
-                for b in self.listlist:
-                    if b != box:
-                        b.selection_clear(0, tk.END)
-                        b.selection_set(index)
-
-        def OnEntryUpDown(self, event):
-            box = event.widget
-            selection = box.curselection()
-
-            if selection:
-                index = int(selection[0])
-                if event.keysym == 'Up':
-                    index -= 1
-                elif event.keysym == 'Down':
-                    index += 1
-
-                if 0 <= index < box.size():
-                    for b in self.listlist:
-                            b.selection_clear(0, tk.END)
-                            b.selection_set(index)
-                            b.see(index)
-
-        def doubleClick(self, evt):
-            box = evt.widget
-            index = int(box.curselection()[0])
-            config = self.namelist.get(index)
-            # Get the associated dict entry from our list of configs
-            for conf in configuration_dictionary:
-                if conf['name'] == config:
-                    if (conf['type'] == 'bool'):
-                        result = EditBoolWindow(self, conf, self.valuelist.get(index)).get()
-                    elif (conf['type'] == 'int' or conf['type'] == ""): # "" defaults to int
-                        result = EditIntWindow(self, conf, self.valuelist.get(index)).get()
-                    elif conf['type'] == 'enum':
-                        result = EditEnumWindow(self, conf, self.valuelist.get(index)).get()
-
-                    # Update the valuelist with our new item
-                    self.valuelist.delete(index)
-                    self.valuelist.insert(index, result)
-                    if result != CONFIG_UNSET:
-                        self.valuelist.itemconfig(index, {'bg':'green'})
-                    break
-
-        def ok(self):
-            # Get the selections, and create a list of them
-            for i, val in enumerate(self.valuelist.get(0, tk.END)):
-                if val != CONFIG_UNSET:
-                    self.results[self.namelist.get(i)] = val
-                else:
-                    self.results.pop(self.namelist.get(i), None)
-
-            self.destroy()
-
-        def cancel(self):
-            self.destroy()
-
-        def get(self):
-            return self.results
-
-    class WirelessSettingsWindow(sd.Dialog):
-
-        def __init__(self, parent):
-            sd.Dialog.__init__(self, parent, "Wireless settings")
-            self.parent = parent
-
-        def body(self, master):
-            self.configure(background=GetBackground())
-            master.configure(background=GetBackground())
-            self.ssid = tk.StringVar()
-            self.password = tk.StringVar()
-
-            a = ttk.Label(master, text='SSID :', background=GetBackground())
-            a.grid(row=0, column=0, sticky=tk.E)
-            a.configure(background=GetBackground())
-            ttk.Entry(master, textvariable=self.ssid).grid(row=0, column=1, sticky=tk.W+tk.E, padx=5)
-
-            ttk.Label(master, text='Password :').grid(row=1, column=0, sticky=tk.E)
-            ttk.Entry(master, textvariable=self.password).grid(row=1, column=1, sticky=tk.W+tk.E, padx=5)
-
-            self.transient(self.parent)
-            self.grab_set()
-
-        def ok(self):
-            self.grab_release()
-            self.destroy()
-
-        def cancel(self):
-            self.destroy()
-
-        def get(self):
-            return (self.ssid.get(), self.password.get())
-
-    # Our main window
-    class ProjectWindow(tk.Frame):
-
-        def __init__(self, parent, sdkpath, args):
-            tk.Frame.__init__(self, parent)
-            self.master = parent
-            self.sdkpath = sdkpath
-            self.init_window(args)
-            self.configs = dict()
-            self.ssid = str()
-            self.password = str()
-
-        def setState(self, thing, state):
-            for child in thing.winfo_children():
-                child.configure(state=state)
-
-        def boardtype_change_callback(self, event):
-            boardtype = self.boardtype.get()
-            if boardtype == "pico_w":
-                self.setState(self.picowSubframe, "enabled")
-            else:
-                self.setState(self.picowSubframe, "disabled")
-
-        def wirelessSettings(self):
-            result = WirelessSettingsWindow(self)
-            self.ssid, self.password = result.get()
-
-        def init_window(self, args):
-            self.master.title("Raspberry Pi Pico Project Generator")
-            self.master.configure(bg=GetBackground())
-
-            optionsRow = 0
-
-            mainFrame = tk.Frame(self, bg=GetBackground()).grid(row=optionsRow, column=0, columnspan=6, rowspan=12)
-
-            # Need to keep a reference to the image or it will not appear.
-            self.logo = tk.PhotoImage(file=GetFilePath("logo_alpha.gif"))
-            logowidget = ttk.Label(mainFrame, image=self.logo, borderwidth=0, relief="solid").grid(row=0,column=0, columnspan=5, pady=10)
-
-            optionsRow += 2
-
-            namelbl = ttk.Label(mainFrame, text='Project Name :').grid(row=optionsRow, column=0, sticky=tk.E)
-            self.projectName = tk.StringVar()
-
-            if args.name != None:
-                self.projectName.set(args.name)
-            else:
-                self.projectName.set('ProjectName')
-
-            nameEntry = ttk.Entry(mainFrame, textvariable=self.projectName).grid(row=optionsRow, column=1, sticky=tk.W+tk.E, padx=5)
-
-            optionsRow += 1
-
-            locationlbl = ttk.Label(mainFrame, text='Location :').grid(row=optionsRow, column=0, sticky=tk.E)
-            self.locationName = tk.StringVar()
-            self.locationName.set(os.getcwd())
-            locationEntry = ttk.Entry(mainFrame, textvariable=self.locationName).grid(row=optionsRow, column=1, columnspan=3, sticky=tk.W+tk.E, padx=5)
-            locationBrowse = ttk.Button(mainFrame, text='Browse', command=self.browse).grid(row=3, column=4)
-
-            optionsRow += 1
-
-            ttk.Label(mainFrame, text = "Board Type :").grid(row=optionsRow, column=0, padx=4, sticky=tk.E)
-            self.boardtype = ttk.Combobox(mainFrame, values=boardtype_list, )
-            self.boardtype.grid(row=4, column=1, padx=4, sticky=tk.W+tk.E)
-            self.boardtype.set('pico')
-            self.boardtype.bind('<<ComboboxSelected>>',self.boardtype_change_callback)
-            optionsRow += 1
-
-            # Features section
-            featuresframe = ttk.LabelFrame(mainFrame, text="Library Options", relief=tk.RIDGE, borderwidth=2)
-            featuresframe.grid(row=optionsRow, column=0, columnspan=5, rowspan=5, ipadx=5, padx=5, pady=5, sticky=tk.E+tk.W)
-
-            s = (len(features_list)/3)
-
-            self.feature_checkbox_vars = []
-            row = 0
-            col = 0
-            for i in features_list:
-                var = tk.StringVar(value='') # Off by default for the moment
-                c = features_list[i][GUI_TEXT]
-                cb = ttk.Checkbutton(featuresframe, text = c, var=var, onvalue=i, offvalue='')
-                cb.grid(row=row, column=col, padx=15, pady=2, ipadx=1, ipady=1, sticky=tk.E+tk.W)
-                self.feature_checkbox_vars.append(var)
-                row+=1
-                if row >= s:
-                    col+=1
-                    row = 0
-
-            optionsRow += 5
-
-            # PicoW options section
-            self.picowSubframe = ttk.LabelFrame(mainFrame, relief=tk.RIDGE, borderwidth=2, text="Pico Wireless Options")
-            self.picowSubframe.grid(row=optionsRow, column=0, columnspan=5, rowspan=2, padx=5, pady=5, ipadx=5, ipady=3, sticky=tk.E+tk.W)
-            self.pico_wireless = tk.StringVar()
-
-            col = 0
-            row = 0
-            for i in picow_options_list:
-                rb = ttk.Radiobutton(self.picowSubframe, text=picow_options_list[i][GUI_TEXT], variable=self.pico_wireless, val=i)
-                rb.grid(row=row, column=col,  padx=15, pady=1, sticky=tk.E+tk.W)
-                col+=1
-                if col == 3:
-                    col=0
-                    row+=1
-
-            # DOnt actually need any settings at the moment.
-            # ttk.Button(self.picowSubframe, text='Settings', command=self.wirelessSettings).grid(row=0, column=4, padx=5, pady=2, sticky=tk.E)
-
-            self.setState(self.picowSubframe, "disabled")
-
-            optionsRow += 3
-
-            # output options section
-            ooptionsSubframe = ttk.LabelFrame(mainFrame, relief=tk.RIDGE, borderwidth=2, text="Console Options")
-            ooptionsSubframe.grid(row=optionsRow, column=0, columnspan=5, rowspan=2, padx=5, pady=5, ipadx=5, ipady=3, sticky=tk.E+tk.W)
-
-            self.wantUART = tk.IntVar()
-            self.wantUART.set(args.uart)
-            ttk.Checkbutton(ooptionsSubframe, text="Console over UART", variable=self.wantUART).grid(row=0, column=0, padx=4, sticky=tk.W)
-
-            self.wantUSB = tk.IntVar()
-            self.wantUSB.set(args.usb)
-            ttk.Checkbutton(ooptionsSubframe, text="Console over USB (Disables other USB use)", variable=self.wantUSB).grid(row=0, column=1, padx=4, sticky=tk.W)
-
-            optionsRow += 2
-
-            # Code options section
-            coptionsSubframe = ttk.LabelFrame(mainFrame, relief=tk.RIDGE, borderwidth=2, text="Code Options")
-            coptionsSubframe.grid(row=optionsRow, column=0, columnspan=5, rowspan=3, padx=5, pady=5, ipadx=5, ipady=3, sticky=tk.E+tk.W)
-
-            self.wantExamples = tk.IntVar()
-            self.wantExamples.set(args.examples)
-            ttk.Checkbutton(coptionsSubframe, text="Add examples for Pico library", variable=self.wantExamples).grid(row=0, column=0, padx=4, sticky=tk.W)
-
-            self.wantRunFromRAM = tk.IntVar()
-            self.wantRunFromRAM.set(args.runFromRAM)
-            ttk.Checkbutton(coptionsSubframe, text="Run from RAM", variable=self.wantRunFromRAM).grid(row=0, column=1, padx=4, sticky=tk.W)
-
-            self.wantCPP = tk.IntVar()
-            self.wantCPP.set(args.cpp)
-            ttk.Checkbutton(coptionsSubframe, text="Generate C++", variable=self.wantCPP).grid(row=0, column=3, padx=4, sticky=tk.W)
-
-            ttk.Button(coptionsSubframe, text="Advanced...", command=self.config).grid(row=0, column=4, sticky=tk.E)
-
-            self.wantCPPExceptions = tk.IntVar()
-            self.wantCPPExceptions.set(args.cppexceptions)
-            ttk.Checkbutton(coptionsSubframe, text="Enable C++ exceptions", variable=self.wantCPPExceptions).grid(row=1, column=0, padx=4, sticky=tk.W)
-
-            self.wantCPPRTTI = tk.IntVar()
-            self.wantCPPRTTI.set(args.cpprtti)
-            ttk.Checkbutton(coptionsSubframe, text="Enable C++ RTTI", variable=self.wantCPPRTTI).grid(row=1, column=1, padx=4, sticky=tk.W)
-
-            optionsRow += 3
-
-            # Build Options section
-
-            boptionsSubframe = ttk.LabelFrame(mainFrame, relief=tk.RIDGE, borderwidth=2, text="Build Options")
-            boptionsSubframe.grid(row=optionsRow, column=0, columnspan=5, rowspan=2, padx=5, pady=5, ipadx=5, ipady=3, sticky=tk.E+tk.W)
-
-            self.wantBuild = tk.IntVar()
-            self.wantBuild.set(args.build)
-            ttk.Checkbutton(boptionsSubframe, text="Run build after generation", variable=self.wantBuild).grid(row=0, column=0, padx=4, sticky=tk.W)
-
-            self.wantOverwrite = tk.IntVar()
-            self.wantOverwrite.set(args.overwrite)
-            ttk.Checkbutton(boptionsSubframe, text="Overwrite existing projects", variable=self.wantOverwrite).grid(row=0, column=1, padx=4, sticky=tk.W)
-
-            optionsRow += 2
-            
-            # IDE Options section
-
-            vscodeoptionsSubframe = ttk.LabelFrame(mainFrame, relief=tk.RIDGE, borderwidth=2, text="IDE Options")
-            vscodeoptionsSubframe.grid_columnconfigure(2, weight=1)
-            vscodeoptionsSubframe.grid(row=optionsRow, column=0, columnspan=5, rowspan=2, padx=5, pady=5, ipadx=5, ipady=3, sticky=tk.E+tk.W)
-
-            self.wantVSCode = tk.IntVar()
-            if args.project is None:
-                self.wantVSCode.set(False)
-            else:
-                self.wantVSCode.set('vscode' in args.project)
-            ttk.Checkbutton(vscodeoptionsSubframe, text="Create VSCode project", variable=self.wantVSCode).grid(row=0, column=0, padx=4, sticky=tk.W)
-
-            ttk.Label(vscodeoptionsSubframe, text = "     Debugger:").grid(row=0, column=1, padx=4, sticky=tk.W)
-
-            self.debugger = ttk.Combobox(vscodeoptionsSubframe, values=debugger_list, state="readonly")
-            self.debugger.grid(row=0, column=2, padx=4, sticky=tk.EW)
-            self.debugger.current(args.debugger)
-
-            optionsRow += 2
-
-            # OK, Cancel, Help section
-            # creating buttons
-            QuitButton = ttk.Button(mainFrame, text="Quit", command=self.quit).grid(row=optionsRow, column=4, stick=tk.E, padx=10, pady=5)
-            OKButton = ttk.Button(mainFrame, text="OK", command=self.OK).grid(row=optionsRow, column=3, padx=4, pady=5, sticky=tk.E)
-
-            # TODO help not implemented yet
-            # HelpButton = ttk.Button(mainFrame, text="Help", command=self.help).grid(row=optionsRow, column=0, pady=5)
-
-            # You can set a default path here, replace the string with whereever you want.
-            # self.locationName.set('/home/pi/pico_projects')
-
-        def GetFeatures(self):
-            features = []
-
-            i = 0
-            for cb in self.feature_checkbox_vars:
-                s = cb.get()
-                if s != '':
-                    features.append(s)
-
-            picow_extra = self.pico_wireless.get()
-
-            if picow_extra != 'picow_none':
-                features.append(picow_extra)
-
-            return features
-
-        def quit(self):
-            # TODO Check if we want to exit here
-            sys.exit(0)
-
-        def OK(self):
-            # OK, grab all the settings from the page, then call the generators
-            projectPath = self.locationName.get()
-            features = self.GetFeatures()
-            projects = list()
-            if (self.wantVSCode.get()):
-                projects.append("vscode")
-
-            params={
-                    'sdkPath'       : self.sdkpath,
-                    'projectRoot'   : Path(projectPath),
-                    'projectName'   : self.projectName.get(),
-                    'wantGUI'       : True,
-                    'wantOverwrite' : self.wantOverwrite.get(),
-                    'wantBuild'     : self.wantBuild.get(),
-                    'boardtype'     : self.boardtype.get(),
-                    'features'      : features,
-                    'projects'      : projects,
-                    'configs'       : self.configs,
-                    'wantRunFromRAM': self.wantRunFromRAM.get(),
-                    'wantExamples'  : self.wantExamples.get(),
-                    'wantUART'      : self.wantUART.get(),
-                    'wantUSB'       : self.wantUSB.get(),
-                    'wantCPP'       : self.wantCPP.get(),
-                    'debugger'      : self.debugger.current(),
-                    'exceptions'    : self.wantCPPExceptions.get(),
-                    'rtti'          : self.wantCPPRTTI.get(),
-                    'ssid'          : self.ssid,
-                    'password'      : self.password,
-                    }
-
-            DoEverything(self, params)
-
-        def browse(self):
-            name = fd.askdirectory()
-            self.locationName.set(name)
-
-        def help(self):
-            print("Help TODO")
-
-        def config(self):
-            # Run the configuration window
-            self.configs = ConfigurationWindow(self, self.configs).get()
-
 def CheckPrerequisites():
     global isMac, isWindows
     isMac = (platform.system() == 'Darwin')
@@ -1038,16 +390,10 @@ def CheckSDKPath(gui):
 
     if sdkPath == None:
         m = 'Unable to locate the Raspberry Pi Pico SDK, PICO_SDK_PATH is not set'
-        if gui and ENABLE_TK_GUI:
-            RunWarning(m)
-        else:
-            print(m)
+        print(m)
     elif not os.path.isdir(sdkPath):
         m = 'Unable to locate the Raspberry Pi Pico SDK, PICO_SDK_PATH does not point to a directory'
-        if gui and ENABLE_TK_GUI:
-            RunWarning(m)
-        else:
-            print(m)
+        print(m)
         sdkPath = None
 
     return sdkPath
@@ -1070,6 +416,8 @@ def ParseCommandLine():
     parser.add_argument("-c", "--configs", action='store_true', help="List available project configuration items")
     parser.add_argument("-f", "--feature", action='append', help="Add feature to generated project")
     parser.add_argument("-over", "--overwrite", action='store_true', help="Overwrite any existing project AND files")
+    parser.add_argument("-conv", "--convert", action='store_true', help="Convert any existing project - risks data loss")
+    parser.add_argument("-exam", "--example", action='store_true', help="Convert an examples folder to standalone project")
     parser.add_argument("-b", "--build", action='store_true', help="Build after project created")
     parser.add_argument("-g", "--gui", action='store_true', help="Run a GUI version of the project generator")
     parser.add_argument("-p", "--project", action='append', help="Generate projects files for IDE. Options are: vscode")
@@ -1192,20 +540,26 @@ def GenerateCMake(folder, params):
                  "set(CMAKE_CXX_STANDARD 17)\n\n"
                  "# Initialise pico_sdk from installed location\n"
                  "# (note this can come from environment, CMake cache etc)\n\n"
-                 "# == DO NEVER EDIT THE NEXT LINES for RaspberryPiPico VS Code Extension to work == \n"
-                 "if(WIN32)\n"
-                 "   set(USERHOME $ENV{USERPROFILE})\n"
-                 "else()\n"
-                 "    set(USERHOME $ENV{HOME})\n"
-                 "endif()\n"
-                 f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
-                 f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
-                 "if(WIN32)\n"
-                 f"    set(pico-sdk-tools_DIR {cmakeToolsPath(params['sdkVersion'])})\n"
-                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)\n"
-                 "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)\n"
-                 "endif()\n"
-                 "# ====================================================================================\n"
+                )
+    
+    cmake_header_us = (
+                "# == DO NEVER EDIT THE NEXT LINES for RaspberryPiPico VS Code Extension to work == \n"
+                "if(WIN32)\n"
+                "   set(USERHOME $ENV{USERPROFILE})\n"
+                "else()\n"
+                "    set(USERHOME $ENV{HOME})\n"
+                "endif()\n"
+                f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
+                f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
+                "if(WIN32)\n"
+                f"    set(pico-sdk-tools_DIR {cmakeToolsPath(params['sdkVersion'])})\n"
+                "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)\n"
+                "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)\n"
+                "endif()\n"
+                "# ====================================================================================\n"
+                )
+    
+    cmake_header2 = (
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
                  "include(pico_sdk_import.cmake)\n\n"
@@ -1220,11 +574,46 @@ def GenerateCMake(folder, params):
                 "pico_sdk_init()\n\n"
                 "# Add executable. Default name is the project name, version 0.1\n\n"
                 )
+    
+
+    if params['wantConvert']:
+        with open(filename, 'r+') as file:
+            content = file.read()
+            file.seek(0)
+            lines = file.readlines()
+            file.seek(0)
+            if not params['wantExample']:
+                # Prexisting CMake configuration - just adding cmake_header_us
+                file.write(cmake_header_us)
+                file.write(content)
+            else:
+                # Get project name
+                for line in lines:
+                    if "add_executable" in line:
+                        newProjectName = line.split('(')[1].strip()
+                        print(newProjectName)
+                        cmake_header2 = cmake_header2.replace(projectName, newProjectName)
+                # Write all headers
+                file.write(cmake_header1)
+                file.write(cmake_header_us)
+                file.write(cmake_header2)
+                file.write(cmake_header3)
+                file.flush()
+                # Remove example_auto_set_url
+                for i, line in enumerate(lines):
+                    if "example_auto_set_url" in line:
+                        lines[i] = ""
+                        print("Removed", line, lines[i])
+                    print(line, lines[i])
+                file.writelines(lines)
+        return
 
 
     file = open(filename, 'w')
 
     file.write(cmake_header1)
+    file.write(cmake_header_us)
+    file.write(cmake_header2)
 
     if params['exceptions']:
         file.write("\nset(PICO_CXX_ENABLE_EXCEPTIONS 1)\n")
@@ -1581,12 +970,8 @@ def LoadBoardTypes(sdkPath):
 def DoEverything(parent, params):
 
     if not os.path.exists(params['projectRoot']):
-        if params['wantGUI'] and ENABLE_TK_GUI:
-            mb.showerror('Raspberry Pi Pico Project Generator', 'Invalid project path. Select a valid path and try again')
-            return
-        else:
-            print('Invalid project path')
-            sys.exit(-1)
+        print('Invalid project path')
+        sys.exit(-1)
 
     oldCWD = os.getcwd()
     os.chdir(params['projectRoot'])
@@ -1601,15 +986,9 @@ def DoEverything(parent, params):
     # First check if there is already a project in the folder
     # If there is we abort unless the overwrite flag it set
     if os.path.exists(CMAKELIST_FILENAME):
-        if not params['wantOverwrite'] :
-            if params['wantGUI'] and ENABLE_TK_GUI:
-                # We can ask the user if they want to overwrite
-                y = mb.askquestion('Raspberry Pi Pico Project Generator', 'There already appears to be a project in this folder. \nPress Yes to overwrite project files, or Cancel to chose another folder')
-                if y != 'yes':
-                    return
-            else:
-                print('There already appears to be a project in this folder. Use the --overwrite option to overwrite the existing project')
-                sys.exit(-1)
+        if not (params['wantOverwrite'] or params['wantConvert']):
+            print('There already appears to be a project in this folder. Use the --overwrite option to overwrite the existing project')
+            sys.exit(-1)
 
         # We should really confirm the user wants to overwrite
         #print('Are you sure you want to overwrite the existing project files? (y/N)')
@@ -1629,19 +1008,20 @@ def DoEverything(parent, params):
     if params['wantExamples']:
         features_and_examples = list(stdlib_examples_list.keys()) + features_and_examples
 
-    GenerateMain('.', params['projectName'], features_and_examples, params['wantCPP'])
+    if not (params['wantConvert']):
+        GenerateMain('.', params['projectName'], features_and_examples, params['wantCPP'])
+
+        # If we have any ancilliary files, copy them to our project folder
+        # Currently only the picow with lwIP support needs an extra file, so just check that list
+        for feat in features_and_examples:
+            if feat in features_list:
+                if features_list[feat][ANCILLARY_FILE] != "":
+                    shutil.copy(sourcefolder + "/" + features_list[feat][ANCILLARY_FILE], projectPath / features_list[feat][ANCILLARY_FILE])
+            if feat in picow_options_list:
+                if picow_options_list[feat][ANCILLARY_FILE] != "":
+                    shutil.copy(sourcefolder + "/" + picow_options_list[feat][ANCILLARY_FILE], projectPath / picow_options_list[feat][ANCILLARY_FILE])
 
     GenerateCMake('.', params)
-
-    # If we have any ancilliary files, copy them to our project folder
-    # Currently only the picow with lwIP support needs an extra file, so just check that list
-    for feat in features_and_examples:
-        if feat in features_list:
-            if features_list[feat][ANCILLARY_FILE] != "":
-                shutil.copy(sourcefolder + "/" + features_list[feat][ANCILLARY_FILE], projectPath / features_list[feat][ANCILLARY_FILE])
-        if feat in picow_options_list:
-            if picow_options_list[feat][ANCILLARY_FILE] != "":
-                shutil.copy(sourcefolder + "/" + picow_options_list[feat][ANCILLARY_FILE], projectPath / picow_options_list[feat][ANCILLARY_FILE])
 
     # Create a build folder, and run our cmake project build from it
     if not os.path.exists('build'):
@@ -1677,10 +1057,7 @@ def DoEverything(parent, params):
             cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug ..'
             makeCmd = 'make -j' + str(cpus)
 
-    if params['wantGUI'] and ENABLE_TK_GUI:
-        RunCommandInWindow(parent, cmakeCmd)
-    else:
-        os.system(cmakeCmd)
+    os.system(cmakeCmd)
 
     if params['projects']:
         generateProjectFiles(
@@ -1697,11 +1074,8 @@ def DoEverything(parent, params):
             params["openOCDVersion"])
 
     if params['wantBuild']:
-        if params['wantGUI'] and ENABLE_TK_GUI:
-            RunCommandInWindow(parent, makeCmd)
-        else:
-            os.system(makeCmd)
-            print('\nIf the application has built correctly, you can now transfer it to the Raspberry Pi Pico board')
+        os.system(makeCmd)
+        print('\nIf the application has built correctly, you can now transfer it to the Raspberry Pi Pico board')
 
     os.chdir(oldCWD)
 
@@ -1729,10 +1103,7 @@ if c == None:
     m +='You will need to install an appropriate compiler to build a Raspberry Pi Pico project\n'
     m += 'See the Raspberry Pi Pico documentation for how to do this on your particular platform\n'
 
-    if args.gui and ENABLE_TK_GUI:
-        RunWarning(m)
-    else:
-        print(m)
+    print(m)
     sys.exit(-1)
 
 if args.name == None and not args.gui and not args.list and not args.configs and not args.boardlist:
@@ -1759,9 +1130,6 @@ sdkPath = Path(p)
 
 boardtype_list = LoadBoardTypes(sdkPath)
 boardtype_list.sort()
-
-if args.gui and ENABLE_TK_GUI:
-    RunGUI(sdkPath, args) # does not return, only exits
 
 projectRoot = Path(os.getcwd()) if not args.projectRoot else Path(args.projectRoot)
 
@@ -1792,6 +1160,8 @@ else :
         'projectName'   : args.name,
         'wantGUI'       : False,
         'wantOverwrite' : args.overwrite,
+        'wantConvert'   : args.convert or args.example,
+        'wantExample'   : args.example,
         'boardtype'     : args.boardtype,
         'wantBuild'     : args.build,
         'features'      : args.feature,
