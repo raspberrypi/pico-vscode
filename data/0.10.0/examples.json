@@ -1,0 +1,14 @@
+{
+  "blink": {
+    "path": "blink",
+    "name": "blink"
+  },
+  "hello_serial": {
+    "path": "hello_world/serial",
+    "name": "serial"
+  },
+  "picow_blink": {
+    "path": "pico_w/wifi/blink",
+    "name": "blink"
+  }
+}
