@@ -1009,7 +1009,7 @@ def DoEverything(parent, params):
         features_and_examples = list(stdlib_examples_list.keys()) + features_and_examples
 
     if not (params['wantConvert']):
-        GenerateMain('.', params['projectName'], features_and_examples, params['wantCPP'])
+        GenerateMain(projectPath, params['projectName'], features_and_examples, params['wantCPP'])
 
         # If we have any ancilliary files, copy them to our project folder
         # Currently only the picow with lwIP support needs an extra file, so just check that list
@@ -1021,7 +1021,7 @@ def DoEverything(parent, params):
                 if picow_options_list[feat][ANCILLARY_FILE] != "":
                     shutil.copy(sourcefolder + "/" + picow_options_list[feat][ANCILLARY_FILE], projectPath / picow_options_list[feat][ANCILLARY_FILE])
 
-    GenerateCMake('.', params)
+    GenerateCMake(projectPath, params)
 
     # Create a build folder, and run our cmake project build from it
     if not os.path.exists('build'):
