@@ -28,7 +28,7 @@ import { sep } from "path";
 import { join as posixJoin } from "path/posix";
 import { NINJA_AUTO_INSTALL_DISABLED } from "../webview/newProjectPanel.mjs";
 
-interface AdvancedSwitchSDKOptions {
+export interface AdvancedSwitchSDKOptions {
   toolchainVersion: { label: string; toolchain: SupportedToolchainVersion };
   cmakeVersion: string;
   ninjaVersion?: string;
@@ -50,7 +50,8 @@ export default class SwitchSDKCommand extends Command {
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
   }
 
-  private async askCmakeVersion(
+  // TODO: maybe move into UI helper file or something
+  public static async askCmakeVersion(
     versionBundleAvailable: boolean
   ): Promise<string | undefined> {
     const cmakeVersions = await getCmakeReleases();
@@ -58,7 +59,7 @@ export default class SwitchSDKCommand extends Command {
     if (versionBundleAvailable) {
       quickPickItems.unshift("Default");
     }
-    if (await this._isSystemCMakeAvailable()) {
+    if (await SwitchSDKCommand.isSystemCMakeAvailable()) {
       quickPickItems.push("Use system CMake");
     }
 
@@ -115,7 +116,8 @@ export default class SwitchSDKCommand extends Command {
     }
   }
 
-  private async askNinjaVersion(
+  // TODO: maybe move into UI helper file or something
+  public static async askNinjaVersion(
     versionBundleAvailable: boolean
   ): Promise<string | undefined> {
     const ninjaVersions = await getNinjaReleases();
@@ -123,7 +125,7 @@ export default class SwitchSDKCommand extends Command {
     if (versionBundleAvailable) {
       quickPickItems.unshift("Default");
     }
-    if (await this._isSystemNinjaAvailable()) {
+    if (await SwitchSDKCommand.isSystemNinjaAvailable()) {
       quickPickItems.push("Use system Ninja");
     }
 
@@ -180,7 +182,7 @@ export default class SwitchSDKCommand extends Command {
     }
   }
 
-  private async askToolchainVersion(
+  public static async askToolchainVersion(
     supportedToolchainVersions: SupportedToolchainVersion[]
   ): Promise<
     { label: string; toolchain: SupportedToolchainVersion } | undefined
@@ -212,11 +214,40 @@ export default class SwitchSDKCommand extends Command {
     return selectedToolchainVersion;
   }
 
-  private async _isSystemNinjaAvailable(): Promise<boolean> {
+  public static async askSDKVersion(): Promise<
+    { label: string; sdk: string } | undefined
+  > {
+    const sdks = await getSDKReleases();
+
+    if (sdks.length === 0) {
+      void window.showErrorMessage(
+        "Failed to get SDK releases. " +
+          "Make sure you are connected to the internet."
+      );
+
+      return;
+    }
+
+    // TODO: split sdk versions with version bundle and without
+    // show quick pick
+    const selectedSDK = await window.showQuickPick(
+      sdks.map(sdk => ({
+        label: `v${sdk}`,
+        sdk: sdk,
+      })),
+      {
+        placeHolder: "Select SDK version",
+      }
+    );
+
+    return selectedSDK;
+  }
+
+  public static async isSystemNinjaAvailable(): Promise<boolean> {
     return (await which("ninja", { nothrow: true })) !== null;
   }
 
-  private async _isSystemCMakeAvailable(): Promise<boolean> {
+  public static async isSystemCMakeAvailable(): Promise<boolean> {
     return (await which("cmake", { nothrow: true })) !== null;
   }
 
@@ -228,18 +259,18 @@ export default class SwitchSDKCommand extends Command {
    * @param versionBundle The version bundle of the selected SDK version (if available).
    * @returns The advanced options or undefined if the user canceled.
    */
-  private async _getAdvancedOptions(
+  public static async getAdvancedOptions(
     supportedToolchainVersions: SupportedToolchainVersion[],
     versionBundle?: VersionBundle
   ): Promise<AdvancedSwitchSDKOptions | undefined> {
-    const toolchainVersion = await this.askToolchainVersion(
+    const toolchainVersion = await SwitchSDKCommand.askToolchainVersion(
       supportedToolchainVersions
     );
     if (toolchainVersion === undefined) {
       return;
     }
 
-    const cmakeVersion = await this.askCmakeVersion(
+    const cmakeVersion = await SwitchSDKCommand.askCmakeVersion(
       versionBundle !== undefined
     );
     if (cmakeVersion === undefined) {
@@ -248,7 +279,9 @@ export default class SwitchSDKCommand extends Command {
 
     let ninjaVersion: string | undefined;
     if (!NINJA_AUTO_INSTALL_DISABLED) {
-      ninjaVersion = await this.askNinjaVersion(versionBundle !== undefined);
+      ninjaVersion = await SwitchSDKCommand.askNinjaVersion(
+        versionBundle !== undefined
+      );
       if (ninjaVersion === undefined) {
         return;
       }
@@ -275,28 +308,7 @@ export default class SwitchSDKCommand extends Command {
 
     const workspaceFolder = workspace.workspaceFolders[0];
 
-    const sdks = await getSDKReleases();
-
-    if (sdks.length === 0) {
-      void window.showErrorMessage(
-        "Failed to get SDK releases. " +
-          "Make sure you are connected to the internet."
-      );
-
-      return;
-    }
-
-    // TODO: split sdk versions with version bundle and without
-    // show quick pick
-    const selectedSDK = await window.showQuickPick(
-      sdks.map(sdk => ({
-        label: `v${sdk}`,
-        sdk: sdk,
-      })),
-      {
-        placeHolder: "Select SDK version",
-      }
-    );
+    const selectedSDK = await SwitchSDKCommand.askSDKVersion();
 
     if (selectedSDK === undefined) {
       return;
@@ -332,7 +344,7 @@ export default class SwitchSDKCommand extends Command {
 
     // TODO: || versionBundle === undefined
     if (configureAdvancedOptions === "Yes") {
-      const advancedOptions = await this._getAdvancedOptions(
+      const advancedOptions = await SwitchSDKCommand.getAdvancedOptions(
         supportedToolchainVersions,
         versionBundle
       );

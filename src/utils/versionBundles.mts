@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { Uri } from "vscode";
-import { isInternetConnected } from "./toolchainUtil.mjs";
+import { isInternetConnected } from "./downloadHelpers.mjs";
 import { get } from "https";
 import Logger from "../logger.mjs";
 

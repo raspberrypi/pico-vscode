@@ -53,16 +53,18 @@ import { homedir } from "os";
 import { symlink } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync } from "fs";
+import {
+  type Example,
+  loadExamples,
+  setupExample,
+} from "../utils/examplesUtil.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED =
   process.platform === "linux" && process.arch === "arm64";
 
-interface SubmitMessageValue {
-  projectName: string;
-  boardType: string;
+interface ImportProjectMessageValue {
   selectedSDK: string;
   selectedToolchain: string;
-
   ninjaMode: number;
   ninjaPath: string;
   ninjaVersion: string;
@@ -71,6 +73,23 @@ interface SubmitMessageValue {
   cmakeVersion: string;
   pythonMode: number;
   pythonPath: string;
+
+  // debugger
+  debugger: number;
+}
+
+interface SubmitExampleMessageValue extends ImportProjectMessageValue {
+  example: string;
+  boardType: string;
+
+  // stdio support
+  uartStdioSupport: boolean;
+  usbStdioSupport: boolean;
+}
+
+interface SubmitMessageValue extends ImportProjectMessageValue {
+  projectName: string;
+  boardType: string;
 
   // features (libraries)
   spiFeature: boolean;
@@ -95,9 +114,6 @@ interface SubmitMessageValue {
   cpp: boolean;
   cppRtti: boolean;
   cppExceptions: boolean;
-
-  // debugger
-  debugger: number;
 }
 
 interface WebviewMessage {
@@ -208,14 +224,8 @@ function enumToParam(
   }
 }
 
-interface NewProjectOptions {
-  name: string;
+interface ImportProjectOptions {
   projectRoot: string;
-  boardType: BoardType;
-  consoleOptions: ConsoleOption[];
-  libraries: Array<Library | PicoWirelessOption>;
-  codeOptions: CodeOption[];
-  debugger: Debugger;
   toolchainAndSDK: {
     toolchainVersion: string;
     toolchainPath: string;
@@ -225,6 +235,18 @@ interface NewProjectOptions {
   };
   ninjaExecutable: string;
   cmakeExecutable: string;
+  debugger: Debugger;
+}
+
+interface NewExampleBasedProjectOptions extends ImportProjectOptions {
+  name: string;
+  boardType: BoardType;
+  consoleOptions: ConsoleOption[];
+}
+
+interface NewProjectOptions extends NewExampleBasedProjectOptions {
+  libraries: Array<Library | PicoWirelessOption>;
+  codeOptions: CodeOption[];
 }
 
 export function getWebviewOptions(extensionUri: Uri): WebviewOptions {
@@ -235,14 +257,17 @@ export function getWebviewOptions(extensionUri: Uri): WebviewOptions {
 }
 
 export function getProjectFolderDialogOptions(
-  projectRoot?: Uri
+  projectRoot?: Uri,
+  forImport: boolean = false
 ): OpenDialogOptions {
   return {
     canSelectFiles: false,
     canSelectFolders: true,
     canSelectMany: false,
     openLabel: "Select",
-    title: "Select a project root to create the new project folder in",
+    title: forImport
+      ? "Select a project folder to import"
+      : "Select a project root to create the new project folder in",
     defaultUri: projectRoot,
   };
 }
@@ -262,21 +287,36 @@ export class NewProjectPanel {
   private _supportedToolchains?: SupportedToolchainVersion[];
   private _versionBundlesLoader?: VersionBundlesLoader;
   private _versionBundle: VersionBundle | undefined;
+  private _isProjectImport: boolean;
+  private _examples: Example[] = [];
 
-  public static createOrShow(extensionUri: Uri): void {
+  public static createOrShow(
+    extensionUri: Uri,
+    isProjectImport: boolean = false,
+    projectUri?: Uri
+  ): void {
     const column = window.activeTextEditor
       ? window.activeTextEditor.viewColumn
       : undefined;
 
     if (NewProjectPanel.currentPanel) {
       NewProjectPanel.currentPanel._panel.reveal(column);
+      // update already exiting panel with new project root
+      if (projectUri) {
+        NewProjectPanel.currentPanel._projectRoot = projectUri;
+        // update webview
+        void NewProjectPanel.currentPanel._panel.webview.postMessage({
+          command: "changeLocation",
+          value: projectUri?.fsPath,
+        });
+      }
 
       return;
     }
 
     const panel = window.createWebviewPanel(
       NewProjectPanel.viewType,
-      "New Pico Project",
+      isProjectImport ? "Import Pico Project" : "New Pico Project",
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -294,11 +334,17 @@ export class NewProjectPanel {
     NewProjectPanel.currentPanel = new NewProjectPanel(
       panel,
       settings,
-      extensionUri
+      extensionUri,
+      isProjectImport,
+      projectUri
     );
   }
 
-  public static revive(panel: WebviewPanel, extensionUri: Uri): void {
+  public static revive(
+    panel: WebviewPanel,
+    extensionUri: Uri,
+    isProjectImport: boolean = false
+  ): void {
     const settings = Settings.getInstance();
     if (settings === undefined) {
       // TODO: maybe add restart button
@@ -309,21 +355,27 @@ export class NewProjectPanel {
       return;
     }
 
+    // TODO: reload if it was import panel maybe in state
     NewProjectPanel.currentPanel = new NewProjectPanel(
       panel,
       settings,
-      extensionUri
+      extensionUri,
+      isProjectImport
     );
   }
 
   private constructor(
     panel: WebviewPanel,
     settings: Settings,
-    extensionUri: Uri
+    extensionUri: Uri,
+    isProjectImport: boolean = false,
+    projectUri?: Uri
   ) {
     this._panel = panel;
     this._extensionUri = extensionUri;
     this._settings = settings;
+    this._isProjectImport = isProjectImport;
+    this._projectRoot = projectUri;
 
     void this._update();
 
@@ -355,7 +407,10 @@ export class NewProjectPanel {
           case "changeLocation":
             {
               const newLoc = await window.showOpenDialog(
-                getProjectFolderDialogOptions(this._projectRoot)
+                getProjectFolderDialogOptions(
+                  this._projectRoot,
+                  this._isProjectImport
+                )
               );
 
               if (newLoc && newLoc[0]) {
@@ -380,7 +435,10 @@ export class NewProjectPanel {
               // return result in message of command versionBundleAvailableTest
               await this._panel.webview.postMessage({
                 command: "versionBundleAvailableTest",
-                value: versionBundle !== undefined,
+                value: {
+                  result: versionBundle !== undefined,
+                  toolchainVersion: versionBundle?.toolchain,
+                },
               });
             }
             break;
@@ -389,6 +447,142 @@ export class NewProjectPanel {
             break;
           case "error":
             void window.showErrorMessage(message.value as string);
+            break;
+          case "importProject":
+            {
+              if (
+                this._projectRoot === undefined ||
+                this._projectRoot.fsPath === ""
+              ) {
+                void window.showErrorMessage(
+                  "No project root selected. Please select a project root."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
+              const posixProjectRoot = this._projectRoot.fsPath.replaceAll(
+                "\\",
+                "/"
+              );
+              const projectFolderName = posixProjectRoot.substring(
+                posixProjectRoot.lastIndexOf("/") + 1
+              );
+              // a restriction since the folder name is passed as a parameter to the python script for project name
+              // if a project is imported
+              if (projectFolderName.includes(" ")) {
+                void window.showErrorMessage(
+                  "Project folder name cannot contain spaces."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
+              const data = message.value as ImportProjectMessageValue;
+
+              // check the project to import exists
+              if (!existsSync(this._projectRoot.fsPath)) {
+                void window.showErrorMessage(
+                  "The project you are trying to import does not exist."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
+              // close panel before generating project
+              this.dispose();
+
+              await window.withProgress(
+                {
+                  location: ProgressLocation.Notification,
+                  title: `Importing project ${projectFolderName} from ${this._projectRoot?.fsPath}, this may take a while...`,
+                },
+                async progress =>
+                  this._generateProjectOperation(progress, data, message, false)
+              );
+            }
+            break;
+          case "submitExample":
+            {
+              if (
+                this._projectRoot === undefined ||
+                this._projectRoot.fsPath === ""
+              ) {
+                void window.showErrorMessage(
+                  "No project root selected. Please select a project root."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
+              const data = message.value as SubmitExampleMessageValue;
+
+              // check if projectRoot/projectName folder already exists
+              if (existsSync(join(this._projectRoot.fsPath, data.example))) {
+                void window.showErrorMessage(
+                  "Project already exists. Please select a different project root or example."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
+              if (this._examples.length === 0) {
+                this._examples = await loadExamples();
+              }
+
+              const example = this._examples.find(
+                example => example.searchKey === data.example
+              );
+              if (example === undefined) {
+                await window.showErrorMessage(
+                  "Failed to find example. Try reinstalling the extension."
+                );
+
+                return;
+              }
+
+              // close panel before generating project
+              this.dispose();
+
+              const result = await setupExample(
+                example,
+                this._projectRoot.fsPath.replaceAll("\\", "/")
+              );
+
+              if (!result) {
+                await window.showErrorMessage("Failed to setup example.");
+
+                return;
+              }
+
+              await window.withProgress(
+                {
+                  location: ProgressLocation.Notification,
+                  title: `Generating project based on the ${
+                    data.example ?? "undefined"
+                  } example in ${
+                    this._projectRoot?.fsPath
+                  }, this may take a while...`,
+                },
+                async progress =>
+                  this._generateProjectOperation(progress, data, message, true)
+              );
+            }
             break;
           case "submit":
             {
@@ -442,12 +636,25 @@ export class NewProjectPanel {
       null,
       this._disposables
     );
+
+    // if project uri is defined on construction then also tell the webview
+    if (projectUri !== undefined) {
+      // update webview
+      void this._panel.webview.postMessage({
+        command: "changeLocation",
+        value: projectUri?.fsPath,
+      });
+    }
   }
 
   private async _generateProjectOperation(
     progress: Progress<{ message?: string; increment?: number }>,
-    data: SubmitMessageValue,
-    message: WebviewMessage
+    data:
+      | SubmitMessageValue
+      | SubmitExampleMessageValue
+      | ImportProjectMessageValue,
+    message: WebviewMessage,
+    exampleBased: boolean = false
   ): Promise<void> {
     const projectPath = this._projectRoot?.fsPath ?? "";
 
@@ -789,56 +996,115 @@ export class NewProjectPanel {
           return;
       }
 
-      const args: NewProjectOptions = {
-        name: data.projectName,
-        projectRoot: projectPath,
-        boardType:
-          data.boardType === "pico-w" ? BoardType.picoW : BoardType.pico,
-        consoleOptions: [
-          data.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
-          data.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
-        ].filter(option => option !== null) as ConsoleOption[],
-        libraries: [
-          data.spiFeature ? Library.spi : null,
-          data.i2cFeature ? Library.i2c : null,
-          data.dmaFeature ? Library.dma : null,
-          data.pioFeature ? Library.pio : null,
-          data.hwinterpolationFeature ? Library.interp : null,
-          data.hwtimerFeature ? Library.timer : null,
-          data.hwwatchdogFeature ? Library.watch : null,
-          data.hwclocksFeature ? Library.clocks : null,
-          data.boardType === "pico-w"
-            ? Object.values(PicoWirelessOption)[data.picoWireless]
-            : null,
-        ].filter(option => option !== null) as Library[],
-        codeOptions: [
-          data.addExamples ? CodeOption.addExamples : null,
-          data.runFromRAM ? CodeOption.runFromRAM : null,
-          data.cpp ? CodeOption.cpp : null,
-          data.cppRtti ? CodeOption.cppRtti : null,
-          data.cppExceptions ? CodeOption.cppExceptions : null,
-        ].filter(option => option !== null) as CodeOption[],
-        debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
-        toolchainAndSDK: {
-          toolchainVersion: selectedToolchain.version,
-          toolchainPath: buildToolchainPath(selectedToolchain.version),
-          sdkVersion: selectedSDK,
-          sdkPath: buildSDKPath(selectedSDK),
-          openOCDVersion: openOCDVersion,
-        },
-        ninjaExecutable,
-        cmakeExecutable,
-      };
+      if (!exampleBased && !this._isProjectImport) {
+        const theData = data as SubmitMessageValue;
+        const args: NewProjectOptions = {
+          name: theData.projectName,
+          projectRoot: projectPath,
+          boardType:
+            theData.boardType === "pico-w" ? BoardType.picoW : BoardType.pico,
+          consoleOptions: [
+            theData.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
+            theData.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
+          ].filter(option => option !== null) as ConsoleOption[],
+          libraries: [
+            theData.spiFeature ? Library.spi : null,
+            theData.i2cFeature ? Library.i2c : null,
+            theData.dmaFeature ? Library.dma : null,
+            theData.pioFeature ? Library.pio : null,
+            theData.hwinterpolationFeature ? Library.interp : null,
+            theData.hwtimerFeature ? Library.timer : null,
+            theData.hwwatchdogFeature ? Library.watch : null,
+            theData.hwclocksFeature ? Library.clocks : null,
+            theData.boardType === "pico-w"
+              ? Object.values(PicoWirelessOption)[theData.picoWireless]
+              : null,
+          ].filter(option => option !== null) as Library[],
+          codeOptions: [
+            theData.addExamples ? CodeOption.addExamples : null,
+            theData.runFromRAM ? CodeOption.runFromRAM : null,
+            theData.cpp ? CodeOption.cpp : null,
+            theData.cppRtti ? CodeOption.cppRtti : null,
+            theData.cppExceptions ? CodeOption.cppExceptions : null,
+          ].filter(option => option !== null) as CodeOption[],
+          debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
+          toolchainAndSDK: {
+            toolchainVersion: selectedToolchain.version,
+            toolchainPath: buildToolchainPath(selectedToolchain.version),
+            sdkVersion: selectedSDK,
+            sdkPath: buildSDKPath(selectedSDK),
+            openOCDVersion: openOCDVersion,
+          },
+          ninjaExecutable,
+          cmakeExecutable,
+        };
 
-      await this._executePicoProjectGenerator(
-        args,
-        python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
-      );
+        await this._executePicoProjectGenerator(
+          args,
+          python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+        );
+      } else if (exampleBased && !this._isProjectImport) {
+        const theData = data as SubmitExampleMessageValue;
+        const args: NewExampleBasedProjectOptions = {
+          name: theData.example,
+          projectRoot: projectPath,
+          boardType:
+            theData.boardType === "pico-w" ? BoardType.picoW : BoardType.pico,
+          consoleOptions: [
+            theData.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
+            theData.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
+          ].filter(option => option !== null) as ConsoleOption[],
+          debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
+          toolchainAndSDK: {
+            toolchainVersion: selectedToolchain.version,
+            toolchainPath: buildToolchainPath(selectedToolchain.version),
+            sdkVersion: selectedSDK,
+            sdkPath: buildSDKPath(selectedSDK),
+            openOCDVersion: openOCDVersion,
+          },
+          ninjaExecutable,
+          cmakeExecutable,
+        };
+
+        await this._executePicoProjectGenerator(
+          args,
+          python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+        );
+      } else if (this._isProjectImport && !exampleBased) {
+        const args: ImportProjectOptions = {
+          projectRoot: projectPath,
+          toolchainAndSDK: {
+            toolchainVersion: selectedToolchain.version,
+            toolchainPath: buildToolchainPath(selectedToolchain.version),
+            sdkVersion: selectedSDK,
+            sdkPath: buildSDKPath(selectedSDK),
+            openOCDVersion: openOCDVersion,
+          },
+          ninjaExecutable,
+          cmakeExecutable,
+          debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
+        };
+
+        await this._executePicoProjectGenerator(
+          args,
+          python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+        );
+      } else {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+        await window.showErrorMessage("Unknown project type.");
+
+        return;
+      }
     }
   }
 
   private async _update(): Promise<void> {
-    this._panel.title = "New Pico Project";
+    this._panel.title = this._isProjectImport
+      ? "Import Pico Project"
+      : "New Pico Project";
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
       "web",
@@ -1011,6 +1277,9 @@ export class NewProjectPanel {
       return "";
     }
 
+    this._examples = await loadExamples();
+    this._logger.info(`Loaded ${this._examples.length} examples.`);
+
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
 
@@ -1028,13 +1297,24 @@ export class NewProjectPanel {
 
         <link href="${mainStyleUri.toString()}" rel="stylesheet">
 
-        <title>New Pico Project</title>
+        <title>${
+          this._isProjectImport ? "Import Pico Project" : "New Pico Project"
+        }</title>
 
         <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
         <script nonce="${nonce}">
           tailwind.config = {
             darkMode: 'class',
           }
+          ${
+            !this._isProjectImport && this._examples.length > 0
+              ? `
+          var examples = ["${this._examples
+            .map(e => e.searchKey)
+            .join('", "')}"]`
+              : ""
+          }
+          var doProjectImport = ${this._isProjectImport};
         </script>
       </head>
       <body class="scroll-smooth w-screen">
@@ -1048,6 +1328,9 @@ export class NewProjectPanel {
                 <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
                     Basic Settings
                 </li>
+                ${
+                  !this._isProjectImport
+                    ? `
                 <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-features">
                     Features
                 </li>
@@ -1060,6 +1343,9 @@ export class NewProjectPanel {
                 <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-code-gen">
                     Code generation options
                 </li>
+                `
+                    : ""
+                }
                 <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-debugger">
                     Debugger
                 </li>
@@ -1069,12 +1355,31 @@ export class NewProjectPanel {
             <div id="section-basic" class="snap-start">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Basic Settings</h3>
                 <form>
-                    <div class="grid gap-6 md:grid-cols-2">
+                  ${
+                    !this._isProjectImport
+                      ? `<div class="grid gap-6 md:grid-cols-2">
                         <div>
-                            <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="MyProject" required/>
-                            <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden><span class="font-medium">Error</span> Please enter a valid project name.</p>
+                          <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                          <input type="text" list="examples-list" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="Project name or select example" required/>
+                              
+                          ${
+                            this._examples.length > 0
+                              ? `                              
+                          <datalist id="examples-list">
+                            <option value="${this._examples
+                              .map(e => e.searchKey)
+                              .join(
+                                '">example project</option>\n<option value="'
+                              )}">example project</option>
+                          </datalist>`
+                              : ""
+                          }
+
+                          <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden>
+                              <span class="font-medium">Error</span> Please enter a valid project name.
+                          </p>
                         </div>
+                
                         <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -1082,7 +1387,9 @@ export class NewProjectPanel {
                                 <option value="pico-w">Pico W</option>
                             </select>
                         </div>
-                    </div>
+                      </div>`
+                      : ""
+                  }
                     <div class="mt-6 mb-4">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
                         <div class="flex">
@@ -1125,7 +1432,11 @@ export class NewProjectPanel {
                                   c4.512,0,8.17-3.657,8.17-8.17C292.312,433.955,288.655,430.298,284.141,430.298z"/>
                                 </svg>
                                 </span>
-                                <input type="text" id="inp-project-location" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="C:\\MyProject" disabled/>
+                                <input type="text" id="inp-project-location" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="${
+                                  !this._isProjectImport
+                                    ? "C:\\MyProject"
+                                    : "C:\\Project\\To\\Import"
+                                }" disabled/>
                             </div>
                             <button 
                                 id="btn-change-project-location"
@@ -1270,7 +1581,9 @@ export class NewProjectPanel {
                     </div>
                 </form>
             </div>
-            <div id="section-features" class="snap-start mt-10">
+            ${
+              !this._isProjectImport
+                ? `<div id="section-features" class="snap-start mt-10 project-options">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Features</h3>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -1325,7 +1638,12 @@ export class NewProjectPanel {
                     </li>
                 </ul>
             </div>
-            <div id="section-stdio" class="snap-start mt-10">
+            `
+                : ""
+            }
+            ${
+              !this._isProjectImport
+                ? `<div id="section-stdio" class="snap-start mt-10">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Stdio support</h3>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -1342,7 +1660,7 @@ export class NewProjectPanel {
                   </li>
                 </ul>
             </div>
-            <div id="section-pico-wireless" class="snap-start mt-10" hidden>
+            <div id="section-pico-wireless" class="snap-start mt-10 project-options" hidden>
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Pico wireless options</h3>
                 <div class="flex items-stretch space-x-4">
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
@@ -1363,7 +1681,7 @@ export class NewProjectPanel {
                     </div>
                 </div>
             </div>
-            <div id="section-code-gen" class="snap-start mt-10">
+            <div id="section-code-gen" class="snap-start mt-10 project-options">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Code generation options</h3>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -1399,7 +1717,9 @@ export class NewProjectPanel {
                     </div>
                   </li>
                 </ul>
-            </div>
+            </div>`
+                : ""
+            }
             <div id="section-debugger" class="snap-start mt-10">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Debugger</h3>
                 <div class="flex items-stretch space-x-4">
@@ -1414,9 +1734,11 @@ export class NewProjectPanel {
                 </div>
             </div>
             <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
-                <button id="btn-advanced-options" class="focus:outline-none text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-lg px-4 py-2 mr-4 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-90">Show Advanced Options</button>
-                <button id="btn-cancel" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-lg px-4 py-2 mr-4 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-90">Cancel</button>
-                <button id="btn-create" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-lg px-4 py-2 mr-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Create</button>
+                <button id="btn-advanced-options" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-yellow-400 dark:ring-yellow-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-yellow-500 dark:hover:bg-yellow-700 focus:ring-yellow-600 dark:focus:ring-yellow-800">Show Advanced Options</button>
+                <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
+                <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">
+                  ${this._isProjectImport ? "Import" : "Create"}
+                </button>
             </div>
         </main>
 
@@ -1452,7 +1774,10 @@ export class NewProjectPanel {
    * @param options {@link NewProjectOptions} to pass to the Pico Project Generator
    */
   private async _executePicoProjectGenerator(
-    options: NewProjectOptions,
+    options:
+      | NewProjectOptions
+      | NewExampleBasedProjectOptions
+      | ImportProjectOptions,
     pythonExe: string
   ): Promise<void> {
     const customEnv: { [key: string]: string } = {
@@ -1480,22 +1805,54 @@ export class NewProjectPanel {
         : ""
     }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
+    const basicNewProjectOptions: string[] =
+      "boardType" in options && "consoleOptions" in options
+        ? [
+            enumToParam(options.boardType),
+            ...options.consoleOptions.map(option => enumToParam(option)),
+            !options.consoleOptions.includes(ConsoleOption.consoleOverUART)
+              ? "-nouart"
+              : "",
+          ]
+        : [];
+    const libraryAndCodeGenerationOptions: string[] =
+      "libraries" in options && "codeOptions" in options
+        ? [
+            ...options.libraries.map(option => enumToParam(option)),
+            ...options.codeOptions.map(option => enumToParam(option)),
+          ]
+        : "name" in options // no libraries and codeOptions but name means it's an example based project
+        ? ["-exam"]
+        : // no libraries and codeOptions and no name means it's an imported project
+          ["-conv"];
+
+    const projectName =
+      "name" in options
+        ? options.name
+        : // no name in options means importing project so the folder name is assumed to be the project name
+          options.projectRoot.substring(
+            options.projectRoot.lastIndexOf("/") + 1
+          );
+
     const command: string = [
       `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
       `"${joinPosix(getScriptsRoot(), "pico_project.py")}"`,
-      enumToParam(options.boardType),
-      ...options.consoleOptions.map(option => enumToParam(option)),
-      !options.consoleOptions.includes(ConsoleOption.consoleOverUART)
-        ? "-nouart"
-        : "",
-      ...options.libraries.map(option => enumToParam(option)),
-      ...options.codeOptions.map(option => enumToParam(option)),
+      ...basicNewProjectOptions,
+      ...libraryAndCodeGenerationOptions,
       enumToParam(options.debugger),
       // generate .vscode config
       "--project",
       "vscode",
       "--projectRoot",
-      `"${options.projectRoot}"`,
+      // cause import project not the project root but the project folder is selected
+      `"${
+        this._isProjectImport
+          ? options.projectRoot.substring(
+              0,
+              options.projectRoot.lastIndexOf("/")
+            )
+          : options.projectRoot
+      }"`,
       "--sdkVersion",
       options.toolchainAndSDK.sdkVersion,
       "--toolchainVersion",
@@ -1506,8 +1863,10 @@ export class NewProjectPanel {
       `"${options.ninjaExecutable}"`,
       "--cmakePath",
       `"${options.cmakeExecutable}"`,
+
       // set custom python executable path used flag if python executable is not in PATH
-      pythonExe.includes("/") ? `-cupy "${options.name}"` : `"${options.name}"`,
+      pythonExe.includes("/") ? "-cupy" : "",
+      `"${projectName}"`,
     ].join(" ");
 
     this._logger.debug(`Executing project generator command: ${command}`);
@@ -1526,13 +1885,17 @@ export class NewProjectPanel {
       generatorExitCode === 0
     ) {
       void window.showInformationMessage(
-        `Successfully generated new project: ${options.name}`
+        `Successfully generated new project: ${projectName}`
       );
 
       // open new folder
       void commands.executeCommand(
         "vscode.openFolder",
-        Uri.file(join(options.projectRoot, options.name)),
+        Uri.file(
+          this._isProjectImport
+            ? options.projectRoot
+            : join(options.projectRoot, projectName)
+        ),
         (workspace.workspaceFolders?.length ?? 0) > 0
       );
     } else {
@@ -1541,7 +1904,7 @@ export class NewProjectPanel {
       );
 
       void window.showErrorMessage(
-        `Could not create new project: ${options.name}`
+        `Could not create new project: ${projectName}`
       );
     }
   }

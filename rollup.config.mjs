@@ -14,8 +14,7 @@ export default {
         exports: 'named',
     },
     external: [
-        'vscode',
-        'vscode-windows-registry'
+        'vscode'
     ],
     plugins: [
         nodeResolve({

@@ -7,6 +7,8 @@ const CMD_SET_THEME = 'setTheme';
 const CMD_ERROR = 'error';
 const CMD_SUBMIT_DENIED = 'submitDenied';
 const CMD_VERSION_BUNDLE_AVAILABLE_TEST = 'versionBundleAvailableTest';
+const CMD_SUBMIT_EXAMPLE = 'submitExample';
+const CMD_IMPORT_PROJECT = 'importProject';
 
 var submitted = false;
 var isPicoWireless = false;
@@ -14,6 +16,7 @@ var isPicoWireless = false;
 (function () {
   const vscode = acquireVsCodeApi();
 
+  // TODO: save input in state
   const oldState = vscode.getState();
 
   console.log("oldState", oldState);
@@ -23,6 +26,10 @@ var isPicoWireless = false;
 
   // returns true if project name input is valid
   function projectNameFormValidation(projectNameElement) {
+    if (typeof examples !== 'undefined') {
+      return true;
+    }
+
     const projectNameError = document.getElementById('inp-project-name-error');
     const projectName = projectNameElement.value;
 
@@ -70,8 +77,9 @@ var isPicoWireless = false;
 
     // get all values of inputs
     const projectNameElement = document.getElementById('inp-project-name');
-    const projectName = projectNameElement.value;
-    if (!projectNameFormValidation(projectNameElement)) {
+    // if is project import then the project name element will not be rendered and does not exist in the DOM
+    const projectName = doProjectImport ? undefined : projectNameElement.value;
+    if (projectName !== undefined && !projectNameFormValidation(projectNameElement)) {
       submitted = false;
       return;
     }
@@ -79,8 +87,8 @@ var isPicoWireless = false;
     // already stored in the extension, readonly
     //const projectLocation = document.getElementById('inp-project-location').value;
 
-    // get board type
-    const boardType = document.getElementById('sel-board-type').value;
+    // get board type, (if is project import then the sel-board-type element will not be rendered and does not exist in the DOM)
+    const boardType = doProjectImport ? undefined : document.getElementById('sel-board-type').value;
 
     // selected sdk
     const selectedSDK = document.getElementById('sel-pico-sdk').value;
@@ -229,6 +237,82 @@ var isPicoWireless = false;
       }
     }
 
+    // debugger selection
+    const debuggerRadio = document.getElementsByName('debugger-radio');
+    let debuggerSelection = null;
+    for (let i = 0; i < debuggerRadio.length; i++) {
+      if (debuggerRadio[i].checked) {
+        debuggerSelection = parseInt(debuggerRadio[i].value);
+        break;
+      }
+    }
+    // if debugger selection is null or not a number, smaller than 0 or bigger than 1, set it to 0
+    if (debuggerSelection === null || isNaN(debuggerSelection) || debuggerSelection < 0 || debuggerSelection > 1) {
+      debuggerSelection = 0;
+      console.debug('Invalid debugger selection value: ' + debuggerSelection);
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid debugger"
+      });
+      submitted = false;
+      return;
+    }
+
+    if (doProjectImport) {
+      vscode.postMessage({
+        command: CMD_IMPORT_PROJECT,
+        value: {
+          selectedSDK: selectedSDK,
+          selectedToolchain: selectedToolchain,
+          ninjaMode: Number(ninjaMode),
+          ninjaPath: ninjaPath,
+          ninjaVersion: ninjaVersion,
+          cmakeMode: Number(cmakeMode),
+          cmakePath: cmakePath,
+          cmakeVersion: cmakeVersion,
+          pythonMode: Number(pythonMode),
+          pythonPath: pythonPath,
+
+          // debugger selection
+          debugger: 0
+        }
+      });
+      return;
+    }
+
+    // get stdio support
+    const uartStdioSupport = document.getElementById('uart-stdio-support-cblist').checked;
+    const usbStdioSupport = document.getElementById('usb-stdio-support-cblist').checked;
+
+    if (isExampleSelected) {
+      vscode.postMessage({
+        command: CMD_SUBMIT_EXAMPLE,
+        value: {
+          example: projectName,
+          boardType: boardType,
+
+          selectedSDK: selectedSDK,
+          selectedToolchain: selectedToolchain,
+          ninjaMode: Number(ninjaMode),
+          ninjaPath: ninjaPath,
+          ninjaVersion: ninjaVersion,
+          cmakeMode: Number(cmakeMode),
+          cmakePath: cmakePath,
+          cmakeVersion: cmakeVersion,
+          pythonMode: Number(pythonMode),
+          pythonPath: pythonPath,
+
+          // stdio support
+          uartStdioSupport: uartStdioSupport,
+          usbStdioSupport: usbStdioSupport,
+
+          // debugger selection
+          debugger: debuggerSelection
+        }
+      });
+      return;
+    }
+
     // features
     const spiFeature = document.getElementById('spi-features-cblist').checked;
     const pioFeature = document.getElementById('pio-features-cblist').checked;
@@ -238,10 +322,6 @@ var isPicoWireless = false;
     const hwclocksFeature = document.getElementById('hwclocks-features-cblist').checked;
     const hwinterpolationFeature = document.getElementById('hwinterpolation-features-cblist').checked;
     const hwtimerFeature = document.getElementById('hwtimer-features-cblist').checked;
-
-    // get stdio support
-    const uartStdioSupport = document.getElementById('uart-stdio-support-cblist').checked;
-    const usbStdioSupport = document.getElementById('usb-stdio-support-cblist').checked;
 
     const picoWirelessRadio = document.getElementsByName('pico-wireless-radio');
     let picoWireless = null;
@@ -269,27 +349,6 @@ var isPicoWireless = false;
     const cppCodeGen = document.getElementById('cpp-code-gen-cblist').checked;
     const cppRttiCodeGen = document.getElementById('cpp-rtti-code-gen-cblist').checked;
     const cppExceptionsCodeGen = document.getElementById('cpp-exceptions-code-gen-cblist').checked;
-
-    // debugger selection
-    const debuggerRadio = document.getElementsByName('debugger-radio');
-    let debuggerSelection = null;
-    for (let i = 0; i < debuggerRadio.length; i++) {
-      if (debuggerRadio[i].checked) {
-        debuggerSelection = parseInt(debuggerRadio[i].value);
-        break;
-      }
-    }
-    // if debugger selection is null or not a number, smaller than 0 or bigger than 1, set it to 0
-    if (debuggerSelection === null || isNaN(debuggerSelection) || debuggerSelection < 0 || debuggerSelection > 1) {
-      debuggerSelection = 0;
-      console.debug('Invalid debugger selection value: ' + debuggerSelection);
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid debugger"
-      });
-      submitted = false;
-      return;
-    }
 
     //post all data values to the extension
     vscode.postMessage({
@@ -337,6 +396,16 @@ var isPicoWireless = false;
     });
   }
 
+  // get index of option (in select) by value
+  function getIndexByValue(selectElement, value) {
+    for (var i = 0; i < selectElement.options.length; i++) {
+      if (selectElement.options[i].value === value) {
+        return i; // Found the index
+      }
+    }
+    return -1; // Value not found
+  }
+
   function _onMessage(event) {
     // JSON data sent from the extension
     const message = event.data;
@@ -364,7 +433,19 @@ var isPicoWireless = false;
         const result = message.value;
         const requiresVersionBundleElements = document.getElementsByClassName('requires-version-bundle');
         for (let i = 0; i < requiresVersionBundleElements.length; i++) {
-          requiresVersionBundleElements[i].disabled = !result;
+          requiresVersionBundleElements[i].disabled = !result.result;
+        }
+
+        if (result.result && "toolchainVersion" in result) {
+          var toolchainSelector = document.getElementById("sel-toolchain");
+          var selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
+
+          if (selectedIndex !== -1) {
+            toolchainSelector.selectedIndex = selectedIndex;
+            console.debug("Updated selected toolchain with new default value", result.toolchainVersion);
+          } else {
+            console.error("Could not find default toolchain version in versionBundle response!");
+          }
         }
 
         // get all radio buttons with the specified names and select the first non-disabled option for each if the currently selected option is disabled
@@ -438,23 +519,25 @@ var isPicoWireless = false;
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);
   const selectBoardTypeElement = document.getElementById('sel-board-type');
   if (selectBoardTypeElement) {
-    document.getElementById('sel-board-type').addEventListener('change', function () {
-      const isPicoWireless = selectBoardTypeElement.value === "pico-w";
+    selectBoardTypeElement.addEventListener('change', function () {
+      try {
+        const isPicoWireless = selectBoardTypeElement.value === "pico-w";
 
-      if (!isPicoWireless) {
-        navItemOnClick('nav-basic');
-      }
+        if (!isPicoWireless) {
+          navItemOnClick('nav-basic');
+        }
 
-      // hide pico wireless nav item
-      document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
-      // hide pico wireless section
-      document.getElementById('section-pico-wireless').hidden = !isPicoWireless;
+        // hide pico wireless nav item
+        document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
+        // hide pico wireless section
+        document.getElementById('section-pico-wireless').hidden = !isPicoWireless;
 
-      // reset selection
-      if (!isPicoWireless) {
-        // Check the first radio button (none)
-        document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
-      }
+        // reset selection
+        if (!isPicoWireless) {
+          // Check the first radio button (none)
+          document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
+        }
+      } catch { }
     });
   }
   document.getElementById('sel-pico-sdk').addEventListener('change', function () {

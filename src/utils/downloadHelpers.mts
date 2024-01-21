@@ -3,6 +3,7 @@ import { join } from "path";
 import Logger from "../logger.mjs";
 import { exec } from "child_process";
 import AdmZip from "adm-zip";
+import { request } from "https";
 
 export function tryUnzipFiles(
   zipFilePath: string,
@@ -131,5 +132,35 @@ export async function unxzFile(
     } catch (error) {
       resolve(false);
     }
+  });
+}
+
+/**
+ * Checks if the internet connection is available (at least to pages.github.com).
+ *
+ * @returns True if the internet connection is available, false otherwise.
+ */
+export async function isInternetConnected(): Promise<boolean> {
+  return new Promise<boolean>(resolve => {
+    const options = {
+      host: "pages.github.com",
+      port: 443,
+      path: "/?",
+      method: "HEAD",
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Host: "pages.github.com",
+      },
+    };
+
+    const req = request(options, res => {
+      resolve(res.statusCode === 200);
+    });
+
+    req.on("error", () => {
+      resolve(false);
+    });
+
+    req.end();
   });
 }

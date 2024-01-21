@@ -1,15 +1,15 @@
-import { get, request } from "https";
+import { get } from "https";
 import * as ini from "ini";
 import { homedir } from "os";
 import { join } from "path";
 import Logger from "../logger.mjs";
 import { readdirSync, statSync, readFileSync } from "fs";
-import { getScriptsRoot } from "./download.mjs";
+import { CURRENT_DATA_VERSION, getDataRoot } from "./examplesUtil.mjs";
+import { isInternetConnected } from "./downloadHelpers.mjs";
 
-const supportedToolchainsVersion = "0.10.0";
 const iniUrl =
   "https://paulober.github.io/vscode-raspberry-pi-pico/" +
-  `${supportedToolchainsVersion}/supportedToolchains.ini`;
+  `${CURRENT_DATA_VERSION}/supportedToolchains.ini`;
 const supportedDistros = [
   "win32_x64",
   "darwin_arm64",
@@ -27,31 +27,6 @@ export interface SupportedToolchainVersion {
 export interface InstalledToolchain {
   version: string;
   path: string;
-}
-
-export async function isInternetConnected(): Promise<boolean> {
-  return new Promise<boolean>(resolve => {
-    const options = {
-      host: "pages.github.com",
-      port: 443,
-      path: "/?",
-      method: "HEAD",
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Host: "pages.github.com",
-      },
-    };
-
-    const req = request(options, res => {
-      resolve(res.statusCode === 200);
-    });
-
-    req.on("error", () => {
-      resolve(false);
-    });
-
-    req.end();
-  });
 }
 
 function parseIni(data: string): SupportedToolchainVersion[] {
@@ -131,15 +106,9 @@ export async function getSupportedToolchains(): Promise<
     try {
       // try to load local supported toolchains list
       const supportedToolchains = parseIni(
-        readFileSync(
-          join(
-            getScriptsRoot(),
-            "..",
-            "data",
-            supportedToolchainsVersion,
-            "supportedToolchains.ini"
-          )
-        ).toString("utf-8")
+        readFileSync(join(getDataRoot(), "supportedToolchains.ini")).toString(
+          "utf-8"
+        )
       );
 
       return supportedToolchains;

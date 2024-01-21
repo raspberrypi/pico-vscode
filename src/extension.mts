@@ -5,10 +5,11 @@ import {
   type WebviewPanel,
   commands,
 } from "vscode";
-import type {
-  Command,
-  CommandWithArgs,
-  CommandWithResult,
+import {
+  extensionName,
+  type Command,
+  type CommandWithArgs,
+  type CommandWithResult,
 } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
@@ -19,7 +20,7 @@ import {
 import Settings, { SettingsKey, type PackageJSON } from "./settings.mjs";
 import UI from "./ui.mjs";
 import SwitchSDKCommand from "./commands/switchSDK.mjs";
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
 import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
@@ -42,6 +43,11 @@ import ConditionalDebuggingCommand from "./commands/conditionalDebugging.mjs";
 import DebugLayoutCommand from "./commands/debugLayout.mjs";
 import OpenSdkDocumentationCommand from "./commands/openSdkDocumentation.mjs";
 import ConfigureCmakeCommand from "./commands/configureCmake.mjs";
+import ImportProjectCommand from "./commands/importProject.mjs";
+
+const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
+  // eslint-disable-next-line max-len
+  "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Extension activated.");
@@ -67,6 +73,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       new DebugLayoutCommand(),
       new OpenSdkDocumentationCommand(context.extensionUri),
       new ConfigureCmakeCommand(),
+      new ImportProjectCommand(context.extensionUri),
     ];
 
   // register all command handlers
@@ -80,7 +87,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
         // Reset the webview options so we use latest uri for `localResourceRoots`.
         webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
-        NewProjectPanel.revive(webviewPanel, context.extensionUri);
+        NewProjectPanel.revive(webviewPanel, context.extensionUri, false);
       },
     })
   );
@@ -109,6 +116,50 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
     return;
   }
+
+  const cmakeListsFilePath = join(workspaceFolder.uri.fsPath, "CMakeLists.txt");
+  if (!existsSync(cmakeListsFilePath)) {
+    Logger.log("No CMakeLists.txt found in workspace folder.");
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isPicoProject,
+      false
+    );
+
+    return;
+  }
+
+  // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
+  if (
+    !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
+    !readFileSync(cmakeListsFilePath)
+      .toString("utf-8")
+      .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX)
+  ) {
+    Logger.log(
+      "No .vscode folder and/or cmake " +
+        '"DO NOT EDIT"-header in CMakelists.txt found.'
+    );
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isPicoProject,
+      false
+    );
+    const wantToImport = await window.showInformationMessage(
+      "Do you want to import this project as Raspberry Pi Pico project?",
+      "Yes",
+      "No"
+    );
+    if (wantToImport === "Yes") {
+      void commands.executeCommand(
+        `${extensionName}.${ImportProjectCommand.id}`,
+        workspaceFolder.uri
+      );
+    }
+
+    return;
+  }
+
   await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
 
   // get sdk selected in the project

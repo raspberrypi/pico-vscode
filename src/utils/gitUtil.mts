@@ -48,7 +48,7 @@ export async function cloneRepository(
   try {
     await execAsync(cloneCommand);
 
-    Logger.log(`SDK/Pyenv ${branch} has been cloned and installed.`);
+    Logger.log(`${repository} ${branch} has been cloned and installed.`);
 
     return true;
   } catch (error) {
@@ -62,6 +62,78 @@ export async function cloneRepository(
     if (err.includes("already exists")) {
       return true;
     }
+    Logger.log(`Error while cloning repository: ${err}`);
+
+    return false;
+  }
+}
+
+export async function sparseCloneRepository(
+  repository: string,
+  branch: string,
+  targetDirectory: string,
+  gitExecutable: string = "git"
+): Promise<boolean> {
+  // Clone the repository at the specified tag into the target directory
+  const cloneCommand =
+    `${
+      process.env.ComSpec === "powershell.exe" ? "&" : ""
+    }"${gitExecutable}" -c advice.detachedHead=false clone ` +
+    "--filter=blob:none --sparse --branch " +
+    `${branch} ${repository} "${targetDirectory}"`;
+
+  try {
+    await execAsync(cloneCommand);
+    await execAsync(
+      `cd "${targetDirectory}" && ${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${gitExecutable}" sparse-checkout set --cone`
+    );
+
+    Logger.log(
+      `${repository} ${branch} has been cloned with a sparse-checkout.`
+    );
+
+    return true;
+  } catch (error) {
+    try {
+      await unlink(targetDirectory);
+    } catch {
+      /* */
+    }
+
+    const err = error instanceof Error ? error.message : (error as string);
+    if (err.includes("already exists")) {
+      return true;
+    }
+    Logger.log(`Error while cloning repository: ${err}`);
+
+    return false;
+  }
+}
+
+/**
+ * Add a path to the sparse-checkout of a repository.
+ *
+ * @param repoDirectory The directory of the git repository (absolute).
+ * @param checkoutPath The repo-relative path to add to the sparse-checkout.
+ * @param gitExecutable The path to the git executable.
+ * @returns True if the path was added successfully, false otherwise.
+ */
+export async function sparseCheckout(
+  repoDirectory: string,
+  checkoutPath: string,
+  gitExecutable: string = "git"
+): Promise<boolean> {
+  try {
+    await execAsync(
+      `cd "${repoDirectory}" && ` +
+        `${gitExecutable} sparse-checkout add ${checkoutPath}`
+    );
+
+    return true;
+  } catch (error) {
+    const err = error instanceof Error ? error.message : (error as string);
     Logger.log(`Error while cloning repository: ${err}`);
 
     return false;

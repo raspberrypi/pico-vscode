@@ -1,6 +1,7 @@
 "use strict";
 
 const SELECTED_ITEM_BG_CLASS = 'bg-slate-600';
+var isExampleSelected = false;
 
 function navItemOnClick(itemId) {
   // needed so a element isn't hidden behind the navbar on scroll
@@ -70,4 +71,39 @@ window.onload = function () {
     });
   });
   navItemOnClick(navItems[0].id);
+
+
+  function disableInputsInDiv(divs, disable) {
+    divs.forEach(div => {
+      const inputAndSelects = div.querySelectorAll('input, select');
+      inputAndSelects.forEach(inputOrSelect => {
+        inputOrSelect.disabled = disable;
+      });
+    });
+  }
+
+  const projectNameInput = document.getElementById('inp-project-name');
+  const projectOptionsDiv = document.querySelectorAll('.project-options');
+
+  projectNameInput.addEventListener('input', function () {
+    const examplesList = document.getElementById('examples-list');
+    const exampleOptions = Array.from(examplesList.options).map(option => option.value);
+
+    const inputValue = projectNameInput.value;
+    const isValueInOptions = exampleOptions.includes(inputValue);
+
+    if (isValueInOptions) {
+      // example selected
+      isExampleSelected = true;
+
+      // Disable all inputs in the projectOptionsDiv
+      disableInputsInDiv(projectOptionsDiv, true);
+    } else {
+      // No example selected
+      isExampleSelected = false;
+
+      // Enable all inputs in the projectOptionsDiv
+      disableInputsInDiv(projectOptionsDiv, false);
+    }
+  });
 };

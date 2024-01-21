@@ -17,6 +17,7 @@ export function buildPyenvPath(): string {
  */
 export async function setupPyenv(): Promise<boolean> {
   const targetDirectory = buildPyenvPath();
+  // TODO: load git executable
   const result = await cloneRepository(
     PYENV_REPOSITORY_URL,
     "master",
@@ -39,12 +40,11 @@ export async function pyenvInstallPython(
 
   const customEnv = { ...process.env };
   customEnv["PYENV_ROOT"] = targetDirectory;
-  customEnv[
-    process.platform === "win32" ? "Path" : "PATH"
-  ] = `${binDirectory};${customEnv["PATH"]}`;
+  customEnv[process.platform === "win32" ? "Path" : "PATH"] = `${binDirectory}${
+    process.platform === "win32" ? ";" : ":"
+  }${customEnv[process.platform === "win32" ? "Path" : "PATH"]}`;
 
-  const settingsTarget =
-    `${HOME_VAR}/.pico-sdk` + `/python/${version}/python.exe`;
+  const settingsTarget = `${HOME_VAR}/.pico-sdk/python/${version}/python.exe`;
   const pythonVersionPath = buildPython3Path(version);
 
   if (existsSync(pythonVersionPath)) {
@@ -66,7 +66,7 @@ export async function pyenvInstallPython(
       );
       symlinkSync(
         joinPosix(pyBin, "python3"),
-        joinPosix(pythonVersionPath, "python3exe")
+        joinPosix(pythonVersionPath, "python3.exe")
       );
 
       resolve(settingsTarget);

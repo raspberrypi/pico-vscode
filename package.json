@@ -109,6 +109,11 @@
         "title": "Configure CMake",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject"
+      },
+      {
+        "command": "raspberry-pi-pico.importProject",
+        "title": "Import Pico Project",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {

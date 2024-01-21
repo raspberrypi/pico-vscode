@@ -19,6 +19,7 @@ import OpenSdkDocumentationCommand, {
   DocumentationId,
 } from "../commands/openSdkDocumentation.mjs";
 import ConfigureCmakeCommand from "../commands/configureCmake.mjs";
+import ImportProjectCommand from "../commands/importProject.mjs";
 
 export class QuickAccessCommand extends TreeItem {
   constructor(
@@ -35,6 +36,7 @@ const PROJECT_COMMANDS_PARENT_LABEL = "Project";
 const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
 
 const NEW_PROJECT_LABEL = "New Project";
+const IMPORT_PROJECT_LABEL = "Import Project";
 const SWITCH_SDK_LABEL = "Switch SDK";
 const COMPILE_PROJECT_LABEL = "Compile Project";
 const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
@@ -71,6 +73,10 @@ export class PicoProjectActivityBar
       case NEW_PROJECT_LABEL:
         // alt. "new-folder"
         element.iconPath = new ThemeIcon("file-directory-create");
+        break;
+      case IMPORT_PROJECT_LABEL:
+        // alt. "repo-pull"
+        element.iconPath = new ThemeIcon("repo-clone");
         break;
 
       case DEBUG_PROJECT_LABEL:
@@ -136,6 +142,14 @@ export class PicoProjectActivityBar
           {
             command: `${extensionName}.${NewProjectCommand.id}`,
             title: NEW_PROJECT_LABEL,
+          }
+        ),
+        new QuickAccessCommand(
+          IMPORT_PROJECT_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${ImportProjectCommand.id}`,
+            title: IMPORT_PROJECT_LABEL,
           }
         ),
       ];

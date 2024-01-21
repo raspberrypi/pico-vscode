@@ -542,8 +542,9 @@ def GenerateCMake(folder, params):
                  "# (note this can come from environment, CMake cache etc)\n\n"
                 )
     
+    # if you change the do never edit headline you need to change the check for it in extension.mts
     cmake_header_us = (
-                "# == DO NEVER EDIT THE NEXT LINES for RaspberryPiPico VS Code Extension to work == \n"
+                "# == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==\n"
                 "if(WIN32)\n"
                 "   set(USERHOME $ENV{USERPROFILE})\n"
                 "else()\n"
