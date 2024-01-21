@@ -280,16 +280,11 @@ var isPicoWireless = false;
       return;
     }
 
-    // get stdio support
-    const uartStdioSupport = document.getElementById('uart-stdio-support-cblist').checked;
-    const usbStdioSupport = document.getElementById('usb-stdio-support-cblist').checked;
-
     if (isExampleSelected) {
       vscode.postMessage({
         command: CMD_SUBMIT_EXAMPLE,
         value: {
           example: projectName,
-          boardType: boardType,
 
           selectedSDK: selectedSDK,
           selectedToolchain: selectedToolchain,
@@ -302,16 +297,16 @@ var isPicoWireless = false;
           pythonMode: Number(pythonMode),
           pythonPath: pythonPath,
 
-          // stdio support
-          uartStdioSupport: uartStdioSupport,
-          usbStdioSupport: usbStdioSupport,
-
           // debugger selection
           debugger: debuggerSelection
         }
       });
       return;
     }
+
+    // get stdio support
+    const uartStdioSupport = document.getElementById('uart-stdio-support-cblist').checked;
+    const usbStdioSupport = document.getElementById('usb-stdio-support-cblist').checked;
 
     // features
     const spiFeature = document.getElementById('spi-features-cblist').checked;

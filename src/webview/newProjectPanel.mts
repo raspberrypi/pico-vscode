@@ -50,7 +50,7 @@ import VersionBundlesLoader, {
 } from "../utils/versionBundles.mjs";
 import which from "which";
 import { homedir } from "os";
-import { symlink } from "fs/promises";
+import { readFile, symlink } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync } from "fs";
 import {
@@ -80,11 +80,6 @@ interface ImportProjectMessageValue {
 
 interface SubmitExampleMessageValue extends ImportProjectMessageValue {
   example: string;
-  boardType: string;
-
-  // stdio support
-  uartStdioSupport: boolean;
-  usbStdioSupport: boolean;
 }
 
 interface SubmitMessageValue extends ImportProjectMessageValue {
@@ -240,11 +235,11 @@ interface ImportProjectOptions {
 
 interface NewExampleBasedProjectOptions extends ImportProjectOptions {
   name: string;
-  boardType: BoardType;
-  consoleOptions: ConsoleOption[];
 }
 
 interface NewProjectOptions extends NewExampleBasedProjectOptions {
+  boardType: BoardType;
+  consoleOptions: ConsoleOption[];
   libraries: Array<Library | PicoWirelessOption>;
   codeOptions: CodeOption[];
 }
@@ -1048,12 +1043,6 @@ export class NewProjectPanel {
         const args: NewExampleBasedProjectOptions = {
           name: theData.example,
           projectRoot: projectPath,
-          boardType:
-            theData.boardType === "pico-w" ? BoardType.picoW : BoardType.pico,
-          consoleOptions: [
-            theData.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
-            theData.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
-          ].filter(option => option !== null) as ConsoleOption[],
           debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
           toolchainAndSDK: {
             toolchainVersion: selectedToolchain.version,
@@ -1068,7 +1057,8 @@ export class NewProjectPanel {
 
         await this._executePicoProjectGenerator(
           args,
-          python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+          python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/")),
+          true
         );
       } else if (this._isProjectImport && !exampleBased) {
         const args: ImportProjectOptions = {
@@ -1380,7 +1370,7 @@ export class NewProjectPanel {
                           </p>
                         </div>
                 
-                        <div>
+                        <div class="project-options">
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option value="pico" selected>Pico</option>
@@ -1643,7 +1633,7 @@ export class NewProjectPanel {
             }
             ${
               !this._isProjectImport
-                ? `<div id="section-stdio" class="snap-start mt-10">
+                ? `<div id="section-stdio" class="snap-start mt-10 project-options">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Stdio support</h3>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -1778,7 +1768,8 @@ export class NewProjectPanel {
       | NewProjectOptions
       | NewExampleBasedProjectOptions
       | ImportProjectOptions,
-    pythonExe: string
+    pythonExe: string,
+    isExampleBased: boolean = false
   ): Promise<void> {
     const customEnv: { [key: string]: string } = {
       ...(process.env as { [key: string]: string }),
@@ -1815,6 +1806,35 @@ export class NewProjectPanel {
               : "",
           ]
         : [];
+    if (!("boardType" in options) && this._isProjectImport) {
+      try {
+        const cmakel = await readFile(
+          this._isProjectImport
+            ? join(options.projectRoot, "CMakeLists.txt")
+            : join(
+                options.projectRoot,
+                (options as NewExampleBasedProjectOptions).name,
+                "CMakeLists.txt"
+              ),
+          "utf-8"
+        );
+        const match = /set\(PICO_BOARD ([A-Za-z_0-9]+) /.exec(cmakel);
+        if (match && match[1]) {
+          basicNewProjectOptions.push(`-board ${match[1]}`);
+        }
+      } catch {
+        /* ignore */
+      }
+    } else if (
+      !("boardType" in options) &&
+      isExampleBased &&
+      "name" in options
+    ) {
+      if (options.name.includes("picow") || options.name.includes("pico_w")) {
+        basicNewProjectOptions.push(`-board pico_w`);
+      }
+    }
+
     const libraryAndCodeGenerationOptions: string[] =
       "libraries" in options && "codeOptions" in options
         ? [
@@ -1888,6 +1908,10 @@ export class NewProjectPanel {
         `Successfully generated new project: ${projectName}`
       );
 
+      const folderAlreadyOpen = workspace.workspaceFolders?.some(
+        f => f.uri.fsPath === options.projectRoot
+      );
+
       // open new folder
       void commands.executeCommand(
         "vscode.openFolder",
@@ -1898,6 +1922,12 @@ export class NewProjectPanel {
         ),
         (workspace.workspaceFolders?.length ?? 0) > 0
       );
+
+      // restart the extension if the folder was already open cause then vscode won't
+      // automatically reload the window
+      if (folderAlreadyOpen) {
+        void commands.executeCommand("workbench.action.reloadWindow");
+      }
     } else {
       this._logger.error(
         `Generator Process exited with code: ${generatorExitCode ?? "null"}`
