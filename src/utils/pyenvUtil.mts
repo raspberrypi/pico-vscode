@@ -36,7 +36,7 @@ export async function pyenvInstallPython(
 ): Promise<string | null> {
   const targetDirectory = buildPyenvPath();
   const binDirectory = joinPosix(targetDirectory, "bin");
-  const command = `${binDirectory}/pyenv install ${version}`;
+  const command = `${binDirectory}/pyenv install -s ${version}`;
 
   const customEnv = { ...process.env };
   customEnv["PYENV_ROOT"] = targetDirectory;
