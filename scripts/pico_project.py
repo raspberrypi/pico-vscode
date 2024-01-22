@@ -715,7 +715,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython, openOCDVersion, board_type):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython, openOCDVersion):
 
     oldCWD = os.getcwd()
 
@@ -817,7 +817,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             ],
             "forcedInclude": [
                 "{propertiesSdkPath(sdkVersion)}/src/common/pico_base/include/pico.h",
-                "{propertiesSdkPath(sdkVersion)}/src/boards/include/boards/{board_type}.h"
+                "${{workspaceFolder}}/build/generated/pico_base/pico/config_autogen.h"
             ],
             "defines": [],
             "compilerPath": "{cPath}",
@@ -1073,8 +1073,7 @@ def DoEverything(parent, params):
             params["ninjaPath"], 
             params["cmakePath"],
             params["customPython"],
-            params["openOCDVersion"],
-            params["boardtype"])
+            params["openOCDVersion"])
 
     if params['wantBuild']:
         os.system(makeCmd)
