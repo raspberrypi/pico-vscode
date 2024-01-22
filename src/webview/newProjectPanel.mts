@@ -50,7 +50,7 @@ import VersionBundlesLoader, {
 } from "../utils/versionBundles.mjs";
 import which from "which";
 import { homedir } from "os";
-import { readFile, symlink } from "fs/promises";
+import { readFile } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync } from "fs";
 import {
