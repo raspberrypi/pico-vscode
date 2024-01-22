@@ -105,19 +105,19 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
             : ""
         }${customEnv[isWindows ? "Path" : "PATH"]}`;
 
-        const child = exec(
+        const command =
           `${
             process.env.ComSpec === "powershell.exe" ? "&" : ""
           }"${cmake}" -DCMAKE_BUILD_TYPE=Debug ${
             pythonPath.includes("/")
               ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `
               : ""
-          }` + `-G Ninja -B ./build "${folder.fsPath}"`,
-          {
-            env: customEnv,
-            cwd: folder.fsPath,
-          }
-        );
+          }` + `-G Ninja -B ./build "${folder.fsPath}"`;
+
+        const child = exec(command, {
+          env: customEnv,
+          cwd: folder.fsPath,
+        });
 
         child.on("error", err => {
           console.error(err);

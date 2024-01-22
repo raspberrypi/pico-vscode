@@ -778,6 +778,17 @@ export async function downloadAndInstallCmake(
             .then(success => {
               // delete tmp file
               unlinkSync(archiveFilePath);
+
+              // on macOS the download includes an app bundle
+              // create a symlink so it has the same paths as on other platforms
+              if (process.platform === "darwin") {
+                symlinkSync(
+                  join(targetDirectory, "CMake.app", "Contents", "bin"),
+                  join(targetDirectory, "bin"),
+                  "dir"
+                );
+              }
+
               // macOS
               //chmodSync(join(targetDirectory, "CMake.app", "Contents", "bin", "cmake"), 0o755);
               resolve(success);

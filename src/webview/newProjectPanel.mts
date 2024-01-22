@@ -951,19 +951,6 @@ export class NewProjectPanel {
             return;
           } else {
             const cmakeVersionBasePath = buildCMakePath(data.cmakeVersion);
-            if (process.platform === "darwin") {
-              // create symlink on macOS from .pico-sdk/cmake/3.20.0/bin to .pico-sdk/cmake/3.20.0/CMake.app/Contents/bin
-              // TODO: move into download and install cmake
-              try {
-                await symlink(
-                  join(cmakeVersionBasePath, "CMake.app", "Contents", "bin"),
-                  join(cmakeVersionBasePath, "bin"),
-                  "dir"
-                );
-              } catch {
-                // ignore
-              }
-            }
 
             cmakeExecutable = joinPosix(cmakeVersionBasePath, "bin", "cmake");
           }

@@ -29,6 +29,7 @@ export default class VersionBundlesLoader {
 
   constructor(private readonly _extensionUri: Uri) {}
 
+  // TODO: may add singleton pattern
   private async loadBundles(): Promise<void> {
     try {
       if (!(await isInternetConnected())) {
@@ -101,5 +102,23 @@ export default class VersionBundlesLoader {
     }
 
     return (this.bundles ?? {})[version];
+  }
+
+  public async getPythonWindowsAmd64Url(
+    pythonVersion: string
+  ): Promise<VersionBundle | undefined> {
+    if (this.bundles === undefined) {
+      await this.loadBundles();
+    }
+    if (this.bundles === undefined) {
+      return undefined;
+    }
+
+    const bundle = Object.values(this.bundles).find(
+      bundle => bundle.python.version === pythonVersion
+    );
+
+    //return bundle?.python.windowsAmd64;
+    return bundle;
   }
 }

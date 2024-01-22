@@ -4,6 +4,7 @@ import {
   window,
   type WebviewPanel,
   commands,
+  ProgressLocation,
 } from "vscode";
 import {
   extensionName,
@@ -17,7 +18,11 @@ import {
   cmakeGetSelectedToolchainAndSDKVersions,
   configureCmakeNinja,
 } from "./utils/cmakeUtil.mjs";
-import Settings, { SettingsKey, type PackageJSON } from "./settings.mjs";
+import Settings, {
+  SettingsKey,
+  type PackageJSON,
+  HOME_VAR,
+} from "./settings.mjs";
 import UI from "./ui.mjs";
 import SwitchSDKCommand from "./commands/switchSDK.mjs";
 import { existsSync, readFileSync } from "fs";
@@ -25,9 +30,12 @@ import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
 import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
 import {
+  downloadAndInstallCmake,
+  downloadAndInstallNinja,
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
   downloadAndInstallTools,
+  downloadEmbedPython,
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
@@ -44,6 +52,9 @@ import DebugLayoutCommand from "./commands/debugLayout.mjs";
 import OpenSdkDocumentationCommand from "./commands/openSdkDocumentation.mjs";
 import ConfigureCmakeCommand from "./commands/configureCmake.mjs";
 import ImportProjectCommand from "./commands/importProject.mjs";
+import { homedir } from "os";
+import VersionBundlesLoader from "./utils/versionBundles.mjs";
+import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 
 const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -224,6 +235,203 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "Found/installed project toolchain " +
         `version: ${selectedToolchainAndSDKVersions[1]}`
     );
+  }
+
+  // TODO: move this ninja, cmake and python installs auto of extension.mts
+  const ninjaPath = settings.getString(SettingsKey.ninjaPath);
+  if (ninjaPath && ninjaPath.includes("/.pico-sdk/ninja")) {
+    // check if ninja path exists
+    if (!existsSync(ninjaPath.replace(HOME_VAR, homedir()))) {
+      Logger.log(
+        "Ninja path in settings does not exist. " +
+          "Installing ninja to default path."
+      );
+      const ninjaVersion = /\/\.pico-sdk\/ninja\/([v.0-9]+)\//.exec(
+        ninjaPath
+      )?.[1];
+      if (ninjaVersion === undefined) {
+        Logger.log("Failed to get ninja version from path.");
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      }
+
+      let result = false;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Download and installing Ninja. This may take a while...",
+          cancellable: false,
+        },
+        async progress => {
+          result = await downloadAndInstallNinja(ninjaVersion);
+          progress.report({
+            increment: 100,
+          });
+        }
+      );
+
+      if (!result) {
+        Logger.log("Failed to install ninja.");
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      }
+      Logger.log("Installed selected ninja for project.");
+    }
+  }
+
+  const cmakePath = settings.getString(SettingsKey.cmakePath);
+  if (cmakePath && cmakePath.includes("/.pico-sdk/cmake")) {
+    // check if cmake path exists
+    if (!existsSync(cmakePath.replace(HOME_VAR, homedir()))) {
+      Logger.log(
+        "CMake path in settings does not exist. " +
+          "Installing cmake to default path."
+      );
+
+      const cmakeVersion = /\/\.pico-sdk\/cmake\/([v.0-9A-Za-z-]+)\//.exec(
+        cmakePath
+      )?.[1];
+      if (cmakeVersion === undefined) {
+        Logger.log("Failed to get cmake version from path.");
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      }
+
+      let result = false;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Download and installing CMake. This may take a while...",
+          cancellable: false,
+        },
+        async progress => {
+          result = await downloadAndInstallCmake(cmakeVersion);
+          progress.report({
+            increment: 100,
+          });
+        }
+      );
+
+      if (!result) {
+        Logger.log("Failed to install cmake.");
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      }
+      Logger.log("Installed selected cmake for project.");
+    }
+  }
+
+  const pythonPath = settings.getString(SettingsKey.python3Path);
+  if (pythonPath && pythonPath.includes("/.pico-sdk/python")) {
+    // check if python path exists
+    if (!existsSync(pythonPath.replace(HOME_VAR, homedir()))) {
+      Logger.log(
+        "Python path in settings does not exist. " +
+          "Installing python to default path."
+      );
+      const pythonVersion = /\/\.pico-sdk\/python\/([.0-9]+)\//.exec(
+        pythonPath
+      )?.[1];
+      if (pythonVersion === undefined) {
+        Logger.log("Failed to get python version from path.");
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      }
+
+      let result: string | undefined;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title:
+            "Download and installing Python. This may take a long while...",
+          cancellable: false,
+        },
+        async progress => {
+          if (process.platform === "win32") {
+            const versionBundle = await new VersionBundlesLoader(
+              context.extensionUri
+            ).getPythonWindowsAmd64Url(pythonVersion);
+
+            if (versionBundle === undefined) {
+              Logger.log("Failed to get python url from version bundle.");
+              await commands.executeCommand(
+                "setContext",
+                ContextKeys.isPicoProject,
+                false
+              );
+
+              return;
+            }
+
+            // ! because data.pythonMode === 0 => versionBundle !== undefined
+            result = await downloadEmbedPython(versionBundle);
+          } else if (process.platform === "darwin") {
+            const result1 = await setupPyenv();
+            if (!result1) {
+              progress.report({
+                increment: 100,
+              });
+
+              return;
+            }
+            const result2 = await pyenvInstallPython(pythonVersion);
+
+            if (result2 !== null) {
+              result = result2;
+            }
+          } else {
+            Logger.log(
+              "Automatic Python installation is only " +
+                "supported on Windows and macOS."
+            );
+
+            await window.showErrorMessage(
+              "Automatic Python installation is only " +
+                "supported on Windows and macOS."
+            );
+          }
+          progress.report({
+            increment: 100,
+          });
+        }
+      );
+
+      if (result === undefined) {
+        Logger.log("Failed to install python.");
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      }
+    }
   }
 
   ui.showStatusBarItems();

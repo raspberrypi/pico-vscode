@@ -24,5 +24,6 @@ export default class ConfigureCmakeCommand extends Command {
     }
 
     await configureCmakeNinja(workspaceFolder.uri);
+    await window.showInformationMessage("CMake has configured your build.");
   }
 }
