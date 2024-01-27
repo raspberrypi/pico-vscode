@@ -14,6 +14,6 @@ export default class ImportProjectCommand extends CommandWithArgs {
 
   execute(projectUri?: Uri): void {
     // show webview where the process of creating a new project is continued
-    NewProjectPanel.createOrShow(this._extensionUri, true, projectUri);
+    NewProjectPanel.createOrShow(this._extensionUri, true, false, projectUri);
   }
 }

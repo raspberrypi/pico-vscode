@@ -9,6 +9,7 @@ const CMD_SUBMIT_DENIED = 'submitDenied';
 const CMD_VERSION_BUNDLE_AVAILABLE_TEST = 'versionBundleAvailableTest';
 const CMD_SUBMIT_EXAMPLE = 'submitExample';
 const CMD_IMPORT_PROJECT = 'importProject';
+const CMD_CREATE_FROM_EXAMPLE = 'createFromExample';
 
 var submitted = false;
 var isPicoWireless = false;
@@ -74,6 +75,18 @@ var isPicoWireless = false;
       return;
     }
     submitted = true;
+
+    const createFromExampleBtn = document.getElementById('btn-create-from-example');
+    const isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
+    if (isExampleMode && !isExampleSelected) {
+      console.error("example not selected");
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select an example or enter custom project creation."
+      });
+      submitted = false;
+      return;
+    }
 
     // get all values of inputs
     const projectNameElement = document.getElementById('inp-project-name');
@@ -280,7 +293,7 @@ var isPicoWireless = false;
       return;
     }
 
-    if (isExampleSelected) {
+    if (isExampleMode && isExampleSelected) {
       vscode.postMessage({
         command: CMD_SUBMIT_EXAMPLE,
         value: {
@@ -488,6 +501,11 @@ var isPicoWireless = false;
         break;
       case CMD_SUBMIT_DENIED:
         submitted = false;
+        break;
+      case CMD_CREATE_FROM_EXAMPLE:
+        if (window.toggleCreateFromExampleMode) {
+          toggleCreateFromExampleMode(true);
+        }
         break;
       default:
         console.error('Unknown command: ' + message.command);

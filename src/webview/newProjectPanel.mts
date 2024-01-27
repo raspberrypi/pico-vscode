@@ -288,6 +288,7 @@ export class NewProjectPanel {
   public static createOrShow(
     extensionUri: Uri,
     isProjectImport: boolean = false,
+    createFromExample: boolean = false,
     projectUri?: Uri
   ): void {
     const column = window.activeTextEditor
@@ -295,18 +296,30 @@ export class NewProjectPanel {
       : undefined;
 
     if (NewProjectPanel.currentPanel) {
-      NewProjectPanel.currentPanel._panel.reveal(column);
-      // update already exiting panel with new project root
-      if (projectUri) {
-        NewProjectPanel.currentPanel._projectRoot = projectUri;
-        // update webview
-        void NewProjectPanel.currentPanel._panel.webview.postMessage({
-          command: "changeLocation",
-          value: projectUri?.fsPath,
-        });
-      }
+      if (NewProjectPanel.currentPanel._isProjectImport === isProjectImport) {
+        NewProjectPanel.currentPanel._panel.reveal(column);
+        // update already exiting panel with new project root
+        if (projectUri) {
+          NewProjectPanel.currentPanel._projectRoot = projectUri;
+          // update webview
+          void NewProjectPanel.currentPanel._panel.webview.postMessage({
+            command: "changeLocation",
+            value: projectUri?.fsPath,
+          });
+        }
 
-      return;
+        if (createFromExample) {
+          // update webview
+          void NewProjectPanel.currentPanel._panel.webview.postMessage({
+            command: "createFromExample",
+          });
+        }
+
+        return;
+      } else {
+        // replace with new one
+        NewProjectPanel.currentPanel.dispose();
+      }
     }
 
     const panel = window.createWebviewPanel(
@@ -331,6 +344,7 @@ export class NewProjectPanel {
       settings,
       extensionUri,
       isProjectImport,
+      createFromExample,
       projectUri
     );
   }
@@ -338,7 +352,8 @@ export class NewProjectPanel {
   public static revive(
     panel: WebviewPanel,
     extensionUri: Uri,
-    isProjectImport: boolean = false
+    isProjectImport: boolean = false,
+    createFromExample: boolean = false
   ): void {
     const settings = Settings.getInstance();
     if (settings === undefined) {
@@ -355,7 +370,8 @@ export class NewProjectPanel {
       panel,
       settings,
       extensionUri,
-      isProjectImport
+      isProjectImport,
+      createFromExample
     );
   }
 
@@ -364,6 +380,7 @@ export class NewProjectPanel {
     settings: Settings,
     extensionUri: Uri,
     isProjectImport: boolean = false,
+    createFromExample: boolean = false,
     projectUri?: Uri
   ) {
     this._panel = panel;
@@ -372,7 +389,7 @@ export class NewProjectPanel {
     this._isProjectImport = isProjectImport;
     this._projectRoot = projectUri;
 
-    void this._update();
+    void this._update(createFromExample);
 
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
 
@@ -380,7 +397,7 @@ export class NewProjectPanel {
     this._panel.onDidChangeViewState(
       async () => {
         if (this._panel.visible) {
-          await this._update();
+          await this._update(createFromExample);
         }
       },
       null,
@@ -1078,16 +1095,21 @@ export class NewProjectPanel {
     }
   }
 
-  private async _update(): Promise<void> {
+  private async _update(forceCreateFromExample: boolean): Promise<void> {
     this._panel.title = this._isProjectImport
       ? "Import Pico Project"
+      : forceCreateFromExample
+      ? "New Example Pico Project"
       : "New Pico Project";
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
       "web",
       "raspberry-24.png"
     );
-    const html = await this._getHtmlForWebview(this._panel.webview);
+    const html = await this._getHtmlForWebview(
+      this._panel.webview,
+      forceCreateFromExample
+    );
 
     if (html !== "") {
       this._panel.webview.html = html;
@@ -1122,7 +1144,10 @@ export class NewProjectPanel {
     }
   }
 
-  private async _getHtmlForWebview(webview: Webview): Promise<string> {
+  private async _getHtmlForWebview(
+    webview: Webview,
+    forceCreateFromExample: boolean
+  ): Promise<string> {
     // TODO: store in memory so on future update static stuff doesn't need to be read again
     const mainScriptUri = webview.asWebviewUri(
       Uri.joinPath(this._extensionUri, "web", "main.js")
@@ -1275,7 +1300,11 @@ export class NewProjectPanel {
         <link href="${mainStyleUri.toString()}" rel="stylesheet">
 
         <title>${
-          this._isProjectImport ? "Import Pico Project" : "New Pico Project"
+          this._isProjectImport
+            ? "Import Pico Project"
+            : forceCreateFromExample
+            ? "New Example Pico Project"
+            : "New Pico Project"
         }</title>
 
         <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
@@ -1292,6 +1321,9 @@ export class NewProjectPanel {
               : ""
           }
           var doProjectImport = ${this._isProjectImport};
+          const forceCreateFromExample = ${
+            forceCreateFromExample ? "true" : "false"
+          };
         </script>
       </head>
       <body class="scroll-smooth w-screen">
@@ -1308,16 +1340,16 @@ export class NewProjectPanel {
                 ${
                   !this._isProjectImport
                     ? `
-                <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-features">
+                <li class="nav-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-features">
                     Features
                 </li>
-                <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-stdio">
+                <li class="nav-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-stdio">
                     Stdio support
                 </li>
-                <li class="nav-item hidden text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-pico-wireless">
+                <li class="nav-item project-options hidden text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-pico-wireless">
                     Pico wireless options
                 </li>
-                <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-code-gen">
+                <li class="nav-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-code-gen">
                     Code generation options
                 </li>
                 `
@@ -1330,14 +1362,21 @@ export class NewProjectPanel {
         </nav>
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
             <div id="section-basic" class="snap-start">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Basic Settings</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Settings</h3>
                 <form>
                   ${
                     !this._isProjectImport
                       ? `<div class="grid gap-6 md:grid-cols-2">
                         <div>
                           <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                          <input type="text" list="examples-list" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="Project name or select example" required/>
+                          <div class="flex">
+                            <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="${
+                              forceCreateFromExample
+                                ? "Select example"
+                                : "Project name"
+                            }" required/>
+                            <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-3 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 ml-2 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="Create from example">Example</button>
+                          </div>
                               
                           ${
                             this._examples.length > 0

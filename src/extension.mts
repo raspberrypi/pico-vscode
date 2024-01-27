@@ -55,6 +55,7 @@ import ImportProjectCommand from "./commands/importProject.mjs";
 import { homedir } from "os";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
+import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 
 const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -85,6 +86,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       new OpenSdkDocumentationCommand(context.extensionUri),
       new ConfigureCmakeCommand(),
       new ImportProjectCommand(context.extensionUri),
+      new NewExampleProjectCommand(context.extensionUri),
     ];
 
   // register all command handlers
