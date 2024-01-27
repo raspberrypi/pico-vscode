@@ -20,7 +20,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 
 > Supported Platforms: Windows x64, macOS (Sonoma and newer only), Linux x64 and arm64
 
-- Visual Studio Code v1.83.0 or later
+- Visual Studio Code v1.85.2 or later
 - Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 
 ### macOS
