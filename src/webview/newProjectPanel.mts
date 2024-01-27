@@ -296,7 +296,10 @@ export class NewProjectPanel {
       : undefined;
 
     if (NewProjectPanel.currentPanel) {
-      if (NewProjectPanel.currentPanel._isProjectImport === isProjectImport) {
+      if (
+        NewProjectPanel.currentPanel._isProjectImport === isProjectImport &&
+        (!createFromExample || !isProjectImport)
+      ) {
         NewProjectPanel.currentPanel._panel.reveal(column);
         // update already exiting panel with new project root
         if (projectUri) {
