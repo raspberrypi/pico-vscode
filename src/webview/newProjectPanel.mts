@@ -1345,10 +1345,16 @@ export class NewProjectPanel {
           <!-- Navigation links go here -->
           <ul class="overlay-menu">
             <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Basic Settings</li>
+            ${
+              !this._isProjectImport
+                ? `
             <li id="ov-nav-features" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Features</li>
             <li id="ov-nav-stdio" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Stdio support</li>
             <li id="ov-nav-pico-wireless" class="overlay-item project-options hidden text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Pico wireless options</li>
             <li id="ov-nav-code-gen" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Code generation options</li>
+            `
+                : ""
+            }
             <li id="ov-nav-debugger" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Debugger</li>
           </ul>
         </div>

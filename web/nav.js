@@ -143,27 +143,29 @@ window.onload = function () {
   const projectNameInput = document.getElementById('inp-project-name');
   const createFromExampleBtn = document.getElementById('btn-create-from-example');
 
-  projectNameInput.addEventListener('input', function () {
-    var isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
-    if (!isExampleMode) {
-      isExampleSelected = false;
-      return;
-    }
+  if (projectNameInput) {
+    projectNameInput.addEventListener('input', function () {
+      var isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
+      if (!isExampleMode) {
+        isExampleSelected = false;
+        return;
+      }
 
-    const examplesList = document.getElementById('examples-list');
-    const exampleOptions = Array.from(examplesList.options).map(option => option.value);
+      const examplesList = document.getElementById('examples-list');
+      const exampleOptions = Array.from(examplesList.options).map(option => option.value);
 
-    const inputValue = projectNameInput.value;
-    const isValueInOptions = exampleOptions.includes(inputValue);
+      const inputValue = projectNameInput.value;
+      const isValueInOptions = exampleOptions.includes(inputValue);
 
-    if (isValueInOptions) {
-      // example selected
-      isExampleSelected = true;
-    } else {
-      // No example selected
-      isExampleSelected = false;
-    }
-  });
+      if (isValueInOptions) {
+        // example selected
+        isExampleSelected = true;
+      } else {
+        // No example selected
+        isExampleSelected = false;
+      }
+    });
+  }
 
   if (createFromExampleBtn) {
     createFromExampleBtn.addEventListener('click', function () {
