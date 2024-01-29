@@ -29,11 +29,18 @@ const NINJA_PLATFORMS: { [key: string]: string } = {
   win32: "win",
 };
 
-/// Translate nodejs platform names to ninja platform names
+/// Translate nodejs platform names to pico-sdk-tools platform names
 const TOOLS_PLATFORMS: { [key: string]: string } = {
   darwin: "mac",
   linux: "lin",
   win32: "x64-win",
+};
+
+/// Translate nodejs platform names to xpack openocd platform names
+const OPENOCD_PLATFORMS: { [key: string]: string } = {
+  darwin: "darwin",
+  linux: "linux",
+  win32: "win32",
 };
 
 /// Translate nodejs platform names to cmake platform names
@@ -578,15 +585,18 @@ export async function downloadAndInstallOpenOCD(
   try {
     if (redirectURL === undefined) {
       const release = await getGithubReleaseByTag(
-        GithubRepository.tools,
-        "v1.5.1-alpha-1"
+        GithubRepository.openocd,
+        `${version}`
       );
       if (release === undefined) {
         return false;
       }
 
-      const assetName = `openocd-${version}-${
-        TOOLS_PLATFORMS[process.platform]
+      const assetName = `xpack-openocd-${version.replace("v", "")}-${
+        OPENOCD_PLATFORMS[process.platform]
+      }-${process.arch === "arm64"
+          ? "arm64"
+          : "x64"
       }.zip`;
 
       // Find the asset

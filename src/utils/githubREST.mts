@@ -15,6 +15,7 @@ export enum GithubRepository {
   cmake = 1,
   ninja = 2,
   tools = 3,
+  openocd = 4,
 }
 
 export type GithubReleaseResponse = {
@@ -46,6 +47,8 @@ function ownerOfRepository(repository: GithubRepository): string {
       return "ninja-build";
     case GithubRepository.tools:
       return "will-v-pi";
+    case GithubRepository.openocd:
+      return "xpack-dev-tools";
   }
 }
 
@@ -59,6 +62,8 @@ function repoNameOfRepository(repository: GithubRepository): string {
       return "ninja";
     case GithubRepository.tools:
       return "pico-sdk-tools";
+    case GithubRepository.openocd:
+      return "openocd-xpack";
   }
 }
 

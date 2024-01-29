@@ -739,12 +739,12 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "configurations": [
         {{
             "name": "Pico Debug (Cortex-Debug)",
-            "cwd": "{"${workspaceRoot}" if not isWindows else f"{codeOpenOCDPath(openOCDVersion)}/scripts"}",
+            "cwd": "{"${workspaceRoot}" if not isWindows else f"{codeOpenOCDPath(openOCDVersion)}/openocd/scripts"}",
             "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",
-            {f'"serverpath": "{codeOpenOCDPath(openOCDVersion)}/openocd.exe",' if isWindows else ""}
+            {f'"serverpath": "{codeOpenOCDPath(openOCDVersion)}/bin/openocd.exe",' if isWindows else ""}
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
             "configFiles": [

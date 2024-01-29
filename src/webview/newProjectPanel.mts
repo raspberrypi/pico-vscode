@@ -686,7 +686,7 @@ export class NewProjectPanel {
         tc => tc.version === data.selectedToolchain.replaceAll(".", "_")
       );
       // TODO: read from user
-      const openOCDVersion = "0.12.0";
+      const openOCDVersion = "v0.12.0-2";
 
       if (!selectedToolchain) {
         void window.showErrorMessage("Failed to find selected toolchain.");
