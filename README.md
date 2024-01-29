@@ -4,7 +4,7 @@
 
 This is the official Visual Studio Code extension for Raspberry Pi Pico development. It provides a set of tools to help you getting started with development for the Pico boards using Visual Studio Code and the [Pico-SDK](https://github.com/raspberrypi/pico-sdk).
 
-[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/0.11.1)
+[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/0.11.2)
 
 ## Features
 
@@ -54,3 +54,7 @@ This extension contributes the following settings:
 ### Github Rate Limit
 
 If the extension fails to get available pico-sdk versions, it might be because of the Github API rate limit. You can create a personal access token (classic) with the `public_repo` and set it in the global extension settings to increase the rate limit.
+
+### Packaging
+
+Use a `vsce` version prior to 2.23.0 as it is not compatible with the current build system anymore.
