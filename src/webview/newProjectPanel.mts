@@ -1341,11 +1341,22 @@ export class NewProjectPanel {
       <body class="scroll-smooth w-screen">
         <div id="above-nav" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-0 z-10 pl-5 h-5">
         </div>
-        <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 h-24 bg-opacity-95 bg-slate-800 rounded-md">
+        <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out">
+          <!-- Navigation links go here -->
+          <ul class="overlay-menu">
+            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Basic Settings</li>
+            <li id="ov-nav-features" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Features</li>
+            <li id="ov-nav-stdio" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Stdio support</li>
+            <li id="ov-nav-pico-wireless" class="overlay-item project-options hidden text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Pico wireless options</li>
+            <li id="ov-nav-code-gen" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Code generation options</li>
+            <li id="ov-nav-debugger" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Debugger</li>
+          </ul>
+        </div>
+        <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 pr-5 h-24 bg-opacity-95 bg-slate-800 rounded-md">
             <div class="inline-flex h-16 align-middle">
                 <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-16 rounded cursor-not-allowed block mb-2"/>
             </div>
-            <ul class="pl-3 pr-3 flex space-x-4 h-auto align-middle">
+            <ul class="pl-3 pr-3 space-x-4 h-auto align-middle hidden md:flex">
                 <li class="nav-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
                     Basic Settings
                 </li>
@@ -1371,6 +1382,11 @@ export class NewProjectPanel {
                     Debugger
                 </li>
             </ul>
+            <div id="burger-menu" class="flex md:hidden cursor-pointer h-auto me-7">
+              <div class="bar"></div>
+              <div class="bar"></div>
+              <div class="bar"></div>
+            </div>
         </nav>
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
             <div id="section-basic" class="snap-start">

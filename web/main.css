@@ -53,3 +53,46 @@ input[type="checkbox"] {
 .advanced-option[hidden] {
   display: none !important;
 }
+
+#burger-menu {
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.bar {
+  width: 30px;
+  height: 3px;
+  background-color: white;
+  margin: 6px 0;
+}
+
+/* nav overlay */
+#nav-overlay {
+  position: fixed;
+  max-width: 70%;
+  /* Maximum width to ensure it's not too wide */
+  background-color: #333;
+  transition: transform 0.3s ease-out;
+  /* Add a smooth transition effect */
+  padding: 20px;
+}
+
+.overlay-content {
+  padding: 20px;
+}
+
+.overlay-menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.overlay-item {
+  margin-bottom: 10px;
+}
+
+.overlay-item a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+}

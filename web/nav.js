@@ -9,19 +9,26 @@ function navItemOnClick(itemId) {
 
   // remove the SELECTED_ITEM_BG_CLASS class from all nav items
   const navItems = document.getElementsByClassName('nav-item');
-  for (let i = 0; i < navItems.length; i++) {
-    navItems[i].classList.remove(SELECTED_ITEM_BG_CLASS);
-  }
+  const ovNavItems = document.getElementsByClassName("overlay-item");
+  [...navItems, ...ovNavItems].forEach(element => {
+    element.classList.remove(SELECTED_ITEM_BG_CLASS);
+  });
 
   const item = document.getElementById(itemId);
   item.classList.add(SELECTED_ITEM_BG_CLASS);
+  const otherItemsId = itemId.includes('ov-') ? itemId.replace('ov-', '') : 'ov-' + itemId;
+  const otherItem = document.getElementById(otherItemsId);
+  otherItem.classList.add(SELECTED_ITEM_BG_CLASS);
 
   switch (itemId) {
+    case "ov-nav-basic":
     case "nav-basic":
       // navigate to top
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
       break;
+
+    case "ov-nav-features":
     case "nav-features":
       //document.getElementById("section-features").scrollIntoView();
       window.scrollTo({
@@ -29,12 +36,17 @@ function navItemOnClick(itemId) {
         behavior: 'smooth'
       });
       break;
+
+    case "ov-nav-stdio":
     case "nav-stdio":
       //document.getElementById("section-stdio").scrollIntoView();
       window.scrollTo({
         top: document.getElementById("section-stdio").offsetTop - navbarOffsetHeight,
         behavior: 'smooth'
       });
+      break;
+
+    case "ov-nav-pico-wireless":
     case "nav-pico-wireless":
       // document.getElementById("section-pico-wireless").scrollIntoView();
       window.scrollTo({
@@ -42,6 +54,8 @@ function navItemOnClick(itemId) {
         behavior: 'smooth'
       });
       break;
+
+    case "ov-nav-code-gen":
     case "nav-code-gen":
       // document.getElementById("section-code-gen").scrollIntoView();
       window.scrollTo({
@@ -49,6 +63,8 @@ function navItemOnClick(itemId) {
         behavior: 'smooth'
       });
       break;
+
+    case "ov-nav-debugger":
     case "nav-debugger":
       // document.getElementById("section-debugger").scrollIntoView();
       window.scrollTo({
@@ -115,8 +131,9 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
 //run navItemOnClick after page loaded
 window.onload = function () {
   // pre-select the first nav item
-  const navItems = document.getElementsByClassName('nav-item');
-  Array.prototype.forEach.call(navItems, item => {
+  const navItems = document.getElementsByClassName('nav-item') ?? [];
+  const ovNavItems = document.getElementsByClassName('overlay-item');
+  Array.prototype.forEach.call([...navItems, ...ovNavItems], item => {
     item.addEventListener('click', function () {
       navItemOnClick(item.id);
     });
@@ -161,4 +178,26 @@ window.onload = function () {
     }
     toggleCreateFromExampleMode(true);
   }
+
+  const burgerMenu = document.getElementById("burger-menu");
+  const navOverlay = document.getElementById("nav-overlay");
+
+  function toggleOverlay() {
+    navOverlay.classList.toggle("hidden");
+  }
+
+  function closeOverlay(e) {
+    if (!navOverlay.contains(e.target) && e.target !== burgerMenu) {
+      navOverlay.classList.add("hidden");
+    }
+  }
+
+  burgerMenu.addEventListener("click", toggleOverlay);
+  window.addEventListener("click", closeOverlay);
+
+  window.addEventListener("resize", function () {
+    if (window.innerWidth >= 1024) {
+      navOverlay.classList.add("hidden");
+    }
+  });
 };
