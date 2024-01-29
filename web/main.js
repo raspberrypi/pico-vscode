@@ -10,6 +10,7 @@ const CMD_VERSION_BUNDLE_AVAILABLE_TEST = 'versionBundleAvailableTest';
 const CMD_SUBMIT_EXAMPLE = 'submitExample';
 const CMD_IMPORT_PROJECT = 'importProject';
 const CMD_CREATE_FROM_EXAMPLE = 'createFromExample';
+const CMD_NOT_CREATE_FROM_EXAMPLE = 'notCreateFromExample';
 
 var submitted = false;
 var isPicoWireless = false;
@@ -505,6 +506,11 @@ var isPicoWireless = false;
       case CMD_CREATE_FROM_EXAMPLE:
         if (window.toggleCreateFromExampleMode) {
           toggleCreateFromExampleMode(true);
+        }
+        break;
+      case CMD_NOT_CREATE_FROM_EXAMPLE:
+        if (window.toggleCreateFromExampleMode) {
+          toggleCreateFromExampleMode(false, true);
         }
         break;
       default:

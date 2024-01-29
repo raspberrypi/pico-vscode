@@ -75,13 +75,13 @@ window.hideCustomInputs = function (divs, disable) {
   });
 };
 
-window.toggleCreateFromExampleMode = function (forceOn) {
+window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
   const createFromExampleBtn = document.getElementById('btn-create-from-example');
   const projectNameInput = document.getElementById('inp-project-name');
   var isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
   const projectOptionsDivs = document.querySelectorAll('.project-options');
 
-  if (isExampleMode && (forceOn === undefined || !forceOn)) {
+  if (isExampleMode && (forceOn === undefined || !forceOn) && (forceOff === undefined || forceOff)) {
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'false');
       createFromExampleBtn.innerText = 'Example';
@@ -95,7 +95,7 @@ window.toggleCreateFromExampleMode = function (forceOn) {
     if (projectOptionsDivs) {
       hideCustomInputs(projectOptionsDivs, false);
     }
-  } else {
+  } else if (forceOff === undefined || !forceOff) {
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'true');
       createFromExampleBtn.innerText = 'Custom';

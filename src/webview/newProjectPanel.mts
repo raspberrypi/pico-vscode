@@ -284,6 +284,7 @@ export class NewProjectPanel {
   private _versionBundle: VersionBundle | undefined;
   private _isProjectImport: boolean;
   private _examples: Example[] = [];
+  private _isCreateFromExampleOnly: boolean = false;
 
   public static createOrShow(
     extensionUri: Uri,
@@ -298,6 +299,9 @@ export class NewProjectPanel {
     if (NewProjectPanel.currentPanel) {
       if (
         NewProjectPanel.currentPanel._isProjectImport === isProjectImport &&
+        (NewProjectPanel.currentPanel._isCreateFromExampleOnly
+          ? createFromExample
+          : true) &&
         (!createFromExample || !isProjectImport)
       ) {
         NewProjectPanel.currentPanel._panel.reveal(column);
@@ -315,6 +319,10 @@ export class NewProjectPanel {
           // update webview
           void NewProjectPanel.currentPanel._panel.webview.postMessage({
             command: "createFromExample",
+          });
+        } else if (!isProjectImport) {
+          void NewProjectPanel.currentPanel._panel.webview.postMessage({
+            command: "notCreateFromExample",
           });
         }
 
@@ -391,6 +399,7 @@ export class NewProjectPanel {
     this._settings = settings;
     this._isProjectImport = isProjectImport;
     this._projectRoot = projectUri;
+    this._isCreateFromExampleOnly = createFromExample;
 
     void this._update(createFromExample);
 
