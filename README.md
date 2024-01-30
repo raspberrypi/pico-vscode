@@ -26,14 +26,13 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 ### macOS
 - Git (in PATH, you can install it by running `xcode-select --install`)
 - Tar (in PATH)
-- \[Optional\] OpenOCD for debuging
 
 ### Linux
 - Python 3.9 or later (in PATH or set in settings)
 - Git (in PATH)
 - Tar (in PATH)
 - Ninja in PATH (arm64 only)
-- \[Optional\] OpenOCD for debuging
+- \[Optional\] OpenOCD for debuging (Raspberry Pi OS only)
 
 ## Extension Settings
 
