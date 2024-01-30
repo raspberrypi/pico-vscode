@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 
 #
-# Copyright (c) 2020-2023 Raspberry Pi (Trading) Ltd.
+# Copyright (c) 2020-2024 Raspberry Pi (Trading) Ltd.
 #
 # SPDX-License-Identifier: BSD-3-Clause
 #
 
+#
+# Copyright (c) 2023-2024 paulober <github.com/paulober>
+#
+# SPDX-License-Identifier: MPL-2.0
+#
+
 import argparse
-from copy import copy
 import os
-from pyexpat import features
 import shutil
 from pathlib import Path
-import string
 import sys
-import subprocess
 import platform
-import shlex
 import csv
 
 CMAKELIST_FILENAME = 'CMakeLists.txt'
@@ -732,6 +733,11 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     user_home = os.path.expanduser("~").replace("\\", "/")
     use_home_var = f"{user_home}/.pico-sdk" in ninjaPath
 
+    openocd_path = ""
+    openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "bin", "openocd.exe")
+    if os.path.exists(openocd_path_os):
+        openocd_path = f'\n"serverpath": "{codeOpenOCDPath(openOCDVersion)}/bin/openocd.exe",'
+
     for p in projects :
         if p == 'vscode':
             launch = f'''{{
@@ -743,8 +749,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "request": "launch",
             "type": "cortex-debug",
-            "servertype": "openocd",
-            {f'"serverpath": "{codeOpenOCDPath(openOCDVersion)}/bin/openocd.exe",' if isWindows else ""}
+            "servertype": "openocd",{openocd_path}
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
             "configFiles": [

@@ -557,8 +557,11 @@ export async function downloadAndInstallOpenOCD(
   version: string,
   redirectURL?: string
 ): Promise<boolean> {
-  if (process.platform !== "win32") {
-    Logger.log("OpenOCD installation not on Windows is not supported.");
+  if (
+    (process.platform === "win32" && process.arch !== "x64") ||
+    (process.platform === "linux" && !["arm64", "x64"].includes(process.arch))
+  ) {
+    Logger.log("OpenOCD installation not supported on this platform.");
 
     return false;
   }
@@ -577,7 +580,8 @@ export async function downloadAndInstallOpenOCD(
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(tmpBasePath, `openocd.zip`);
+  const assetExt: string = process.platform === "win32" ? "zip" : "tar.gz";
+  const archiveFilePath = join(tmpBasePath, `openocd.${assetExt}`);
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   let openocdAsset: GithubReleaseAssetData | undefined;
@@ -594,10 +598,7 @@ export async function downloadAndInstallOpenOCD(
 
       const assetName = `xpack-openocd-${version.replace("v", "")}-${
         OPENOCD_PLATFORMS[process.platform]
-      }-${process.arch === "arm64"
-          ? "arm64"
-          : "x64"
-      }.zip`;
+      }-${process.arch === "arm64" ? "arm64" : "x64"}.${assetExt}`;
 
       // Find the asset
       Logger.log(release.assetsUrl);
@@ -651,18 +652,41 @@ export async function downloadAndInstallOpenOCD(
       // save the file to disk
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
         // unpack the archive
-        const success = unzipFile(archiveFilePath, targetDirectory, false);
+        if (assetExt === "tar.gz") {
+          unxzFile(archiveFilePath, targetDirectory)
+            .then(success => {
+              // delete tmp file
+              unlinkSync(archiveFilePath);
 
-        // delete tmp file
-        unlinkSync(archiveFilePath);
+              // on darwin and linux platforms create windows compatible alias
+              // so confiuration works on all platforms
+              symlinkSync(
+                join(targetDirectory, "bin", "openocd"),
+                join(targetDirectory, "bin", "openocd.exe"),
+                "file"
+              );
 
-        // unzipper would require custom permission handling as it
-        // doesn't preserve the executable flag
-        /*if (process.platform !== "win32") {
-          chmodSync(join(targetDirectory, "ninja"), 0o755);
-        }*/
-
-        resolve(success);
+              resolve(success);
+            })
+            .catch(() => {
+              unlinkSync(archiveFilePath);
+              unlinkSync(targetDirectory);
+              resolve(false);
+            });
+        } else if (assetExt === "zip") {
+          const success = unzipFile(archiveFilePath, targetDirectory);
+          // delete tmp file
+          unlinkSync(archiveFilePath);
+          if (!success) {
+            unlinkSync(targetDirectory);
+          }
+          resolve(success);
+        } else {
+          unlinkSync(archiveFilePath);
+          unlinkSync(targetDirectory);
+          Logger.log(`Error: unknown archive extension: ${assetExt}`);
+          resolve(false);
+        }
       });
 
       response.pipe(fileWriter);
