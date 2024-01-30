@@ -118,6 +118,9 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
     }
 
     if (projectNameInput) {
+      // clear input to avoid crashing the webview
+      projectNameInput.value = '';
+
       projectNameInput.setAttribute('list', "examples-list");
       projectNameInput.setAttribute('placeholder', 'Select example');
     }
