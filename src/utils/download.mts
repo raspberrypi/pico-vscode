@@ -1,5 +1,5 @@
 import { createWriteStream, existsSync, symlinkSync, unlinkSync } from "fs";
-import { mkdir } from "fs/promises";
+import { mkdir, readFile } from "fs/promises";
 import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
@@ -553,11 +553,30 @@ export async function downloadAndInstallNinja(
   });
 }
 
+/// Detects if the current system is a Raspberry Pi by reading /proc/cpuinfo
+async function isRaspberryPi(): Promise<boolean> {
+  try {
+    // TODO: imporove detection speed
+    const cpuInfo = await readFile("/proc/cpuinfo", "utf8");
+
+    return cpuInfo.toLowerCase().includes("raspberry pi");
+  } catch (error) {
+    // Handle file read error or other exceptions
+    Logger.log(
+      "Error reading /proc/cpuinfo:",
+      error instanceof Error ? error.message : (error as string)
+    );
+
+    return false;
+  }
+}
+
 export async function downloadAndInstallOpenOCD(
   version: string,
   redirectURL?: string
 ): Promise<boolean> {
   if (
+    (await isRaspberryPi()) ||
     (process.platform === "win32" && process.arch !== "x64") ||
     (process.platform === "linux" && !["arm64", "x64"].includes(process.arch))
   ) {
