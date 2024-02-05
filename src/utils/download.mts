@@ -553,17 +553,24 @@ export async function downloadAndInstallNinja(
   });
 }
 
-/// Detects if the current system is a Raspberry Pi by reading /proc/cpuinfo
+/// Detects if the current system is a Raspberry Pi with Debian
+/// by reading /proc/cpuinfo and /etc/os-release
 async function isRaspberryPi(): Promise<boolean> {
   try {
     // TODO: imporove detection speed
     const cpuInfo = await readFile("/proc/cpuinfo", "utf8");
+    const osRelease = await readFile("/etc/os-release", "utf8");
+    const versionId = osRelease.match(/VERSION_ID="?(\d+)"?/)?.[1] ?? "0";
 
-    return cpuInfo.toLowerCase().includes("raspberry pi");
+    return (
+      cpuInfo.toLowerCase().includes("raspberry pi") &&
+      osRelease.toLowerCase().includes(`name="debian gnu/linux"`) &&
+      parseInt(versionId) >= 12
+    );
   } catch (error) {
     // Handle file read error or other exceptions
     Logger.log(
-      "Error reading /proc/cpuinfo:",
+      "Error reading /proc/cpuinfo or /etc/os-release:",
       error instanceof Error ? error.message : (error as string)
     );
 
