@@ -62,16 +62,14 @@ input[type="checkbox"] {
 .bar {
   width: 30px;
   height: 3px;
-  background-color: white;
   margin: 6px 0;
 }
 
 /* nav overlay */
 #nav-overlay {
   position: fixed;
-  max-width: 70%;
   /* Maximum width to ensure it's not too wide */
-  background-color: #333;
+  max-width: 70%;
   transition: transform 0.3s ease-out;
   /* Add a smooth transition effect */
   padding: 20px;
@@ -93,6 +91,5 @@ input[type="checkbox"] {
 
 .overlay-item a {
   text-decoration: none;
-  color: white;
   font-size: 18px;
 }

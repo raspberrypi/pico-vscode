@@ -1,6 +1,8 @@
 "use strict";
 
-const SELECTED_ITEM_BG_CLASS = 'bg-slate-600';
+const SELECTED_ITEM_BG_CLASS = 'bg-slate-500';
+const SELECTED_ITEM_BG_OPACITY_CLASS = 'bg-opacity-50';
+const SELECTED_ITEM_BG_CLASS_DARK = 'dark:bg-slate-600';
 var isExampleSelected = false;
 
 function navItemOnClick(itemId) {
@@ -12,13 +14,19 @@ function navItemOnClick(itemId) {
   const ovNavItems = document.getElementsByClassName("overlay-item");
   [...navItems, ...ovNavItems].forEach(element => {
     element.classList.remove(SELECTED_ITEM_BG_CLASS);
+    element.classList.remove(SELECTED_ITEM_BG_OPACITY_CLASS);
+    element.classList.remove(SELECTED_ITEM_BG_CLASS_DARK);
   });
 
   const item = document.getElementById(itemId);
   item.classList.add(SELECTED_ITEM_BG_CLASS);
+  item.classList.add(SELECTED_ITEM_BG_OPACITY_CLASS);
+  item.classList.add(SELECTED_ITEM_BG_CLASS_DARK);
   const otherItemsId = itemId.includes('ov-') ? itemId.replace('ov-', '') : 'ov-' + itemId;
   const otherItem = document.getElementById(otherItemsId);
   otherItem.classList.add(SELECTED_ITEM_BG_CLASS);
+  otherItem.classList.add(SELECTED_ITEM_BG_OPACITY_CLASS);
+  otherItem.classList.add(SELECTED_ITEM_BG_CLASS_DARK);
 
   switch (itemId) {
     case "ov-nav-basic":
