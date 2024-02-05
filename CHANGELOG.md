@@ -8,6 +8,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.11.5] - 2024-02-05
+
+### Added
+
+- A updated CHANGELOG.md
+
+### Changed
+
+- Fix #39, Raspberry Pi OS detection
+- Fix #40, Light Mode Theming
+
 ## [0.11.4] - 2024-01-30
 
 ### Changed
