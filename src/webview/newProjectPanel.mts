@@ -1116,7 +1116,7 @@ export class NewProjectPanel {
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
       "web",
-      "raspberry-24.png"
+      "raspberry-128.png"
     );
     const html = await this._getHtmlForWebview(
       this._panel.webview,
@@ -1178,6 +1178,10 @@ export class NewProjectPanel {
     // images
     const navHeaderSvgUri = webview.asWebviewUri(
       Uri.joinPath(this._extensionUri, "web", "raspberrypi-nav-header.svg")
+    );
+
+    const navHeaderDarkSvgUri = webview.asWebviewUri(
+      Uri.joinPath(this._extensionUri, "web", "raspberrypi-nav-header-dark.svg")
     );
 
     this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
@@ -1359,8 +1363,9 @@ export class NewProjectPanel {
           </ul>
         </div>
         <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 pr-5 h-24 bg-opacity-95 bg-slate-400 dark:bg-slate-800 rounded-md">
-            <div class="inline-flex h-16 align-middle">
-                <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-16 rounded cursor-not-allowed block mb-2"/>
+            <div class="inline-flex h-32 align-middle">
+                <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
+                <img src="${navHeaderDarkSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
             </div>
             <ul class="pl-3 pr-3 space-x-4 h-auto align-middle hidden md:flex">
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
