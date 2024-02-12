@@ -250,7 +250,7 @@ export async function downloadAndInstallTools(
       if (release === undefined) {
         return false;
       }
-      const assetName = `pico-sdk-tools-${version}-${
+      const assetName = `pico-sdk-tools-1.5.1-${
         TOOLS_PLATFORMS[process.platform]
       }.zip`;
 
