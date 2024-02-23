@@ -93,11 +93,6 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
 
     panel.webview.html = this._getHtmlForWebview(
       Uri.joinPath(this._extensionUri, "web", "docs", url).fsPath,
-      panel.webview
-        .asWebviewUri(
-          Uri.joinPath(this._extensionUri, "web", "docs", "docstyle.css")
-        )
-        .toString(),
       panel.webview.cspSource,
       panel,
       this._extensionUri
@@ -114,7 +109,6 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
 
   private _getHtmlForWebview(
     url: string,
-    docstyle: string,
     cspSource: string,
     panel: WebviewPanel,
     extensionUri: Uri
@@ -127,7 +121,6 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
     return (
       readFileSync(url)
         .toString("utf-8")
-        .replace(/{{docstyle}}/g, docstyle)
         /*.replace(/{{jquery}}/g, jquery)
       .replace(/{{jquery-ui}}/g, jqueryUi)
       .replace(/{{jquery-tocify}}/g, jqueryTocify)
