@@ -8,6 +8,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.11.6] - 2024-02-06
+
+### Added
+
+- Icons (@will-v-pi)
+- More examples (@will-v-pi)
+
+### Changed
+
+- Updated dependencies
+
 ## [0.11.5] - 2024-02-05
 
 ### Added
