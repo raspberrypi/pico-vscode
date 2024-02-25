@@ -53,7 +53,3 @@ This extension contributes the following settings:
 ### Github Rate Limit
 
 If the extension fails to get available pico-sdk versions, it might be because of the Github API rate limit. You can create a personal access token (classic) with the `public_repo` and set it in the global extension settings to increase the rate limit.
-
-### Packaging
-
-Use a `vsce` version prior to 2.23.0 as it is not compatible with the current build system anymore.
