@@ -1,0 +1,6 @@
+var searchData=
+[
+  ['exception_5fget_5fvtable_5fhandler_0',['exception_get_vtable_handler',['../group__hardware__exception.html#ga51b870aeeca94e21bd35bdfbab20e706',1,'exception_get_vtable_handler(enum exception_number num):&#160;exception.c'],['../group__hardware__exception.html#ga51b870aeeca94e21bd35bdfbab20e706',1,'exception_get_vtable_handler(enum exception_number num):&#160;exception.c']]],
+  ['exception_5frestore_5fhandler_1',['exception_restore_handler',['../group__hardware__exception.html#gabd73e0f58d5d1149a77a521c0dceb9cb',1,'exception_restore_handler(enum exception_number num, exception_handler_t original_handler):&#160;exception.c'],['../group__hardware__exception.html#gabd73e0f58d5d1149a77a521c0dceb9cb',1,'exception_restore_handler(enum exception_number num, exception_handler_t original_handler):&#160;exception.c']]],
+  ['exception_5fset_5fexclusive_5fhandler_2',['exception_set_exclusive_handler',['../group__hardware__exception.html#ga0c49b97eb751230b3d77459e7bfe98f5',1,'exception_set_exclusive_handler(enum exception_number num, exception_handler_t handler):&#160;exception.c'],['../group__hardware__exception.html#ga0c49b97eb751230b3d77459e7bfe98f5',1,'exception_set_exclusive_handler(enum exception_number num, exception_handler_t handler):&#160;exception.c']]]
+];

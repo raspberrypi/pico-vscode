@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import { CommandWithArgs } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { type QuickPickItem, ViewColumn, window, Uri } from "vscode";
+import { type QuickPickItem, ViewColumn, window, Uri, type WebviewPanel } from "vscode";
 import { readFileSync } from "fs";
 
 export enum DocumentationId {
@@ -28,24 +28,29 @@ const DOCUMENTATION_URLS_BY_ID: string[] = [
 ];
 
 const LOCAL_DOCUMENTATION_URLS_BY_ID: string[] = [
-  "hardware.html",
-  "high_level.html",
-  "networking.html",
-  "runtime.html",
+  "group__hardware.html",
+  "group__high__level.html",
+  "group__networking.html",
+  "group__runtime.html",
 ];
 
 export default class OpenSdkDocumentationCommand extends CommandWithArgs {
   private _logger: Logger = new Logger("OpenSdkDocumentationCommand");
 
   public static readonly id = "openSdkDocumentation";
+  private _panel: WebviewPanel|undefined = undefined;
 
   constructor(private readonly _extensionUri: Uri) {
     super(OpenSdkDocumentationCommand.id);
   }
 
-  async execute(docId?: DocumentationId): Promise<void> {
-    let url = docId !== undefined ? LOCAL_DOCUMENTATION_URLS_BY_ID[docId] : "";
-    if (docId === undefined) {
+  async execute(docId?: DocumentationId, fileName?: string): Promise<void> {
+    let url = "";
+    if (typeof docId === "number") {
+      url = docId !== undefined ? LOCAL_DOCUMENTATION_URLS_BY_ID[docId] : "";
+    } else if (fileName !== undefined) {
+      url = fileName;
+    } else {
       const options: QuickPickItem[] = DOCUMENTATION_LABEL_BY_ID.map(
         (label, index) => ({
           label,
@@ -68,49 +73,109 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
 
     // show webview
     this._logger.info("Opening SDK documentation in browser...");
-    const panel = window.createWebviewPanel(
-      "pico-sdk-documentation",
-      "Pico SDK Documentation",
-      { viewColumn: ViewColumn.Two, preserveFocus: false },
-      {
-        enableScripts: true,
-        retainContextWhenHidden: true,
-        enableFindWidget: true,
-        localResourceRoots: [Uri.joinPath(this._extensionUri, "web", "docs")],
-        enableCommandUris: true,
-      }
-    );
+    if (this._panel === undefined){
+      Logger.log("New panel");
+      this._panel = window.createWebviewPanel(
+        "pico-sdk-documentation",
+        "Pico SDK Documentation",
+        { viewColumn: ViewColumn.Two, preserveFocus: false },
+        {
+          enableScripts: true,
+          retainContextWhenHidden: true,
+          enableFindWidget: true,
+          localResourceRoots: [Uri.joinPath(this._extensionUri, "web", "docs")],
+          enableCommandUris: true,
+        }
+      );
+    }
+
+    const panel = this._panel;
 
     panel.webview.html = this._getHtmlForWebview(
       Uri.joinPath(this._extensionUri, "web", "docs", url).fsPath,
-      panel.webview
-        .asWebviewUri(
-          Uri.joinPath(this._extensionUri, "web", "docs", "docstyle.css")
-        )
-        .toString(),
-      panel.webview.cspSource
+      panel.webview.cspSource,
+      panel,
+      this._extensionUri
     );
     panel.reveal();
+
+    // dispose when hidden
+    panel.onDidDispose(
+      event => {
+        this._panel = undefined;
+      }, this
+    );
   }
 
   private _getHtmlForWebview(
     url: string,
-    docstyle: string,
-    cspSource: string
+    cspSource: string,
+    panel: WebviewPanel,
+    extensionUri: Uri
   ): string {
-    const regex = /<a\s+(.*?)\s?href=".+(#[^"]+)"/g;
+    const regexa = /<a\s+(.*?)?href="([^"]+)"/g;
+    const regexsrc = /src="([^"]+)"/g;
+    const regexcss = /<link href="([^"]+)" rel="stylesheet"/g;
 
     // load from file
     return (
       readFileSync(url)
         .toString("utf-8")
-        .replace(/{{docstyle}}/g, docstyle)
         /*.replace(/{{jquery}}/g, jquery)
       .replace(/{{jquery-ui}}/g, jqueryUi)
       .replace(/{{jquery-tocify}}/g, jqueryTocify)
       .replace(/{{nonce}}/g, nonce)*/
         .replace(/{{cspSource}}/g, cspSource)
-        .replace(regex, '<a $1 href="$2"')
+        .replace(regexa, function (match, space: string, file: string) {
+          if (file === "/") {
+            file = "index.html";
+          }
+          if (space === undefined) {
+            space = "";
+          }
+          if (file.match('#') || file.match('https')) {
+            if (file.match('#')) {
+              file = `#${file.split('#')[1]}`;
+            }
+            const ret = `<a ${space}href="${file}"`;
+
+            return ret;
+          }
+          const command = Uri.parse(`command:raspberry-pi-pico.openSdkDocumentation?${
+            encodeURIComponent(JSON.stringify([undefined, file]))
+          }`).toString();
+          const ret = `<a ${space}href="${command}"`;
+
+          return ret;
+        })
+        .replace(regexsrc, function (match, file: string) {
+          const ret = `src="${
+            panel.webview
+              .asWebviewUri(
+                Uri.joinPath(extensionUri, "web", "docs", file)
+              )
+              .toString()}"`;
+
+          return ret;
+        })
+        .replace(regexcss, function (match, file: string) {
+          const ret = `<link href="${
+            panel.webview
+              .asWebviewUri(
+                Uri.joinPath(extensionUri, "web", "docs", file)
+              )
+              .toString()}" rel="stylesheet"`;
+
+          return ret;
+        })
+        .replace(
+          '<div class="navigation-toggle">',
+          '<div hidden>'
+        )
+        .replace(
+          '<div id="main-nav">',
+          '<div id="main-nav" hidden>'
+        )
     );
   }
 }

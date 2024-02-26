@@ -1,0 +1,27 @@
+var group__hardware =
+[
+    [ "hardware_adc", "group__hardware__adc.html", "group__hardware__adc" ],
+    [ "hardware_base", "group__hardware__base.html", "group__hardware__base" ],
+    [ "hardware_claim", "group__hardware__claim.html", "group__hardware__claim" ],
+    [ "hardware_clocks", "group__hardware__clocks.html", "group__hardware__clocks" ],
+    [ "hardware_divider", "group__hardware__divider.html", "group__hardware__divider" ],
+    [ "hardware_dma", "group__hardware__dma.html", "group__hardware__dma" ],
+    [ "hardware_exception", "group__hardware__exception.html", "group__hardware__exception" ],
+    [ "hardware_flash", "group__hardware__flash.html", "group__hardware__flash" ],
+    [ "hardware_gpio", "group__hardware__gpio.html", "group__hardware__gpio" ],
+    [ "hardware_i2c", "group__hardware__i2c.html", "group__hardware__i2c" ],
+    [ "hardware_interp", "group__hardware__interp.html", "group__hardware__interp" ],
+    [ "hardware_irq", "group__hardware__irq.html", "group__hardware__irq" ],
+    [ "hardware_pio", "group__hardware__pio.html", "group__hardware__pio" ],
+    [ "hardware_pll", "group__hardware__pll.html", "group__hardware__pll" ],
+    [ "hardware_pwm", "group__hardware__pwm.html", "group__hardware__pwm" ],
+    [ "hardware_resets", "group__hardware__resets.html", "group__hardware__resets" ],
+    [ "hardware_rtc", "group__hardware__rtc.html", "group__hardware__rtc" ],
+    [ "hardware_spi", "group__hardware__spi.html", "group__hardware__spi" ],
+    [ "hardware_sync", "group__hardware__sync.html", "group__hardware__sync" ],
+    [ "hardware_timer", "group__hardware__timer.html", "group__hardware__timer" ],
+    [ "hardware_uart", "group__hardware__uart.html", "group__hardware__uart" ],
+    [ "hardware_vreg", "group__hardware__vreg.html", "group__hardware__vreg" ],
+    [ "hardware_watchdog", "group__hardware__watchdog.html", "group__hardware__watchdog" ],
+    [ "hardware_xosc", "group__hardware__xosc.html", "group__hardware__xosc" ]
+];
