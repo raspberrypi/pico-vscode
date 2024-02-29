@@ -8,6 +8,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.11.7] - 2024-02-29
+
+### Changed
+
+- Switch to SDK documentation (@will-v-pi)
+- Upgraded min vscode version to `v1.87.0`
+- Updated dependencies
+
 ## [0.11.6] - 2024-02-06
 
 ### Added
