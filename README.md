@@ -21,16 +21,21 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 > Supported Platforms: Windows x64, macOS (Sonoma and newer only), Linux x64 and arm64
 
 - Visual Studio Code v1.87.0 or later
-- Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 
 ### macOS
-- Git (in PATH, you can install it by running `xcode-select --install`)
+All requirements for macOS can be installed by running `xcode-select --install` from Terminal
+- Git (in PATH)
 - Tar (in PATH)
+- Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
+
+### Raspberry Pi OS
+All requirements for Raspberry Pi OS can be installed by running `sudo apt install openocd ninja-build`
 
 ### Linux
 - Python 3.9 or later (in PATH or set in settings)
 - Git (in PATH)
 - Tar (in PATH)
+- Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 - Ninja in PATH (arm64 only)
 - \[Optional\] OpenOCD for debuging (Raspberry Pi OS only)
 
