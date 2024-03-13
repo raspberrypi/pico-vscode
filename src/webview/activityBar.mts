@@ -38,7 +38,7 @@ const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
 
 const NEW_PROJECT_LABEL = "New Project";
 const IMPORT_PROJECT_LABEL = "Import Project";
-const EXAMPLE_PROJECT_LABEL = "New Example Project";
+const EXAMPLE_PROJECT_LABEL = "New Project From Examples";
 const SWITCH_SDK_LABEL = "Switch SDK";
 const COMPILE_PROJECT_LABEL = "Compile Project";
 const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";

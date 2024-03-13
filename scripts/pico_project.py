@@ -589,11 +589,20 @@ def GenerateCMake(folder, params):
                 file.write(cmake_header_us)
                 file.write(content)
             else:
+                if any(["pico_cyw43_arch_lwip_threadsafe_background" in line for line in lines]):
+                    print("Threadsafe Background")
+                    params["wantThreadsafeBackground"] = True
+                if any(["pico_cyw43_arch_lwip_poll" in line for line in lines]):
+                    print("Poll")
+                    params["wantPoll"] = True
                 # Get project name
                 for line in lines:
                     if "add_executable" in line:
                         newProjectName = line.split('(')[1].strip()
-                        print(newProjectName)
+                        if params["wantThreadsafeBackground"] or params["wantPoll"]:
+                            newProjectName = newProjectName.replace("_background", "")
+                            newProjectName = newProjectName.replace("_poll", "")
+                        print("New project name", newProjectName)
                         cmake_header2 = cmake_header2.replace(projectName, newProjectName)
                 # Write all headers
                 file.write(cmake_header1)
@@ -606,7 +615,6 @@ def GenerateCMake(folder, params):
                     if "example_auto_set_url" in line:
                         lines[i] = ""
                         print("Removed", line, lines[i])
-                    print(line, lines[i])
                 file.writelines(lines)
         return
 
@@ -1030,6 +1038,11 @@ def DoEverything(parent, params):
 
     GenerateCMake(projectPath, params)
 
+    if params['wantExample']:
+        if params['wantThreadsafeBackground'] or params['wantPoll']:
+            # Write lwipopts for examples
+            shutil.copy(sourcefolder + "/" + "lwipopts.h", projectPath / "lwipopts.h")
+
     # Create a build folder, and run our cmake project build from it
     if not os.path.exists('build'):
         os.mkdir('build')
@@ -1169,6 +1182,8 @@ else :
         'wantOverwrite' : args.overwrite,
         'wantConvert'   : args.convert or args.example,
         'wantExample'   : args.example,
+        'wantThreadsafeBackground'  : False,
+        'wantPoll'                  : False,
         'boardtype'     : args.boardtype,
         'wantBuild'     : args.build,
         'features'      : args.feature,

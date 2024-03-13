@@ -179,27 +179,15 @@
       "path": "pico_w/wifi/ntp_client",
       "name": "ntp_client"
   },
-  "picow_freertos_ping": {
-      "path": "pico_w/wifi/freertos/ping",
-      "name": "ping"
-  },
-  "picow_freertos_iperf": {
-      "path": "pico_w/wifi/freertos/iperf",
-      "name": "iperf"
-  },
   "picow_tcp_client": {
       "path": "pico_w/wifi/tcp_client",
       "name": "tcp_client"
-  },
-  "picow_tls_client": {
-      "path": "pico_w/wifi/tls_client",
-      "name": "tls_client"
   },
   "picow_udp_beacon": {
       "path": "pico_w/wifi/udp_beacon",
       "name": "udp_beacon"
   },
-  "picow_iperf": {
+  "picow_iperf_server": {
       "path": "pico_w/wifi/iperf",
       "name": "iperf"
   },

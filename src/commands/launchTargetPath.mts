@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { CommandWithResult } from "./command.mjs";
-import { workspace } from "vscode";
+import { window, workspace } from "vscode";
 import { join } from "path";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
@@ -8,7 +8,8 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
     super("launchTargetPath");
   }
 
-  private readProjectNameFromCMakeLists(filename: string): string | null {
+  private async readProjectNameFromCMakeLists(
+      filename: string): Promise<string | null> {
     // Read the file
     const fileContent = readFileSync(filename, "utf-8");
 
@@ -16,9 +17,33 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
     const regex = /project\(([^)\s]+)/;
     const match = regex.exec(fileContent);
 
+    // Match for poll and threadsafe background inclusions
+    const regexBg = /pico_cyw43_arch_lwip_threadsafe_background/;
+    const matchBg = regexBg.exec(fileContent);
+    const regexPoll = /pico_cyw43_arch_lwip_poll/;
+    const matchPoll = regexPoll.exec(fileContent);
+
     // Extract the project name from the matched result
     if (match && match[1]) {
       const projectName = match[1].trim();
+      
+      if (matchBg && matchPoll) {
+        // For examples with both background and poll, let user pick which to run
+        const quickPickItems = ["Threadsafe Background", "Poll"];
+        const backgroundOrPoll = await window.showQuickPick(quickPickItems, {
+          placeHolder: "Select PicoW Architecture",
+        });
+        if (backgroundOrPoll === undefined) {
+          return projectName;
+        }
+    
+        switch (backgroundOrPoll) {
+          case quickPickItems[0]:
+            return projectName + "_background";
+          case quickPickItems[1]:
+            return projectName + "_poll";
+        }
+      }
 
       return projectName;
     }
@@ -26,7 +51,7 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
     return null; // Return null if project line is not found
   }
 
-  execute(): string {
+  async execute(): Promise<string> {
     if (
       workspace.workspaceFolders === undefined ||
       workspace.workspaceFolders.length === 0
@@ -36,7 +61,7 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
 
     const fsPathFolder = workspace.workspaceFolders[0].uri.fsPath;
 
-    const projectName = this.readProjectNameFromCMakeLists(
+    const projectName = await this.readProjectNameFromCMakeLists(
       join(fsPathFolder, "CMakeLists.txt")
     );
 
