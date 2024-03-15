@@ -326,5 +326,13 @@
   "spi_slave": {
       "path": "spi/spi_master_slave/spi_slave",
       "name": "spi_slave"
+  },
+  "usb_dev_hid_composite": {
+      "path": "usb/device/dev_hid_composite",
+      "name": "dev_hid_composite"
+  },
+  "usb_dev_lowlevel": {
+    "path": "usb/device/dev_lowlevel",
+    "name": "dev_lowlevel"
   }
 }

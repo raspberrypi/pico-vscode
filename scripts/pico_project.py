@@ -598,7 +598,7 @@ def GenerateCMake(folder, params):
                 # Get project name
                 for line in lines:
                     if "add_executable" in line:
-                        newProjectName = line.split('(')[1].strip()
+                        newProjectName = line.split('(')[1].strip().strip("()")
                         if params["wantThreadsafeBackground"] or params["wantPoll"]:
                             newProjectName = newProjectName.replace("_background", "")
                             newProjectName = newProjectName.replace("_poll", "")
