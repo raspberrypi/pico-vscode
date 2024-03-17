@@ -1128,7 +1128,7 @@ export class NewProjectPanel {
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load available Pico-SDKs and/or supported toolchains."
+        "Failed to load available Pico-SDKs and/or supported toolchains. This may be due to an outdated personal access token for GitHub."
       );
       this.dispose();
     }
@@ -1206,7 +1206,9 @@ export class NewProjectPanel {
       const cmakeReleases = await getCmakeReleases();
 
       if (availableSDKs.length === 0 || supportedToolchains.length === 0) {
-        this._logger.error("Failed to load toolchains or SDKs.");
+        this._logger.error(
+          "Failed to load toolchains or SDKs. This may be due to an outdated personal access token for GitHub."
+        );
 
         throw new Error("Failed to load toolchains or SDKs.");
       }
@@ -1255,7 +1257,9 @@ export class NewProjectPanel {
         picoSDKsHtml.length === 0 ||
         (process.platform !== "linux" && ninjasHtml.length === 0)
       ) {
-        this._logger.error("Failed to load toolchains or SDKs.");
+        this._logger.error(
+          "Failed to load toolchains or SDKs. This may be due to an outdated personal access token for GitHub."
+        );
 
         throw new Error("Failed to load toolchains or SDKs.");
       }
