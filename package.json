@@ -56,7 +56,8 @@
     }
   },
   "activationEvents": [
-    "workspaceContains:./pico_sdk_import.cmake"
+    "workspaceContains:./pico_sdk_import.cmake",
+    "onWebviewPanel:newPicoProject"
   ],
   "contributes": {
     "commands": [
