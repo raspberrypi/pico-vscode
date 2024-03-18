@@ -8,6 +8,25 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.12.0] - 2024-03-18
+
+### Added
+
+- An extension logo (@will-v-pi)
+- dev_hid_composite and dev_lowlevel examples (@will-v-pi)
+- Outdated GH PAT warning
+- New examples input functionality based on a new custom suggestions UI
+- Extension activation by "new project" panel
+
+### Changed
+
+- Fixed pico_w examples (@will-v-pi)
+- Updated requirements in README.md (@will-v-pi)
+- Update rate limit details and description in README.md
+- Removed a previously known issue from README.md
+- Updated yarn to v4.1.1
+- Updated dependencies
+
 ## [0.11.7] - 2024-02-29
 
 ### Changed
