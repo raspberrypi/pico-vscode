@@ -1,5 +1,7 @@
-/.yarn/**             linguist-vendored
-/.yarn/releases/*     binary
-/.yarn/plugins/**/*   binary
-/.pnp.*               binary linguist-generated
-*.html                linguist-vendored
+/.yarn/**                 linguist-vendored
+/.yarn/releases/*         binary
+/.yarn/plugins/**/*       binary
+/.pnp.*                   binary linguist-generated
+*.html                    linguist-vendored
+/web/docs/**/*            linguist-vendored
+/web/tailwindcss-3_3_5.js linguist-vendored
