@@ -4,6 +4,7 @@ const SELECTED_ITEM_BG_CLASS = 'bg-slate-500';
 const SELECTED_ITEM_BG_OPACITY_CLASS = 'bg-opacity-50';
 const SELECTED_ITEM_BG_CLASS_DARK = 'dark:bg-slate-600';
 var isExampleSelected = false;
+var clickOutsideSuggestionsListenerAdded = false;
 
 function navItemOnClick(itemId) {
   // needed so a element isn't hidden behind the navbar on scroll
@@ -104,15 +105,28 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
   const projectNameInput = document.getElementById('inp-project-name');
   var isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
   const projectOptionsDivs = document.querySelectorAll('.project-options');
+  const examplesList = document.getElementById('examples-list');
+  const projectNameGrid = document.getElementById('project-name-grid');
+  const projectNameDropdownButton = document.getElementById('project-name-dropdown-button');
 
   if (isExampleMode && (forceOn === undefined || !forceOn) && (forceOff === undefined || forceOff)) {
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'false');
       createFromExampleBtn.innerText = 'Example';
+      // add md:grid-cols-2 from projectNameGrid
+      projectNameGrid.classList.add('md:grid-cols-2');
+      // hide dropdown button
+      projectNameDropdownButton.classList.add('hidden');
+      // crashes the webview
+      //projectNameInput.required = true;
     }
 
     if (projectNameInput) {
-      projectNameInput.setAttribute('list', undefined);
+      // old datalist approach: projectNameInput.setAttribute('list', undefined);
+      // remove keyup event listener from projectNameInput if it exists
+      if (window.projectNameInputOnKeyup) {
+        projectNameInput.removeEventListener('keyup', window.projectNameInputOnKeyup);
+      }
       projectNameInput.setAttribute('placeholder', 'Project name');
     }
 
@@ -123,14 +137,108 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'true');
       createFromExampleBtn.innerText = 'Custom';
+      // remove md:grid-cols-2 from projectNameGrid
+      projectNameGrid.classList.remove('md:grid-cols-2');
+      // show dropdown button
+      projectNameDropdownButton.classList.remove('hidden');
+
+      // crashes the webview
+      // projectName required has issues with the suggestions
+      //projectNameInput.required = false;
     }
 
-    if (projectNameInput) {
+    if (projectNameInput && examplesList && typeof examples !== 'undefined') {
       // clear input to avoid crashing the webview
       projectNameInput.value = '';
 
-      projectNameInput.setAttribute('list', "examples-list");
-      projectNameInput.setAttribute('placeholder', 'Select example');
+      //projectNameInput.setAttribute('list', "examples-list");
+      projectNameInput.setAttribute('placeholder', 'Select an example');
+
+      window.removeExampleItems = window.removeExampleItems || function () {
+        // clear ul
+        examplesList.innerHTML = '';
+      };
+
+      window.examplesListSelect = window.examplesListSelect || function (exampleName) {
+        projectNameInput.value = exampleName;
+        // Create and dispatch an input event, for the input event listener to be triggered
+        projectNameInput.dispatchEvent(new Event('input', {
+          bubbles: true,
+          cancelable: true,
+        }));
+        removeExampleItems();
+      };
+
+      window.removeClickOutsideSuggestionsListener = window.removeClickOutsideSuggestionsListener || function () {
+        document.body.removeEventListener('click', handleOutsideSuggestionsClick);
+        clickOutsideSuggestionsListenerAdded = false;
+      }
+
+      window.handleOutsideSuggestionsClick = window.handleOutsideSuggestionsClick || function (event) {
+        // check if the clicked element is not inside the examplesList
+        if (!examplesList.contains(event.target)) {
+          // click occurred outside the suggestions "popup" so remove the suggestions
+          removeExampleItems();
+          removeClickOutsideSuggestionsListener();
+        }
+      };
+
+      window.projectNameInputOnKeyup = window.projectNameInputOnKeyup || function (e) {
+        removeExampleItems();
+
+        if (!clickOutsideSuggestionsListenerAdded) {
+          clickOutsideSuggestionsListenerAdded = true;
+
+          // add on click event listener to 
+          document.body.addEventListener('click', handleOutsideSuggestionsClick);
+        }
+
+        const isInputEmpty = projectNameInput.value === "";
+        for (let i of examples.sort()) {
+          // startsWith was to strict for the examples name format we use
+          if (isInputEmpty || i.toLowerCase().includes(projectNameInput.value.toLowerCase())) {
+            // create li element
+            let listItem = document.createElement("li");
+            // one common class name
+            listItem.classList.add("examples-list-suggestion");
+            listItem.style.cursor = "pointer";
+            // listItem.setAttribute("onclick", "examplesListSelect('" + i + "')");
+            // added as event listener because of content security policy
+            listItem.addEventListener("click", (event) => {
+              event.stopPropagation();
+              removeClickOutsideSuggestionsListener();
+              examplesListSelect(i);
+            });
+
+            // display matched part as bold text
+            // this is for .startsWith selector above 
+            //let word = isInputEmpty ? "" : "<b>" + i.substr(0, projectNameInput.value.length) + "</b>";
+            //word += i.substr(projectNameInput.value.length);
+            // this is for .includes selector above
+            const startIndex = isInputEmpty ? 0 : i.indexOf(projectNameInput.value);
+            let word = isInputEmpty ? "" : i.substring(0, startIndex);
+            word += isInputEmpty ? "" : "<b>" + i.substring(startIndex, startIndex + projectNameInput.value.length) + "</b>";
+            word += i.substring(startIndex + projectNameInput.value.length);
+
+            // set value of li elemetn
+            listItem.innerHTML = word;
+            examplesList.appendChild(listItem);
+          }
+        }
+      };
+
+      projectNameDropdownButton.addEventListener('click', (event) => {
+        if (examplesList.childNodes.length === 0) {
+          // this is required to prevent the outside suggestions listener to fire after it has been
+          // added below
+          event.stopPropagation();
+          projectNameInputOnKeyup(event);
+        } else {
+          removeExampleItems();
+        }
+      });
+
+      projectNameInput.addEventListener('keyup', projectNameInputOnKeyup);
     }
 
     if (projectOptionsDivs) {
@@ -162,11 +270,11 @@ window.onload = function () {
         return;
       }
 
-      const examplesList = document.getElementById('examples-list');
-      const exampleOptions = Array.from(examplesList.options).map(option => option.value);
+      //const examplesList = document.getElementById('examples-list');
+      //const exampleOptions = Array.from(examplesList.options).map(option => option.value);
 
       const inputValue = projectNameInput.value;
-      const isValueInOptions = exampleOptions.includes(inputValue);
+      const isValueInOptions = examples.includes(inputValue);
 
       if (isValueInOptions) {
         // example selected

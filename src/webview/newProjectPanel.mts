@@ -1409,28 +1409,37 @@ export class NewProjectPanel {
                 <form>
                   ${
                     !this._isProjectImport
-                      ? `<div class="grid gap-6 md:grid-cols-2">
+                      ? `<div id="project-name-grid" class="grid gap-6 ${
+                          // removed/added dynamic in nav.js
+                          !forceCreateFromExample ? "md:grid-cols-2" : ""
+                        }">
                         <div>
                           <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                           <div class="flex">
-                            <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="${
-                              forceCreateFromExample
-                                ? "Select example"
-                                : "Project name"
-                            }" required/>
+                            <div class="relative inline-flex w-full">
+                                <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="${
+                                  forceCreateFromExample
+                                    ? "Select an example"
+                                    : "Project name"
+                                }" required/>
+                                <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border border-l-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 ${
+                                  !forceCreateFromExample ? "hidden" : ""
+                                }">&#9660;</button>
+                            </div>
                             <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-3 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 ml-2 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="Create from example">Example</button>
                           </div>
                               
                           ${
                             this._examples.length > 0
-                              ? `                              
-                          <datalist id="examples-list">
+                              ? `   
+                              <ul id="examples-list"></ul>                          
+                          <!--<datalist id="examples-list">
                             <option value="${this._examples
                               .map(e => e.searchKey)
                               .join(
                                 '">example project</option>\n<option value="'
                               )}">example project</option>
-                          </datalist>`
+                          </datalist>-->`
                               : ""
                           }
 
