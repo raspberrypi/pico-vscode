@@ -52,7 +52,6 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-- Cannot run project generator 2 times in a row without restarting the extension
 - Custom Ninja, Python3 or git paths are not stored in CMakeLists.txt like SDK and Toolchain paths so using them would require to build and configure the project thought the extension
 
 ### GitHub API Rate Limit ("Error while retrieving SDK and toolchain versions")
