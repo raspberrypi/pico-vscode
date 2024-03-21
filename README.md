@@ -2,9 +2,9 @@
 
 > NOTE: The extension is still under development.
 
-This is the official Visual Studio Code extension for Raspberry Pi Pico development. It provides a set of tools to help you getting started with development for the Pico boards using Visual Studio Code and the official [Pico-SDK](https://github.com/raspberrypi/pico-sdk).
+This is the official Visual Studio Code extension for Raspberry Pi Pico development. It provides a set of tools to help you get started with development for the Pico boards using Visual Studio Code and the official [Pico SDK](https://github.com/raspberrypi/pico-sdk).
 
-[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases/tag/0.12.0)
+[Download latest Beta RC 📀](https://github.com/paulober/vscode-raspberry-pi-pico/releases)
 
 ## Features
 
@@ -12,7 +12,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 - Automatic CMake configuration on project load
 - Easy option to switch between different versions of the Pico-SDK and tools
 - No configuration of environment variables required
-- Automatic download/management of Toolchain and SDK and some tools (no separate manuall download/installation required)
+- Automatic download/management of Toolchain and SDK and some tools (no separate manual download/installation required)
 - On-click project compilation per status bar button (with the selected Pico-SDK and tools)
 - Offline documentation for the Pico-SDK
 
@@ -52,7 +52,7 @@ This extension contributes the following settings:
 
 ## Known Issues
 
-- Custom Ninja, Python3 or git paths are not stored in CMakeLists.txt like SDK and Toolchain paths so using them would require to build and configure the project thought the extension
+- Custom Ninja, Python3 or git paths are not stored in `CMakeLists.txt` like SDK and Toolchain paths so using them would require to build and configure the project thought the extension
 
 ### GitHub API Rate Limit ("Error while retrieving SDK and toolchain versions")
 
