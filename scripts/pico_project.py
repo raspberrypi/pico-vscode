@@ -897,7 +897,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
         "ms-vscode.cpptools",
         "ms-vscode.cpptools-extension-pack",
         "ms-vscode.vscode-serial-monitor",
-        "paulober.raspberry-pi-pico",
+        "raspberry-pi.raspberry-pi-pico",
     ]
 }}
 '''

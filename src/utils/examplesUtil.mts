@@ -14,7 +14,7 @@ import { isInternetConnected } from "./downloadHelpers.mjs";
 export const CURRENT_DATA_VERSION = "0.10.0";
 
 const EXAMPLES_JSON_URL =
-  "https://paulober.github.io/vscode-raspberry-pi-pico/" +
+  "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/examples.json`;
 
 export interface Example {

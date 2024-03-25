@@ -8,7 +8,7 @@ import { CURRENT_DATA_VERSION, getDataRoot } from "./examplesUtil.mjs";
 import { isInternetConnected } from "./downloadHelpers.mjs";
 
 const iniUrl =
-  "https://paulober.github.io/vscode-raspberry-pi-pico/" +
+  "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/supportedToolchains.ini`;
 const supportedDistros = [
   "win32_x64",

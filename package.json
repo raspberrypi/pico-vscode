@@ -4,16 +4,16 @@
   "description": "The official VS Code extension for Raspberry Pi Pico development. It includeds serveral features to simplify project creation and deployment. (Single folder workspaces only)",
   "version": "0.12.0",
   "author": "paulober",
-  "publisher": "paulober",
+  "publisher": "raspberry-pi",
   "icon": "./images/extension-icon.png",
   "license": "MPL-2.0",
-  "homepage": "https://github.com/paulober/vscode-raspberry-pi-pico/blob/main/README.md",
+  "homepage": "https://github.com/raspberrypi/pico-vscode/blob/master/README.md",
   "bugs": {
-    "url": "https://github.com/paulober/vscode-raspberry-pi-pico/issues"
+    "url": "https://github.com/raspberrypi/pico-vscode/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/paulober/vscode-raspberry-pi-pico"
+    "url": "https://github.com/raspberrypi/pico-vscode/"
   },
   "engines": {
     "vscode": "^1.87.0",
