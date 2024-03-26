@@ -8,6 +8,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.12.1] - 2024-03-26
+
+### Changed
+
+- Fixed support for Raspberry Pi SWD debugging
+- Migrated to new github repository
+- Fix some minor issues in the README (@nathan-contino)
+
 ## [0.12.0] - 2024-03-18
 
 ### Added
