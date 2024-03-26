@@ -72,7 +72,7 @@ stdlib_examples_list = {
 }
 
 debugger_list = ["DebugProbe (CMSIS-DAP)", "SWD (Pi host)"]
-debugger_config_list = ["cmsis-dap.cfg", "raspberrypi-swd.cfg"]
+debugger_config_list = ["interface/cmsis-dap.cfg", "raspberrypi-swd.cfg"]
 
 DEFINES = 0
 INITIALISERS = 1
@@ -731,6 +731,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     os.chdir(projectPath)
 
     debugger = debugger_config_list[debugger]
+
+    if debugger == "raspberrypi-swd.cfg":
+        shutil.copyfile(sourcefolder + "/" +  "raspberrypi-swd.cfg", projectPath / "raspberrypi-swd.cfg")
+
     gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb").as_posix() if isWindows else "gdb-multiarch" if isMac else "gdb"
     # Need to escape windows files paths backslashes
     # TODO: env in currently not supported in compilerPath var
@@ -761,7 +765,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
             "configFiles": [
-                "interface/{debugger}",
+                "{debugger}",
                 "target/rp2040.cfg"
             ],
             "svdFile": "{codeSdkPath(sdkVersion)}/src/rp2040/hardware_regs/rp2040.svd",
