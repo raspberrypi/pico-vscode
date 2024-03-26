@@ -1456,7 +1456,9 @@ export class NewProjectPanel {
                             </select>
                         </div>
                       </div>`
-                      : ""
+                      : `<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                            Warning: Project Import Wizard may not work for all projects, and will often require manual correction after the import
+                        </h3>`
                   }
                     <div class="mt-6 mb-4">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
