@@ -27,6 +27,11 @@ jobs:
         run: |
           yarn lint
           vsce package --pre-release
+      - name: Test PAT
+        env:
+          VSCE_PAT: ${{ secrets.VSCODE_MARKETPLACE_PAT }}
+        run: |
+          vsce verify-pat raspberry-pi
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
