@@ -29,7 +29,8 @@ All requirements for macOS can be installed by running `xcode-select --install` 
 - Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 
 ### Raspberry Pi OS
-All requirements for Raspberry Pi OS can be installed by running `sudo apt install openocd ninja-build`
+As of March 2024, all new Raspberry Pi OS images come with the requirements pre-installed.
+On older images the requirements can be installed by running `sudo apt install openocd ninja-build`
 
 ### Linux
 - Python 3.9 or later (in PATH or set in settings)
@@ -48,11 +49,11 @@ This extension contributes the following settings:
 * `raspberry-pi-pico.ninjaPath`: Set custom ninja path
 * `raspberry-pi-pico.gitPath`: Set custom git path
 * `raspberry-pi-pico.cmakeAutoConfigure`: Enable/Disable cmake auto configure on project load
-* `raspberry-pi-pico.githubToken`: Takes a GitHub personal access token (classic) with the `public_repo` scope. It is used to check GitHub for available versions of the Pico SDK and other tools. Without one, the extension will use the GitHub API unauthenticated, which has a much lower rate limit causing many features to not work properly if the limit is reached.
+* `raspberry-pi-pico.githubToken`: Takes a GitHub personal access token (classic) with the `public_repo` scope. It is used to check GitHub for available versions of the Pico SDK and other tools. Without one, the extension will use the GitHub API unauthenticated, which has a much lower rate limit causing many features to not work properly if the limit is reached. The unauthenticated rate limit is per public IP address, so this is more likely to be necessary if you share your IP address with many other users.
 
 ## Known Issues
 
-- Custom Ninja, Python3 or git paths are not stored in `CMakeLists.txt` like SDK and Toolchain paths so using them would require to build and configure the project thought the extension
+- Custom Ninja, Python3 and git paths are not stored in `CMakeLists.txt` like the SDK and Toolchain paths, so using them requires the user to build and configure the project through the extension
 
 ### GitHub API Rate Limit ("Error while retrieving SDK and toolchain versions")
 
