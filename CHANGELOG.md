@@ -8,6 +8,16 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.12.2] - 2024-03-27
+
+### Added
+
+- Workflow for packaging and publishing extension (@will-v-pi)
+
+### Changed
+
+- Fix webview crash on dropdown button click (@paulober)
+
 ## [0.12.1] - 2024-03-26
 
 ### Changed
