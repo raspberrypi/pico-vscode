@@ -1,0 +1,29 @@
+name: Build .vsix release asset
+
+on: push
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Package Extension
+        run: |
+          npm i -g vsce
+          npm i -g yarn
+          yarn
+          vsce package --pre-release
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: raspberry-pi-pico
+          path: raspberry-pi-pico-*.vsix
+      - name: Add Release Asset
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: raspberry-pi-pico-*.vsix
