@@ -11,11 +11,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Package Extension
+      - name: Enable corepack
+        run: corepack enable
+      - name: Setup node v18
+        uses: actions/setup-node@v4
+        with: 
+          # the current node version use in vscode
+          node-version: '18'
+          cache: 'yarn'
+      - name: Install Dependencies
         run: |
           npm i -g @vscode/vsce
-          npm i -g yarn
           yarn
+      - name: Package Extension
+        run: |
+          yarn lint
           vsce package --pre-release
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
