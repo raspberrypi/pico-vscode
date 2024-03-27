@@ -42,3 +42,9 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: raspberry-pi-pico-*.vsix
+      - name: Publish Extension
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          VSCE_PAT: ${{ secrets.VSCODE_MARKETPLACE_PAT }}
+        run: |
+          vsce publish --pre-release -i raspberry-pi-pico-*.vsix
