@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Package Extension
         run: |
-          npm i -g vsce
+          npm i -g @vscode/vsce
           npm i -g yarn
           yarn
           vsce package --pre-release
