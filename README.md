@@ -13,7 +13,7 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 - Easy option to switch between different versions of the Pico-SDK and tools
 - No configuration of environment variables required
 - Automatic download/management of Toolchain and SDK and some tools (no separate manual download/installation required)
-- On-click project compilation per status bar button (with the selected Pico-SDK and tools)
+- One-click project compilation per status bar button (with the selected Pico-SDK and tools)
 - Offline documentation for the Pico-SDK
 
 ## Requirements by OS
