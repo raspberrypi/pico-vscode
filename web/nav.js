@@ -155,8 +155,10 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       projectNameInput.setAttribute('placeholder', 'Select an example');
 
       window.removeExampleItems = window.removeExampleItems || function () {
-        // clear ul
-        examplesList.innerHTML = '';
+        if (examplesList !== null) {
+          // clear ul
+          examplesList.innerHTML = '';
+        }
       };
 
       window.examplesListSelect = window.examplesListSelect || function (exampleName) {
@@ -176,7 +178,7 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
 
       window.handleOutsideSuggestionsClick = window.handleOutsideSuggestionsClick || function (event) {
         // check if the clicked element is not inside the examplesList
-        if (!examplesList.contains(event.target)) {
+        if (!examplesList.contains(event.target) && event.target !== projectNameDropdownButton) {
           // click occurred outside the suggestions "popup" so remove the suggestions
           removeExampleItems();
           removeClickOutsideSuggestionsListener();
@@ -228,6 +230,9 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       };
 
       projectNameDropdownButton.addEventListener('click', (event) => {
+        // without this the webview crashes if project name input contains any text
+        event.preventDefault();
+
         if (examplesList.childNodes.length === 0) {
           // this is required to prevent the outside suggestions listener to fire after it has been
           // added below

@@ -1434,7 +1434,7 @@ export class NewProjectPanel {
                               ? `   
                               <ul id="examples-list"></ul>                          
                           <!--<datalist id="examples-list">
-                            <option value="${this._examples
+                            <option value="\${this._examples
                               .map(e => e.searchKey)
                               .join(
                                 '">example project</option>\n<option value="'
