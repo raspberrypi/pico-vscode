@@ -921,7 +921,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             }},
             "problemMatcher": "$gcc",
             "windows": {{
-                "command": "{ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath}"
+                "command": "{ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath}.exe"
             }}
         }}
     ]
