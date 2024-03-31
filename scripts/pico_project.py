@@ -910,7 +910,8 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "tasks": [
         {{
             "label": "Compile Project",
-            "type": "shell",
+            "type": "process",
+            "isBuildCommand": true,
             "command": "{ninjaPath.replace(user_home, "${userHome}") if use_home_var else ninjaPath}",
             "args": ["-C", "${{workspaceFolder}}/build"],
             "group": "build",
@@ -918,7 +919,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "reveal": "always",
                 "panel": "dedicated"
             }},
-            "problemMatcher": "$gcc"
+            "problemMatcher": "$gcc",
+            "windows": {{
+                "command": "{ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath}"
+            }}
         }}
     ]
 }}
