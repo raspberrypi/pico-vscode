@@ -117,6 +117,14 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
         const child = exec(command, {
           env: customEnv,
           cwd: folder.fsPath,
+        }, (error, stdout, stderr) => {
+          if (error) {
+            console.error(error);
+            console.log(`stdout: ${stdout}`);
+            console.log(`stderr: ${stderr}`);
+          }
+
+          return;
         });
 
         child.on("error", err => {
