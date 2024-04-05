@@ -36,16 +36,16 @@ const LAST_PROJECT_ROOT_STATE_KEY = "lastProjectRoot";
 export default class Settings {
   private static instance?: Settings;
   private config: WorkspaceConfiguration;
-  public context: Memento;
+  public workspaceState: Memento;
   public globalState: GlobalStateType;
   private pkg: PackageJSON;
 
   private constructor(
-    context: Memento,
+    workspaceState: Memento,
     globalState: GlobalStateType,
     packageJSON: PackageJSON
   ) {
-    this.context = context;
+    this.workspaceState = workspaceState;
     this.globalState = globalState;
     this.pkg = packageJSON;
 
@@ -53,11 +53,11 @@ export default class Settings {
   }
 
   public static createInstance(
-    context: Memento,
+    workspaceState: Memento,
     globalState: GlobalStateType,
     packageJSON: PackageJSON
   ): Settings {
-    Settings.instance = new Settings(context, globalState, packageJSON);
+    Settings.instance = new Settings(workspaceState, globalState, packageJSON);
 
     return Settings.instance;
   }

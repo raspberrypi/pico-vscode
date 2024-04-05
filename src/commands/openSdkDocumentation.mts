@@ -1,7 +1,13 @@
 /* eslint-disable max-len */
 import { CommandWithArgs } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { type QuickPickItem, ViewColumn, window, Uri, type WebviewPanel } from "vscode";
+import {
+  type QuickPickItem,
+  ViewColumn,
+  window,
+  Uri,
+  type WebviewPanel,
+} from "vscode";
 import { readFileSync } from "fs";
 
 export enum DocumentationId {
@@ -38,7 +44,7 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
   private _logger: Logger = new Logger("OpenSdkDocumentationCommand");
 
   public static readonly id = "openSdkDocumentation";
-  private _panel: WebviewPanel|undefined = undefined;
+  private _panel: WebviewPanel | undefined = undefined;
 
   constructor(private readonly _extensionUri: Uri) {
     super(OpenSdkDocumentationCommand.id);
@@ -73,7 +79,7 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
 
     // show webview
     this._logger.info("Opening SDK documentation in browser...");
-    if (this._panel === undefined){
+    if (this._panel === undefined) {
       Logger.log("New panel");
       this._panel = window.createWebviewPanel(
         "pico-sdk-documentation",
@@ -100,11 +106,9 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
     panel.reveal();
 
     // dispose when hidden
-    panel.onDidDispose(
-      event => {
-        this._panel = undefined;
-      }, this
-    );
+    panel.onDidDispose(() => {
+      this._panel = undefined;
+    }, this);
   }
 
   private _getHtmlForWebview(
@@ -133,49 +137,39 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
           if (space === undefined) {
             space = "";
           }
-          if (file.match('#') || file.match('https')) {
-            if (file.match('#')) {
-              file = `#${file.split('#')[1]}`;
+          if (file.match("#") || file.match("https")) {
+            if (file.match("#")) {
+              file = `#${file.split("#")[1]}`;
             }
             const ret = `<a ${space}href="${file}"`;
 
             return ret;
           }
-          const command = Uri.parse(`command:raspberry-pi-pico.openSdkDocumentation?${
-            encodeURIComponent(JSON.stringify([undefined, file]))
-          }`).toString();
+          const command = Uri.parse(
+            `command:raspberry-pi-pico.openSdkDocumentation?${encodeURIComponent(
+              JSON.stringify([undefined, file])
+            )}`
+          ).toString();
           const ret = `<a ${space}href="${command}"`;
 
           return ret;
         })
         .replace(regexsrc, function (match, file: string) {
-          const ret = `src="${
-            panel.webview
-              .asWebviewUri(
-                Uri.joinPath(extensionUri, "web", "docs", file)
-              )
-              .toString()}"`;
+          const ret = `src="${panel.webview
+            .asWebviewUri(Uri.joinPath(extensionUri, "web", "docs", file))
+            .toString()}"`;
 
           return ret;
         })
         .replace(regexcss, function (match, file: string) {
-          const ret = `<link href="${
-            panel.webview
-              .asWebviewUri(
-                Uri.joinPath(extensionUri, "web", "docs", file)
-              )
-              .toString()}" rel="stylesheet"`;
+          const ret = `<link href="${panel.webview
+            .asWebviewUri(Uri.joinPath(extensionUri, "web", "docs", file))
+            .toString()}" rel="stylesheet"`;
 
           return ret;
         })
-        .replace(
-          '<div class="navigation-toggle">',
-          '<div hidden>'
-        )
-        .replace(
-          '<div id="main-nav">',
-          '<div id="main-nav" hidden>'
-        )
+        .replace('<div class="navigation-toggle">', "<div hidden>")
+        .replace('<div id="main-nav">', '<div id="main-nav" hidden>')
     );
   }
 }

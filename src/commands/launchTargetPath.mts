@@ -9,7 +9,8 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
   }
 
   private async readProjectNameFromCMakeLists(
-      filename: string): Promise<string | null> {
+    filename: string
+  ): Promise<string | null> {
     // Read the file
     const fileContent = readFileSync(filename, "utf-8");
 
@@ -26,7 +27,7 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
     // Extract the project name from the matched result
     if (match && match[1]) {
       const projectName = match[1].trim();
-      
+
       if (matchBg && matchPoll) {
         // For examples with both background and poll, let user pick which to run
         const quickPickItems = ["Threadsafe Background", "Poll"];
@@ -36,7 +37,7 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
         if (backgroundOrPoll === undefined) {
           return projectName;
         }
-    
+
         switch (backgroundOrPoll) {
           case quickPickItems[0]:
             return projectName + "_background";
@@ -69,7 +70,9 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       return "";
     }
 
-    return join(fsPathFolder, "build", projectName + ".elf")
-              .replaceAll("\\", "/");
+    return join(fsPathFolder, "build", projectName + ".elf").replaceAll(
+      "\\",
+      "/"
+    );
   }
 }
