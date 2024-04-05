@@ -746,9 +746,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     use_home_var = f"{user_home}/.pico-sdk" in ninjaPath
 
     openocd_path = ""
+    server_path = "\n            \"serverpath\"" # Because no \ in f-strings
     openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "bin", "openocd.exe")
     if os.path.exists(openocd_path_os):
-        openocd_path = f'\n"serverpath": "{codeOpenOCDPath(openOCDVersion)}/bin/openocd.exe",'
+        openocd_path = f'{codeOpenOCDPath(openOCDVersion)}/bin/openocd.exe'
 
     for p in projects :
         if p == 'vscode':
@@ -761,7 +762,8 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "request": "launch",
             "type": "cortex-debug",
-            "servertype": "openocd",{openocd_path}
+            "servertype": "openocd",\
+{f'{server_path}: "{openocd_path}",' if openocd_path else ""}
             "gdbPath": "{gdbPath}",
             "device": "RP2040",
             "configFiles": [
@@ -776,7 +778,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "continue"
             ],
             "openOCDLaunchCommands": [
-                "adapter speed 1000"
+                "adapter speed 5000"
             ],
             "preLaunchTask": "Compile Project"
         }},
@@ -808,11 +810,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "MIMode": "gdb",
             "miDebuggerPath": "{gdbPath}",
             "miDebuggerServerAddress": "localhost:3333",
-            "debugServerPath": "openocd",
-            "debugServerArgs": "-f interface/cmsis-dap.cfg -f target/rp2040.cfg -c \\"adapter speed 1000\\"",
+            "debugServerPath": "{openocd_path if openocd_path else "openocd"}",
+            "debugServerArgs": "-f {debugger} -f target/rp2040.cfg -c \\"adapter speed 5000\\"",
             "serverStarted": "Listening on port .* for gdb connections",
             "filterStderr": true,
-            "stopAtEntry": true,
             "hardwareBreakpoints": {{
                 "require": true,
                 "limit": 4
@@ -923,6 +924,21 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "windows": {{
                 "command": "{ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath}.exe"
             }}
+        }},
+        {{
+            "label": "Flash",
+            "type": "process",
+            "dependsOn": "Compile Project",
+            "command": "{openocd_path if openocd_path else "openocd"}",
+            "args": [
+                "-f",
+                "{debugger}",
+                "-f",
+                "target/rp2040.cfg",
+                "-c",
+                "adapter speed 5000; program ${{command:raspberry-pi-pico.launchTargetPath}} verify reset exit"
+            ],
+            "problemMatcher": []
         }}
     ]
 }}

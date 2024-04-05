@@ -69,6 +69,7 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       return "";
     }
 
-    return join(fsPathFolder, "build", projectName + ".elf");
+    return join(fsPathFolder, "build", projectName + ".elf")
+              .replaceAll("\\", "/");
   }
 }
