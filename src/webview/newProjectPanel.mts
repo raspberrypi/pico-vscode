@@ -398,6 +398,9 @@ export class NewProjectPanel {
     this._extensionUri = extensionUri;
     this._settings = settings;
     this._isProjectImport = isProjectImport;
+    // set local property as it's an indicator for initial projectRoot update
+    // later during webview initialization
+    projectUri = projectUri ?? this._settings.getLastProjectRoot();
     this._projectRoot = projectUri;
     this._isCreateFromExampleOnly = createFromExample;
 
@@ -440,6 +443,7 @@ export class NewProjectPanel {
               if (newLoc && newLoc[0]) {
                 // overwrite preview folderUri
                 this._projectRoot = newLoc[0];
+                await this._settings.setLastProjectRoot(newLoc[0]);
 
                 // update webview
                 await this._panel.webview.postMessage({

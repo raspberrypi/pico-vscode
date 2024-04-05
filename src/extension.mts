@@ -66,6 +66,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   const settings = Settings.createInstance(
     context.workspaceState,
+    context.globalState,
     context.extension.packageJSON as PackageJSON
   );
   GithubApiCache.createInstance(context);

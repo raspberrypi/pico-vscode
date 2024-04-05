@@ -1,4 +1,5 @@
-import type { Memento, WorkspaceConfiguration } from "vscode";
+import { homedir } from "os";
+import { type Memento, Uri, type WorkspaceConfiguration } from "vscode";
 import { workspace } from "vscode";
 
 /**
@@ -26,14 +27,26 @@ export interface PackageJSON {
   publisher: string;
 }
 
+export type GlobalStateType = Memento & {
+  setKeysForSync(keys: readonly string[]): void;
+};
+
+const LAST_PROJECT_ROOT_STATE_KEY = "lastProjectRoot";
+
 export default class Settings {
   private static instance?: Settings;
   private config: WorkspaceConfiguration;
   public context: Memento;
+  public globalState: GlobalStateType;
   private pkg: PackageJSON;
 
-  private constructor(context: Memento, packageJSON: PackageJSON) {
+  private constructor(
+    context: Memento,
+    globalState: GlobalStateType,
+    packageJSON: PackageJSON
+  ) {
     this.context = context;
+    this.globalState = globalState;
     this.pkg = packageJSON;
 
     this.config = workspace.getConfiguration(packageJSON.name);
@@ -41,9 +54,10 @@ export default class Settings {
 
   public static createInstance(
     context: Memento,
+    globalState: GlobalStateType,
     packageJSON: PackageJSON
   ): Settings {
-    Settings.instance = new Settings(context, packageJSON);
+    Settings.instance = new Settings(context, globalState, packageJSON);
 
     return Settings.instance;
   }
@@ -108,5 +122,21 @@ export default class Settings {
 
   public getExtensionId(): string {
     return [this.pkg.publisher, this.pkg.name].join(".");
+  }
+
+  public async setLastProjectRoot(root: Uri): Promise<void> {
+    // saving fsPath not uri project as it would get corrupted and lose its
+    // fsPath property after loading
+    await this.globalState.update(LAST_PROJECT_ROOT_STATE_KEY, root.fsPath);
+  }
+
+  public getLastProjectRoot(): Uri {
+    const fsPath = this.globalState.get<string>(
+      LAST_PROJECT_ROOT_STATE_KEY,
+      // default to home directory as new project root
+      homedir()
+    );
+
+    return Uri.file(fsPath);
   }
 }
