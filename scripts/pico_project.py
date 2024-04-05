@@ -538,7 +538,8 @@ def GenerateCMake(folder, params):
     cmake_header1 = (f"# Generated Cmake Pico project file\n\n"
                  "cmake_minimum_required(VERSION 3.13)\n\n"
                  "set(CMAKE_C_STANDARD 11)\n"
-                 "set(CMAKE_CXX_STANDARD 17)\n\n"
+                 "set(CMAKE_CXX_STANDARD 17)\n"
+                 "set(CMAKE_EXPORT_COMPILE_COMMANDS ON)\n\n"
                  "# Initialise pico_sdk from installed location\n"
                  "# (note this can come from environment, CMake cache etc)\n\n"
                 )
@@ -839,6 +840,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             ],
             "defines": [],
             "compilerPath": "{cPath}",
+            "compileCommands": "${{workspaceFolder}}/build/compile_commands.json",
             "cStandard": "c17",
             "cppStandard": "c++14",
             "intelliSenseMode": "linux-gcc-arm"
