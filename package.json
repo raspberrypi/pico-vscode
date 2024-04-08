@@ -183,10 +183,11 @@
     "compile": "rollup -c",
     "watch": "rollup -cw",
     "package": "rollup -c --environment BUILD:production --sourcemap hidden",
-    "lint": "eslint src --ext mts",
+    "lint": "eslint src",
     "test": "yarn run lint"
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
@@ -196,13 +197,13 @@
     "@types/uuid": "^9.0.8",
     "@types/vscode": "^1.87.0",
     "@types/which": "^3.0.3",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "globals": "^15.0.0",
     "rollup": "^4.14.1",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.4",
+    "typescript-eslint": "^7.5.0"
   },
   "dependencies": {
     "adm-zip": "^0.5.12",

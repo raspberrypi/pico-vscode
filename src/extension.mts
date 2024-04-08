@@ -462,7 +462,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export function deactivate(): void {
   void commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
 

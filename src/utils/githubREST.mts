@@ -73,7 +73,6 @@ interface AuthorizationHeaders {
 }
 
 export function getAuthorizationHeaders(): AuthorizationHeaders {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const headers: AuthorizationHeaders = {};
   // takes some time to execute (noticable in UI)
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);

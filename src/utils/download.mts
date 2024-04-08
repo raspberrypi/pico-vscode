@@ -238,7 +238,6 @@ export async function downloadAndInstallTools(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, `sdk-tools.zip`);
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   let sdkToolsAsset: GithubReleaseAssetData | undefined;
 
   try {
@@ -466,7 +465,6 @@ export async function downloadAndInstallNinja(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, `ninja.zip`);
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   let ninjaAsset: GithubReleaseAssetData | undefined;
 
   try {
@@ -609,7 +607,6 @@ export async function downloadAndInstallOpenOCD(
   const assetExt: string = process.platform === "win32" ? "zip" : "tar.gz";
   const archiveFilePath = join(tmpBasePath, `openocd.${assetExt}`);
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   let openocdAsset: GithubReleaseAssetData | undefined;
 
   try {
@@ -756,7 +753,6 @@ export async function downloadAndInstallCmake(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, `cmake-${version}.${assetExt}`);
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   let cmakeAsset: GithubReleaseAssetData | undefined;
 
   try {
