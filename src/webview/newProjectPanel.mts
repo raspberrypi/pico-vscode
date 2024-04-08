@@ -1142,7 +1142,10 @@ export class NewProjectPanel {
     await this._panel.webview.postMessage({
       command: "setTheme",
       theme:
-        window.activeColorTheme.kind === ColorThemeKind.Dark ? "dark" : "light",
+        window.activeColorTheme.kind === ColorThemeKind.Dark ||
+        window.activeColorTheme.kind === ColorThemeKind.HighContrast
+          ? "dark"
+          : "light",
     });
   }
 
