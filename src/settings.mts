@@ -12,6 +12,7 @@ export enum SettingsKey {
   gitPath = "gitPath",
   cmakeAutoConfigure = "cmakeAutoConfigure",
   githubToken = "githubToken",
+  useCmakeTools = "useCmakeTools",
 }
 
 /**

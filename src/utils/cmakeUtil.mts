@@ -101,6 +101,15 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
     return false;
   }
 
+  if (settings.getBoolean(SettingsKey.useCmakeTools)) {
+    await window.showErrorMessage(
+      "You must use the CMake Tools extension to configure your build. " +
+      "To use this extension instead, change the useCmakeTools setting."
+    );
+
+    return false;
+  }
+
   try {
     // check if CMakeLists.txt exists in the root folder
     await workspace.fs.stat(

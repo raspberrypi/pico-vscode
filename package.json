@@ -163,6 +163,11 @@
           "default": true,
           "markdownDescription": "Automatically run configure when opening a Pico project"
         },
+        "raspberry-pi-pico.useCmakeTools": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Use the CMake Tools extension for CMake configuration, instead of this extension"
+        },
         "raspberry-pi-pico.githubToken": {
           "type": "string",
           "default": "",
