@@ -27,6 +27,7 @@ COMPILER_NAME = 'arm-none-eabi-gcc'
 
 VSCODE_LAUNCH_FILENAME = 'launch.json'
 VSCODE_C_PROPERTIES_FILENAME = 'c_cpp_properties.json'
+VSCODE_CMAKE_KITS_FILENAME ='cmake-kits.json'
 VSCODE_SETTINGS_FILENAME ='settings.json'
 VSCODE_EXTENSIONS_FILENAME ='extensions.json'
 VSCODE_TASKS_FILENAME ='tasks.json'
@@ -740,7 +741,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     # Need to escape windows files paths backslashes
     # TODO: env in currently not supported in compilerPath var
     #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
-    cPath = compilerPath.as_posix()
+    cPath = compilerPath.as_posix() + (".exe" if isWindows else "")
 
     # if this is a path in the .pico-sdk homedir tell the settings to use the homevar
     user_home = os.path.expanduser("~").replace("\\", "/")
@@ -851,6 +852,24 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 '''
 
             pythonExe = sys.executable.replace("\\", "/").replace(user_home, "${HOME}") if use_home_var else sys.executable
+
+            # kits
+            kits = f'''[
+    {{
+        "name": "Pico",
+        "compilers": {{
+            "C": "{cPath}",
+            "CXX": "{cPath}"
+        }},
+        "toolchainFile": "{propertiesSdkPath(sdkVersion)}/cmake/preload/toolchains/pico_arm_gcc.cmake",
+        "environmentVariables": {{
+            "PATH": "${{command:raspberry-pi-pico.getEnvPath}};${{env:PATH}}"
+        }},
+        "cmakeSettings": {{
+            "Python3_EXECUTABLE": "${{command:raspberry-pi-pico.getPythonPath}}"
+        }}
+    }}
+]'''
 
             # settings
             settings = f'''{{
@@ -963,6 +982,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
             file = open(VSCODE_C_PROPERTIES_FILENAME, 'w')
             file.write(properties)
+            file.close()
+
+            file = open(VSCODE_CMAKE_KITS_FILENAME, 'w')
+            file.write(kits)
             file.close()
 
             file = open(VSCODE_SETTINGS_FILENAME, 'w')

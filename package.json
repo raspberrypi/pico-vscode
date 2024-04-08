@@ -79,6 +79,18 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getPythonPath",
+        "title": "Get python path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getEnvPath",
+        "title": "Get environment path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
