@@ -79,7 +79,7 @@ var isPicoWireless = false;
 
     const createFromExampleBtn = document.getElementById('btn-create-from-example');
     const isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
-    if (isExampleMode && !isExampleSelected) {
+    if (isExampleMode && !isExampleSelected && !doProjectImport) {
       console.error("example not selected");
       vscode.postMessage({
         command: CMD_ERROR,
