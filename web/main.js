@@ -534,6 +534,12 @@ var isPicoWireless = false;
     for (let i = 0; i < advancedOptions2.length; i++) {
       advancedOptions2[i].disabled = !advancedOptions2[i].disabled;
     }
+    let hidden = advancedOptions[0].hidden;
+    if (hidden) {
+      document.getElementById('btn-advanced-options').innerText = "Show Advanced Options";
+    } else {
+      document.getElementById('btn-advanced-options').innerText = "Hide Advanced Options";
+    }
   });
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);
   const selectBoardTypeElement = document.getElementById('sel-board-type');
