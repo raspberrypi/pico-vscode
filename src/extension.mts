@@ -30,6 +30,10 @@ import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
 import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
 import {
+  GetPythonPathCommand,
+  GetEnvPathCommand
+} from "./commands/getPaths.mjs";
+import {
   downloadAndInstallCmake,
   downloadAndInstallNinja,
   downloadAndInstallSDK,
@@ -80,6 +84,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       new NewProjectCommand(context.extensionUri),
       new SwitchSDKCommand(ui, context.extensionUri),
       new LaunchTargetPathCommand(),
+      new GetPythonPathCommand(),
+      new GetEnvPathCommand(),
       new CompileProjectCommand(),
       new ClearGithubApiCacheCommand(),
       new ConditionalDebuggingCommand(),

@@ -79,6 +79,18 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getPythonPath",
+        "title": "Get python path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getEnvPath",
+        "title": "Get environment path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
@@ -150,6 +162,11 @@
           "type": "boolean",
           "default": true,
           "markdownDescription": "Automatically run configure when opening a Pico project"
+        },
+        "raspberry-pi-pico.useCmakeTools": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Use the CMake Tools extension for CMake configuration, instead of this extension"
         },
         "raspberry-pi-pico.githubToken": {
           "type": "string",

@@ -1,6 +1,7 @@
-import { tasks, window } from "vscode";
+import { commands, tasks, window } from "vscode";
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
+import Settings, { SettingsKey } from "../settings.mjs";
 
 export default class CompileProjectCommand extends Command {
   private _logger: Logger = new Logger("CompileProjectCommand");
@@ -18,6 +19,18 @@ export default class CompileProjectCommand extends Command {
 
       return task.name === "Compile Project";
     });
+
+    const settings = Settings.getInstance();
+    if (
+      settings !== undefined && settings.getBoolean(SettingsKey.useCmakeTools)
+    ) {
+      // Compile with CMake Tools
+      await commands.executeCommand(
+        "cmake.launchTargetPath"
+      );
+
+      return;
+    }
 
     if (task) {
       // Execute the task

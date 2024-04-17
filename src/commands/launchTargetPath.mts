@@ -1,7 +1,8 @@
 import { readFileSync } from "fs";
 import { CommandWithResult } from "./command.mjs";
-import { window, workspace } from "vscode";
+import { commands, window, workspace } from "vscode";
 import { join } from "path";
+import Settings, { SettingsKey } from "../settings.mjs";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -60,6 +61,19 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       return "";
     }
 
+    const settings = Settings.getInstance();
+    if (
+      settings !== undefined && settings.getBoolean(SettingsKey.useCmakeTools)
+    ) {
+      // Compile with CMake Tools
+      const path: string = await commands.executeCommand(
+        "cmake.launchTargetPath"
+      );
+      if (path) {
+        return path;
+      }
+    }
+
     const fsPathFolder = workspace.workspaceFolders[0].uri.fsPath;
 
     const projectName = await this.readProjectNameFromCMakeLists(
@@ -69,6 +83,9 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
     if (projectName === null) {
       return "";
     }
+
+    // Compile before returning
+    await commands.executeCommand("raspberry-pi-pico.compileProject");
 
     return join(fsPathFolder, "build", projectName + ".elf").replaceAll(
       "\\",

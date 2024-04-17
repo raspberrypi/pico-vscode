@@ -11,10 +11,101 @@ import { rimraf, windows as rimrafWindows } from "rimraf";
 import { homedir } from "os";
 import which from "which";
 
+export async function getPythonPath(): Promise<string> {
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.log("Error: Settings not initialized.");
+
+    return "";
+  }
+
+  const pythonPath = (
+    await which(
+      settings
+        .getString(SettingsKey.python3Path)
+        ?.replace(HOME_VAR, homedir()) ||
+        (process.platform === "win32" ? "python" : "python3"),
+      { nothrow: true }
+    )
+  ).replaceAll("\\", "/");
+
+  return `${pythonPath.replaceAll("\\", "/")}`;
+}
+
+export async function getPath(): Promise<string> {
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.log("Error: Settings not initialized.");
+
+    return "";
+  }
+
+  const ninjaPath = (
+    await which(
+      settings
+        .getString(SettingsKey.ninjaPath)
+        ?.replace(HOME_VAR, homedir()) || "ninja",
+      { nothrow: true }
+    )
+  ).replaceAll("\\", "/");
+  const cmakePath = (
+    await which(
+      settings
+        .getString(SettingsKey.cmakePath)
+        ?.replace(HOME_VAR, homedir()) || "cmake",
+      { nothrow: true }
+    )
+  ).replaceAll("\\", "/");
+  Logger.log(
+    settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
+  );
+  // TODO: maybe also check for "python" on unix systems
+  const pythonPath = await getPythonPath();
+
+  if (ninjaPath === null || cmakePath === null) {
+    const missingTools = [];
+    if (ninjaPath === null) {
+      missingTools.push("Ninja");
+    }
+    if (cmakePath === null) {
+      missingTools.push("CMake");
+    }
+    if (pythonPath === null) {
+      missingTools.push("Python 3");
+    }
+    void showRequirementsNotMetErrorMessage(missingTools);
+
+    return "";
+  }
+
+  const isWindows = process.platform === "win32";
+
+  return `${
+    ninjaPath.includes("/") ? dirname(ninjaPath) : ""
+  }${
+    cmakePath.includes("/")
+      ? `${isWindows ? ";" : ":"}${dirname(cmakePath)}`
+      : ""
+  }${
+    pythonPath.includes("/")
+      ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
+      : ""
+  }`;
+}
+
 export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
     Logger.log("Error: Settings not initialized.");
+
+    return false;
+  }
+
+  if (settings.getBoolean(SettingsKey.useCmakeTools)) {
+    await window.showErrorMessage(
+      "You must use the CMake Tools extension to configure your build. " +
+      "To use this extension instead, change the useCmakeTools setting."
+    );
 
     return false;
   }
@@ -24,52 +115,6 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
     await workspace.fs.stat(
       folder.with({ path: join(folder.fsPath, "CMakeLists.txt") })
     );
-
-    const ninjaPath = (
-      await which(
-        settings
-          .getString(SettingsKey.ninjaPath)
-          ?.replace(HOME_VAR, homedir()) || "ninja",
-        { nothrow: true }
-      )
-    ).replaceAll("\\", "/");
-    const cmakePath = (
-      await which(
-        settings
-          .getString(SettingsKey.cmakePath)
-          ?.replace(HOME_VAR, homedir()) || "cmake",
-        { nothrow: true }
-      )
-    ).replaceAll("\\", "/");
-    Logger.log(
-      settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
-    );
-    // TODO: maybe also check for "python" on unix systems
-    const pythonPath = (
-      await which(
-        settings
-          .getString(SettingsKey.python3Path)
-          ?.replace(HOME_VAR, homedir()) ||
-          (process.platform === "win32" ? "python" : "python3"),
-        { nothrow: true }
-      )
-    ).replaceAll("\\", "/");
-
-    if (ninjaPath === null || cmakePath === null) {
-      const missingTools = [];
-      if (ninjaPath === null) {
-        missingTools.push("Ninja");
-      }
-      if (cmakePath === null) {
-        missingTools.push("CMake");
-      }
-      if (pythonPath === null) {
-        missingTools.push("Python 3");
-      }
-      void showRequirementsNotMetErrorMessage(missingTools);
-
-      return false;
-    }
 
     void window.withProgress(
       {
@@ -93,17 +138,13 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
           ? resolve(join(dirname(pythonPath), ".."))
           : "";*/
         const isWindows = process.platform === "win32";
-        customEnv[isWindows ? "Path" : "PATH"] = `${
-          ninjaPath.includes("/") ? dirname(ninjaPath) : ""
-        }${
-          cmakePath.includes("/")
-            ? `${isWindows ? ";" : ":"}${dirname(cmakePath)}`
-            : ""
-        }${
-          pythonPath.includes("/")
-            ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
-            : ""
-        }${customEnv[isWindows ? "Path" : "PATH"]}`;
+        const customPath = await getPath();
+        if (!customPath) {
+          return false;
+        }
+        customEnv[isWindows ? "Path" : "PATH"] = customPath
+          + customEnv[isWindows ? "Path" : "PATH"];
+        const pythonPath = await getPythonPath();
 
         const command =
           `${
