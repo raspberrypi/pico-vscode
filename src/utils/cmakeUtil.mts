@@ -122,7 +122,6 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
         cancellable: true,
         title: "Configuring CMake...",
       },
-      // eslint-disable-next-line @typescript-eslint/require-await
       async (progress, token) => {
         const cmake =
           settings
