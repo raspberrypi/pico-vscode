@@ -8,6 +8,21 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.13.0] - 2024-04-22
+
+### Added
+
+- Generate compile_commands.json, for better intellisense (@will-v-pi)
+- Support for compiling with the cmake-tools extension (@will-v-pi)
+
+### Changed
+
+- Fix compilation on Windows, when Git Bash used as default shell (@paulober)
+- Now uses downloaded GDB on MacOS by default (@will-v-pi)
+- Fix some examples generation bugs (@will-v-pi)
+- Fix high contrast theming (@paulober)
+- Fix ninja download on Linux (@will-v-pi)
+
 ## [0.12.2] - 2024-03-27
 
 ### Added
