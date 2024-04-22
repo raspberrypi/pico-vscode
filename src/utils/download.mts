@@ -25,7 +25,7 @@ import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
   darwin: "mac",
-  linux: "lin",
+  linux: "linux",
   win32: "win",
 };
 
