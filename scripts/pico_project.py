@@ -955,9 +955,12 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "-f",
                 "target/rp2040.cfg",
                 "-c",
-                "adapter speed 5000; program ${{command:raspberry-pi-pico.launchTargetPath}} verify reset exit"
+                "adapter speed 5000; program \\"${{command:raspberry-pi-pico.launchTargetPath}}\\" verify reset exit"
             ],
-            "problemMatcher": []
+            "problemMatcher": [],
+            "windows": {{
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+            }}
         }}
     ]
 }}
