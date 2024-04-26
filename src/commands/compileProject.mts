@@ -35,25 +35,38 @@ export default class CompileProjectCommand extends Command {
 
     if (task) {
       // Execute the task
-      var emitter = new EventEmitter();
+      const emitter = new EventEmitter();
 
       // add callbacks for task completion
-      var end = tasks.onDidEndTaskProcess(e => {
-        emitter.emit("terminated", e.exitCode);
+      const end = tasks.onDidEndTaskProcess(e => {
+        emitter.emit(
+          "terminated",
+          e.exitCode === undefined ? -1 : e.exitCode
+        );
       });
-      var end2 = tasks.onDidEndTask(e => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const end2 = tasks.onDidEndTask(e => {
         emitter.emit("terminated", -1);
       });
 
       await tasks.executeTask(task);
-      var code = await new Promise<Number>((resolve, reject) => {
-        emitter.on("terminated", code => resolve(code));
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const code = await new Promise<number>((resolve, reject) => {
+        emitter.on("terminated", code => {
+          if (typeof(code) === 'number') {
+            resolve(code);
+          } else {
+            resolve(-1);
+          }
+        });
       });
 
       // dispose of callbacks
       end.dispose();
       end2.dispose();
-      this._logger.debug("Task 'Compile Project' completed with code " + code);
+      this._logger.debug(
+        "Task 'Compile Project' completed with code " + code.toString()
+      );
     } else {
       // Task not found
       this._logger.error("Task 'Compile Project' not found.");
