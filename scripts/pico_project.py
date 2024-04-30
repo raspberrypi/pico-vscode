@@ -891,7 +891,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "C_Cpp.debugShortcut": false,
     "terminal.integrated.env.windows": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_windows=True)}",
-        "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(sdkVersion, force_windows=True)}",
+        "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_windows=True)}",
         "Path": "{propertiesToolchainPath(toolchainVersion, force_windows=True)}/bin;{os.path.dirname(cmakePath.replace(user_home, "${env:USERPROFILE}") if use_home_var else cmakePath)};{os.path.dirname(ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath)};${{env:PATH}}"
     }},
     "terminal.integrated.env.osx": {{
