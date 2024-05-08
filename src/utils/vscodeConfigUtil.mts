@@ -40,7 +40,8 @@ async function updateCppPropertiesFile(
       );
       // Add the new pico-sdk forcedInclude
       config.forcedInclude.push(
-        `\${userHome}/.pico-sdk/sdk/${newSDKVersion}/src/common/pico_base/include/pico.h`
+        `\${userHome}/.pico-sdk/sdk/${newSDKVersion}` +
+          "/src/common/pico_base/include/pico.h"
       );
 
       // Update the compilerPath

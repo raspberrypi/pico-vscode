@@ -488,12 +488,13 @@ export default class SwitchSDKCommand extends Command {
       // notify user that reloading the window is
       // recommended to update intellisense
       const reload = await window.showInformationMessage(
-        "It is recommended to reload the window to update intellisense with the new SDK version.",
+        "It is recommended to reload the window to update intellisense " +
+          "with the new SDK version.",
         reloadWindowBtn
       );
 
       if (reload === reloadWindowBtn) {
-        commands.executeCommand("workbench.action.reloadWindow");
+        void commands.executeCommand("workbench.action.reloadWindow");
       }
     }
   }
