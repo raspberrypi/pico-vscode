@@ -7,6 +7,7 @@ import { dirname } from "path/posix";
 
 interface Configuration {
   includePath: string[];
+  forcedInclude: string[];
   compilerPath: string;
 }
 
@@ -32,6 +33,16 @@ async function updateCppPropertiesFile(
       );
       // Add the new pico-sdk includePath
       config.includePath.push(`\${userHome}/.pico-sdk/sdk/${newSDKVersion}/**`);
+
+      // Remove the old pico-sdk forcedInclude values set by this extension
+      config.forcedInclude = config.forcedInclude.filter(
+        item => !item.startsWith("${userHome}/.pico-sdk")
+      );
+      // Add the new pico-sdk forcedInclude
+      config.forcedInclude.push(
+        `\${userHome}/.pico-sdk/sdk/${newSDKVersion}/src/common/pico_base/include/pico.h`
+      );
+
       // Update the compilerPath
       config.compilerPath =
         "${userHome}/.pico-sdk/toolchain" +
