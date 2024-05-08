@@ -8,6 +8,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.13.1] - 2024-05-08
+
+### Fixed
+
+- Fix concurrency with Compile Project task (#14)
+- Fix Flash task bugs (#13)
+- Fix PICO_TOOLCHAIN_PATH in Windows integrated terminal
+
 ## [0.13.0] - 2024-04-22
 
 ### Added
