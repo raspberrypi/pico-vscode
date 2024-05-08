@@ -1,5 +1,11 @@
 import { Command } from "./command.mjs";
-import { ProgressLocation, type Uri, window, workspace } from "vscode";
+import {
+  ProgressLocation,
+  type Uri,
+  window,
+  workspace,
+  commands,
+} from "vscode";
 import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
 import {
@@ -477,6 +483,18 @@ export default class SwitchSDKCommand extends Command {
 
     if (result) {
       this._ui.updateSDKVersion(selectedSDK.label.replace("v", ""));
+
+      const reloadWindowBtn = "Reload Window";
+      // notify user that reloading the window is
+      // recommended to update intellisense
+      const reload = await window.showInformationMessage(
+        "It is recommended to reload the window to update intellisense with the new SDK version.",
+        reloadWindowBtn
+      );
+
+      if (reload === reloadWindowBtn) {
+        commands.executeCommand("workbench.action.reloadWindow");
+      }
     }
   }
 }
