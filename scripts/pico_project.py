@@ -830,10 +830,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "name": "Pico",
             "includePath": [
                 "${{workspaceFolder}}/**",
-                "{propertiesSdkPath(sdkVersion)}/**"
+                "{codeSdkPath(sdkVersion)}/**"
             ],
             "forcedInclude": [
-                "{propertiesSdkPath(sdkVersion)}/src/common/pico_base/include/pico.h",
+                "{codeSdkPath(sdkVersion)}/src/common/pico_base/include/pico.h",
                 "${{workspaceFolder}}/build/generated/pico_base/pico/config_autogen.h"
             ],
             "defines": [],
@@ -1138,7 +1138,7 @@ if args.name == None and not args.gui and not args.list and not args.configs and
 if args.cpath:
     compilerPath = Path(args.cpath)
 elif args.toolchainVersion:
-    compilerPath = Path(propertiesToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME)
+    compilerPath = Path(codeToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME)
 else:
     compilerPath = Path(c)
 

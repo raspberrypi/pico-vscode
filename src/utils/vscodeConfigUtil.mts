@@ -28,13 +28,13 @@ async function updateCppPropertiesFile(
     cppProperties.configurations.forEach(config => {
       // Remove the old pico-sdk includePath values set by this extension
       config.includePath = config.includePath.filter(
-        item => !item.startsWith("${env:HOME}/.pico-sdk")
+        item => !item.startsWith("${userHome}/.pico-sdk")
       );
       // Add the new pico-sdk includePath
-      config.includePath.push(`\${env:HOME}/.pico-sdk/sdk/${newSDKVersion}/**`);
+      config.includePath.push(`\${userHome}/.pico-sdk/sdk/${newSDKVersion}/**`);
       // Update the compilerPath
       config.compilerPath =
-        "${env:HOME}/.pico-sdk/toolchain" +
+        "${userHome}/.pico-sdk/toolchain" +
         `/${newToolchainVersion}/bin/${
           // "arm-none-eabi-gcc" should work on all platforms no need for extension on Windows
           /*process.platform === "win32"
@@ -94,10 +94,7 @@ function relativeToolchainPath(toolchainVersion: string): string {
  * @returns The path to the toolchain.
  */
 function buildPropertiesToolchainPathBin(toolchainVersion: string): string {
-  // TODO: may home is also available in newer versions of windows
-  return `${
-    process.platform === "win32" ? "${env:USERPROFILE}" : "${env:HOME}"
-  }${relativeToolchainPath(toolchainVersion)}/bin`;
+  return `\${userHome}${relativeToolchainPath(toolchainVersion)}/bin`;
 }
 
 function buildCMakePath(cmakeVersion: string): string {
