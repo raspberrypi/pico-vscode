@@ -1174,6 +1174,9 @@ export class NewProjectPanel {
     const navScriptUri = webview.asWebviewUri(
       Uri.joinPath(this._extensionUri, "web", "nav.js")
     );
+    const stateScriptUri = webview.asWebviewUri(
+      Uri.joinPath(this._extensionUri, "web", "state.js")
+    );
     const tailwindcssScriptUri = webview.asWebviewUri(
       Uri.joinPath(this._extensionUri, "web", "tailwindcss-3_3_5.js")
     );
@@ -1513,7 +1516,11 @@ export class NewProjectPanel {
                                   !this._isProjectImport
                                     ? "C:\\MyProject"
                                     : "C:\\Project\\To\\Import"
-                                }" disabled/>
+                                }" disabled value="${
+      this._projectRoot !== undefined
+        ? this._projectRoot.fsPath.replaceAll("\\", "/")
+        : ""
+    }"/>
                             </div>
                             <button 
                                 id="btn-change-project-location"
@@ -1820,6 +1827,7 @@ export class NewProjectPanel {
         </main>
 
         <script nonce="${nonce}" src="${navScriptUri.toString()}"></script>
+        <script nonce="${nonce}" src="${stateScriptUri.toString()}"></script>
         <script nonce="${nonce}" src="${mainScriptUri.toString()}"></script>
       </body>
     </html>`;

@@ -18,10 +18,8 @@ var isPicoWireless = false;
 (function () {
   const vscode = acquireVsCodeApi();
 
-  // TODO: save input in state
-  const oldState = vscode.getState();
-
-  console.log("oldState", oldState);
+  // setup state for webview implemented in state.js
+  setupStateSystem(vscode);
 
   // needed so a element isn't hidden behind the navbar on scroll
   const navbarOffsetHeight = document.getElementById('top-navbar').offsetHeight;
