@@ -204,7 +204,7 @@
     "test": "yarn run lint"
   },
   "devDependencies": {
-    "@eslint/js": "^9.2.0",
+    "@eslint/js": "^9.3.0",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
@@ -214,18 +214,18 @@
     "@types/uuid": "^9.0.8",
     "@types/vscode": "^1.87.0",
     "@types/which": "^3.0.3",
-    "eslint": "^9.2.0",
+    "eslint": "^9.3.0",
     "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.1.0",
+    "globals": "^15.3.0",
     "rollup": "^4.17.2",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
-    "typescript-eslint": "^7.8.0"
+    "typescript-eslint": "^7.9.0"
   },
   "dependencies": {
     "adm-zip": "^0.5.12",
     "ini": "^4.1.2",
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.7",
     "uuid": "^9.0.1",
     "which": "^4.0.0"
   },
