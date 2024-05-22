@@ -1,10 +1,10 @@
 import { commands, tasks, window } from "vscode";
 import { EventEmitter } from 'events';
-import { Command } from "./command.mjs";
+import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 
-export default class CompileProjectCommand extends Command {
+export default class CompileProjectCommand extends CommandWithResult<boolean> {
   private _logger: Logger = new Logger("CompileProjectCommand");
 
   public static readonly id = "compileProject";
@@ -13,7 +13,7 @@ export default class CompileProjectCommand extends Command {
     super(CompileProjectCommand.id);
   }
 
-  async execute(): Promise<void> {
+  async execute(): Promise<boolean> {
     // Get the task with the specified name
     const task = (await tasks.fetchTasks()).find(task => () => {
       console.log(`[TASK] ${task.name}`);
@@ -30,7 +30,7 @@ export default class CompileProjectCommand extends Command {
         "cmake.launchTargetPath"
       );
 
-      return;
+      return true;
     }
 
     if (task) {
@@ -67,12 +67,15 @@ export default class CompileProjectCommand extends Command {
       this._logger.debug(
         "Task 'Compile Project' completed with code " + code.toString()
       );
+
+      return code === 0;
     } else {
       // Task not found
       this._logger.error("Task 'Compile Project' not found.");
       void window.showErrorMessage("Task 'Compile Project' not found.");
+
+      return false;
     }
 
-    return;
   }
 }

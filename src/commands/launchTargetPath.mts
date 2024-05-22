@@ -85,7 +85,15 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
     }
 
     // Compile before returning
-    await commands.executeCommand("raspberry-pi-pico.compileProject");
+    const compiled = await commands.executeCommand(
+      "raspberry-pi-pico.compileProject"
+    );
+
+    if (!compiled) {
+      throw new Error(
+        "Failed to compile project - check output from the Compile Project task"
+      );
+    }
 
     return join(fsPathFolder, "build", projectName + ".elf").replaceAll(
       "\\",

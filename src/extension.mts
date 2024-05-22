@@ -79,7 +79,10 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const ui = new UI(picoProjectActivityBarProvider);
   ui.init();
 
-  const COMMANDS: Array<Command | CommandWithResult<string> | CommandWithArgs> =
+  const COMMANDS: Array<
+    Command | CommandWithResult<string> |
+    CommandWithResult<boolean> | CommandWithArgs
+  > =
     [
       new NewProjectCommand(context.extensionUri),
       new SwitchSDKCommand(ui, context.extensionUri),
