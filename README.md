@@ -39,7 +39,6 @@ On older images the requirements can be installed by running `sudo apt install o
 - Git (in PATH)
 - Tar (in PATH)
 - Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
-- Ninja in PATH (arm64 only)
 - \[Optional\] OpenOCD for debugging (Raspberry Pi OS only)
 - \[Optional\] gdb-multiarch for debugging (x86_64 only)
 

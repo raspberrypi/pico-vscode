@@ -59,8 +59,8 @@ import {
   setupExample,
 } from "../utils/examplesUtil.mjs";
 
-export const NINJA_AUTO_INSTALL_DISABLED =
-  process.platform === "linux" && process.arch === "arm64";
+export const NINJA_AUTO_INSTALL_DISABLED = false;
+  // process.platform === "linux" && process.arch === "arm64";
 
 interface ImportProjectMessageValue {
   selectedSDK: string;

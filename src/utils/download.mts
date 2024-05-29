@@ -477,7 +477,13 @@ export async function downloadAndInstallNinja(
         return false;
       }
 
-      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}.zip`;
+      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}-${
+        process.platform === "linux"
+          ? process.arch === "arm64"
+            ? "aarch64"
+            : ""
+          : ""
+      }.zip`;
       // Find the asset with the name 'ninja-win.zip'
       ninjaAsset = release.assets.find(asset => asset.name === assetName);
     } else {
