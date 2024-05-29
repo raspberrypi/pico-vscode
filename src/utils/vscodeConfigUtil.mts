@@ -89,28 +89,16 @@ async function updateTasksFile(
   await writeFile(tasksFile, content, "utf8");
 }
 
-/**
- * Replication of the python function in pico_project.py
- *
- * @param toolchainVersion The toolchain version to create the path for.
- * @returns The path to the toolchain.
- */
-function relativeToolchainPath(toolchainVersion: string): string {
-  return `/.pico-sdk/toolchain/${toolchainVersion}`;
-}
-
-/**
- * Replication of the python function in pico_project.py
- *
- * @param toolchainVersion The toolchain version to create the path for.
- * @returns The path to the toolchain.
- */
-function buildPropertiesToolchainPathBin(toolchainVersion: string): string {
-  return `\${userHome}${relativeToolchainPath(toolchainVersion)}/bin`;
-}
-
 function buildCMakePath(cmakeVersion: string): string {
   return `\${userHome}/.pico-sdk/cmake/${cmakeVersion}/bin/cmake`;
+}
+
+function buildCMakeHomePath(cmakeVersion: string): string {
+  return `\${HOME}/.pico-sdk/cmake/${cmakeVersion}/bin/cmake`;
+}
+
+function buildNinjaHomePath(ninjaVersion: string): string {
+  return `\${HOME}/.pico-sdk/ninja/${ninjaVersion}/ninja`;
 }
 
 async function updateSettingsFile(
@@ -148,51 +136,77 @@ async function updateSettingsFile(
     }}/.pico-sdk/toolchain/${newToolchainVersion}`;
 
     // PATH
-    let newPath = buildPropertiesToolchainPathBin(newToolchainVersion);
-    if (
-      (newCMakeVersion && newCMakeVersion !== "cmake") ||
-      (newNinjaVersion && newNinjaVersion !== "ninja")
-    ) {
-      if (key.includes("windows")) {
-        newPath += ";";
-      } else {
-        newPath += ":";
+    // replace env: with env_ before splitting at :
+    const oldPath = currentValue[key.includes("windows") ? "Path" : "PATH"]
+      .replaceAll("${env:", "${env_");
+    Logger.log(`Oldpath ${oldPath}`);
+    const pathList = oldPath.split(key.includes("windows") ? ";" : ":");
+    let toolchainIdx = -1;
+    let cmakeIdx = -1;
+    let ninjaIdx = -1;
+
+    for (let i=0; i < pathList.length; i++) {
+      pathList[i] = pathList[i].replaceAll("${env_", "${env:");
+      Logger.log(pathList[i]);
+      const item = pathList[i];
+      if (item.includes(".pico-sdk/toolchain")) {
+        toolchainIdx = i;
+      }
+      if (item.includes(".pico-sdk/cmake")) {
+        cmakeIdx = i;
+      }
+      if (item.includes(".pico-sdk/ninja")) {
+        ninjaIdx = i;
       }
     }
+
+    Logger.log(`PathList ${pathList.join(" - ")}`);
+
+    pathList[toolchainIdx] = currentValue["PICO_TOOLCHAIN_PATH"] + "/bin";
+
     if (newCMakeVersion && newCMakeVersion !== "cmake") {
-      if (newCMakeVersion !== "cmake" && !newCMakeVersion.includes("/")) {
-        newPath += `\${${
+      let newCmakePath = "";
+      if (!newCMakeVersion.includes("/")) {
+        newCmakePath = `\${${
           key.includes("windows") ? "env:USERPROFILE" : "env:HOME"
         }}/.pico-sdk/cmake/${newCMakeVersion}/bin`;
-      } else if (newCMakeVersion.includes("/")) {
-        newPath += dirname(newCMakeVersion);
-      }
-
-      if (key.includes("windows")) {
-        newPath += ";";
       } else {
-        newPath += ":";
+        newCmakePath = dirname(newCMakeVersion);
+      }
+      if (cmakeIdx > 0) {
+        pathList[cmakeIdx] = newCmakePath;
+      } else {
+        pathList.splice(pathList.length - 1, 0, newCmakePath);
       }
     }
-    if (
-      newNinjaVersion &&
-      newNinjaVersion !== "ninja" &&
-      !newNinjaVersion.includes("/")
-    ) {
-      newPath += `\${${
-        key.includes("windows") ? "env:USERPROFILE" : "env:HOME"
-      }}/.pico-sdk/ninja/${newNinjaVersion}`;
-    } else if (newNinjaVersion && newNinjaVersion.includes("/")) {
-      newPath += dirname(newNinjaVersion);
+
+    if (newNinjaVersion && newNinjaVersion !== "ninja") {
+      let newNinjaPath = "";
+      if (!newNinjaVersion.includes("/")) {
+        newNinjaPath = `\${${
+          key.includes("windows") ? "env:USERPROFILE" : "env:HOME"
+        }}/.pico-sdk/ninja/${newNinjaVersion}`;
+      } else {
+        newNinjaPath = dirname(newNinjaVersion);
+      }
+      if (ninjaIdx > 0) {
+        pathList[ninjaIdx] = newNinjaPath;
+      } else {
+        pathList.splice(pathList.length - 1, 0, newNinjaPath);
+      }
     }
 
+    const newPath = pathList.join(key.includes("windows") ? ";" : ":");
     currentValue[key.includes("windows") ? "Path" : "PATH"] = newPath;
 
     await config.update(key, currentValue, null);
   }
 
   if (newNinjaVersion) {
-    await config.update(SettingsKey.ninjaPath, newNinjaVersion, null);
+    await config.update(
+      "raspberry-pi-pico." + SettingsKey.ninjaPath,
+      buildNinjaHomePath(newNinjaVersion), null
+    );
   }
   if (newCMakeVersion) {
     await config.update(
@@ -200,7 +214,10 @@ async function updateSettingsFile(
       buildCMakePath(newCMakeVersion),
       null
     );
-    await config.update(SettingsKey.cmakePath, newCMakeVersion, null);
+    await config.update(
+      "raspberry-pi-pico." + SettingsKey.cmakePath,
+      buildCMakeHomePath(newCMakeVersion), null
+    );
   }
 }
 
