@@ -334,6 +334,7 @@ configuration_dictionary = list(dict())
 
 isMac = False
 isWindows = False
+isx86 = False
 compilerPath = Path("/usr/bin/arm-none-eabi-gcc")
 
 def relativeSDKPath(sdkVersion):
@@ -379,9 +380,10 @@ def codeToolchainPath(toolchainVersion):
     return f"${{userHome}}{relativeToolchainPath(toolchainVersion)}"
 
 def CheckPrerequisites():
-    global isMac, isWindows
+    global isMac, isWindows, isx86
     isMac = (platform.system() == 'Darwin')
     isWindows = (platform.system() == 'Windows')
+    isx86 = (platform.machine().lower() in ['x86_64', 'amd64'])
 
     # Do we have a compiler?
     return shutil.which(COMPILER_NAME, 1, os.environ["Path" if isWindows else "PATH"])
@@ -737,7 +739,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     if debugger == "raspberrypi-swd.cfg":
         shutil.copyfile(sourcefolder + "/" +  "raspberrypi-swd.cfg", projectPath / "raspberrypi-swd.cfg")
 
-    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb").as_posix() if isWindows or isMac else "gdb"
+    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb").as_posix() if isWindows or isMac else ("gdb-multiarch" if isx86 else "gdb")
     # Need to escape windows files paths backslashes
     # TODO: env in currently not supported in compilerPath var
     #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
