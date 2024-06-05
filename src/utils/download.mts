@@ -477,10 +477,10 @@ export async function downloadAndInstallNinja(
         return false;
       }
 
-      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}-${
+      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}${
         process.platform === "linux"
           ? process.arch === "arm64"
-            ? "aarch64"
+            ? "-aarch64"
             : ""
           : ""
       }.zip`;
