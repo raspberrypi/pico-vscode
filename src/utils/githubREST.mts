@@ -7,8 +7,8 @@ import { type RequestOptions, request } from "https";
 
 const HTTP_STATUS_OK = 200;
 const HTTP_STATUS_NOT_MODIFIED = 304;
-const EXT_USER_AGENT = "Raspberry-Pi Pico VS Code Extension";
-const GITHUB_API_BASE_URL = "https://api.github.com";
+export const EXT_USER_AGENT = "Raspberry-Pi Pico VS Code Extension";
+export const GITHUB_API_BASE_URL = "https://api.github.com";
 
 export enum GithubRepository {
   picoSDK = 0,
@@ -27,6 +27,7 @@ export type GithubReleaseAssetData = {
   name: string;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   browser_download_url: string;
+  id: number;
 };
 
 // NOTE: The primary rate limit for unauthenticated requests is 60 requests per hour.
@@ -37,7 +38,7 @@ export const PYENV_REPOSITORY_URL = "https://github.com/pyenv/pyenv.git";
 export const EXAMPLES_REPOSITORY_URL =
   "https://github.com/raspberrypi/pico-examples.git";
 
-function ownerOfRepository(repository: GithubRepository): string {
+export function ownerOfRepository(repository: GithubRepository): string {
   switch (repository) {
     case GithubRepository.picoSDK:
       return "raspberrypi";
@@ -52,7 +53,7 @@ function ownerOfRepository(repository: GithubRepository): string {
   }
 }
 
-function repoNameOfRepository(repository: GithubRepository): string {
+export function repoNameOfRepository(repository: GithubRepository): string {
   switch (repository) {
     case GithubRepository.picoSDK:
       return "pico-sdk";

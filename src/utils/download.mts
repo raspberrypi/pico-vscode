@@ -4,7 +4,7 @@ import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
-import { get } from "https";
+import { get, type RequestOptions } from "https";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
 import { cloneRepository, initSubmodules } from "./gitUtil.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
@@ -19,6 +19,11 @@ import {
   type GithubReleaseAssetData,
   GithubRepository,
   getGithubReleaseByTag,
+  getAuthorizationHeaders,
+  EXT_USER_AGENT,
+  GITHUB_API_BASE_URL,
+  ownerOfRepository,
+  repoNameOfRepository,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 
@@ -211,22 +216,21 @@ export async function downloadAndInstallSDK(
   return false;
 }
 
-export async function downloadAndInstallTools(
+async function downloadAndInstallGithubAsset(
   version: string,
-  required: boolean,
-  redirectURL?: string
+  releaseVersion: string,
+  repo: GithubRepository,
+  targetDirectory: string,
+  archiveFileName: string,
+  assetName: string,
+  logName: string,
+  extraCallback?: () => void,
+
+  redirectURL?: string,
 ): Promise<boolean> {
-  if (process.platform !== "win32") {
-    Logger.log("SDK Tools installation not on Windows is not supported.");
-
-    return !required;
-  }
-
-  const targetDirectory = buildToolsPath(version);
-
   // Check if the SDK is already installed
   if (redirectURL === undefined && existsSync(targetDirectory)) {
-    Logger.log(`SDK Tools ${version} is already installed.`);
+    Logger.log(`${logName} ${version} is already installed.`);
 
     return true;
   }
@@ -236,36 +240,34 @@ export async function downloadAndInstallTools(
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(tmpBasePath, `sdk-tools.zip`);
+  const archiveFilePath = join(tmpBasePath, archiveFileName);
 
-  let sdkToolsAsset: GithubReleaseAssetData | undefined;
+  let asset: GithubReleaseAssetData | undefined;
 
   try {
     if (redirectURL === undefined) {
       const release = await getGithubReleaseByTag(
-        GithubRepository.tools,
-        "v1.5.1-alpha-1"
+        repo,
+        releaseVersion
       );
       if (release === undefined) {
         return false;
       }
-      const assetName = `pico-sdk-tools-1.5.1-${
-        TOOLS_PLATFORMS[process.platform]
-      }.zip`;
 
       // Find the asset
       Logger.log(release.assetsUrl);
-      sdkToolsAsset = release.assets.find(asset => asset.name === assetName);
+      asset = release.assets.find(asset => asset.name === assetName);
     } else {
-      sdkToolsAsset = {
+      asset = {
         name: version,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         browser_download_url: redirectURL,
+        id: -1,
       };
     }
   } catch (error) {
     Logger.log(
-      `Error fetching SDK Tools release ${version}. ${
+      `Error fetching ${logName} release ${version}. ${
         error instanceof Error ? error.message : (error as string)
       }`
     );
@@ -273,26 +275,61 @@ export async function downloadAndInstallTools(
     return false;
   }
 
-  if (!sdkToolsAsset) {
+  if (!asset) {
     Logger.log(
-      `Error release asset for SDK Tools release ${version} not found.`
+      `Error release asset for ${logName} release ${version} not found.`
     );
 
     return false;
   }
 
-  // Download the asset
-  const assetUrl = sdkToolsAsset.browser_download_url;
+  let url = asset.browser_download_url;
+  let options: RequestOptions = {};
+
+  const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
+
+  if (redirectURL !== undefined) {
+    Logger.log(`Downloading after redirect: ${redirectURL}`);
+  } else if (githubPAT && githubPAT.length > 0) {
+    // Use GitHub API to download the asset (will return a redirect)
+    Logger.log(`Using GitHub API for download`);
+    const assetID = asset.id;
+
+    const headers: { [key: string]: string } = {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "X-GitHub-Api-Version": "2022-11-28",
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "Accept": "application/octet-stream",
+    };
+    const owner = ownerOfRepository(repo);
+    const repository = repoNameOfRepository(repo);
+    url = `${GITHUB_API_BASE_URL}/repos/${owner}/${repository}/` +
+      `releases/assets/${assetID}`;
+    const urlObj = new URL(url);
+    options = {
+      method: "GET",
+      headers: {
+        ...getAuthorizationHeaders(),
+        ...headers,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "User-Agent": EXT_USER_AGENT,
+      },
+      hostname: urlObj.hostname,
+      path: urlObj.pathname,
+      minVersion: "TLSv1.2",
+      protocol: urlObj.protocol,
+    };
+  }
 
   return new Promise(resolve => {
     // Use https.get to download the asset
-    get(assetUrl, response => {
+    get(url, options, response => {
       const code = response.statusCode ?? 404;
 
       // redirects not supported
       if (code >= 400) {
         //return reject(new Error(response.statusMessage));
-        Logger.log("Error downloading SDK Tools: " + response.statusMessage);
+        Logger.log(`Error downloading ${logName}: ` + response.statusMessage);
 
         return resolve(false);
       }
@@ -300,33 +337,84 @@ export async function downloadAndInstallTools(
       // handle redirects
       if (code > 300 && code < 400 && !!response.headers.location) {
         return resolve(
-          downloadAndInstallTools(version, required, response.headers.location)
+          downloadAndInstallGithubAsset(
+            version,
+            releaseVersion,
+            repo,
+            targetDirectory,
+            archiveFileName,
+            assetName,
+            logName,
+            extraCallback,
+            response.headers.location
+          )
         );
       }
 
-      // save the file to disk
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
         // unpack the archive
-        const success = unzipFile(archiveFilePath, targetDirectory, false);
+        if (archiveFileName.endsWith("tar.gz")) {
+          unxzFile(archiveFilePath, targetDirectory)
+            .then(success => {
+              // delete tmp file
+              unlinkSync(archiveFilePath);
 
-        // delete tmp file
-        unlinkSync(archiveFilePath);
+              if (extraCallback !== undefined) {
+                extraCallback();
+              }
 
-        // unzipper would require custom permission handling as it
-        // doesn't preserve the executable flag
-        /*if (process.platform !== "win32") {
-          chmodSync(join(targetDirectory, "ninja"), 0o755);
-        }*/
-
-        resolve(success);
+              resolve(success);
+            })
+            .catch(() => {
+              unlinkSync(archiveFilePath);
+              unlinkSync(targetDirectory);
+              resolve(false);
+            });
+        } else if (archiveFileName.endsWith("zip")) {
+          const success = unzipFile(archiveFilePath, targetDirectory);
+          // delete tmp file
+          unlinkSync(archiveFilePath);
+          if (!success) {
+            unlinkSync(targetDirectory);
+          }
+          resolve(success);
+        } else {
+          unlinkSync(archiveFilePath);
+          unlinkSync(targetDirectory);
+          Logger.log(`Error: unknown archive extension: ${archiveFileName}`);
+          resolve(false);
+        }
       });
-
       response.pipe(fileWriter);
     }).on("error", error => {
-      Logger.log("Error downloading asset:" + error.message);
+      Logger.log(`Error downloading ${logName} asset:` + error.message);
       resolve(false);
     });
   });
+}
+
+export async function downloadAndInstallTools(
+  version: string,
+  required: boolean
+): Promise<boolean> {
+  if (process.platform !== "win32") {
+    Logger.log("SDK Tools installation not on Windows is not supported.");
+
+    return !required;
+  }
+
+  const targetDirectory = buildToolsPath(version);
+  const archiveFileName = `sdk-tools.zip`;
+  const assetName = `pico-sdk-tools-1.5.1-${
+    TOOLS_PLATFORMS[process.platform]
+  }.zip`;
+
+  return downloadAndInstallGithubAsset(
+    version, "v1.5.1-alpha-1", 
+    GithubRepository.tools,
+    targetDirectory, archiveFileName, assetName,
+    "SDK Tools"
+  );
 }
 
 export async function downloadAndInstallToolchain(
@@ -440,8 +528,7 @@ export async function downloadAndInstallToolchain(
 }
 
 export async function downloadAndInstallNinja(
-  version: string,
-  redirectURL?: string
+  version: string
 ): Promise<boolean> {
   /*if (process.platform === "linux") {
     Logger.log("Ninja installation on Linux is not supported.");
@@ -450,111 +537,21 @@ export async function downloadAndInstallNinja(
   }*/
 
   const targetDirectory = buildNinjaPath(version);
+  const archiveFileName = `ninja.zip`;
+  const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}${
+    process.platform === "linux"
+      ? process.arch === "arm64"
+        ? "-aarch64"
+        : ""
+      : ""
+  }.zip`;
 
-  // Check if the SDK is already installed
-  if (redirectURL === undefined && existsSync(targetDirectory)) {
-    Logger.log(`Ninja ${version} is already installed.`);
-
-    return true;
-  }
-
-  // Ensure the target directory exists
-  await mkdir(targetDirectory, { recursive: true });
-
-  const tmpBasePath = join(tmpdir(), "pico-sdk");
-  await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(tmpBasePath, `ninja.zip`);
-
-  let ninjaAsset: GithubReleaseAssetData | undefined;
-
-  try {
-    if (redirectURL === undefined) {
-      const release = await getGithubReleaseByTag(
-        GithubRepository.ninja,
-        version
-      );
-      if (release === undefined) {
-        return false;
-      }
-
-      const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}${
-        process.platform === "linux"
-          ? process.arch === "arm64"
-            ? "-aarch64"
-            : ""
-          : ""
-      }.zip`;
-      // Find the asset with the name 'ninja-win.zip'
-      ninjaAsset = release.assets.find(asset => asset.name === assetName);
-    } else {
-      ninjaAsset = {
-        name: version,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        browser_download_url: redirectURL,
-      };
-    }
-  } catch (error) {
-    Logger.log(
-      `Error fetching ninja release ${version}. ${
-        error instanceof Error ? error.message : (error as string)
-      }`
-    );
-
-    return false;
-  }
-
-  if (!ninjaAsset) {
-    Logger.log(`Error release asset for ninja release ${version} not found.`);
-
-    return false;
-  }
-
-  // Download the asset
-  const assetUrl = ninjaAsset.browser_download_url;
-
-  return new Promise(resolve => {
-    // Use https.get to download the asset
-    get(assetUrl, response => {
-      const code = response.statusCode ?? 404;
-
-      // redirects not supported
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log("Error while downloading ninja: " + response.statusMessage);
-
-        return resolve(false);
-      }
-
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadAndInstallNinja(version, response.headers.location)
-        );
-      }
-
-      // save the file to disk
-      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
-        // unpack the archive
-        const success = unzipFile(archiveFilePath, targetDirectory);
-
-        // delete tmp file
-        unlinkSync(archiveFilePath);
-
-        // unzipper would require custom permission handling as it
-        // doesn't preserve the executable flag
-        /*if (process.platform !== "win32") {
-          chmodSync(join(targetDirectory, "ninja"), 0o755);
-        }*/
-
-        resolve(success);
-      });
-
-      response.pipe(fileWriter);
-    }).on("error", error => {
-      Logger.log("Error downloading asset:" + error.message);
-      resolve(false);
-    });
-  });
+  return downloadAndInstallGithubAsset(
+    version, version, 
+    GithubRepository.ninja,
+    targetDirectory, archiveFileName, assetName,
+    "ninja"
+  );
 }
 
 /// Detects if the current system is a Raspberry Pi with Debian
@@ -583,8 +580,7 @@ async function isRaspberryPi(): Promise<boolean> {
 }
 
 export async function downloadAndInstallOpenOCD(
-  version: string,
-  redirectURL?: string
+  version: string
 ): Promise<boolean> {
   if (
     (await isRaspberryPi()) ||
@@ -598,132 +594,28 @@ export async function downloadAndInstallOpenOCD(
 
   const targetDirectory = buildOpenOCDPath(version);
 
-  // Check if the SDK is already installed
-  if (redirectURL === undefined && existsSync(targetDirectory)) {
-    Logger.log(`OpenOCD ${version} is already installed.`);
-
-    return true;
-  }
-
-  // Ensure the target directory exists
-  await mkdir(targetDirectory, { recursive: true });
-
-  const tmpBasePath = join(tmpdir(), "pico-sdk");
-  await mkdir(tmpBasePath, { recursive: true });
   const assetExt: string = process.platform === "win32" ? "zip" : "tar.gz";
-  const archiveFilePath = join(tmpBasePath, `openocd.${assetExt}`);
+  const archiveFileName = `openocd.${assetExt}`;
+  const assetName = `xpack-openocd-${version.replace("v", "")}-${
+    OPENOCD_PLATFORMS[process.platform]
+  }-${process.arch === "arm64" ? "arm64" : "x64"}.${assetExt}`;
 
-  let openocdAsset: GithubReleaseAssetData | undefined;
-
-  try {
-    if (redirectURL === undefined) {
-      const release = await getGithubReleaseByTag(
-        GithubRepository.openocd,
-        `${version}`
-      );
-      if (release === undefined) {
-        return false;
-      }
-
-      const assetName = `xpack-openocd-${version.replace("v", "")}-${
-        OPENOCD_PLATFORMS[process.platform]
-      }-${process.arch === "arm64" ? "arm64" : "x64"}.${assetExt}`;
-
-      // Find the asset
-      Logger.log(release.assetsUrl);
-      openocdAsset = release.assets.find(asset => asset.name === assetName);
-    } else {
-      openocdAsset = {
-        name: version,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        browser_download_url: redirectURL,
-      };
-    }
-  } catch (error) {
-    Logger.log(
-      `Error fetching OpenOCD release ${version}. ${
-        error instanceof Error ? error.message : (error as string)
-      }`
+  const extraCallback = (): void => {
+    // on darwin and linux platforms create windows compatible alias
+    // so confiuration works on all platforms
+    symlinkSync(
+      join(targetDirectory, "bin", "openocd"),
+      join(targetDirectory, "bin", "openocd.exe"),
+      "file"
     );
+  };
 
-    return false;
-  }
-
-  if (!openocdAsset) {
-    Logger.log(`Error release asset for OpenOCD release ${version} not found.`);
-
-    return false;
-  }
-
-  // Download the asset
-  const assetUrl = openocdAsset.browser_download_url;
-
-  return new Promise(resolve => {
-    // Use https.get to download the asset
-    get(assetUrl, response => {
-      const code = response.statusCode ?? 404;
-
-      // redirects not supported
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log("Error downloading OpenOCD: " + response.statusMessage);
-
-        return resolve(false);
-      }
-
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadAndInstallOpenOCD(version, response.headers.location)
-        );
-      }
-
-      // save the file to disk
-      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
-        // unpack the archive
-        if (assetExt === "tar.gz") {
-          unxzFile(archiveFilePath, targetDirectory)
-            .then(success => {
-              // delete tmp file
-              unlinkSync(archiveFilePath);
-
-              // on darwin and linux platforms create windows compatible alias
-              // so confiuration works on all platforms
-              symlinkSync(
-                join(targetDirectory, "bin", "openocd"),
-                join(targetDirectory, "bin", "openocd.exe"),
-                "file"
-              );
-
-              resolve(success);
-            })
-            .catch(() => {
-              unlinkSync(archiveFilePath);
-              unlinkSync(targetDirectory);
-              resolve(false);
-            });
-        } else if (assetExt === "zip") {
-          const success = unzipFile(archiveFilePath, targetDirectory);
-          // delete tmp file
-          unlinkSync(archiveFilePath);
-          if (!success) {
-            unlinkSync(targetDirectory);
-          }
-          resolve(success);
-        } else {
-          unlinkSync(archiveFilePath);
-          unlinkSync(targetDirectory);
-          Logger.log(`Error: unknown archive extension: ${assetExt}`);
-          resolve(false);
-        }
-      });
-
-      response.pipe(fileWriter);
-    }).on("error", error => {
-      Logger.log("Error downloading asset:" + error.message);
-      resolve(false);
-    });
-  });
+  return downloadAndInstallGithubAsset(
+    version, version, 
+    GithubRepository.openocd,
+    targetDirectory, archiveFileName, assetName,
+    "OpenOCD", extraCallback
+  );
 }
 
 /**
@@ -733,8 +625,7 @@ export async function downloadAndInstallOpenOCD(
  * @returns
  */
 export async function downloadAndInstallCmake(
-  version: string,
-  redirectURL?: string
+  version: string
 ): Promise<boolean> {
   /*if (process.platform === "linux") {
     Logger.log("CMake installation on Linux is not supported.");
@@ -743,143 +634,40 @@ export async function downloadAndInstallCmake(
   }*/
 
   const targetDirectory = buildCMakePath(version);
-
-  // Check if the SDK is already installed
-  if (redirectURL === undefined && existsSync(targetDirectory)) {
-    Logger.log(`CMake ${version} is already installed.`);
-
-    return true;
-  }
-
-  // Ensure the target directory exists
-  await mkdir(targetDirectory, { recursive: true });
   const assetExt = process.platform === "win32" ? "zip" : "tar.gz";
+  const archiveFileName = `cmake-${version}.${assetExt}`;
+  const assetName = `cmake-${version.replace("v", "")}-${
+    CMAKE_PLATFORMS[process.platform]
+  }-${
+    process.platform === "darwin"
+      ? "universal"
+      : process.arch === "arm64"
+      ? process.platform === "linux"
+        ? "aarch64"
+        : "arm64"
+      : "x86_64"
+  }.${assetExt}`;
 
-  const tmpBasePath = join(tmpdir(), "pico-sdk");
-  await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(tmpBasePath, `cmake-${version}.${assetExt}`);
-
-  let cmakeAsset: GithubReleaseAssetData | undefined;
-
-  try {
-    if (redirectURL === undefined) {
-      const release = await getGithubReleaseByTag(
-        GithubRepository.cmake,
-        version
+  const extraCallback = (): void => {
+    // on macOS the download includes an app bundle
+    // create a symlink so it has the same paths as on other platforms
+    if (process.platform === "darwin") {
+      symlinkSync(
+        join(targetDirectory, "CMake.app", "Contents", "bin"),
+        join(targetDirectory, "bin"),
+        "dir"
       );
-      if (release === undefined) {
-        return false;
-      }
-
-      const assetName = `cmake-${version.replace("v", "")}-${
-        CMAKE_PLATFORMS[process.platform]
-      }-${
-        process.platform === "darwin"
-          ? "universal"
-          : process.arch === "arm64"
-          ? process.platform === "linux"
-            ? "aarch64"
-            : "arm64"
-          : "x86_64"
-      }.${assetExt}`;
-
-      cmakeAsset = release.assets.find(asset => asset.name === assetName);
-    } else {
-      cmakeAsset = {
-        name: version,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        browser_download_url: redirectURL,
-      };
     }
-  } catch (error) {
-    Logger.log(
-      `Error fetching CMake release ${version}. ${
-        error instanceof Error ? error.message : (error as string)
-      }`
-    );
+    // macOS
+    //chmodSync(join(targetDirectory, "CMake.app", "Contents", "bin", "cmake"), 0o755);
+  };
 
-    return false;
-  }
-
-  if (!cmakeAsset) {
-    Logger.log(`Error release asset for cmake release ${version} not found.`);
-
-    return false;
-  }
-
-  // Download the asset
-  const assetUrl = cmakeAsset.browser_download_url;
-
-  return new Promise(resolve => {
-    // Use https.get to download the asset
-    get(assetUrl, response => {
-      const code = response.statusCode ?? 0;
-
-      // redirects not supported
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log(
-          "Error while downloading toolchain: " + response.statusMessage
-        );
-
-        return resolve(false);
-      }
-
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadAndInstallCmake(version, response.headers.location)
-        );
-      }
-
-      // save the file to disk
-      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
-        // unpack the archive
-        if (process.platform === "darwin" || process.platform === "linux") {
-          unxzFile(archiveFilePath, targetDirectory)
-            .then(success => {
-              // delete tmp file
-              unlinkSync(archiveFilePath);
-
-              // on macOS the download includes an app bundle
-              // create a symlink so it has the same paths as on other platforms
-              if (process.platform === "darwin") {
-                symlinkSync(
-                  join(targetDirectory, "CMake.app", "Contents", "bin"),
-                  join(targetDirectory, "bin"),
-                  "dir"
-                );
-              }
-
-              // macOS
-              //chmodSync(join(targetDirectory, "CMake.app", "Contents", "bin", "cmake"), 0o755);
-              resolve(success);
-            })
-            .catch(() => {
-              unlinkSync(archiveFilePath);
-              unlinkSync(targetDirectory);
-              resolve(false);
-            });
-        } else if (process.platform === "win32") {
-          const success = unzipFile(archiveFilePath, targetDirectory);
-          // delete tmp file
-          unlinkSync(archiveFilePath);
-          resolve(success);
-        } else {
-          Logger.log(`Error: platform not supported for downloading cmake.`);
-          unlinkSync(archiveFilePath);
-          unlinkSync(targetDirectory);
-
-          resolve(false);
-        }
-      });
-
-      response.pipe(fileWriter);
-    }).on("error", error => {
-      Logger.log("Error downloading asset: " + error.message);
-      resolve(false);
-    });
-  });
+  return downloadAndInstallGithubAsset(
+    version, version, 
+    GithubRepository.cmake,
+    targetDirectory, archiveFileName, assetName,
+    "CMake", extraCallback
+  );
 }
 
 /**
