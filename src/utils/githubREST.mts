@@ -202,7 +202,10 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
   } catch (error) {
     Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
 
-    return [];
+    return (await GithubApiCache.getInstance().getDefaultResponse(
+      repository,
+      GithubApiCacheEntryDataType.releases
+    ))?.data as string[];
   }
 }
 
@@ -281,6 +284,9 @@ export async function getGithubReleaseByTag(
   } catch (error) {
     Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
 
-    return;
+    return (await GithubApiCache.getInstance().getDefaultResponse(
+      repository,
+      GithubApiCacheEntryDataType.tag
+    ))?.data as GithubReleaseResponse;
   }
 }
