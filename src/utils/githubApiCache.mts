@@ -1,3 +1,6 @@
+// TODO: put defaults into json file, to prevent need for these disables
+/* eslint-disable max-len */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { ExtensionContext, Memento } from "vscode";
 import { type GithubReleaseResponse, GithubRepository } from "./githubREST.mjs";
 import Logger from "../logger.mjs";
@@ -30,12 +33,12 @@ function defaultCacheOfRepository(
   repository: GithubRepository,
   dataType: GithubApiCacheEntryDataType
 ): GithubApiCacheEntry {
-  let ret: GithubApiCacheEntry = {
+  const ret: GithubApiCacheEntry = {
     repository: repository,
     dataType: dataType,
     data: [],
     etag: "",
-  }
+  };
   switch (repository) {
     case GithubRepository.picoSDK:
       if (dataType === GithubApiCacheEntryDataType.releases) {
@@ -75,7 +78,7 @@ function defaultCacheOfRepository(
             },
           ],
           assetsUrl: 'https://api.github.com/repos/Kitware/CMake/releases/132188415/assets',
-        } as GithubReleaseResponse
+        } as GithubReleaseResponse;
       }
       break;
     case GithubRepository.ninja:
@@ -111,7 +114,7 @@ function defaultCacheOfRepository(
             }
           ],
           assetsUrl: 'https://api.github.com/repos/ninja-build/ninja/releases/155357494/assets'
-        } as GithubReleaseResponse
+        } as GithubReleaseResponse;
       }
       break;
     case GithubRepository.tools:
@@ -137,7 +140,7 @@ function defaultCacheOfRepository(
             }
           ],
           assetsUrl: 'https://api.github.com/repos/will-v-pi/pico-sdk-tools/releases/134896110/assets'
-        } as GithubReleaseResponse
+        } as GithubReleaseResponse;
       }
       break;
     case GithubRepository.openocd:
@@ -178,7 +181,7 @@ function defaultCacheOfRepository(
             }
           ],
           assetsUrl: 'https://api.github.com/repos/xpack-dev-tools/openocd-xpack/releases/119866462/assets'
-        } as GithubReleaseResponse
+        } as GithubReleaseResponse;
       }
       break;
   }
