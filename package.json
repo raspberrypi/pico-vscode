@@ -2,7 +2,7 @@
   "name": "raspberry-pi-pico",
   "displayName": "Raspberry Pi Pico",
   "description": "The official VS Code extension for Raspberry Pi Pico development. It includes several features to simplify project creation and deployment. (Single folder workspaces only)",
-  "version": "0.13.1",
+  "version": "0.14.0",
   "author": "paulober",
   "publisher": "raspberry-pi",
   "icon": "./images/extension-icon.png",

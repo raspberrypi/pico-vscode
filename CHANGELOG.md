@@ -8,6 +8,22 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.14.0] - 2024-06-28
+
+### Fixed
+- Fix NewProjectPanel persistent state (#2)
+- Make c_cpp_properties platform independent (#1)
+- Improve behaviour when switching SDKs (@paulober)
+- Throw error when debugging if compilation failed (#19)
+- Use gdb-multiarch on x86_64 linux (#16)
+- Fix git download on first use of extension
+
+### Changed
+- Use GitHub API for downloads, if a GitHub PAT has been setup (#18)
+- Use Ninja version 1.12.1 as it now has aarch64 binaries for linux
+- Add default API responses when rate limit is hit
+- Add extension pack to download the recommended extensions by default
+
 ## [0.13.1] - 2024-05-08
 
 ### Fixed
