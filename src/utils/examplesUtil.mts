@@ -4,9 +4,10 @@ import { fileURLToPath } from "url";
 import Logger from "../logger.mjs";
 import { existsSync, readFileSync } from "fs";
 import { homedir } from "os";
-import { sparseCheckout, sparseCloneRepository } from "./gitUtil.mjs";
+import { getGit, sparseCheckout, sparseCloneRepository } from "./gitUtil.mjs";
 import { EXAMPLES_REPOSITORY_URL } from "./githubREST.mjs";
-import Settings, { HOME_VAR, SettingsKey } from "../settings.mjs";
+import Settings from "../settings.mjs";
+import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
 import { get } from "https";
 import { isInternetConnected } from "./downloadHelpers.mjs";
@@ -125,17 +126,30 @@ export async function setupExample(
 ): Promise<boolean> {
   const examplesRepoPath = buildExamplesPath();
   const absoluteExamplePath = joinPosix(examplesRepoPath, example.path);
-  const gitExecutable: string | undefined =
-    Settings.getInstance()
-      ?.getString(SettingsKey.gitPath)
-      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
+
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.log("Error: Settings not initialized.");
+
+    return false;
+  }
+
+  // TODO: this does take about 2s - may be reduced
+  const requirementsCheck = await checkForInstallationRequirements(
+    settings
+  );
+  if (!requirementsCheck) {
+    return false;
+  }
+
+  const gitPath = await getGit(settings);
 
   if (!existsSync(examplesRepoPath)) {
     const result = await sparseCloneRepository(
       EXAMPLES_REPOSITORY_URL,
       "master",
       examplesRepoPath,
-      gitExecutable
+      gitPath
     );
 
     if (!result) {
@@ -147,7 +161,7 @@ export async function setupExample(
   const result = await sparseCheckout(
     examplesRepoPath,
     example.path,
-    gitExecutable
+    gitPath
   );
   if (!result) {
     return result;

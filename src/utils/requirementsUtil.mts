@@ -1,7 +1,8 @@
 import { window } from "vscode";
 import which from "which";
 import type Settings from "../settings.mjs";
-import { SettingsKey } from "../settings.mjs";
+import { SettingsKey, HOME_VAR } from "../settings.mjs";
+import { homedir } from "os";
 import { downloadGit } from "./downloadGit.mjs";
 import Logger from "../logger.mjs";
 
@@ -23,10 +24,12 @@ export async function showRequirementsNotMetErrorMessage(
  * @returns true if all requirements are met, false otherwise
  */
 export async function checkForInstallationRequirements(
-  settings: Settings,
-  gitPath?: string
+  settings: Settings
 ): Promise<boolean> {
-  const gitExe: string = gitPath || "git";
+  const gitExe: string =
+    settings
+      .getString(SettingsKey.gitPath)
+      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
   const compilerExe: string[] = ["clang", "gcc", "cl"];
 
   const git: string | null = await which(gitExe, { nothrow: true });

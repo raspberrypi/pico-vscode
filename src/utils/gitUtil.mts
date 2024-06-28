@@ -2,8 +2,48 @@ import { promisify } from "util";
 import { exec } from "child_process";
 import Logger from "../logger.mjs";
 import { unlink } from "fs/promises";
+import type Settings from "../settings.mjs";
+import { SettingsKey, HOME_VAR } from "../settings.mjs";
+import { homedir } from "os";
+import which from "which";
+import { window } from "vscode";
 
 const execAsync = promisify(exec);
+
+/**
+ * Get installed version of git, and install it if it isn't already
+ */
+export async function getGit(
+  settings: Settings
+): Promise<string | undefined> {
+  let gitExecutable: string | undefined =
+    settings
+      .getString(SettingsKey.gitPath)
+      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
+  let gitPath = await which(gitExecutable, { nothrow: true });
+  if (gitPath === null) {
+    // if git is not in path then checkForInstallationRequirements
+    // maye downloaded it, so reload
+    settings.reload();
+    gitExecutable = settings
+      .getString(SettingsKey.gitPath)
+      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/"));
+    if (gitExecutable === null || gitExecutable === undefined) {
+      Logger.log("Error: Git not found.");
+
+      await window.showErrorMessage(
+        "Git not found. Please install and add to PATH or " +
+          "set the path to the git executable in global settings."
+      );
+
+      return undefined;
+    } else {
+      gitPath = await which(gitExecutable, { nothrow: true });
+    }
+  }
+
+  return gitPath;
+}
 
 /**
  * Initialize git submodules in downloaded Pico-SDK.

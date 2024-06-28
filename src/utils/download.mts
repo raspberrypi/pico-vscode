@@ -6,7 +6,7 @@ import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
 import { get, type RequestOptions } from "https";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
-import { cloneRepository, initSubmodules } from "./gitUtil.mjs";
+import { cloneRepository, initSubmodules, getGit } from "./gitUtil.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
@@ -136,15 +136,9 @@ export async function downloadAndInstallSDK(
     return false;
   }
 
-  let gitExecutable: string | undefined =
-    settings
-      .getString(SettingsKey.gitPath)
-      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
-
   // TODO: this does take about 2s - may be reduced
   const requirementsCheck = await checkForInstallationRequirements(
-    settings,
-    gitExecutable
+    settings
   );
   if (!requirementsCheck) {
     return false;
@@ -161,33 +155,15 @@ export async function downloadAndInstallSDK(
 
   // Ensure the target directory exists
   //await mkdir(targetDirectory, { recursive: true });
-  const gitPath = await which(gitExecutable, { nothrow: true });
-  if (gitPath === null) {
-    // if git is not in path then checkForInstallationRequirements
-    // maye downloaded it, so reload
-    //settings.reload();
-    gitExecutable = settings
-      .getString(SettingsKey.gitPath)
-      ?.replace(HOME_VAR, homedir().replaceAll("\\", "/"));
-    if (gitExecutable === null) {
-      Logger.log("Error: Git not found.");
-
-      await window.showErrorMessage(
-        "Git not found. Please install and add to PATH or " +
-          "set the path to the git executable in global settings."
-      );
-
-      return false;
-    }
-  }
+  const gitPath = await getGit(settings);
   // using deferred execution to avoid git clone if git is not available
   if (
-    gitPath !== null &&
+    gitPath !== undefined &&
     (await cloneRepository(
       repositoryUrl,
       version,
       targetDirectory,
-      gitExecutable
+      gitPath
     ))
   ) {
     settings.reload();
@@ -210,7 +186,7 @@ export async function downloadAndInstallSDK(
       return false;
     }
 
-    return initSubmodules(targetDirectory, gitExecutable);
+    return initSubmodules(targetDirectory, gitPath);
   }
 
   return false;
