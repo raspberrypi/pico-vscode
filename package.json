@@ -42,6 +42,12 @@
     "Snippets",
     "Other"
   ],
+  "extensionPack": [
+    "marus25.cortex-debug",
+    "ms-vscode.cpptools",
+    "ms-vscode.cpptools-extension-pack",
+    "ms-vscode.vscode-serial-monitor"
+  ],
   "main": "./dist/extension.cjs",
   "markdown": "github",
   "minimumNodeVersion": 18,
