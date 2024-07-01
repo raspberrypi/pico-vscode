@@ -5,7 +5,6 @@ import Logger from "../logger.mjs";
 import { existsSync, readFileSync } from "fs";
 import { homedir } from "os";
 import { getGit, sparseCheckout, sparseCloneRepository } from "./gitUtil.mjs";
-import { EXAMPLES_REPOSITORY_URL } from "./githubREST.mjs";
 import Settings from "../settings.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
@@ -14,6 +13,8 @@ import { isInternetConnected } from "./downloadHelpers.mjs";
 
 export const CURRENT_DATA_VERSION = "0.10.0";
 
+const EXAMPLES_REPOSITORY_URL =
+  "https://github.com/raspberrypi/pico-examples.git";
 const EXAMPLES_JSON_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/examples.json`;
@@ -64,7 +65,7 @@ export async function loadExamples(): Promise<Example[]> {
   try {
     if (!(await isInternetConnected())) {
       throw new Error(
-        "Error while downloading supported toolchains list. " +
+        "Error while downloading examples list. " +
           "No internet connection"
       );
     }

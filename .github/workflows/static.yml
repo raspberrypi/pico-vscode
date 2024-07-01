@@ -31,12 +31,34 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Enable corepack
+        run: corepack enable
+      - name: Setup node v18
+        uses: actions/setup-node@v4
+        with: 
+          # the current node version use in vscode
+          node-version: '18'
+          cache: 'yarn'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Install Dependencies
+        run: |
+          yarn
+          pip install requests js2py
+      - name: Generate Cache JSON
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: |
+          yarn run compile
+          python3 scripts/genCache.py
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
+          # Upload data directory
           path: 'data'
       - name: Deploy to GitHub Pages
         id: deployment

@@ -16,6 +16,7 @@ rollup.config.mjs
 **/*.ts
 .pnp*
 *.vsix
+tmp.py
 
 # make sure scripts and data are always included
 !scripts/**

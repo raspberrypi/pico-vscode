@@ -1,0 +1,242 @@
+{
+  "githubApiCache-0-0": [
+    "1.5.1"
+  ],
+  "githubApiCache-0-1": {
+    "assets": [
+      {
+        "id": 112935743,
+        "name": "sdk-1.5.1-html-doc.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk/releases/download/1.5.1/sdk-1.5.1-html-doc.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk/releases/107707260/assets"
+  },
+  "githubApiCache-1-0": [
+    "v3.28.0-rc6"
+  ],
+  "githubApiCache-1-1": {
+    "assets": [
+      {
+        "id": 138286886,
+        "name": "cmake-3.28.0-rc6-files-v1.json",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-files-v1.json"
+      },
+      {
+        "id": 138286887,
+        "name": "cmake-3.28.0-rc6-linux-aarch64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-aarch64.sh"
+      },
+      {
+        "id": 138286891,
+        "name": "cmake-3.28.0-rc6-linux-aarch64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-aarch64.tar.gz"
+      },
+      {
+        "id": 138286893,
+        "name": "cmake-3.28.0-rc6-linux-x86_64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-x86_64.sh"
+      },
+      {
+        "id": 138286897,
+        "name": "cmake-3.28.0-rc6-linux-x86_64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-x86_64.tar.gz"
+      },
+      {
+        "id": 138286903,
+        "name": "cmake-3.28.0-rc6-macos-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos-universal.dmg"
+      },
+      {
+        "id": 138286905,
+        "name": "cmake-3.28.0-rc6-macos-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos-universal.tar.gz"
+      },
+      {
+        "id": 138286910,
+        "name": "cmake-3.28.0-rc6-macos10.10-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos10.10-universal.dmg"
+      },
+      {
+        "id": 138286923,
+        "name": "cmake-3.28.0-rc6-macos10.10-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos10.10-universal.tar.gz"
+      },
+      {
+        "id": 138286925,
+        "name": "cmake-3.28.0-rc6-SHA-256.txt",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-SHA-256.txt"
+      },
+      {
+        "id": 138286926,
+        "name": "cmake-3.28.0-rc6-SHA-256.txt.asc",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-SHA-256.txt.asc"
+      },
+      {
+        "id": 138286927,
+        "name": "cmake-3.28.0-rc6-windows-arm64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-arm64.msi"
+      },
+      {
+        "id": 138286932,
+        "name": "cmake-3.28.0-rc6-windows-arm64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-arm64.zip"
+      },
+      {
+        "id": 138286933,
+        "name": "cmake-3.28.0-rc6-windows-i386.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-i386.msi"
+      },
+      {
+        "id": 138286934,
+        "name": "cmake-3.28.0-rc6-windows-i386.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-i386.zip"
+      },
+      {
+        "id": 138286935,
+        "name": "cmake-3.28.0-rc6-windows-x86_64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-x86_64.msi"
+      },
+      {
+        "id": 138286937,
+        "name": "cmake-3.28.0-rc6-windows-x86_64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-x86_64.zip"
+      },
+      {
+        "id": 138286939,
+        "name": "cmake-3.28.0-rc6.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6.tar.gz"
+      },
+      {
+        "id": 138286941,
+        "name": "cmake-3.28.0-rc6.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/132188415/assets"
+  },
+  "githubApiCache-2-0": [
+    "v1.12.1"
+  ],
+  "githubApiCache-2-1": {
+    "assets": [
+      {
+        "id": 167333823,
+        "name": "ninja-linux-aarch64.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux-aarch64.zip"
+      },
+      {
+        "id": 167333509,
+        "name": "ninja-linux.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux.zip"
+      },
+      {
+        "id": 167333196,
+        "name": "ninja-mac.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-mac.zip"
+      },
+      {
+        "id": 167333379,
+        "name": "ninja-win.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-win.zip"
+      },
+      {
+        "id": 167333478,
+        "name": "ninja-winarm64.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-winarm64.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/ninja-build/ninja/releases/155357494/assets"
+  },
+  "githubApiCache-3-0": [
+    "v1.5.1-alpha-1"
+  ],
+  "githubApiCache-3-1": {
+    "assets": [
+      {
+        "id": 141973997,
+        "name": "openocd-0.12.0-x64-win.zip",
+        "browser_download_url": "https://github.com/will-v-pi/pico-sdk-tools/releases/download/v1.5.1-alpha-1/openocd-0.12.0-x64-win.zip"
+      },
+      {
+        "id": 141974002,
+        "name": "pico-sdk-tools-1.5.1-x64-win.zip",
+        "browser_download_url": "https://github.com/will-v-pi/pico-sdk-tools/releases/download/v1.5.1-alpha-1/pico-sdk-tools-1.5.1-x64-win.zip"
+      },
+      {
+        "id": 141974003,
+        "name": "picotool-1.1.2-x64-win.zip",
+        "browser_download_url": "https://github.com/will-v-pi/pico-sdk-tools/releases/download/v1.5.1-alpha-1/picotool-1.1.2-x64-win.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/will-v-pi/pico-sdk-tools/releases/134896110/assets"
+  },
+  "githubApiCache-4-0": [
+    "v0.12.0-2"
+  ],
+  "githubApiCache-4-1": {
+    "assets": [
+      {
+        "id": 124558743,
+        "name": "xpack-openocd-0.12.0-2-darwin-arm64.tar.gz",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-darwin-arm64.tar.gz"
+      },
+      {
+        "id": 124558741,
+        "name": "xpack-openocd-0.12.0-2-darwin-arm64.tar.gz.sha",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-darwin-arm64.tar.gz.sha"
+      },
+      {
+        "id": 124558736,
+        "name": "xpack-openocd-0.12.0-2-darwin-x64.tar.gz",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-darwin-x64.tar.gz"
+      },
+      {
+        "id": 124558734,
+        "name": "xpack-openocd-0.12.0-2-darwin-x64.tar.gz.sha",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-darwin-x64.tar.gz.sha"
+      },
+      {
+        "id": 124558733,
+        "name": "xpack-openocd-0.12.0-2-linux-arm.tar.gz",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-linux-arm.tar.gz"
+      },
+      {
+        "id": 124558731,
+        "name": "xpack-openocd-0.12.0-2-linux-arm.tar.gz.sha",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-linux-arm.tar.gz.sha"
+      },
+      {
+        "id": 124558729,
+        "name": "xpack-openocd-0.12.0-2-linux-arm64.tar.gz",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-linux-arm64.tar.gz"
+      },
+      {
+        "id": 124558727,
+        "name": "xpack-openocd-0.12.0-2-linux-arm64.tar.gz.sha",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-linux-arm64.tar.gz.sha"
+      },
+      {
+        "id": 124558723,
+        "name": "xpack-openocd-0.12.0-2-linux-x64.tar.gz",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-linux-x64.tar.gz"
+      },
+      {
+        "id": 124558720,
+        "name": "xpack-openocd-0.12.0-2-linux-x64.tar.gz.sha",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-linux-x64.tar.gz.sha"
+      },
+      {
+        "id": 124558714,
+        "name": "xpack-openocd-0.12.0-2-win32-x64.zip",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-win32-x64.zip"
+      },
+      {
+        "id": 124558710,
+        "name": "xpack-openocd-0.12.0-2-win32-x64.zip.sha",
+        "browser_download_url": "https://github.com/xpack-dev-tools/openocd-xpack/releases/download/v0.12.0-2/xpack-openocd-0.12.0-2-win32-x64.zip.sha"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/xpack-dev-tools/openocd-xpack/releases/119866462/assets"
+  }
+}
