@@ -62,7 +62,7 @@ headers = {
 
 ret = {}
 for repo in range(num_repos):
-    ret[f"githubApiCache-{repo}-0"] = versions[repo]
+    ret[f"githubApiCache-{repo}-0"] = [versions[repo]]
 
     version = versions[repo]
     owner = stuff.ownerOfRepository(repo)
