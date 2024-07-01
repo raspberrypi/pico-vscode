@@ -1,4 +1,6 @@
-import { createWriteStream, existsSync, symlinkSync, unlinkSync } from "fs";
+import {
+  createWriteStream, existsSync, readdirSync, symlinkSync, unlinkSync
+} from "fs";
 import { mkdir, readFile } from "fs/promises";
 import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
@@ -147,7 +149,10 @@ export async function downloadAndInstallSDK(
   const targetDirectory = buildSDKPath(version);
 
   // Check if the SDK is already installed
-  if (existsSync(targetDirectory)) {
+  if (
+    existsSync(targetDirectory)
+    && readdirSync(targetDirectory).length !== 0
+  ) {
     Logger.log(`SDK ${version} is already installed.`);
 
     return true;
@@ -204,8 +209,12 @@ async function downloadAndInstallGithubAsset(
 
   redirectURL?: string,
 ): Promise<boolean> {
-  // Check if the SDK is already installed
-  if (redirectURL === undefined && existsSync(targetDirectory)) {
+  // Check if the asset is already installed
+  if (
+    redirectURL === undefined
+    && existsSync(targetDirectory)
+    && readdirSync(targetDirectory).length !== 0
+  ) {
     Logger.log(`${logName} ${version} is already installed.`);
 
     return true;
@@ -400,7 +409,11 @@ export async function downloadAndInstallToolchain(
   const targetDirectory = buildToolchainPath(toolchain.version);
 
   // Check if the SDK is already installed
-  if (redirectURL === undefined && existsSync(targetDirectory)) {
+  if (
+    redirectURL === undefined
+    && existsSync(targetDirectory)
+    && readdirSync(targetDirectory).length !== 0
+  ) {
     Logger.log(`Toolchain ${toolchain.version} is already installed.`);
 
     return true;
@@ -674,7 +687,11 @@ export async function downloadEmbedPython(
     `${HOME_VAR}/.pico-sdk` + `/python/${versionBundle.python.version}`;
 
   // Check if the Embed Python is already installed
-  if (redirectURL === undefined && existsSync(targetDirectory)) {
+  if (
+    redirectURL === undefined
+    && existsSync(targetDirectory)
+    && readdirSync(targetDirectory).length !== 0
+  ) {
     Logger.log(`Embed Python is already installed correctly.`);
 
     return `${settingsTargetDirectory}/python.exe`;
