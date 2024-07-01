@@ -2,7 +2,7 @@
   "githubApiCache-0-0": [
     "1.5.1"
   ],
-  "githubApiCache-0-1": {
+  "githubApiCache-0-1-1.5.1": {
     "assets": [
       {
         "id": 112935743,
@@ -13,112 +13,213 @@
     "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk/releases/107707260/assets"
   },
   "githubApiCache-1-0": [
-    "v3.28.0-rc6"
+    "v3.28.6",
+    "v3.29.6"
   ],
-  "githubApiCache-1-1": {
+  "githubApiCache-1-1-v3.28.6": {
     "assets": [
       {
-        "id": 138286886,
-        "name": "cmake-3.28.0-rc6-files-v1.json",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-files-v1.json"
+        "id": 171682637,
+        "name": "cmake-3.28.6-files-v1.json",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-files-v1.json"
       },
       {
-        "id": 138286887,
-        "name": "cmake-3.28.0-rc6-linux-aarch64.sh",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-aarch64.sh"
+        "id": 171682639,
+        "name": "cmake-3.28.6-linux-aarch64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-aarch64.sh"
       },
       {
-        "id": 138286891,
-        "name": "cmake-3.28.0-rc6-linux-aarch64.tar.gz",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-aarch64.tar.gz"
+        "id": 171682797,
+        "name": "cmake-3.28.6-linux-aarch64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-aarch64.tar.gz"
       },
       {
-        "id": 138286893,
-        "name": "cmake-3.28.0-rc6-linux-x86_64.sh",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-x86_64.sh"
+        "id": 171682872,
+        "name": "cmake-3.28.6-linux-x86_64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-x86_64.sh"
       },
       {
-        "id": 138286897,
-        "name": "cmake-3.28.0-rc6-linux-x86_64.tar.gz",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-linux-x86_64.tar.gz"
+        "id": 171682906,
+        "name": "cmake-3.28.6-linux-x86_64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-x86_64.tar.gz"
       },
       {
-        "id": 138286903,
-        "name": "cmake-3.28.0-rc6-macos-universal.dmg",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos-universal.dmg"
+        "id": 171682946,
+        "name": "cmake-3.28.6-macos-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos-universal.dmg"
       },
       {
-        "id": 138286905,
-        "name": "cmake-3.28.0-rc6-macos-universal.tar.gz",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos-universal.tar.gz"
+        "id": 171683083,
+        "name": "cmake-3.28.6-macos-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos-universal.tar.gz"
       },
       {
-        "id": 138286910,
-        "name": "cmake-3.28.0-rc6-macos10.10-universal.dmg",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos10.10-universal.dmg"
+        "id": 171683266,
+        "name": "cmake-3.28.6-macos10.10-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos10.10-universal.dmg"
       },
       {
-        "id": 138286923,
-        "name": "cmake-3.28.0-rc6-macos10.10-universal.tar.gz",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-macos10.10-universal.tar.gz"
+        "id": 171683323,
+        "name": "cmake-3.28.6-macos10.10-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos10.10-universal.tar.gz"
       },
       {
-        "id": 138286925,
-        "name": "cmake-3.28.0-rc6-SHA-256.txt",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-SHA-256.txt"
+        "id": 171683404,
+        "name": "cmake-3.28.6-SHA-256.txt",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-SHA-256.txt"
       },
       {
-        "id": 138286926,
-        "name": "cmake-3.28.0-rc6-SHA-256.txt.asc",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-SHA-256.txt.asc"
+        "id": 171683405,
+        "name": "cmake-3.28.6-SHA-256.txt.asc",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-SHA-256.txt.asc"
       },
       {
-        "id": 138286927,
-        "name": "cmake-3.28.0-rc6-windows-arm64.msi",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-arm64.msi"
+        "id": 171683406,
+        "name": "cmake-3.28.6-windows-arm64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-arm64.msi"
       },
       {
-        "id": 138286932,
-        "name": "cmake-3.28.0-rc6-windows-arm64.zip",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-arm64.zip"
+        "id": 171683440,
+        "name": "cmake-3.28.6-windows-arm64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-arm64.zip"
       },
       {
-        "id": 138286933,
-        "name": "cmake-3.28.0-rc6-windows-i386.msi",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-i386.msi"
+        "id": 171683535,
+        "name": "cmake-3.28.6-windows-i386.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-i386.msi"
       },
       {
-        "id": 138286934,
-        "name": "cmake-3.28.0-rc6-windows-i386.zip",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-i386.zip"
+        "id": 171683624,
+        "name": "cmake-3.28.6-windows-i386.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-i386.zip"
       },
       {
-        "id": 138286935,
-        "name": "cmake-3.28.0-rc6-windows-x86_64.msi",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-x86_64.msi"
+        "id": 171683745,
+        "name": "cmake-3.28.6-windows-x86_64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-x86_64.msi"
       },
       {
-        "id": 138286937,
-        "name": "cmake-3.28.0-rc6-windows-x86_64.zip",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6-windows-x86_64.zip"
+        "id": 171683767,
+        "name": "cmake-3.28.6-windows-x86_64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-x86_64.zip"
       },
       {
-        "id": 138286939,
-        "name": "cmake-3.28.0-rc6.tar.gz",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6.tar.gz"
+        "id": 171683790,
+        "name": "cmake-3.28.6.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6.tar.gz"
       },
       {
-        "id": 138286941,
-        "name": "cmake-3.28.0-rc6.zip",
-        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.0-rc6/cmake-3.28.0-rc6.zip"
+        "id": 171683796,
+        "name": "cmake-3.28.6.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6.zip"
       }
     ],
-    "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/132188415/assets"
+    "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/158667625/assets"
+  },
+  "githubApiCache-1-1-v3.29.6": {
+    "assets": [
+      {
+        "id": 174341995,
+        "name": "cmake-3.29.6-files-v1.json",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-files-v1.json"
+      },
+      {
+        "id": 174341999,
+        "name": "cmake-3.29.6-linux-aarch64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-aarch64.sh"
+      },
+      {
+        "id": 174342062,
+        "name": "cmake-3.29.6-linux-aarch64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-aarch64.tar.gz"
+      },
+      {
+        "id": 174342111,
+        "name": "cmake-3.29.6-linux-x86_64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-x86_64.sh"
+      },
+      {
+        "id": 174347312,
+        "name": "cmake-3.29.6-linux-x86_64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-x86_64.tar.gz"
+      },
+      {
+        "id": 174342299,
+        "name": "cmake-3.29.6-macos-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos-universal.dmg"
+      },
+      {
+        "id": 174342411,
+        "name": "cmake-3.29.6-macos-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos-universal.tar.gz"
+      },
+      {
+        "id": 174342498,
+        "name": "cmake-3.29.6-macos10.10-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos10.10-universal.dmg"
+      },
+      {
+        "id": 174342661,
+        "name": "cmake-3.29.6-macos10.10-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos10.10-universal.tar.gz"
+      },
+      {
+        "id": 174342833,
+        "name": "cmake-3.29.6-SHA-256.txt",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-SHA-256.txt"
+      },
+      {
+        "id": 174342839,
+        "name": "cmake-3.29.6-SHA-256.txt.asc",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-SHA-256.txt.asc"
+      },
+      {
+        "id": 174342841,
+        "name": "cmake-3.29.6-windows-arm64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-arm64.msi"
+      },
+      {
+        "id": 174342900,
+        "name": "cmake-3.29.6-windows-arm64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-arm64.zip"
+      },
+      {
+        "id": 174342965,
+        "name": "cmake-3.29.6-windows-i386.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-i386.msi"
+      },
+      {
+        "id": 174342982,
+        "name": "cmake-3.29.6-windows-i386.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-i386.zip"
+      },
+      {
+        "id": 174343004,
+        "name": "cmake-3.29.6-windows-x86_64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-x86_64.msi"
+      },
+      {
+        "id": 174343044,
+        "name": "cmake-3.29.6-windows-x86_64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-x86_64.zip"
+      },
+      {
+        "id": 174343086,
+        "name": "cmake-3.29.6.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6.tar.gz"
+      },
+      {
+        "id": 174343102,
+        "name": "cmake-3.29.6.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/160931478/assets"
   },
   "githubApiCache-2-0": [
     "v1.12.1"
   ],
-  "githubApiCache-2-1": {
+  "githubApiCache-2-1-v1.12.1": {
     "assets": [
       {
         "id": 167333823,
@@ -151,7 +252,7 @@
   "githubApiCache-3-0": [
     "v1.5.1-alpha-1"
   ],
-  "githubApiCache-3-1": {
+  "githubApiCache-3-1-v1.5.1-alpha-1": {
     "assets": [
       {
         "id": 141973997,
@@ -174,7 +275,7 @@
   "githubApiCache-4-0": [
     "v0.12.0-2"
   ],
-  "githubApiCache-4-1": {
+  "githubApiCache-4-1-v0.12.0-2": {
     "assets": [
       {
         "id": 124558743,

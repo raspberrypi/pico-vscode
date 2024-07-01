@@ -59,7 +59,8 @@ function parseCacheJson(
 
 export async function defaultCacheOfRepository(
   repository: GithubRepository,
-  dataType: GithubApiCacheEntryDataType
+  dataType: GithubApiCacheEntryDataType,
+  tag?: string
 ): Promise<GithubApiCacheEntry | undefined> {
   const ret: GithubApiCacheEntry = {
     repository: repository,
@@ -122,7 +123,10 @@ export async function defaultCacheOfRepository(
     // TODO: Logger.debug
     Logger.log(`Successfully downloaded github cache from the internet.`);
 
-    ret.data = result[`githubApiCache-${repository}-${dataType}`];
+    ret.data = result[
+      `githubApiCache-${repository}-${dataType}`
+      + `${tag !== undefined ? '-' + tag : ''}`
+    ];
 
     return ret;
   } catch (error) {
@@ -135,7 +139,10 @@ export async function defaultCacheOfRepository(
         joinPosix(getDataRoot(), "github-cache.json")
       );
       const parsed = parseCacheJson(cacheFile.toString("utf-8"));
-      ret.data = parsed[`githubApiCache-${repository}-${dataType}`];
+      ret.data = parsed[
+        `githubApiCache-${repository}-${dataType}`
+        + `${tag !== undefined ? '-' + tag : ''}`
+      ];
 
       return ret;
     } catch (e) {
@@ -198,6 +205,7 @@ export default class GithubApiCache {
     repository: GithubRepository,
     dataType: GithubApiCacheEntryDataType,
     data: GithubReleaseResponse | string[],
+    tag?: string,
     etag?: string
   ): Promise<void> {
     if (etag === undefined) {
@@ -207,19 +215,25 @@ export default class GithubApiCache {
       return;
     }
 
-    await this.globalState.update(`githubApiCache-${repository}-${dataType}`, {
-      repository,
-      dataType,
-      data,
-      etag,
+    await this.globalState.update(
+      `githubApiCache-${repository}-${dataType}`
+      + `${tag !== undefined ? '-' + tag : ''}`, {
+        repository,
+        dataType,
+        data,
+        etag,
     } as GithubApiCacheEntry);
   }
 
   public async getResponse(
     repository: GithubRepository,
-    dataType: GithubApiCacheEntryDataType
+    dataType: GithubApiCacheEntryDataType,
+    tag?: string
   ): Promise<GithubApiCacheEntry | undefined> {
-    return this.globalState.get(`githubApiCache-${repository}-${dataType}`);
+    return this.globalState.get(
+      `githubApiCache-${repository}-${dataType}`
+      + `${tag !== undefined ? '-' + tag : ''}`
+    );
   }
 
   /**
@@ -232,25 +246,30 @@ export default class GithubApiCache {
    */
   public async getLastEtag(
     repository: GithubRepository,
-    dataType: GithubApiCacheEntryDataType
+    dataType: GithubApiCacheEntryDataType,
+    tag?: string
   ): Promise<string | undefined> {
-    const response = await this.getResponse(repository, dataType);
+    const response = await this.getResponse(repository, dataType, tag);
 
     return response?.etag;
   }
 
   public async getDefaultResponse(
     repository: GithubRepository,
-    dataType: GithubApiCacheEntryDataType
+    dataType: GithubApiCacheEntryDataType,
+    tag?: string
   ): Promise<GithubApiCacheEntry | undefined> {
     const lastEtag = await GithubApiCache.getInstance().getLastEtag(
       repository,
       dataType
     );
     if (lastEtag) {
-      return this.globalState.get(`githubApiCache-${repository}-${dataType}`);
+      return this.globalState.get(
+        `githubApiCache-${repository}-${dataType}`
+        + `${tag !== undefined ? '-' + tag : ''}`
+      );
     } else {
-      return defaultCacheOfRepository(repository, dataType);
+      return defaultCacheOfRepository(repository, dataType, tag);
     }
   }
 

@@ -47,11 +47,11 @@ print("Num repos", num_repos)
 
 # Only provide data for these versions
 versions = [
-    "1.5.1",
-    "v3.28.0-rc6",
-    "v1.12.1",
-    "v1.5.1-alpha-1",
-    "v0.12.0-2",
+    ["1.5.1"],
+    ["v3.28.6", "v3.29.6"],
+    ["v1.12.1"],
+    ["v1.5.1-alpha-1"],
+    ["v0.12.0-2"],
 ]
 
 headers = {
@@ -62,29 +62,29 @@ headers = {
 
 ret = {}
 for repo in range(num_repos):
-    ret[f"githubApiCache-{repo}-0"] = [versions[repo]]
+    ret[f"githubApiCache-{repo}-0"] = versions[repo]
 
-    version = versions[repo]
-    owner = stuff.ownerOfRepository(repo)
-    name = stuff.repoNameOfRepository(repo)
-    x = requests.get(
-        f"{stuff.GITHUB_API_BASE_URL}/repos/{owner}/{name}/releases/tags/{version}",
-        headers=headers
-    )
-    data = json.loads(x.content)
-    assets = []
-    for asset in data["assets"]:
-        assets.append({
-            "id": asset["id"],
-            "name": asset["name"],
-            "browser_download_url": asset["browser_download_url"]
-        })
-    data = {
-        "assets": assets,
-        "assetsUrl": data["assets_url"]
-    }
+    for version in versions[repo]:
+        owner = stuff.ownerOfRepository(repo)
+        name = stuff.repoNameOfRepository(repo)
+        x = requests.get(
+            f"{stuff.GITHUB_API_BASE_URL}/repos/{owner}/{name}/releases/tags/{version}",
+            headers=headers
+        )
+        data = json.loads(x.content)
+        assets = []
+        for asset in data["assets"]:
+            assets.append({
+                "id": asset["id"],
+                "name": asset["name"],
+                "browser_download_url": asset["browser_download_url"]
+            })
+        data = {
+            "assets": assets,
+            "assetsUrl": data["assets_url"]
+        }
 
-    ret[f"githubApiCache-{repo}-1"] = data
+        ret[f"githubApiCache-{repo}-1-{version}"] = data
         
 
 for k, v in ret.items():

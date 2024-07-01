@@ -6,7 +6,7 @@
       "windowsAmd64": "https://www.python.org/ftp/python/3.9.13/python-3.9.13-embed-amd64.zip"
     },
     "ninja": "v1.12.1",
-    "cmake": "v3.28.0-rc6",
+    "cmake": "v3.28.6",
     "toolchain": "12_3_Rel1"
   },
   "1.5.1": {
@@ -16,7 +16,7 @@
       "windowsAmd64": "https://www.python.org/ftp/python/3.12.1/python-3.12.1-embed-amd64.zip"
     },
     "ninja": "v1.12.1",
-    "cmake": "v3.28.0-rc6",
+    "cmake": "v3.28.6",
     "toolchain": "13_2_Rel1"
   }
 }

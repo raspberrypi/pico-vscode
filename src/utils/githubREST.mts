@@ -190,6 +190,7 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
         repository,
         GithubApiCacheEntryDataType.releases,
         responseData,
+        undefined,
         response.headers.etag
       );
 
@@ -228,7 +229,8 @@ export async function getGithubReleaseByTag(
     const repo = repoNameOfRepository(repository);
     const lastEtag = await GithubApiCache.getInstance().getLastEtag(
       repository,
-      GithubApiCacheEntryDataType.tag
+      GithubApiCacheEntryDataType.tag,
+      tag
     );
     const headers: { [key: string]: string } = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -252,7 +254,8 @@ export async function getGithubReleaseByTag(
 
       const cachedResponse = await GithubApiCache.getInstance().getResponse(
         repository,
-        GithubApiCacheEntryDataType.tag
+        GithubApiCacheEntryDataType.tag,
+        tag
       );
       if (cachedResponse) {
         return cachedResponse.data as GithubReleaseResponse;
@@ -272,6 +275,7 @@ export async function getGithubReleaseByTag(
         repository,
         GithubApiCacheEntryDataType.tag,
         responseData,
+        tag,
         response.headers.etag
       );
 
@@ -284,7 +288,8 @@ export async function getGithubReleaseByTag(
 
     return (await GithubApiCache.getInstance().getDefaultResponse(
       repository,
-      GithubApiCacheEntryDataType.tag
+      GithubApiCacheEntryDataType.tag,
+      tag
     ))?.data as GithubReleaseResponse;
   }
 }
