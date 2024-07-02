@@ -60,3 +60,15 @@ This extension contributes the following settings:
 ### GitHub API Rate Limit ("Error while retrieving SDK and toolchain versions")
 
 If the extension fails to get available Pico SDK versions, it might be because of the GitHub API rate limit. You can create a personal access token (classic) with the `public_repo` scope and set it in the global ("User" not "Workspace") extension settings to increase the rate limit.
+
+## Build Instructions
+
+For advanced users who want to build the .vsix file for the extension, these instructions *might* work for you.
+
+1. Install npm (see [here](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows) for Windows instructions)
+2. Install yarn `npm install --global yarn`
+3. Install vsce `npm install --global @vscode/vsce`
+4. Run `yarn` from the project directory
+5. Run `vsce package` from the project directory
+
+This will produce a .vsix file which can then be installed in VS Code with `code --install-extension path-to.vsix` or in the GUI `Extensions > three dots > install vsix`.
