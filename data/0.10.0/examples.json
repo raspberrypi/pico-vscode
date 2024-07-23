@@ -67,10 +67,6 @@
       "path": "watchdog/hello_watchdog",
       "name": "hello_watchdog"
   },
-  "ir_loopback": {
-      "path": "pio/ir_nec/ir_loopback",
-      "name": "ir_loopback"
-  },
   "button": {
       "path": "picoboard/button",
       "name": "button"
