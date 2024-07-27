@@ -167,8 +167,9 @@ export async function sparseCheckout(
 ): Promise<boolean> {
   try {
     await execAsync(
-      `cd "${repoDirectory}" && ` +
-        `${gitExecutable} sparse-checkout add ${checkoutPath}`
+      `cd "${repoDirectory}" && ${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${gitExecutable}" sparse-checkout add ${checkoutPath}`
     );
 
     return true;
