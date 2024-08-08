@@ -46,7 +46,7 @@ const TOOLS_PLATFORMS: { [key: string]: string } = {
 /// Release tags for the sdk tools
 const TOOLS_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "1.5.1": "v1.5.1-1",
+  "1.5.1": "v1.5.1-0",
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "2.0.0": "v2.0.0-0",
 };
@@ -531,6 +531,13 @@ async function downloadAndInstallGithubAsset(
 export async function downloadAndInstallTools(
   version: string
 ): Promise<boolean> {
+  if (parseInt(version.split('.')[0]) < 2) {
+    if (process.platform !== "win32") {
+      Logger.log(`Skipping tools install not on Windows for pre-2.0.0 SDK.`);
+
+      return true;
+    }
+  }
   const assetExt: string = process.platform === "linux" ? "tar.gz" : "zip";
   const targetDirectory = buildToolsPath(version);
   const archiveFileName = `sdk-tools.${assetExt}`;
