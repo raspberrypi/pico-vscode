@@ -768,13 +768,15 @@ export async function downloadAndInstallOpenOCD(
   }.${assetExt}`;
 
   const extraCallback = (): void => {
-    // on darwin and linux platforms create windows compatible alias
-    // so confiuration works on all platforms
-    symlinkSync(
-      join(targetDirectory, "openocd"),
-      join(targetDirectory, "openocd.exe"),
-      "file"
-    );
+    if (process.platform !== "win32") {
+      // on darwin and linux platforms create windows compatible alias
+      // so confiuration works on all platforms
+      symlinkSync(
+        join(targetDirectory, "openocd"),
+        join(targetDirectory, "openocd.exe"),
+        "file"
+      );
+    }
   };
 
   return downloadAndInstallGithubAsset(

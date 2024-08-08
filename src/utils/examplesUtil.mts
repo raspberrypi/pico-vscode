@@ -1,8 +1,8 @@
 import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync, rmSync } from "fs";
 import { homedir } from "os";
-import { getGit, sparseCheckout, sparseCloneRepository } from "./gitUtil.mjs";
+import { getGit, sparseCheckout, sparseCloneRepository, execAsync } from "./gitUtil.mjs";
 import Settings from "../settings.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
@@ -16,6 +16,10 @@ const EXAMPLES_REPOSITORY_URL =
 const EXAMPLES_JSON_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/examples.json`;
+const EXAMPLES_GITREF = 
+  "7fe60d6b4027771e45d97f207532c41b1d8c5418";
+const EXAMPLES_TAG = 
+  "sdk-2.0.0";
 
 export interface Example {
   path: string;
@@ -134,10 +138,23 @@ export async function setupExample(
 
   const gitPath = await getGit(settings);
 
+  if (existsSync(examplesRepoPath)) {
+    let ref = await execAsync(
+      `cd "${examplesRepoPath}" && ${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${gitPath}" rev-parse HEAD`
+    );
+    Logger.log(`Examples git ref is ${ref.stdout}\n`);
+    if (ref.stdout.trim() !== EXAMPLES_GITREF) {
+      Logger.log(`Removing old examples repo\n`);
+      rmSync(examplesRepoPath, { recursive: true, force: true });
+    }
+  }
+
   if (!existsSync(examplesRepoPath)) {
     const result = await sparseCloneRepository(
       EXAMPLES_REPOSITORY_URL,
-      "master",
+      EXAMPLES_TAG,
       examplesRepoPath,
       gitPath
     );

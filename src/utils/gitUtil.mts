@@ -8,7 +8,7 @@ import { homedir } from "os";
 import which from "which";
 import { window } from "vscode";
 
-const execAsync = promisify(exec);
+export const execAsync = promisify(exec);
 
 /**
  * Get installed version of git, and install it if it isn't already
