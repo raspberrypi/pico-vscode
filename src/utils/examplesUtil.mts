@@ -2,7 +2,9 @@ import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
 import { existsSync, readFileSync, rmSync } from "fs";
 import { homedir } from "os";
-import { getGit, sparseCheckout, sparseCloneRepository, execAsync } from "./gitUtil.mjs";
+import {
+  getGit, sparseCheckout, sparseCloneRepository, execAsync
+} from "./gitUtil.mjs";
 import Settings from "../settings.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
@@ -139,7 +141,7 @@ export async function setupExample(
   const gitPath = await getGit(settings);
 
   if (existsSync(examplesRepoPath)) {
-    let ref = await execAsync(
+    const ref = await execAsync(
       `cd "${examplesRepoPath}" && ${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${gitPath}" rev-parse HEAD`
