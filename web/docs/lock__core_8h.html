@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_sync/include/pico/lock_core.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/lock_core.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,8 +111,56 @@ $(document).ready(function(){initNavTree('lock__core_8h.html',''); initResizable
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="time_8h_source.html">pico/time.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_2pico__time_2include_2pico_2time_8h_source.html">pico/time.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h_source.html">hardware/sync.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for lock_core.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="lock__core_8h__incl.png" border="0" usemap="#ainclude_2pico_2lock__core_8h" alt=""/></div>
+<map name="ainclude_2pico_2lock__core_8h" id="ainclude_2pico_2lock__core_8h">
+<area shape="rect" title=" " alt="" coords="350,5,529,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="409,244,470,271"/>
+<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="307,80,401,107"/>
+<area shape="rect" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html" title=" " alt="" coords="537,80,667,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="589,468,690,495"/>
+<area shape="rect" title=" " alt="" coords="235,319,348,345"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="439,319,543,345"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="907,319,1028,345"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="116,319,211,345"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="436,543,541,569"/>
+<area shape="rect" title=" " alt="" coords="505,617,587,644"/>
+<area shape="rect" title=" " alt="" coords="641,543,712,569"/>
+<area shape="rect" title=" " alt="" coords="737,543,811,569"/>
+<area shape="rect" title=" " alt="" coords="424,393,588,420"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="973,393,1154,420"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="1178,393,1357,420"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="613,393,773,420"/>
+<area shape="rect" title=" " alt="" coords="1381,393,1591,420"/>
+<area shape="rect" title=" " alt="" coords="797,393,948,420"/>
+<area shape="rect" title=" " alt="" coords="968,468,1159,495"/>
+<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="218,162,351,189"/>
+<area shape="rect" title=" " alt="" coords="199,244,381,271"/>
+<area shape="rect" title=" " alt="" coords="5,244,175,271"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="701,162,911,189"/>
+<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="528,155,676,196"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="lock__core_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2lock__core_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2lock__core_8hdep" id="ainclude_2pico_2lock__core_8hdep">
+<area shape="rect" title=" " alt="" coords="255,5,434,32"/>
+<area shape="rect" href="critical__section_8h.html" title=" " alt="" coords="5,80,153,121"/>
+<area shape="rect" href="mutex_8h.html" title=" " alt="" coords="177,87,336,114"/>
+<area shape="rect" href="sem_8h.html" title=" " alt="" coords="361,87,505,114"/>
+<area shape="rect" href="queue_8h.html" title=" " alt="" coords="529,87,710,114"/>
+<area shape="rect" href="common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="97,184,243,211"/>
+<area shape="rect" href="multicore_8h.html" title=" " alt="" coords="81,273,259,300"/>
+<area shape="rect" href="async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="267,169,422,225"/>
+<area shape="rect" href="async__context__poll_8h_source.html" title=" " alt="" coords="447,177,589,218"/>
+</map>
+</div>
 </div>
 <p><a href="lock__core_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -126,17 +174,15 @@ Macros</h2></td></tr>
 <tr class="memitem:aeef69533b68696315d8657f42b1af6ed"><td class="memItemLeft" align="right" valign="top"><a id="aeef69533b68696315d8657f42b1af6ed" name="aeef69533b68696315d8657f42b1af6ed"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_LOCK_CORE</b>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:aeef69533b68696315d8657f42b1af6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7e5b614312aabaada704b6a2350d39bc"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>lock_owner_id_t</b>&#160;&#160;&#160;int8_t</td></tr>
-<tr class="memdesc:ga7e5b614312aabaada704b6a2350d39bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">type to use to store the 'owner' of a lock.By default this is int8_t as it only needs to store the core number or -1, however it may be overridden if a larger type is required (e.g. for an RTOS task id) <br /></td></tr>
+<tr class="memitem:ga7e5b614312aabaada704b6a2350d39bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>&#160;&#160;&#160;int8_t</td></tr>
+<tr class="memdesc:ga7e5b614312aabaada704b6a2350d39bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">type to use to store the 'owner' of a lock.  <a href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">More...</a><br /></td></tr>
 <tr class="separator:ga7e5b614312aabaada704b6a2350d39bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga56aa223ceb22fdc4f0a3464fff119e14"><td class="memItemLeft" align="right" valign="top">
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>LOCK_INVALID_OWNER_ID</b>&#160;&#160;&#160;((<a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>)-1)</td></tr>
 <tr class="memdesc:ga56aa223ceb22fdc4f0a3464fff119e14"><td class="mdescLeft">&#160;</td><td class="mdescRight">marker value to use for a lock_owner_id_t which does not refer to any valid owner <br /></td></tr>
 <tr class="separator:ga56aa223ceb22fdc4f0a3464fff119e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae28f1d974cf1f1b973127500a764245c"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>lock_get_caller_owner_id</b>()&#160;&#160;&#160;((<a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>)<a class="el" href="group__pico__platform.html#ga974b4945ae0ac8892717cb5f05e83c53">get_core_num</a>())</td></tr>
-<tr class="memdesc:gae28f1d974cf1f1b973127500a764245c"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the owner id for the callerBy default this returns the calling core number, but may be overridden (e.g. to return an RTOS task id) <br /></td></tr>
+<tr class="memitem:gae28f1d974cf1f1b973127500a764245c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lock__core.html#gae28f1d974cf1f1b973127500a764245c">lock_get_caller_owner_id</a>()&#160;&#160;&#160;((<a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>)<a class="el" href="group__pico__platform.html#ga58434ad816f519308ee02c639b7965bc">get_core_num</a>())</td></tr>
+<tr class="memdesc:gae28f1d974cf1f1b973127500a764245c"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the owner id for the caller  <a href="group__lock__core.html#gae28f1d974cf1f1b973127500a764245c">More...</a><br /></td></tr>
 <tr class="separator:gae28f1d974cf1f1b973127500a764245c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad11a50437318f92a9e0b9ae6ff088300"><td class="memItemLeft" align="right" valign="top"><a id="ad11a50437318f92a9e0b9ae6ff088300" name="ad11a50437318f92a9e0b9ae6ff088300"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>lock_is_owner_id_valid</b>(id)&#160;&#160;&#160;((id)&gt;=0)</td></tr>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('group__hardware__flash.html',''); init
   <div class="headertitle"><div class="title">hardware_flash<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Low level flash programming and erase API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -124,7 +127,7 @@ Functions</h2></td></tr>
 <tr class="separator:ga9e352de7ea62ffebc579f6449b5b44d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Low level flash programming and erase API</p>
+<p >Low level flash programming and erase API. </p>
 <p >Note these functions are <em>unsafe</em> if you are using both cores, and the other is executing from flash concurrently with the operation. In this could be the case, you must perform your own synchronisation to make sure that no XIP accesses take place during flash programming. One option is to use the <a class="el" href="group__multicore__lockout.html">lockout</a> functions.</p>
 <p >Likewise they are <em>unsafe</em> if you have interrupt handlers or an interrupt vector table in flash, so you must disable interrupts before calling in this case.</p>
 <p >If PICO_NO_FLASH=1 is not defined (i.e. if the program is built to run from flash) then these functions will make a static copy of the second stage bootloader in SRAM, and use this to reenter execute-in-place mode after programming or erasing flash, so that they can safely be called from flash-resident code.</p>
@@ -183,9 +186,9 @@ Example</h2>
 <div class="line">    <span class="keywordflow">else</span></div>
 <div class="line">        printf(<span class="stringliteral">&quot;Programming successful!\n&quot;</span>);</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__flash_html_ga345513fba0951661d012fa20a6441c5f"><div class="ttname"><a href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_program(uint32_t flash_offs, const uint8_t *data, size_t count)</div><div class="ttdoc">Program flash.</div><div class="ttdef"><b>Definition:</b> flash.c:86</div></div>
-<div class="ttc" id="agroup__hardware__flash_html_ga5b88461b126b1c226121146c87d5abe2"><div class="ttname"><a href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_erase(uint32_t flash_offs, size_t count)</div><div class="ttdoc">Erase areas of flash.</div><div class="ttdef"><b>Definition:</b> flash.c:63</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:283</div></div>
+<div class="ttc" id="agroup__hardware__flash_html_ga345513fba0951661d012fa20a6441c5f"><div class="ttname"><a href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_program(uint32_t flash_offs, const uint8_t *data, size_t count)</div><div class="ttdoc">Program flash.</div><div class="ttdef"><b>Definition:</b> flash.c:103</div></div>
+<div class="ttc" id="agroup__hardware__flash_html_ga5b88461b126b1c226121146c87d5abe2"><div class="ttname"><a href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_erase(uint32_t flash_offs, size_t count)</div><div class="ttdoc">Erase areas of flash.</div><div class="ttdef"><b>Definition:</b> flash.c:75</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
 <div class="ttc" id="ahardware__flash_2include_2hardware_2flash_8h_html"><div class="ttname"><a href="hardware__flash_2include_2hardware_2flash_8h.html">flash.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
@@ -293,10 +296,11 @@ Example</h2>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">flash_offs</td><td>Offset into flash, in bytes, to start the erase. Must be aligned to a 4096-byte flash sector. </td></tr>
-    <tr><td class="paramname">count</td><td>Number of bytes to be erased. Must be a multiple of 4096 bytes (one sector). </td></tr>
+    <tr><td class="paramname">count</td><td>Number of bytes to be erased. Must be a multiple of 4096 bytes (one sector).</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>Erasing a flash sector sets all the bits in all the pages in that sector to one. You can then "program" flash pages in the sector to turn some of the bits to zero. Once a bit is set to zero it can only be changed back to one by erasing the whole sector again. </dd></dl>
 
 </div>
 </div>
@@ -337,10 +341,11 @@ Example</h2>
   <table class="params">
     <tr><td class="paramname">flash_offs</td><td>Flash address of the first byte to be programmed. Must be aligned to a 256-byte flash page. </td></tr>
     <tr><td class="paramname">data</td><td>Pointer to the data to program into flash </td></tr>
-    <tr><td class="paramname">count</td><td>Number of bytes to program. Must be a multiple of 256 bytes (one page). </td></tr>
+    <tr><td class="paramname">count</td><td>Number of bytes to program. Must be a multiple of 256 bytes (one page).</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section note"><dt>Note</dt><dd>: Programming a flash page effectively changes some of the bits from one to zero. The only way to change a zero bit back to one is to "erase" the whole sector that the page resides in. So you may need to make sure you have called flash_range_erase before calling flash_range_program. </dd></dl>
 
 </div>
 </div>

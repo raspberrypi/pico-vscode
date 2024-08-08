@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('group__hardware__adc.html',''); initRe
   <div class="headertitle"><div class="title">hardware_adc<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Analog to Digital Converter (ADC) API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -161,25 +164,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>adc_init</b> (void)</
 <tr class="separator:gaf8e363e63f40e00c169f7355c9668681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Analog to Digital Converter (ADC) API</p>
-<p >The RP2040 has an internal analogue-digital converter (ADC) with the following features:</p><ul>
+<p >Analog to Digital Converter (ADC) API. </p>
+<p >RP-series microcontrollers have an internal analogue-digital converter (ADC) with the following features:</p><ul>
 <li>SAR ADC</li>
 <li>500 kS/s (Using an independent 48MHz clock)</li>
-<li>12 bit (8.7 ENOB)</li>
-<li>5 input mux:<ul>
+<li>12 bit (RP2040 8.7 ENOB, RP2350 9.2 ENOB) </li>
+<li>RP2040 5 input mux:<ul>
 <li>4 inputs that are available on package pins shared with GPIO[29:26]</li>
 <li>1 input is dedicated to the internal temperature sensor</li>
+<li>4 element receive sample FIFO </li>
 </ul>
 </li>
-<li>4 element receive sample FIFO</li>
+</ul>
+<ul>
+<li>RP2350 5 or 9 input mux:<ul>
+<li>4 inputs available on QFN-60 package pins shared with GPIO[29:26]</li>
+<li>8 inputs available on QFN-80 package pins shared with GPIO[47:40]</li>
+<li>8 element receive sample FIFO </li>
+</ul>
+</li>
+<li>One input dedicated to the internal temperature sensor (see Section 12.4.6)</li>
 <li>Interrupt generation</li>
 <li>DMA interface</li>
 </ul>
 <p >Although there is only one ADC you can specify the input to it using the <a class="el" href="group__hardware__adc.html#ga5d3b8875947df2f4ba022cb6aa40594b" title="ADC input select.">adc_select_input()</a> function. In round robin mode (<a class="el" href="group__hardware__adc.html#ga16d25be75e16f0671d3e3185b0b59771" title="Round Robin sampling selector.">adc_set_round_robin()</a>), the ADC will use that input and move to the next one after a read.</p>
-<p >User ADC inputs are on 0-3 (GPIO 26-29), the temperature sensor is on input 4.</p>
+<p >RP2040, RP2350 QFN-60: User ADC inputs are on 0-3 (GPIO 26-29), the temperature sensor is on input 4. RP2350 QFN-80 : User ADC inputs are on 0-7 (GPIO 40-47), the temperature sensor is on input 8.</p>
 <p >Temperature sensor values can be approximated in centigrade as:</p>
 <p >T = 27 - (ADC_Voltage - 0.706)/0.001721</p>
-<p >The FIFO, if used, can contain up to 4 entries.</p>
 <h2><a class="anchor" id="adc_example"></a>
 Example</h2>
 <div class="fragment"><div class="line"> </div>
@@ -209,11 +220,11 @@ Example</h2>
 <div class="line">}</div>
 <div class="ttc" id="agpio_8h_html"><div class="ttname"><a href="gpio_8h.html">gpio.h</a></div></div>
 <div class="ttc" id="agroup__hardware__adc_html_ga2b815e6730e8723a6d1d06d9ef8f31c0"><div class="ttname"><a href="group__hardware__adc.html#ga2b815e6730e8723a6d1d06d9ef8f31c0">adc_init</a></div><div class="ttdeci">void adc_init(void)</div><div class="ttdoc">Initialise the ADC HW.</div><div class="ttdef"><b>Definition:</b> adc.c:11</div></div>
-<div class="ttc" id="agroup__hardware__adc_html_ga5d3b8875947df2f4ba022cb6aa40594b"><div class="ttname"><a href="group__hardware__adc.html#ga5d3b8875947df2f4ba022cb6aa40594b">adc_select_input</a></div><div class="ttdeci">static void adc_select_input(uint input)</div><div class="ttdoc">ADC input select.</div><div class="ttdef"><b>Definition:</b> adc.h:86</div></div>
-<div class="ttc" id="agroup__hardware__adc_html_gab15d6e804715935b4e9b5027a2940910"><div class="ttname"><a href="group__hardware__adc.html#gab15d6e804715935b4e9b5027a2940910">adc_gpio_init</a></div><div class="ttdeci">static void adc_gpio_init(uint gpio)</div><div class="ttdoc">Initialise the gpio for use as an ADC pin.</div><div class="ttdef"><b>Definition:</b> adc.h:69</div></div>
-<div class="ttc" id="agroup__hardware__adc_html_gaf32d82a43103e6672048001f58d5f6fb"><div class="ttname"><a href="group__hardware__adc.html#gaf32d82a43103e6672048001f58d5f6fb">adc_read</a></div><div class="ttdeci">static uint16_t adc_read(void)</div><div class="ttdoc">Perform a single conversion.</div><div class="ttdef"><b>Definition:</b> adc.h:133</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:283</div></div>
-<div class="ttc" id="agroup__sleep_html_gae617a6842d4f3a192064c4354b88fcff"><div class="ttname"><a href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a></div><div class="ttdeci">void sleep_ms(uint32_t ms)</div><div class="ttdoc">Wait for the given number of milliseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:429</div></div>
+<div class="ttc" id="agroup__hardware__adc_html_ga5d3b8875947df2f4ba022cb6aa40594b"><div class="ttname"><a href="group__hardware__adc.html#ga5d3b8875947df2f4ba022cb6aa40594b">adc_select_input</a></div><div class="ttdeci">static void adc_select_input(uint input)</div><div class="ttdoc">ADC input select.</div><div class="ttdef"><b>Definition:</b> adc.h:113</div></div>
+<div class="ttc" id="agroup__hardware__adc_html_gab15d6e804715935b4e9b5027a2940910"><div class="ttname"><a href="group__hardware__adc.html#gab15d6e804715935b4e9b5027a2940910">adc_gpio_init</a></div><div class="ttdeci">static void adc_gpio_init(uint gpio)</div><div class="ttdoc">Initialise the gpio for use as an ADC pin.</div><div class="ttdef"><b>Definition:</b> adc.h:90</div></div>
+<div class="ttc" id="agroup__hardware__adc_html_gaf32d82a43103e6672048001f58d5f6fb"><div class="ttname"><a href="group__hardware__adc.html#gaf32d82a43103e6672048001f58d5f6fb">adc_read</a></div><div class="ttdeci">static uint16_t adc_read(void)</div><div class="ttdoc">Perform a single conversion.</div><div class="ttdef"><b>Definition:</b> adc.h:170</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
+<div class="ttc" id="agroup__sleep_html_gae617a6842d4f3a192064c4354b88fcff"><div class="ttname"><a href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a></div><div class="ttdeci">void sleep_ms(uint32_t ms)</div><div class="ttdoc">Wait for the given number of milliseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:431</div></div>
 <div class="ttc" id="arp2__common_2hardware__adc_2include_2hardware_2adc_8h_html"><div class="ttname"><a href="rp2__common_2hardware__adc_2include_2hardware_2adc_8h.html">adc.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
@@ -330,7 +341,8 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Get number of entries in the ADC FIFO. </p>
-<p >The ADC FIFO is 4 entries long. This function will return how many samples are currently present. </p>
+<p >On RP2040 the FIFO is 4 samples long.   On RP2350 the FIFO is 8 samples long. </p>
+<p >This function will return how many samples are currently present. </p>
 
 </div>
 </div>
@@ -416,7 +428,9 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Setup the ADC FIFO. </p>
-<p >FIFO is 4 samples long, if a conversion is completed and the FIFO is full, the result is dropped.</p>
+<p >On RP2040 the FIFO is 4 samples long. </p>
+<p >On RP2350 the FIFO is 8 samples long. </p>
+<p >If a conversion is completed and the FIFO is full, the result is dropped.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">en</td><td>Enables write each conversion result to the FIFO </td></tr>
@@ -455,7 +469,9 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Get the currently selected ADC input channel. </p>
-<dl class="section return"><dt>Returns</dt><dd>The currently selected input channel. 0...3 are GPIOs 26...29 respectively. Input 4 is the onboard temperature sensor. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The currently selected input channel.</dd></dl>
+<p>On RP02040 0...3 are GPIOs 26...29 respectively. Input 4 is the onboard temperature sensor. </p>
+<p >On RP2350A 0...3 are GPIOs 26...29 respectively. Input 4 is the onboard temperature sensor. On RP2350B 0...7 are GPIOs 40...47 respectively. Input 8 is the onboard temperature sensor.  </p>
 
 </div>
 </div>
@@ -487,7 +503,7 @@ Example</h2>
 <p >Prepare a GPIO for use with ADC by disabling all digital functions.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">gpio</td><td>The GPIO number to use. Allowable GPIO numbers are 26 to 29 inclusive. </td></tr>
+    <tr><td class="paramname">gpio</td><td>The GPIO number to use. Allowable GPIO numbers are 26 to 29 inclusive on RP2040 or RP2350A, 40-48 inclusive on RP2350B </td></tr>
   </table>
   </dd>
 </dl>
@@ -617,7 +633,7 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>ADC input select. </p>
-<p >Select an ADC input. 0...3 are GPIOs 26...29 respectively. Input 4 is the onboard temperature sensor.</p>
+<p >Select an ADC input  On RP02040 0...3 are GPIOs 26...29 respectively. Input 4 is the onboard temperature sensor.   On RP2350A 0...3 are GPIOs 26...29 respectively. Input 4 is the onboard temperature sensor. On RP2350B 0...7 are GPIOs 40...47 respectively. Input 8 is the onboard temperature sensor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">input</td><td>Input to select. </td></tr>
@@ -687,10 +703,10 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Round Robin sampling selector. </p>
-<p >This function sets which inputs are to be run through in round robin mode. Value between 0 and 0x1f (bit 0 to bit 4 for GPIO 26 to 29 and temperature sensor input respectively)</p>
+<p >This function sets which inputs are to be run through in round robin mode. RP2040, RP2350 QFN-60: Value between 0 and 0x1f (bit 0 to bit 4 for GPIO 26 to 29 and temperature sensor input respectively) RP2350 QFN-80: Value between 0 and 0xff (bit 0 to bit 7 for GPIO 40 to 47 and temperature sensor input respectively)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input_mask</td><td>A bit pattern indicating which of the 5 inputs are to be sampled. Write a value of 0 to disable round robin sampling. </td></tr>
+    <tr><td class="paramname">input_mask</td><td>A bit pattern indicating which of the 5/8 inputs are to be sampled. Write a value of 0 to disable round robin sampling. </td></tr>
   </table>
   </dd>
 </dl>

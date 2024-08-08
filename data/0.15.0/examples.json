@@ -1,0 +1,338 @@
+{
+  "hello_usb": {
+      "path": "hello_world/usb",
+      "name": "usb"
+  },
+  "hello_serial": {
+      "path": "hello_world/serial",
+      "name": "serial"
+  },
+  "pwm_led_fade": {
+      "path": "pwm/led_fade",
+      "name": "led_fade"
+  },
+  "hello_pwm": {
+      "path": "pwm/hello_pwm",
+      "name": "hello_pwm"
+  },
+  "measure_duty_cycle": {
+      "path": "pwm/measure_duty_cycle",
+      "name": "measure_duty_cycle"
+  },
+  "hello_48MHz": {
+      "path": "clocks/hello_48MHz",
+      "name": "hello_48MHz"
+  },
+  "hello_resus": {
+      "path": "clocks/hello_resus",
+      "name": "hello_resus"
+  },
+  "detached_clk_peri": {
+      "path": "clocks/detached_clk_peri",
+      "name": "detached_clk_peri"
+  },
+  "hello_gpout": {
+      "path": "clocks/hello_gpout",
+      "name": "hello_gpout"
+  },
+  "uart_advanced": {
+      "path": "uart/uart_advanced",
+      "name": "uart_advanced"
+  },
+  "lcd_uart": {
+      "path": "uart/lcd_uart",
+      "name": "lcd_uart"
+  },
+  "hello_uart": {
+      "path": "uart/hello_uart",
+      "name": "hello_uart"
+  },
+  "dht": {
+      "path": "gpio/dht_sensor",
+      "name": "dht_sensor"
+  },
+  "hello_7segment": {
+      "path": "gpio/hello_7segment",
+      "name": "hello_7segment"
+  },
+  "hello_gpio_irq": {
+      "path": "gpio/hello_gpio_irq",
+      "name": "hello_gpio_irq"
+  },
+  "blink": {
+      "path": "blink",
+      "name": "blink"
+  },
+  "hello_watchdog": {
+      "path": "watchdog/hello_watchdog",
+      "name": "hello_watchdog"
+  },
+  "ir_loopback": {
+      "path": "pio/ir_nec/ir_loopback",
+      "name": "ir_loopback"
+  },
+  "button": {
+      "path": "picoboard/button",
+      "name": "button"
+  },
+  "blinky": {
+      "path": "picoboard/blinky",
+      "name": "blinky"
+  },
+  "hello_divider": {
+      "path": "divider",
+      "name": "divider"
+  },
+  "unique_board_id": {
+      "path": "system/unique_board_id",
+      "name": "unique_board_id"
+  },
+  "hello_double_tap": {
+      "path": "system/hello_double_tap",
+      "name": "hello_double_tap"
+  },
+  "narrow_io_write": {
+      "path": "system/narrow_io_write",
+      "name": "narrow_io_write"
+  },
+  "flash_program": {
+      "path": "flash/program",
+      "name": "program"
+  },
+  "flash_xip_stream": {
+      "path": "flash/xip_stream",
+      "name": "xip_stream"
+  },
+  "flash_ssi_dma": {
+      "path": "flash/ssi_dma",
+      "name": "ssi_dma"
+  },
+  "nuke": {
+      "path": "flash/nuke",
+      "name": "nuke"
+  },
+  "flash_cache_perfctr": {
+      "path": "flash/cache_perfctr",
+      "name": "cache_perfctr"
+  },
+  "hello_timer": {
+      "path": "timer/hello_timer",
+      "name": "hello_timer"
+  },
+  "timer_lowlevel": {
+      "path": "timer/timer_lowlevel",
+      "name": "timer_lowlevel"
+  },
+  "periodic_sampler": {
+      "path": "timer/periodic_sampler",
+      "name": "periodic_sampler"
+  },
+  "dev_lowlevel": {
+      "path": "usb/device/dev_lowlevel",
+      "name": "dev_lowlevel"
+  },
+  "rtc_alarm": {
+      "path": "rtc/rtc_alarm",
+      "name": "rtc_alarm"
+  },
+  "hello_rtc": {
+      "path": "rtc/hello_rtc",
+      "name": "hello_rtc"
+  },
+  "rtc_alarm_repeat": {
+      "path": "rtc/rtc_alarm_repeat",
+      "name": "rtc_alarm_repeat"
+  },
+  "multicore_fifo_irqs": {
+      "path": "multicore/multicore_fifo_irqs",
+      "name": "multicore_fifo_irqs"
+  },
+  "multicore_runner": {
+      "path": "multicore/multicore_runner",
+      "name": "multicore_runner"
+  },
+  "multicore_runner_queue": {
+      "path": "multicore/multicore_runner_queue",
+      "name": "multicore_runner_queue"
+  },
+  "multicore": {
+      "path": "multicore/hello_multicore",
+      "name": "hello_multicore"
+  },
+  "hello_reset": {
+      "path": "reset/hello_reset",
+      "name": "hello_reset"
+  },
+  "hello_interp": {
+      "path": "interp/hello_interp",
+      "name": "hello_interp"
+  },
+  "picow_wifi_scan": {
+      "path": "pico_w/wifi/wifi_scan",
+      "name": "wifi_scan"
+  },
+  "picow_blink": {
+      "path": "pico_w/wifi/blink",
+      "name": "blink"
+  },
+  "picow_ntp_client": {
+      "path": "pico_w/wifi/ntp_client",
+      "name": "ntp_client"
+  },
+  "picow_tcp_client": {
+      "path": "pico_w/wifi/tcp_client",
+      "name": "tcp_client"
+  },
+  "picow_udp_beacon": {
+      "path": "pico_w/wifi/udp_beacon",
+      "name": "udp_beacon"
+  },
+  "picow_iperf_server": {
+      "path": "pico_w/wifi/iperf",
+      "name": "iperf"
+  },
+  "picow_tcp_server": {
+      "path": "pico_w/wifi/tcp_server",
+      "name": "tcp_server"
+  },
+  "picow_access_point": {
+      "path": "pico_w/wifi/access_point",
+      "name": "access_point"
+  },
+  "mpl3115a2_i2c": {
+      "path": "i2c/mpl3115a2_i2c",
+      "name": "mpl3115a2_i2c"
+  },
+  "mcp9808_i2c": {
+      "path": "i2c/mcp9808_i2c",
+      "name": "mcp9808_i2c"
+  },
+  "mpu6050_i2c": {
+      "path": "i2c/mpu6050_i2c",
+      "name": "mpu6050_i2c"
+  },
+  "pa1010d_i2c": {
+      "path": "i2c/pa1010d_i2c",
+      "name": "pa1010d_i2c"
+  },
+  "lis3dh_i2c": {
+      "path": "i2c/lis3dh_i2c",
+      "name": "lis3dh_i2c"
+  },
+  "mma8451_i2c": {
+      "path": "i2c/mma8451_i2c",
+      "name": "mma8451_i2c"
+  },
+  "ht16k33_i2c": {
+      "path": "i2c/ht16k33_i2c",
+      "name": "ht16k33_i2c"
+  },
+  "bus_scan": {
+      "path": "i2c/bus_scan",
+      "name": "bus_scan"
+  },
+  "pcf8523_i2c": {
+      "path": "i2c/pcf8523_i2c",
+      "name": "pcf8523_i2c"
+  },
+  "lcd_1602_i2c": {
+      "path": "i2c/lcd_1602_i2c",
+      "name": "lcd_1602_i2c"
+  },
+  "bmp280_i2c": {
+      "path": "i2c/bmp280_i2c",
+      "name": "bmp280_i2c"
+  },
+  "slave_mem_i2c": {
+      "path": "i2c/slave_mem_i2c",
+      "name": "slave_mem_i2c"
+  },
+  "ssd1306_i2c": {
+      "path": "i2c/ssd1306_i2c",
+      "name": "ssd1306_i2c"
+  },
+  "dma_capture": {
+      "path": "adc/dma_capture",
+      "name": "dma_capture"
+  },
+  "joystick_display": {
+      "path": "adc/joystick_display",
+      "name": "joystick_display"
+  },
+  "onboard_temperature": {
+      "path": "adc/onboard_temperature",
+      "name": "onboard_temperature"
+  },
+  "microphone_adc": {
+      "path": "adc/microphone_adc",
+      "name": "microphone_adc"
+  },
+  "adc_console": {
+      "path": "adc/adc_console",
+      "name": "adc_console"
+  },
+  "read_vsys": {
+      "path": "adc/read_vsys",
+      "name": "read_vsys"
+  },
+  "hello_adc": {
+      "path": "adc/hello_adc",
+      "name": "hello_adc"
+  },
+  "sniff_crc": {
+      "path": "dma/sniff_crc",
+      "name": "sniff_crc"
+  },
+  "control_blocks": {
+      "path": "dma/control_blocks",
+      "name": "control_blocks"
+  },
+  "hello_dma": {
+      "path": "dma/hello_dma",
+      "name": "hello_dma"
+  },
+  "channel_irq": {
+      "path": "dma/channel_irq",
+      "name": "channel_irq"
+  },
+  "spi_dma": {
+      "path": "spi/spi_dma",
+      "name": "spi_dma"
+  },
+  "spi_flash": {
+      "path": "spi/spi_flash",
+      "name": "spi_flash"
+  },
+  "mpu9250_spi": {
+      "path": "spi/mpu9250_spi",
+      "name": "mpu9250_spi"
+  },
+  "max7219_8x7seg_spi": {
+      "path": "spi/max7219_8x7seg_spi",
+      "name": "max7219_8x7seg_spi"
+  },
+  "max7219_32x8_spi": {
+      "path": "spi/max7219_32x8_spi",
+      "name": "max7219_32x8_spi"
+  },
+  "bme280_spi": {
+      "path": "spi/bme280_spi",
+      "name": "bme280_spi"
+  },
+  "spi_master": {
+      "path": "spi/spi_master_slave/spi_master",
+      "name": "spi_master"
+  },
+  "spi_slave": {
+      "path": "spi/spi_master_slave/spi_slave",
+      "name": "spi_slave"
+  },
+  "usb_dev_hid_composite": {
+      "path": "usb/device/dev_hid_composite",
+      "name": "dev_hid_composite"
+  },
+  "usb_dev_lowlevel": {
+    "path": "usb/device/dev_lowlevel",
+    "name": "dev_lowlevel"
+  }
+}

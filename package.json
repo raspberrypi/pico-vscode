@@ -97,8 +97,32 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getGDBPath",
+        "title": "Get GDB path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getChip",
+        "title": "Get Chip",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getTarget",
+        "title": "Get OpenOCD Target",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
+      },
+      {
+        "command": "raspberry-pi-pico.runProject",
+        "title": "Run Pico Project",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject"
       },

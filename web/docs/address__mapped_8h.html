@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_base/include/hardware/address_mapped.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/address_mapped.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,6 +111,31 @@ $(document).ready(function(){initNavTree('address__mapped_8h.html',''); initResi
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/regs/addressmap.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for address_mapped.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="address__mapped_8h__incl.png" border="0" usemap="#ainclude_2hardware_2address__mapped_8h" alt=""/></div>
+<map name="ainclude_2hardware_2address__mapped_8h" id="ainclude_2hardware_2address__mapped_8h">
+<area shape="rect" title=" " alt="" coords="693,5,882,47"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="649,95,710,121"/>
+<area shape="rect" title=" " alt="" coords="1130,244,1341,271"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,319,259,345"/>
+<area shape="rect" title=" " alt="" coords="420,169,533,196"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="558,169,662,196"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="687,169,808,196"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="832,169,927,196"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,393,111,420"/>
+<area shape="rect" title=" " alt="" coords="74,468,157,495"/>
+<area shape="rect" title=" " alt="" coords="211,393,281,420"/>
+<area shape="rect" title=" " alt="" coords="306,393,381,420"/>
+<area shape="rect" title=" " alt="" coords="173,244,337,271"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,244,543,271"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,244,746,271"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,244,930,271"/>
+<area shape="rect" title=" " alt="" coords="955,244,1105,271"/>
+<area shape="rect" title=" " alt="" coords="357,319,548,345"/>
+</map>
+</div>
 </div>
 <p><a href="address__mapped_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -132,13 +157,13 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>hw_alias_check_addr</b>(addr)&#160;&#160;&#160;((uintptr_t)(addr))</td></tr>
 <tr class="separator:a4bd241a472fb4c40e5bd8a3d5d93cdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32d8dd2790c78b242ff0c0592bf3b49f"><td class="memItemLeft" align="right" valign="top"><a id="a32d8dd2790c78b242ff0c0592bf3b49f" name="a32d8dd2790c78b242ff0c0592bf3b49f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>hw_set_alias_untyped</b>(addr)&#160;&#160;&#160;((void *)(REG_ALIAS_SET_BITS | hw_alias_check_addr(addr)))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>hw_set_alias_untyped</b>(addr)&#160;&#160;&#160;((void *)(REG_ALIAS_SET_BITS + hw_alias_check_addr(addr)))</td></tr>
 <tr class="separator:a32d8dd2790c78b242ff0c0592bf3b49f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b4df045483c389a11c73ed7b08a871c"><td class="memItemLeft" align="right" valign="top"><a id="a0b4df045483c389a11c73ed7b08a871c" name="a0b4df045483c389a11c73ed7b08a871c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>hw_clear_alias_untyped</b>(addr)&#160;&#160;&#160;((void *)(REG_ALIAS_CLR_BITS | hw_alias_check_addr(addr)))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>hw_clear_alias_untyped</b>(addr)&#160;&#160;&#160;((void *)(REG_ALIAS_CLR_BITS + hw_alias_check_addr(addr)))</td></tr>
 <tr class="separator:a0b4df045483c389a11c73ed7b08a871c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a388fa0646ca87bdb4615e4fa9990d9ce"><td class="memItemLeft" align="right" valign="top"><a id="a388fa0646ca87bdb4615e4fa9990d9ce" name="a388fa0646ca87bdb4615e4fa9990d9ce"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>hw_xor_alias_untyped</b>(addr)&#160;&#160;&#160;((void *)(REG_ALIAS_XOR_BITS | hw_alias_check_addr(addr)))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>hw_xor_alias_untyped</b>(addr)&#160;&#160;&#160;((void *)(REG_ALIAS_XOR_BITS + hw_alias_check_addr(addr)))</td></tr>
 <tr class="separator:a388fa0646ca87bdb4615e4fa9990d9ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a109b103e31ae290736bd0251f88e8628"><td class="memItemLeft" align="right" valign="top"><a id="a109b103e31ae290736bd0251f88e8628" name="a109b103e31ae290736bd0251f88e8628"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>xip_noalloc_alias_untyped</b>(addr)&#160;&#160;&#160;((void *)(XIP_NOALLOC_BASE | xip_alias_check_addr(addr)))</td></tr>
@@ -170,6 +195,15 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:aba9755f3e3e3484d7b9993ca3254aec8"><td class="memItemLeft" align="right" valign="top"><a id="aba9755f3e3e3484d7b9993ca3254aec8" name="aba9755f3e3e3484d7b9993ca3254aec8"></a>
+typedef volatile uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>io_rw_64</b></td></tr>
+<tr class="separator:aba9755f3e3e3484d7b9993ca3254aec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af347e94ed009e80f1df76abb2b9a40a0"><td class="memItemLeft" align="right" valign="top"><a id="af347e94ed009e80f1df76abb2b9a40a0" name="af347e94ed009e80f1df76abb2b9a40a0"></a>
+typedef const volatile uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>io_ro_64</b></td></tr>
+<tr class="separator:af347e94ed009e80f1df76abb2b9a40a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99c84c82166084a6617fe68d287fcdbc"><td class="memItemLeft" align="right" valign="top"><a id="a99c84c82166084a6617fe68d287fcdbc" name="a99c84c82166084a6617fe68d287fcdbc"></a>
+typedef volatile uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>io_wo_64</b></td></tr>
+<tr class="separator:a99c84c82166084a6617fe68d287fcdbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7a3903ffe232108a65efc85970a5fdb"><td class="memItemLeft" align="right" valign="top"><a id="ae7a3903ffe232108a65efc85970a5fdb" name="ae7a3903ffe232108a65efc85970a5fdb"></a>
 typedef volatile uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>io_rw_32</b></td></tr>
 <tr class="separator:ae7a3903ffe232108a65efc85970a5fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>

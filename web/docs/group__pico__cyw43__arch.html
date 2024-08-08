@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,6 +109,9 @@ $(document).ready(function(){initNavTree('group__pico__cyw43__arch.html',''); in
   <div class="headertitle"><div class="title">pico_cyw43_arch<div class="ingroups"><a class="el" href="group__networking.html">Networking Libraries</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Architecture for integrating the CYW43 driver (for the wireless on Pico W) and lwIP (for TCP/IP stack) into the SDK. It is also necessary for accessing the on-board LED on Pico W.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
@@ -145,7 +148,7 @@ Functions</h2></td></tr>
 <tr class="memitem:gacb76fc7935c64b2a0cb32c0b8af94782"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__arch.html#gacb76fc7935c64b2a0cb32c0b8af94782">cyw43_arch_poll</a> (void)</td></tr>
 <tr class="memdesc:gacb76fc7935c64b2a0cb32c0b8af94782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any processing required by the <code>cyw43_driver</code> or the TCP/IP stack.  <a href="group__pico__cyw43__arch.html#gacb76fc7935c64b2a0cb32c0b8af94782">More...</a><br /></td></tr>
 <tr class="separator:gacb76fc7935c64b2a0cb32c0b8af94782"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad8d40de29bb275e3b55f4f37ee4d3dc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__arch.html#gad8d40de29bb275e3b55f4f37ee4d3dc8">cyw43_arch_wait_for_work_until</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:gad8d40de29bb275e3b55f4f37ee4d3dc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__arch.html#gad8d40de29bb275e3b55f4f37ee4d3dc8">cyw43_arch_wait_for_work_until</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:gad8d40de29bb275e3b55f4f37ee4d3dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleep until there is cyw43_driver work to be done.  <a href="group__pico__cyw43__arch.html#gad8d40de29bb275e3b55f4f37ee4d3dc8">More...</a><br /></td></tr>
 <tr class="separator:gad8d40de29bb275e3b55f4f37ee4d3dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5fc198cd8f76428160dfc66f58be29c4"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__arch.html#ga5fc198cd8f76428160dfc66f58be29c4">cyw43_arch_get_country_code</a> (void)</td></tr>
@@ -198,7 +201,7 @@ Functions</h2></td></tr>
 <tr class="separator:ga263d31bcb5c8d387b37b4f9a578e1c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Architecture for integrating the CYW43 driver (for the wireless on Pico W) and lwIP (for TCP/IP stack) into the SDK. It is also necessary for accessing the on-board LED on Pico W</p>
+<p >Architecture for integrating the CYW43 driver (for the wireless on Pico W) and lwIP (for TCP/IP stack) into the SDK. It is also necessary for accessing the on-board LED on Pico W. </p>
 <p >Both the low level <code>cyw43_driver</code> and the lwIP stack require periodic servicing, and have limitations on whether they can be called from multiple cores/threads.</p>
 <p ><code>pico_cyw43_arch</code> attempts to abstract these complications into several behavioral groups:</p>
 <ul>
@@ -776,7 +779,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
         <tr>
           <td class="memname">void cyw43_arch_wait_for_work_until </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>until</em></td><td>)</td>
           <td></td>
         </tr>

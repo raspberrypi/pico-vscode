@@ -2,9 +2,11 @@
 import type { ExtensionContext, Memento } from "vscode";
 import type { GithubReleaseResponse, GithubRepository } from "./githubREST.mjs";
 import Logger from "../logger.mjs";
-import { CURRENT_DATA_VERSION, getDataRoot } from "./examplesUtil.mjs";
+import { getDataRoot } from "./downloadHelpers.mjs";
 import { get } from "https";
-import { isInternetConnected } from "./downloadHelpers.mjs";
+import {
+  isInternetConnected, CURRENT_DATA_VERSION
+} from "./downloadHelpers.mjs";
 import { join as joinPosix } from "path/posix";
 import { readFileSync } from "fs";
 
@@ -146,7 +148,7 @@ export async function defaultCacheOfRepository(
 
       return ret;
     } catch (e) {
-      Logger.log("Failed to load github-cache.json");
+      Logger.log("Failed to load local github-cache.json");
 
       return undefined;
     }

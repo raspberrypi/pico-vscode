@@ -1,8 +1,11 @@
 var searchData=
 [
-  ['sem_2eh_0',['sem.h',['../sem_8h.html',1,'']]],
-  ['spi_2eh_1',['spi.h',['../rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html',1,'']]],
-  ['stdio_2eh_2',['stdio.h',['../stdio_8h.html',1,'']]],
-  ['stdlib_2eh_3',['stdlib.h',['../stdlib_8h.html',1,'']]],
-  ['sync_2eh_4',['sync.h',['../common_2pico__sync_2include_2pico_2sync_8h.html',1,'(Global Namespace)'],['../rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html',1,'(Global Namespace)']]]
+  ['rand_2eh_0',['rand.h',['../rand_8h.html',1,'']]],
+  ['rcp_2eh_1',['rcp.h',['../rcp_8h.html',1,'']]],
+  ['resets_2eh_2',['resets.h',['../rp2__common_2hardware__resets_2include_2hardware_2resets_8h.html',1,'']]],
+  ['riscv_2eh_3',['riscv.h',['../riscv_8h.html',1,'']]],
+  ['riscv_5fplatform_5ftimer_2eh_4',['riscv_platform_timer.h',['../riscv__platform__timer_8h.html',1,'']]],
+  ['rtc_2eh_5',['rtc.h',['../rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h.html',1,'']]],
+  ['runtime_2eh_6',['runtime.h',['../runtime_8h.html',1,'']]],
+  ['runtime_5finit_2eh_7',['runtime_init.h',['../runtime__init_8h.html',1,'']]]
 ];

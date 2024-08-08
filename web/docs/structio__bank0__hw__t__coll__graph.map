@@ -1,0 +1,5 @@
+<map id="io_bank0_hw_t" name="io_bank0_hw_t">
+<area shape="rect" id="node1" title=" " alt="" coords="146,139,265,165"/>
+<area shape="rect" id="node2" href="$structio__bank0__status__ctrl__hw__t.html" title=" " alt="" coords="5,5,200,32"/>
+<area shape="rect" id="node3" href="$structio__bank0__irq__ctrl__hw__t.html" title=" " alt="" coords="224,5,395,32"/>
+</map>

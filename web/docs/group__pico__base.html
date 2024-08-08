@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,31 +107,117 @@ $(document).ready(function(){initNavTree('group__pico__base.html',''); initResiz
   <div class="headertitle"><div class="title">pico_base<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Core types and macros for the Raspberry Pi Pico SDK.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:gaddcb20bc9a61ceff479aa87369a862aa"><td class="memItemLeft" align="right" valign="top"><a id="gaddcb20bc9a61ceff479aa87369a862aa" name="gaddcb20bc9a61ceff479aa87369a862aa"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html#gaddcb20bc9a61ceff479aa87369a862aa">pico_error_codes</a> { <br />
-&#160;&#160;<b>PICO_OK</b> = 0
-, <b>PICO_ERROR_NONE</b> = 0
-, <b>PICO_ERROR_TIMEOUT</b> = -1
-, <b>PICO_ERROR_GENERIC</b> = -2
+<tr class="memitem:gaddcb20bc9a61ceff479aa87369a862aa"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html#gaddcb20bc9a61ceff479aa87369a862aa">pico_error_codes</a> { <br />
+&#160;&#160;<a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd">PICO_OK</a> = 0
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa003b1c62d0c29b014c5f9f78845d230c">PICO_ERROR_NONE</a> = 0
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa3881c25df2261efbc82252df515240d0">PICO_ERROR_GENERIC</a> = -1
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaadc6b9dedd94cd2896e090377240a6be7">PICO_ERROR_TIMEOUT</a> = -2
 , <br />
-&#160;&#160;<b>PICO_ERROR_NO_DATA</b> = -3
-, <b>PICO_ERROR_NOT_PERMITTED</b> = -4
-, <b>PICO_ERROR_INVALID_ARG</b> = -5
-, <b>PICO_ERROR_IO</b> = -6
+&#160;&#160;<a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaaac59a56712b4a417f0f6388b51ccba54">PICO_ERROR_NO_DATA</a> = -3
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa07c9718c70d18e5abf87bf0ba6067d3b">PICO_ERROR_NOT_PERMITTED</a> = -4
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaad1e36d9b09e29e8774cdc97e8eb102bb">PICO_ERROR_INVALID_ARG</a> = -5
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa37e8ddc586e82d5bc6f39036d6ed992f">PICO_ERROR_IO</a> = -6
 , <br />
-&#160;&#160;<b>PICO_ERROR_BADAUTH</b> = -7
-, <b>PICO_ERROR_CONNECT_FAILED</b> = -8
-, <b>PICO_ERROR_INSUFFICIENT_RESOURCES</b> = -9
+&#160;&#160;<a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa4f557979c5adecac04f11454d26ed5eb">PICO_ERROR_BADAUTH</a> = -7
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa1dee806c27aab880b0aef2d51019724a">PICO_ERROR_CONNECT_FAILED</a> = -8
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa657ac9899835a3913d4fb5fc7fe3ba6d">PICO_ERROR_INSUFFICIENT_RESOURCES</a> = -9
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaab650a3cc6d81570df7f864e554639a2b">PICO_ERROR_INVALID_ADDRESS</a> = -10
+, <br />
+&#160;&#160;<a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaac86a6335326022a1ff4d1cd8aad4bb69">PICO_ERROR_BAD_ALIGNMENT</a> = -11
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa35f020ffe5c8840f2ca18b621316ee18">PICO_ERROR_INVALID_STATE</a> = -12
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaad8c2f23f3a304afba6db8e581ee0a0cd">PICO_ERROR_BUFFER_TOO_SMALL</a> = -13
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa908b362629037ca02e6c638c4a571a7c">PICO_ERROR_PRECONDITION_NOT_MET</a> = -14
+, <br />
+&#160;&#160;<a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa1a4a127d213c7ad757d16a100f9bdea4">PICO_ERROR_MODIFIED_DATA</a> = -15
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaacf8e80b0efb54177bb4c4e6e7ed5141c">PICO_ERROR_INVALID_DATA</a> = -16
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa300d8f23f3db2dc83199798e9a5839f7">PICO_ERROR_NOT_FOUND</a> = -17
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa83e3f9bb1d9b8f7df8804d0d9e2543b3">PICO_ERROR_UNSUPPORTED_MODIFICATION</a> = -18
+, <br />
+&#160;&#160;<a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaadb2cbf652c1c4dc77450116c486bf1cd">PICO_ERROR_LOCK_REQUIRED</a> = -19
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa6e384327162e80d5a69ef77040cbb2b7">PICO_ERROR_VERSION_MISMATCH</a> = -20
+, <a class="el" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaaae6675ad0b3d3e6618765fa157919154">PICO_ERROR_RESOURCE_IN_USE</a> = -21
 <br />
  }</td></tr>
-<tr class="memdesc:gaddcb20bc9a61ceff479aa87369a862aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common return codes from pico_sdk methods that return a status. <br /></td></tr>
+<tr class="memdesc:gaddcb20bc9a61ceff479aa87369a862aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common return codes from pico_sdk methods that return a status.  <a href="group__pico__base.html#gaddcb20bc9a61ceff479aa87369a862aa">More...</a><br /></td></tr>
 <tr class="separator:gaddcb20bc9a61ceff479aa87369a862aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Core types and macros for the Raspberry Pi Pico SDK. This header is intended to be included by all source code as it includes configuration headers and overrides in the correct order</p>
+<p >Core types and macros for the Raspberry Pi Pico SDK. </p>
+<p >This header is intended to be included by all source code as it includes configuration headers and overrides in the correct order</p>
 <p >This header may be included by assembly code </p>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="gaddcb20bc9a61ceff479aa87369a862aa" name="gaddcb20bc9a61ceff479aa87369a862aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaddcb20bc9a61ceff479aa87369a862aa">&#9670;&nbsp;</a></span>pico_error_codes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__pico__base.html#gaddcb20bc9a61ceff479aa87369a862aa">pico_error_codes</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Common return codes from pico_sdk methods that return a status. </p>
+<p >All <code>PICO_ERROR_</code> values are negative so they can be returned from functions that also want to return a zero or positive value on success.</p>
+<p >Note these error codes may be returned via bootrom functions too. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd" name="ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd"></a>PICO_OK&#160;</td><td class="fielddoc"><p >No error; the operation succeeded. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa003b1c62d0c29b014c5f9f78845d230c" name="ggaddcb20bc9a61ceff479aa87369a862aaa003b1c62d0c29b014c5f9f78845d230c"></a>PICO_ERROR_NONE&#160;</td><td class="fielddoc"><p >No error; the operation succeeded. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa3881c25df2261efbc82252df515240d0" name="ggaddcb20bc9a61ceff479aa87369a862aaa3881c25df2261efbc82252df515240d0"></a>PICO_ERROR_GENERIC&#160;</td><td class="fielddoc"><p >An unspecified error occurred. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaadc6b9dedd94cd2896e090377240a6be7" name="ggaddcb20bc9a61ceff479aa87369a862aaadc6b9dedd94cd2896e090377240a6be7"></a>PICO_ERROR_TIMEOUT&#160;</td><td class="fielddoc"><p >The function failed due to timeout. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaaac59a56712b4a417f0f6388b51ccba54" name="ggaddcb20bc9a61ceff479aa87369a862aaaac59a56712b4a417f0f6388b51ccba54"></a>PICO_ERROR_NO_DATA&#160;</td><td class="fielddoc"><p >Attempt for example to read from an empty buffer/FIFO. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa07c9718c70d18e5abf87bf0ba6067d3b" name="ggaddcb20bc9a61ceff479aa87369a862aaa07c9718c70d18e5abf87bf0ba6067d3b"></a>PICO_ERROR_NOT_PERMITTED&#160;</td><td class="fielddoc"><p >Permission violation e.g. write to read-only flash partition, or security violation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaad1e36d9b09e29e8774cdc97e8eb102bb" name="ggaddcb20bc9a61ceff479aa87369a862aaad1e36d9b09e29e8774cdc97e8eb102bb"></a>PICO_ERROR_INVALID_ARG&#160;</td><td class="fielddoc"><p >Argument is outside of range of supported values`. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa37e8ddc586e82d5bc6f39036d6ed992f" name="ggaddcb20bc9a61ceff479aa87369a862aaa37e8ddc586e82d5bc6f39036d6ed992f"></a>PICO_ERROR_IO&#160;</td><td class="fielddoc"><p >An I/O error occurred. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa4f557979c5adecac04f11454d26ed5eb" name="ggaddcb20bc9a61ceff479aa87369a862aaa4f557979c5adecac04f11454d26ed5eb"></a>PICO_ERROR_BADAUTH&#160;</td><td class="fielddoc"><p >The authorization failed due to bad credentials. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa1dee806c27aab880b0aef2d51019724a" name="ggaddcb20bc9a61ceff479aa87369a862aaa1dee806c27aab880b0aef2d51019724a"></a>PICO_ERROR_CONNECT_FAILED&#160;</td><td class="fielddoc"><p >The connection failed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa657ac9899835a3913d4fb5fc7fe3ba6d" name="ggaddcb20bc9a61ceff479aa87369a862aaa657ac9899835a3913d4fb5fc7fe3ba6d"></a>PICO_ERROR_INSUFFICIENT_RESOURCES&#160;</td><td class="fielddoc"><p >Dynamic allocation of resources failed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaab650a3cc6d81570df7f864e554639a2b" name="ggaddcb20bc9a61ceff479aa87369a862aaab650a3cc6d81570df7f864e554639a2b"></a>PICO_ERROR_INVALID_ADDRESS&#160;</td><td class="fielddoc"><p >Address argument was out-of-bounds or was determined to be an address that the caller may not access. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaac86a6335326022a1ff4d1cd8aad4bb69" name="ggaddcb20bc9a61ceff479aa87369a862aaac86a6335326022a1ff4d1cd8aad4bb69"></a>PICO_ERROR_BAD_ALIGNMENT&#160;</td><td class="fielddoc"><p >Address was mis-aligned (usually not on word boundary) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa35f020ffe5c8840f2ca18b621316ee18" name="ggaddcb20bc9a61ceff479aa87369a862aaa35f020ffe5c8840f2ca18b621316ee18"></a>PICO_ERROR_INVALID_STATE&#160;</td><td class="fielddoc"><p >Something happened or failed to happen in the past, and consequently we (currently) can't service the request. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaad8c2f23f3a304afba6db8e581ee0a0cd" name="ggaddcb20bc9a61ceff479aa87369a862aaad8c2f23f3a304afba6db8e581ee0a0cd"></a>PICO_ERROR_BUFFER_TOO_SMALL&#160;</td><td class="fielddoc"><p >A user-allocated buffer was too small to hold the result or working state of this function. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa908b362629037ca02e6c638c4a571a7c" name="ggaddcb20bc9a61ceff479aa87369a862aaa908b362629037ca02e6c638c4a571a7c"></a>PICO_ERROR_PRECONDITION_NOT_MET&#160;</td><td class="fielddoc"><p >The call failed because another function must be called first. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa1a4a127d213c7ad757d16a100f9bdea4" name="ggaddcb20bc9a61ceff479aa87369a862aaa1a4a127d213c7ad757d16a100f9bdea4"></a>PICO_ERROR_MODIFIED_DATA&#160;</td><td class="fielddoc"><p >Cached data was determined to be inconsistent with the actual version of the data. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaacf8e80b0efb54177bb4c4e6e7ed5141c" name="ggaddcb20bc9a61ceff479aa87369a862aaacf8e80b0efb54177bb4c4e6e7ed5141c"></a>PICO_ERROR_INVALID_DATA&#160;</td><td class="fielddoc"><p >A data structure failed to validate. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa300d8f23f3db2dc83199798e9a5839f7" name="ggaddcb20bc9a61ceff479aa87369a862aaa300d8f23f3db2dc83199798e9a5839f7"></a>PICO_ERROR_NOT_FOUND&#160;</td><td class="fielddoc"><p >Attempted to access something that does not exist; or, a search failed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa83e3f9bb1d9b8f7df8804d0d9e2543b3" name="ggaddcb20bc9a61ceff479aa87369a862aaa83e3f9bb1d9b8f7df8804d0d9e2543b3"></a>PICO_ERROR_UNSUPPORTED_MODIFICATION&#160;</td><td class="fielddoc"><p >Write is impossible based on previous writes; e.g. attempted to clear an OTP bit. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaadb2cbf652c1c4dc77450116c486bf1cd" name="ggaddcb20bc9a61ceff479aa87369a862aaadb2cbf652c1c4dc77450116c486bf1cd"></a>PICO_ERROR_LOCK_REQUIRED&#160;</td><td class="fielddoc"><p >A required lock is not owned. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa6e384327162e80d5a69ef77040cbb2b7" name="ggaddcb20bc9a61ceff479aa87369a862aaa6e384327162e80d5a69ef77040cbb2b7"></a>PICO_ERROR_VERSION_MISMATCH&#160;</td><td class="fielddoc"><p >A version mismatch occurred (e.g. trying to run PIO version 1 code on RP2040) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaaae6675ad0b3d3e6618765fa157919154" name="ggaddcb20bc9a61ceff479aa87369a862aaaae6675ad0b3d3e6618765fa157919154"></a>PICO_ERROR_RESOURCE_IN_USE&#160;</td><td class="fielddoc"><p >The call could not proceed because requires resourcesw were unavailable. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

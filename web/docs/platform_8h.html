@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_platform/include/pico/platform.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/platform.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,18 +108,92 @@ $(document).ready(function(){initNavTree('platform_8h.html',''); initResizable()
   <div class="headertitle"><div class="title">platform.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;hardware/platform_defs.h&quot;</code><br />
+<div class="textblock"><code>#include &quot;pico/platform/compiler.h&quot;</code><br />
+<code>#include &quot;pico/platform/sections.h&quot;</code><br />
+<code>#include &quot;pico/platform/panic.h&quot;</code><br />
 <code>#include &quot;hardware/regs/addressmap.h&quot;</code><br />
 <code>#include &quot;hardware/regs/sio.h&quot;</code><br />
-<code>#include &quot;pico/types.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for platform.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="platform_8h__incl.png" border="0" usemap="#ainclude_2pico_2platform_8h" alt=""/></div>
+<map name="ainclude_2pico_2platform_8h" id="ainclude_2pico_2platform_8h">
+<area shape="rect" title=" " alt="" coords="497,5,669,32"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="95,80,277,107"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="301,80,479,107"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="503,80,663,107"/>
+<area shape="rect" title=" " alt="" coords="687,80,898,107"/>
+<area shape="rect" title=" " alt="" coords="923,80,1073,107"/>
+<area shape="rect" title=" " alt="" coords="5,155,196,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="221,155,322,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="68,229,173,256"/>
+<area shape="rect" title=" " alt="" coords="137,304,219,331"/>
+<area shape="rect" title=" " alt="" coords="273,229,344,256"/>
+<area shape="rect" title=" " alt="" coords="369,229,443,256"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="platform_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2platform_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2platform_8hdep" id="ainclude_2pico_2platform_8hdep">
+<area shape="rect" title=" " alt="" coords="3097,5,3269,32"/>
+<area shape="rect" href="picobin_8h.html" title=" " alt="" coords="2822,87,2987,114"/>
+<area shape="rect" href="picoboot_8h.html" title=" " alt="" coords="3012,87,3187,114"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="3211,87,3323,114"/>
+<area shape="rect" href="bootrom__constants_8h_source.html" title=" " alt="" coords="5137,80,5296,121"/>
+<area shape="rect" href="cc_8h_source.html" title=" " alt="" coords="6657,177,6787,203"/>
+<area shape="rect" href="cyw43__configport_8h_source.html" title=" " alt="" coords="5,437,204,464"/>
+<area shape="rect" href="rp2__common_2hardware__adc_2include_2hardware_2adc_8h.html" title=" " alt="" coords="229,437,402,464"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="511,169,701,211"/>
+<area shape="rect" href="exception_8h.html" title=" " alt="" coords="244,266,459,293"/>
+<area shape="rect" href="irq_8h.html" title=" " alt="" coords="483,266,649,293"/>
+<area shape="rect" href="gpio_8h.html" title=" " alt="" coords="226,355,405,382"/>
+<area shape="rect" href="rp2__common_2hardware__pio_2include_2hardware_2pio_8h.html" title=" " alt="" coords="585,437,755,464"/>
+<area shape="rect" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html" title=" " alt="" coords="827,266,1007,293"/>
+<area shape="rect" href="claim_8h.html" title=" " alt="" coords="833,355,1019,382"/>
+<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="1043,348,1211,389"/>
+<area shape="rect" href="boot__lock_8h_source.html" title=" " alt="" coords="928,169,1095,211"/>
+<area shape="rect" href="rp2__common_2hardware__clocks_2include_2hardware_2clocks_8h.html" title=" " alt="" coords="1119,177,1309,203"/>
+<area shape="rect" href="rp2__common_2hardware__divider_2include_2hardware_2divider_8h.html" title=" " alt="" coords="1334,177,1529,203"/>
+<area shape="rect" href="rp2__common_2hardware__dma_2include_2hardware_2dma_8h.html" title=" " alt="" coords="1553,177,1731,203"/>
+<area shape="rect" href="hardware__flash_2include_2hardware_2flash_8h.html" title=" " alt="" coords="1755,177,1937,203"/>
+<area shape="rect" href="btstack__flash__bank_8h_source.html" title=" " alt="" coords="1834,259,1986,300"/>
+<area shape="rect" href="gpio__coproc_8h_source.html" title=" " alt="" coords="2012,169,2179,211"/>
+<area shape="rect" href="hazard3_8h.html" title=" " alt="" coords="3042,266,3245,293"/>
+<area shape="rect" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html" title=" " alt="" coords="2255,177,2424,203"/>
+<area shape="rect" href="rp2__common_2hardware__interp_2include_2hardware_2interp_8h.html" title=" " alt="" coords="2448,177,2636,203"/>
+<area shape="rect" href="pio__instructions_8h_source.html" title=" " alt="" coords="649,348,808,389"/>
+<area shape="rect" href="rp2__common_2hardware__pll_2include_2hardware_2pll_8h.html" title=" " alt="" coords="2864,177,3031,203"/>
+<area shape="rect" href="rp2__common_2hardware__powman_2include_2hardware_2powman_8h.html" title=" " alt="" coords="3055,177,3261,203"/>
+<area shape="rect" href="rp2__common_2hardware__pwm_2include_2hardware_2pwm_8h.html" title=" " alt="" coords="3285,177,3468,203"/>
+<area shape="rect" href="rcp_8h.html" title=" " alt="" coords="3493,177,3663,203"/>
+<area shape="rect" href="rp2__common_2hardware__resets_2include_2hardware_2resets_8h.html" title=" " alt="" coords="3789,177,3980,203"/>
+<area shape="rect" href="rp2__common_2hardware__uart_2include_2hardware_2uart_8h.html" title=" " alt="" coords="3730,266,3906,293"/>
+<area shape="rect" href="riscv_8h.html" title=" " alt="" coords="2660,177,2840,203"/>
+<area shape="rect" href="riscv__platform__timer_8h.html" title=" " alt="" coords="4004,169,4173,211"/>
+<area shape="rect" href="rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h.html" title=" " alt="" coords="4197,177,4364,203"/>
+<area shape="rect" href="rp2__common_2hardware__sha256_2include_2hardware_2sha256_8h.html" title=" " alt="" coords="4389,177,4586,203"/>
+<area shape="rect" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html" title=" " alt="" coords="4611,177,4780,203"/>
+<area shape="rect" href="rp2__common_2hardware__ticks_2include_2hardware_2ticks_8h_source.html" title=" " alt="" coords="5098,266,5279,293"/>
+<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="5042,177,5226,203"/>
+<area shape="rect" href="vreg_8h.html" title=" " alt="" coords="5250,177,5429,203"/>
+<area shape="rect" href="rp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h.html" title=" " alt="" coords="4805,177,5018,203"/>
+<area shape="rect" href="rp2__common_2hardware__xosc_2include_2hardware_2xosc_8h.html" title=" " alt="" coords="5503,177,5682,203"/>
+<area shape="rect" href="aon__timer_8h.html" title=" " alt="" coords="5706,177,5887,203"/>
+<area shape="rect" href="async__context_8h.html" title=" " alt="" coords="5963,169,6105,211"/>
+<area shape="rect" href="cyw43__arch_8h.html" title=" " alt="" coords="5906,259,6053,300"/>
+<area shape="rect" href="code_8h_source.html" title=" " alt="" coords="6129,169,6275,211"/>
+<area shape="rect" href="bit__ops_8h.html" title=" " alt="" coords="6299,177,6462,203"/>
+<area shape="rect" href="bootrom_8h.html" title=" " alt="" coords="6811,177,6982,203"/>
+<area shape="rect" href="cyw43__driver_8h.html" title=" " alt="" coords="6486,169,6633,211"/>
+</map>
+</div>
 </div>
 <p><a href="platform_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a241a53738f4737571289dab2df6228b5"><td class="memItemLeft" align="right" valign="top"><a id="a241a53738f4737571289dab2df6228b5" name="a241a53738f4737571289dab2df6228b5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RP2040</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a241a53738f4737571289dab2df6228b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade06342e3d944df1117fd0b8cce150e7"><td class="memItemLeft" align="right" valign="top"><a id="ade06342e3d944df1117fd0b8cce150e7" name="ade06342e3d944df1117fd0b8cce150e7"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_STACK_SIZE</b>&#160;&#160;&#160;_u(0x800)</td></tr>
 <tr class="separator:ade06342e3d944df1117fd0b8cce150e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -129,148 +203,64 @@ Macros</h2></td></tr>
 <tr class="memitem:a780128f12f2b3f401106c8eb058de98b"><td class="memItemLeft" align="right" valign="top"><a id="a780128f12f2b3f401106c8eb058de98b" name="a780128f12f2b3f401106c8eb058de98b"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_NO_RAM_VECTOR_TABLE</b>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a780128f12f2b3f401106c8eb058de98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78554b289c077f9733b51c5b53c1d3b7"><td class="memItemLeft" align="right" valign="top"><a id="a78554b289c077f9733b51c5b53c1d3b7" name="a78554b289c077f9733b51c5b53c1d3b7"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RP2040_B0_SUPPORTED</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a78554b289c077f9733b51c5b53c1d3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52d1d4e9d28da61a7b6c78c5b583ff3b"><td class="memItemLeft" align="right" valign="top"><a id="a52d1d4e9d28da61a7b6c78c5b583ff3b" name="a52d1d4e9d28da61a7b6c78c5b583ff3b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_SUPPORT_ROM_V1</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a52d1d4e9d28da61a7b6c78c5b583ff3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48a4daa9870ca07abaa1c77c86388e18"><td class="memItemLeft" align="right" valign="top"><a id="a48a4daa9870ca07abaa1c77c86388e18" name="a48a4daa9870ca07abaa1c77c86388e18"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_SUPPORT_ROM_V1</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a48a4daa9870ca07abaa1c77c86388e18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f372fd07f9dd7df8e347ad892c2bdfc"><td class="memItemLeft" align="right" valign="top"><a id="a5f372fd07f9dd7df8e347ad892c2bdfc" name="a5f372fd07f9dd7df8e347ad892c2bdfc"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RP2040_B1_SUPPORTED</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:a5f372fd07f9dd7df8e347ad892c2bdfc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea73c134e48ea613c4e234d24be623a3"><td class="memItemLeft" align="right" valign="top"><a id="aea73c134e48ea613c4e234d24be623a3" name="aea73c134e48ea613c4e234d24be623a3"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RP2040_B2_SUPPORTED</b>&#160;&#160;&#160;1</td></tr>
-<tr class="separator:aea73c134e48ea613c4e234d24be623a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a600ecaa6ed26612e3aea52c7c0538ad9"><td class="memItemLeft" align="right" valign="top"><a id="a600ecaa6ed26612e3aea52c7c0538ad9" name="a600ecaa6ed26612e3aea52c7c0538ad9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>GCC_Like_Pragma</b>(x)</td></tr>
-<tr class="separator:a600ecaa6ed26612e3aea52c7c0538ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd95a2ecc73a7b0e6a0ca8eb2eb58c5f"><td class="memItemLeft" align="right" valign="top"><a id="abd95a2ecc73a7b0e6a0ca8eb2eb58c5f" name="abd95a2ecc73a7b0e6a0ca8eb2eb58c5f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>Clang_Pragma</b>(x)</td></tr>
-<tr class="separator:abd95a2ecc73a7b0e6a0ca8eb2eb58c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa2081d1d2242a35cc07390bb4c337cc5"><td class="memItemLeft" align="right" valign="top"><a id="aa2081d1d2242a35cc07390bb4c337cc5" name="aa2081d1d2242a35cc07390bb4c337cc5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>GCC_Pragma</b>(x)</td></tr>
-<tr class="separator:aa2081d1d2242a35cc07390bb4c337cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7a3538bc029b0e60c2f308008fc095c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga7a3538bc029b0e60c2f308008fc095c6">__isr</a></td></tr>
-<tr class="memdesc:ga7a3538bc029b0e60c2f308008fc095c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker for an interrupt handler.  <a href="group__pico__platform.html#ga7a3538bc029b0e60c2f308008fc095c6">More...</a><br /></td></tr>
-<tr class="separator:ga7a3538bc029b0e60c2f308008fc095c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga88c6891ab226690c883f3396611d8dc9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">__after_data</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.after_data.&quot; group)))</td></tr>
-<tr class="memdesc:ga88c6891ab226690c883f3396611d8dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in RAM after the <code>.data</code> section.  <a href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">More...</a><br /></td></tr>
-<tr class="separator:ga88c6891ab226690c883f3396611d8dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.time_critical.&quot; group)))</td></tr>
-<tr class="memdesc:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement not in flash (i.e in RAM)  <a href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">More...</a><br /></td></tr>
-<tr class="separator:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad8b78e068558946081789ce1935528bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">__scratch_x</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_x.&quot; group)))</td></tr>
-<tr class="memdesc:gad8b78e068558946081789ce1935528bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the SRAM bank 4 (known as "scratch X")  <a href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">More...</a><br /></td></tr>
-<tr class="separator:gad8b78e068558946081789ce1935528bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga699cabffc3896ece6ec696e841146b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">__scratch_y</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_y.&quot; group)))</td></tr>
-<tr class="memdesc:ga699cabffc3896ece6ec696e841146b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the SRAM bank 5 (known as "scratch Y")  <a href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">More...</a><br /></td></tr>
-<tr class="separator:ga699cabffc3896ece6ec696e841146b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">__uninitialized_ram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.uninitialized_data.&quot; #group))) group</td></tr>
-<tr class="memdesc:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for data that is to be left uninitialized.  <a href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">More...</a><br /></td></tr>
-<tr class="separator:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">__in_flash</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.flashdata.&quot; group)))</td></tr>
-<tr class="memdesc:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in flash even in a COPY_TO_RAM binary.  <a href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">More...</a><br /></td></tr>
-<tr class="separator:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7ea262771f71b22e4e720bc2ca31d936"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(__STRING(func_name)) func_name</td></tr>
-<tr class="memdesc:ga7ea262771f71b22e4e720bc2ca31d936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function should not be stored in flash.  <a href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">More...</a><br /></td></tr>
-<tr class="separator:ga7ea262771f71b22e4e720bc2ca31d936"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga27ef91000958320e25ff481d16786ebf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga27ef91000958320e25ff481d16786ebf">__time_critical_func</a>(func_name)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td></tr>
-<tr class="memdesc:ga27ef91000958320e25ff481d16786ebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function is time/latency critical and should not run from flash.  <a href="group__pico__platform.html#ga27ef91000958320e25ff481d16786ebf">More...</a><br /></td></tr>
-<tr class="separator:ga27ef91000958320e25ff481d16786ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">__no_inline_not_in_flash_func</a>(func_name)&#160;&#160;&#160;__noinline <a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td></tr>
-<tr class="memdesc:gad9ab05c9a8f0ab455a5e11773d610787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate a function should not be stored in flash and should not be inlined.  <a href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">More...</a><br /></td></tr>
-<tr class="separator:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec3c6bc5ca86b2fe89a12ccef2008a3a"><td class="memItemLeft" align="right" valign="top"><a id="aec3c6bc5ca86b2fe89a12ccef2008a3a" name="aec3c6bc5ca86b2fe89a12ccef2008a3a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__packed_aligned</b>&#160;&#160;&#160;__packed __aligned(4)</td></tr>
-<tr class="separator:aec3c6bc5ca86b2fe89a12ccef2008a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga23eadd8d1642fb8fe4600708c36e116a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a>&#160;&#160;&#160;__always_inline</td></tr>
-<tr class="memdesc:ga23eadd8d1642fb8fe4600708c36e116a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attribute to force inlining of a function regardless of optimization level.  <a href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">More...</a><br /></td></tr>
-<tr class="separator:ga23eadd8d1642fb8fe4600708c36e116a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga29022c0c92a05cf88ca5046c59d6f629"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>count_of</b>(a)&#160;&#160;&#160;(sizeof(a)/sizeof((a)[0]))</td></tr>
-<tr class="memdesc:ga29022c0c92a05cf88ca5046c59d6f629"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to determine the number of elements in an array. <br /></td></tr>
-<tr class="separator:ga29022c0c92a05cf88ca5046c59d6f629"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafa99ec4acc4ecb2dc3c2d05da15d0e3f"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MAX</b>(a,  b)&#160;&#160;&#160;((a)&gt;(b)?(a):(b))</td></tr>
-<tr class="memdesc:gafa99ec4acc4ecb2dc3c2d05da15d0e3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to return the maximum of two comparable values. <br /></td></tr>
-<tr class="separator:gafa99ec4acc4ecb2dc3c2d05da15d0e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3acffbd305ee72dcd4593c0d8af64a4f"><td class="memItemLeft" align="right" valign="top">
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MIN</b>(a,  b)&#160;&#160;&#160;((b)&gt;(a)?(a):(b))</td></tr>
-<tr class="memdesc:ga3acffbd305ee72dcd4593c0d8af64a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to return the minimum of two comparable values. <br /></td></tr>
-<tr class="separator:ga3acffbd305ee72dcd4593c0d8af64a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a298716fd80a0a12f670a0b8e66246f60"><td class="memItemLeft" align="right" valign="top"><a id="a298716fd80a0a12f670a0b8e66246f60" name="a298716fd80a0a12f670a0b8e66246f60"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>pico_default_asm</b>(...)&#160;&#160;&#160;__asm (&quot;.syntax unified\n&quot; __VA_ARGS__)</td></tr>
-<tr class="separator:a298716fd80a0a12f670a0b8e66246f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad534bee2eb31135027a87b2c7b8b9094"><td class="memItemLeft" align="right" valign="top"><a id="ad534bee2eb31135027a87b2c7b8b9094" name="ad534bee2eb31135027a87b2c7b8b9094"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>pico_default_asm_volatile</b>(...)&#160;&#160;&#160;__asm volatile (&quot;.syntax unified\n&quot; __VA_ARGS__)</td></tr>
-<tr class="separator:ad534bee2eb31135027a87b2c7b8b9094"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8b4ea86124befde17d69926b4f938c07"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga8b4ea86124befde17d69926b4f938c07">host_safe_hw_ptr</a>(x)&#160;&#160;&#160;((uintptr_t)(x))</td></tr>
-<tr class="memdesc:ga8b4ea86124befde17d69926b4f938c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro for converting memory addresses to 32 bit addresses suitable for DMA.  <a href="group__pico__platform.html#ga8b4ea86124befde17d69926b4f938c07">More...</a><br /></td></tr>
-<tr class="separator:ga8b4ea86124befde17d69926b4f938c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac584db181e2719dad4a15f65012f899c"><td class="memItemLeft" align="right" valign="top"><a id="ac584db181e2719dad4a15f65012f899c" name="ac584db181e2719dad4a15f65012f899c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RAM_VECTOR_TABLE_SIZE</b>&#160;&#160;&#160;(VTABLE_FIRST_IRQ + NUM_IRQS)</td></tr>
+<tr class="separator:ac584db181e2719dad4a15f65012f899c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b36b5b77313a68df601b137b4fd2eaf"><td class="memItemLeft" align="right" valign="top"><a id="a1b36b5b77313a68df601b137b4fd2eaf" name="a1b36b5b77313a68df601b137b4fd2eaf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_USE_STACK_GUARDS</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a1b36b5b77313a68df601b137b4fd2eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a421de245bc87c380fad1aedc45ea1367"><td class="memItemLeft" align="right" valign="top"><a id="a421de245bc87c380fad1aedc45ea1367" name="a421de245bc87c380fad1aedc45ea1367"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_NO_SIM_CHECK</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a421de245bc87c380fad1aedc45ea1367"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b4ea86124befde17d69926b4f938c07"><td class="memItemLeft" align="right" valign="top"><a id="a8b4ea86124befde17d69926b4f938c07" name="a8b4ea86124befde17d69926b4f938c07"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>host_safe_hw_ptr</b>(x)&#160;&#160;&#160;((uintptr_t)(x))</td></tr>
+<tr class="separator:a8b4ea86124befde17d69926b4f938c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c6563ec2f30c501b540c037ed3aeba0"><td class="memItemLeft" align="right" valign="top"><a id="a7c6563ec2f30c501b540c037ed3aeba0" name="a7c6563ec2f30c501b540c037ed3aeba0"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>native_safe_hw_ptr</b>(x)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga8b4ea86124befde17d69926b4f938c07">host_safe_hw_ptr</a>(x)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>native_safe_hw_ptr</b>(x)&#160;&#160;&#160;host_safe_hw_ptr(x)</td></tr>
 <tr class="separator:a7c6563ec2f30c501b540c037ed3aeba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d9b05fef6baf6d8e90cb7d18dc1a46a"><td class="memItemLeft" align="right" valign="top"><a id="a1d9b05fef6baf6d8e90cb7d18dc1a46a" name="a1d9b05fef6baf6d8e90cb7d18dc1a46a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>panic_compact</b>(...)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a>(&quot;&quot;)</td></tr>
-<tr class="separator:a1d9b05fef6baf6d8e90cb7d18dc1a46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c72b641b9f4889f99888edffb8f5aa2"><td class="memItemLeft" align="right" valign="top"><a id="a6c72b641b9f4889f99888edffb8f5aa2" name="a6c72b641b9f4889f99888edffb8f5aa2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_NO_FPGA_CHECK</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a6c72b641b9f4889f99888edffb8f5aa2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga1f7eafa00361375ec15412f634ad67b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">__fast_mul</a>(a,  b)</td></tr>
 <tr class="memdesc:ga1f7eafa00361375ec15412f634ad67b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">multiply two integer values using the fastest method possible  <a href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">More...</a><br /></td></tr>
 <tr class="separator:ga1f7eafa00361375ec15412f634ad67b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2d0b8227d9981a22692d5ef6aa1a386f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga2d0b8227d9981a22692d5ef6aa1a386f">__check_type_compatible</a>(type_a,  type_b)&#160;&#160;&#160;static_assert(__builtin_types_compatible_p(type_a, type_b), __STRING(type_a) &quot; is not compatible with &quot; __STRING(type_b));</td></tr>
-<tr class="memdesc:ga2d0b8227d9981a22692d5ef6aa1a386f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility macro to assert two types are equivalent.  <a href="group__pico__platform.html#ga2d0b8227d9981a22692d5ef6aa1a386f">More...</a><br /></td></tr>
-<tr class="separator:ga2d0b8227d9981a22692d5ef6aa1a386f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cd5fb62a4a8b344853eaad1e35687d9"><td class="memItemLeft" align="right" valign="top"><a id="a0cd5fb62a4a8b344853eaad1e35687d9" name="a0cd5fb62a4a8b344853eaad1e35687d9"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>WRAPPER_FUNC</b>(x)&#160;&#160;&#160;__wrap_ ## x</td></tr>
-<tr class="separator:a0cd5fb62a4a8b344853eaad1e35687d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b63aac737cda686dda09b59de7145d5"><td class="memItemLeft" align="right" valign="top"><a id="a8b63aac737cda686dda09b59de7145d5" name="a8b63aac737cda686dda09b59de7145d5"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>REAL_FUNC</b>(x)&#160;&#160;&#160;__real_ ## x</td></tr>
-<tr class="separator:a8b63aac737cda686dda09b59de7145d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga8bf6fec781d812539007d16d919bb87b"><td class="memItemLeft" align="right" valign="top">
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</b> (void)</td></tr>
-<tr class="memdesc:ga8bf6fec781d812539007d16d919bb87b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a breakpoint instruction. <br /></td></tr>
-<tr class="separator:ga8bf6fec781d812539007d16d919bb87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="memItemLeft" align="right" valign="top">static __always_inline void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a> (void)</td></tr>
-<tr class="memdesc:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensure that the compiler does not move memory access across this method call.  <a href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">More...</a><br /></td></tr>
-<tr class="separator:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga29ba8f40ca0c961e04c7380a3665e612"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga29ba8f40ca0c961e04c7380a3665e612">panic_unsupported</a> (void)</td></tr>
-<tr class="memdesc:ga29ba8f40ca0c961e04c7380a3665e612"><td class="mdescLeft">&#160;</td><td class="mdescRight">Panics with the message "Unsupported".  <a href="group__pico__platform.html#ga29ba8f40ca0c961e04c7380a3665e612">More...</a><br /></td></tr>
-<tr class="separator:ga29ba8f40ca0c961e04c7380a3665e612"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad1f1a1dc0581a11b597453f148106393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a> (const char *fmt,...)</td></tr>
-<tr class="memdesc:gad1f1a1dc0581a11b597453f148106393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays a panic message and halts execution.  <a href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">More...</a><br /></td></tr>
-<tr class="separator:gad1f1a1dc0581a11b597453f148106393"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9486a675b04cb367b382ef191ac10c40"><td class="memItemLeft" align="right" valign="top"><a id="a9486a675b04cb367b382ef191ac10c40" name="a9486a675b04cb367b382ef191ac10c40"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>running_on_fpga</b> (void)</td></tr>
-<tr class="separator:a9486a675b04cb367b382ef191ac10c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2f16fe03135e5a5cb9f098a538a8671a"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga2f16fe03135e5a5cb9f098a538a8671a">rp2040_chip_version</a> (void)</td></tr>
-<tr class="memdesc:ga2f16fe03135e5a5cb9f098a538a8671a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 chip revision number.  <a href="group__pico__platform.html#ga2f16fe03135e5a5cb9f098a538a8671a">More...</a><br /></td></tr>
-<tr class="separator:ga2f16fe03135e5a5cb9f098a538a8671a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">rp2040_rom_version</a> (void)</td></tr>
-<tr class="memdesc:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 rom version number.  <a href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">More...</a><br /></td></tr>
-<tr class="separator:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf04e1c7eb32935a422d975abdec4f4b0"><td class="memItemLeft" align="right" valign="top">static __always_inline void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">tight_loop_contents</a> (void)</td></tr>
-<tr class="memdesc:gaf04e1c7eb32935a422d975abdec4f4b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op function for the body of tight loops.  <a href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">More...</a><br /></td></tr>
-<tr class="separator:gaf04e1c7eb32935a422d975abdec4f4b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga63f9737a1242323cc33b89d06ee8d935"><td class="memItemLeft" align="right" valign="top">static __always_inline int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga63f9737a1242323cc33b89d06ee8d935">__mul_instruction</a> (int32_t a, int32_t b)</td></tr>
-<tr class="memdesc:ga63f9737a1242323cc33b89d06ee8d935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two integers using an assembly <code>MUL</code> instruction.  <a href="group__pico__platform.html#ga63f9737a1242323cc33b89d06ee8d935">More...</a><br /></td></tr>
-<tr class="separator:ga63f9737a1242323cc33b89d06ee8d935"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a35e9582b94259dc1c36938949f7ca4"><td class="memItemLeft" align="right" valign="top">static __always_inline uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga8a35e9582b94259dc1c36938949f7ca4">__get_current_exception</a> (void)</td></tr>
-<tr class="memdesc:ga8a35e9582b94259dc1c36938949f7ca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current exception level on this core.  <a href="group__pico__platform.html#ga8a35e9582b94259dc1c36938949f7ca4">More...</a><br /></td></tr>
-<tr class="separator:ga8a35e9582b94259dc1c36938949f7ca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a> (void)</td></tr>
+<tr class="memdesc:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op function for the body of tight loops.  <a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">More...</a><br /></td></tr>
+<tr class="separator:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">busy_wait_at_least_cycles</a> (uint32_t minimum_cycles)</td></tr>
 <tr class="memdesc:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to busy-wait for at least the given number of cycles.  <a href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">More...</a><br /></td></tr>
 <tr class="separator:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga974b4945ae0ac8892717cb5f05e83c53"><td class="memItemLeft" align="right" valign="top">static __always_inline uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga974b4945ae0ac8892717cb5f05e83c53">get_core_num</a> (void)</td></tr>
-<tr class="memdesc:ga974b4945ae0ac8892717cb5f05e83c53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current core number.  <a href="group__pico__platform.html#ga974b4945ae0ac8892717cb5f05e83c53">More...</a><br /></td></tr>
-<tr class="separator:ga974b4945ae0ac8892717cb5f05e83c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9486a675b04cb367b382ef191ac10c40"><td class="memItemLeft" align="right" valign="top"><a id="a9486a675b04cb367b382ef191ac10c40" name="a9486a675b04cb367b382ef191ac10c40"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>running_on_fpga</b> (void)</td></tr>
+<tr class="separator:a9486a675b04cb367b382ef191ac10c40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31325ecc743d636f060500edd117d73f"><td class="memItemLeft" align="right" valign="top"><a id="a31325ecc743d636f060500edd117d73f" name="a31325ecc743d636f060500edd117d73f"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>running_in_sim</b> (void)</td></tr>
+<tr class="separator:a31325ecc743d636f060500edd117d73f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9837dbd9fd5cc43d4f0fc1f26d046955"><td class="memItemLeft" align="right" valign="top">
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</b> (void)</td></tr>
+<tr class="memdesc:ga9837dbd9fd5cc43d4f0fc1f26d046955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a breakpoint instruction. <br /></td></tr>
+<tr class="separator:ga9837dbd9fd5cc43d4f0fc1f26d046955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga58434ad816f519308ee02c639b7965bc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga58434ad816f519308ee02c639b7965bc">get_core_num</a> (void)</td></tr>
+<tr class="memdesc:ga58434ad816f519308ee02c639b7965bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current core number.  <a href="group__pico__platform.html#ga58434ad816f519308ee02c639b7965bc">More...</a><br /></td></tr>
+<tr class="separator:ga58434ad816f519308ee02c639b7965bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ebeac462e038d7e2ce341df8054f894"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga1ebeac462e038d7e2ce341df8054f894">__get_current_exception</a> (void)</td></tr>
+<tr class="memdesc:ga1ebeac462e038d7e2ce341df8054f894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current exception level on this core.  <a href="group__pico__platform.html#ga1ebeac462e038d7e2ce341df8054f894">More...</a><br /></td></tr>
+<tr class="separator:ga1ebeac462e038d7e2ce341df8054f894"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga66edd7569f5a42b0a2da43a5926cf064"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga66edd7569f5a42b0a2da43a5926cf064">pico_processor_state_is_nonsecure</a> (void)</td></tr>
+<tr class="memdesc:ga66edd7569f5a42b0a2da43a5926cf064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if executing in the NonSecure state (Arm-only)  <a href="group__pico__platform.html#ga66edd7569f5a42b0a2da43a5926cf064">More...</a><br /></td></tr>
+<tr class="separator:ga66edd7569f5a42b0a2da43a5926cf064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga21200eb89a299a9b121d028ad1725fe3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga21200eb89a299a9b121d028ad1725fe3">rp2350_chip_version</a> (void)</td></tr>
+<tr class="memdesc:ga21200eb89a299a9b121d028ad1725fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2350 chip revision number.  <a href="group__pico__platform.html#ga21200eb89a299a9b121d028ad1725fe3">More...</a><br /></td></tr>
+<tr class="separator:ga21200eb89a299a9b121d028ad1725fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gac157772e2fa6f4c64e1c3e4d761089d9">rp2040_chip_version</a> (void)</td></tr>
+<tr class="memdesc:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 chip revision number for compatibility.  <a href="group__pico__platform.html#gac157772e2fa6f4c64e1c3e4d761089d9">More...</a><br /></td></tr>
+<tr class="separator:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">rp2040_rom_version</a> (void)</td></tr>
+<tr class="memdesc:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 rom version number.  <a href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">More...</a><br /></td></tr>
+<tr class="separator:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a> (int32_t a, int32_t b)</td></tr>
+<tr class="memdesc:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two integers using an assembly <code>MUL</code> instruction.  <a href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">More...</a><br /></td></tr>
+<tr class="separator:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

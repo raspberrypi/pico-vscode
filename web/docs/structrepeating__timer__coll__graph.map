@@ -1,0 +1,5 @@
+<map id="repeating_timer" name="repeating_timer">
+<area shape="rect" id="node1" title="Information about a repeating timer." alt="" coords="10,184,137,211"/>
+<area shape="rect" id="node2" href="$structalarm__pool.html" title=" " alt="" coords="26,95,121,121"/>
+<area shape="rect" id="node3" href="$structalarm__pool__entry.html" title=" " alt="" coords="5,5,141,32"/>
+</map>

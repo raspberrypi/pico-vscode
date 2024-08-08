@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_pll/include/hardware/pll.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/pll.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,6 +111,32 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__pll_2include_2h
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/pll.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for pll.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__pll_2include_2hardware_2pll_8h__incl.png" border="0" usemap="#ainclude_2hardware_2pll_8h" alt=""/></div>
+<map name="ainclude_2hardware_2pll_8h" id="ainclude_2hardware_2pll_8h">
+<area shape="rect" title=" " alt="" coords="427,5,593,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" title=" " alt="" coords="497,80,659,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__pll_2include_2hardware_2pll_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -122,12 +148,15 @@ Macros</h2></td></tr>
 <tr class="memitem:a90dcc846aee00bf6b492598ce38ad5ad"><td class="memItemLeft" align="right" valign="top"><a id="a90dcc846aee00bf6b492598ce38ad5ad" name="a90dcc846aee00bf6b492598ce38ad5ad"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>pll_usb</b>&#160;&#160;&#160;pll_usb_hw</td></tr>
 <tr class="separator:a90dcc846aee00bf6b492598ce38ad5ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf567c0ca95050ca43e84b0d22f556bd"><td class="memItemLeft" align="right" valign="top"><a id="abf567c0ca95050ca43e84b0d22f556bd" name="abf567c0ca95050ca43e84b0d22f556bd"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_PLL_VCO_MIN_FREQ_KHZ</b>&#160;&#160;&#160;(750 * KHZ)</td></tr>
-<tr class="separator:abf567c0ca95050ca43e84b0d22f556bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6e5dbb62a0e73a513ec9e0708cded989"><td class="memItemLeft" align="right" valign="top"><a id="a6e5dbb62a0e73a513ec9e0708cded989" name="a6e5dbb62a0e73a513ec9e0708cded989"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_PLL_VCO_MAX_FREQ_KHZ</b>&#160;&#160;&#160;(1600 * KHZ)</td></tr>
-<tr class="separator:a6e5dbb62a0e73a513ec9e0708cded989"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc59ce6ceb0f07d6a9d87a42188d76e"><td class="memItemLeft" align="right" valign="top"><a id="abfc59ce6ceb0f07d6a9d87a42188d76e" name="abfc59ce6ceb0f07d6a9d87a42188d76e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_PLL_VCO_MIN_FREQ_HZ</b>&#160;&#160;&#160;(750 * MHZ)</td></tr>
+<tr class="separator:abfc59ce6ceb0f07d6a9d87a42188d76e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8733079c367841a0cd13aeceb4770b4"><td class="memItemLeft" align="right" valign="top"><a id="af8733079c367841a0cd13aeceb4770b4" name="af8733079c367841a0cd13aeceb4770b4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_PLL_VCO_MAX_FREQ_HZ</b>&#160;&#160;&#160;(1600 * MHZ)</td></tr>
+<tr class="separator:af8733079c367841a0cd13aeceb4770b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab0c11a480c3c39d63505a8f0d9f5f1ee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pll.html#gab0c11a480c3c39d63505a8f0d9f5f1ee">PLL_RESET_NUM</a>(pll)</td></tr>
+<tr class="memdesc:gab0c11a480c3c39d63505a8f0d9f5f1ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> used to reset a given PLL instance.  <a href="group__hardware__pll.html#gab0c11a480c3c39d63505a8f0d9f5f1ee">More...</a><br /></td></tr>
+<tr class="separator:gab0c11a480c3c39d63505a8f0d9f5f1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>

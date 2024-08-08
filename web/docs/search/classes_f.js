@@ -1,14 +1,10 @@
 var searchData=
 [
-  ['sdpcm_5fbdc_5fheader_5ft_0',['sdpcm_bdc_header_t',['../structsdpcm__bdc__header__t.html',1,'']]],
-  ['sdpcm_5fheader_5ft_1',['sdpcm_header_t',['../structsdpcm__header__t.html',1,'']]],
-  ['semaphore_2',['semaphore',['../structsemaphore.html',1,'']]],
-  ['sio_5fhw_5ft_3',['sio_hw_t',['../structsio__hw__t.html',1,'']]],
-  ['spi_5fhw_5ft_4',['spi_hw_t',['../structspi__hw__t.html',1,'']]],
-  ['ssi_5fhw_5ft_5',['ssi_hw_t',['../structssi__hw__t.html',1,'']]],
-  ['stdio_5fdriver_6',['stdio_driver',['../structstdio__driver.html',1,'']]],
-  ['stdio_5fstack_5fbuffer_7',['stdio_stack_buffer',['../structstdio__stack__buffer.html',1,'']]],
-  ['sync_5ffunc_5fcall_8',['sync_func_call',['../structsync__func__call.html',1,'']]],
-  ['syscfg_5fhw_5ft_9',['syscfg_hw_t',['../structsyscfg__hw__t.html',1,'']]],
-  ['systick_5fhw_5ft_10',['systick_hw_t',['../structsystick__hw__t.html',1,'']]]
+  ['recursive_5fmutex_5ft_0',['recursive_mutex_t',['../structrecursive__mutex__t.html',1,'']]],
+  ['repeating_5ftimer_1',['repeating_timer',['../structrepeating__timer.html',1,'']]],
+  ['resets_5fhw_5ft_2',['resets_hw_t',['../structresets__hw__t.html',1,'']]],
+  ['resident_5fpartition_5ft_3',['resident_partition_t',['../structresident__partition__t.html',1,'']]],
+  ['rng_5f128_4',['rng_128',['../structrng__128.html',1,'']]],
+  ['rosc_5fhw_5ft_5',['rosc_hw_t',['../structrosc__hw__t.html',1,'']]],
+  ['rtc_5fhw_5ft_6',['rtc_hw_t',['../structrtc__hw__t.html',1,'']]]
 ];

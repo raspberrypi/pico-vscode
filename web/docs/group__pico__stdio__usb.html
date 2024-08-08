@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -116,6 +116,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gab87bcfa3f24e5a3fe92a944f9eecc460"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__usb.html#gab87bcfa3f24e5a3fe92a944f9eecc460">stdio_usb_init</a> (void)</td></tr>
 <tr class="memdesc:gab87bcfa3f24e5a3fe92a944f9eecc460"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicitly initialize USB stdio and add it to the current set of stdin drivers.  <a href="group__pico__stdio__usb.html#gab87bcfa3f24e5a3fe92a944f9eecc460">More...</a><br /></td></tr>
 <tr class="separator:gab87bcfa3f24e5a3fe92a944f9eecc460"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1a1edc699811e2dc3c119e8b00edc038"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__usb.html#ga1a1edc699811e2dc3c119e8b00edc038">stdio_usb_deinit</a> (void)</td></tr>
+<tr class="memdesc:ga1a1edc699811e2dc3c119e8b00edc038"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicitly deinitialize USB stdio and remove it from the current set of stdin drivers.  <a href="group__pico__stdio__usb.html#ga1a1edc699811e2dc3c119e8b00edc038">More...</a><br /></td></tr>
+<tr class="separator:ga1a1edc699811e2dc3c119e8b00edc038"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga86edc8e3a477bb388ae73d92a3e87824"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__usb.html#ga86edc8e3a477bb388ae73d92a3e87824">stdio_usb_connected</a> (void)</td></tr>
 <tr class="memdesc:ga86edc8e3a477bb388ae73d92a3e87824"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if there is an active stdio CDC connection to a host.  <a href="group__pico__stdio__usb.html#ga86edc8e3a477bb388ae73d92a3e87824">More...</a><br /></td></tr>
 <tr class="separator:ga86edc8e3a477bb388ae73d92a3e87824"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -124,7 +127,7 @@ Functions</h2></td></tr>
 <p >Support for stdin/stdout over USB serial (CDC) </p>
 <p >Linking this library or calling <code>pico_enable_stdio_usb(TARGET ENABLED)</code> in the CMake (which achieves the same thing) will add USB CDC to the drivers used for standard input/output</p>
 <p >Note this library is a developer convenience. It is not applicable in all cases; for one it takes full control of the USB device precluding your use of the USB in device or host mode. For this reason, this library will automatically disengage if you try to using it alongside <a class="el" href="group__tinyusb__device.html">tinyusb_device</a> or <a class="el" href="group__tinyusb__host.html">tinyusb_host</a>. It also takes control of a lower level IRQ and sets up a periodic background task.</p>
-<p >This library also includes (by default) functionality to enable the RP2040 to be reset over the USB interface. </p>
+<p >This library also includes (by default) functionality to enable the RP-series microcontroller to be reset over the USB interface. </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga86edc8e3a477bb388ae73d92a3e87824" name="ga86edc8e3a477bb388ae73d92a3e87824"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga86edc8e3a477bb388ae73d92a3e87824">&#9670;&nbsp;</a></span>stdio_usb_connected()</h2>
@@ -144,6 +147,27 @@ Functions</h2></td></tr>
 
 <p>Check if there is an active stdio CDC connection to a host. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if stdio is connected over CDC </dd></dl>
+
+</div>
+</div>
+<a id="ga1a1edc699811e2dc3c119e8b00edc038" name="ga1a1edc699811e2dc3c119e8b00edc038"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1a1edc699811e2dc3c119e8b00edc038">&#9670;&nbsp;</a></span>stdio_usb_deinit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool stdio_usb_deinit </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Explicitly deinitialize USB stdio and remove it from the current set of stdin drivers. </p>
+<dl class="section return"><dt>Returns</dt><dd>true if the USB CDC was deinitialized, false if an error occurred </dd></dl>
 
 </div>
 </div>

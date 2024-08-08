@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -112,12 +112,25 @@ $(document).ready(function(){initNavTree('structasync__context__threadsafe__back
  <a href="structasync__context__threadsafe__background__config.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="async__context__threadsafe__background_8h_source.html">async_context_threadsafe_background.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for async_context_threadsafe_background_config:</div>
+<div class="dyncontent">
+<div class="center"><img src="structasync__context__threadsafe__background__config__coll__graph.png" border="0" usemap="#aasync__context__threadsafe__background__config_coll__map" alt="Collaboration graph"/></div>
+<map name="aasync__context__threadsafe__background__config_coll__map" id="aasync__context__threadsafe__background__config_coll__map">
+<area shape="rect" title="Configuration object for async_context_threadsafe_background instances." alt="" coords="5,184,199,225"/>
+<area shape="rect" href="structalarm__pool.html" title=" " alt="" coords="55,95,149,121"/>
+<area shape="rect" href="structalarm__pool__entry.html" title=" " alt="" coords="34,5,170,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:aaeed113746710afc683e1495409d66d8"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structasync__context__threadsafe__background__config.html#aaeed113746710afc683e1495409d66d8">low_priority_irq_handler_priority</a></td></tr>
+<tr class="memitem:aaeed113746710afc683e1495409d66d8"><td class="memItemLeft" align="right" valign="top"><a id="aaeed113746710afc683e1495409d66d8" name="aaeed113746710afc683e1495409d66d8"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>low_priority_irq_handler_priority</b></td></tr>
+<tr class="memdesc:aaeed113746710afc683e1495409d66d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">the priority of the low priority IRQ <br /></td></tr>
 <tr class="separator:aaeed113746710afc683e1495409d66d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8776bae13027752f07a4f3170b2c47b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structalarm__pool.html">alarm_pool_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structasync__context__threadsafe__background__config.html#a8776bae13027752f07a4f3170b2c47b2">custom_alarm_pool</a></td></tr>
+<tr class="memdesc:a8776bae13027752f07a4f3170b2c47b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">a specific alarm pool to use (or NULL to use ta default)  <a href="structasync__context__threadsafe__background__config.html#a8776bae13027752f07a4f3170b2c47b2">More...</a><br /></td></tr>
 <tr class="separator:a8776bae13027752f07a4f3170b2c47b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -134,29 +147,15 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >a specific alarm pool to use (or NULL to use ta default)</p>
+
+<p>a specific alarm pool to use (or NULL to use ta default) </p>
 <dl class="section note"><dt>Note</dt><dd>this alarm pool MUST be on the same core as the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a></dd></dl>
 <p>The default alarm pool used is the "default alarm pool" (see <a class="el" href="group__alarm.html#ga5092ceb879289c0a597a389f34b4815e">alarm_pool_get_default()</a>) if available, and if that is on the same core, otherwise a private <a class="el" href="structalarm__pool.html">alarm_pool</a> instance created during initialization. </p>
 
 </div>
 </div>
-<a id="aaeed113746710afc683e1495409d66d8" name="aaeed113746710afc683e1495409d66d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaeed113746710afc683e1495409d66d8">&#9670;&nbsp;</a></span>low_priority_irq_handler_priority</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t async_context_threadsafe_background_config::low_priority_irq_handler_priority</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >the priority of the low priority IRQ </p>
-
-</div>
-</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>pico_async_context/include/pico/<a class="el" href="async__context__threadsafe__background_8h_source.html">async_context_threadsafe_background.h</a></li>
+<li>include/pico/<a class="el" href="async__context__threadsafe__background_8h_source.html">async_context_threadsafe_background.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

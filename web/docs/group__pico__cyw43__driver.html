@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,6 +109,9 @@ $(document).ready(function(){initNavTree('group__pico__cyw43__driver.html',''); 
   <div class="headertitle"><div class="title">pico_cyw43_driver<div class="ingroups"><a class="el" href="group__networking.html">Networking Libraries</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>A wrapper around the lower level cyw43_driver, that integrates it with <a class="el" href="group__pico__async__context.html">pico_async_context</a> for handling background work.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
@@ -127,18 +130,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga340ac6ac087a90e610820fadc0a99206"><td class="memItemLeft" align="right" valign="top">const hci_transport_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__driver.html#ga340ac6ac087a90e610820fadc0a99206">hci_transport_cyw43_instance</a> (void)</td></tr>
 <tr class="memdesc:ga340ac6ac087a90e610820fadc0a99206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Bluetooth HCI transport instance for cyw43.  <a href="group__pico__cyw43__driver.html#ga340ac6ac087a90e610820fadc0a99206">More...</a><br /></td></tr>
 <tr class="separator:ga340ac6ac087a90e610820fadc0a99206"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaa26cda3ac474e5a68c1e463bb40232e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__driver.html#gaaa26cda3ac474e5a68c1e463bb40232e">cyw43_driver_init</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context)</td></tr>
-<tr class="memdesc:gaaa26cda3ac474e5a68c1e463bb40232e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the lower level cyw43_driver and integrates it with the provided <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.  <a href="group__pico__cyw43__driver.html#gaaa26cda3ac474e5a68c1e463bb40232e">More...</a><br /></td></tr>
-<tr class="separator:gaaa26cda3ac474e5a68c1e463bb40232e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8fd6b99395522e72db7934b594f63001"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__driver.html#ga8fd6b99395522e72db7934b594f63001">cyw43_driver_deinit</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context)</td></tr>
-<tr class="memdesc:ga8fd6b99395522e72db7934b594f63001"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initialize the lowever level cyw43_driver and unhooks it from the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.  <a href="group__pico__cyw43__driver.html#ga8fd6b99395522e72db7934b594f63001">More...</a><br /></td></tr>
-<tr class="separator:ga8fd6b99395522e72db7934b594f63001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24c12f6110969e420954356b104aaa07"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__driver.html#ga24c12f6110969e420954356b104aaa07">cyw43_driver_init</a> (struct <a class="el" href="structasync__context.html">async_context</a> *context)</td></tr>
+<tr class="memdesc:ga24c12f6110969e420954356b104aaa07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes the lower level cyw43_driver and integrates it with the provided <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.  <a href="group__pico__cyw43__driver.html#ga24c12f6110969e420954356b104aaa07">More...</a><br /></td></tr>
+<tr class="separator:ga24c12f6110969e420954356b104aaa07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf7f9ad52479938f40ae6b1f8c9ef80c3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cyw43__driver.html#gaf7f9ad52479938f40ae6b1f8c9ef80c3">cyw43_driver_deinit</a> (struct <a class="el" href="structasync__context.html">async_context</a> *context)</td></tr>
+<tr class="memdesc:gaf7f9ad52479938f40ae6b1f8c9ef80c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initialize the lowever level cyw43_driver and unhooks it from the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.  <a href="group__pico__cyw43__driver.html#gaf7f9ad52479938f40ae6b1f8c9ef80c3">More...</a><br /></td></tr>
+<tr class="separator:gaf7f9ad52479938f40ae6b1f8c9ef80c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >A wrapper around the lower level cyw43_driver, that integrates it with <a class="el" href="group__pico__async__context.html">pico_async_context</a> for handling background work. </p>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga8fd6b99395522e72db7934b594f63001" name="ga8fd6b99395522e72db7934b594f63001"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8fd6b99395522e72db7934b594f63001">&#9670;&nbsp;</a></span>cyw43_driver_deinit()</h2>
+<a id="gaf7f9ad52479938f40ae6b1f8c9ef80c3" name="gaf7f9ad52479938f40ae6b1f8c9ef80c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf7f9ad52479938f40ae6b1f8c9ef80c3">&#9670;&nbsp;</a></span>cyw43_driver_deinit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -146,7 +149,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void cyw43_driver_deinit </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structasync__context.html">async_context_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structasync__context.html">async_context</a> *&#160;</td>
           <td class="paramname"><em>context</em></td><td>)</td>
           <td></td>
         </tr>
@@ -156,15 +159,15 @@ Functions</h2></td></tr>
 <p>De-initialize the lowever level cyw43_driver and unhooks it from the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> the cyw43_driver support was added to via <a class="el" href="group__pico__cyw43__driver.html#gaaa26cda3ac474e5a68c1e463bb40232e">cyw43_driver_init</a> </td></tr>
+    <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> the cyw43_driver support was added to via <a class="el" href="group__pico__cyw43__driver.html#ga24c12f6110969e420954356b104aaa07">cyw43_driver_init</a> </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="gaaa26cda3ac474e5a68c1e463bb40232e" name="gaaa26cda3ac474e5a68c1e463bb40232e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaaa26cda3ac474e5a68c1e463bb40232e">&#9670;&nbsp;</a></span>cyw43_driver_init()</h2>
+<a id="ga24c12f6110969e420954356b104aaa07" name="ga24c12f6110969e420954356b104aaa07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga24c12f6110969e420954356b104aaa07">&#9670;&nbsp;</a></span>cyw43_driver_init()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,7 +175,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool cyw43_driver_init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structasync__context.html">async_context_t</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structasync__context.html">async_context</a> *&#160;</td>
           <td class="paramname"><em>context</em></td><td>)</td>
           <td></td>
         </tr>

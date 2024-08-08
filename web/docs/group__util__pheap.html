@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -105,7 +105,10 @@ $(document).ready(function(){initNavTree('group__util__pheap.html',''); initResi
   <div class="headertitle"><div class="title">pheap<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__util.html">pico_util</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p >Pairing Heap Implementation</p>
+
+<p>Pairing Heap Implementation.  
+</p>
+<p >Pairing Heap Implementation. </p>
 <p >pheap defines a simple pairing heap. The implementation simply tracks array indexes, it is up to the user to provide storage for heap entries and a comparison function.</p>
 <p >NOTE: This class is not safe for concurrent usage. It should be externally protected. Furthermore if used concurrently, the caller needs to protect around their use of the returned id. For example, ph_remove_and_free_head returns the id of an element that is no longer in the heap. The user can still use this to look at the data in their companion array, however obviously further operations on the heap may cause them to overwrite that data as the id may be reused on subsequent operations </p>
 </div><!-- contents -->

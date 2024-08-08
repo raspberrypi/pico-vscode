@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_vreg/include/hardware/vreg.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/vreg.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,24 +110,52 @@ $(document).ready(function(){initNavTree('vreg_8h.html',''); initResizable(); })
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/vreg_and_chip_reset.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for vreg.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="vreg_8h__incl.png" border="0" usemap="#ainclude_2hardware_2vreg_8h" alt=""/></div>
+<map name="ainclude_2hardware_2vreg_8h" id="ainclude_2hardware_2vreg_8h">
+<area shape="rect" title=" " alt="" coords="661,5,839,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="649,259,710,285"/>
+<area shape="rect" href="vreg__and__chip__reset_8h_source.html" title=" " alt="" coords="740,80,904,121"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,483,259,509"/>
+<area shape="rect" title=" " alt="" coords="420,333,533,360"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="558,333,662,360"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="687,333,808,360"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="832,333,927,360"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,557,111,584"/>
+<area shape="rect" title=" " alt="" coords="74,632,157,659"/>
+<area shape="rect" title=" " alt="" coords="211,557,281,584"/>
+<area shape="rect" title=" " alt="" coords="306,557,381,584"/>
+<area shape="rect" title=" " alt="" coords="173,408,337,435"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,408,543,435"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,408,746,435"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,408,930,435"/>
+<area shape="rect" title=" " alt="" coords="1130,408,1341,435"/>
+<area shape="rect" title=" " alt="" coords="955,408,1105,435"/>
+<area shape="rect" title=" " alt="" coords="357,483,548,509"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="717,177,927,203"/>
+<area shape="rect" title=" " alt="" coords="951,169,1099,211"/>
+</map>
+</div>
 </div>
 <p><a href="vreg_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ab2019bc9d9ea4c0c02ba2a853ffcd0b0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0">vreg_voltage</a> { <br />
-&#160;&#160;<a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad">VREG_VOLTAGE_0_85</a> = 0b0110
-, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137">VREG_VOLTAGE_0_90</a> = 0b0111
-, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a">VREG_VOLTAGE_0_95</a> = 0b1000
-, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d">VREG_VOLTAGE_1_00</a> = 0b1001
+&#160;&#160;<a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad">VREG_VOLTAGE_0_85</a> = 0b00110
+, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137">VREG_VOLTAGE_0_90</a> = 0b00111
+, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a">VREG_VOLTAGE_0_95</a> = 0b01000
+, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d">VREG_VOLTAGE_1_00</a> = 0b01001
 , <br />
-&#160;&#160;<a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656">VREG_VOLTAGE_1_05</a> = 0b1010
-, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a">VREG_VOLTAGE_1_10</a> = 0b1011
-, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228">VREG_VOLTAGE_1_15</a> = 0b1100
-, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30">VREG_VOLTAGE_1_20</a> = 0b1101
+&#160;&#160;<a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656">VREG_VOLTAGE_1_05</a> = 0b01010
+, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a">VREG_VOLTAGE_1_10</a> = 0b01011
+, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228">VREG_VOLTAGE_1_15</a> = 0b01100
+, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30">VREG_VOLTAGE_1_20</a> = 0b01101
 , <br />
-&#160;&#160;<a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33">VREG_VOLTAGE_1_25</a> = 0b1110
-, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59">VREG_VOLTAGE_1_30</a> = 0b1111
+&#160;&#160;<a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33">VREG_VOLTAGE_1_25</a> = 0b01110
+, <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59">VREG_VOLTAGE_1_30</a> = 0b01111
 , <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0aaf7723eab97235298b913112c29c7e21">VREG_VOLTAGE_MIN</a> = VREG_VOLTAGE_0_85
 , <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a67b3c8176289c56896430a44599d9910">VREG_VOLTAGE_DEFAULT</a> = VREG_VOLTAGE_1_10
 , <br />
@@ -141,6 +169,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9d129557bd02bef7facf45b05130e000"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__vreg.html#ga9d129557bd02bef7facf45b05130e000">vreg_set_voltage</a> (enum <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0">vreg_voltage</a> voltage)</td></tr>
 <tr class="memdesc:ga9d129557bd02bef7facf45b05130e000"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set voltage.  <a href="group__hardware__vreg.html#ga9d129557bd02bef7facf45b05130e000">More...</a><br /></td></tr>
 <tr class="separator:ga9d129557bd02bef7facf45b05130e000"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa474bd6a5c0df05f9e4185a470dcd28f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__vreg.html#gaa474bd6a5c0df05f9e4185a470dcd28f">vreg_disable_voltage_limit</a> (void)</td></tr>
+<tr class="memdesc:gaa474bd6a5c0df05f9e4185a470dcd28f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable use of voltages beyond the safe range of operation.  <a href="group__hardware__vreg.html#gaa474bd6a5c0df05f9e4185a470dcd28f">More...</a><br /></td></tr>
+<tr class="separator:gaa474bd6a5c0df05f9e4185a470dcd28f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0"></a>
@@ -156,25 +187,25 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p >Possible voltage values that can be applied to the regulator </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad"></a>VREG_VOLTAGE_0_85&#160;</td><td class="fielddoc"><p >0.85v </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad"></a>VREG_VOLTAGE_0_85&#160;</td><td class="fielddoc"><p >0.85 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137"></a>VREG_VOLTAGE_0_90&#160;</td><td class="fielddoc"><p >0.90v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137"></a>VREG_VOLTAGE_0_90&#160;</td><td class="fielddoc"><p >0.90 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a"></a>VREG_VOLTAGE_0_95&#160;</td><td class="fielddoc"><p >0.95v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a"></a>VREG_VOLTAGE_0_95&#160;</td><td class="fielddoc"><p >0.95 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d"></a>VREG_VOLTAGE_1_00&#160;</td><td class="fielddoc"><p >1.00v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d"></a>VREG_VOLTAGE_1_00&#160;</td><td class="fielddoc"><p >1.00 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656"></a>VREG_VOLTAGE_1_05&#160;</td><td class="fielddoc"><p >1.05v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656"></a>VREG_VOLTAGE_1_05&#160;</td><td class="fielddoc"><p >1.05 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a"></a>VREG_VOLTAGE_1_10&#160;</td><td class="fielddoc"><p >1.10v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a"></a>VREG_VOLTAGE_1_10&#160;</td><td class="fielddoc"><p >1.10 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228"></a>VREG_VOLTAGE_1_15&#160;</td><td class="fielddoc"><p >1.15v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228"></a>VREG_VOLTAGE_1_15&#160;</td><td class="fielddoc"><p >1.15 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30"></a>VREG_VOLTAGE_1_20&#160;</td><td class="fielddoc"><p >1.20v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30"></a>VREG_VOLTAGE_1_20&#160;</td><td class="fielddoc"><p >1.20 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33"></a>VREG_VOLTAGE_1_25&#160;</td><td class="fielddoc"><p >1.25v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33"></a>VREG_VOLTAGE_1_25&#160;</td><td class="fielddoc"><p >1.25 V </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59"></a>VREG_VOLTAGE_1_30&#160;</td><td class="fielddoc"><p >1.30v </p>
+<tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59"></a>VREG_VOLTAGE_1_30&#160;</td><td class="fielddoc"><p >1.30 V </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ab2019bc9d9ea4c0c02ba2a853ffcd0b0aaf7723eab97235298b913112c29c7e21" name="ab2019bc9d9ea4c0c02ba2a853ffcd0b0aaf7723eab97235298b913112c29c7e21"></a>VREG_VOLTAGE_MIN&#160;</td><td class="fielddoc"><p >Always the minimum possible voltage. </p>
 </td></tr>

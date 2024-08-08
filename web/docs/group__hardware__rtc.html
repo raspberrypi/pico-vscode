@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,6 +108,9 @@ $(document).ready(function(){initNavTree('group__hardware__rtc.html',''); initRe
   <div class="headertitle"><div class="title">hardware_rtc<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Hardware Real Time Clock API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -120,9 +123,9 @@ Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rtc_init</b> (void)</td></tr>
 <tr class="memdesc:gacf9024748b942a7ae375cf75951afa9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the RTC system. <br /></td></tr>
 <tr class="separator:gacf9024748b942a7ae375cf75951afa9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa7ac37764f6ec16198f72707a8e1b58a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a">rtc_set_datetime</a> (<a class="el" href="structdatetime__t.html">datetime_t</a> *t)</td></tr>
-<tr class="memdesc:gaa7ac37764f6ec16198f72707a8e1b58a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the RTC to the specified time.  <a href="group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a">More...</a><br /></td></tr>
-<tr class="separator:gaa7ac37764f6ec16198f72707a8e1b58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga076d68dec35129dd2b44d16ae457a3de"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a> (const <a class="el" href="structdatetime__t.html">datetime_t</a> *t)</td></tr>
+<tr class="memdesc:ga076d68dec35129dd2b44d16ae457a3de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the RTC to the specified time.  <a href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">More...</a><br /></td></tr>
+<tr class="separator:ga076d68dec35129dd2b44d16ae457a3de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7c5528e71733b7bfc0b0543cd3bb6d3f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a> (<a class="el" href="structdatetime__t.html">datetime_t</a> *t)</td></tr>
 <tr class="memdesc:ga7c5528e71733b7bfc0b0543cd3bb6d3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current time from the RTC.  <a href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">More...</a><br /></td></tr>
 <tr class="separator:ga7c5528e71733b7bfc0b0543cd3bb6d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -130,9 +133,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rtc_init</b> (void)</
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>rtc_running</b> (void)</td></tr>
 <tr class="memdesc:gabf6cc1546be8d1ddb56e3d83a915f683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the RTC running? <br /></td></tr>
 <tr class="separator:gabf6cc1546be8d1ddb56e3d83a915f683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad0018e9069fee8d65c3a01f7bd7ae2f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__rtc.html#gad0018e9069fee8d65c3a01f7bd7ae2f4">rtc_set_alarm</a> (<a class="el" href="structdatetime__t.html">datetime_t</a> *t, <a class="el" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a> user_callback)</td></tr>
-<tr class="memdesc:gad0018e9069fee8d65c3a01f7bd7ae2f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a time in the future for the RTC to call a user provided callback.  <a href="group__hardware__rtc.html#gad0018e9069fee8d65c3a01f7bd7ae2f4">More...</a><br /></td></tr>
-<tr class="separator:gad0018e9069fee8d65c3a01f7bd7ae2f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaac8ad85f301295b6a130aa8e00122253"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253">rtc_set_alarm</a> (const <a class="el" href="structdatetime__t.html">datetime_t</a> *t, <a class="el" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a> user_callback)</td></tr>
+<tr class="memdesc:gaac8ad85f301295b6a130aa8e00122253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a time in the future for the RTC to call a user provided callback.  <a href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253">More...</a><br /></td></tr>
+<tr class="separator:gaac8ad85f301295b6a130aa8e00122253"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab7f69ee0de1cae2518b2822fd82d5201"><td class="memItemLeft" align="right" valign="top"><a id="gab7f69ee0de1cae2518b2822fd82d5201" name="gab7f69ee0de1cae2518b2822fd82d5201"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rtc_enable_alarm</b> (void)</td></tr>
 <tr class="memdesc:gab7f69ee0de1cae2518b2822fd82d5201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the RTC alarm (if inactive) <br /></td></tr>
@@ -143,7 +146,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rtc_disable_alarm</b>
 <tr class="separator:ga718b866eab2ba73221d37f7d15ba9737"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Hardware Real Time Clock API</p>
+<p >Hardware Real Time Clock API. </p>
 <p >The RTC keeps track of time in human readable format and generates events when the time is equal to a preset value. Think of a digital clock, not epoch time used by most computers. There are seven fields, one each for year (12 bit), month (4 bit), day (5 bit), day of the week (3 bit), hour (5 bit) minute (6 bit) and second (6 bit), storing the data in binary format.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structdatetime__t.html" title="Structure containing date and time information.">datetime_t</a></dd></dl>
 <h2><a class="anchor" id="rtc_example"></a>
@@ -174,7 +177,7 @@ Example</h2>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Start the RTC</span></div>
 <div class="line">    <a class="code hl_function" href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc_init</a>();</div>
-<div class="line">    <a class="code hl_function" href="group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a">rtc_set_datetime</a>(&amp;t);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a>(&amp;t);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// clk_sys is &gt;2000x faster than clk_rtc, so datetime is not updated immediately when rtc_get_datetime() is called.</span></div>
 <div class="line">    <span class="comment">// tbe delay is up to 3 RTC clock cycles (which is 64us with the default clock settings)</span></div>
@@ -183,24 +186,23 @@ Example</h2>
 <div class="line">    <span class="comment">// Print the time</span></div>
 <div class="line">    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
 <div class="line">        <a class="code hl_function" href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a>(&amp;t);</div>
-<div class="line">        <a class="code hl_function" href="group__util__datetime.html#gacc29111f908e091fa44b1b674f32f49e">datetime_to_str</a>(datetime_str, <span class="keyword">sizeof</span>(datetime_buf), &amp;t);</div>
+<div class="line">        datetime_to_str(datetime_str, <span class="keyword">sizeof</span>(datetime_buf), &amp;t);</div>
 <div class="line">        printf(<span class="stringliteral">&quot;\r%s      &quot;</span>, datetime_str);</div>
 <div class="line">        <a class="code hl_function" href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a>(100);</div>
 <div class="line">    }</div>
 <div class="line">}</div>
 <div class="ttc" id="adatetime_8h_html"><div class="ttname"><a href="datetime_8h.html">datetime.h</a></div></div>
-<div class="ttc" id="agroup__hardware__rtc_html_ga7c5528e71733b7bfc0b0543cd3bb6d3f"><div class="ttname"><a href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a></div><div class="ttdeci">bool rtc_get_datetime(datetime_t *t)</div><div class="ttdoc">Get the current time from the RTC.</div><div class="ttdef"><b>Definition:</b> rtc.c:88</div></div>
-<div class="ttc" id="agroup__hardware__rtc_html_gaa7ac37764f6ec16198f72707a8e1b58a"><div class="ttname"><a href="group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a">rtc_set_datetime</a></div><div class="ttdeci">bool rtc_set_datetime(datetime_t *t)</div><div class="ttdoc">Set the RTC to the specified time.</div><div class="ttdef"><b>Definition:</b> rtc.c:55</div></div>
+<div class="ttc" id="agroup__hardware__rtc_html_ga076d68dec35129dd2b44d16ae457a3de"><div class="ttname"><a href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a></div><div class="ttdeci">bool rtc_set_datetime(const datetime_t *t)</div><div class="ttdoc">Set the RTC to the specified time.</div><div class="ttdef"><b>Definition:</b> rtc.c:54</div></div>
+<div class="ttc" id="agroup__hardware__rtc_html_ga7c5528e71733b7bfc0b0543cd3bb6d3f"><div class="ttname"><a href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a></div><div class="ttdeci">bool rtc_get_datetime(datetime_t *t)</div><div class="ttdoc">Get the current time from the RTC.</div><div class="ttdef"><b>Definition:</b> rtc.c:87</div></div>
 <div class="ttc" id="agroup__hardware__rtc_html_gacf9024748b942a7ae375cf75951afa9c"><div class="ttname"><a href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc_init</a></div><div class="ttdeci">void rtc_init(void)</div><div class="ttdoc">Initialise the RTC system.</div><div class="ttdef"><b>Definition:</b> rtc.c:22</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:283</div></div>
-<div class="ttc" id="agroup__sleep_html_gae617a6842d4f3a192064c4354b88fcff"><div class="ttname"><a href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a></div><div class="ttdeci">void sleep_ms(uint32_t ms)</div><div class="ttdoc">Wait for the given number of milliseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:429</div></div>
-<div class="ttc" id="agroup__sleep_html_gaeeaebd3a10e0a193022f15c8603772ba"><div class="ttname"><a href="group__sleep.html#gaeeaebd3a10e0a193022f15c8603772ba">sleep_us</a></div><div class="ttdeci">void sleep_us(uint64_t us)</div><div class="ttdoc">Wait for the given number of microseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:412</div></div>
-<div class="ttc" id="agroup__util__datetime_html_gacc29111f908e091fa44b1b674f32f49e"><div class="ttname"><a href="group__util__datetime.html#gacc29111f908e091fa44b1b674f32f49e">datetime_to_str</a></div><div class="ttdeci">void datetime_to_str(char *buf, uint buf_size, const datetime_t *t)</div><div class="ttdoc">Convert a datetime_t structure to a string.</div><div class="ttdef"><b>Definition:</b> datetime.c:30</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
+<div class="ttc" id="agroup__sleep_html_gae617a6842d4f3a192064c4354b88fcff"><div class="ttname"><a href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a></div><div class="ttdeci">void sleep_ms(uint32_t ms)</div><div class="ttdoc">Wait for the given number of milliseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:431</div></div>
+<div class="ttc" id="agroup__sleep_html_gaeeaebd3a10e0a193022f15c8603772ba"><div class="ttname"><a href="group__sleep.html#gaeeaebd3a10e0a193022f15c8603772ba">sleep_us</a></div><div class="ttdeci">void sleep_us(uint64_t us)</div><div class="ttdoc">Wait for the given number of microseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:414</div></div>
 <div class="ttc" id="arp2__common_2hardware__rtc_2include_2hardware_2rtc_8h_html"><div class="ttname"><a href="rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h.html">rtc.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
-<div class="ttc" id="astructdatetime__t_html"><div class="ttname"><a href="structdatetime__t.html">datetime_t</a></div><div class="ttdoc">Structure containing date and time information.</div><div class="ttdef"><b>Definition:</b> types.h:93</div></div>
-<div class="ttc" id="astructdatetime__t_html_a9d974362ac5b0c3981a376888cec7a5a"><div class="ttname"><a href="structdatetime__t.html#a9d974362ac5b0c3981a376888cec7a5a">datetime_t::year</a></div><div class="ttdeci">int16_t year</div><div class="ttdoc">0..4095</div><div class="ttdef"><b>Definition:</b> types.h:94</div></div>
+<div class="ttc" id="astructdatetime__t_html"><div class="ttname"><a href="structdatetime__t.html">datetime_t</a></div><div class="ttdoc">Structure containing date and time information.</div><div class="ttdef"><b>Definition:</b> types.h:107</div></div>
+<div class="ttc" id="astructdatetime__t_html_a9d974362ac5b0c3981a376888cec7a5a"><div class="ttname"><a href="structdatetime__t.html#a9d974362ac5b0c3981a376888cec7a5a">datetime_t::year</a></div><div class="ttdeci">int16_t year</div><div class="ttdoc">0..4095</div><div class="ttdef"><b>Definition:</b> types.h:108</div></div>
 </div><!-- fragment --> <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ga05a9e12c70c56e6e2a9869d0682045d1" name="ga05a9e12c70c56e6e2a9869d0682045d1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga05a9e12c70c56e6e2a9869d0682045d1">&#9670;&nbsp;</a></span>rtc_callback_t</h2>
@@ -214,7 +216,7 @@ Example</h2>
       </table>
 </div><div class="memdoc">
 <p >Callback function type for RTC alarms</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__rtc.html#gad0018e9069fee8d65c3a01f7bd7ae2f4" title="Set a time in the future for the RTC to call a user provided callback.">rtc_set_alarm()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253" title="Set a time in the future for the RTC to call a user provided callback.">rtc_set_alarm()</a> </dd></dl>
 
 </div>
 </div>
@@ -246,8 +248,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="gad0018e9069fee8d65c3a01f7bd7ae2f4" name="gad0018e9069fee8d65c3a01f7bd7ae2f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad0018e9069fee8d65c3a01f7bd7ae2f4">&#9670;&nbsp;</a></span>rtc_set_alarm()</h2>
+<a id="gaac8ad85f301295b6a130aa8e00122253" name="gaac8ad85f301295b6a130aa8e00122253"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaac8ad85f301295b6a130aa8e00122253">&#9670;&nbsp;</a></span>rtc_set_alarm()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -255,7 +257,7 @@ Example</h2>
         <tr>
           <td class="memname">void rtc_set_alarm </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structdatetime__t.html">datetime_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structdatetime__t.html">datetime_t</a> *&#160;</td>
           <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
@@ -283,8 +285,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="gaa7ac37764f6ec16198f72707a8e1b58a" name="gaa7ac37764f6ec16198f72707a8e1b58a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa7ac37764f6ec16198f72707a8e1b58a">&#9670;&nbsp;</a></span>rtc_set_datetime()</h2>
+<a id="ga076d68dec35129dd2b44d16ae457a3de" name="ga076d68dec35129dd2b44d16ae457a3de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga076d68dec35129dd2b44d16ae457a3de">&#9670;&nbsp;</a></span>rtc_set_datetime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -292,7 +294,7 @@ Example</h2>
         <tr>
           <td class="memname">bool rtc_set_datetime </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structdatetime__t.html">datetime_t</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structdatetime__t.html">datetime_t</a> *&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
           <td></td>
         </tr>

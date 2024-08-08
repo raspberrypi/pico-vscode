@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('group__pico__stdlib.html',''); initRes
   <div class="headertitle"><div class="title">pico_stdlib<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Aggregation of a core subset of Raspberry Pi Pico SDK libraries used by most executables along with some additional utility methods.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -119,28 +122,86 @@ Functions</h2></td></tr>
 <tr class="memitem:ga44d5e0845d4f75f3b0c97c733e39f4c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">set_sys_clock_pll</a> (uint32_t vco_freq, uint post_div1, uint post_div2)</td></tr>
 <tr class="memdesc:ga44d5e0845d4f75f3b0c97c733e39f4c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the system clock.  <a href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">More...</a><br /></td></tr>
 <tr class="separator:ga44d5e0845d4f75f3b0c97c733e39f4c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafa509e1c42d351a21ac87a790d7c37e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdlib.html#gafa509e1c42d351a21ac87a790d7c37e0">check_sys_clock_hz</a> (uint32_t freq_hz, uint *vco_freq_out, uint *post_div1_out, uint *post_div2_out)</td></tr>
+<tr class="memdesc:gafa509e1c42d351a21ac87a790d7c37e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given system clock frequency is valid/attainable.  <a href="group__pico__stdlib.html#gafa509e1c42d351a21ac87a790d7c37e0">More...</a><br /></td></tr>
+<tr class="separator:gafa509e1c42d351a21ac87a790d7c37e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8553a9d91b581e0d3dbccd8d83b1a1b9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdlib.html#ga8553a9d91b581e0d3dbccd8d83b1a1b9">check_sys_clock_khz</a> (uint32_t freq_khz, uint *vco_freq_out, uint *post_div1_out, uint *post_div2_out)</td></tr>
 <tr class="memdesc:ga8553a9d91b581e0d3dbccd8d83b1a1b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given system clock frequency is valid/attainable.  <a href="group__pico__stdlib.html#ga8553a9d91b581e0d3dbccd8d83b1a1b9">More...</a><br /></td></tr>
 <tr class="separator:ga8553a9d91b581e0d3dbccd8d83b1a1b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga28d65a360d9c9423fe5549b216b79683"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdlib.html#ga28d65a360d9c9423fe5549b216b79683">set_sys_clock_hz</a> (uint32_t freq_hz, bool required)</td></tr>
+<tr class="memdesc:ga28d65a360d9c9423fe5549b216b79683"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to set a system clock frequency in hz.  <a href="group__pico__stdlib.html#ga28d65a360d9c9423fe5549b216b79683">More...</a><br /></td></tr>
+<tr class="separator:ga28d65a360d9c9423fe5549b216b79683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab3a273e837ba1947bb5fd8fc97cf47e5"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">set_sys_clock_khz</a> (uint32_t freq_khz, bool required)</td></tr>
 <tr class="memdesc:gab3a273e837ba1947bb5fd8fc97cf47e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to set a system clock frequency in khz.  <a href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">More...</a><br /></td></tr>
 <tr class="separator:gab3a273e837ba1947bb5fd8fc97cf47e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Aggregation of a core subset of Raspberry Pi Pico SDK libraries used by most executables along with some additional utility methods. Including pico_stdlib gives you everything you need to get a basic program running which prints to stdout or flashes a LED</p>
+<p >Aggregation of a core subset of Raspberry Pi Pico SDK libraries used by most executables along with some additional utility methods. </p>
+<p >Including pico_stdlib gives you everything you need to get a basic program running which prints to stdout or flashes a LED</p>
 <p >This library aggregates:</p><ul>
-<li><a class="el" href="group__hardware__uart.html">hardware_uart</a></li>
+<li><a class="el" href="group__hardware__divider.html">hardware_divider</a></li>
 <li><a class="el" href="group__hardware__gpio.html">hardware_gpio</a></li>
-<li><a class="el" href="group__pico__binary__info.html">pico_binary_info</a></li>
+<li><a class="el" href="group__hardware__uart.html">hardware_uart</a></li>
 <li><a class="el" href="group__pico__runtime.html">pico_runtime</a></li>
 <li><a class="el" href="group__pico__platform.html">pico_platform</a></li>
-<li><a class="el" href="group__pico__printf.html">pico_printf</a></li>
 <li><a class="el" href="group__pico__stdio.html">pico_stdio</a></li>
-<li><a class="el" href="group__pico__standard__link.html">pico_standard_link</a></li>
+<li><a class="el" href="group__pico__time.html">pico_time</a></li>
 <li><a class="el" href="group__pico__util.html">pico_util</a></li>
 </ul>
 <p >There are some basic default values used by these functions that will default to usable values, however, they can be customised in a board definition header via config.h or similar </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gafa509e1c42d351a21ac87a790d7c37e0" name="gafa509e1c42d351a21ac87a790d7c37e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafa509e1c42d351a21ac87a790d7c37e0">&#9670;&nbsp;</a></span>check_sys_clock_hz()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool check_sys_clock_hz </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>freq_hz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint *&#160;</td>
+          <td class="paramname"><em>vco_freq_out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint *&#160;</td>
+          <td class="paramname"><em>post_div1_out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint *&#160;</td>
+          <td class="paramname"><em>post_div2_out</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if a given system clock frequency is valid/attainable. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">freq_hz</td><td>Requested frequency </td></tr>
+    <tr><td class="paramname">vco_freq_out</td><td>On success, the voltage controlled oscillator frequency to be used by the SYS PLL </td></tr>
+    <tr><td class="paramname">post_div1_out</td><td>On success, The first post divider for the SYS PLL </td></tr>
+    <tr><td class="paramname">post_div2_out</td><td>On success, The second post divider for the SYS PLL. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the frequency is possible and the output parameters have been written. </dd></dl>
+
+</div>
+</div>
 <a id="ga8553a9d91b581e0d3dbccd8d83b1a1b9" name="ga8553a9d91b581e0d3dbccd8d83b1a1b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga8553a9d91b581e0d3dbccd8d83b1a1b9">&#9670;&nbsp;</a></span>check_sys_clock_khz()</h2>
 
@@ -211,6 +272,53 @@ Functions</h2></td></tr>
 
 <p>Initialise the system clock to 48MHz. </p>
 <p >Set the system clock to 48MHz, and set the peripheral clock to match. </p>
+
+</div>
+</div>
+<a id="ga28d65a360d9c9423fe5549b216b79683" name="ga28d65a360d9c9423fe5549b216b79683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga28d65a360d9c9423fe5549b216b79683">&#9670;&nbsp;</a></span>set_sys_clock_hz()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool set_sys_clock_hz </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>freq_hz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>required</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Attempt to set a system clock frequency in hz. </p>
+<p >Note that not all clock frequencies are possible; it is preferred that you use src/rp2_common/hardware_clocks/scripts/vcocalc.py to calculate the parameters for use with set_sys_clock_pll</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">freq_hz</td><td>Requested frequency </td></tr>
+    <tr><td class="paramname">required</td><td>if true then this function will assert if the frequency is not attainable. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the clock was configured </dd></dl>
 
 </div>
 </div>

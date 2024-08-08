@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -113,23 +113,44 @@ $(document).ready(function(){initNavTree('globals_func_r.html',''); initResizabl
 <li>recursive_mutex_init()&#160;:&#160;<a class="el" href="group__mutex.html#ga30d1f9d58564a1799e293451edc2d28e">mutex.h</a></li>
 <li>recursive_mutex_is_initialized()&#160;:&#160;<a class="el" href="group__mutex.html#ga97e45154e86f0d206665bbce779d112d">mutex.h</a></li>
 <li>recursive_mutex_try_enter()&#160;:&#160;<a class="el" href="group__mutex.html#gae431bbb90e45cf9ae47130a5635aa2b0">mutex.h</a></li>
-<li>reset_block()&#160;:&#160;<a class="el" href="group__hardware__resets.html#ga667c57ff319d167377da57db69c340fc">resets.h</a></li>
-<li>reset_usb_boot()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#ga5d51b6163ec30a147d3445cec8f33c7c">bootrom.h</a></li>
+<li>remaining_alarm_time_ms()&#160;:&#160;<a class="el" href="group__alarm.html#ga61affbec7fedd98582b1df8b5ca3fe3b">time.h</a></li>
+<li>remaining_alarm_time_us()&#160;:&#160;<a class="el" href="group__alarm.html#ga549331a1b34938eb9f9dae03712a714c">time.h</a></li>
+<li>reset_block_mask()&#160;:&#160;<a class="el" href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">resets.h</a></li>
+<li>reset_block_num()&#160;:&#160;<a class="el" href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">resets.h</a></li>
+<li>reset_unreset_block_num_wait_blocking()&#160;:&#160;<a class="el" href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">resets.h</a></li>
 <li>restore_interrupts()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2">sync.h</a></li>
+<li>restore_interrupts_from_disabled()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">sync.h</a></li>
+<li>riscv_timer_get_mtime()&#160;:&#160;<a class="el" href="group__hardware__riscv__platform__timer.html#gab016600bb8fc7553da83a90501371693">riscv_platform_timer.h</a></li>
+<li>riscv_timer_get_mtimecmp()&#160;:&#160;<a class="el" href="group__hardware__riscv__platform__timer.html#ga148695c3ff3dce3222934040cfc77d91">riscv_platform_timer.h</a></li>
+<li>riscv_timer_set_enabled()&#160;:&#160;<a class="el" href="group__hardware__riscv__platform__timer.html#ga2afc7ae3feafc019abd3883a3f2fe04f">riscv_platform_timer.h</a></li>
+<li>riscv_timer_set_fullspeed()&#160;:&#160;<a class="el" href="group__hardware__riscv__platform__timer.html#gacdd646c3b36c51473a16c07a799f9eec">riscv_platform_timer.h</a></li>
+<li>riscv_timer_set_mtime()&#160;:&#160;<a class="el" href="group__hardware__riscv__platform__timer.html#ga96285c497dceb9126e6ea3130be72bcb">riscv_platform_timer.h</a></li>
+<li>riscv_timer_set_mtimecmp()&#160;:&#160;<a class="el" href="group__hardware__riscv__platform__timer.html#ga7003005e0d2142e95ce53f2ceee29fdd">riscv_platform_timer.h</a></li>
+<li>rom_connect_internal_flash()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc">bootrom.h</a></li>
 <li>rom_data_lookup()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c">bootrom.h</a></li>
+<li>rom_flash_enter_cmd_xip()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">bootrom.h</a></li>
+<li>rom_flash_exit_xip()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807">bootrom.h</a></li>
+<li>rom_flash_flush_cache()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72">bootrom.h</a></li>
+<li>rom_flash_range_erase()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#gad2a854a04f7007e9e5efa67fe8887cd7">bootrom.h</a></li>
+<li>rom_flash_range_program()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#ga7fd2af8eea3dbd7bc76ed3306186ccef">bootrom.h</a></li>
 <li>rom_func_lookup()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d">bootrom.h</a></li>
 <li>rom_func_lookup_inline()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#ga8f4e326502015aa4f4624251df366268">bootrom.h</a></li>
 <li>rom_funcs_lookup()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#ga31965209f0ddaeaecaeb3c516abda04d">bootrom.h</a></li>
+<li>rom_reset_usb_boot()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#ga1bbe1c1df02daaa7b68a0c95fb9dc545">bootrom.h</a></li>
 <li>rom_table_code()&#160;:&#160;<a class="el" href="group__pico__bootrom.html#ga2b6dcf9d9c60d54a222f7c259c76b4b4">bootrom.h</a></li>
-<li>rp2040_chip_version()&#160;:&#160;<a class="el" href="group__pico__platform.html#ga2f16fe03135e5a5cb9f098a538a8671a">platform.h</a></li>
+<li>rp2040_chip_version()&#160;:&#160;<a class="el" href="group__pico__platform.html#gac157772e2fa6f4c64e1c3e4d761089d9">platform.h</a></li>
 <li>rp2040_rom_version()&#160;:&#160;<a class="el" href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">platform.h</a></li>
+<li>rp2350_chip_version()&#160;:&#160;<a class="el" href="group__pico__platform.html#ga21200eb89a299a9b121d028ad1725fe3">platform.h</a></li>
 <li>rtc_disable_alarm()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#ga718b866eab2ba73221d37f7d15ba9737">rtc.h</a></li>
 <li>rtc_enable_alarm()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#gab7f69ee0de1cae2518b2822fd82d5201">rtc.h</a></li>
 <li>rtc_get_datetime()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc.h</a></li>
 <li>rtc_init()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc.h</a></li>
 <li>rtc_running()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#gabf6cc1546be8d1ddb56e3d83a915f683">rtc.h</a></li>
-<li>rtc_set_alarm()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#gad0018e9069fee8d65c3a01f7bd7ae2f4">rtc.h</a></li>
-<li>rtc_set_datetime()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a">rtc.h</a></li>
+<li>rtc_set_alarm()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253">rtc.h</a></li>
+<li>rtc_set_datetime()&#160;:&#160;<a class="el" href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc.h</a></li>
+<li>runtime_init()&#160;:&#160;<a class="el" href="group__pico__runtime.html#gad27ee86dcd85855022a424f61b839d04">runtime.h</a></li>
+<li>runtime_init_clocks()&#160;:&#160;<a class="el" href="runtime__init_8h.html#a3dd167ac601a4057aca2cc514795d7bf">runtime_init.h</a></li>
+<li>runtime_init_per_core_irq_priorities()&#160;:&#160;<a class="el" href="irq_8h.html#a6b1e04e66cf95ecf11a58beda886255d">irq.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

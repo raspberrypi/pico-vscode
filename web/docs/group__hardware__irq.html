@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,16 +104,140 @@ $(document).ready(function(){initNavTree('group__hardware__irq.html',''); initRe
 <div class="header">
   <div class="summary">
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">hardware_irq<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Hardware interrupt handling API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ga8787b32e001d4eac0ec747c53d6a4288"><td class="memItemLeft" align="right" valign="top"><a id="ga8787b32e001d4eac0ec747c53d6a4288" name="ga8787b32e001d4eac0ec747c53d6a4288"></a>
+typedef enum <a class="el" href="group__hardware__irq.html#ga876b9495995a81dff786f07a1975c3b8">irq_num_rp2350</a>&#160;</td><td class="memItemRight" valign="bottom"><b>irq_num_t</b></td></tr>
+<tr class="memdesc:ga8787b32e001d4eac0ec747c53d6a4288"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt numbers on RP2350 (used as typedef <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>) <br /></td></tr>
+<tr class="separator:ga8787b32e001d4eac0ec747c53d6a4288"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf30862f51b5994ffd5863176a185d137"><td class="memItemLeft" align="right" valign="top"><a id="gaf30862f51b5994ffd5863176a185d137" name="gaf30862f51b5994ffd5863176a185d137"></a>
+typedef enum <a class="el" href="group__hardware__irq.html#gaf4bf6b287c1a8445fce49ccaa711b3c3">irq_num_rp2040</a>&#160;</td><td class="memItemRight" valign="bottom"><b>irq_num_t</b></td></tr>
+<tr class="memdesc:gaf30862f51b5994ffd5863176a185d137"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt numbers on RP2040 (used as typedef <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>) <br /></td></tr>
+<tr class="separator:gaf30862f51b5994ffd5863176a185d137"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8478ee26cc144e947ccd75b0169059a6"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__irq.html#ga8478ee26cc144e947ccd75b0169059a6">irq_handler_t</a>) (void)</td></tr>
 <tr class="memdesc:ga8478ee26cc144e947ccd75b0169059a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt handler function type.  <a href="group__hardware__irq.html#ga8478ee26cc144e947ccd75b0169059a6">More...</a><br /></td></tr>
 <tr class="separator:ga8478ee26cc144e947ccd75b0169059a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga876b9495995a81dff786f07a1975c3b8"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__irq.html#ga876b9495995a81dff786f07a1975c3b8">irq_num_rp2350</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8aefc9b5ce0307f2983c7cfe9cfcee0e">TIMER0_IRQ_0</a> = 0
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a5b912fdba3cd93427d74b8ef527d980f">TIMER0_IRQ_1</a> = 1
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a959d2d69aa10978b36fb4fbecc77a465">TIMER0_IRQ_2</a> = 2
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a021f4aa1758af47eb23298196e1f22c5">TIMER0_IRQ_3</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a4ba1f242076b28a4217181e0f65896ec">TIMER1_IRQ_0</a> = 4
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a757d218b48843638d3f8f45fa6fd48f9">TIMER1_IRQ_1</a> = 5
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a156a0e9cbc66e4ce56dfb52d09d86858">TIMER1_IRQ_2</a> = 6
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8af2fb391af7b873b5268e3824068d08c0">TIMER1_IRQ_3</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ab95e3cb2a0db0f078b2f51d43d6f0221">PWM_IRQ_WRAP_0</a> = 8
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a9b21deae090eb8ab1c69eaa4dd71572f">PWM_IRQ_WRAP_1</a> = 9
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a27c81947202be1166b90cd5fb6f482a0">DMA_IRQ_0</a> = 10
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a7b25577c8e3d3b1c4bab08eaed19b5ef">DMA_IRQ_1</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8aa05c818a7b9a97853fced4be9a9b0955">DMA_IRQ_2</a> = 12
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a2852a4ce8747ec1b0ece265c3d681ad4">DMA_IRQ_3</a> = 13
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a2cd42859a0101338a23d1687c6ff473c">USBCTRL_IRQ</a> = 14
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a6a1531131ebf36cef68deb1b098c169e">PIO0_IRQ_0</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8342ee77067f98e1796e79d437093367">PIO0_IRQ_1</a> = 16
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a25729562658fcf2aa86e87e54617e7af">PIO1_IRQ_0</a> = 17
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a02a272c2eed06831563b441793eb4964">PIO1_IRQ_1</a> = 18
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a6a797ac81319a12d8f727b0df3bf4b45">PIO2_IRQ_0</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8aeaaf6372e890b298cab2d23ccf6b7e25">PIO2_IRQ_1</a> = 20
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae9d0650a36de3bfbad6edc82a613d3c1">IO_IRQ_BANK0</a> = 21
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8cfea98eab080d57d60d751d78b9397d">IO_IRQ_BANK0_NS</a> = 22
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8af5aa261b359dd160a1d8c3bc558ceb2b">IO_IRQ_QSPI</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ac2d22291df1fa6859d5c86ba7eae9018">IO_IRQ_QSPI_NS</a> = 24
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8afe8f5a1a66b8b6c489a8fb3bb618815f">SIO_IRQ_FIFO</a> = 25
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8abee4ee8eee7b960d0cf734578ffef811">SIO_IRQ_BELL</a> = 26
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a2bcf85572bb5a5f53ec4444798261541">SIO_IRQ_FIFO_NS</a> = 27
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a72f9b9916df889c0a55731b3a51b8e05">SIO_IRQ_BELL_NS</a> = 28
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a750e73e82e614dff437a37149bd59eb1">SIO_IRQ_MTIMECMP</a> = 29
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a737a1db2a02502ed578e908b3b6796c2">CLOCKS_IRQ</a> = 30
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a10b2c78ee63a060db5d9f30b8f1daf8a">SPI0_IRQ</a> = 31
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a60f73b071388a649cac65d2026607540">SPI1_IRQ</a> = 32
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a504e54f28a2e2928bd6a1604ee0a24fb">UART0_IRQ</a> = 33
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a1062848ec5bc51fcdd58a95d40fc266b">UART1_IRQ</a> = 34
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a80d34861619c6034c897e829aea93ed4">ADC_IRQ_FIFO</a> = 35
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae54e6d9ba3c33888744c4ba77a7a4255">I2C0_IRQ</a> = 36
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a3d4c9de91954651ee3dee7c066fc3db9">I2C1_IRQ</a> = 37
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a2ef9df4ccdeb630d832d6d2b076586b6">OTP_IRQ</a> = 38
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8aeef89f7a46f31d1ce96fd0f6328b78c8">TRNG_IRQ</a> = 39
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a0ed6df37fc7086fc72331ac64d5abcf0">PROC0_IRQ_CTI</a> = 40
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8af8101a6cce54937f4af39f3c27a2fe6d">PROC1_IRQ_CTI</a> = 41
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a946ceb547b06cf725bcdc28171249d5a">PLL_SYS_IRQ</a> = 42
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a875f153be03e06f3da74de8ed802ae12">PLL_USB_IRQ</a> = 43
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ac30f13a1f91cc090fdb619028183ad0e">POWMAN_IRQ_POW</a> = 44
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a803d6485cd5cc1737bbaa006eb30e0f8">POWMAN_IRQ_TIMER</a> = 45
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8aad3052d1d06b983df4551cd9ddd739ae">SPARE_IRQ_0</a> = 46
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a1db065c3095a5f7f4c08becc89cc146e">SPARE_IRQ_1</a> = 47
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8632f943b2645a064df4b4f32be6cfb4">SPARE_IRQ_2</a> = 48
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a37d25d9bef6f9987f6f0acd1199fdd06">SPARE_IRQ_3</a> = 49
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae1e37d639062c9f84055a9137fc29870">SPARE_IRQ_4</a> = 50
+, <a class="el" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8af00c937dd1333d2fa5e52d906dd7529b">SPARE_IRQ_5</a> = 51
+, <br />
+&#160;&#160;<b>IRQ_COUNT</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga876b9495995a81dff786f07a1975c3b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt numbers on RP2350 (used as typedef <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>)  <a href="group__hardware__irq.html#ga876b9495995a81dff786f07a1975c3b8">More...</a><br /></td></tr>
+<tr class="separator:ga876b9495995a81dff786f07a1975c3b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf4bf6b287c1a8445fce49ccaa711b3c3"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__irq.html#gaf4bf6b287c1a8445fce49ccaa711b3c3">irq_num_rp2040</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a9adcee3ff00b51d885e399d87fd6c957">TIMER_IRQ_0</a> = 0
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a4c240b6b48b410130cd2890ab04d560e">TIMER_IRQ_1</a> = 1
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3aff3b80e5739147626d9386b2a3b2953c">TIMER_IRQ_2</a> = 2
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3aa85dca1accc78d56c18c8a2c2e842b42">TIMER_IRQ_3</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a0142d31049f55e027a88331ad70fa5aa">PWM_IRQ_WRAP</a> = 4
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a2cd42859a0101338a23d1687c6ff473c">USBCTRL_IRQ</a> = 5
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a76f444f019edf6356c9e64a1c2714b30">XIP_IRQ</a> = 6
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a6a1531131ebf36cef68deb1b098c169e">PIO0_IRQ_0</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a8342ee77067f98e1796e79d437093367">PIO0_IRQ_1</a> = 8
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a25729562658fcf2aa86e87e54617e7af">PIO1_IRQ_0</a> = 9
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a02a272c2eed06831563b441793eb4964">PIO1_IRQ_1</a> = 10
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a27c81947202be1166b90cd5fb6f482a0">DMA_IRQ_0</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a7b25577c8e3d3b1c4bab08eaed19b5ef">DMA_IRQ_1</a> = 12
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae9d0650a36de3bfbad6edc82a613d3c1">IO_IRQ_BANK0</a> = 13
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3af5aa261b359dd160a1d8c3bc558ceb2b">IO_IRQ_QSPI</a> = 14
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a841acbddc6961252827d7645277452ec">SIO_IRQ_PROC0</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae00819201c60acdf59448df5a08c11b5">SIO_IRQ_PROC1</a> = 16
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a737a1db2a02502ed578e908b3b6796c2">CLOCKS_IRQ</a> = 17
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a10b2c78ee63a060db5d9f30b8f1daf8a">SPI0_IRQ</a> = 18
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a60f73b071388a649cac65d2026607540">SPI1_IRQ</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a504e54f28a2e2928bd6a1604ee0a24fb">UART0_IRQ</a> = 20
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a1062848ec5bc51fcdd58a95d40fc266b">UART1_IRQ</a> = 21
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a80d34861619c6034c897e829aea93ed4">ADC_IRQ_FIFO</a> = 22
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae54e6d9ba3c33888744c4ba77a7a4255">I2C0_IRQ</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a3d4c9de91954651ee3dee7c066fc3db9">I2C1_IRQ</a> = 24
+, <a class="el" href="group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a758d0e5253474a1224daa5eff0bdb5fc">RTC_IRQ</a> = 25
+, <b>IRQ_COUNT</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:gaf4bf6b287c1a8445fce49ccaa711b3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interrupt numbers on RP2040 (used as typedef <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>)  <a href="group__hardware__irq.html#gaf4bf6b287c1a8445fce49ccaa711b3c3">More...</a><br /></td></tr>
+<tr class="separator:gaf4bf6b287c1a8445fce49ccaa711b3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -132,6 +256,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gae91340b84a6d70049933af657df93201"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__irq.html#gae91340b84a6d70049933af657df93201">irq_set_mask_enabled</a> (uint32_t mask, bool enabled)</td></tr>
 <tr class="memdesc:gae91340b84a6d70049933af657df93201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/disable multiple interrupts on the executing core.  <a href="group__hardware__irq.html#gae91340b84a6d70049933af657df93201">More...</a><br /></td></tr>
 <tr class="separator:gae91340b84a6d70049933af657df93201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae1a927e62e780b2f7dacc3a008ffaf20"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__irq.html#gae1a927e62e780b2f7dacc3a008ffaf20">irq_set_mask_n_enabled</a> (uint n, uint32_t mask, bool enabled)</td></tr>
+<tr class="memdesc:gae1a927e62e780b2f7dacc3a008ffaf20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/disable multiple interrupts on the executing core.  <a href="group__hardware__irq.html#gae1a927e62e780b2f7dacc3a008ffaf20">More...</a><br /></td></tr>
+<tr class="separator:gae1a927e62e780b2f7dacc3a008ffaf20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafffd448ba2d2eef5b355b88180aefe7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__irq.html#gafffd448ba2d2eef5b355b88180aefe7f">irq_set_exclusive_handler</a> (uint num, <a class="el" href="group__hardware__irq.html#ga8478ee26cc144e947ccd75b0169059a6">irq_handler_t</a> handler)</td></tr>
 <tr class="memdesc:gafffd448ba2d2eef5b355b88180aefe7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set an exclusive interrupt handler for an interrupt on the executing core.  <a href="group__hardware__irq.html#gafffd448ba2d2eef5b355b88180aefe7f">More...</a><br /></td></tr>
 <tr class="separator:gafffd448ba2d2eef5b355b88180aefe7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -167,7 +294,7 @@ Functions</h2></td></tr>
 <tr class="separator:gace889ebb0bde6fc678dee915d4e3537e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Hardware interrupt handling</p>
+<p >Hardware interrupt handling API. </p>
 <p >The RP2040 uses the standard ARM nested vectored interrupt controller (NVIC).</p>
 <p >Interrupts are identified by a number from 0 to 31.</p>
 <p >On the RP2040, only the lower 26 IRQ signals are connected on the NVIC; IRQs 26 to 31 are tied to zero (never firing).</p>
@@ -183,7 +310,8 @@ You should not enable the same (shared) IRQ number on both cores, as this will l
 <dl class="section note"><dt>Note</dt><dd>If an IRQ is enabled and fires with no handler installed, a breakpoint will be hit and the IRQ number will be in register r0.</dd></dl>
 <h1><a class="anchor" id="interrupt_nums"></a>
 Interrupt Numbers</h1>
-<p >Interrupts are numbered as follows, a set of defines is available (intctrl.h) with these names to avoid using the numbers directly.</p>
+<p >A set of defines is available (<a class="el" href="intctrl_8h_source.html">intctrl.h</a>) with these names to avoid using the numbers directly.</p>
+<p >On RP2040 the interrupt numbers are as follows:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">IRQ   </th><th class="markdownTableHeadNone">Interrupt Source    </th></tr>
@@ -240,6 +368,115 @@ Interrupt Numbers</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">25   </td><td class="markdownTableBodyNone">RTC_IRQ   </td></tr>
 </table>
+<p >On RP2350 the interrupt numbers are as follows:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">IRQ   </th><th class="markdownTableHeadNone">Interrupt Source    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">TIMER0_IRQ_0    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">TIMER0_IRQ_1    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">TIMER0_IRQ_2    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">TIMER0_IRQ_3    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">TIMER1_IRQ_0    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">TIMER1_IRQ_1    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">TIMER1_IRQ_2    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">TIMER1_IRQ_3    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">8   </td><td class="markdownTableBodyNone">PWM_IRQ_WRAP_0    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">9   </td><td class="markdownTableBodyNone">PWM_IRQ_WRAP_1    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">10   </td><td class="markdownTableBodyNone">DMA_IRQ_0    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">DMA_IRQ_1    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">12   </td><td class="markdownTableBodyNone">DMA_IRQ_2    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">13   </td><td class="markdownTableBodyNone">DMA_IRQ_3    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">14   </td><td class="markdownTableBodyNone">USBCTRL_IRQ    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">15   </td><td class="markdownTableBodyNone">PIO0_IRQ_0    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">16   </td><td class="markdownTableBodyNone">PIO0_IRQ_1    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">17   </td><td class="markdownTableBodyNone">PIO1_IRQ_0    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">18   </td><td class="markdownTableBodyNone">PIO1_IRQ_1    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">19   </td><td class="markdownTableBodyNone">PIO2_IRQ_0    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">20   </td><td class="markdownTableBodyNone">PIO2_IRQ_1    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">21   </td><td class="markdownTableBodyNone">IO_IRQ_BANK0    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">22   </td><td class="markdownTableBodyNone">IO_IRQ_BANK0_NS    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">23   </td><td class="markdownTableBodyNone">IO_IRQ_QSPI    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">24   </td><td class="markdownTableBodyNone">IO_IRQ_QSPI_NS    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">25   </td><td class="markdownTableBodyNone">SIO_IRQ_FIFO    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">26   </td><td class="markdownTableBodyNone">SIO_IRQ_BELL    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">27   </td><td class="markdownTableBodyNone">SIO_IRQ_FIFO_NS    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">28   </td><td class="markdownTableBodyNone">SIO_IRQ_BELL_NS    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">29   </td><td class="markdownTableBodyNone">SIO_IRQ_MTIMECMP    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">30   </td><td class="markdownTableBodyNone">CLOCKS_IRQ    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">31   </td><td class="markdownTableBodyNone">SPI0_IRQ    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">32   </td><td class="markdownTableBodyNone">SPI1_IRQ    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">33   </td><td class="markdownTableBodyNone">UART0_IRQ    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">34   </td><td class="markdownTableBodyNone">UART1_IRQ    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">35   </td><td class="markdownTableBodyNone">ADC_IRQ_FIFO    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">36   </td><td class="markdownTableBodyNone">I2C0_IRQ    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">37   </td><td class="markdownTableBodyNone">I2C1_IRQ    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">38   </td><td class="markdownTableBodyNone">OTP_IRQ    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">39   </td><td class="markdownTableBodyNone">TRNG_IRQ    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">40   </td><td class="markdownTableBodyNone">PROC0_IRQ_CTI    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">41   </td><td class="markdownTableBodyNone">PROC1_IRQ_CTI    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">42   </td><td class="markdownTableBodyNone">PLL_SYS_IRQ    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">43   </td><td class="markdownTableBodyNone">PLL_USB_IRQ    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">44   </td><td class="markdownTableBodyNone">POWMAN_IRQ_POW    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">45   </td><td class="markdownTableBodyNone">POWMAN_IRQ_TIMER    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">46   </td><td class="markdownTableBodyNone">SPAREIRQ_IRQ_0    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">47   </td><td class="markdownTableBodyNone">SPAREIRQ_IRQ_1    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">48   </td><td class="markdownTableBodyNone">SPAREIRQ_IRQ_2    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">49   </td><td class="markdownTableBodyNone">SPAREIRQ_IRQ_3    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">50   </td><td class="markdownTableBodyNone">SPAREIRQ_IRQ_4    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">51   </td><td class="markdownTableBodyNone">SPAREIRQ_IRQ_5   </td></tr>
+</table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ga8478ee26cc144e947ccd75b0169059a6" name="ga8478ee26cc144e947ccd75b0169059a6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga8478ee26cc144e947ccd75b0169059a6">&#9670;&nbsp;</a></span>irq_handler_t</h2>
@@ -255,6 +492,199 @@ Interrupt Numbers</h1>
 
 <p>Interrupt handler function type. </p>
 <p >All interrupts handlers should be of this type, and follow normal ARM EABI register saving conventions </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="gaf4bf6b287c1a8445fce49ccaa711b3c3" name="gaf4bf6b287c1a8445fce49ccaa711b3c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf4bf6b287c1a8445fce49ccaa711b3c3">&#9670;&nbsp;</a></span>irq_num_rp2040</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__irq.html#gaf4bf6b287c1a8445fce49ccaa711b3c3">irq_num_rp2040</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Interrupt numbers on RP2040 (used as typedef <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a9adcee3ff00b51d885e399d87fd6c957" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a9adcee3ff00b51d885e399d87fd6c957"></a>TIMER_IRQ_0&#160;</td><td class="fielddoc"><p >Select TIMER's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a4c240b6b48b410130cd2890ab04d560e" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a4c240b6b48b410130cd2890ab04d560e"></a>TIMER_IRQ_1&#160;</td><td class="fielddoc"><p >Select TIMER's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3aff3b80e5739147626d9386b2a3b2953c" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3aff3b80e5739147626d9386b2a3b2953c"></a>TIMER_IRQ_2&#160;</td><td class="fielddoc"><p >Select TIMER's IRQ 2 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3aa85dca1accc78d56c18c8a2c2e842b42" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3aa85dca1accc78d56c18c8a2c2e842b42"></a>TIMER_IRQ_3&#160;</td><td class="fielddoc"><p >Select TIMER's IRQ 3 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a0142d31049f55e027a88331ad70fa5aa" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a0142d31049f55e027a88331ad70fa5aa"></a>PWM_IRQ_WRAP&#160;</td><td class="fielddoc"><p >Select PWM's IRQ_WRAP output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a2cd42859a0101338a23d1687c6ff473c" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a2cd42859a0101338a23d1687c6ff473c"></a>USBCTRL_IRQ&#160;</td><td class="fielddoc"><p >Select USBCTRL's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a76f444f019edf6356c9e64a1c2714b30" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a76f444f019edf6356c9e64a1c2714b30"></a>XIP_IRQ&#160;</td><td class="fielddoc"><p >Select XIP's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a6a1531131ebf36cef68deb1b098c169e" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a6a1531131ebf36cef68deb1b098c169e"></a>PIO0_IRQ_0&#160;</td><td class="fielddoc"><p >Select PIO0's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a8342ee77067f98e1796e79d437093367" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a8342ee77067f98e1796e79d437093367"></a>PIO0_IRQ_1&#160;</td><td class="fielddoc"><p >Select PIO0's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a25729562658fcf2aa86e87e54617e7af" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a25729562658fcf2aa86e87e54617e7af"></a>PIO1_IRQ_0&#160;</td><td class="fielddoc"><p >Select PIO1's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a02a272c2eed06831563b441793eb4964" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a02a272c2eed06831563b441793eb4964"></a>PIO1_IRQ_1&#160;</td><td class="fielddoc"><p >Select PIO1's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a27c81947202be1166b90cd5fb6f482a0" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a27c81947202be1166b90cd5fb6f482a0"></a>DMA_IRQ_0&#160;</td><td class="fielddoc"><p >Select DMA's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a7b25577c8e3d3b1c4bab08eaed19b5ef" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a7b25577c8e3d3b1c4bab08eaed19b5ef"></a>DMA_IRQ_1&#160;</td><td class="fielddoc"><p >Select DMA's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3ae9d0650a36de3bfbad6edc82a613d3c1" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3ae9d0650a36de3bfbad6edc82a613d3c1"></a>IO_IRQ_BANK0&#160;</td><td class="fielddoc"><p >Select IO_BANK0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3af5aa261b359dd160a1d8c3bc558ceb2b" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3af5aa261b359dd160a1d8c3bc558ceb2b"></a>IO_IRQ_QSPI&#160;</td><td class="fielddoc"><p >Select IO_QSPI's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a841acbddc6961252827d7645277452ec" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a841acbddc6961252827d7645277452ec"></a>SIO_IRQ_PROC0&#160;</td><td class="fielddoc"><p >Select SIO_PROC0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3ae00819201c60acdf59448df5a08c11b5" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3ae00819201c60acdf59448df5a08c11b5"></a>SIO_IRQ_PROC1&#160;</td><td class="fielddoc"><p >Select SIO_PROC1's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a737a1db2a02502ed578e908b3b6796c2" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a737a1db2a02502ed578e908b3b6796c2"></a>CLOCKS_IRQ&#160;</td><td class="fielddoc"><p >Select CLOCKS's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a10b2c78ee63a060db5d9f30b8f1daf8a" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a10b2c78ee63a060db5d9f30b8f1daf8a"></a>SPI0_IRQ&#160;</td><td class="fielddoc"><p >Select SPI0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a60f73b071388a649cac65d2026607540" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a60f73b071388a649cac65d2026607540"></a>SPI1_IRQ&#160;</td><td class="fielddoc"><p >Select SPI1's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a504e54f28a2e2928bd6a1604ee0a24fb" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a504e54f28a2e2928bd6a1604ee0a24fb"></a>UART0_IRQ&#160;</td><td class="fielddoc"><p >Select UART0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a1062848ec5bc51fcdd58a95d40fc266b" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a1062848ec5bc51fcdd58a95d40fc266b"></a>UART1_IRQ&#160;</td><td class="fielddoc"><p >Select UART1's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a80d34861619c6034c897e829aea93ed4" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a80d34861619c6034c897e829aea93ed4"></a>ADC_IRQ_FIFO&#160;</td><td class="fielddoc"><p >Select ADC's IRQ_FIFO output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3ae54e6d9ba3c33888744c4ba77a7a4255" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3ae54e6d9ba3c33888744c4ba77a7a4255"></a>I2C0_IRQ&#160;</td><td class="fielddoc"><p >Select I2C0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a3d4c9de91954651ee3dee7c066fc3db9" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a3d4c9de91954651ee3dee7c066fc3db9"></a>I2C1_IRQ&#160;</td><td class="fielddoc"><p >Select I2C1's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggaf4bf6b287c1a8445fce49ccaa711b3c3a758d0e5253474a1224daa5eff0bdb5fc" name="ggaf4bf6b287c1a8445fce49ccaa711b3c3a758d0e5253474a1224daa5eff0bdb5fc"></a>RTC_IRQ&#160;</td><td class="fielddoc"><p >Select RTC's IRQ output. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga876b9495995a81dff786f07a1975c3b8" name="ga876b9495995a81dff786f07a1975c3b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga876b9495995a81dff786f07a1975c3b8">&#9670;&nbsp;</a></span>irq_num_rp2350</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__irq.html#ga876b9495995a81dff786f07a1975c3b8">irq_num_rp2350</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Interrupt numbers on RP2350 (used as typedef <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a8aefc9b5ce0307f2983c7cfe9cfcee0e" name="gga876b9495995a81dff786f07a1975c3b8a8aefc9b5ce0307f2983c7cfe9cfcee0e"></a>TIMER0_IRQ_0&#160;</td><td class="fielddoc"><p >Select TIMER0's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a5b912fdba3cd93427d74b8ef527d980f" name="gga876b9495995a81dff786f07a1975c3b8a5b912fdba3cd93427d74b8ef527d980f"></a>TIMER0_IRQ_1&#160;</td><td class="fielddoc"><p >Select TIMER0's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a959d2d69aa10978b36fb4fbecc77a465" name="gga876b9495995a81dff786f07a1975c3b8a959d2d69aa10978b36fb4fbecc77a465"></a>TIMER0_IRQ_2&#160;</td><td class="fielddoc"><p >Select TIMER0's IRQ 2 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a021f4aa1758af47eb23298196e1f22c5" name="gga876b9495995a81dff786f07a1975c3b8a021f4aa1758af47eb23298196e1f22c5"></a>TIMER0_IRQ_3&#160;</td><td class="fielddoc"><p >Select TIMER0's IRQ 3 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a4ba1f242076b28a4217181e0f65896ec" name="gga876b9495995a81dff786f07a1975c3b8a4ba1f242076b28a4217181e0f65896ec"></a>TIMER1_IRQ_0&#160;</td><td class="fielddoc"><p >Select TIMER1's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a757d218b48843638d3f8f45fa6fd48f9" name="gga876b9495995a81dff786f07a1975c3b8a757d218b48843638d3f8f45fa6fd48f9"></a>TIMER1_IRQ_1&#160;</td><td class="fielddoc"><p >Select TIMER1's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a156a0e9cbc66e4ce56dfb52d09d86858" name="gga876b9495995a81dff786f07a1975c3b8a156a0e9cbc66e4ce56dfb52d09d86858"></a>TIMER1_IRQ_2&#160;</td><td class="fielddoc"><p >Select TIMER1's IRQ 2 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8af2fb391af7b873b5268e3824068d08c0" name="gga876b9495995a81dff786f07a1975c3b8af2fb391af7b873b5268e3824068d08c0"></a>TIMER1_IRQ_3&#160;</td><td class="fielddoc"><p >Select TIMER1's IRQ 3 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8ab95e3cb2a0db0f078b2f51d43d6f0221" name="gga876b9495995a81dff786f07a1975c3b8ab95e3cb2a0db0f078b2f51d43d6f0221"></a>PWM_IRQ_WRAP_0&#160;</td><td class="fielddoc"><p >Select PWM's IRQ_WRAP 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a9b21deae090eb8ab1c69eaa4dd71572f" name="gga876b9495995a81dff786f07a1975c3b8a9b21deae090eb8ab1c69eaa4dd71572f"></a>PWM_IRQ_WRAP_1&#160;</td><td class="fielddoc"><p >Select PWM's IRQ_WRAP 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a27c81947202be1166b90cd5fb6f482a0" name="gga876b9495995a81dff786f07a1975c3b8a27c81947202be1166b90cd5fb6f482a0"></a>DMA_IRQ_0&#160;</td><td class="fielddoc"><p >Select DMA's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a7b25577c8e3d3b1c4bab08eaed19b5ef" name="gga876b9495995a81dff786f07a1975c3b8a7b25577c8e3d3b1c4bab08eaed19b5ef"></a>DMA_IRQ_1&#160;</td><td class="fielddoc"><p >Select DMA's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8aa05c818a7b9a97853fced4be9a9b0955" name="gga876b9495995a81dff786f07a1975c3b8aa05c818a7b9a97853fced4be9a9b0955"></a>DMA_IRQ_2&#160;</td><td class="fielddoc"><p >Select DMA's IRQ 2 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a2852a4ce8747ec1b0ece265c3d681ad4" name="gga876b9495995a81dff786f07a1975c3b8a2852a4ce8747ec1b0ece265c3d681ad4"></a>DMA_IRQ_3&#160;</td><td class="fielddoc"><p >Select DMA's IRQ 3 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a2cd42859a0101338a23d1687c6ff473c" name="gga876b9495995a81dff786f07a1975c3b8a2cd42859a0101338a23d1687c6ff473c"></a>USBCTRL_IRQ&#160;</td><td class="fielddoc"><p >Select USBCTRL's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a6a1531131ebf36cef68deb1b098c169e" name="gga876b9495995a81dff786f07a1975c3b8a6a1531131ebf36cef68deb1b098c169e"></a>PIO0_IRQ_0&#160;</td><td class="fielddoc"><p >Select PIO0's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a8342ee77067f98e1796e79d437093367" name="gga876b9495995a81dff786f07a1975c3b8a8342ee77067f98e1796e79d437093367"></a>PIO0_IRQ_1&#160;</td><td class="fielddoc"><p >Select PIO0's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a25729562658fcf2aa86e87e54617e7af" name="gga876b9495995a81dff786f07a1975c3b8a25729562658fcf2aa86e87e54617e7af"></a>PIO1_IRQ_0&#160;</td><td class="fielddoc"><p >Select PIO1's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a02a272c2eed06831563b441793eb4964" name="gga876b9495995a81dff786f07a1975c3b8a02a272c2eed06831563b441793eb4964"></a>PIO1_IRQ_1&#160;</td><td class="fielddoc"><p >Select PIO1's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a6a797ac81319a12d8f727b0df3bf4b45" name="gga876b9495995a81dff786f07a1975c3b8a6a797ac81319a12d8f727b0df3bf4b45"></a>PIO2_IRQ_0&#160;</td><td class="fielddoc"><p >Select PIO2's IRQ 0 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8aeaaf6372e890b298cab2d23ccf6b7e25" name="gga876b9495995a81dff786f07a1975c3b8aeaaf6372e890b298cab2d23ccf6b7e25"></a>PIO2_IRQ_1&#160;</td><td class="fielddoc"><p >Select PIO2's IRQ 1 output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8ae9d0650a36de3bfbad6edc82a613d3c1" name="gga876b9495995a81dff786f07a1975c3b8ae9d0650a36de3bfbad6edc82a613d3c1"></a>IO_IRQ_BANK0&#160;</td><td class="fielddoc"><p >Select IO_BANK0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a8cfea98eab080d57d60d751d78b9397d" name="gga876b9495995a81dff786f07a1975c3b8a8cfea98eab080d57d60d751d78b9397d"></a>IO_IRQ_BANK0_NS&#160;</td><td class="fielddoc"><p >Select IO_BANK0_NS's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8af5aa261b359dd160a1d8c3bc558ceb2b" name="gga876b9495995a81dff786f07a1975c3b8af5aa261b359dd160a1d8c3bc558ceb2b"></a>IO_IRQ_QSPI&#160;</td><td class="fielddoc"><p >Select IO_QSPI's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8ac2d22291df1fa6859d5c86ba7eae9018" name="gga876b9495995a81dff786f07a1975c3b8ac2d22291df1fa6859d5c86ba7eae9018"></a>IO_IRQ_QSPI_NS&#160;</td><td class="fielddoc"><p >Select IO_QSPI_NS's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8afe8f5a1a66b8b6c489a8fb3bb618815f" name="gga876b9495995a81dff786f07a1975c3b8afe8f5a1a66b8b6c489a8fb3bb618815f"></a>SIO_IRQ_FIFO&#160;</td><td class="fielddoc"><p >Select SIO's IRQ_FIFO output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8abee4ee8eee7b960d0cf734578ffef811" name="gga876b9495995a81dff786f07a1975c3b8abee4ee8eee7b960d0cf734578ffef811"></a>SIO_IRQ_BELL&#160;</td><td class="fielddoc"><p >Select SIO's IRQ_BELL output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a2bcf85572bb5a5f53ec4444798261541" name="gga876b9495995a81dff786f07a1975c3b8a2bcf85572bb5a5f53ec4444798261541"></a>SIO_IRQ_FIFO_NS&#160;</td><td class="fielddoc"><p >Select SIO_NS's IRQ_FIFO output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a72f9b9916df889c0a55731b3a51b8e05" name="gga876b9495995a81dff786f07a1975c3b8a72f9b9916df889c0a55731b3a51b8e05"></a>SIO_IRQ_BELL_NS&#160;</td><td class="fielddoc"><p >Select SIO_NS's IRQ_BELL output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a750e73e82e614dff437a37149bd59eb1" name="gga876b9495995a81dff786f07a1975c3b8a750e73e82e614dff437a37149bd59eb1"></a>SIO_IRQ_MTIMECMP&#160;</td><td class="fielddoc"><p >Select SIO_IRQ_MTIMECMP's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a737a1db2a02502ed578e908b3b6796c2" name="gga876b9495995a81dff786f07a1975c3b8a737a1db2a02502ed578e908b3b6796c2"></a>CLOCKS_IRQ&#160;</td><td class="fielddoc"><p >Select CLOCKS's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a10b2c78ee63a060db5d9f30b8f1daf8a" name="gga876b9495995a81dff786f07a1975c3b8a10b2c78ee63a060db5d9f30b8f1daf8a"></a>SPI0_IRQ&#160;</td><td class="fielddoc"><p >Select SPI0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a60f73b071388a649cac65d2026607540" name="gga876b9495995a81dff786f07a1975c3b8a60f73b071388a649cac65d2026607540"></a>SPI1_IRQ&#160;</td><td class="fielddoc"><p >Select SPI1's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a504e54f28a2e2928bd6a1604ee0a24fb" name="gga876b9495995a81dff786f07a1975c3b8a504e54f28a2e2928bd6a1604ee0a24fb"></a>UART0_IRQ&#160;</td><td class="fielddoc"><p >Select UART0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a1062848ec5bc51fcdd58a95d40fc266b" name="gga876b9495995a81dff786f07a1975c3b8a1062848ec5bc51fcdd58a95d40fc266b"></a>UART1_IRQ&#160;</td><td class="fielddoc"><p >Select UART1's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a80d34861619c6034c897e829aea93ed4" name="gga876b9495995a81dff786f07a1975c3b8a80d34861619c6034c897e829aea93ed4"></a>ADC_IRQ_FIFO&#160;</td><td class="fielddoc"><p >Select ADC's IRQ_FIFO output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8ae54e6d9ba3c33888744c4ba77a7a4255" name="gga876b9495995a81dff786f07a1975c3b8ae54e6d9ba3c33888744c4ba77a7a4255"></a>I2C0_IRQ&#160;</td><td class="fielddoc"><p >Select I2C0's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a3d4c9de91954651ee3dee7c066fc3db9" name="gga876b9495995a81dff786f07a1975c3b8a3d4c9de91954651ee3dee7c066fc3db9"></a>I2C1_IRQ&#160;</td><td class="fielddoc"><p >Select I2C1's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a2ef9df4ccdeb630d832d6d2b076586b6" name="gga876b9495995a81dff786f07a1975c3b8a2ef9df4ccdeb630d832d6d2b076586b6"></a>OTP_IRQ&#160;</td><td class="fielddoc"><p >Select OTP's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8aeef89f7a46f31d1ce96fd0f6328b78c8" name="gga876b9495995a81dff786f07a1975c3b8aeef89f7a46f31d1ce96fd0f6328b78c8"></a>TRNG_IRQ&#160;</td><td class="fielddoc"><p >Select TRNG's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a0ed6df37fc7086fc72331ac64d5abcf0" name="gga876b9495995a81dff786f07a1975c3b8a0ed6df37fc7086fc72331ac64d5abcf0"></a>PROC0_IRQ_CTI&#160;</td><td class="fielddoc"><p >Select PROC0's IRQ_CTI output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8af8101a6cce54937f4af39f3c27a2fe6d" name="gga876b9495995a81dff786f07a1975c3b8af8101a6cce54937f4af39f3c27a2fe6d"></a>PROC1_IRQ_CTI&#160;</td><td class="fielddoc"><p >Select PROC1's IRQ_CTI output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a946ceb547b06cf725bcdc28171249d5a" name="gga876b9495995a81dff786f07a1975c3b8a946ceb547b06cf725bcdc28171249d5a"></a>PLL_SYS_IRQ&#160;</td><td class="fielddoc"><p >Select PLL_SYS's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a875f153be03e06f3da74de8ed802ae12" name="gga876b9495995a81dff786f07a1975c3b8a875f153be03e06f3da74de8ed802ae12"></a>PLL_USB_IRQ&#160;</td><td class="fielddoc"><p >Select PLL_USB's IRQ output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8ac30f13a1f91cc090fdb619028183ad0e" name="gga876b9495995a81dff786f07a1975c3b8ac30f13a1f91cc090fdb619028183ad0e"></a>POWMAN_IRQ_POW&#160;</td><td class="fielddoc"><p >Select POWMAN's IRQ_POW output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a803d6485cd5cc1737bbaa006eb30e0f8" name="gga876b9495995a81dff786f07a1975c3b8a803d6485cd5cc1737bbaa006eb30e0f8"></a>POWMAN_IRQ_TIMER&#160;</td><td class="fielddoc"><p >Select POWMAN's IRQ_TIMER output. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8aad3052d1d06b983df4551cd9ddd739ae" name="gga876b9495995a81dff786f07a1975c3b8aad3052d1d06b983df4551cd9ddd739ae"></a>SPARE_IRQ_0&#160;</td><td class="fielddoc"><p >Select SPARE IRQ 0. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a1db065c3095a5f7f4c08becc89cc146e" name="gga876b9495995a81dff786f07a1975c3b8a1db065c3095a5f7f4c08becc89cc146e"></a>SPARE_IRQ_1&#160;</td><td class="fielddoc"><p >Select SPARE IRQ 1. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a8632f943b2645a064df4b4f32be6cfb4" name="gga876b9495995a81dff786f07a1975c3b8a8632f943b2645a064df4b4f32be6cfb4"></a>SPARE_IRQ_2&#160;</td><td class="fielddoc"><p >Select SPARE IRQ 2. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8a37d25d9bef6f9987f6f0acd1199fdd06" name="gga876b9495995a81dff786f07a1975c3b8a37d25d9bef6f9987f6f0acd1199fdd06"></a>SPARE_IRQ_3&#160;</td><td class="fielddoc"><p >Select SPARE IRQ 3. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8ae1e37d639062c9f84055a9137fc29870" name="gga876b9495995a81dff786f07a1975c3b8ae1e37d639062c9f84055a9137fc29870"></a>SPARE_IRQ_4&#160;</td><td class="fielddoc"><p >Select SPARE IRQ 4. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga876b9495995a81dff786f07a1975c3b8af00c937dd1333d2fa5e52d906dd7529b" name="gga876b9495995a81dff786f07a1975c3b8af00c937dd1333d2fa5e52d906dd7529b"></a>SPARE_IRQ_5&#160;</td><td class="fielddoc"><p >Select SPARE IRQ 5. </p>
+</td></tr>
+</table>
 
 </div>
 </div>
@@ -332,7 +762,7 @@ Interrupt Numbers</h1>
 </div><div class="memdoc">
 
 <p>Clear a specific interrupt on the executing core. </p>
-<p >This method is only useful for "software" IRQs that are not connected to hardware (i.e. IRQs 26-31) as the the NVIC always reflects the current state of the IRQ state of the hardware for hardware IRQs, and clearing of the IRQ state of the hardware is performed via the hardware's registers instead.</p>
+<p >This method is only useful for "software" IRQs that are not connected to hardware (e.g. IRQs 26-31 on RP2040) as the the NVIC always reflects the current state of the IRQ state of the hardware for hardware IRQs, and clearing of the IRQ state of the hardware is performed via the hardware's registers instead.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">int_num</td><td>Interrupt number <a class="el" href="group__hardware__irq.html#interrupt_nums">Interrupt Numbers</a> </td></tr>
@@ -388,7 +818,9 @@ Interrupt Numbers</h1>
 </div><div class="memdoc">
 
 <p>Get specified interrupt's priority. </p>
-<p >Numerically-lower values indicate a higher priority. Hardware priorities range from 0 (highest priority) to 255 (lowest priority) though only the top 2 bits are significant on ARM Cortex-M0+. To make it easier to specify higher or lower priorities than the default, all IRQ priorities are initialized to PICO_DEFAULT_IRQ_PRIORITY by the SDK runtime at startup. PICO_DEFAULT_IRQ_PRIORITY defaults to 0x80</p>
+<p >Numerically-lower values indicate a higher priority. Hardware priorities range from 0 (highest priority) to 255 (lowest priority). To make it easier to specify higher or lower priorities than the default, all IRQ priorities are initialized to PICO_DEFAULT_IRQ_PRIORITY by the SDK runtime at startup. PICO_DEFAULT_IRQ_PRIORITY defaults to 0x80</p>
+<p >Only the top 2 bits are significant on ARM Cortex-M0+ on RP2040. </p>
+<p >Only the top 4 bits are significant on ARM Cortex-M33 or Hazard3 (RISC-V) on RP2350. Note that this API uses the same (inverted) ordering as ARM on RISC-V </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">num</td><td>Interrupt number <a class="el" href="group__hardware__irq.html#interrupt_nums">Interrupt Numbers</a> </td></tr>
@@ -636,6 +1068,50 @@ Interrupt Numbers</h1>
 
 </div>
 </div>
+<a id="gae1a927e62e780b2f7dacc3a008ffaf20" name="gae1a927e62e780b2f7dacc3a008ffaf20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae1a927e62e780b2f7dacc3a008ffaf20">&#9670;&nbsp;</a></span>irq_set_mask_n_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void irq_set_mask_n_enabled </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable/disable multiple interrupts on the executing core. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>the index of the mask to update. n == 0 means 0-&gt;31, n == 1 mean 32-&gt;63 etc. </td></tr>
+    <tr><td class="paramname">mask</td><td>32-bit mask with one bits set for the interrupts to enable/disable <a class="el" href="group__hardware__irq.html#interrupt_nums">Interrupt Numbers</a> </td></tr>
+    <tr><td class="paramname">enabled</td><td>true to enable the interrupts, false to disable them. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga36e4b97d3414ce58c3091e63badcf9ce" name="ga36e4b97d3414ce58c3091e63badcf9ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga36e4b97d3414ce58c3091e63badcf9ce">&#9670;&nbsp;</a></span>irq_set_pending()</h2>
 
@@ -693,10 +1169,12 @@ Interrupt Numbers</h1>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">num</td><td>Interrupt number <a class="el" href="group__hardware__irq.html#interrupt_nums">Interrupt Numbers</a> </td></tr>
-    <tr><td class="paramname">hardware_priority</td><td>Priority to set. Numerically-lower values indicate a higher priority. Hardware priorities range from 0 (highest priority) to 255 (lowest priority) though only the top 2 bits are significant on ARM Cortex-M0+. To make it easier to specify higher or lower priorities than the default, all IRQ priorities are initialized to PICO_DEFAULT_IRQ_PRIORITY by the SDK runtime at startup. PICO_DEFAULT_IRQ_PRIORITY defaults to 0x80 </td></tr>
+    <tr><td class="paramname">hardware_priority</td><td>Priority to set. Numerically-lower values indicate a higher priority. Hardware priorities range from 0 (highest priority) to 255 (lowest priority). To make it easier to specify higher or lower priorities than the default, all IRQ priorities are initialized to PICO_DEFAULT_IRQ_PRIORITY by the SDK runtime at startup. PICO_DEFAULT_IRQ_PRIORITY defaults to 0x80</td></tr>
   </table>
   </dd>
 </dl>
+<p>Only the top 2 bits are significant on ARM Cortex-M0+ on RP2040. </p>
+<p >Only the top 4 bits are significant on ARM Cortex-M33 or Hazard3 (RISC-V) on RP2350. Note that this API uses the same (inverted) ordering as ARM on RISC-V  </p>
 
 </div>
 </div>
@@ -717,8 +1195,8 @@ Interrupt Numbers</h1>
 </div><div class="memdoc">
 
 <p>Claim ownership of a user IRQ on the calling core. </p>
-<p >User IRQs are numbered 26-31 and are not connected to any hardware, but can be triggered by <a class="el" href="group__hardware__irq.html#ga36e4b97d3414ce58c3091e63badcf9ce">irq_set_pending</a>.</p>
-<dl class="section note"><dt>Note</dt><dd>User IRQs are a core local feature; they cannot be used to communicate between cores. Therfore all functions dealing with Uer IRQs affect only the calling core</dd></dl>
+<p >User IRQs starting from FIRST_USER_IRQ are not connected to any hardware, but can be triggered by <a class="el" href="group__hardware__irq.html#ga36e4b97d3414ce58c3091e63badcf9ce">irq_set_pending</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>User IRQs are a core local feature; they cannot be used to communicate between cores. Therefore all functions dealing with Uer IRQs affect only the calling core</dd></dl>
 <p>This method explicitly claims ownership of a user IRQ, so other code can know it is being used.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -746,8 +1224,8 @@ Interrupt Numbers</h1>
 </div><div class="memdoc">
 
 <p>Claim ownership of a free user IRQ on the calling core. </p>
-<p >User IRQs are numbered 26-31 and are not connected to any hardware, but can be triggered by <a class="el" href="group__hardware__irq.html#ga36e4b97d3414ce58c3091e63badcf9ce">irq_set_pending</a>.</p>
-<dl class="section note"><dt>Note</dt><dd>User IRQs are a core local feature; they cannot be used to communicate between cores. Therfore all functions dealing with Uer IRQs affect only the calling core</dd></dl>
+<p >User IRQs starting from FIRST_USER_IRQ are not connected to any hardware, but can be triggered by <a class="el" href="group__hardware__irq.html#ga36e4b97d3414ce58c3091e63badcf9ce">irq_set_pending</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>User IRQs are a core local feature; they cannot be used to communicate between cores. Therefore all functions dealing with Uer IRQs affect only the calling core</dd></dl>
 <p>This method explicitly claims ownership of an unused user IRQ if there is one, so other code can know it is being used.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -776,8 +1254,8 @@ Interrupt Numbers</h1>
 </div><div class="memdoc">
 
 <p>Mark a user IRQ as no longer used on the calling core. </p>
-<p >User IRQs are numbered 26-31 and are not connected to any hardware, but can be triggered by <a class="el" href="group__hardware__irq.html#ga36e4b97d3414ce58c3091e63badcf9ce">irq_set_pending</a>.</p>
-<dl class="section note"><dt>Note</dt><dd>User IRQs are a core local feature; they cannot be used to communicate between cores. Therfore all functions dealing with Uer IRQs affect only the calling core</dd></dl>
+<p >User IRQs starting from FIRST_USER_IRQ are not connected to any hardware, but can be triggered by <a class="el" href="group__hardware__irq.html#ga36e4b97d3414ce58c3091e63badcf9ce">irq_set_pending</a>.</p>
+<dl class="section note"><dt>Note</dt><dd>User IRQs are a core local feature; they cannot be used to communicate between cores. Therefore all functions dealing with Uer IRQs affect only the calling core</dd></dl>
 <p>This method explicitly releases ownership of a user IRQ, so other code can know it is free to use.</p>
 <dl class="section note"><dt>Note</dt><dd>it is customary to have disabled the irq and removed the handler prior to calling this method.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>

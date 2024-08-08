@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_stdio/include/pico/stdio.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/stdio.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,6 +110,55 @@ $(document).ready(function(){initNavTree('stdio_8h.html',''); initResizable(); }
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
+<code>#include &lt;stdarg.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for stdio.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="stdio_8h__incl.png" border="0" usemap="#ainclude_2pico_2stdio_8h" alt=""/></div>
+<map name="ainclude_2pico_2stdio_8h" id="ainclude_2pico_2stdio_8h">
+<area shape="rect" title=" " alt="" coords="413,5,561,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" title=" " alt="" coords="497,80,571,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="stdio_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2stdio_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2stdio_8hdep" id="ainclude_2pico_2stdio_8hdep">
+<area shape="rect" title=" " alt="" coords="615,5,763,32"/>
+<area shape="rect" href="cyw43__config_8h_source.html" title=" " alt="" coords="59,87,181,114"/>
+<area shape="rect" href="printf_8h.html" title=" " alt="" coords="206,87,357,114"/>
+<area shape="rect" href="driver_8h_source.html" title=" " alt="" coords="381,80,517,121"/>
+<area shape="rect" href="stdio__rtt_8h_source.html" title=" " alt="" coords="541,80,677,121"/>
+<area shape="rect" href="stdio__semihosting_8h_source.html" title=" " alt="" coords="701,80,837,121"/>
+<area shape="rect" href="stdio__uart_8h_source.html" title=" " alt="" coords="861,80,997,121"/>
+<area shape="rect" href="stdio__usb_8h_source.html" title=" " alt="" coords="1021,80,1157,121"/>
+<area shape="rect" href="stdlib_8h.html" title=" " alt="" coords="1200,87,1352,114"/>
+<area shape="rect" href="cyw43_8h.html" title="CYW43 driver interface." alt="" coords="41,244,117,271"/>
+<area shape="rect" href="cyw43__ll_8h_source.html" title=" " alt="" coords="116,169,207,196"/>
+<area shape="rect" href="cyw43__arch_8h.html" title=" " alt="" coords="5,319,152,360"/>
+<area shape="rect" href="cyw43__btbus_8h.html" title="CYW43 Bluetooth BUS API." alt="" coords="141,244,259,271"/>
+<area shape="rect" href="tusb__config_8h_source.html" title=" " alt="" coords="1001,169,1159,196"/>
+<area shape="rect" href="SEGGER__RTT_8h_source.html" title=" " alt="" coords="1184,169,1387,196"/>
+</map>
+</div>
 </div>
 <p><a href="stdio_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -130,6 +179,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a72c78a9bd9041bc3cb4165d28c3054ad"><td class="memItemLeft" align="right" valign="top"><a id="a72c78a9bd9041bc3cb4165d28c3054ad" name="a72c78a9bd9041bc3cb4165d28c3054ad"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_STDIO_DEADLOCK_TIMEOUT_MS</b>&#160;&#160;&#160;1000</td></tr>
 <tr class="separator:a72c78a9bd9041bc3cb4165d28c3054ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba8015c7dcf26795a02b0adad42ad47f"><td class="memItemLeft" align="right" valign="top"><a id="aba8015c7dcf26795a02b0adad42ad47f" name="aba8015c7dcf26795a02b0adad42ad47f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:aba8015c7dcf26795a02b0adad42ad47f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -142,13 +194,20 @@ Functions</h2></td></tr>
 <tr class="memitem:ga0e604311fb226dae91ff4eb17a19d67a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a> (void)</td></tr>
 <tr class="memdesc:ga0e604311fb226dae91ff4eb17a19d67a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize all of the present standard stdio types that are linked into the binary.  <a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">More...</a><br /></td></tr>
 <tr class="separator:ga0e604311fb226dae91ff4eb17a19d67a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gace6c31545f212bf181718f4fc7587ea7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#gace6c31545f212bf181718f4fc7587ea7">stdio_deinit_all</a> (void)</td></tr>
+<tr class="memdesc:gace6c31545f212bf181718f4fc7587ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialize all of the present standard stdio types that are linked into the binary.  <a href="group__pico__stdio.html#gace6c31545f212bf181718f4fc7587ea7">More...</a><br /></td></tr>
+<tr class="separator:gace6c31545f212bf181718f4fc7587ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga90927805d6b48285139ab31098623df1"><td class="memItemLeft" align="right" valign="top">
 void&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_flush</b> (void)</td></tr>
 <tr class="memdesc:ga90927805d6b48285139ab31098623df1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes any buffered output. <br /></td></tr>
 <tr class="separator:ga90927805d6b48285139ab31098623df1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9b10b3bc1a4750fcb0e691566bc868e8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga9b10b3bc1a4750fcb0e691566bc868e8">getchar_timeout_us</a> (uint32_t timeout_us)</td></tr>
-<tr class="memdesc:ga9b10b3bc1a4750fcb0e691566bc868e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a character from stdin if there is one available within a timeout.  <a href="group__pico__stdio.html#ga9b10b3bc1a4750fcb0e691566bc868e8">More...</a><br /></td></tr>
-<tr class="separator:ga9b10b3bc1a4750fcb0e691566bc868e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga26d27f1b58f1385798f93a9799c40b73"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga26d27f1b58f1385798f93a9799c40b73">stdio_getchar_timeout_us</a> (uint32_t timeout_us)</td></tr>
+<tr class="memdesc:ga26d27f1b58f1385798f93a9799c40b73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a character from stdin if there is one available within a timeout.  <a href="group__pico__stdio.html#ga26d27f1b58f1385798f93a9799c40b73">More...</a><br /></td></tr>
+<tr class="separator:ga26d27f1b58f1385798f93a9799c40b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5d24f1a711eba3e0084b6310f6478c1a"><td class="memItemLeft" align="right" valign="top">
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>getchar_timeout_us</b> (uint32_t timeout_us)</td></tr>
+<tr class="memdesc:ga5d24f1a711eba3e0084b6310f6478c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for <a class="el" href="group__pico__stdio.html#ga26d27f1b58f1385798f93a9799c40b73">stdio_getchar_timeout_us</a> for backwards compatibility. <br /></td></tr>
+<tr class="separator:ga5d24f1a711eba3e0084b6310f6478c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga826d33ec05c3e33dbddf0cb09e329562"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga826d33ec05c3e33dbddf0cb09e329562">stdio_set_driver_enabled</a> (<a class="el" href="structstdio__driver.html">stdio_driver_t</a> *driver, bool enabled)</td></tr>
 <tr class="memdesc:ga826d33ec05c3e33dbddf0cb09e329562"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds or removes a driver from the list of active drivers used for input/output.  <a href="group__pico__stdio.html#ga826d33ec05c3e33dbddf0cb09e329562">More...</a><br /></td></tr>
 <tr class="separator:ga826d33ec05c3e33dbddf0cb09e329562"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,17 +217,51 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_flush</b> (void
 <tr class="memitem:gaba86bf2cb6b86a9078cd94dcf47b1915"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#gaba86bf2cb6b86a9078cd94dcf47b1915">stdio_set_translate_crlf</a> (<a class="el" href="structstdio__driver.html">stdio_driver_t</a> *driver, bool translate)</td></tr>
 <tr class="memdesc:gaba86bf2cb6b86a9078cd94dcf47b1915"><td class="mdescLeft">&#160;</td><td class="mdescRight">control conversion of line feeds to carriage return on transmissions  <a href="group__pico__stdio.html#gaba86bf2cb6b86a9078cd94dcf47b1915">More...</a><br /></td></tr>
 <tr class="separator:gaba86bf2cb6b86a9078cd94dcf47b1915"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga919e541a385cc6ff534133b19ee5da37"><td class="memItemLeft" align="right" valign="top">
-int&#160;</td><td class="memItemRight" valign="bottom"><b>putchar_raw</b> (int c)</td></tr>
-<tr class="memdesc:ga919e541a385cc6ff534133b19ee5da37"><td class="mdescLeft">&#160;</td><td class="mdescRight">putchar variant that skips any CR/LF conversion if enabled <br /></td></tr>
-<tr class="separator:ga919e541a385cc6ff534133b19ee5da37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7a35b8117b27c04d898d1a36de6a7b0b"><td class="memItemLeft" align="right" valign="top">
-int&#160;</td><td class="memItemRight" valign="bottom"><b>puts_raw</b> (const char *s)</td></tr>
-<tr class="memdesc:ga7a35b8117b27c04d898d1a36de6a7b0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">puts variant that skips any CR/LF conversion if enabled <br /></td></tr>
-<tr class="separator:ga7a35b8117b27c04d898d1a36de6a7b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8caa718064b34ce684c02f9f1313ac41"><td class="memItemLeft" align="right" valign="top">
+int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_putchar_raw</b> (int c)</td></tr>
+<tr class="memdesc:ga8caa718064b34ce684c02f9f1313ac41"><td class="mdescLeft">&#160;</td><td class="mdescRight">putchar variant that skips any CR/LF conversion if enabled <br /></td></tr>
+<tr class="separator:ga8caa718064b34ce684c02f9f1313ac41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae67e6fe5e7c87d6f15816797020245ad"><td class="memItemLeft" align="right" valign="top">
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>putchar_raw</b> (int c)</td></tr>
+<tr class="memdesc:gae67e6fe5e7c87d6f15816797020245ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for <a class="el" href="group__pico__stdio.html#ga8caa718064b34ce684c02f9f1313ac41">stdio_putchar_raw</a> for backwards compatibility. <br /></td></tr>
+<tr class="separator:gae67e6fe5e7c87d6f15816797020245ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad00b5fbfdcfd83b79512b402f5881458"><td class="memItemLeft" align="right" valign="top">
+int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_puts_raw</b> (const char *s)</td></tr>
+<tr class="memdesc:gad00b5fbfdcfd83b79512b402f5881458"><td class="mdescLeft">&#160;</td><td class="mdescRight">puts variant that skips any CR/LF conversion if enabled <br /></td></tr>
+<tr class="separator:gad00b5fbfdcfd83b79512b402f5881458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a78025384cd3ce2095d01e09a2c0565"><td class="memItemLeft" align="right" valign="top">
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>puts_raw</b> (const char *s)</td></tr>
+<tr class="memdesc:ga9a78025384cd3ce2095d01e09a2c0565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for <a class="el" href="group__pico__stdio.html#gad00b5fbfdcfd83b79512b402f5881458">stdio_puts_raw</a> for backwards compatibility. <br /></td></tr>
+<tr class="separator:ga9a78025384cd3ce2095d01e09a2c0565"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4b010bf88f65fc5d38a29d5538fa80e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga4b010bf88f65fc5d38a29d5538fa80e1">stdio_set_chars_available_callback</a> (void(*fn)(void *), void *param)</td></tr>
 <tr class="memdesc:ga4b010bf88f65fc5d38a29d5538fa80e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">get notified when there are input characters available  <a href="group__pico__stdio.html#ga4b010bf88f65fc5d38a29d5538fa80e1">More...</a><br /></td></tr>
 <tr class="separator:ga4b010bf88f65fc5d38a29d5538fa80e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7ea974d7cbc7f7e325b4a1b0fe80e4ab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga7ea974d7cbc7f7e325b4a1b0fe80e4ab">stdio_get_until</a> (char *buf, int len, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
+<tr class="memdesc:ga7ea974d7cbc7f7e325b4a1b0fe80e4ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits until a timeout to reard at least one character into a buffer.  <a href="group__pico__stdio.html#ga7ea974d7cbc7f7e325b4a1b0fe80e4ab">More...</a><br /></td></tr>
+<tr class="separator:ga7ea974d7cbc7f7e325b4a1b0fe80e4ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2657ebac5e66ff37d0231b2b94dcd87f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f">stdio_put_string</a> (const char *s, int len, bool newline, bool cr_translation)</td></tr>
+<tr class="memdesc:ga2657ebac5e66ff37d0231b2b94dcd87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a buffer to stdout with optional newline and carriage return insertion.  <a href="group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f">More...</a><br /></td></tr>
+<tr class="separator:ga2657ebac5e66ff37d0231b2b94dcd87f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac135c621fb85b37ba7ca271ad44cc984"><td class="memItemLeft" align="right" valign="top">
+int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_getchar</b> (void)</td></tr>
+<tr class="memdesc:gac135c621fb85b37ba7ca271ad44cc984"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for getchar that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="separator:gac135c621fb85b37ba7ca271ad44cc984"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5a0417cd80362b585340991cdbe942ad"><td class="memItemLeft" align="right" valign="top">
+int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_putchar</b> (int)</td></tr>
+<tr class="memdesc:ga5a0417cd80362b585340991cdbe942ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for putchar that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="separator:ga5a0417cd80362b585340991cdbe942ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37b78b01a1defa869f4b6eae07cbc86e"><td class="memItemLeft" align="right" valign="top">
+int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_puts</b> (const char *s)</td></tr>
+<tr class="memdesc:ga37b78b01a1defa869f4b6eae07cbc86e"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for puts that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="separator:ga37b78b01a1defa869f4b6eae07cbc86e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaad0147c9744dfa14ffa591007310ad25"><td class="memItemLeft" align="right" valign="top">
+int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_vprintf</b> (const char *format, va_list va)</td></tr>
+<tr class="memdesc:gaad0147c9744dfa14ffa591007310ad25"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for vprintf that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="separator:gaad0147c9744dfa14ffa591007310ad25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae9afcfe3e3db353e1bddd5b87d7be454"><td class="memItemLeft" align="right" valign="top">
+int&#160;</td><td class="memItemRight" valign="bottom"><b>__printflike</b> (1, 0) stdio_printf(const char *format</td></tr>
+<tr class="memdesc:gae9afcfe3e3db353e1bddd5b87d7be454"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for printf that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="separator:gae9afcfe3e3db353e1bddd5b87d7be454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

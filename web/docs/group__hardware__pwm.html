@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,12 +103,29 @@ $(document).ready(function(){initNavTree('group__hardware__pwm.html',''); initRe
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">hardware_pwm<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Hardware Pulse Width Modulation (PWM) API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:gab346f319fab9342c66d48bdcc9bb7430"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#gab346f319fab9342c66d48bdcc9bb7430">PWM_DREQ_NUM</a>(slice_num)</td></tr>
+<tr class="memdesc:gab346f319fab9342c66d48bdcc9bb7430"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers for a given PWM slice.  <a href="group__hardware__pwm.html#gab346f319fab9342c66d48bdcc9bb7430">More...</a><br /></td></tr>
+<tr class="separator:gab346f319fab9342c66d48bdcc9bb7430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad7c4554b59132ddd4a9773cca4a27203"><td class="memItemLeft" align="right" valign="top"><a id="gad7c4554b59132ddd4a9773cca4a27203" name="gad7c4554b59132ddd4a9773cca4a27203"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PWM_GPIO_SLICE_NUM</b>(gpio)</td></tr>
+<tr class="memdesc:gad7c4554b59132ddd4a9773cca4a27203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the PWM slice number for a given GPIO number. <br /></td></tr>
+<tr class="separator:gad7c4554b59132ddd4a9773cca4a27203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga799affc57db362720ea5f4a5aef381f8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga799affc57db362720ea5f4a5aef381f8">PWM_DEFAULT_IRQ_NUM</a>()</td></tr>
+<tr class="memdesc:ga799affc57db362720ea5f4a5aef381f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the default PWM IRQ.  <a href="group__hardware__pwm.html#ga799affc57db362720ea5f4a5aef381f8">More...</a><br /></td></tr>
+<tr class="separator:ga799affc57db362720ea5f4a5aef381f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ga0a00197703c8606641488cfff3f660e6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga0a00197703c8606641488cfff3f660e6">pwm_clkdiv_mode</a> { <a class="el" href="group__hardware__pwm.html#gga0a00197703c8606641488cfff3f660e6acd3efbc3feaca58b87930008fdd8486b">PWM_DIV_FREE_RUNNING</a> = 0
@@ -200,27 +217,51 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga257ea7fd33fcf33815a01dd279ca578d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable multiple PWM slices simultaneously.  <a href="group__hardware__pwm.html#ga257ea7fd33fcf33815a01dd279ca578d">More...</a><br /></td></tr>
 <tr class="separator:ga257ea7fd33fcf33815a01dd279ca578d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga093a3c371dda3aa2291331147337265e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga093a3c371dda3aa2291331147337265e">pwm_set_irq_enabled</a> (uint slice_num, bool enabled)</td></tr>
-<tr class="memdesc:ga093a3c371dda3aa2291331147337265e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable PWM instance interrupt.  <a href="group__hardware__pwm.html#ga093a3c371dda3aa2291331147337265e">More...</a><br /></td></tr>
+<tr class="memdesc:ga093a3c371dda3aa2291331147337265e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable PWM instance interrupt via the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350)  <a href="group__hardware__pwm.html#ga093a3c371dda3aa2291331147337265e">More...</a><br /></td></tr>
 <tr class="separator:ga093a3c371dda3aa2291331147337265e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga79aa7a5ac3e6960ed1c8eda99cddb1a9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga79aa7a5ac3e6960ed1c8eda99cddb1a9">pwm_set_irq0_enabled</a> (uint slice_num, bool enabled)</td></tr>
+<tr class="memdesc:ga79aa7a5ac3e6960ed1c8eda99cddb1a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable PWM instance interrupt via PWM_IRQ_WRAP_0.  <a href="group__hardware__pwm.html#ga79aa7a5ac3e6960ed1c8eda99cddb1a9">More...</a><br /></td></tr>
+<tr class="separator:ga79aa7a5ac3e6960ed1c8eda99cddb1a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2ea24b74474d2a7095ab1a9e409fa85e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga2ea24b74474d2a7095ab1a9e409fa85e">pwm_irqn_set_slice_enabled</a> (uint irq_index, uint slice_num, bool enabled)</td></tr>
+<tr class="memdesc:ga2ea24b74474d2a7095ab1a9e409fa85e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable PWM instance interrupt via either PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1.  <a href="group__hardware__pwm.html#ga2ea24b74474d2a7095ab1a9e409fa85e">More...</a><br /></td></tr>
+<tr class="separator:ga2ea24b74474d2a7095ab1a9e409fa85e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac32a9b468ddbd49bad6ebff6789fd215"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#gac32a9b468ddbd49bad6ebff6789fd215">pwm_set_irq_mask_enabled</a> (uint32_t slice_mask, bool enabled)</td></tr>
-<tr class="memdesc:gac32a9b468ddbd49bad6ebff6789fd215"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable multiple PWM instance interrupts.  <a href="group__hardware__pwm.html#gac32a9b468ddbd49bad6ebff6789fd215">More...</a><br /></td></tr>
+<tr class="memdesc:gac32a9b468ddbd49bad6ebff6789fd215"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable multiple PWM instance interrupts via the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350)  <a href="group__hardware__pwm.html#gac32a9b468ddbd49bad6ebff6789fd215">More...</a><br /></td></tr>
 <tr class="separator:gac32a9b468ddbd49bad6ebff6789fd215"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gade21c4c94d2dce96bb4992d818909f0e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#gade21c4c94d2dce96bb4992d818909f0e">pwm_set_irq0_mask_enabled</a> (uint32_t slice_mask, bool enabled)</td></tr>
+<tr class="memdesc:gade21c4c94d2dce96bb4992d818909f0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable multiple PWM instance interrupts via PWM_IRQ_WRAP_0.  <a href="group__hardware__pwm.html#gade21c4c94d2dce96bb4992d818909f0e">More...</a><br /></td></tr>
+<tr class="separator:gade21c4c94d2dce96bb4992d818909f0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c5a284b10961cd0f73e22684df691f0"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga6c5a284b10961cd0f73e22684df691f0">pwm_irqn_set_slice_mask_enabled</a> (uint irq_index, uint slice_mask, bool enabled)</td></tr>
+<tr class="memdesc:ga6c5a284b10961cd0f73e22684df691f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable PWM instance interrupts via either PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1.  <a href="group__hardware__pwm.html#ga6c5a284b10961cd0f73e22684df691f0">More...</a><br /></td></tr>
+<tr class="separator:ga6c5a284b10961cd0f73e22684df691f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8d4482b5e125e30bc166d3ed33d8ba2d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga8d4482b5e125e30bc166d3ed33d8ba2d">pwm_clear_irq</a> (uint slice_num)</td></tr>
 <tr class="memdesc:ga8d4482b5e125e30bc166d3ed33d8ba2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear a single PWM channel interrupt.  <a href="group__hardware__pwm.html#ga8d4482b5e125e30bc166d3ed33d8ba2d">More...</a><br /></td></tr>
 <tr class="separator:ga8d4482b5e125e30bc166d3ed33d8ba2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga565a6b6d19b60b10f5a91b11152cc8c2"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga565a6b6d19b60b10f5a91b11152cc8c2">pwm_get_irq_status_mask</a> (void)</td></tr>
-<tr class="memdesc:ga565a6b6d19b60b10f5a91b11152cc8c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get PWM interrupt status, raw.  <a href="group__hardware__pwm.html#ga565a6b6d19b60b10f5a91b11152cc8c2">More...</a><br /></td></tr>
+<tr class="memdesc:ga565a6b6d19b60b10f5a91b11152cc8c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get PWM interrupt status, raw for the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350)  <a href="group__hardware__pwm.html#ga565a6b6d19b60b10f5a91b11152cc8c2">More...</a><br /></td></tr>
 <tr class="separator:ga565a6b6d19b60b10f5a91b11152cc8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1c21d122b5605a374644b07d6c7205e6"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga1c21d122b5605a374644b07d6c7205e6">pwm_get_irq0_status_mask</a> (void)</td></tr>
+<tr class="memdesc:ga1c21d122b5605a374644b07d6c7205e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get PWM interrupt status, raw for the PWM_IRQ_WRAP_0.  <a href="group__hardware__pwm.html#ga1c21d122b5605a374644b07d6c7205e6">More...</a><br /></td></tr>
+<tr class="separator:ga1c21d122b5605a374644b07d6c7205e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab23895c8c5a1d73d73e4f1f32e4d255e"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#gab23895c8c5a1d73d73e4f1f32e4d255e">pwm_irqn_get_status_mask</a> (uint irq_index)</td></tr>
+<tr class="memdesc:gab23895c8c5a1d73d73e4f1f32e4d255e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get PWM interrupt status, raw for either PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1.  <a href="group__hardware__pwm.html#gab23895c8c5a1d73d73e4f1f32e4d255e">More...</a><br /></td></tr>
+<tr class="separator:gab23895c8c5a1d73d73e4f1f32e4d255e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga457ee599e471a8da59c42f5c26710ff6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga457ee599e471a8da59c42f5c26710ff6">pwm_force_irq</a> (uint slice_num)</td></tr>
-<tr class="memdesc:ga457ee599e471a8da59c42f5c26710ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force PWM interrupt.  <a href="group__hardware__pwm.html#ga457ee599e471a8da59c42f5c26710ff6">More...</a><br /></td></tr>
+<tr class="memdesc:ga457ee599e471a8da59c42f5c26710ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force PWM interrupt for the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350)  <a href="group__hardware__pwm.html#ga457ee599e471a8da59c42f5c26710ff6">More...</a><br /></td></tr>
 <tr class="separator:ga457ee599e471a8da59c42f5c26710ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5630f7a5331a0b118ce0a288897b75cc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga5630f7a5331a0b118ce0a288897b75cc">pwm_force_irq0</a> (uint slice_num)</td></tr>
+<tr class="memdesc:ga5630f7a5331a0b118ce0a288897b75cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force PWM interrupt via PWM_IRQ_WRAP_0.  <a href="group__hardware__pwm.html#ga5630f7a5331a0b118ce0a288897b75cc">More...</a><br /></td></tr>
+<tr class="separator:ga5630f7a5331a0b118ce0a288897b75cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ddb2ef5ee40a1f59d35b0f4966fced1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga4ddb2ef5ee40a1f59d35b0f4966fced1">pwm_irqn_force</a> (uint irq_index, uint slice_num)</td></tr>
+<tr class="memdesc:ga4ddb2ef5ee40a1f59d35b0f4966fced1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force PWM interrupt via PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1.  <a href="group__hardware__pwm.html#ga4ddb2ef5ee40a1f59d35b0f4966fced1">More...</a><br /></td></tr>
+<tr class="separator:ga4ddb2ef5ee40a1f59d35b0f4966fced1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2f600a7192ecd69a8680be367e8d0a00"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga2f600a7192ecd69a8680be367e8d0a00">pwm_get_dreq</a> (uint slice_num)</td></tr>
 <tr class="memdesc:ga2f600a7192ecd69a8680be367e8d0a00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the DREQ to use for pacing transfers to a particular PWM slice.  <a href="group__hardware__pwm.html#ga2f600a7192ecd69a8680be367e8d0a00">More...</a><br /></td></tr>
 <tr class="separator:ga2f600a7192ecd69a8680be367e8d0a00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Hardware Pulse Width Modulation (PWM) API</p>
-<p >The RP2040 PWM block has 8 identical slices. Each slice can drive two PWM output signals, or measure the frequency or duty cycle of an input signal. This gives a total of up to 16 controllable PWM outputs. All 30 GPIOs can be driven by the PWM block.</p>
+<p >Hardware Pulse Width Modulation (PWM) API. </p>
+<p >The RP2040 PWM block has 8 identical slices, the RP2350 has 12. Each slice can drive two PWM output signals, or measure the frequency or duty cycle of an input signal. This gives a total of up to 16/24 controllable PWM outputs. All 30 GPIOs can be driven by the PWM block.</p>
 <p >The PWM hardware functions by continuously comparing the input value to a free-running counter. This produces a toggling output where the amount of time spent at the high output level is proportional to the input value. The fraction of time spent at the high signal level is known as the duty cycle of the signal.</p>
 <p >The default behaviour of a PWM slice is to count upward until the wrap value (<a class="el" href="group__hardware__pwm.html#gad6cf6d9237144234732a50eb6d5e4fe9">pwm_config_set_wrap</a>) is reached, and then immediately wrap to 0. PWM slices also offer a phase-correct mode, where the counter starts to count downward after reaching TOP, until it reaches 0 again.</p>
 <h2><a class="anchor" id="pwm_example"></a>
@@ -234,8 +275,8 @@ Example</h2>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Tell GPIO 0 and 1 they are allocated to the PWM</span></div>
-<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#gaacde9174277ca40aa7b6fdd341bb2b8c">gpio_set_function</a>(0, GPIO_FUNC_PWM);</div>
-<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#gaacde9174277ca40aa7b6fdd341bb2b8c">gpio_set_function</a>(1, GPIO_FUNC_PWM);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a>(0, <a class="code hl_enumvalue" href="group__hardware__gpio.html#ggaf91b38a4d4e96c343bd16927c34936e0a2c6da3c6851ba4404a812719260b31d2">GPIO_FUNC_PWM</a>);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a>(1, <a class="code hl_enumvalue" href="group__hardware__gpio.html#ggaf91b38a4d4e96c343bd16927c34936e0a2c6da3c6851ba4404a812719260b31d2">GPIO_FUNC_PWM</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Find out which PWM slice is connected to GPIO 0 (it&#39;s slice 0)</span></div>
 <div class="line">    uint slice_num = <a class="code hl_function" href="group__hardware__pwm.html#ga8b2117d67a544f64c001f4f32c723eef">pwm_gpio_to_slice_num</a>(0);</div>
@@ -252,14 +293,59 @@ Example</h2>
 <div class="line">    <span class="comment">// Note we could also use pwm_set_gpio_level(gpio, x) which looks up the</span></div>
 <div class="line">    <span class="comment">// correct slice and channel for a given GPIO.</span></div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__gpio_html_gaacde9174277ca40aa7b6fdd341bb2b8c"><div class="ttname"><a href="group__hardware__gpio.html#gaacde9174277ca40aa7b6fdd341bb2b8c">gpio_set_function</a></div><div class="ttdeci">void gpio_set_function(uint gpio, enum gpio_function fn)</div><div class="ttdoc">Select GPIO function.</div><div class="ttdef"><b>Definition:</b> gpio.c:32</div></div>
-<div class="ttc" id="agroup__hardware__pwm_html_ga18a2b3bbc240d1a9b36526d69c06ec3d"><div class="ttname"><a href="group__hardware__pwm.html#ga18a2b3bbc240d1a9b36526d69c06ec3d">pwm_set_chan_level</a></div><div class="ttdeci">static void pwm_set_chan_level(uint slice_num, uint chan, uint16_t level)</div><div class="ttdoc">Set the current PWM counter compare value for one channel.</div><div class="ttdef"><b>Definition:</b> pwm.h:274</div></div>
-<div class="ttc" id="agroup__hardware__pwm_html_ga216496c331542eb57199018fa86b4408"><div class="ttname"><a href="group__hardware__pwm.html#ga216496c331542eb57199018fa86b4408">pwm_set_enabled</a></div><div class="ttdeci">static void pwm_set_enabled(uint slice_num, bool enabled)</div><div class="ttdoc">Enable/Disable PWM.</div><div class="ttdef"><b>Definition:</b> pwm.h:488</div></div>
-<div class="ttc" id="agroup__hardware__pwm_html_ga6f8fe346e6912cfab3d36b00043a3627"><div class="ttname"><a href="group__hardware__pwm.html#ga6f8fe346e6912cfab3d36b00043a3627">pwm_set_wrap</a></div><div class="ttdeci">static void pwm_set_wrap(uint slice_num, uint16_t wrap)</div><div class="ttdoc">Set the current PWM counter wrap value.</div><div class="ttdef"><b>Definition:</b> pwm.h:254</div></div>
-<div class="ttc" id="agroup__hardware__pwm_html_ga8b2117d67a544f64c001f4f32c723eef"><div class="ttname"><a href="group__hardware__pwm.html#ga8b2117d67a544f64c001f4f32c723eef">pwm_gpio_to_slice_num</a></div><div class="ttdeci">static uint pwm_gpio_to_slice_num(uint gpio)</div><div class="ttdoc">Determine the PWM slice that is attached to the specified GPIO.</div><div class="ttdef"><b>Definition:</b> pwm.h:78</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_ga22f6b90c4c7e0013b4b5341de0a44fc4"><div class="ttname"><a href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a></div><div class="ttdeci">void gpio_set_function(uint gpio, gpio_function_t fn)</div><div class="ttdoc">Select GPIO function.</div><div class="ttdef"><b>Definition:</b> gpio.c:38</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_ggaf91b38a4d4e96c343bd16927c34936e0a2c6da3c6851ba4404a812719260b31d2"><div class="ttname"><a href="group__hardware__gpio.html#ggaf91b38a4d4e96c343bd16927c34936e0a2c6da3c6851ba4404a812719260b31d2">GPIO_FUNC_PWM</a></div><div class="ttdeci">@ GPIO_FUNC_PWM</div><div class="ttdoc">Select PWM as GPIO pin function.</div><div class="ttdef"><b>Definition:</b> io_bank0.h:35</div></div>
+<div class="ttc" id="agroup__hardware__pwm_html_ga18a2b3bbc240d1a9b36526d69c06ec3d"><div class="ttname"><a href="group__hardware__pwm.html#ga18a2b3bbc240d1a9b36526d69c06ec3d">pwm_set_chan_level</a></div><div class="ttdeci">static void pwm_set_chan_level(uint slice_num, uint chan, uint16_t level)</div><div class="ttdoc">Set the current PWM counter compare value for one channel.</div><div class="ttdef"><b>Definition:</b> pwm.h:311</div></div>
+<div class="ttc" id="agroup__hardware__pwm_html_ga216496c331542eb57199018fa86b4408"><div class="ttname"><a href="group__hardware__pwm.html#ga216496c331542eb57199018fa86b4408">pwm_set_enabled</a></div><div class="ttdeci">static void pwm_set_enabled(uint slice_num, bool enabled)</div><div class="ttdoc">Enable/Disable PWM.</div><div class="ttdef"><b>Definition:</b> pwm.h:525</div></div>
+<div class="ttc" id="agroup__hardware__pwm_html_ga6f8fe346e6912cfab3d36b00043a3627"><div class="ttname"><a href="group__hardware__pwm.html#ga6f8fe346e6912cfab3d36b00043a3627">pwm_set_wrap</a></div><div class="ttdeci">static void pwm_set_wrap(uint slice_num, uint16_t wrap)</div><div class="ttdoc">Set the current PWM counter wrap value.</div><div class="ttdef"><b>Definition:</b> pwm.h:291</div></div>
+<div class="ttc" id="agroup__hardware__pwm_html_ga8b2117d67a544f64c001f4f32c723eef"><div class="ttname"><a href="group__hardware__pwm.html#ga8b2117d67a544f64c001f4f32c723eef">pwm_gpio_to_slice_num</a></div><div class="ttdeci">static uint pwm_gpio_to_slice_num(uint gpio)</div><div class="ttdoc">Determine the PWM slice that is attached to the specified GPIO.</div><div class="ttdef"><b>Definition:</b> pwm.h:115</div></div>
 <div class="ttc" id="arp2__common_2hardware__pwm_2include_2hardware_2pwm_8h_html"><div class="ttname"><a href="rp2__common_2hardware__pwm_2include_2hardware_2pwm_8h.html">pwm.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
-</div><!-- fragment --> <h2 class="groupheader">Enumeration Type Documentation</h2>
+</div><!-- fragment --> <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga799affc57db362720ea5f4a5aef381f8" name="ga799affc57db362720ea5f4a5aef381f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga799affc57db362720ea5f4a5aef381f8">&#9670;&nbsp;</a></span>PWM_DEFAULT_IRQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PWM_DEFAULT_IRQ_NUM</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the default PWM IRQ. </p>
+<p >On RP2040, there is only one PWM irq: PWM_IRQ_WRAP </p>
+<p >On RP2350 this returns to PWM_IRQ_WRAP0 </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="gab346f319fab9342c66d48bdcc9bb7430" name="gab346f319fab9342c66d48bdcc9bb7430"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab346f319fab9342c66d48bdcc9bb7430">&#9670;&nbsp;</a></span>PWM_DREQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PWM_DREQ_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">slice_num</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers for a given PWM slice. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ga0a00197703c8606641488cfff3f660e6" name="ga0a00197703c8606641488cfff3f660e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga0a00197703c8606641488cfff3f660e6">&#9670;&nbsp;</a></span>pwm_clkdiv_mode</h2>
 
@@ -716,7 +802,41 @@ Example</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Force PWM interrupt. </p>
+<p>Force PWM interrupt for the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">slice_num</td><td>PWM slice number </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga5630f7a5331a0b118ce0a288897b75cc" name="ga5630f7a5331a0b118ce0a288897b75cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5630f7a5331a0b118ce0a288897b75cc">&#9670;&nbsp;</a></span>pwm_force_irq0()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void pwm_force_irq0 </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>slice_num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Force PWM interrupt via PWM_IRQ_WRAP_0. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">slice_num</td><td>PWM slice number </td></tr>
@@ -826,6 +946,35 @@ Example</h2>
 
 </div>
 </div>
+<a id="ga1c21d122b5605a374644b07d6c7205e6" name="ga1c21d122b5605a374644b07d6c7205e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1c21d122b5605a374644b07d6c7205e6">&#9670;&nbsp;</a></span>pwm_get_irq0_status_mask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t pwm_get_irq0_status_mask </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get PWM interrupt status, raw for the PWM_IRQ_WRAP_0. </p>
+<dl class="section return"><dt>Returns</dt><dd>Bitmask of all PWM interrupts currently set </dd></dl>
+
+</div>
+</div>
 <a id="ga565a6b6d19b60b10f5a91b11152cc8c2" name="ga565a6b6d19b60b10f5a91b11152cc8c2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga565a6b6d19b60b10f5a91b11152cc8c2">&#9670;&nbsp;</a></span>pwm_get_irq_status_mask()</h2>
 
@@ -850,7 +999,7 @@ Example</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Get PWM interrupt status, raw. </p>
+<p>Get PWM interrupt status, raw for the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350) </p>
 <dl class="section return"><dt>Returns</dt><dd>Bitmask of all PWM interrupts currently set </dd></dl>
 
 </div>
@@ -961,6 +1110,194 @@ Example</h2>
     <tr><td class="paramname">slice_num</td><td>PWM slice number </td></tr>
     <tr><td class="paramname">c</td><td>The configuration to use </td></tr>
     <tr><td class="paramname">start</td><td>If true the PWM will be started running once configured. If false you will need to start manually using <a class="el" href="group__hardware__pwm.html#ga216496c331542eb57199018fa86b4408">pwm_set_enabled()</a> or <a class="el" href="group__hardware__pwm.html#ga257ea7fd33fcf33815a01dd279ca578d">pwm_set_mask_enabled()</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga4ddb2ef5ee40a1f59d35b0f4966fced1" name="ga4ddb2ef5ee40a1f59d35b0f4966fced1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4ddb2ef5ee40a1f59d35b0f4966fced1">&#9670;&nbsp;</a></span>pwm_irqn_force()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void pwm_irqn_force </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>irq_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>slice_num</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Force PWM interrupt via PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq_index</td><td>the IRQ index; either 0 or 1 for PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1 </td></tr>
+    <tr><td class="paramname">slice_num</td><td>PWM slice number </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gab23895c8c5a1d73d73e4f1f32e4d255e" name="gab23895c8c5a1d73d73e4f1f32e4d255e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab23895c8c5a1d73d73e4f1f32e4d255e">&#9670;&nbsp;</a></span>pwm_irqn_get_status_mask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t pwm_irqn_get_status_mask </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>irq_index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get PWM interrupt status, raw for either PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq_index</td><td>the IRQ index; either 0 or 1 for PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Bitmask of all PWM interrupts currently set </dd></dl>
+
+</div>
+</div>
+<a id="ga2ea24b74474d2a7095ab1a9e409fa85e" name="ga2ea24b74474d2a7095ab1a9e409fa85e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2ea24b74474d2a7095ab1a9e409fa85e">&#9670;&nbsp;</a></span>pwm_irqn_set_slice_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void pwm_irqn_set_slice_enabled </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>irq_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>slice_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enable PWM instance interrupt via either PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1. </p>
+<p >Used to enable a single PWM instance interrupt.</p>
+<p >Note there is only one PWM_IRQ_WRAP on RP2040.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq_index</td><td>the IRQ index; either 0 or 1 for PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1 </td></tr>
+    <tr><td class="paramname">slice_num</td><td>PWM block to enable/disable </td></tr>
+    <tr><td class="paramname">enabled</td><td>true to enable, false to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6c5a284b10961cd0f73e22684df691f0" name="ga6c5a284b10961cd0f73e22684df691f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6c5a284b10961cd0f73e22684df691f0">&#9670;&nbsp;</a></span>pwm_irqn_set_slice_mask_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void pwm_irqn_set_slice_mask_enabled </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>irq_index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>slice_mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enable PWM instance interrupts via either PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1. </p>
+<p >Used to enable a single PWM instance interrupt.</p>
+<p >Note there is only one PWM_IRQ_WRAP on RP2040.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq_index</td><td>the IRQ index; either 0 or 1 for PWM_IRQ_WRAP_0 or PWM_IRQ_WRAP_1 </td></tr>
+    <tr><td class="paramname">slice_mask</td><td>Bitmask of all the blocks to enable/disable. Channel 0 = bit 0, channel 1 = bit 1 etc. </td></tr>
+    <tr><td class="paramname">enabled</td><td>true to enable, false to disable </td></tr>
   </table>
   </dd>
 </dl>
@@ -1402,6 +1739,98 @@ Example</h2>
 
 </div>
 </div>
+<a id="ga79aa7a5ac3e6960ed1c8eda99cddb1a9" name="ga79aa7a5ac3e6960ed1c8eda99cddb1a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga79aa7a5ac3e6960ed1c8eda99cddb1a9">&#9670;&nbsp;</a></span>pwm_set_irq0_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void pwm_set_irq0_enabled </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>slice_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enable PWM instance interrupt via PWM_IRQ_WRAP_0. </p>
+<p >Used to enable a single PWM instance interrupt.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">slice_num</td><td>PWM block to enable/disable </td></tr>
+    <tr><td class="paramname">enabled</td><td>true to enable, false to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gade21c4c94d2dce96bb4992d818909f0e" name="gade21c4c94d2dce96bb4992d818909f0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gade21c4c94d2dce96bb4992d818909f0e">&#9670;&nbsp;</a></span>pwm_set_irq0_mask_enabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void pwm_set_irq0_mask_enabled </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>slice_mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Enable multiple PWM instance interrupts via PWM_IRQ_WRAP_0. </p>
+<p >Use this to enable multiple PWM interrupts at once.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">slice_mask</td><td>Bitmask of all the blocks to enable/disable. Channel 0 = bit 0, channel 1 = bit 1 etc. </td></tr>
+    <tr><td class="paramname">enabled</td><td>true to enable, false to disable </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga093a3c371dda3aa2291331147337265e" name="ga093a3c371dda3aa2291331147337265e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga093a3c371dda3aa2291331147337265e">&#9670;&nbsp;</a></span>pwm_set_irq_enabled()</h2>
 
@@ -1436,8 +1865,9 @@ Example</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Enable PWM instance interrupt. </p>
+<p>Enable PWM instance interrupt via the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350) </p>
 <p >Used to enable a single PWM instance interrupt.</p>
+<p >Note there is only one PWM_IRQ_WRAP on RP2040.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">slice_num</td><td>PWM block to enable/disable </td></tr>
@@ -1482,8 +1912,9 @@ Example</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Enable multiple PWM instance interrupts. </p>
+<p>Enable multiple PWM instance interrupts via the default PWM IRQ (PWM_IRQ_WRAP_0 on RP2350) </p>
 <p >Use this to enable multiple PWM interrupts at once.</p>
+<p >Note there is only one PWM_IRQ_WRAP on RP2040.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">slice_mask</td><td>Bitmask of all the blocks to enable/disable. Channel 0 = bit 0, channel 1 = bit 1 etc. </td></tr>

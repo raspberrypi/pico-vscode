@@ -8,6 +8,5 @@ var group__util__datetime =
       [ "month", "structdatetime__t.html#a52b29dd0c5073256923e405a963a4196", null ],
       [ "sec", "structdatetime__t.html#ad2b37b732b0bb89b8488beb421597331", null ],
       [ "year", "structdatetime__t.html#a9d974362ac5b0c3981a376888cec7a5a", null ]
-    ] ],
-    [ "datetime_to_str", "group__util__datetime.html#gacc29111f908e091fa44b1b674f32f49e", null ]
+    ] ]
 ];

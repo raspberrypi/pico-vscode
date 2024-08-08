@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('group__hardware__base.html',''); initR
   <div class="headertitle"><div class="title">hardware_base<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Low-level types and (atomic) accessors for memory-mapped hardware registers.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -124,7 +127,7 @@ Functions</h2></td></tr>
 <tr class="separator:ga81b27e30abef56fe090d22fd8dfdbcc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Low-level types and (atomic) accessors for memory-mapped hardware registers</p>
+<p >Low-level types and (atomic) accessors for memory-mapped hardware registers. </p>
 <p ><code>hardware_base</code> defines the low level types and access functions for memory mapped hardware registers. It is included by default by all other hardware libraries.</p>
 <p >The following register access typedefs codify the access type (read/write) and the bus size (8/16/32) of the hardware register. The register type names are formed by concatenating one from each of the 3 parts A, B, C</p>
 <table class="markdownTable">
@@ -146,7 +149,7 @@ Functions</h2></td></tr>
 <td class="markdownTableBodyNone">&#160;   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">32   </td><td class="markdownTableBodyNone">32-bit wide access   </td></tr>
 </table>
 <p >When dealing with these types, you will always use a pointer, i.e. <code>io_rw_32 *some_reg</code> is a pointer to a read/write 32 bit register that you can write with <code>*some_reg = value</code>, or read with <code>value = *some_reg</code>.</p>
-<p >RP2040 hardware is also aliased to provide atomic setting, clear or flipping of a subset of the bits within a hardware register so that concurrent access by two cores is always consistent with one atomic operation being performed first, followed by the second.</p>
+<p >RP-series hardware is also aliased to provide atomic setting, clear or flipping of a subset of the bits within a hardware register so that concurrent access by two cores is always consistent with one atomic operation being performed first, followed by the second.</p>
 <p >See <a class="el" href="group__hardware__base.html#ga625e737a57f12211cf1f634ca5095ae4" title="Atomically set the specified bits to 1 in a HW register.">hw_set_bits()</a>, <a class="el" href="group__hardware__base.html#gafd1c089df868d987daf95870b501c2ed" title="Atomically clear the specified bits to 0 in a HW register.">hw_clear_bits()</a> and <a class="el" href="group__hardware__base.html#ga643ecd2ac7ab82d2e1f04dba42135f2b" title="Atomically flip the specified bits in a HW register.">hw_xor_bits()</a> provide for atomic access via a pointer to a 32 bit register</p>
 <p >Additionally given a pointer to a structure representing a piece of hardware (e.g. <code><a class="el" href="structdma__hw__t.html">dma_hw_t</a> *dma_hw</code> for the DMA controller), you can get an alias to the entire structure such that writing any member (register) within the structure is equivalent to an atomic operation via hw_set_alias(), hw_clear_alias() or hw_xor_alias()...</p>
 <p >For example <code>hw_set_alias(dma_hw)-&gt;inte1 = 0x80;</code> will set bit 7 of the INTE1 register of the DMA controller, leaving the other bits unchanged. </p>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,6 +108,9 @@ $(document).ready(function(){initNavTree('group__pico__unique__id.html',''); ini
   <div class="headertitle"><div class="title">pico_unique_id<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Unique device ID access API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
@@ -125,7 +128,7 @@ Functions</h2></td></tr>
 <tr class="separator:ga14fc6ab3ef89570b7dddff13e1b49634"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Unique device ID access API</p>
+<p >Unique device ID access API. </p>
 <p >RP2040 does not have an on-board unique identifier (all instances of RP2040 silicon are identical and have no persistent state). However, RP2040 boots from serial NOR flash devices which have a 64-bit unique ID as a standard feature, and there is a 1:1 association between RP2040 and flash, so this is suitable for use as a unique identifier for an RP2040-based board.</p>
 <p >This library injects a call to the flash_get_unique_id function from the hardware_flash library, to run before main, and stores the result in a static location which can safely be accessed at any time via pico_get_unique_id().</p>
 <p >This avoids some pitfalls of the hardware_flash API, which requires any flash-resident interrupt routines to be disabled when called into. </p>

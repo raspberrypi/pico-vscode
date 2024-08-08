@@ -1,5 +1,6 @@
 var group__timestamp =
 [
+    [ "absolute_time_t", "group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8", null ],
     [ "absolute_time_diff_us", "group__timestamp.html#ga36d9cbebcc55e41921550edbabf17ab2", null ],
     [ "absolute_time_min", "group__timestamp.html#ga522e97b4c9dfeb3db0bc702461b61a3a", null ],
     [ "delayed_by_ms", "group__timestamp.html#ga7ee031a9cdeb9a9a6328d1b41d53cf5c", null ],

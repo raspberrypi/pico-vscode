@@ -1,0 +1,5 @@
+<map id="usb_device_dpram_t" name="usb_device_dpram_t">
+<area shape="rect" id="node1" title=" " alt="" coords="333,50,489,77"/>
+<area shape="rect" id="node2" href="$structusb__device__dpram__t_1_1usb__device__dpram__ep__ctrl.html" title=" " alt="" coords="5,5,208,47"/>
+<area shape="rect" id="node3" href="$structusb__device__dpram__t_1_1usb__device__dpram__ep__buf__ctrl.html" title=" " alt="" coords="19,71,194,127"/>
+</map>

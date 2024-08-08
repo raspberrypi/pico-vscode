@@ -228,7 +228,9 @@ async function updateLaunchFile(
   let content = await readFile(launchFile, "utf8");
 
   if (content.includes(".pico-sdk/sdk/")) {
-    const oldPicoSDKVersion = content.match(/(?<=\.pico-sdk\/sdk\/)(.*)(?=\/)/);
+    const oldPicoSDKVersion = content.match(
+      /(?<=\.pico-sdk\/sdk\/)([^/]*)(?=\/)/
+    );
     if (oldPicoSDKVersion !== null) {
       content = content.replaceAll(
         `.pico-sdk/sdk/${oldPicoSDKVersion[0]}`,

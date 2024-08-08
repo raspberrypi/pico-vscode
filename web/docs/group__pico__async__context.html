@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,14 +110,20 @@ $(document).ready(function(){initNavTree('group__pico__async__context.html','');
   <div class="headertitle"><div class="title">pico_async_context<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>An <a class="el" href="structasync__context.html">async_context</a> provides a logically single-threaded context for performing work, and responding to asynchronous events. Thus an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> instance is suitable for servicing third-party libraries that are not re-entrant.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
 <tr class="memitem:group__async__context__freertos"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__async__context__freertos.html">async_context_freertos</a></td></tr>
+<tr class="memdesc:group__async__context__freertos"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__freertos.html">async_context_freertos</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that handles asynchronous work in a separate FreeRTOS task. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__async__context__poll"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__async__context__poll.html">async_context_poll</a></td></tr>
+<tr class="memdesc:group__async__context__poll"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__poll.html">async_context_poll</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that is intended for use with a simple polling loop on one core. It is not thread safe. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__async__context__threadsafe__background"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__async__context__threadsafe__background.html">async_context_threadsafe_background</a></td></tr>
+<tr class="memdesc:group__async__context__threadsafe__background"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__threadsafe__background.html">async_context_threadsafe_background</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that handles asynchronous work in a low priority IRQ, and there is no need for the user to poll for work <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -165,7 +171,7 @@ Functions</h2></td></tr>
 <tr class="memitem:gad4ea52957b11c70d908e5af6f0c715ab"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gad4ea52957b11c70d908e5af6f0c715ab">async_context_add_at_time_worker</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker)</td></tr>
 <tr class="memdesc:gad4ea52957b11c70d908e5af6f0c715ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an "at time" worker to a context.  <a href="group__pico__async__context.html#gad4ea52957b11c70d908e5af6f0c715ab">More...</a><br /></td></tr>
 <tr class="separator:gad4ea52957b11c70d908e5af6f0c715ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3">async_context_add_at_time_worker_at</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> at)</td></tr>
+<tr class="memitem:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3">async_context_add_at_time_worker_at</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> at)</td></tr>
 <tr class="memdesc:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an "at time" worker to a context.  <a href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3">More...</a><br /></td></tr>
 <tr class="separator:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae0792d86734a6e30b2f043b8eba42438"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gae0792d86734a6e30b2f043b8eba42438">async_context_add_at_time_worker_in_ms</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker, uint32_t ms)</td></tr>
@@ -186,10 +192,10 @@ Functions</h2></td></tr>
 <tr class="memitem:gafdb322c3f1043265624988215d3a8df9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context)</td></tr>
 <tr class="memdesc:gafdb322c3f1043265624988215d3a8df9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any pending work for polling style <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.  <a href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">More...</a><br /></td></tr>
 <tr class="separator:gafdb322c3f1043265624988215d3a8df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gad2f27b21dbaa264dfe59ef0f59de11db">async_context_wait_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gad2f27b21dbaa264dfe59ef0f59de11db">async_context_wait_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="mdescLeft">&#160;</td><td class="mdescRight">sleep until the specified time in an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> callback safe way  <a href="group__pico__async__context.html#gad2f27b21dbaa264dfe59ef0f59de11db">More...</a><br /></td></tr>
 <tr class="separator:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6207f562c0b69c7a75cd81a783eb1055"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055">async_context_wait_for_work_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga6207f562c0b69c7a75cd81a783eb1055"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055">async_context_wait_for_work_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga6207f562c0b69c7a75cd81a783eb1055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block until work needs to be done or the specified time has been reached.  <a href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055">More...</a><br /></td></tr>
 <tr class="separator:ga6207f562c0b69c7a75cd81a783eb1055"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaae7ea2fed2b274a63455773d056f6d4c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gaae7ea2fed2b274a63455773d056f6d4c">async_context_wait_for_work_ms</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, uint32_t ms)</td></tr>
@@ -203,7 +209,7 @@ Functions</h2></td></tr>
 <tr class="separator:ga66d09e106e04d70971d4fb6f09d5d949"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >An <a class="el" href="structasync__context.html">async_context</a> provides a logically single-threaded context for performing work, and responding to asynchronous events. Thus an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> instance is suitable for servicing third-party libraries that are not re-entrant.</p>
+<p >An <a class="el" href="structasync__context.html">async_context</a> provides a logically single-threaded context for performing work, and responding to asynchronous events. Thus an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> instance is suitable for servicing third-party libraries that are not re-entrant. </p>
 <p >The "context" in <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> refers to the fact that when calling workers or timeouts within the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> various pre-conditions hold:</p>
 <ol>
 <li>
@@ -379,7 +385,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>at</em>&#160;</td>
         </tr>
         <tr>
@@ -634,7 +640,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
     <tr><td class="paramname">func</td><td>the function to call </td></tr>
-    <tr><td class="paramname">param</td><td>the paramter to pass to the function </td></tr>
+    <tr><td class="paramname">param</td><td>the parameter to pass to the function </td></tr>
   </table>
   </dd>
 </dl>
@@ -956,7 +962,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>until</em>&#160;</td>
         </tr>
         <tr>
@@ -1002,7 +1008,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>until</em>&#160;</td>
         </tr>
         <tr>

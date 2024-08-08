@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,39 +108,18 @@ $(document).ready(function(){initNavTree('group__pico__platform.html',''); initR
   <div class="headertitle"><div class="title">pico_platform<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Macros and definitions (and functions when included by non assembly code) for the RP2 family device / architecture to provide a common abstraction over low level compiler / platform specifics.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ga1f7eafa00361375ec15412f634ad67b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">__fast_mul</a>(a,  b)</td></tr>
+<tr class="memdesc:ga1f7eafa00361375ec15412f634ad67b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">multiply two integer values using the fastest method possible  <a href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">More...</a><br /></td></tr>
+<tr class="separator:ga1f7eafa00361375ec15412f634ad67b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7a3538bc029b0e60c2f308008fc095c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga7a3538bc029b0e60c2f308008fc095c6">__isr</a></td></tr>
 <tr class="memdesc:ga7a3538bc029b0e60c2f308008fc095c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker for an interrupt handler.  <a href="group__pico__platform.html#ga7a3538bc029b0e60c2f308008fc095c6">More...</a><br /></td></tr>
 <tr class="separator:ga7a3538bc029b0e60c2f308008fc095c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga88c6891ab226690c883f3396611d8dc9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">__after_data</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.after_data.&quot; group)))</td></tr>
-<tr class="memdesc:ga88c6891ab226690c883f3396611d8dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in RAM after the <code>.data</code> section.  <a href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">More...</a><br /></td></tr>
-<tr class="separator:ga88c6891ab226690c883f3396611d8dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.time_critical.&quot; group)))</td></tr>
-<tr class="memdesc:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement not in flash (i.e in RAM)  <a href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">More...</a><br /></td></tr>
-<tr class="separator:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad8b78e068558946081789ce1935528bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">__scratch_x</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_x.&quot; group)))</td></tr>
-<tr class="memdesc:gad8b78e068558946081789ce1935528bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the SRAM bank 4 (known as "scratch X")  <a href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">More...</a><br /></td></tr>
-<tr class="separator:gad8b78e068558946081789ce1935528bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga699cabffc3896ece6ec696e841146b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">__scratch_y</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_y.&quot; group)))</td></tr>
-<tr class="memdesc:ga699cabffc3896ece6ec696e841146b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the SRAM bank 5 (known as "scratch Y")  <a href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">More...</a><br /></td></tr>
-<tr class="separator:ga699cabffc3896ece6ec696e841146b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">__uninitialized_ram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.uninitialized_data.&quot; #group))) group</td></tr>
-<tr class="memdesc:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for data that is to be left uninitialized.  <a href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">More...</a><br /></td></tr>
-<tr class="separator:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">__in_flash</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.flashdata.&quot; group)))</td></tr>
-<tr class="memdesc:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in flash even in a COPY_TO_RAM binary.  <a href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">More...</a><br /></td></tr>
-<tr class="separator:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7ea262771f71b22e4e720bc2ca31d936"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(__STRING(func_name)) func_name</td></tr>
-<tr class="memdesc:ga7ea262771f71b22e4e720bc2ca31d936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function should not be stored in flash.  <a href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">More...</a><br /></td></tr>
-<tr class="separator:ga7ea262771f71b22e4e720bc2ca31d936"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga27ef91000958320e25ff481d16786ebf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga27ef91000958320e25ff481d16786ebf">__time_critical_func</a>(func_name)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td></tr>
-<tr class="memdesc:ga27ef91000958320e25ff481d16786ebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function is time/latency critical and should not run from flash.  <a href="group__pico__platform.html#ga27ef91000958320e25ff481d16786ebf">More...</a><br /></td></tr>
-<tr class="separator:ga27ef91000958320e25ff481d16786ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">__no_inline_not_in_flash_func</a>(func_name)&#160;&#160;&#160;__noinline <a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td></tr>
-<tr class="memdesc:gad9ab05c9a8f0ab455a5e11773d610787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate a function should not be stored in flash and should not be inlined.  <a href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">More...</a><br /></td></tr>
-<tr class="separator:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga23eadd8d1642fb8fe4600708c36e116a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a>&#160;&#160;&#160;__always_inline</td></tr>
 <tr class="memdesc:ga23eadd8d1642fb8fe4600708c36e116a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attribute to force inlining of a function regardless of optimization level.  <a href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">More...</a><br /></td></tr>
 <tr class="separator:ga23eadd8d1642fb8fe4600708c36e116a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,22 +135,61 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>MIN</b>(a,  b)&#160;&#160;&#160;((b)&gt;(a)?(a):(b))</td></tr>
 <tr class="memdesc:ga3acffbd305ee72dcd4593c0d8af64a4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro to return the minimum of two comparable values. <br /></td></tr>
 <tr class="separator:ga3acffbd305ee72dcd4593c0d8af64a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8b4ea86124befde17d69926b4f938c07"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga8b4ea86124befde17d69926b4f938c07">host_safe_hw_ptr</a>(x)&#160;&#160;&#160;((uintptr_t)(x))</td></tr>
-<tr class="memdesc:ga8b4ea86124befde17d69926b4f938c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro for converting memory addresses to 32 bit addresses suitable for DMA.  <a href="group__pico__platform.html#ga8b4ea86124befde17d69926b4f938c07">More...</a><br /></td></tr>
-<tr class="separator:ga8b4ea86124befde17d69926b4f938c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1f7eafa00361375ec15412f634ad67b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">__fast_mul</a>(a,  b)</td></tr>
-<tr class="memdesc:ga1f7eafa00361375ec15412f634ad67b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">multiply two integer values using the fastest method possible  <a href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">More...</a><br /></td></tr>
-<tr class="separator:ga1f7eafa00361375ec15412f634ad67b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2d0b8227d9981a22692d5ef6aa1a386f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga2d0b8227d9981a22692d5ef6aa1a386f">__check_type_compatible</a>(type_a,  type_b)&#160;&#160;&#160;static_assert(__builtin_types_compatible_p(type_a, type_b), __STRING(type_a) &quot; is not compatible with &quot; __STRING(type_b));</td></tr>
 <tr class="memdesc:ga2d0b8227d9981a22692d5ef6aa1a386f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility macro to assert two types are equivalent.  <a href="group__pico__platform.html#ga2d0b8227d9981a22692d5ef6aa1a386f">More...</a><br /></td></tr>
 <tr class="separator:ga2d0b8227d9981a22692d5ef6aa1a386f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga88c6891ab226690c883f3396611d8dc9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">__after_data</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.after_data.&quot; group)))</td></tr>
+<tr class="memdesc:ga88c6891ab226690c883f3396611d8dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in RAM after the <code>.data</code> section.  <a href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">More...</a><br /></td></tr>
+<tr class="separator:ga88c6891ab226690c883f3396611d8dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8b78e068558946081789ce1935528bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">__scratch_x</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_x.&quot; group)))</td></tr>
+<tr class="memdesc:gad8b78e068558946081789ce1935528bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement not in flash (i.e in RAM)  <a href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">More...</a><br /></td></tr>
+<tr class="separator:gad8b78e068558946081789ce1935528bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga699cabffc3896ece6ec696e841146b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">__scratch_y</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_y.&quot; group)))</td></tr>
+<tr class="memdesc:ga699cabffc3896ece6ec696e841146b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the SRAM bank 5 (known as "scratch Y")  <a href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">More...</a><br /></td></tr>
+<tr class="separator:ga699cabffc3896ece6ec696e841146b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">__uninitialized_ram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.uninitialized_data.&quot; #group))) group</td></tr>
+<tr class="memdesc:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for data that is to be left uninitialized.  <a href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">More...</a><br /></td></tr>
+<tr class="separator:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">__in_flash</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.flashdata.&quot; group)))</td></tr>
+<tr class="memdesc:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in flash even in a COPY_TO_RAM binary.  <a href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">More...</a><br /></td></tr>
+<tr class="separator:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">__no_inline_not_in_flash_func</a>(func_name)&#160;&#160;&#160;__noinline __not_in_flash_func(func_name)</td></tr>
+<tr class="memdesc:gad9ab05c9a8f0ab455a5e11773d610787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function should not be stored in flash.  <a href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">More...</a><br /></td></tr>
+<tr class="separator:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga8bf6fec781d812539007d16d919bb87b"><td class="memItemLeft" align="right" valign="top"><a id="ga8bf6fec781d812539007d16d919bb87b" name="ga8bf6fec781d812539007d16d919bb87b"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</b> (void)</td></tr>
-<tr class="memdesc:ga8bf6fec781d812539007d16d919bb87b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a breakpoint instruction. <br /></td></tr>
-<tr class="separator:ga8bf6fec781d812539007d16d919bb87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a> (void)</td></tr>
+<tr class="memdesc:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op function for the body of tight loops.  <a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">More...</a><br /></td></tr>
+<tr class="separator:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">busy_wait_at_least_cycles</a> (uint32_t minimum_cycles)</td></tr>
+<tr class="memdesc:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to busy-wait for at least the given number of cycles.  <a href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">More...</a><br /></td></tr>
+<tr class="separator:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9837dbd9fd5cc43d4f0fc1f26d046955"><td class="memItemLeft" align="right" valign="top"><a id="ga9837dbd9fd5cc43d4f0fc1f26d046955" name="ga9837dbd9fd5cc43d4f0fc1f26d046955"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</b> (void)</td></tr>
+<tr class="memdesc:ga9837dbd9fd5cc43d4f0fc1f26d046955"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a breakpoint instruction. <br /></td></tr>
+<tr class="separator:ga9837dbd9fd5cc43d4f0fc1f26d046955"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga58434ad816f519308ee02c639b7965bc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga58434ad816f519308ee02c639b7965bc">get_core_num</a> (void)</td></tr>
+<tr class="memdesc:ga58434ad816f519308ee02c639b7965bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current core number.  <a href="group__pico__platform.html#ga58434ad816f519308ee02c639b7965bc">More...</a><br /></td></tr>
+<tr class="separator:ga58434ad816f519308ee02c639b7965bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1ebeac462e038d7e2ce341df8054f894"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga1ebeac462e038d7e2ce341df8054f894">__get_current_exception</a> (void)</td></tr>
+<tr class="memdesc:ga1ebeac462e038d7e2ce341df8054f894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current exception level on this core.  <a href="group__pico__platform.html#ga1ebeac462e038d7e2ce341df8054f894">More...</a><br /></td></tr>
+<tr class="separator:ga1ebeac462e038d7e2ce341df8054f894"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga66edd7569f5a42b0a2da43a5926cf064"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga66edd7569f5a42b0a2da43a5926cf064">pico_processor_state_is_nonsecure</a> (void)</td></tr>
+<tr class="memdesc:ga66edd7569f5a42b0a2da43a5926cf064"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return true if executing in the NonSecure state (Arm-only)  <a href="group__pico__platform.html#ga66edd7569f5a42b0a2da43a5926cf064">More...</a><br /></td></tr>
+<tr class="separator:ga66edd7569f5a42b0a2da43a5926cf064"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga21200eb89a299a9b121d028ad1725fe3"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga21200eb89a299a9b121d028ad1725fe3">rp2350_chip_version</a> (void)</td></tr>
+<tr class="memdesc:ga21200eb89a299a9b121d028ad1725fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2350 chip revision number.  <a href="group__pico__platform.html#ga21200eb89a299a9b121d028ad1725fe3">More...</a><br /></td></tr>
+<tr class="separator:ga21200eb89a299a9b121d028ad1725fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gac157772e2fa6f4c64e1c3e4d761089d9">rp2040_chip_version</a> (void)</td></tr>
+<tr class="memdesc:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 chip revision number for compatibility.  <a href="group__pico__platform.html#gac157772e2fa6f4c64e1c3e4d761089d9">More...</a><br /></td></tr>
+<tr class="separator:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">rp2040_rom_version</a> (void)</td></tr>
+<tr class="memdesc:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 rom version number.  <a href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">More...</a><br /></td></tr>
+<tr class="separator:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a> (int32_t a, int32_t b)</td></tr>
+<tr class="memdesc:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two integers using an assembly <code>MUL</code> instruction.  <a href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">More...</a><br /></td></tr>
+<tr class="separator:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="memItemLeft" align="right" valign="top">static __always_inline void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a> (void)</td></tr>
 <tr class="memdesc:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensure that the compiler does not move memory access across this method call.  <a href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">More...</a><br /></td></tr>
 <tr class="separator:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,30 +199,11 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
 <tr class="memitem:gad1f1a1dc0581a11b597453f148106393"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a> (const char *fmt,...)</td></tr>
 <tr class="memdesc:gad1f1a1dc0581a11b597453f148106393"><td class="mdescLeft">&#160;</td><td class="mdescRight">Displays a panic message and halts execution.  <a href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">More...</a><br /></td></tr>
 <tr class="separator:gad1f1a1dc0581a11b597453f148106393"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2f16fe03135e5a5cb9f098a538a8671a"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga2f16fe03135e5a5cb9f098a538a8671a">rp2040_chip_version</a> (void)</td></tr>
-<tr class="memdesc:ga2f16fe03135e5a5cb9f098a538a8671a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 chip revision number.  <a href="group__pico__platform.html#ga2f16fe03135e5a5cb9f098a538a8671a">More...</a><br /></td></tr>
-<tr class="separator:ga2f16fe03135e5a5cb9f098a538a8671a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">rp2040_rom_version</a> (void)</td></tr>
-<tr class="memdesc:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 rom version number.  <a href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">More...</a><br /></td></tr>
-<tr class="separator:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf04e1c7eb32935a422d975abdec4f4b0"><td class="memItemLeft" align="right" valign="top">static __always_inline void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">tight_loop_contents</a> (void)</td></tr>
-<tr class="memdesc:gaf04e1c7eb32935a422d975abdec4f4b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op function for the body of tight loops.  <a href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">More...</a><br /></td></tr>
-<tr class="separator:gaf04e1c7eb32935a422d975abdec4f4b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga63f9737a1242323cc33b89d06ee8d935"><td class="memItemLeft" align="right" valign="top">static __always_inline int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga63f9737a1242323cc33b89d06ee8d935">__mul_instruction</a> (int32_t a, int32_t b)</td></tr>
-<tr class="memdesc:ga63f9737a1242323cc33b89d06ee8d935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two integers using an assembly <code>MUL</code> instruction.  <a href="group__pico__platform.html#ga63f9737a1242323cc33b89d06ee8d935">More...</a><br /></td></tr>
-<tr class="separator:ga63f9737a1242323cc33b89d06ee8d935"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a35e9582b94259dc1c36938949f7ca4"><td class="memItemLeft" align="right" valign="top">static __always_inline uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga8a35e9582b94259dc1c36938949f7ca4">__get_current_exception</a> (void)</td></tr>
-<tr class="memdesc:ga8a35e9582b94259dc1c36938949f7ca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current exception level on this core.  <a href="group__pico__platform.html#ga8a35e9582b94259dc1c36938949f7ca4">More...</a><br /></td></tr>
-<tr class="separator:ga8a35e9582b94259dc1c36938949f7ca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">busy_wait_at_least_cycles</a> (uint32_t minimum_cycles)</td></tr>
-<tr class="memdesc:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to busy-wait for at least the given number of cycles.  <a href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">More...</a><br /></td></tr>
-<tr class="separator:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga974b4945ae0ac8892717cb5f05e83c53"><td class="memItemLeft" align="right" valign="top">static __always_inline uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga974b4945ae0ac8892717cb5f05e83c53">get_core_num</a> (void)</td></tr>
-<tr class="memdesc:ga974b4945ae0ac8892717cb5f05e83c53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current core number.  <a href="group__pico__platform.html#ga974b4945ae0ac8892717cb5f05e83c53">More...</a><br /></td></tr>
-<tr class="separator:ga974b4945ae0ac8892717cb5f05e83c53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Macros and definitions (and functions when included by non assembly code) for the RP2 family device / architecture to provide a common abstraction over low level compiler / platform specifics.</p>
+<p >Macros and definitions (and functions when included by non assembly code) for the RP2 family device / architecture to provide a common abstraction over low level compiler / platform specifics. </p>
+<p >Macros and definitions (and functions when included by non assembly code) to adapt for different compilers.</p>
+<p >Macros and definitions for accessing the CPU registers.</p>
 <p >This header may be included by assembly code </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga88c6891ab226690c883f3396611d8dc9" name="ga88c6891ab226690c883f3396611d8dc9"></a>
@@ -291,10 +290,10 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">__builtin_choose_expr(__builtin_constant_p(b) &amp;&amp; !__builtin_constant_p(a), \</div>
-<div class="line">(__builtin_popcount(b) &gt;= 2 ? <a class="code hl_function" href="group__pico__platform.html#ga63f9737a1242323cc33b89d06ee8d935">__mul_instruction</a>(a,b) : (a)*(b)), \</div>
-<div class="line">(a)*(b))</div>
-<div class="ttc" id="agroup__pico__platform_html_ga63f9737a1242323cc33b89d06ee8d935"><div class="ttname"><a href="group__pico__platform.html#ga63f9737a1242323cc33b89d06ee8d935">__mul_instruction</a></div><div class="ttdeci">static __always_inline int32_t __mul_instruction(int32_t a, int32_t b)</div><div class="ttdoc">Multiply two integers using an assembly MUL instruction.</div><div class="ttdef"><b>Definition:</b> platform.h:446</div></div>
+<b>Value:</b><div class="fragment"><div class="line">    __builtin_choose_expr(__builtin_constant_p(b) &amp;&amp; !__builtin_constant_p(a), \</div>
+<div class="line">    (__builtin_popcount(b) &gt;= 2 ? <a class="code hl_function" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a>(a,b) : (a)*(b)), \</div>
+<div class="line">    (a)*(b))</div>
+<div class="ttc" id="agroup__pico__platform_html_gab68b1653c84bff361bff5dc2baf2e7ea"><div class="ttname"><a href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a></div><div class="ttdeci">static __force_inline int32_t __mul_instruction(int32_t a, int32_t b)</div><div class="ttdoc">Multiply two integers using an assembly MUL instruction.</div><div class="ttdef"><b>Definition:</b> platform.h:247</div></div>
 </div><!-- fragment -->
 <p>multiply two integer values using the fastest method possible </p>
 <p >Efficiently multiplies value a by possibly constant value b.</p>
@@ -363,6 +362,10 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
       <table class="memname">
         <tr>
           <td class="memname">#define __isr</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">void</td><td>)</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -383,58 +386,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">func_name</td><td>)</td>
-          <td>&#160;&#160;&#160;__noinline <a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Indicate a function should not be stored in flash and should not be inlined. </p>
-<p >Decorates a function name, such that the function will execute from RAM, explicitly marking it as noinline to prevent it being inlined into a flash function by the compiler</p>
-<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __no_inline_not_in_flash_func(my_func)(int some_arg) {
-</pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section </p>
-
-</div>
-</div>
-<a id="ga98947648f4fd8b22f9cccc4c2f0d64fd" name="ga98947648f4fd8b22f9cccc4c2f0d64fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga98947648f4fd8b22f9cccc4c2f0d64fd">&#9670;&nbsp;</a></span>__not_in_flash</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define __not_in_flash</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">group</td><td>)</td>
-          <td>&#160;&#160;&#160;__attribute__((section(&quot;.time_critical.&quot; group)))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Section attribute macro for placement not in flash (i.e in RAM) </p>
-<p >For example a 3 element <code>uint32_t</code> array placed in RAM (even though it is <code>static const</code>) </p><pre class="fragment">static const uint32_t __not_in_flash("my_group_name") an_array[3];
-</pre><p> The section attribute is <code>.time_critical.&lt;group&gt;</code></p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="ga7ea262771f71b22e4e720bc2ca31d936" name="ga7ea262771f71b22e4e720bc2ca31d936"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7ea262771f71b22e4e720bc2ca31d936">&#9670;&nbsp;</a></span>__not_in_flash_func</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define __not_in_flash_func</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">func_name</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(__STRING(func_name)) func_name</td>
+          <td>&#160;&#160;&#160;__noinline __not_in_flash_func(func_name)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -443,7 +395,16 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
 <p >Decorates a function name, such that the function will execute from RAM (assuming it is not inlined into a flash function by the compiler)</p>
 <p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __not_in_flash_func(my_func)(int some_arg) {
 </pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787" title="Indicate a function should not be stored in flash and should not be inlined.">__no_inline_not_in_flash_func</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787" title="Indicates a function should not be stored in flash.">__no_inline_not_in_flash_func</a></dd></dl>
+<p>Indicates a function is time/latency critical and should not run from flash</p>
+<p >Decorates a function name, such that the function will execute from RAM (assuming it is not inlined into a flash function by the compiler) to avoid possible flash latency. Currently this macro is identical in implementation to <code>__not_in_flash_func</code>, however the semantics are distinct and a <code>__time_critical_func</code> may in the future be treated more specially to reduce the overhead when calling such function from a flash function.</p>
+<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __time_critical(my_func)(int some_arg) {
+</pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section</p>
+<dl class="section see"><dt>See also</dt><dd>__not_in_flash_func</dd></dl>
+<p>Indicate a function should not be stored in flash and should not be inlined</p>
+<p >Decorates a function name, such that the function will execute from RAM, explicitly marking it as noinline to prevent it being inlined into a flash function by the compiler</p>
+<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __no_inline_not_in_flash_func(my_func)(int some_arg) {
+</pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section </p>
 
 </div>
 </div>
@@ -463,7 +424,16 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
       </table>
 </div><div class="memdoc">
 
-<p>Section attribute macro for placement in the SRAM bank 4 (known as "scratch X") </p>
+<p>Section attribute macro for placement not in flash (i.e in RAM) </p>
+<p >For example a 3 element <code>uint32_t</code> array placed in RAM (even though it is <code>static const</code>) </p><pre class="fragment">static const uint32_t __not_in_flash("my_group_name") an_array[3];
+</pre><p> The section attribute is <code>.time_critical.&lt;group&gt;</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Section attribute macro for placement in the SRAM bank 4 (known as "scratch X")</p>
 <p >Scratch X is commonly used for critical data and functions accessed only by one core (when only one core is accessing the RAM bank, there is no opportunity for stalls)</p>
 <p >For example a <code>uint32_t</code> variable placed in "scratch X" </p><pre class="fragment">uint32_t __scratch_x("my_group_name") foo = 23;
 </pre><p> The section attribute is <code>.scratch_x.&lt;group&gt;</code></p>
@@ -505,30 +475,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
 
 </div>
 </div>
-<a id="ga27ef91000958320e25ff481d16786ebf" name="ga27ef91000958320e25ff481d16786ebf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga27ef91000958320e25ff481d16786ebf">&#9670;&nbsp;</a></span>__time_critical_func</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define __time_critical_func</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">func_name</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Indicates a function is time/latency critical and should not run from flash. </p>
-<p >Decorates a function name, such that the function will execute from RAM (assuming it is not inlined into a flash function by the compiler) to avoid possible flash latency. Currently this macro is identical in implementation to <code>__not_in_flash_func</code>, however the semantics are distinct and a <code>__time_critical_func</code> may in the future be treated more specially to reduce the overhead when calling such function from a flash function.</p>
-<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __time_critical(my_func)(int some_arg) {
-</pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936" title="Indicates a function should not be stored in flash.">__not_in_flash_func</a> </dd></dl>
-
-</div>
-</div>
 <a id="ga118d39a4ebb425b8bef29e7a1f8731c2" name="ga118d39a4ebb425b8bef29e7a1f8731c2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga118d39a4ebb425b8bef29e7a1f8731c2">&#9670;&nbsp;</a></span>__uninitialized_ram</h2>
 
@@ -555,27 +501,6 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>__breakpoint</
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="ga8b4ea86124befde17d69926b4f938c07" name="ga8b4ea86124befde17d69926b4f938c07"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8b4ea86124befde17d69926b4f938c07">&#9670;&nbsp;</a></span>host_safe_hw_ptr</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define host_safe_hw_ptr</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;((uintptr_t)(x))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Macro for converting memory addresses to 32 bit addresses suitable for DMA. </p>
-<p >This is just a cast to <code>uintptr_t</code> on the RP2040, however you may want to use this when developing code that also runs in "host" mode. If the host mode is 64 bit and you are embedding data pointers in other data (e.g. DMA chaining), then there is a need in "host" mode to convert a 64 bit native pointer to a 32 bit value for storage, which can be done using this macro. </p>
 
 </div>
 </div>
@@ -612,8 +537,8 @@ uint32_t var_b = *some_other_memory_location
 
 </div>
 </div>
-<a id="ga8a35e9582b94259dc1c36938949f7ca4" name="ga8a35e9582b94259dc1c36938949f7ca4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8a35e9582b94259dc1c36938949f7ca4">&#9670;&nbsp;</a></span>__get_current_exception()</h2>
+<a id="ga1ebeac462e038d7e2ce341df8054f894" name="ga1ebeac462e038d7e2ce341df8054f894"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1ebeac462e038d7e2ce341df8054f894">&#9670;&nbsp;</a></span>__get_current_exception()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -622,7 +547,7 @@ uint32_t var_b = *some_other_memory_location
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static __always_inline uint __get_current_exception </td>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint __get_current_exception </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -637,12 +562,14 @@ uint32_t var_b = *some_other_memory_location
 </div><div class="memdoc">
 
 <p>Get the current exception level on this core. </p>
+<p >On Cortex-M this is the exception number defined in the architecture reference, which is equal to VTABLE_FIRST_IRQ + irq num if inside an interrupt handler. (VTABLE_FIRST_IRQ is defined in platform_defs.h).</p>
+<p >On Hazard3, this function returns VTABLE_FIRST_IRQ + irq num if inside of an external IRQ handler (or a fault from such a handler), and 0 otherwise, generally aligning with the Cortex-M values.</p>
 <dl class="section return"><dt>Returns</dt><dd>the exception number if the CPU is handling an exception, or 0 otherwise </dd></dl>
 
 </div>
 </div>
-<a id="ga63f9737a1242323cc33b89d06ee8d935" name="ga63f9737a1242323cc33b89d06ee8d935"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga63f9737a1242323cc33b89d06ee8d935">&#9670;&nbsp;</a></span>__mul_instruction()</h2>
+<a id="gab68b1653c84bff361bff5dc2baf2e7ea" name="gab68b1653c84bff361bff5dc2baf2e7ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab68b1653c84bff361bff5dc2baf2e7ea">&#9670;&nbsp;</a></span>__mul_instruction()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -651,7 +578,7 @@ uint32_t var_b = *some_other_memory_location
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static __always_inline int32_t __mul_instruction </td>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> int32_t __mul_instruction </td>
           <td>(</td>
           <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -725,8 +652,8 @@ uint32_t var_b = *some_other_memory_location
 
 </div>
 </div>
-<a id="ga974b4945ae0ac8892717cb5f05e83c53" name="ga974b4945ae0ac8892717cb5f05e83c53"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga974b4945ae0ac8892717cb5f05e83c53">&#9670;&nbsp;</a></span>get_core_num()</h2>
+<a id="ga58434ad816f519308ee02c639b7965bc" name="ga58434ad816f519308ee02c639b7965bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga58434ad816f519308ee02c639b7965bc">&#9670;&nbsp;</a></span>get_core_num()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -735,7 +662,7 @@ uint32_t var_b = *some_other_memory_location
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static __always_inline uint get_core_num </td>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint get_core_num </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -813,24 +740,61 @@ uint32_t var_b = *some_other_memory_location
 
 </div>
 </div>
-<a id="ga2f16fe03135e5a5cb9f098a538a8671a" name="ga2f16fe03135e5a5cb9f098a538a8671a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2f16fe03135e5a5cb9f098a538a8671a">&#9670;&nbsp;</a></span>rp2040_chip_version()</h2>
+<a id="ga66edd7569f5a42b0a2da43a5926cf064" name="ga66edd7569f5a42b0a2da43a5926cf064"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga66edd7569f5a42b0a2da43a5926cf064">&#9670;&nbsp;</a></span>pico_processor_state_is_nonsecure()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint8_t rp2040_chip_version </td>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> bool pico_processor_state_is_nonsecure </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Returns the RP2040 chip revision number. </p>
-<dl class="section return"><dt>Returns</dt><dd>the RP2040 chip revision number (1 for B0/B1, 2 for B2) </dd></dl>
+<p>Return true if executing in the NonSecure state (Arm-only) </p>
+<dl class="section return"><dt>Returns</dt><dd>True if currently executing in the NonSecure state on an Arm processor </dd></dl>
+
+</div>
+</div>
+<a id="gac157772e2fa6f4c64e1c3e4d761089d9" name="gac157772e2fa6f4c64e1c3e4d761089d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac157772e2fa6f4c64e1c3e4d761089d9">&#9670;&nbsp;</a></span>rp2040_chip_version()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint8_t rp2040_chip_version </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the RP2040 chip revision number for compatibility. </p>
+<dl class="section return"><dt>Returns</dt><dd>2 RP2040 errata fixed in B2 are fixed in RP2350 </dd></dl>
 
 </div>
 </div>
@@ -863,8 +827,29 @@ uint32_t var_b = *some_other_memory_location
 
 </div>
 </div>
-<a id="gaf04e1c7eb32935a422d975abdec4f4b0" name="gaf04e1c7eb32935a422d975abdec4f4b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf04e1c7eb32935a422d975abdec4f4b0">&#9670;&nbsp;</a></span>tight_loop_contents()</h2>
+<a id="ga21200eb89a299a9b121d028ad1725fe3" name="ga21200eb89a299a9b121d028ad1725fe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga21200eb89a299a9b121d028ad1725fe3">&#9670;&nbsp;</a></span>rp2350_chip_version()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t rp2350_chip_version </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the RP2350 chip revision number. </p>
+<dl class="section return"><dt>Returns</dt><dd>the RP2350 chip revision number (1 for B0/B1, 2 for B2) </dd></dl>
+
+</div>
+</div>
+<a id="gab0d1ba75ceb64131e19f613d7a5313c9" name="gab0d1ba75ceb64131e19f613d7a5313c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab0d1ba75ceb64131e19f613d7a5313c9">&#9670;&nbsp;</a></span>tight_loop_contents()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -873,7 +858,7 @@ uint32_t var_b = *some_other_memory_location
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static __always_inline void tight_loop_contents </td>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void tight_loop_contents </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>

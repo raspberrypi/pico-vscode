@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,12 +103,40 @@ $(document).ready(function(){initNavTree('group__hardware__uart.html',''); initR
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">hardware_uart<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Hardware UART API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga12815b6262573d95c8a749f64cc85284"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga12815b6262573d95c8a749f64cc85284">UART_NUM</a>(uart)</td></tr>
+<tr class="memdesc:ga12815b6262573d95c8a749f64cc85284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the UART number for a UART instance.  <a href="group__hardware__uart.html#ga12815b6262573d95c8a749f64cc85284">More...</a><br /></td></tr>
+<tr class="separator:ga12815b6262573d95c8a749f64cc85284"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc5c5947dc577aac3d448fdb37647927"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#gadc5c5947dc577aac3d448fdb37647927">UART_INSTANCE</a>(num)</td></tr>
+<tr class="memdesc:gadc5c5947dc577aac3d448fdb37647927"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the UART instance with the given UART number.  <a href="group__hardware__uart.html#gadc5c5947dc577aac3d448fdb37647927">More...</a><br /></td></tr>
+<tr class="separator:gadc5c5947dc577aac3d448fdb37647927"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10472af6afab1cb220b5fbd4aee63a16"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga10472af6afab1cb220b5fbd4aee63a16">UART_DREQ_NUM</a>(uart,  is_tx)</td></tr>
+<tr class="memdesc:ga10472af6afab1cb220b5fbd4aee63a16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from this UART instance. If is_tx is true, then it is for transfers to the UART else for transfers from the UART.  <a href="group__hardware__uart.html#ga10472af6afab1cb220b5fbd4aee63a16">More...</a><br /></td></tr>
+<tr class="separator:ga10472af6afab1cb220b5fbd4aee63a16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b4f387572a62cc839eb004ce7c02e3f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga8b4f387572a62cc839eb004ce7c02e3f">UART_CLOCK_NUM</a>(uart)</td></tr>
+<tr class="memdesc:ga8b4f387572a62cc839eb004ce7c02e3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a> of the clock for the given UART instance.  <a href="group__hardware__uart.html#ga8b4f387572a62cc839eb004ce7c02e3f">More...</a><br /></td></tr>
+<tr class="separator:ga8b4f387572a62cc839eb004ce7c02e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7bceb145d3739e3923f64584eff6db59"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga7bceb145d3739e3923f64584eff6db59">UART_FUNCSEL_NUM</a>(uart,  gpio)</td></tr>
+<tr class="memdesc:ga7bceb145d3739e3923f64584eff6db59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="group__hardware__gpio.html#ga89b8e5e8a9c515260dea8d1fa96e72c9">gpio_function_t</a> needed to select the UART function for the given UART instance on the given GPIO number.  <a href="group__hardware__uart.html#ga7bceb145d3739e3923f64584eff6db59">More...</a><br /></td></tr>
+<tr class="separator:ga7bceb145d3739e3923f64584eff6db59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8697ddad82a2cd5d889ce819d83783e3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga8697ddad82a2cd5d889ce819d83783e3">UART_IRQ_NUM</a>(uart)</td></tr>
+<tr class="memdesc:ga8697ddad82a2cd5d889ce819d83783e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for processor interrupts from the given UART instance.  <a href="group__hardware__uart.html#ga8697ddad82a2cd5d889ce819d83783e3">More...</a><br /></td></tr>
+<tr class="separator:ga8697ddad82a2cd5d889ce819d83783e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaffef755f98d8fcec5f7b5147924fb4f9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#gaffef755f98d8fcec5f7b5147924fb4f9">UART_RESET_NUM</a>(uart)</td></tr>
+<tr class="memdesc:gaffef755f98d8fcec5f7b5147924fb4f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> used to reset a given UART instance.  <a href="group__hardware__uart.html#gaffef755f98d8fcec5f7b5147924fb4f9">More...</a><br /></td></tr>
+<tr class="separator:gaffef755f98d8fcec5f7b5147924fb4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ga6bcc37e31dd40c204b4ac6f6189e8878"><td class="memItemLeft" align="right" valign="top"><a id="ga6bcc37e31dd40c204b4ac6f6189e8878" name="ga6bcc37e31dd40c204b4ac6f6189e8878"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga6bcc37e31dd40c204b4ac6f6189e8878">uart_parity_t</a> { <b>UART_PARITY_NONE</b>
@@ -123,6 +151,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga064c5c42afff8712a612d7ae50a58484"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga064c5c42afff8712a612d7ae50a58484">uart_get_index</a> (uart_inst_t *uart)</td></tr>
 <tr class="memdesc:ga064c5c42afff8712a612d7ae50a58484"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert UART instance to hardware instance number.  <a href="group__hardware__uart.html#ga064c5c42afff8712a612d7ae50a58484">More...</a><br /></td></tr>
 <tr class="separator:ga064c5c42afff8712a612d7ae50a58484"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafd9aaeaae78307db7f51aa39f501b972"><td class="memItemLeft" align="right" valign="top">static uart_inst_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#gafd9aaeaae78307db7f51aa39f501b972">uart_get_instance</a> (uint num)</td></tr>
+<tr class="memdesc:gafd9aaeaae78307db7f51aa39f501b972"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the UART instance from an instance number.  <a href="group__hardware__uart.html#gafd9aaeaae78307db7f51aa39f501b972">More...</a><br /></td></tr>
+<tr class="separator:gafd9aaeaae78307db7f51aa39f501b972"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga460772353a17df99adaf3352115c73d5"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structuart__hw__t.html">uart_hw_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga460772353a17df99adaf3352115c73d5">uart_get_hw</a> (uart_inst_t *uart)</td></tr>
+<tr class="memdesc:ga460772353a17df99adaf3352115c73d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the real hardware UART instance from a UART instance.  <a href="group__hardware__uart.html#ga460772353a17df99adaf3352115c73d5">More...</a><br /></td></tr>
+<tr class="separator:ga460772353a17df99adaf3352115c73d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5a55924eff530aff6db3b15fd872cda4"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga5a55924eff530aff6db3b15fd872cda4">uart_init</a> (uart_inst_t *uart, uint baudrate)</td></tr>
 <tr class="memdesc:ga5a55924eff530aff6db3b15fd872cda4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a UART.  <a href="group__hardware__uart.html#ga5a55924eff530aff6db3b15fd872cda4">More...</a><br /></td></tr>
 <tr class="separator:ga5a55924eff530aff6db3b15fd872cda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -138,9 +172,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga07e3c6ce7c1abf5e875b62964b8f841e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga07e3c6ce7c1abf5e875b62964b8f841e">uart_set_format</a> (uart_inst_t *uart, uint data_bits, uint stop_bits, <a class="el" href="group__hardware__uart.html#ga6bcc37e31dd40c204b4ac6f6189e8878">uart_parity_t</a> parity)</td></tr>
 <tr class="memdesc:ga07e3c6ce7c1abf5e875b62964b8f841e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set UART data format.  <a href="group__hardware__uart.html#ga07e3c6ce7c1abf5e875b62964b8f841e">More...</a><br /></td></tr>
 <tr class="separator:ga07e3c6ce7c1abf5e875b62964b8f841e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8c0c74c65b12281345886829a15c031f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga8c0c74c65b12281345886829a15c031f">uart_set_irq_enables</a> (uart_inst_t *uart, bool rx_has_data, bool tx_needs_data)</td></tr>
-<tr class="memdesc:ga8c0c74c65b12281345886829a15c031f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup UART interrupts.  <a href="group__hardware__uart.html#ga8c0c74c65b12281345886829a15c031f">More...</a><br /></td></tr>
-<tr class="separator:ga8c0c74c65b12281345886829a15c031f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1908247cb5f2468517b37d5a91798181"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga1908247cb5f2468517b37d5a91798181">uart_set_irqs_enabled</a> (uart_inst_t *uart, bool rx_has_data, bool tx_needs_data)</td></tr>
+<tr class="memdesc:ga1908247cb5f2468517b37d5a91798181"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable UART interrupt outputs.  <a href="group__hardware__uart.html#ga1908247cb5f2468517b37d5a91798181">More...</a><br /></td></tr>
+<tr class="separator:ga1908247cb5f2468517b37d5a91798181"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6397bfad56e634a2ab31b6953a44caa7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga6397bfad56e634a2ab31b6953a44caa7">uart_is_enabled</a> (uart_inst_t *uart)</td></tr>
 <tr class="memdesc:ga6397bfad56e634a2ab31b6953a44caa7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test if specific UART is enabled.  <a href="group__hardware__uart.html#ga6397bfad56e634a2ab31b6953a44caa7">More...</a><br /></td></tr>
 <tr class="separator:ga6397bfad56e634a2ab31b6953a44caa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -187,9 +221,12 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>uart_default_t
 <tr class="memitem:ga026539f355b6c6f5a044a5f4ee051f0e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga026539f355b6c6f5a044a5f4ee051f0e">uart_is_readable_within_us</a> (uart_inst_t *uart, uint32_t us)</td></tr>
 <tr class="memdesc:ga026539f355b6c6f5a044a5f4ee051f0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for up to a certain number of microseconds for the RX FIFO to be non empty.  <a href="group__hardware__uart.html#ga026539f355b6c6f5a044a5f4ee051f0e">More...</a><br /></td></tr>
 <tr class="separator:ga026539f355b6c6f5a044a5f4ee051f0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf7cd621d6d0899680209f542d41ff892"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#gaf7cd621d6d0899680209f542d41ff892">uart_get_dreq</a> (uart_inst_t *uart, bool is_tx)</td></tr>
-<tr class="memdesc:gaf7cd621d6d0899680209f542d41ff892"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the DREQ to use for pacing transfers to/from a particular UART instance.  <a href="group__hardware__uart.html#gaf7cd621d6d0899680209f542d41ff892">More...</a><br /></td></tr>
-<tr class="separator:gaf7cd621d6d0899680209f542d41ff892"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee105a6aeabd79da9244a098865e28cd"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#gaee105a6aeabd79da9244a098865e28cd">uart_get_dreq_num</a> (uart_inst_t *uart, bool is_tx)</td></tr>
+<tr class="memdesc:gaee105a6aeabd79da9244a098865e28cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> to use for pacing transfers to/from a particular UART instance.  <a href="group__hardware__uart.html#gaee105a6aeabd79da9244a098865e28cd">More...</a><br /></td></tr>
+<tr class="separator:gaee105a6aeabd79da9244a098865e28cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0759dec413fb5af3bcaa9691ba98bcb9"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga0759dec413fb5af3bcaa9691ba98bcb9">uart_get_reset_num</a> (uart_inst_t *uart)</td></tr>
+<tr class="memdesc:ga0759dec413fb5af3bcaa9691ba98bcb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> to use for pacing transfers to/from a particular UART instance.  <a href="group__hardware__uart.html#ga0759dec413fb5af3bcaa9691ba98bcb9">More...</a><br /></td></tr>
+<tr class="separator:ga0759dec413fb5af3bcaa9691ba98bcb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4c45ff280c79aa60358d8241b7e5824b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a>&#160;&#160;&#160;((uart_inst_t *)uart0_hw)</td></tr>
 <tr class="memdesc:ga4c45ff280c79aa60358d8241b7e5824b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Identifier for UART instance 0.  <a href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">More...</a><br /></td></tr>
 <tr class="separator:ga4c45ff280c79aa60358d8241b7e5824b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -199,26 +236,29 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>uart_default_t
 <tr class="separator:gad94ac6d5e345a1f794174d9bb7c6f69c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Hardware UART API</p>
-<p >RP2040 has 2 identical instances of a UART peripheral, based on the ARM PL011. Each UART can be connected to a number of GPIO pins as defined in the GPIO muxing.</p>
+<p >Hardware UART API. </p>
+<p >RP-series microcontrollers have 2 identical instances of a UART peripheral, based on the ARM PL011. Each UART can be connected to a number of GPIO pins as defined in the GPIO muxing.</p>
 <p >Only the TX, RX, RTS, and CTS signals are connected, meaning that the modem mode and IrDA mode of the PL011 are not supported.</p>
 <h2><a class="anchor" id="uart_example"></a>
 Example</h2>
 <div class="fragment"><div class="line"> <span class="keywordtype">int</span> main() {</div>
 <div class="line"> </div>
+<div class="line">    <span class="comment">// Set the GPIO pin mux to the UART - pin 0 is TX, 1 is RX; note use of UART_FUNCSEL_NUM for the general</span></div>
+<div class="line">    <span class="comment">// case where the func sel used for UART depends on the pin number</span></div>
+<div class="line">    <span class="comment">// Do this before calling uart_init to avoid losing data</span></div>
+<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a>(0, <a class="code hl_define" href="group__hardware__uart.html#ga7bceb145d3739e3923f64584eff6db59">UART_FUNCSEL_NUM</a>(<a class="code hl_define" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a>, 0));</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a>(1, <a class="code hl_define" href="group__hardware__uart.html#ga7bceb145d3739e3923f64584eff6db59">UART_FUNCSEL_NUM</a>(<a class="code hl_define" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a>, 1));</div>
+<div class="line"> </div>
 <div class="line">    <span class="comment">// Initialise UART 0</span></div>
 <div class="line">    <a class="code hl_function" href="group__hardware__uart.html#ga5a55924eff530aff6db3b15fd872cda4">uart_init</a>(<a class="code hl_define" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a>, 115200);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Set the GPIO pin mux to the UART - 0 is TX, 1 is RX</span></div>
-<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#gaacde9174277ca40aa7b6fdd341bb2b8c">gpio_set_function</a>(0, GPIO_FUNC_UART);</div>
-<div class="line">    <a class="code hl_function" href="group__hardware__gpio.html#gaacde9174277ca40aa7b6fdd341bb2b8c">gpio_set_function</a>(1, GPIO_FUNC_UART);</div>
-<div class="line"> </div>
 <div class="line">    <a class="code hl_function" href="group__hardware__uart.html#ga94be41517216933ca961fd0464f74a6c">uart_puts</a>(<a class="code hl_define" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a>, <span class="stringliteral">&quot;Hello world!&quot;</span>);</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__gpio_html_gaacde9174277ca40aa7b6fdd341bb2b8c"><div class="ttname"><a href="group__hardware__gpio.html#gaacde9174277ca40aa7b6fdd341bb2b8c">gpio_set_function</a></div><div class="ttdeci">void gpio_set_function(uint gpio, enum gpio_function fn)</div><div class="ttdoc">Select GPIO function.</div><div class="ttdef"><b>Definition:</b> gpio.c:32</div></div>
-<div class="ttc" id="agroup__hardware__uart_html_ga4c45ff280c79aa60358d8241b7e5824b"><div class="ttname"><a href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a></div><div class="ttdeci">#define uart0</div><div class="ttdoc">Identifier for UART instance 0.</div><div class="ttdef"><b>Definition:</b> uart.h:81</div></div>
-<div class="ttc" id="agroup__hardware__uart_html_ga5a55924eff530aff6db3b15fd872cda4"><div class="ttname"><a href="group__hardware__uart.html#ga5a55924eff530aff6db3b15fd872cda4">uart_init</a></div><div class="ttdeci">uint uart_init(uart_inst_t *uart, uint baudrate)</div><div class="ttdoc">Initialise a UART.</div><div class="ttdef"><b>Definition:</b> uart.c:39</div></div>
-<div class="ttc" id="agroup__hardware__uart_html_ga94be41517216933ca961fd0464f74a6c"><div class="ttname"><a href="group__hardware__uart.html#ga94be41517216933ca961fd0464f74a6c">uart_puts</a></div><div class="ttdeci">static void uart_puts(uart_inst_t *uart, const char *s)</div><div class="ttdoc">Write string to UART for transmission, doing any CR/LF conversions.</div><div class="ttdef"><b>Definition:</b> uart.h:384</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_ga22f6b90c4c7e0013b4b5341de0a44fc4"><div class="ttname"><a href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a></div><div class="ttdeci">void gpio_set_function(uint gpio, gpio_function_t fn)</div><div class="ttdoc">Select GPIO function.</div><div class="ttdef"><b>Definition:</b> gpio.c:38</div></div>
+<div class="ttc" id="agroup__hardware__uart_html_ga4c45ff280c79aa60358d8241b7e5824b"><div class="ttname"><a href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a></div><div class="ttdeci">#define uart0</div><div class="ttdoc">Identifier for UART instance 0.</div><div class="ttdef"><b>Definition:</b> uart.h:86</div></div>
+<div class="ttc" id="agroup__hardware__uart_html_ga5a55924eff530aff6db3b15fd872cda4"><div class="ttname"><a href="group__hardware__uart.html#ga5a55924eff530aff6db3b15fd872cda4">uart_init</a></div><div class="ttdeci">uint uart_init(uart_inst_t *uart, uint baudrate)</div><div class="ttdoc">Initialise a UART.</div><div class="ttdef"><b>Definition:</b> uart.c:42</div></div>
+<div class="ttc" id="agroup__hardware__uart_html_ga7bceb145d3739e3923f64584eff6db59"><div class="ttname"><a href="group__hardware__uart.html#ga7bceb145d3739e3923f64584eff6db59">UART_FUNCSEL_NUM</a></div><div class="ttdeci">#define UART_FUNCSEL_NUM(uart, gpio)</div><div class="ttdoc">Returns gpio_function_t needed to select the UART function for the given UART instance on the given G...</div><div class="ttdef"><b>Definition:</b> uart.h:179</div></div>
+<div class="ttc" id="agroup__hardware__uart_html_ga94be41517216933ca961fd0464f74a6c"><div class="ttname"><a href="group__hardware__uart.html#ga94be41517216933ca961fd0464f74a6c">uart_puts</a></div><div class="ttdeci">static void uart_puts(uart_inst_t *uart, const char *s)</div><div class="ttdoc">Write string to UART for transmission, doing any CR/LF conversions.</div><div class="ttdef"><b>Definition:</b> uart.h:524</div></div>
 </div><!-- fragment --> <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga4c45ff280c79aa60358d8241b7e5824b" name="ga4c45ff280c79aa60358d8241b7e5824b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4c45ff280c79aa60358d8241b7e5824b">&#9670;&nbsp;</a></span>uart0</h2>
@@ -235,6 +275,173 @@ Example</h2>
 <p>Identifier for UART instance 0. </p>
 <p >The UART identifiers for use in UART functions.</p>
 <p >e.g. uart_init(uart1, 48000) </p>
+
+</div>
+</div>
+<a id="ga8b4f387572a62cc839eb004ce7c02e3f" name="ga8b4f387572a62cc839eb004ce7c02e3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b4f387572a62cc839eb004ce7c02e3f">&#9670;&nbsp;</a></span>UART_CLOCK_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UART_CLOCK_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">uart</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a> of the clock for the given UART instance. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="ga10472af6afab1cb220b5fbd4aee63a16" name="ga10472af6afab1cb220b5fbd4aee63a16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga10472af6afab1cb220b5fbd4aee63a16">&#9670;&nbsp;</a></span>UART_DREQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UART_DREQ_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">uart, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">is_tx&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from this UART instance. If is_tx is true, then it is for transfers to the UART else for transfers from the UART. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="ga7bceb145d3739e3923f64584eff6db59" name="ga7bceb145d3739e3923f64584eff6db59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7bceb145d3739e3923f64584eff6db59">&#9670;&nbsp;</a></span>UART_FUNCSEL_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UART_FUNCSEL_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">uart, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">gpio&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns <a class="el" href="group__hardware__gpio.html#ga89b8e5e8a9c515260dea8d1fa96e72c9">gpio_function_t</a> needed to select the UART function for the given UART instance on the given GPIO number. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="gadc5c5947dc577aac3d448fdb37647927" name="gadc5c5947dc577aac3d448fdb37647927"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadc5c5947dc577aac3d448fdb37647927">&#9670;&nbsp;</a></span>UART_INSTANCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UART_INSTANCE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">num</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the UART instance with the given UART number. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="ga8697ddad82a2cd5d889ce819d83783e3" name="ga8697ddad82a2cd5d889ce819d83783e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8697ddad82a2cd5d889ce819d83783e3">&#9670;&nbsp;</a></span>UART_IRQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UART_IRQ_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">uart</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for processor interrupts from the given UART instance. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="ga12815b6262573d95c8a749f64cc85284" name="ga12815b6262573d95c8a749f64cc85284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga12815b6262573d95c8a749f64cc85284">&#9670;&nbsp;</a></span>UART_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UART_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">uart</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the UART number for a UART instance. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="gaffef755f98d8fcec5f7b5147924fb4f9" name="gaffef755f98d8fcec5f7b5147924fb4f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaffef755f98d8fcec5f7b5147924fb4f9">&#9670;&nbsp;</a></span>UART_RESET_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define UART_RESET_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">uart</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> used to reset a given UART instance. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
 
 </div>
 </div>
@@ -266,8 +473,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="gaf7cd621d6d0899680209f542d41ff892" name="gaf7cd621d6d0899680209f542d41ff892"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaf7cd621d6d0899680209f542d41ff892">&#9670;&nbsp;</a></span>uart_get_dreq()</h2>
+<a id="gaee105a6aeabd79da9244a098865e28cd" name="gaee105a6aeabd79da9244a098865e28cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaee105a6aeabd79da9244a098865e28cd">&#9670;&nbsp;</a></span>uart_get_dreq_num()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,7 +483,7 @@ Example</h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static uint uart_get_dreq </td>
+          <td class="memname">static uint uart_get_dreq_num </td>
           <td>(</td>
           <td class="paramtype">uart_inst_t *&#160;</td>
           <td class="paramname"><em>uart</em>, </td>
@@ -300,7 +507,7 @@ Example</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Return the DREQ to use for pacing transfers to/from a particular UART instance. </p>
+<p>Return the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> to use for pacing transfers to/from a particular UART instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uart</td><td>UART instance. <a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a> or <a class="el" href="group__hardware__uart.html#gad94ac6d5e345a1f794174d9bb7c6f69c">uart1</a> </td></tr>
@@ -308,6 +515,42 @@ Example</h2>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga460772353a17df99adaf3352115c73d5" name="ga460772353a17df99adaf3352115c73d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga460772353a17df99adaf3352115c73d5">&#9670;&nbsp;</a></span>uart_get_hw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structuart__hw__t.html">uart_hw_t</a> * uart_get_hw </td>
+          <td>(</td>
+          <td class="paramtype">uart_inst_t *&#160;</td>
+          <td class="paramname"><em>uart</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the real hardware UART instance from a UART instance. </p>
+<p >This extra level of abstraction was added to facilitate adding PIO UARTs in the future. It currently does nothing, and costs nothing.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uart</td><td>UART instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="structuart__hw__t.html">uart_hw_t</a> pointer to the UART instance registers </dd></dl>
 
 </div>
 </div>
@@ -343,6 +586,76 @@ Example</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Number of UART, 0 or 1. </dd></dl>
+
+</div>
+</div>
+<a id="gafd9aaeaae78307db7f51aa39f501b972" name="gafd9aaeaae78307db7f51aa39f501b972"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafd9aaeaae78307db7f51aa39f501b972">&#9670;&nbsp;</a></span>uart_get_instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uart_inst_t * uart_get_instance </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the UART instance from an instance number. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uart</td><td>UART instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of UART, 0 or 1 </dd></dl>
+
+</div>
+</div>
+<a id="ga0759dec413fb5af3bcaa9691ba98bcb9" name="ga0759dec413fb5af3bcaa9691ba98bcb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0759dec413fb5af3bcaa9691ba98bcb9">&#9670;&nbsp;</a></span>uart_get_reset_num()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint uart_get_reset_num </td>
+          <td>(</td>
+          <td class="paramtype">uart_inst_t *&#160;</td>
+          <td class="paramname"><em>uart</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> to use for pacing transfers to/from a particular UART instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">uart</td><td>UART instance. <a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a> or <a class="el" href="group__hardware__uart.html#gad94ac6d5e345a1f794174d9bb7c6f69c">uart1</a> </td></tr>
+    <tr><td class="paramname">is_tx</td><td>true for sending data to the UART instance, false for receiving data from the UART instance </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -606,7 +919,7 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Write single character to UART for transmission, with optional CR/LF conversions. </p>
-<p >This function will block until the character has been sent</p>
+<p >This function will block until the character has been sent to the UART transmit buffer</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uart</td><td>UART instance. <a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a> or <a class="el" href="group__hardware__uart.html#gad94ac6d5e345a1f794174d9bb7c6f69c">uart1</a> </td></tr>
@@ -652,7 +965,7 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Write single character to UART for transmission. </p>
-<p >This function will block until the entire character has been sent</p>
+<p >This function will block until the entire character has been sent to the UART transmit buffer</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uart</td><td>UART instance. <a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a> or <a class="el" href="group__hardware__uart.html#gad94ac6d5e345a1f794174d9bb7c6f69c">uart1</a> </td></tr>
@@ -698,7 +1011,7 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Write string to UART for transmission, doing any CR/LF conversions. </p>
-<p >This function will block until the entire string has been sent</p>
+<p >This function will block until the entire string has been sent to the UART transmit buffer</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uart</td><td>UART instance. <a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a> or <a class="el" href="group__hardware__uart.html#gad94ac6d5e345a1f794174d9bb7c6f69c">uart1</a> </td></tr>
@@ -988,8 +1301,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="ga8c0c74c65b12281345886829a15c031f" name="ga8c0c74c65b12281345886829a15c031f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8c0c74c65b12281345886829a15c031f">&#9670;&nbsp;</a></span>uart_set_irq_enables()</h2>
+<a id="ga1908247cb5f2468517b37d5a91798181" name="ga1908247cb5f2468517b37d5a91798181"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1908247cb5f2468517b37d5a91798181">&#9670;&nbsp;</a></span>uart_set_irqs_enabled()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -998,7 +1311,7 @@ Example</h2>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void uart_set_irq_enables </td>
+          <td class="memname">static void uart_set_irqs_enabled </td>
           <td>(</td>
           <td class="paramtype">uart_inst_t *&#160;</td>
           <td class="paramname"><em>uart</em>, </td>
@@ -1028,8 +1341,8 @@ Example</h2>
 </table>
 </div><div class="memdoc">
 
-<p>Setup UART interrupts. </p>
-<p >Enable the UART's interrupt output. An interrupt handler will need to be installed prior to calling this function.</p>
+<p>Enable/Disable UART interrupt outputs. </p>
+<p >Enable/Disable the UART's interrupt outputs. An interrupt handler should be installed prior to calling this function.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uart</td><td>UART instance. <a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a> or <a class="el" href="group__hardware__uart.html#gad94ac6d5e345a1f794174d9bb7c6f69c">uart1</a> </td></tr>
@@ -1153,7 +1466,7 @@ Example</h2>
 </div><div class="memdoc">
 
 <p>Write to the UART for transmission. </p>
-<p >This function will block until all the data has been sent to the UART</p>
+<p >This function will block until all the data has been sent to the UART transmit buffer hardware. Note: Serial data transmission will continue until the Tx FIFO and the transmit shift register (not programmer-accessible) are empty. To ensure the UART FIFO has been emptied, you can use <a class="el" href="group__hardware__uart.html#gaff99ad133c2c808b69d1e12054c09f4a">uart_tx_wait_blocking()</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">uart</td><td>UART instance. <a class="el" href="group__hardware__uart.html#ga4c45ff280c79aa60358d8241b7e5824b">uart0</a> or <a class="el" href="group__hardware__uart.html#gad94ac6d5e345a1f794174d9bb7c6f69c">uart1</a> </td></tr>

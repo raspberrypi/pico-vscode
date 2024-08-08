@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,71 +103,100 @@ $(document).ready(function(){initNavTree('group__timestamp.html',''); initResiza
 
 <div class="header">
   <div class="summary">
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">timestamp<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__time.html">pico_time</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Timestamp functions relating to points in time (including the current time)  
+<p>Timestamp functions relating to points in time (including the current time).  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga8b7f3d602cc053f05bacceeacc257ed8"><td class="memItemLeft" align="right" valign="top">typedef uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a></td></tr>
+<tr class="memdesc:ga8b7f3d602cc053f05bacceeacc257ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">An opaque 64 bit timestamp in microseconds.  <a href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">More...</a><br /></td></tr>
+<tr class="separator:ga8b7f3d602cc053f05bacceeacc257ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga173698876ae00331c92ed4e8c3ba98d1"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1">to_us_since_boot</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t)</td></tr>
-<tr class="memdesc:ga173698876ae00331c92ed4e8c3ba98d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert an <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> into a number of microseconds since boot.  <a href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1">More...</a><br /></td></tr>
+<tr class="memitem:ga173698876ae00331c92ed4e8c3ba98d1"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1">to_us_since_boot</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:ga173698876ae00331c92ed4e8c3ba98d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert an absolute_time_t into a number of microseconds since boot.  <a href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1">More...</a><br /></td></tr>
 <tr class="separator:ga173698876ae00331c92ed4e8c3ba98d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacb69a734d588b758f1ada8af8efe6968"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968">update_us_since_boot</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> *t, uint64_t us_since_boot)</td></tr>
-<tr class="memdesc:gacb69a734d588b758f1ada8af8efe6968"><td class="mdescLeft">&#160;</td><td class="mdescRight">update an <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> value to represent a given number of microseconds since boot  <a href="group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968">More...</a><br /></td></tr>
+<tr class="memitem:gacb69a734d588b758f1ada8af8efe6968"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968">update_us_since_boot</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> *t, uint64_t us_since_boot)</td></tr>
+<tr class="memdesc:gacb69a734d588b758f1ada8af8efe6968"><td class="mdescLeft">&#160;</td><td class="mdescRight">update an absolute_time_t value to represent a given number of microseconds since boot  <a href="group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968">More...</a><br /></td></tr>
 <tr class="separator:gacb69a734d588b758f1ada8af8efe6968"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2cf14d0bdee9614a98aa34a0e760fb89"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga2cf14d0bdee9614a98aa34a0e760fb89">from_us_since_boot</a> (uint64_t us_since_boot)</td></tr>
-<tr class="memdesc:ga2cf14d0bdee9614a98aa34a0e760fb89"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a number of microseconds since boot to an <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>  <a href="group__timestamp.html#ga2cf14d0bdee9614a98aa34a0e760fb89">More...</a><br /></td></tr>
+<tr class="memitem:ga2cf14d0bdee9614a98aa34a0e760fb89"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga2cf14d0bdee9614a98aa34a0e760fb89">from_us_since_boot</a> (uint64_t us_since_boot)</td></tr>
+<tr class="memdesc:ga2cf14d0bdee9614a98aa34a0e760fb89"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert a number of microseconds since boot to an absolute_time_t  <a href="group__timestamp.html#ga2cf14d0bdee9614a98aa34a0e760fb89">More...</a><br /></td></tr>
 <tr class="separator:ga2cf14d0bdee9614a98aa34a0e760fb89"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6a1d4dfb43030b6594fa050f50feb47a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">get_absolute_time</a> (void)</td></tr>
+<tr class="memitem:ga6a1d4dfb43030b6594fa050f50feb47a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">get_absolute_time</a> (void)</td></tr>
 <tr class="memdesc:ga6a1d4dfb43030b6594fa050f50feb47a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a representation of the current time.  <a href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">More...</a><br /></td></tr>
 <tr class="separator:ga6a1d4dfb43030b6594fa050f50feb47a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab12467c48bde27171b552ac4dc8c7d59"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t)</td></tr>
+<tr class="memitem:gab12467c48bde27171b552ac4dc8c7d59"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
 <tr class="memdesc:gab12467c48bde27171b552ac4dc8c7d59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a timestamp into a number of milliseconds since boot.  <a href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">More...</a><br /></td></tr>
 <tr class="separator:gab12467c48bde27171b552ac4dc8c7d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga729dc88ec38af2d054ba7307214bcf3c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga729dc88ec38af2d054ba7307214bcf3c">delayed_by_us</a> (const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t, uint64_t us)</td></tr>
+<tr class="memitem:ga729dc88ec38af2d054ba7307214bcf3c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga729dc88ec38af2d054ba7307214bcf3c">delayed_by_us</a> (const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t, uint64_t us)</td></tr>
 <tr class="memdesc:ga729dc88ec38af2d054ba7307214bcf3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a timestamp value obtained by adding a number of microseconds to another timestamp.  <a href="group__timestamp.html#ga729dc88ec38af2d054ba7307214bcf3c">More...</a><br /></td></tr>
 <tr class="separator:ga729dc88ec38af2d054ba7307214bcf3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7ee031a9cdeb9a9a6328d1b41d53cf5c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga7ee031a9cdeb9a9a6328d1b41d53cf5c">delayed_by_ms</a> (const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t, uint32_t ms)</td></tr>
+<tr class="memitem:ga7ee031a9cdeb9a9a6328d1b41d53cf5c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga7ee031a9cdeb9a9a6328d1b41d53cf5c">delayed_by_ms</a> (const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t, uint32_t ms)</td></tr>
 <tr class="memdesc:ga7ee031a9cdeb9a9a6328d1b41d53cf5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a timestamp value obtained by adding a number of milliseconds to another timestamp.  <a href="group__timestamp.html#ga7ee031a9cdeb9a9a6328d1b41d53cf5c">More...</a><br /></td></tr>
 <tr class="separator:ga7ee031a9cdeb9a9a6328d1b41d53cf5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga70921b9073202a54eec3494b4d19ec84"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">make_timeout_time_us</a> (uint64_t us)</td></tr>
+<tr class="memitem:ga70921b9073202a54eec3494b4d19ec84"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">make_timeout_time_us</a> (uint64_t us)</td></tr>
 <tr class="memdesc:ga70921b9073202a54eec3494b4d19ec84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience method to get the timestamp a number of microseconds from the current time.  <a href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">More...</a><br /></td></tr>
 <tr class="separator:ga70921b9073202a54eec3494b4d19ec84"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab11f5a243dd585b6903a87b0127df2cc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#gab11f5a243dd585b6903a87b0127df2cc">make_timeout_time_ms</a> (uint32_t ms)</td></tr>
+<tr class="memitem:gab11f5a243dd585b6903a87b0127df2cc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#gab11f5a243dd585b6903a87b0127df2cc">make_timeout_time_ms</a> (uint32_t ms)</td></tr>
 <tr class="memdesc:gab11f5a243dd585b6903a87b0127df2cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience method to get the timestamp a number of milliseconds from the current time.  <a href="group__timestamp.html#gab11f5a243dd585b6903a87b0127df2cc">More...</a><br /></td></tr>
 <tr class="separator:gab11f5a243dd585b6903a87b0127df2cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga36d9cbebcc55e41921550edbabf17ab2"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga36d9cbebcc55e41921550edbabf17ab2">absolute_time_diff_us</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> from, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> to)</td></tr>
+<tr class="memitem:ga36d9cbebcc55e41921550edbabf17ab2"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga36d9cbebcc55e41921550edbabf17ab2">absolute_time_diff_us</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> from, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> to)</td></tr>
 <tr class="memdesc:ga36d9cbebcc55e41921550edbabf17ab2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the difference in microseconds between two timestamps.  <a href="group__timestamp.html#ga36d9cbebcc55e41921550edbabf17ab2">More...</a><br /></td></tr>
 <tr class="separator:ga36d9cbebcc55e41921550edbabf17ab2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga522e97b4c9dfeb3db0bc702461b61a3a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga522e97b4c9dfeb3db0bc702461b61a3a">absolute_time_min</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> a, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> b)</td></tr>
+<tr class="memitem:ga522e97b4c9dfeb3db0bc702461b61a3a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga522e97b4c9dfeb3db0bc702461b61a3a">absolute_time_min</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> a, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> b)</td></tr>
 <tr class="memdesc:ga522e97b4c9dfeb3db0bc702461b61a3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the earlier of two timestamps.  <a href="group__timestamp.html#ga522e97b4c9dfeb3db0bc702461b61a3a">More...</a><br /></td></tr>
 <tr class="separator:ga522e97b4c9dfeb3db0bc702461b61a3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga408e44143880dd2a9ebfe2f3ebeab242"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga408e44143880dd2a9ebfe2f3ebeab242">is_at_the_end_of_time</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t)</td></tr>
+<tr class="memitem:ga408e44143880dd2a9ebfe2f3ebeab242"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga408e44143880dd2a9ebfe2f3ebeab242">is_at_the_end_of_time</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
 <tr class="memdesc:ga408e44143880dd2a9ebfe2f3ebeab242"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given timestamp is "at_the_end_of_time".  <a href="group__timestamp.html#ga408e44143880dd2a9ebfe2f3ebeab242">More...</a><br /></td></tr>
 <tr class="separator:ga408e44143880dd2a9ebfe2f3ebeab242"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0753884ef1d9340edacf53e9c06e42de"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga0753884ef1d9340edacf53e9c06e42de">is_nil_time</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t)</td></tr>
+<tr class="memitem:ga0753884ef1d9340edacf53e9c06e42de"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga0753884ef1d9340edacf53e9c06e42de">is_nil_time</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
 <tr class="memdesc:ga0753884ef1d9340edacf53e9c06e42de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given timestamp is nil.  <a href="group__timestamp.html#ga0753884ef1d9340edacf53e9c06e42de">More...</a><br /></td></tr>
 <tr class="separator:ga0753884ef1d9340edacf53e9c06e42de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:gab375b40e949dce1052298f79c66f7120"><td class="memItemLeft" align="right" valign="top"><a id="gab375b40e949dce1052298f79c66f7120" name="gab375b40e949dce1052298f79c66f7120"></a>
-const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>at_the_end_of_time</b></td></tr>
+const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>at_the_end_of_time</b></td></tr>
 <tr class="memdesc:gab375b40e949dce1052298f79c66f7120"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timestamp representing the end of time; this is actually not the maximum possible timestamp, but is set to 0x7fffffff_ffffffff microseconds to avoid sign overflows with time arithmetic. This is almost 300,000 years, so should be sufficient. <br /></td></tr>
 <tr class="separator:gab375b40e949dce1052298f79c66f7120"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga978d7972634296a1870c28b0727beefb"><td class="memItemLeft" align="right" valign="top"><a id="ga978d7972634296a1870c28b0727beefb" name="ga978d7972634296a1870c28b0727beefb"></a>
-const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>nil_time</b></td></tr>
+const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>nil_time</b></td></tr>
 <tr class="memdesc:ga978d7972634296a1870c28b0727beefb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The timestamp representing a null timestamp. <br /></td></tr>
 <tr class="separator:ga978d7972634296a1870c28b0727beefb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Timestamp functions relating to points in time (including the current time) </p>
-<p >These are functions for dealing with timestamps (i.e. instants in time) represented by the type <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>. This opaque type is provided to help prevent accidental mixing of timestamps and relative time values. </p>
+<p >Timestamp functions relating to points in time (including the current time). </p>
+<p >These are functions for dealing with timestamps (i.e. instants in time) represented by the type absolute_time_t. This opaque type is provided to help prevent accidental mixing of timestamps and relative time values. </p>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga8b7f3d602cc053f05bacceeacc257ed8" name="ga8b7f3d602cc053f05bacceeacc257ed8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b7f3d602cc053f05bacceeacc257ed8">&#9670;&nbsp;</a></span>absolute_time_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>An opaque 64 bit timestamp in microseconds. </p>
+<p >The type is used instead of a raw uint64_t to prevent accidentally passing relative times or times in the wrong time units where an absolute time is required.</p>
+<p >note: As of SDK 2.0.0 this type defaults to being a uin64_t (i.e. no protection); it is enabled by setting PICO_OPAQUE_ABSOLUTE_TIME_T to 1</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1" title="convert an absolute_time_t into a number of microseconds since boot.">to_us_since_boot()</a> </dd>
+<dd>
+<a class="el" href="group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968" title="update an absolute_time_t value to represent a given number of microseconds since boot">update_us_since_boot()</a> </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga36d9cbebcc55e41921550edbabf17ab2" name="ga36d9cbebcc55e41921550edbabf17ab2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga36d9cbebcc55e41921550edbabf17ab2">&#9670;&nbsp;</a></span>absolute_time_diff_us()</h2>
@@ -181,13 +210,13 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
         <tr>
           <td class="memname">static int64_t absolute_time_diff_us </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>to</em>&#160;</td>
         </tr>
         <tr>
@@ -226,15 +255,15 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> absolute_time_min </td>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> absolute_time_min </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -272,9 +301,9 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> delayed_by_ms </td>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> delayed_by_ms </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
@@ -318,9 +347,9 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> delayed_by_us </td>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> delayed_by_us </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype">const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
@@ -364,7 +393,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> from_us_since_boot </td>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> from_us_since_boot </td>
           <td>(</td>
           <td class="paramtype">uint64_t&#160;</td>
           <td class="paramname"><em>us_since_boot</em></td><td>)</td>
@@ -378,7 +407,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
 </table>
 </div><div class="memdoc">
 
-<p>convert a number of microseconds since boot to an <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> </p>
+<p>convert a number of microseconds since boot to an absolute_time_t </p>
 <p >fn from_us_since_boot </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">us_since_boot</td><td>number of microseconds since boot </td></tr>
@@ -399,7 +428,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> get_absolute_time </td>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> get_absolute_time </td>
           <td>(</td>
           <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
@@ -416,11 +445,11 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
 <p>Return a representation of the current time. </p>
 <p >Returns an opaque high fidelity representation of the current time sampled during the call.</p>
 <dl class="section return"><dt>Returns</dt><dd>the absolute time (now) of the hardware timer</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="structabsolute__time__t.html">absolute_time_t</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8" title="An opaque 64 bit timestamp in microseconds.">absolute_time_t</a> </dd>
 <dd>
 <a class="el" href="group__sleep.html#ga7abed28d3918fe2b15f8007ba6569172" title="Wait until after the given timestamp to return.">sleep_until()</a> </dd>
 <dd>
-<a class="el" href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3" title="Return the current 64 bit timestamp value in microseconds.">time_us_64()</a> </dd></dl>
+<a class="el" href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3" title="Return the current 64 bit timestamp value in microseconds for the default timer instance.">time_us_64()</a> </dd></dl>
 
 </div>
 </div>
@@ -436,7 +465,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
         <tr>
           <td class="memname">static bool is_at_the_end_of_time </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
           <td></td>
         </tr>
@@ -472,7 +501,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
         <tr>
           <td class="memname">static bool is_nil_time </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
           <td></td>
         </tr>
@@ -506,7 +535,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> make_timeout_time_ms </td>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> make_timeout_time_ms </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>ms</em></td><td>)</td>
@@ -541,7 +570,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> make_timeout_time_us </td>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> make_timeout_time_us </td>
           <td>(</td>
           <td class="paramtype">uint64_t&#160;</td>
           <td class="paramname"><em>us</em></td><td>)</td>
@@ -578,7 +607,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
         <tr>
           <td class="memname">static uint32_t to_ms_since_boot </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
           <td></td>
         </tr>
@@ -594,7 +623,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
 <p >fn to_ms_since_boot</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">t</td><td>an <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> value to convert </td></tr>
+    <tr><td class="paramname">t</td><td>an absolute_time_t value to convert </td></tr>
   </table>
   </dd>
 </dl>
@@ -615,7 +644,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
         <tr>
           <td class="memname">static uint64_t to_us_since_boot </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>t</em></td><td>)</td>
           <td></td>
         </tr>
@@ -627,7 +656,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
 </table>
 </div><div class="memdoc">
 
-<p>convert an <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> into a number of microseconds since boot. </p>
+<p>convert an absolute_time_t into a number of microseconds since boot. </p>
 <p >fn to_us_since_boot </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>the absolute time to convert </td></tr>
@@ -650,7 +679,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
         <tr>
           <td class="memname">static void update_us_since_boot </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> *&#160;</td>
           <td class="paramname"><em>t</em>, </td>
         </tr>
         <tr>
@@ -672,7 +701,7 @@ const <a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160
 </table>
 </div><div class="memdoc">
 
-<p>update an <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> value to represent a given number of microseconds since boot </p>
+<p>update an absolute_time_t value to represent a given number of microseconds since boot </p>
 <p >fn update_us_since_boot </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>the absolute time value to update </td></tr>

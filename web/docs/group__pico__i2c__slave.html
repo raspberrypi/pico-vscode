@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,6 +109,9 @@ $(document).ready(function(){initNavTree('group__pico__i2c__slave.html',''); ini
   <div class="headertitle"><div class="title">pico_i2c_slave<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Functions providing an interrupt driven I2C slave interface.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -139,7 +142,7 @@ Functions</h2></td></tr>
 <tr class="separator:gaebbea8f5a707f23750ba3e0c8b5eb6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Functions providing an interrupt driven I2C slave interface.</p>
+<p >Functions providing an interrupt driven I2C slave interface. </p>
 <p >This I2C slave helper library configures slave mode and hooks the relevant I2C IRQ so that a user supplied handler is called with enumerated I2C events.</p>
 <p >An example application <code>slave_mem_i2c</code>, which makes use of this library, can be found in <a href="https://github.com/raspberrypi/pico-examples/blob/master/i2c/slave_mem_i2c/slave_mem_i2c.c">pico_examples</a>. </p>
 <h2 class="groupheader">Typedef Documentation</h2>

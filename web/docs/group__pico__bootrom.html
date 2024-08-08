@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,6 +108,9 @@ $(document).ready(function(){initNavTree('group__pico__bootrom.html',''); initRe
   <div class="headertitle"><div class="title">pico_bootrom<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Access to functions and data in the bootrom.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -121,10 +124,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga2b6dcf9d9c60d54a222f7c259c76b4b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a bootrom lookup code based on two ASCII characters.  <a href="group__pico__bootrom.html#ga2b6dcf9d9c60d54a222f7c259c76b4b4">More...</a><br /></td></tr>
 <tr class="separator:ga2b6dcf9d9c60d54a222f7c259c76b4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaaaf61234f389da6444b6479f29616d7d"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d">rom_func_lookup</a> (uint32_t code)</td></tr>
-<tr class="memdesc:gaaaf61234f389da6444b6479f29616d7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lookup a bootrom function by code.  <a href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d">More...</a><br /></td></tr>
+<tr class="memdesc:gaaaf61234f389da6444b6479f29616d7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lookup a bootrom function by its code.  <a href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d">More...</a><br /></td></tr>
 <tr class="separator:gaaaf61234f389da6444b6479f29616d7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad3e66e7bcbf0448a0a63cf37dfb4b53c"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c">rom_data_lookup</a> (uint32_t code)</td></tr>
-<tr class="memdesc:gad3e66e7bcbf0448a0a63cf37dfb4b53c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lookup a bootrom address by code.  <a href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c">More...</a><br /></td></tr>
+<tr class="memdesc:gad3e66e7bcbf0448a0a63cf37dfb4b53c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lookup a bootrom data address by its code.  <a href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c">More...</a><br /></td></tr>
 <tr class="separator:gad3e66e7bcbf0448a0a63cf37dfb4b53c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga31965209f0ddaeaecaeb3c516abda04d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga31965209f0ddaeaecaeb3c516abda04d">rom_funcs_lookup</a> (uint32_t *table, unsigned int count)</td></tr>
 <tr class="memdesc:ga31965209f0ddaeaecaeb3c516abda04d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper function to lookup the addresses of multiple bootrom functions.  <a href="group__pico__bootrom.html#ga31965209f0ddaeaecaeb3c516abda04d">More...</a><br /></td></tr>
@@ -132,12 +135,30 @@ Functions</h2></td></tr>
 <tr class="memitem:ga8f4e326502015aa4f4624251df366268"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga8f4e326502015aa4f4624251df366268">rom_func_lookup_inline</a> (uint32_t code)</td></tr>
 <tr class="memdesc:ga8f4e326502015aa4f4624251df366268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lookup a bootrom function by code. This method is forcibly inlined into the caller for FLASH/RAM sensitive code usage.  <a href="group__pico__bootrom.html#ga8f4e326502015aa4f4624251df366268">More...</a><br /></td></tr>
 <tr class="separator:ga8f4e326502015aa4f4624251df366268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5d51b6163ec30a147d3445cec8f33c7c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga5d51b6163ec30a147d3445cec8f33c7c">reset_usb_boot</a> (uint32_t usb_activity_gpio_pin_mask, uint32_t disable_interface_mask)</td></tr>
-<tr class="memdesc:ga5d51b6163ec30a147d3445cec8f33c7c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot the device into BOOTSEL mode.  <a href="group__pico__bootrom.html#ga5d51b6163ec30a147d3445cec8f33c7c">More...</a><br /></td></tr>
-<tr class="separator:ga5d51b6163ec30a147d3445cec8f33c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1bbe1c1df02daaa7b68a0c95fb9dc545"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga1bbe1c1df02daaa7b68a0c95fb9dc545">rom_reset_usb_boot</a> (uint32_t usb_activity_gpio_pin_mask, uint32_t disable_interface_mask)</td></tr>
+<tr class="memdesc:ga1bbe1c1df02daaa7b68a0c95fb9dc545"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot the device into BOOTSEL mode.  <a href="group__pico__bootrom.html#ga1bbe1c1df02daaa7b68a0c95fb9dc545">More...</a><br /></td></tr>
+<tr class="separator:ga1bbe1c1df02daaa7b68a0c95fb9dc545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa089fab5e976fea3fd88fecb44863ffc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc">rom_connect_internal_flash</a> ()</td></tr>
+<tr class="memdesc:gaa089fab5e976fea3fd88fecb44863ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect the SSI/QMI to the QSPI pads.  <a href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc">More...</a><br /></td></tr>
+<tr class="separator:gaa089fab5e976fea3fd88fecb44863ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga472decf755ee1f64afdf14a90e6c8807"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807">rom_flash_exit_xip</a> ()</td></tr>
+<tr class="memdesc:ga472decf755ee1f64afdf14a90e6c8807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the QSPI device from its XIP state to a serial command state.  <a href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807">More...</a><br /></td></tr>
+<tr class="separator:ga472decf755ee1f64afdf14a90e6c8807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad2a854a04f7007e9e5efa67fe8887cd7">rom_flash_range_erase</a> (uint32_t addr, size_t count, uint32_t block_size, uint8_t block_cmd)</td></tr>
+<tr class="memdesc:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase bytes in flash.  <a href="group__pico__bootrom.html#gad2a854a04f7007e9e5efa67fe8887cd7">More...</a><br /></td></tr>
+<tr class="separator:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga7fd2af8eea3dbd7bc76ed3306186ccef">rom_flash_range_program</a> (uint32_t addr, const uint8_t *data, size_t count)</td></tr>
+<tr class="memdesc:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Program bytes in flash.  <a href="group__pico__bootrom.html#ga7fd2af8eea3dbd7bc76ed3306186ccef">More...</a><br /></td></tr>
+<tr class="separator:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacd6b37e87ff97264edba6c6349e52f72"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72">rom_flash_flush_cache</a> ()</td></tr>
+<tr class="memdesc:gacd6b37e87ff97264edba6c6349e52f72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush the XIP cache.  <a href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72">More...</a><br /></td></tr>
+<tr class="separator:gacd6b37e87ff97264edba6c6349e52f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">rom_flash_enter_cmd_xip</a> ()</td></tr>
+<tr class="memdesc:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the SSI/QMI with a standard command.  <a href="group__pico__bootrom.html#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">More...</a><br /></td></tr>
+<tr class="separator:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Access to functions and data in the RP2040 bootrom</p>
+<p >Access to functions and data in the bootrom. </p>
 <p >This header may be included by assembly code </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga5b3c93cbab0054e9938f2aca7261a73e" name="ga5b3c93cbab0054e9938f2aca7261a73e"></a>
@@ -175,13 +196,13 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the 'code' to use in <a class="el" href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d" title="Lookup a bootrom function by code.">rom_func_lookup()</a> or <a class="el" href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c" title="Lookup a bootrom address by code.">rom_data_lookup()</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the 'code' to use in <a class="el" href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d" title="Lookup a bootrom function by its code.">rom_func_lookup()</a> or <a class="el" href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c" title="Lookup a bootrom data address by its code.">rom_data_lookup()</a> </dd></dl>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga5d51b6163ec30a147d3445cec8f33c7c" name="ga5d51b6163ec30a147d3445cec8f33c7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga5d51b6163ec30a147d3445cec8f33c7c">&#9670;&nbsp;</a></span>reset_usb_boot()</h2>
+<a id="gaa089fab5e976fea3fd88fecb44863ffc" name="gaa089fab5e976fea3fd88fecb44863ffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa089fab5e976fea3fd88fecb44863ffc">&#9670;&nbsp;</a></span>rom_connect_internal_flash()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -190,21 +211,10 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void reset_usb_boot </td>
+          <td class="memname">static void rom_connect_internal_flash </td>
           <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>usb_activity_gpio_pin_mask</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>disable_interface_mask</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -214,22 +224,9 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reboot the device into BOOTSEL mode. </p>
-<p >This function reboots the device into the BOOTSEL mode ('usb boot").
-
-Facilities are provided to enable an "activity light" via GPIO attached LED for the USB Mass Storage Device, and to limit the USB interfaces exposed.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">usb_activity_gpio_pin_mask</td><td>0 No pins are used as per a cold boot. Otherwise a single bit set indicating which GPIO pin should be set to output and raised whenever there is mass storage activity from the host. </td></tr>
-    <tr><td class="paramname">disable_interface_mask</td><td>value to control exposed interfaces<ul>
-<li>0 To enable both interfaces (as per a cold boot)</li>
-<li>1 To disable the USB Mass Storage Interface</li>
-<li>2 To disable the USB PICOBOOT Interface </li>
-</ul>
-</td></tr>
-  </table>
-  </dd>
-</dl>
+<p>Connect the SSI/QMI to the QSPI pads. </p>
+<p >Restore all QSPI pad controls to their default state, and connect the SSI/QMI peripheral to the QSPI pads.</p>
+<p >On RP2350 if a secondary flash chip select GPIO has been configured via OTP OTP_DATA_FLASH_DEVINFO, or by writing to the runtime copy of FLASH_DEVINFO in bootram, then this bank 0 GPIO is also initialised and the QMI peripheral is connected. Otherwise, bank 0 IOs are untouched.  </p>
 
 </div>
 </div>
@@ -249,7 +246,7 @@ Facilities are provided to enable an "activity light" via GPIO attached LED for 
       </table>
 </div><div class="memdoc">
 
-<p>Lookup a bootrom address by code. </p>
+<p>Lookup a bootrom data address by its code. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">code</td><td>the code </td></tr>
@@ -257,6 +254,219 @@ Facilities are provided to enable an "activity light" via GPIO attached LED for 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>a pointer to the data, or NULL if the code does not match any bootrom function </dd></dl>
+
+</div>
+</div>
+<a id="gae2af7b462bd0a7e9d0fc0a5fc1ce909e" name="gae2af7b462bd0a7e9d0fc0a5fc1ce909e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">&#9670;&nbsp;</a></span>rom_flash_enter_cmd_xip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_flash_enter_cmd_xip </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure the SSI/QMI with a standard command. </p>
+<p >Configure the SSI/QMI to generate a standard 03h serial read command, with 24 address bits, upon each XIP access. This is a slow XIP configuration, but is widely supported. CLKDIV is set to 12 on RP2350. The debugger may call this function to ensure that flash is readable following a program/erase operation.</p>
+<p >Note that the same setup is performed by flash_exit_xip(), and the RP2350 flash program/erase functions do not leave XIP in an inaccessible state, so calls to this function are largely redundant on RP2350. It is provided on RP2350 for compatibility with RP2040. </p>
+
+</div>
+</div>
+<a id="ga472decf755ee1f64afdf14a90e6c8807" name="ga472decf755ee1f64afdf14a90e6c8807"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga472decf755ee1f64afdf14a90e6c8807">&#9670;&nbsp;</a></span>rom_flash_exit_xip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_flash_exit_xip </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the QSPI device from its XIP state to a serial command state. </p>
+<p >On RP2040, first set up the SSI for serial-mode operations, then issue the fixed XIP exit sequence described in Section 2.8.1.2 of the datasheet. Note that the bootrom code uses the IO forcing logic to drive the CS pin, which must be cleared before returning the SSI to XIP mode (e.g. by a call to _flash_flush_cache). This function configures the SSI with a fixed SCK clock divisor of /6. </p>
+<p >On RP2350, Initialise the QMI for serial operations (direct mode), and also initialise a basic XIP mode, where the QMI will perform 03h serial read commands at low speed (CLKDIV=12) in response to XIP reads.</p>
+<p >Then, issue a sequence to the QSPI device on chip select 0, designed to return it from continuous read mode ("XIP mode") and/or QPI mode to a state where it will accept serial commands. This is necessary after system reset to restore the QSPI device to a known state, because resetting RP2350 does not reset attached QSPI devices. It is also necessary when user code, having already performed some continuous-read-mode or QPI-mode accesses, wishes to return the QSPI device to a state where it will accept the serial erase and programming commands issued by the bootrom's flash access functions.</p>
+<p >If a GPIO for the secondary chip select is configured via FLASH_DEVINFO, then the XIP exit sequence is also issued to chip select 1.</p>
+<p >The QSPI device should be accessible for XIP reads after calling this function; the name flash_exit_xip refers to returning the QSPI device from its XIP state to a serial command state.  </p>
+
+</div>
+</div>
+<a id="gacd6b37e87ff97264edba6c6349e52f72" name="gacd6b37e87ff97264edba6c6349e52f72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacd6b37e87ff97264edba6c6349e52f72">&#9670;&nbsp;</a></span>rom_flash_flush_cache()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_flash_flush_cache </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flush the XIP cache. </p>
+<p >Flush and enable the XIP cache. Also clears the IO forcing on QSPI CSn, so that the SSI can drive the flash chip select as normal. </p>
+<p >Flush the entire XIP cache, by issuing an invalidate by set/way maintenance operation to every cache line. This ensures that flash program/erase operations are visible to subsequent cached XIP reads.</p>
+<p >Note that this unpins pinned cache lines, which may interfere with cache-as-SRAM use of the XIP cache.</p>
+<p >No other operations are performed.  </p>
+
+</div>
+</div>
+<a id="gad2a854a04f7007e9e5efa67fe8887cd7" name="gad2a854a04f7007e9e5efa67fe8887cd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad2a854a04f7007e9e5efa67fe8887cd7">&#9670;&nbsp;</a></span>rom_flash_range_erase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_flash_range_erase </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>block_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>block_cmd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Erase bytes in flash. </p>
+<p >Erase count bytes, starting at addr (offset from start of flash). Optionally, pass a block erase command e.g. D8h block erase, and the size of the block erased by this command - this function will use the larger block erase where possible, for much higher erase speed. addr must be aligned to a 4096-byte sector, and count must be a multiple of 4096 bytes.</p>
+<p >This is a low-level flash API, and no validation of the arguments is performed.</p>
+<p >See rom_flash_op on RP2350 for a higher-level API which checks alignment, flash bounds and partition permissions, and can transparently apply a runtime-to-storage address translation.</p>
+<p >The QSPI device must be in a serial command state before calling this API, which can be achieved by calling <a class="el" href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc" title="Connect the SSI/QMI to the QSPI pads.">rom_connect_internal_flash()</a> followed by <a class="el" href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807" title="Return the QSPI device from its XIP state to a serial command state.">rom_flash_exit_xip()</a>. After the erase, the flash cache should be flushed via <a class="el" href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72" title="Flush the XIP cache.">rom_flash_flush_cache()</a> to ensure the modified flash data is visible to cached XIP accesses.</p>
+<p >Finally, the original XIP mode should be restored by copying the saved XIP setup function from bootram into SRAM, and executing it: the bootrom provides a default function which restores the flash mode/clkdiv discovered during flash scanning, and user programs can override this with their own XIP setup function.</p>
+<p >For the duration of the erase operation, QMI is in direct mode and attempting to access XIP from DMA, the debugger or the other core will return a bus fault. XIP becomes accessible again once the function returns. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>the offset from start of flash to be erased </td></tr>
+    <tr><td class="paramname">count</td><td>number of bytes to erase </td></tr>
+    <tr><td class="paramname">block_size</td><td>optional size of block erased by block_cmd </td></tr>
+    <tr><td class="paramname">block_cmd</td><td>optional block erase command e.g. D8h block erase </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga7fd2af8eea3dbd7bc76ed3306186ccef" name="ga7fd2af8eea3dbd7bc76ed3306186ccef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7fd2af8eea3dbd7bc76ed3306186ccef">&#9670;&nbsp;</a></span>rom_flash_range_program()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_flash_range_program </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Program bytes in flash. </p>
+<p >Program data to a range of flash addresses starting at addr (offset from the start of flash) and count bytes in size. addr must be aligned to a 256-byte boundary, and count must be a multiple of 256.</p>
+<p >This is a low-level flash API, and no validation of the arguments is performed.</p>
+<p >See rom_flash_op on RP2350 for a higher-level API which checks alignment, flash bounds and partition permissions, and can transparently apply a runtime-to-storage address translation.</p>
+<p >The QSPI device must be in a serial command state before calling this API - see notes on rom_flash_range_erase </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>the offset from start of flash to be erased </td></tr>
+    <tr><td class="paramname">data</td><td>buffer containing the data to be written </td></tr>
+    <tr><td class="paramname">count</td><td>number of bytes to erase </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -276,7 +486,7 @@ Facilities are provided to enable an "activity light" via GPIO attached LED for 
       </table>
 </div><div class="memdoc">
 
-<p>Lookup a bootrom function by code. </p>
+<p>Lookup a bootrom function by its code. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">code</td><td>the code </td></tr>
@@ -361,6 +571,51 @@ Facilities are provided to enable an "activity light" via GPIO attached LED for 
 
 </div>
 </div>
+<a id="ga1bbe1c1df02daaa7b68a0c95fb9dc545" name="ga1bbe1c1df02daaa7b68a0c95fb9dc545"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1bbe1c1df02daaa7b68a0c95fb9dc545">&#9670;&nbsp;</a></span>rom_reset_usb_boot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rom_reset_usb_boot </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>usb_activity_gpio_pin_mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>disable_interface_mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reboot the device into BOOTSEL mode. </p>
+<p >This function reboots the device into the BOOTSEL mode ('usb boot").
+
+Facilities are provided to enable an "activity light" via GPIO attached LED for the USB Mass Storage Device, and to limit the USB interfaces exposed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">usb_activity_gpio_pin_mask</td><td>0 No pins are used as per a cold boot. Otherwise a single bit set indicating which GPIO pin should be set to output and raised whenever there is mass storage activity from the host. </td></tr>
+    <tr><td class="paramname">disable_interface_mask</td><td>value to control exposed interfaces<ul>
+<li>0 To enable both interfaces (as per a cold boot)</li>
+<li>1 To disable the USB Mass Storage Interface</li>
+<li>2 To disable the USB PICOBOOT Interface </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga2b6dcf9d9c60d54a222f7c259c76b4b4" name="ga2b6dcf9d9c60d54a222f7c259c76b4b4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga2b6dcf9d9c60d54a222f7c259c76b4b4">&#9670;&nbsp;</a></span>rom_table_code()</h2>
 
@@ -404,7 +659,7 @@ Facilities are provided to enable an "activity light" via GPIO attached LED for 
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the 'code' to use in <a class="el" href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d" title="Lookup a bootrom function by code.">rom_func_lookup()</a> or <a class="el" href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c" title="Lookup a bootrom address by code.">rom_data_lookup()</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the 'code' to use in <a class="el" href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d" title="Lookup a bootrom function by its code.">rom_func_lookup()</a> or <a class="el" href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c" title="Lookup a bootrom data address by its code.">rom_data_lookup()</a> </dd></dl>
 
 </div>
 </div>

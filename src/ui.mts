@@ -4,6 +4,7 @@ import type { PicoProjectActivityBar } from "./webview/activityBar.mjs";
 
 enum StatusBarItemKey {
   compile = "raspberry-pi-pico.compileProject",
+  run = "raspberry-pi-pico.runProject",
   picoSDKQuickPick = "raspberry-pi-pico.sdk-quick-pick",
 }
 
@@ -12,9 +13,15 @@ const STATUS_BAR_ITEMS: {
 } = {
   [StatusBarItemKey.compile]: {
     // alt. "$(gear) Compile"
-    text: "$(file-binary) Build UF2",
+    text: "$(file-binary) Compile",
     command: "raspberry-pi-pico.compileProject",
-    tooltip: "Compile project",
+    tooltip: "Compile Project",
+  },
+  [StatusBarItemKey.run]: {
+    // alt. "$(gear) Compile"
+    text: "$(run) Run",
+    command: "raspberry-pi-pico.runProject",
+    tooltip: "Run Project",
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
     text: "Pico SDK: <version>",

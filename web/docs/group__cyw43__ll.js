@@ -29,6 +29,8 @@ var group__cyw43__ll =
     [ "CYW43_AUTH_OPEN", "group__cyw43__ll.html#ga6f0d5ac786e2c0a86b360310c3d5e25c", null ],
     [ "CYW43_AUTH_WPA2_AES_PSK", "group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432", null ],
     [ "CYW43_AUTH_WPA2_MIXED_PSK", "group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48", null ],
+    [ "CYW43_AUTH_WPA3_SAE_AES_PSK", "group__cyw43__ll.html#ga9603c88da59562e19d88ddf6a8009d60", null ],
+    [ "CYW43_AUTH_WPA3_WPA2_AES_PSK", "group__cyw43__ll.html#gad4f4d55b8c5a0ef4a9a1313c10d488d3", null ],
     [ "CYW43_AUTH_WPA_TKIP_PSK", "group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158", null ],
     [ "CYW43_CHANNEL_NONE", "group__cyw43__ll.html#ga5db01862459c1019cb39f1321a9dea55", null ],
     [ "CYW43_NO_POWERSAVE_MODE", "group__cyw43__ll.html#ga8a387954e2f6df5c29c91476cb7a08e2", null ],
@@ -36,7 +38,7 @@ var group__cyw43__ll =
     [ "CYW43_PM2_POWERSAVE_MODE", "group__cyw43__ll.html#ga78a7c3517845b3cd089a39140ddc07c0", null ],
     [ "cyw43_ev_scan_result_t", "group__cyw43__ll.html#gaba84b4a4911fe60952272cf0f9bef5f5", null ],
     [ "cyw43_wifi_scan_options_t", "group__cyw43__ll.html#ga01afd41547b4a3156e3e7d37df8c4631", [
-      [ "CYW43_ITF_STA", "group__cyw43__ll.html#ggadf764cbdea00d65edcd07bb9953ad2b7a01beff8333d8764c54b44bf2297a1f52", null ],
-      [ "CYW43_ITF_AP", "group__cyw43__ll.html#ggadf764cbdea00d65edcd07bb9953ad2b7add57ac73ff47f04da4f09a7aaeb7eb90", null ]
+      [ "CYW43_ITF_STA", "group__cyw43__ll.html#gga83e8bc15645f9d99ab91a152bb3dc8cea01beff8333d8764c54b44bf2297a1f52", null ],
+      [ "CYW43_ITF_AP", "group__cyw43__ll.html#gga83e8bc15645f9d99ab91a152bb3dc8ceadd57ac73ff47f04da4f09a7aaeb7eb90", null ]
     ] ]
 ];

@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_async_context/include/pico/async_context.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/async_context.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -112,7 +112,53 @@ $(document).ready(function(){initNavTree('async__context_8h.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="time_8h_source.html">pico/time.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_2pico__time_2include_2pico_2time_8h_source.html">pico/time.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for async_context.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="async__context_8h__incl.png" border="0" usemap="#ainclude_2pico_2async__context_8h" alt=""/></div>
+<map name="ainclude_2pico_2async__context_8h" id="ainclude_2pico_2async__context_8h">
+<area shape="rect" title=" " alt="" coords="404,5,547,47"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,244,473,271"/>
+<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="471,95,565,121"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,468,259,495"/>
+<area shape="rect" title=" " alt="" coords="252,319,365,345"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,319,494,345"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,319,717,345"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,319,836,345"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,543,111,569"/>
+<area shape="rect" title=" " alt="" coords="74,617,157,644"/>
+<area shape="rect" title=" " alt="" coords="211,543,281,569"/>
+<area shape="rect" title=" " alt="" coords="306,543,381,569"/>
+<area shape="rect" title=" " alt="" coords="173,393,337,420"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,393,543,420"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,393,746,420"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,393,930,420"/>
+<area shape="rect" title=" " alt="" coords="954,393,1165,420"/>
+<area shape="rect" title=" " alt="" coords="1189,393,1340,420"/>
+<area shape="rect" title=" " alt="" coords="357,468,548,495"/>
+<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="521,169,654,196"/>
+<area shape="rect" title=" " alt="" coords="497,244,678,271"/>
+<area shape="rect" title=" " alt="" coords="703,244,872,271"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="async__context_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2async__context_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2async__context_8hdep" id="ainclude_2pico_2async__context_8hdep">
+<area shape="rect" title=" " alt="" coords="695,5,837,47"/>
+<area shape="rect" href="async__context__base_8h_source.html" title=" " alt="" coords="5,102,148,143"/>
+<area shape="rect" href="async__context__freertos_8h_source.html" title=" " alt="" coords="172,102,320,143"/>
+<area shape="rect" href="async__context__poll_8h_source.html" title=" " alt="" coords="344,102,487,143"/>
+<area shape="rect" href="async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="511,95,666,151"/>
+<area shape="rect" href="btstack__cyw43_8h.html" title=" " alt="" coords="690,102,842,143"/>
+<area shape="rect" href="btstack__run__loop__async__context_8h_source.html" title=" " alt="" coords="867,102,1065,143"/>
+<area shape="rect" href="cyw43__arch_8h.html" title=" " alt="" coords="1090,102,1237,143"/>
+<area shape="rect" href="lwip__freertos_8h.html" title=" " alt="" coords="1261,109,1463,136"/>
+<area shape="rect" href="lwip__nosys_8h.html" title=" " alt="" coords="1487,109,1675,136"/>
+</map>
+</div>
 </div>
 <p><a href="async__context_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -161,11 +207,11 @@ typedef struct <a class="el" href="structasync__context__type.html">async_contex
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a0411cd49bb5b71852cecd93bcbf0ca2d"><td class="memItemLeft" align="right" valign="top"><a id="a0411cd49bb5b71852cecd93bcbf0ca2d" name="a0411cd49bb5b71852cecd93bcbf0ca2d"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>ASYNC_CONTEXT_POLL</b> = 1
+<tr class="memitem:a550cb4231d535863c55643bbd2d3c6ba"><td class="memItemLeft" align="right" valign="top"><a id="a550cb4231d535863c55643bbd2d3c6ba" name="a550cb4231d535863c55643bbd2d3c6ba"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>ASYNC_CONTEXT_POLL</b> = 1
 , <b>ASYNC_CONTEXT_THREADSAFE_BACKGROUND</b> = 2
 , <b>ASYNC_CONTEXT_FREERTOS</b> = 3
  }</td></tr>
-<tr class="separator:a0411cd49bb5b71852cecd93bcbf0ca2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a550cb4231d535863c55643bbd2d3c6ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -184,7 +230,7 @@ Functions</h2></td></tr>
 <tr class="memitem:gad4ea52957b11c70d908e5af6f0c715ab"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gad4ea52957b11c70d908e5af6f0c715ab">async_context_add_at_time_worker</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker)</td></tr>
 <tr class="memdesc:gad4ea52957b11c70d908e5af6f0c715ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an "at time" worker to a context.  <a href="group__pico__async__context.html#gad4ea52957b11c70d908e5af6f0c715ab">More...</a><br /></td></tr>
 <tr class="separator:gad4ea52957b11c70d908e5af6f0c715ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3">async_context_add_at_time_worker_at</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> at)</td></tr>
+<tr class="memitem:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3">async_context_add_at_time_worker_at</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> at)</td></tr>
 <tr class="memdesc:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an "at time" worker to a context.  <a href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3">More...</a><br /></td></tr>
 <tr class="separator:ga8ef9fba4dd680a576d94c82b40b10fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae0792d86734a6e30b2f043b8eba42438"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gae0792d86734a6e30b2f043b8eba42438">async_context_add_at_time_worker_in_ms</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__pico__async__context.html#ga74aa4914d98b190d2d4d84d7ff6b469e">async_at_time_worker_t</a> *worker, uint32_t ms)</td></tr>
@@ -205,10 +251,10 @@ Functions</h2></td></tr>
 <tr class="memitem:gafdb322c3f1043265624988215d3a8df9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context)</td></tr>
 <tr class="memdesc:gafdb322c3f1043265624988215d3a8df9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform any pending work for polling style <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.  <a href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">More...</a><br /></td></tr>
 <tr class="separator:gafdb322c3f1043265624988215d3a8df9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gad2f27b21dbaa264dfe59ef0f59de11db">async_context_wait_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gad2f27b21dbaa264dfe59ef0f59de11db">async_context_wait_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="mdescLeft">&#160;</td><td class="mdescRight">sleep until the specified time in an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> callback safe way  <a href="group__pico__async__context.html#gad2f27b21dbaa264dfe59ef0f59de11db">More...</a><br /></td></tr>
 <tr class="separator:gad2f27b21dbaa264dfe59ef0f59de11db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6207f562c0b69c7a75cd81a783eb1055"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055">async_context_wait_for_work_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga6207f562c0b69c7a75cd81a783eb1055"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055">async_context_wait_for_work_until</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga6207f562c0b69c7a75cd81a783eb1055"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block until work needs to be done or the specified time has been reached.  <a href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055">More...</a><br /></td></tr>
 <tr class="separator:ga6207f562c0b69c7a75cd81a783eb1055"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaae7ea2fed2b274a63455773d056f6d4c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__async__context.html#gaae7ea2fed2b274a63455773d056f6d4c">async_context_wait_for_work_ms</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context, uint32_t ms)</td></tr>

@@ -17,13 +17,22 @@ import os
 import shutil
 from pathlib import Path
 import sys
+import re
 import platform
 import csv
 
 CMAKELIST_FILENAME = 'CMakeLists.txt'
 CMAKECACHE_FILENAME = 'CMakeCache.txt'
 
-COMPILER_NAME = 'arm-none-eabi-gcc'
+ARM_TRIPLE = 'arm-none-eabi'
+RISCV_TRIPLE = 'riscv32-unknown-elf'
+COREV_TRIPLE = 'riscv32-corev-elf'
+COMPILER_TRIPLE = ARM_TRIPLE
+def COMPILER_NAME():
+    return f"{COMPILER_TRIPLE}-gcc"
+def GDB_NAME():
+    return f"{COMPILER_TRIPLE}-gdb"
+CMAKE_TOOLCHAIN_NAME = "pico_arm_gcc.cmake"
 
 VSCODE_LAUNCH_FILENAME = 'launch.json'
 VSCODE_C_PROPERTIES_FILENAME = 'c_cpp_properties.json'
@@ -335,7 +344,7 @@ configuration_dictionary = list(dict())
 isMac = False
 isWindows = False
 isx86 = False
-compilerPath = Path("/usr/bin/arm-none-eabi-gcc")
+compilerPath = Path(f"/usr/bin/{COMPILER_NAME()}")
 
 def relativeSDKPath(sdkVersion):
     return f"/.pico-sdk/sdk/{sdkVersion}"
@@ -345,6 +354,9 @@ def relativeToolchainPath(toolchainVersion):
 
 def relativeToolsPath(sdkVersion):
     return f"/.pico-sdk/tools/{sdkVersion}"
+
+def relativePicotoolPath(picotoolVersion):
+    return f"/.pico-sdk/picotool/{picotoolVersion}"
 
 def relativeOpenOCDPath(openocdVersion):
     return f"/.pico-sdk/openocd/{openocdVersion}"
@@ -358,11 +370,20 @@ def cmakeToolchainPath(toolchainVersion):
 def cmakeToolsPath(sdkVersion):
     return f"${{USERHOME}}{relativeToolsPath(sdkVersion)}"
 
+def cmakePicotoolPath(picotoolVersion):
+    return f"${{USERHOME}}{relativePicotoolPath(picotoolVersion)}"
+
 def propertiesSdkPath(sdkVersion, force_windows=False, force_non_windows=False):
     if (isWindows or force_windows) and not force_non_windows:
         return f"${{env:USERPROFILE}}{relativeSDKPath(sdkVersion)}"
     else:
         return f"${{env:HOME}}{relativeSDKPath(sdkVersion)}"
+    
+def propertiesPicotoolPath(picotoolVersion, force_windows=False, force_non_windows=False):
+    if (isWindows or force_windows) and not force_non_windows:
+        return f"${{env:USERPROFILE}}{relativePicotoolPath(picotoolVersion)}"
+    else:
+        return f"${{env:HOME}}{relativePicotoolPath(picotoolVersion)}"
 
 def codeSdkPath(sdkVersion):
     return f"${{userHome}}{relativeSDKPath(sdkVersion)}"
@@ -386,7 +407,7 @@ def CheckPrerequisites():
     isx86 = (platform.machine().lower() in ['x86_64', 'amd64'])
 
     # Do we have a compiler?
-    return shutil.which(COMPILER_NAME, 1, os.environ["Path" if isWindows else "PATH"])
+    return shutil.which(COMPILER_NAME(), 1, os.environ["Path" if isWindows else "PATH"])
 
 
 def CheckSDKPath(gui):
@@ -438,7 +459,8 @@ def ParseCommandLine():
     parser.add_argument("-cp", "--cpath", help="Override default VSCode compiler path")
     parser.add_argument("-root", "--projectRoot", help="Override default project root where the new project will be created")
     parser.add_argument("-sdkVersion", "--sdkVersion", help="Pico SDK version to use (required)")
-    parser.add_argument("-tcVersion", "--toolchainVersion", help="ARM Embeded Toolchain version to use (required)")
+    parser.add_argument("-tcVersion", "--toolchainVersion", help="ARM/RISCV Embeded Toolchain version to use (required)")
+    parser.add_argument("-picotoolVersion", "--picotoolVersion", help="Picotool version to use (required)")
     parser.add_argument("-np", "--ninjaPath", help="Ninja path")
     parser.add_argument("-cmp", "--cmakePath", help="CMake path")
     parser.add_argument("-cupy", "--customPython", action='store_true', help="Custom python path used to execute the script.")
@@ -548,7 +570,7 @@ def GenerateCMake(folder, params):
                 )
     
     # if you change the do never edit headline you need to change the check for it in extension.mts
-    cmake_header_us = (
+    cmake_header_us_1_5_1 = (
                 "# == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==\n"
                 "if(WIN32)\n"
                 "   set(USERHOME $ENV{USERPROFILE})\n"
@@ -564,7 +586,35 @@ def GenerateCMake(folder, params):
                 "endif()\n"
                 "# ====================================================================================\n"
                 )
-    
+    cmake_header_us = (
+                "# == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==\n"
+                "if(WIN32)\n"
+                "   set(USERHOME $ENV{USERPROFILE})\n"
+                "else()\n"
+                "    set(USERHOME $ENV{HOME})\n"
+                "endif()\n"
+                f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
+                f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
+                f"set(pioasm_HINT {cmakeToolsPath('2.0.0-dev')}/pioasm)\n" # todo: set this back to sdkVersion
+                "if(EXISTS ${pioasm_HINT})\n"
+                "    set(pioasm_DIR ${pioasm_HINT})\n"
+                "endif()\n"
+                f"set(picotool_HINT {cmakePicotoolPath(params['picotoolVersion'])}/picotool)\n"
+                "if(EXISTS ${picotool_HINT})\n"
+                "    set(picotool_DIR ${picotool_HINT})\n"
+                "endif()\n"
+                "if(PICO_TOOLCHAIN_PATH MATCHES \"RISCV\")\n"
+                "    set(PICO_PLATFORM rp2350-riscv CACHE STRING \"Pico Platform\")\n"
+                "    if(PICO_TOOLCHAIN_PATH MATCHES \"COREV\")\n"
+                "        set(PICO_COMPILER pico_riscv_gcc_zcb_zcmp)\n"
+                "    endif()\n"
+                "endif()\n"
+                "# ====================================================================================\n"
+                )
+
+    # Use old header for version less than 2.0.0
+    if params['sdkVersion'].split(".")[0] < "2":
+        cmake_header_us = cmake_header_us_1_5_1
     cmake_header2 = (
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
@@ -728,7 +778,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, ninjaPath, cmakePath, customPython, openOCDVersion):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, picotoolVersion, ninjaPath, cmakePath, customPython, openOCDVersion):
 
     oldCWD = os.getcwd()
 
@@ -739,7 +789,6 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     if debugger == "raspberrypi-swd.cfg":
         shutil.copyfile(sourcefolder + "/" +  "raspberrypi-swd.cfg", projectPath / "raspberrypi-swd.cfg")
 
-    gdbPath =  Path(codeToolchainPath(toolchainVersion)+"/bin/arm-none-eabi-gdb").as_posix() if isWindows or isMac else ("gdb-multiarch" if isx86 else "gdb")
     # Need to escape windows files paths backslashes
     # TODO: env in currently not supported in compilerPath var
     #cPath = f"${{env:PICO_TOOLCHAIN_PATH_{envSuffix}}}" + os.path.sep + os.path.basename(str(compilerPath).replace('\\', '\\\\' ))
@@ -751,9 +800,9 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
     openocd_path = ""
     server_path = "\n            \"serverpath\"" # Because no \ in f-strings
-    openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "bin", "openocd.exe")
+    openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "openocd.exe")
     if os.path.exists(openocd_path_os):
-        openocd_path = f'{codeOpenOCDPath(openOCDVersion)}/bin/openocd.exe'
+        openocd_path = f'{codeOpenOCDPath(openOCDVersion)}/openocd.exe'
 
     for p in projects :
         if p == 'vscode':
@@ -762,24 +811,25 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "configurations": [
         {{
             "name": "Pico Debug (Cortex-Debug)",
-            "cwd": "{"${workspaceRoot}" if not isWindows else f"{codeOpenOCDPath(openOCDVersion)}/openocd/scripts"}",
+            "cwd": "{"${workspaceRoot}" if not openocd_path else f"{codeOpenOCDPath(openOCDVersion)}/scripts"}",
             "executable": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "request": "launch",
             "type": "cortex-debug",
             "servertype": "openocd",\
 {f'{server_path}: "{openocd_path}",' if openocd_path else ""}
-            "gdbPath": "{gdbPath}",
-            "device": "RP2040",
+            "gdbPath": "${{command:raspberry-pi-pico.getGDBPath}}",
+            "device": "${{command:raspberry-pi-pico.getChip}}",
             "configFiles": [
                 "{debugger}",
-                "target/rp2040.cfg"
+                "target/${{command:raspberry-pi-pico.getTarget}}.cfg"
             ],
-            "svdFile": "{codeSdkPath(sdkVersion)}/src/rp2040/hardware_regs/rp2040.svd",
+            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChip}}.svd",
             "runToEntryPoint": "main",
-            // Give restart the same functionality as runToEntryPoint - main
-            "postRestartCommands": [
-                "break main",
-                "continue"
+            // Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
+            // Also works fine for flash binaries
+            "overrideLaunchCommands": [
+                "monitor reset init",
+                "load ${{command:raspberry-pi-pico.launchTargetPath}}"
             ],
             "openOCDLaunchCommands": [
                 "adapter speed 5000"
@@ -793,9 +843,9 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "type": "cortex-debug",
             "servertype": "external",
             "gdbTarget": "localhost:3333",
-            "gdbPath": "{gdbPath}",
-            "device": "RP2040",
-            "svdFile": "{codeSdkPath(sdkVersion)}/src/rp2040/hardware_regs/rp2040.svd",
+            "gdbPath": "${{command:raspberry-pi-pico.getGDBPath}}",
+            "device": "${{command:raspberry-pi-pico.getChip}}",
+            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChip}}.svd",
             "runToEntryPoint": "main",
             // Give restart the same functionality as runToEntryPoint - main
             "postRestartCommands": [
@@ -810,10 +860,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "cwd": "${{workspaceRoot}}",
             "program": "${{command:raspberry-pi-pico.launchTargetPath}}",
             "MIMode": "gdb",
-            "miDebuggerPath": "{gdbPath}",
+            "miDebuggerPath": "${{command:raspberry-pi-pico.getGDBPath}}",
             "miDebuggerServerAddress": "localhost:3333",
             "debugServerPath": "{openocd_path if openocd_path else "openocd"}",
-            "debugServerArgs": "-f {debugger} -f target/rp2040.cfg -c \\"adapter speed 5000\\"",
+            "debugServerArgs": "-f {debugger} -f target/${{command:raspberry-pi-pico.getTarget}}.cfg -c \\"adapter speed 5000\\"",
             "serverStarted": "Listening on port .* for gdb connections",
             "filterStderr": true,
             "hardwareBreakpoints": {{
@@ -821,7 +871,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "limit": 4
             }},
             "preLaunchTask": "Flash",
-            "svdPath": "{codeSdkPath(sdkVersion)}/src/rp2040/hardware_regs/rp2040.svd"
+            "svdPath": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChip}}.svd"
         }},
     ]
 }}
@@ -861,7 +911,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "C": "{cPath}",
             "CXX": "{cPath}"
         }},
-        "toolchainFile": "{propertiesSdkPath(sdkVersion)}/cmake/preload/toolchains/pico_arm_gcc.cmake",
+        "toolchainFile": "{propertiesSdkPath(sdkVersion)}/cmake/preload/toolchains/{CMAKE_TOOLCHAIN_NAME}",
         "environmentVariables": {{
             "PATH": "${{command:raspberry-pi-pico.getEnvPath}};${{env:PATH}}"
         }},
@@ -894,17 +944,32 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     "terminal.integrated.env.windows": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_windows=True)}",
         "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_windows=True)}",
-        "Path": "{propertiesToolchainPath(toolchainVersion, force_windows=True)}/bin;{os.path.dirname(cmakePath.replace(user_home, "${env:USERPROFILE}") if use_home_var else cmakePath)};{os.path.dirname(ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath)};${{env:PATH}}"
+        "Path": "\
+{propertiesToolchainPath(toolchainVersion, force_windows=True)}/bin;\
+{propertiesPicotoolPath(picotoolVersion, force_windows=True)}/picotool;\
+{os.path.dirname(cmakePath.replace(user_home, "${env:USERPROFILE}") if use_home_var else cmakePath)};\
+{os.path.dirname(ninjaPath.replace(user_home, "${env:USERPROFILE}") if use_home_var else ninjaPath)};\
+${{env:PATH}}"
     }},
     "terminal.integrated.env.osx": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_non_windows=True)}",
         "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}",
-        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${env:HOME}") if use_home_var else ninjaPath)}:${{env:PATH}}"
+        "PATH": "\
+{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:\
+{propertiesPicotoolPath(picotoolVersion, force_non_windows=True)}/picotool:\
+{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:\
+{os.path.dirname(ninjaPath.replace(user_home, "${env:HOME}") if use_home_var else ninjaPath)}:\
+${{env:PATH}}"
     }},
     "terminal.integrated.env.linux": {{
         "PICO_SDK_PATH": "{propertiesSdkPath(sdkVersion, force_non_windows=True)}",
         "PICO_TOOLCHAIN_PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}",
-        "PATH": "{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:{os.path.dirname(ninjaPath.replace(user_home, "${env:HOME}") if use_home_var else ninjaPath)}:${{env:PATH}}"
+        "PATH": "\
+{propertiesToolchainPath(toolchainVersion, force_non_windows=True)}/bin:\
+{propertiesPicotoolPath(picotoolVersion, force_non_windows=True)}/picotool:\
+{os.path.dirname(cmakePath.replace(user_home, "${env:HOME}") if use_home_var else cmakePath)}:\
+{os.path.dirname(ninjaPath.replace(user_home, "${env:HOME}") if use_home_var else ninjaPath)}:\
+${{env:PATH}}"
     }},
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.useCmakeTools": false,
@@ -948,14 +1013,34 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             }}
         }},
         {{
+            "label": "Run Project",
+            "type": "process",
+            "command": "{propertiesPicotoolPath(picotoolVersion, force_non_windows=True)}/picotool/picotool",
+            "args": [
+                "load",
+                "${{command:raspberry-pi-pico.launchTargetPath}}",
+                "-fx"
+            ],
+            "presentation": {{
+                "reveal": "always",
+                "panel": "dedicated"
+            }},
+            "problemMatcher": [],
+            "windows": {{
+                "command": "{propertiesPicotoolPath(picotoolVersion, force_windows=True)}/picotool/picotool.exe"
+            }}
+        }},
+        {{
             "label": "Flash",
             "type": "process",
             "command": "{openocd_path if openocd_path else "openocd"}",
             "args": [
+                "-s",
+                "{codeOpenOCDPath(openOCDVersion)}/scripts",
                 "-f",
                 "{debugger}",
                 "-f",
-                "target/rp2040.cfg",
+                "target/${{command:raspberry-pi-pico.getTarget}}.cfg",
                 "-c",
                 "adapter speed 5000; program \\"${{command:raspberry-pi-pico.launchTargetPath}}\\" verify reset exit"
             ],
@@ -1035,6 +1120,7 @@ def LoadBoardTypes(sdkPath):
     return boards
 
 def DoEverything(parent, params):
+    global CMAKE_TOOLCHAIN_NAME
 
     if not os.path.exists(params['projectRoot']):
         print('Invalid project path')
@@ -1131,6 +1217,13 @@ def DoEverything(parent, params):
 
     os.system(cmakeCmd)
 
+    # Extract CMake Toolchain File
+    if os.path.exists(CMAKECACHE_FILENAME):
+        cacheFile = open(CMAKECACHE_FILENAME, "r")
+        for line in cacheFile:
+            if re.search("CMAKE_TOOLCHAIN_FILE:FILEPATH=", line):
+                CMAKE_TOOLCHAIN_NAME = line.split("=")[-1].split("/")[-1].strip()
+
     if params['projects']:
         generateProjectFiles(
             projectPath, 
@@ -1140,6 +1233,7 @@ def DoEverything(parent, params):
             params['debugger'], 
             params["sdkVersion"], 
             params["toolchainVersion"], 
+            params["picotoolVersion"], 
             params["ninjaPath"], 
             params["cmakePath"],
             params["customPython"],
@@ -1165,13 +1259,19 @@ if args.nouart:
 if args.debugger > len(debugger_list) - 1:
     args.debugger = 0
 
+if "RISCV" in args.toolchainVersion:
+    if "COREV" in args.toolchainVersion:
+        COMPILER_TRIPLE = COREV_TRIPLE
+    else:
+        COMPILER_TRIPLE = RISCV_TRIPLE
+
 # Check we have everything we need to compile etc
 c = CheckPrerequisites()
 
 ## TODO Do both warnings in the same error message so user does have to keep coming back to find still more to do
 
 if c == None:
-    m = f'Unable to find the `{COMPILER_NAME}` compiler\n'
+    m = f'Unable to find the `{COMPILER_NAME()}` compiler\n'
     m +='You will need to install an appropriate compiler to build a Raspberry Pi Pico project\n'
     m += 'See the Raspberry Pi Pico documentation for how to do this on your particular platform\n'
 
@@ -1186,7 +1286,7 @@ if args.name == None and not args.gui and not args.list and not args.configs and
 if args.cpath:
     compilerPath = Path(args.cpath)
 elif args.toolchainVersion:
-    compilerPath = Path(codeToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME)
+    compilerPath = Path(codeToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME())
 else:
     compilerPath = Path(c)
 
@@ -1253,6 +1353,7 @@ else :
         'password'      : '',
         'sdkVersion'    : args.sdkVersion,
         'toolchainVersion': args.toolchainVersion,
+        'picotoolVersion': args.picotoolVersion,
         'ninjaPath'     : args.ninjaPath,
         'cmakePath'     : args.cmakePath,
         'customPython'  : args.customPython,

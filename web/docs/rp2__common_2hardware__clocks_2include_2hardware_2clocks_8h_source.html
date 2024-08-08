@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_clocks/include/hardware/clocks.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/clocks.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -121,125 +121,215 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__clocks_2include
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#define KHZ 1000</span></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#define MHZ 1000000</span></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment">//</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment">// There are two PLLs in RP2040:</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">// 1. The &#39;SYS PLL&#39; generates the 125MHz system clock, the frequency is defined by `SYS_CLK_KHZ`.</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment">// 2. The &#39;USB PLL&#39; generates the 48MHz USB clock, the frequency is defined by `USB_CLK_KHZ`.</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="comment">//</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="comment">// The two PLLs use the crystal oscillator output directly as their reference frequency input; the PLLs reference</span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="comment">// frequency cannot be reduced by the dividers present in the clocks block. The crystal frequency is defined by `XOSC_KHZ` or</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="comment">// `XOSC_MHZ`.</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment">//</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment">// The system&#39;s default definitions are correct for the above frequencies with a 12MHz</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment">// crystal frequency.  If different frequencies are required, these must be defined in</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="comment">// the board configuration file together with the revised PLL settings</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="comment">// Use `vcocalc.py` to check and calculate new PLL settings if you change any of these frequencies.</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">//</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="comment">// Default PLL configuration:</span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">//                   REF     FBDIV VCO            POSTDIV</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="comment">// PLL SYS: 12 / 1 = 12MHz * 125 = 1500MHz / 6 / 2 = 125MHz</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="comment">// PLL USB: 12 / 1 = 12MHz * 100 = 1200MHz / 5 / 5 =  48MHz</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment"></span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="comment">// PICO_CONFIG: PLL_COMMON_REFDIV, PLL reference divider setting - used for both PLLs, type=int, default=1, advanced=true, group=hardware_clocks</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#ifndef PLL_COMMON_REFDIV</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#define PLL_COMMON_REFDIV                   1</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#if (SYS_CLK_KHZ == 125000) &amp;&amp; (XOSC_KHZ == 12000) &amp;&amp; (PLL_COMMON_REFDIV == 1)</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment">// PLL settings for standard 125 MHz system clock.</span></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="comment">// PICO_CONFIG: PLL_SYS_VCO_FREQ_KHZ, System clock PLL frequency, type=int, default=1500 * KHZ, advanced=true, group=hardware_clocks</span></div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">#ifndef PLL_SYS_VCO_FREQ_KHZ</span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="preprocessor">#define PLL_SYS_VCO_FREQ_KHZ                (1500 * KHZ)</span></div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment">// PICO_CONFIG: PLL_SYS_POSTDIV1, System clock PLL post divider 1 setting, type=int, default=6, advanced=true, group=hardware_clocks</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#ifndef PLL_SYS_POSTDIV1</span></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#define PLL_SYS_POSTDIV1                    6</span></div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment">// PICO_CONFIG: PLL_SYS_POSTDIV2, System clock PLL post divider 2 setting, type=int, default=2, advanced=true, group=hardware_clocks</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#ifndef PLL_SYS_POSTDIV2</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="preprocessor">#define PLL_SYS_POSTDIV2                    2</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#endif </span><span class="comment">// SYS_CLK_KHZ == 125000 &amp;&amp; XOSC_KHZ == 12000 &amp;&amp; PLL_COMMON_REFDIV == 1</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="preprocessor">#if !defined(PLL_SYS_VCO_FREQ_KHZ) || !defined(PLL_SYS_POSTDIV1) || !defined(PLL_SYS_POSTDIV2)</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor">#error PLL_SYS_VCO_FREQ_KHZ, PLL_SYS_POSTDIV1 and PLL_SYS_POSTDIV2 must all be specified when using custom clock setup</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="preprocessor">#if (USB_CLK_KHZ == 48000) &amp;&amp; (XOSC_KHZ == 12000) &amp;&amp; (PLL_COMMON_REFDIV == 1)</span></div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="comment">// PLL settings for a USB clock of 48MHz.</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="comment">// PICO_CONFIG: PLL_USB_VCO_FREQ_KHZ, USB clock PLL frequency, type=int, default=1200 * KHZ, advanced=true, group=hardware_clocks</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#ifndef PLL_USB_VCO_FREQ_KHZ</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="preprocessor">#define PLL_USB_VCO_FREQ_KHZ                (1200 * KHZ)</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment">// PICO_CONFIG: PLL_USB_POSTDIV1, USB clock PLL post divider 1 setting, type=int, default=5, advanced=true, group=hardware_clocks</span></div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#ifndef PLL_USB_POSTDIV1</span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="preprocessor">#define PLL_USB_POSTDIV1                    5</span></div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">// PICO_CONFIG: PLL_USB_POSTDIV2, USB clock PLL post divider 2 setting, type=int, default=5, advanced=true, group=hardware_clocks</span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#ifndef PLL_USB_POSTDIV2</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#define PLL_USB_POSTDIV2                    5</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#endif </span><span class="comment">// USB_CLK_KHZ == 48000 &amp;&amp; XOSC_KHZ == 12000 &amp;&amp; PLL_COMMON_REFDIV == 1</span></div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#if !defined(PLL_USB_VCO_FREQ_KHZ) || !defined(PLL_USB_POSTDIV1) || !defined(PLL_USB_POSTDIV2)</span></div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#error PLL_USB_VCO_FREQ_KHZ, PLL_USB_POSTDIV1 and PLL_USB_POSTDIV2 must all be specified when using custom clock setup.</span></div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="comment">// PICO_CONFIG: PARAM_ASSERTIONS_ENABLED_CLOCKS, Enable/disable assertions in the clocks module, type=bool, default=0, group=hardware_clocks</span></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#ifndef PARAM_ASSERTIONS_ENABLED_CLOCKS</span></div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#define PARAM_ASSERTIONS_ENABLED_CLOCKS 0</span></div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#gad23a3dc38152e44233b5fb3ef2a3f43d">clocks_init</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__clocks.html#ga90f15783df4e2cb041971a197b2119b1">clock_configure</a>(<span class="keyword">enum</span> <a class="code hl_enumeration" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq);</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga42c2ec40c0106e7636fd57c726250c96">clock_stop</a>(<span class="keyword">enum</span> <a class="code hl_enumeration" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index);</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>uint32_t <a class="code hl_function" href="group__hardware__clocks.html#gae78816cc6112538a12adcc604be4b344">clock_get_hz</a>(<span class="keyword">enum</span> <a class="code hl_enumeration" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index);</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>uint32_t <a class="code hl_function" href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a>(uint src);</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#gaed3ccd638651449148c30aaf0874cda4">clock_set_reported_hz</a>(<span class="keyword">enum</span> <a class="code hl_enumeration" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index, uint hz);</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> frequency_count_mhz(uint src) {</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">return</span> ((<span class="keywordtype">float</span>) (<a class="code hl_function" href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a>(src))) / KHZ;</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>}</div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno"><a class="line" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">  222</a></span><span class="keyword">typedef</span> void (*<a class="code hl_typedef" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a>)(void);</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span> </div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c">clocks_enable_resus</a>(<a class="code hl_typedef" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a> resus_callback);</div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#gaec0218c0c355e0691b2005b34caecd3c">clock_gpio_init_int_frac</a>(uint gpio, uint src, uint32_t div_int, uint8_t div_frac);</div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno"><a class="line" href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">  251</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">clock_gpio_init</a>(uint gpio, uint src, <span class="keywordtype">float</span> div)</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>{</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    uint div_int = (uint)div;</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    uint8_t frac = (uint8_t)((div - (<span class="keywordtype">float</span>)div_int) * (1u &lt;&lt; CLOCKS_CLK_GPOUT0_DIV_INT_LSB));</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <a class="code hl_function" href="group__hardware__clocks.html#gaec0218c0c355e0691b2005b34caecd3c">clock_gpio_init_int_frac</a>(gpio, src, div_int, frac);</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>}</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">#define KHZ 1000</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#define MHZ 1000000</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="comment">// \tag::pll_settings[]</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment">// There are two PLLs in RP-series microcontrollers:</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">// 1. The &#39;SYS PLL&#39; generates the system clock, the frequency is defined by `SYS_CLK_KHZ`.</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="comment">// 2. The &#39;USB PLL&#39; generates the USB clock, the frequency is defined by `USB_CLK_KHZ`.</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment">//</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">// The two PLLs use the crystal oscillator output directly as their reference frequency input; the PLLs reference</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">// frequency cannot be reduced by the dividers present in the clocks block. The crystal frequency is defined by `XOSC_HZ` (or</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment">// `XOSC_KHZ` or `XOSC_MHZ`).</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">//</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="comment">// The system&#39;s default definitions are correct for the above frequencies with a 12MHz</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="comment">// crystal frequency.  If different frequencies are required, these must be defined in</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="comment">// the board configuration file together with the revised PLL settings</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="comment">// Use `vcocalc.py` to check and calculate new PLL settings if you change any of these frequencies.</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="comment">//</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="comment">// Default PLL configuration RP2040:</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="comment">//                   REF     FBDIV VCO            POSTDIV</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="comment">// PLL SYS: 12 / 1 = 12MHz * 125 = 1500MHz / 6 / 2 = 125MHz</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="comment">// PLL USB: 12 / 1 = 12MHz * 100 = 1200MHz / 5 / 5 =  48MHz</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="comment">//</span></div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="comment">// Default PLL configuration RP2350:</span></div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="comment">//                   REF     FBDIV VCO            POSTDIV</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="comment">// PLL SYS: 12 / 1 = 12MHz * 125 = 1500MHz / 5 / 2 = 150MHz</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="comment">// PLL USB: 12 / 1 = 12MHz * 100 = 1200MHz / 5 / 5 =  48MHz</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="comment">// \end::pll_settings[]</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="preprocessor">#ifndef PLL_COMMON_REFDIV</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="comment">// backwards compatibility, but now deprecated</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="preprocessor">#define PLL_COMMON_REFDIV 1</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="comment">// PICO_CONFIG: PLL_SYS_REFDIV, PLL reference divider setting for PLL_SYS, type=int, default=1, advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="preprocessor">#ifndef PLL_SYS_REFDIV</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="comment">// backwards compatibility with deprecated PLL_COMMON_REFDIV</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="preprocessor">#ifdef PLL_COMMON_REFDIV</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="preprocessor">#define PLL_SYS_REFDIV                   PLL_COMMON_REFDIV</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#define PLL_SYS_REFDIV                   1</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="preprocessor">#ifndef PLL_SYS_VCO_FREQ_HZ</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="comment">// For backwards compatibility define PLL_SYS_VCO_FREQ_HZ if PLL_SYS_VCO_FREQ_KHZ is defined</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="preprocessor">#ifdef PLL_SYS_VCO_FREQ_KHZ</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="preprocessor">#define PLL_SYS_VCO_FREQ_HZ                (PLL_SYS_VCO_FREQ_KHZ * KHZ)</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="preprocessor">#if (SYS_CLK_HZ == 125 * MHZ || SYS_CLK_HZ == 150 * MHZ) &amp;&amp; (XOSC_HZ == 12 * MHZ) &amp;&amp; (PLL_SYS_REFDIV == 1)</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="comment">// PLL settings for standard 125/150 MHz system clock.</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="comment">// PICO_CONFIG: PLL_SYS_VCO_FREQ_HZ, System clock PLL frequency, type=int, default=(1500 * MHZ), advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#ifndef PLL_SYS_VCO_FREQ_HZ</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="preprocessor">#define PLL_SYS_VCO_FREQ_HZ                (1500 * MHZ)</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="comment">// PICO_CONFIG: PLL_SYS_POSTDIV1, System clock PLL post divider 1 setting, type=int, default=6 on RP2040 5 or on RP2350, advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="preprocessor">#ifndef PLL_SYS_POSTDIV1</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#if SYS_CLK_HZ == 125 * MHZ</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="preprocessor">#define PLL_SYS_POSTDIV1                    6</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="preprocessor">#define PLL_SYS_POSTDIV1                    5</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="comment">// PICO_CONFIG: PLL_SYS_POSTDIV2, System clock PLL post divider 2 setting, type=int, default=2, advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="preprocessor">#ifndef PLL_SYS_POSTDIV2</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="preprocessor">#define PLL_SYS_POSTDIV2                    2</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span><span class="preprocessor">#endif </span><span class="comment">// SYS_CLK_KHZ == 125000 &amp;&amp; XOSC_KHZ == 12000 &amp;&amp; PLL_COMMON_REFDIV == 1</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="preprocessor">#if !defined(PLL_SYS_VCO_FREQ_HZ) || !defined(PLL_SYS_POSTDIV1) || !defined(PLL_SYS_POSTDIV2)</span></div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="preprocessor">#error PLL_SYS_VCO_FREQ_HZ, PLL_SYS_POSTDIV1 and PLL_SYS_POSTDIV2 must all be specified when using custom clock setup</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="comment">// PICO_CONFIG: PLL_USB_REFDIV, PLL reference divider setting for PLL_USB, type=int, default=1, advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="preprocessor">#ifndef PLL_USB_REFDIV</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span><span class="comment">// backwards compatibility with deprecated PLL_COMMON_REFDIV</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span><span class="preprocessor">#ifdef PLL_COMMON_REFDIV</span></div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="preprocessor">#define PLL_USB_REFDIV                   PLL_COMMON_REFDIV</span></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="preprocessor">#define PLL_USB_REFDIV                   1</span></div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span> </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="preprocessor">#ifndef PLL_USB_VCO_FREQ_HZ</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="comment">// For backwards compatibility define PLL_USB_VCO_FREQ_HZ if PLL_USB_VCO_FREQ_KHZ is defined</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="preprocessor">#ifdef PLL_USB_VCO_FREQ_KHZ</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span><span class="preprocessor">#define PLL_USB_VCO_FREQ_HZ                 (PLL_USB_VCO_FREQ_KHZ * KHZ)</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="preprocessor">#if (USB_CLK_HZ == 48 * MHZ) &amp;&amp; (XOSC_HZ == 12 * MHZ) &amp;&amp; (PLL_USB_REFDIV == 1)</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="comment">// PLL settings for a USB clock of 48MHz.</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="comment">// PICO_CONFIG: PLL_USB_VCO_FREQ_HZ, USB clock PLL frequency, type=int, default=(1200 * MHZ), advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="preprocessor">#ifndef PLL_USB_VCO_FREQ_HZ</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#define PLL_USB_VCO_FREQ_HZ                 (1200 * MHZ)</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="comment">// PICO_CONFIG: PLL_USB_POSTDIV1, USB clock PLL post divider 1 setting, type=int, default=5, advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="preprocessor">#ifndef PLL_USB_POSTDIV1</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="preprocessor">#define PLL_USB_POSTDIV1                    5</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span><span class="comment">// PICO_CONFIG: PLL_USB_POSTDIV2, USB clock PLL post divider 2 setting, type=int, default=5, advanced=true, group=hardware_clocks</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="preprocessor">#ifndef PLL_USB_POSTDIV2</span></div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="preprocessor">#define PLL_USB_POSTDIV2                    5</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="preprocessor">#endif </span><span class="comment">// USB_CLK_HZ == 48000000 &amp;&amp; XOSC_HZ == 12000000 &amp;&amp; PLL_COMMON_REFDIV == 1</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="preprocessor">#if !defined(PLL_USB_VCO_FREQ_HZ) || !defined(PLL_USB_POSTDIV1) || !defined(PLL_USB_POSTDIV2)</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="preprocessor">#error PLL_USB_VCO_FREQ_HZ, PLL_USB_POSTDIV1 and PLL_USB_POSTDIV2 must all be specified when using custom clock setup.</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="comment">// PICO_CONFIG: PARAM_ASSERTIONS_ENABLED_HARDWARE_CLOCKS, Enable/disable assertions in the hardware_clocks module, type=bool, default=0, group=hardware_clocks</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="preprocessor">#ifndef PARAM_ASSERTIONS_ENABLED_HARDWARE_CLOCKS</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="preprocessor">#ifdef PARAM_ASSERTIONS_ENABLED_CLOCKS </span><span class="comment">// backwards compatibility with SDK &lt; 2.0.0</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="preprocessor">#define PARAM_ASSERTIONS_ENABLED_HARDWARE_CLOCKS PARAM_ASSERTIONS_ENABLED_CLOCKS</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="preprocessor">#define PARAM_ASSERTIONS_ENABLED_HARDWARE_CLOCKS 0</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__clocks.html#gab7c219f99ee92b9a14f1012c339c5252">clock_configure_gpin</a>(<span class="keyword">enum</span> <a class="code hl_enumeration" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index, uint gpio, uint32_t src_freq, uint32_t freq);</div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>}</div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="keyword">typedef</span> <a class="code hl_typedef" href="group__hardware__clocks.html#gae5b3d4a25ed3bb4916782746a6279507">clock_num_t</a> clock_handle_t;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">clock_configure</a>(clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq);</div>
 <div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span> </div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__hardware__clocks_html_ga42c2ec40c0106e7636fd57c726250c96"><div class="ttname"><a href="group__hardware__clocks.html#ga42c2ec40c0106e7636fd57c726250c96">clock_stop</a></div><div class="ttdeci">void clock_stop(enum clock_index clk_index)</div><div class="ttdoc">Stop the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:41</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_ga60fddc9bfe13c979c8e3a777d0d89037"><div class="ttname"><a href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a></div><div class="ttdeci">void(* resus_callback_t)(void)</div><div class="ttdoc">Resus callback function type.</div><div class="ttdef"><b>Definition:</b> clocks.h:222</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_ga614700afaa5ee6767ef2cf662e63f84c"><div class="ttname"><a href="group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c">clocks_enable_resus</a></div><div class="ttdeci">void clocks_enable_resus(resus_callback_t resus_callback)</div><div class="ttdoc">Enable the resus function. Restarts clk_sys if it is accidentally stopped.</div><div class="ttdef"><b>Definition:</b> clocks.c:286</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_ga76d69b8d84158f8c2e99ae84b82ca0a1"><div class="ttname"><a href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">clock_gpio_init</a></div><div class="ttdeci">static void clock_gpio_init(uint gpio, uint src, float div)</div><div class="ttdoc">Output an optionally divided clock to the specified gpio pin.</div><div class="ttdef"><b>Definition:</b> clocks.h:251</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_ga7ac25aa331f7c2624795b6088f87d133"><div class="ttname"><a href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a></div><div class="ttdeci">clock_index</div><div class="ttdoc">Enumeration identifying a hardware clock.</div><div class="ttdef"><b>Definition:</b> clocks.h:27</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_ga90f15783df4e2cb041971a197b2119b1"><div class="ttname"><a href="group__hardware__clocks.html#ga90f15783df4e2cb041971a197b2119b1">clock_configure</a></div><div class="ttdeci">bool clock_configure(enum clock_index clk_index, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq)</div><div class="ttdoc">Configure the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:48</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gab7c219f99ee92b9a14f1012c339c5252"><div class="ttname"><a href="group__hardware__clocks.html#gab7c219f99ee92b9a14f1012c339c5252">clock_configure_gpin</a></div><div class="ttdeci">bool clock_configure_gpin(enum clock_index clk_index, uint gpio, uint32_t src_freq, uint32_t freq)</div><div class="ttdoc">Configure a clock to come from a gpio input.</div><div class="ttdef"><b>Definition:</b> clocks.c:357</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gad23a3dc38152e44233b5fb3ef2a3f43d"><div class="ttname"><a href="group__hardware__clocks.html#gad23a3dc38152e44233b5fb3ef2a3f43d">clocks_init</a></div><div class="ttdeci">void clocks_init(void)</div><div class="ttdoc">Initialise the clock hardware.</div><div class="ttdef"><b>Definition:</b> clocks.c:121</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gae78816cc6112538a12adcc604be4b344"><div class="ttname"><a href="group__hardware__clocks.html#gae78816cc6112538a12adcc604be4b344">clock_get_hz</a></div><div class="ttdeci">uint32_t clock_get_hz(enum clock_index clk_index)</div><div class="ttdoc">Get the current frequency of the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:201</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gaeb4a4f07e66523304837a6498276dd53"><div class="ttname"><a href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a></div><div class="ttdeci">uint32_t frequency_count_khz(uint src)</div><div class="ttdoc">Measure a clocks frequency using the Frequency counter.</div><div class="ttdef"><b>Definition:</b> clocks.c:211</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gaec0218c0c355e0691b2005b34caecd3c"><div class="ttname"><a href="group__hardware__clocks.html#gaec0218c0c355e0691b2005b34caecd3c">clock_gpio_init_int_frac</a></div><div class="ttdeci">void clock_gpio_init_int_frac(uint gpio, uint src, uint32_t div_int, uint8_t div_frac)</div><div class="ttdoc">Output an optionally divided clock to the specified gpio pin.</div><div class="ttdef"><b>Definition:</b> clocks.c:310</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gaed3ccd638651449148c30aaf0874cda4"><div class="ttname"><a href="group__hardware__clocks.html#gaed3ccd638651449148c30aaf0874cda4">clock_set_reported_hz</a></div><div class="ttdeci">void clock_set_reported_hz(enum clock_index clk_index, uint hz)</div><div class="ttdoc">Set the &quot;current frequency&quot; of the clock as reported by clock_get_hz without actually changing the cl...</div><div class="ttdef"><b>Definition:</b> clocks.c:206</div></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga6b3cc59b3628108d77b2b1b548ec8053">clock_configure_undivided</a>(clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq);</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span> </div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga097a126a24cec137d4cc6c01a388f8a5">clock_configure_int_divider</a>(clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t int_divider);</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga33862124558abcae451a0607df8d19bc">clock_stop</a>(clock_handle_t clock);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>uint32_t <a class="code hl_function" href="group__hardware__clocks.html#gaa2e43d722ca3375f53cb65513275a625">clock_get_hz</a>(clock_handle_t clock);</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>uint32_t <a class="code hl_function" href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a>(uint src);</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga9a8d16dd4e2afa2dbb6fc3d884c2269c">clock_set_reported_hz</a>(clock_handle_t clock, uint hz);</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span> </div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> frequency_count_mhz(uint src) {</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    <span class="keywordflow">return</span> ((<span class="keywordtype">float</span>) (<a class="code hl_function" href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a>(src))) / KHZ;</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>}</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno"><a class="line" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">  339</a></span><span class="keyword">typedef</span> void (*<a class="code hl_typedef" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a>)(void);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c">clocks_enable_resus</a>(<a class="code hl_typedef" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a> resus_callback);</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#gaec0218c0c355e0691b2005b34caecd3c">clock_gpio_init_int_frac</a>(uint gpio, uint src, uint32_t div_int, uint8_t div_frac);</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span> </div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno"><a class="line" href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">  368</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">clock_gpio_init</a>(uint gpio, uint src, <span class="keywordtype">float</span> div)</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>{</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    uint div_int = (uint)div;</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    uint8_t frac = (uint8_t)((div - (<span class="keywordtype">float</span>)div_int) * (1u &lt;&lt; CLOCKS_CLK_GPOUT0_DIV_INT_LSB));</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    <a class="code hl_function" href="group__hardware__clocks.html#gaec0218c0c355e0691b2005b34caecd3c">clock_gpio_init_int_frac</a>(gpio, src, div_int, frac);</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>}</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span> </div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__clocks.html#gae15228c0d8298d19d883a453334a4d40">clock_configure_gpin</a>(clock_handle_t clock, uint gpio, uint32_t src_freq, uint32_t freq);</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span> </div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__stdlib.html#ga89efe34eab0b8b96954eb0e19a38c8be">set_sys_clock_48mhz</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span> </div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">set_sys_clock_pll</a>(uint32_t vco_freq, uint post_div1, uint post_div2);</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span> </div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__pico__stdlib.html#gafa509e1c42d351a21ac87a790d7c37e0">check_sys_clock_hz</a>(uint32_t freq_hz, uint *vco_freq_out, uint *post_div1_out, uint *post_div2_out);</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span> </div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__pico__stdlib.html#ga8553a9d91b581e0d3dbccd8d83b1a1b9">check_sys_clock_khz</a>(uint32_t freq_khz, uint *vco_freq_out, uint *post_div1_out, uint *post_div2_out);</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span> </div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno"><a class="line" href="group__pico__stdlib.html#ga28d65a360d9c9423fe5549b216b79683">  436</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__pico__stdlib.html#ga28d65a360d9c9423fe5549b216b79683">set_sys_clock_hz</a>(uint32_t freq_hz, <span class="keywordtype">bool</span> required) {</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>    uint vco, postdiv1, postdiv2;</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__pico__stdlib.html#gafa509e1c42d351a21ac87a790d7c37e0">check_sys_clock_hz</a>(freq_hz, &amp;vco, &amp;postdiv1, &amp;postdiv2)) {</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>        <a class="code hl_function" href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">set_sys_clock_pll</a>(vco, postdiv1, postdiv2);</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (required) {</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>        <a class="code hl_function" href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a>(<span class="stringliteral">&quot;System clock of %u Hz cannot be exactly achieved&quot;</span>, freq_hz);</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>    }</div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>}</div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span> </div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno"><a class="line" href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">  458</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">set_sys_clock_khz</a>(uint32_t freq_khz, <span class="keywordtype">bool</span> required) {</div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    uint vco, postdiv1, postdiv2;</div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__pico__stdlib.html#ga8553a9d91b581e0d3dbccd8d83b1a1b9">check_sys_clock_khz</a>(freq_khz, &amp;vco, &amp;postdiv1, &amp;postdiv2)) {</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>        <a class="code hl_function" href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">set_sys_clock_pll</a>(vco, postdiv1, postdiv2);</div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (required) {</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>        <a class="code hl_function" href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a>(<span class="stringliteral">&quot;System clock of %u kHz cannot be exactly achieved&quot;</span>, freq_khz);</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>    }</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>}</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span> </div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>}</div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span> </div>
+<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga097a126a24cec137d4cc6c01a388f8a5"><div class="ttname"><a href="group__hardware__clocks.html#ga097a126a24cec137d4cc6c01a388f8a5">clock_configure_int_divider</a></div><div class="ttdeci">void clock_configure_int_divider(clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t int_divider)</div><div class="ttdoc">Configure the specified clock to use the undividded input source.</div><div class="ttdef"><b>Definition:</b> clocks.c:112</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga33862124558abcae451a0607df8d19bc"><div class="ttname"><a href="group__hardware__clocks.html#ga33862124558abcae451a0607df8d19bc">clock_stop</a></div><div class="ttdeci">void clock_stop(clock_handle_t clock)</div><div class="ttdoc">Stop the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:33</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga4da87f338212a24bbebce4dd570b81bb"><div class="ttname"><a href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">clock_configure</a></div><div class="ttdeci">bool clock_configure(clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq)</div><div class="ttdoc">Configure the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:98</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga60fddc9bfe13c979c8e3a777d0d89037"><div class="ttname"><a href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a></div><div class="ttdeci">void(* resus_callback_t)(void)</div><div class="ttdoc">Resus callback function type.</div><div class="ttdef"><b>Definition:</b> clocks.h:339</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga614700afaa5ee6767ef2cf662e63f84c"><div class="ttname"><a href="group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c">clocks_enable_resus</a></div><div class="ttdeci">void clocks_enable_resus(resus_callback_t resus_callback)</div><div class="ttdoc">Enable the resus function. Restarts clk_sys if it is accidentally stopped.</div><div class="ttdef"><b>Definition:</b> clocks.c:207</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga6b3cc59b3628108d77b2b1b548ec8053"><div class="ttname"><a href="group__hardware__clocks.html#ga6b3cc59b3628108d77b2b1b548ec8053">clock_configure_undivided</a></div><div class="ttdeci">void clock_configure_undivided(clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq)</div><div class="ttdoc">Configure the specified clock to use the undividded input source.</div><div class="ttdef"><b>Definition:</b> clocks.c:116</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga76d69b8d84158f8c2e99ae84b82ca0a1"><div class="ttname"><a href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">clock_gpio_init</a></div><div class="ttdeci">static void clock_gpio_init(uint gpio, uint src, float div)</div><div class="ttdoc">Output an optionally divided clock to the specified gpio pin.</div><div class="ttdef"><b>Definition:</b> clocks.h:368</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga9a8d16dd4e2afa2dbb6fc3d884c2269c"><div class="ttname"><a href="group__hardware__clocks.html#ga9a8d16dd4e2afa2dbb6fc3d884c2269c">clock_set_reported_hz</a></div><div class="ttdeci">void clock_set_reported_hz(clock_handle_t clock, uint hz)</div><div class="ttdoc">Set the &quot;current frequency&quot; of the clock as reported by clock_get_hz without actually changing the cl...</div><div class="ttdef"><b>Definition:</b> clocks.c:128</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_gaa2e43d722ca3375f53cb65513275a625"><div class="ttname"><a href="group__hardware__clocks.html#gaa2e43d722ca3375f53cb65513275a625">clock_get_hz</a></div><div class="ttdeci">uint32_t clock_get_hz(clock_handle_t clock)</div><div class="ttdoc">Get the current frequency of the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:123</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_gae15228c0d8298d19d883a453334a4d40"><div class="ttname"><a href="group__hardware__clocks.html#gae15228c0d8298d19d883a453334a4d40">clock_configure_gpin</a></div><div class="ttdeci">bool clock_configure_gpin(clock_handle_t clock, uint gpio, uint32_t src_freq, uint32_t freq)</div><div class="ttdoc">Configure a clock to come from a gpio input.</div><div class="ttdef"><b>Definition:</b> clocks.c:292</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_gae5b3d4a25ed3bb4916782746a6279507"><div class="ttname"><a href="group__hardware__clocks.html#gae5b3d4a25ed3bb4916782746a6279507">clock_num_t</a></div><div class="ttdeci">enum clock_num_rp2040 clock_num_t</div><div class="ttdoc">Clock numbers on RP2040 (used as typedef clock_num_t)</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_gaeb4a4f07e66523304837a6498276dd53"><div class="ttname"><a href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a></div><div class="ttdeci">uint32_t frequency_count_khz(uint src)</div><div class="ttdoc">Measure a clocks frequency using the Frequency counter.</div><div class="ttdef"><b>Definition:</b> clocks.c:133</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_gaec0218c0c355e0691b2005b34caecd3c"><div class="ttname"><a href="group__hardware__clocks.html#gaec0218c0c355e0691b2005b34caecd3c">clock_gpio_init_int_frac</a></div><div class="ttdeci">void clock_gpio_init_int_frac(uint gpio, uint src, uint32_t div_int, uint8_t div_frac)</div><div class="ttdoc">Output an optionally divided clock to the specified gpio pin.</div><div class="ttdef"><b>Definition:</b> clocks.c:231</div></div>
+<div class="ttc" id="agroup__pico__platform_html_gad1f1a1dc0581a11b597453f148106393"><div class="ttname"><a href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a></div><div class="ttdeci">void panic(const char *fmt,...)</div><div class="ttdoc">Displays a panic message and halts execution.</div></div>
+<div class="ttc" id="agroup__pico__stdlib_html_ga28d65a360d9c9423fe5549b216b79683"><div class="ttname"><a href="group__pico__stdlib.html#ga28d65a360d9c9423fe5549b216b79683">set_sys_clock_hz</a></div><div class="ttdeci">static bool set_sys_clock_hz(uint32_t freq_hz, bool required)</div><div class="ttdoc">Attempt to set a system clock frequency in hz.</div><div class="ttdef"><b>Definition:</b> clocks.h:436</div></div>
+<div class="ttc" id="agroup__pico__stdlib_html_ga44d5e0845d4f75f3b0c97c733e39f4c8"><div class="ttname"><a href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">set_sys_clock_pll</a></div><div class="ttdeci">void set_sys_clock_pll(uint32_t vco_freq, uint post_div1, uint post_div2)</div><div class="ttdoc">Initialise the system clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:354</div></div>
+<div class="ttc" id="agroup__pico__stdlib_html_ga8553a9d91b581e0d3dbccd8d83b1a1b9"><div class="ttname"><a href="group__pico__stdlib.html#ga8553a9d91b581e0d3dbccd8d83b1a1b9">check_sys_clock_khz</a></div><div class="ttdeci">bool check_sys_clock_khz(uint32_t freq_khz, uint *vco_freq_out, uint *post_div1_out, uint *post_div2_out)</div><div class="ttdoc">Check if a given system clock frequency is valid/attainable.</div><div class="ttdef"><b>Definition:</b> clocks.c:412</div></div>
+<div class="ttc" id="agroup__pico__stdlib_html_ga89efe34eab0b8b96954eb0e19a38c8be"><div class="ttname"><a href="group__pico__stdlib.html#ga89efe34eab0b8b96954eb0e19a38c8be">set_sys_clock_48mhz</a></div><div class="ttdeci">void set_sys_clock_48mhz(void)</div><div class="ttdoc">Initialise the system clock to 48MHz.</div><div class="ttdef"><b>Definition:</b> clocks.c:325</div></div>
+<div class="ttc" id="agroup__pico__stdlib_html_gab3a273e837ba1947bb5fd8fc97cf47e5"><div class="ttname"><a href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">set_sys_clock_khz</a></div><div class="ttdeci">static bool set_sys_clock_khz(uint32_t freq_khz, bool required)</div><div class="ttdoc">Attempt to set a system clock frequency in khz.</div><div class="ttdef"><b>Definition:</b> clocks.h:458</div></div>
+<div class="ttc" id="agroup__pico__stdlib_html_gafa509e1c42d351a21ac87a790d7c37e0"><div class="ttname"><a href="group__pico__stdlib.html#gafa509e1c42d351a21ac87a790d7c37e0">check_sys_clock_hz</a></div><div class="ttdeci">bool check_sys_clock_hz(uint32_t freq_hz, uint *vco_freq_out, uint *post_div1_out, uint *post_div2_out)</div><div class="ttdoc">Check if a given system clock frequency is valid/attainable.</div><div class="ttdef"><b>Definition:</b> clocks.c:391</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

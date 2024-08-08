@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,6 +108,16 @@ $(document).ready(function(){initNavTree('structpwm__hw__t.html',''); initResiza
   <div class="headertitle"><div class="title">pwm_hw_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Collaboration diagram for pwm_hw_t:</div>
+<div class="dyncontent">
+<div class="center"><img src="structpwm__hw__t__coll__graph.png" border="0" usemap="#apwm__hw__t_coll__map" alt="Collaboration graph"/></div>
+<map name="apwm__hw__t_coll__map" id="apwm__hw__t_coll__map">
+<area shape="rect" title=" " alt="" coords="104,95,196,121"/>
+<area shape="rect" href="structpwm__slice__hw__t.html" title=" " alt="" coords="5,5,135,32"/>
+<area shape="rect" href="structpwm__irq__ctrl__hw__t.html" title=" " alt="" coords="159,5,303,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -117,24 +127,44 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af63fa3c56ff654282effac59f31ba560"><td class="memItemLeft" align="right" valign="top"><a id="af63fa3c56ff654282effac59f31ba560" name="af63fa3c56ff654282effac59f31ba560"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PWM_INTR_OFFSET) io_rw_32 intr</td></tr>
 <tr class="separator:af63fa3c56ff654282effac59f31ba560"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3ac91e6f4bb4134bbef9ce4b8d0019f"><td class="memItemLeft" align="right" valign="top"><a id="ad3ac91e6f4bb4134bbef9ce4b8d0019f" name="ad3ac91e6f4bb4134bbef9ce4b8d0019f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PWM_INTE_OFFSET) io_rw_32 inte</td></tr>
-<tr class="separator:ad3ac91e6f4bb4134bbef9ce4b8d0019f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa90e4d04a62383311daa0eb36674a9fc"><td class="memItemLeft" align="right" valign="top"><a id="aa90e4d04a62383311daa0eb36674a9fc" name="aa90e4d04a62383311daa0eb36674a9fc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PWM_INTF_OFFSET) io_rw_32 intf</td></tr>
-<tr class="separator:aa90e4d04a62383311daa0eb36674a9fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbe8c1231c2c9eabe5c1a62c991c6792"><td class="memItemLeft" align="right" valign="top"><a id="acbe8c1231c2c9eabe5c1a62c991c6792" name="acbe8c1231c2c9eabe5c1a62c991c6792"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PWM_INTS_OFFSET) io_ro_32 ints</td></tr>
-<tr class="separator:acbe8c1231c2c9eabe5c1a62c991c6792"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac099b25be74902cd04abb7b68dca1c58"><td class="memItemLeft" align="right" valign="top"><a id="ac099b25be74902cd04abb7b68dca1c58" name="ac099b25be74902cd04abb7b68dca1c58"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PWM_EN_OFFSET) io_rw_32 en</td></tr>
+<tr class="separator:ac099b25be74902cd04abb7b68dca1c58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af63fa3c56ff654282effac59f31ba560"><td class="memItemLeft" align="right" valign="top"><a id="af63fa3c56ff654282effac59f31ba560" name="af63fa3c56ff654282effac59f31ba560"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PWM_INTR_OFFSET) io_rw_32 intr</td></tr>
+<tr class="separator:af63fa3c56ff654282effac59f31ba560"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:abb31893a7b6cc2627395bf0507bfc9b4"><td class="memItemLeft" align="right" valign="top"><a id="abb31893a7b6cc2627395bf0507bfc9b4" name="abb31893a7b6cc2627395bf0507bfc9b4"></a>
-<a class="el" href="structpwm__slice__hw.html">pwm_slice_hw_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>slice</b> [NUM_PWM_SLICES]</td></tr>
-<tr class="separator:abb31893a7b6cc2627395bf0507bfc9b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc8e0fef4d70f2187c79f1c3fd7f4b4b"><td class="memItemLeft" align="right" valign="top"><a id="afc8e0fef4d70f2187c79f1c3fd7f4b4b" name="afc8e0fef4d70f2187c79f1c3fd7f4b4b"></a>
+<a class="el" href="structpwm__slice__hw__t.html">pwm_slice_hw_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>slice</b> [8]</td></tr>
+<tr class="separator:afc8e0fef4d70f2187c79f1c3fd7f4b4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a859a2f1cb33b9b6f03e7b08e88df5d63"><td class="memItemLeft" ><a id="a859a2f1cb33b9b6f03e7b08e88df5d63" name="a859a2f1cb33b9b6f03e7b08e88df5d63"></a>
+union {</td></tr>
+<tr class="memitem:acb34122b05fee21c34cad6617e51c5c6"><td class="memItemLeft" ><a id="acb34122b05fee21c34cad6617e51c5c6" name="acb34122b05fee21c34cad6617e51c5c6"></a>
+&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:acb34122b05fee21c34cad6617e51c5c6"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:acb34122b05fee21c34cad6617e51c5c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22eb56eafa1ea0bea7171f41602d33aa"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structpwm__irq__ctrl__hw__t.html">pwm_irq_ctrl_hw_t</a>&#160;&#160;&#160;<b>irq_ctrl</b> [1]</td></tr>
+<tr class="separator:a22eb56eafa1ea0bea7171f41602d33aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a859a2f1cb33b9b6f03e7b08e88df5d63"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a859a2f1cb33b9b6f03e7b08e88df5d63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c2168b6a23c71317bf62b6cb9fecdd9"><td class="memItemLeft" ><a id="a4c2168b6a23c71317bf62b6cb9fecdd9" name="a4c2168b6a23c71317bf62b6cb9fecdd9"></a>
+union {</td></tr>
+<tr class="memitem:ab9346c09b410b5517bf29c82f32df4da"><td class="memItemLeft" ><a id="ab9346c09b410b5517bf29c82f32df4da" name="ab9346c09b410b5517bf29c82f32df4da"></a>
+&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:ab9346c09b410b5517bf29c82f32df4da"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:ab9346c09b410b5517bf29c82f32df4da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18f19b2b1c4e2fd84b24e029271236cf"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structpwm__irq__ctrl__hw__t.html">pwm_irq_ctrl_hw_t</a>&#160;&#160;&#160;<b>irq_ctrl</b> [2]</td></tr>
+<tr class="separator:a18f19b2b1c4e2fd84b24e029271236cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c2168b6a23c71317bf62b6cb9fecdd9"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a4c2168b6a23c71317bf62b6cb9fecdd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>hardware_structs/include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2pwm_8h_source.html">pwm.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2pwm_8h_source.html">pwm.h</a></li>
+<li>include/hardware/structs/<a class="el" href="rp2350_2hardware__structs_2include_2hardware_2structs_2pwm_8h_source.html">pwm.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

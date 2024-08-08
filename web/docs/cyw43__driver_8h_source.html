@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_cyw43_driver/include/pico/cyw43_driver.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/pico/cyw43_driver.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -115,23 +115,47 @@ $(document).ready(function(){initNavTree('cyw43__driver_8h_source.html',''); ini
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define _PICO_CYW43_DRIVER_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="pico_8h.html">pico.h</a>&quot;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="async__context_8h.html">pico/async_context.h</a>&quot;</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__pico__cyw43__driver.html#gaaa26cda3ac474e5a68c1e463bb40232e">cyw43_driver_init</a>(<a class="code hl_struct" href="structasync__context.html">async_context_t</a> *context);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__cyw43__driver.html#ga8fd6b99395522e72db7934b594f63001">cyw43_driver_deinit</a>(<a class="code hl_struct" href="structasync__context.html">async_context_t</a> *context);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aasync__context_8h_html"><div class="ttname"><a href="async__context_8h.html">async_context.h</a></div></div>
-<div class="ttc" id="agroup__pico__cyw43__driver_html_ga8fd6b99395522e72db7934b594f63001"><div class="ttname"><a href="group__pico__cyw43__driver.html#ga8fd6b99395522e72db7934b594f63001">cyw43_driver_deinit</a></div><div class="ttdeci">void cyw43_driver_deinit(async_context_t *context)</div><div class="ttdoc">De-initialize the lowever level cyw43_driver and unhooks it from the async_context.</div><div class="ttdef"><b>Definition:</b> cyw43_driver.c:115</div></div>
-<div class="ttc" id="agroup__pico__cyw43__driver_html_gaaa26cda3ac474e5a68c1e463bb40232e"><div class="ttname"><a href="group__pico__cyw43__driver.html#gaaa26cda3ac474e5a68c1e463bb40232e">cyw43_driver_init</a></div><div class="ttdeci">bool cyw43_driver_init(async_context_t *context)</div><div class="ttdoc">Initializes the lower level cyw43_driver and integrates it with the provided async_context.</div><div class="ttdef"><b>Definition:</b> cyw43_driver.c:105</div></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">struct </span><a class="code hl_struct" href="structasync__context.html">async_context</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__pico__cyw43__driver.html#ga24c12f6110969e420954356b104aaa07">cyw43_driver_init</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structasync__context.html">async_context</a> *context);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__cyw43__driver.html#gaf7f9ad52479938f40ae6b1f8c9ef80c3">cyw43_driver_deinit</a>(<span class="keyword">struct</span> <a class="code hl_struct" href="structasync__context.html">async_context</a> *context);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// PICO_CONFIG: CYW43_PIO_CLOCK_DIV_DYNAMIC, Enable runtime configuration of the clock divider for communication with the wireless chip, type=bool, default=0, group=pico_cyw43_driver</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#ifndef CYW43_PIO_CLOCK_DIV_DYNAMIC</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#define CYW43_PIO_CLOCK_DIV_DYNAMIC 0</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// PICO_CONFIG: CYW43_PIO_CLOCK_DIV_INT, Integer part of the clock divider for communication with the wireless chip, type=bool, default=2, group=pico_cyw43_driver</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#ifndef CYW43_PIO_CLOCK_DIV_INT</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment">// backwards compatibility using old define</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#ifdef CYW43_PIO_CLOCK_DIV</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#define CYW43_PIO_CLOCK_DIV_INT CYW43_PIO_CLOCK_DIV</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#define CYW43_PIO_CLOCK_DIV_INT 2</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">// PICO_CONFIG: CYW43_PIO_CLOCK_DIV_FRAC, Fractional part of the clock divider for communication with the wireless chip, type=bool, default=0, group=pico_cyw43_driver</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="preprocessor">#ifndef CYW43_PIO_CLOCK_DIV_FRAC</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#define CYW43_PIO_CLOCK_DIV_FRAC 0</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#if CYW43_PIO_CLOCK_DIV_DYNAMIC</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keywordtype">void</span> cyw43_set_pio_clock_divisor(uint16_t clock_div_int, uint8_t clock_div_frac);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__pico__cyw43__driver_html_ga24c12f6110969e420954356b104aaa07"><div class="ttname"><a href="group__pico__cyw43__driver.html#ga24c12f6110969e420954356b104aaa07">cyw43_driver_init</a></div><div class="ttdeci">bool cyw43_driver_init(struct async_context *context)</div><div class="ttdoc">Initializes the lower level cyw43_driver and integrates it with the provided async_context.</div><div class="ttdef"><b>Definition:</b> cyw43_driver.c:106</div></div>
+<div class="ttc" id="agroup__pico__cyw43__driver_html_gaf7f9ad52479938f40ae6b1f8c9ef80c3"><div class="ttname"><a href="group__pico__cyw43__driver.html#gaf7f9ad52479938f40ae6b1f8c9ef80c3">cyw43_driver_deinit</a></div><div class="ttdeci">void cyw43_driver_deinit(struct async_context *context)</div><div class="ttdoc">De-initialize the lowever level cyw43_driver and unhooks it from the async_context.</div><div class="ttdef"><b>Definition:</b> cyw43_driver.c:116</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 <div class="ttc" id="astructasync__context_html"><div class="ttname"><a href="structasync__context.html">async_context</a></div><div class="ttdoc">Base structure type of all async_contexts. For details about its use, see pico_async_context.</div><div class="ttdef"><b>Definition:</b> async_context.h:179</div></div>
 </div><!-- fragment --></div><!-- contents -->

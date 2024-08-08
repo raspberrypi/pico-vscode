@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,19 +104,32 @@ $(document).ready(function(){initNavTree('group__pico__multicore.html',''); init
 <div class="header">
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_multicore<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Adds support for running code on, and interacting with the second processor core (core 1).  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
 <tr class="memitem:group__multicore__fifo"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__fifo.html">fifo</a></td></tr>
 <tr class="memdesc:group__multicore__fifo"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functions for the inter-core FIFOs. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__multicore__doorbell"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__doorbell.html">doorbell</a></td></tr>
+<tr class="memdesc:group__multicore__doorbell"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functions related to doorbells which a core can use to raise IRQs on itself or the other core. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__multicore__lockout"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__lockout.html">lockout</a></td></tr>
 <tr class="memdesc:group__multicore__lockout"><td class="mdescLeft">&#160;</td><td class="mdescRight">Functions to enable one core to force the other core to pause execution in a known state. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga1413ebfa65114c6f408f4675897ac5ee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__multicore.html#ga1413ebfa65114c6f408f4675897ac5ee">SIO_FIFO_IRQ_NUM</a>(core)</td></tr>
+<tr class="memdesc:ga1413ebfa65114c6f408f4675897ac5ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the FIFO IRQ on the given core.  <a href="group__pico__multicore.html#ga1413ebfa65114c6f408f4675897ac5ee">More...</a><br /></td></tr>
+<tr class="separator:ga1413ebfa65114c6f408f4675897ac5ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -134,7 +147,7 @@ Functions</h2></td></tr>
 <tr class="separator:gac3a24e275219229de49d1fb32e3c4ef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Adds support for running code on the second processor core (core 1)</p>
+<p >Adds support for running code on, and interacting with the second processor core (core 1). </p>
 <h2><a class="anchor" id="multicore_example"></a>
 Example</h2>
 <div class="fragment"><div class="line"> </div>
@@ -156,7 +169,7 @@ Example</h2>
 <div class="line">        printf(<span class="stringliteral">&quot;Its all gone well on core 1!&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">while</span> (1)</div>
-<div class="line">        <a class="code hl_function" href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">tight_loop_contents</a>();</div>
+<div class="line">        <a class="code hl_function" href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a>();</div>
 <div class="line">}</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
@@ -178,15 +191,38 @@ Example</h2>
 <div class="line">    }</div>
 <div class="line"> </div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__multicore__fifo_html_ga134933a693c53c4f94c9d3cd3cabfc79"><div class="ttname"><a href="group__multicore__fifo.html#ga134933a693c53c4f94c9d3cd3cabfc79">multicore_fifo_push_blocking</a></div><div class="ttdeci">void multicore_fifo_push_blocking(uint32_t data)</div><div class="ttdoc">Push data on to the write FIFO (data to the other core).</div><div class="ttdef"><b>Definition:</b> multicore.c:37</div></div>
-<div class="ttc" id="agroup__multicore__fifo_html_ga929272dd1056d8ae05667beda4adb0fc"><div class="ttname"><a href="group__multicore__fifo.html#ga929272dd1056d8ae05667beda4adb0fc">multicore_fifo_pop_blocking</a></div><div class="ttdeci">uint32_t multicore_fifo_pop_blocking(void)</div><div class="ttdoc">Pop data from the read FIFO (data from the other core).</div><div class="ttdef"><b>Definition:</b> multicore.c:65</div></div>
-<div class="ttc" id="agroup__pico__multicore_html_ga46ea5e2efc181aba1d4d1de06a375c59"><div class="ttname"><a href="group__pico__multicore.html#ga46ea5e2efc181aba1d4d1de06a375c59">multicore_launch_core1</a></div><div class="ttdeci">void multicore_launch_core1(void(*entry)(void))</div><div class="ttdoc">Run code on core 1.</div><div class="ttdef"><b>Definition:</b> multicore.c:132</div></div>
-<div class="ttc" id="agroup__pico__platform_html_gaf04e1c7eb32935a422d975abdec4f4b0"><div class="ttname"><a href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">tight_loop_contents</a></div><div class="ttdeci">static __always_inline void tight_loop_contents(void)</div><div class="ttdoc">No-op function for the body of tight loops.</div><div class="ttdef"><b>Definition:</b> platform.h:434</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:283</div></div>
+<div class="ttc" id="agroup__multicore__fifo_html_ga134933a693c53c4f94c9d3cd3cabfc79"><div class="ttname"><a href="group__multicore__fifo.html#ga134933a693c53c4f94c9d3cd3cabfc79">multicore_fifo_push_blocking</a></div><div class="ttdeci">void multicore_fifo_push_blocking(uint32_t data)</div><div class="ttdoc">Push data on to the write FIFO (data to the other core).</div><div class="ttdef"><b>Definition:</b> multicore.c:34</div></div>
+<div class="ttc" id="agroup__multicore__fifo_html_ga929272dd1056d8ae05667beda4adb0fc"><div class="ttname"><a href="group__multicore__fifo.html#ga929272dd1056d8ae05667beda4adb0fc">multicore_fifo_pop_blocking</a></div><div class="ttdeci">uint32_t multicore_fifo_pop_blocking(void)</div><div class="ttdoc">Pop data from the read FIFO (data from the other core).</div><div class="ttdef"><b>Definition:</b> multicore.c:53</div></div>
+<div class="ttc" id="agroup__pico__multicore_html_ga46ea5e2efc181aba1d4d1de06a375c59"><div class="ttname"><a href="group__pico__multicore.html#ga46ea5e2efc181aba1d4d1de06a375c59">multicore_launch_core1</a></div><div class="ttdeci">void multicore_launch_core1(void(*entry)(void))</div><div class="ttdoc">Run code on core 1.</div><div class="ttdef"><b>Definition:</b> multicore.c:155</div></div>
+<div class="ttc" id="agroup__pico__platform_html_gab0d1ba75ceb64131e19f613d7a5313c9"><div class="ttname"><a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a></div><div class="ttdeci">static __force_inline void tight_loop_contents(void)</div><div class="ttdoc">No-op function for the body of tight loops.</div><div class="ttdef"><b>Definition:</b> platform.h:67</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
 <div class="ttc" id="amulticore_8h_html"><div class="ttname"><a href="multicore_8h.html">multicore.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
-</div><!-- fragment --> <h2 class="groupheader">Function Documentation</h2>
+</div><!-- fragment --> <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga1413ebfa65114c6f408f4675897ac5ee" name="ga1413ebfa65114c6f408f4675897ac5ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1413ebfa65114c6f408f4675897ac5ee">&#9670;&nbsp;</a></span>SIO_FIFO_IRQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SIO_FIFO_IRQ_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">core</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the FIFO IRQ on the given core. </p>
+<p >On RP2040 each core has a different IRQ number: <code>SIO_IRQ_PROC0</code> and <code>SIO_IRQ_PROC1</code>.   On RP2350 both cores share the same irq number (<code>SIO_IRQ_PROC</code>) just with a different SIO interrupt output routed to that IRQ input on each core. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="ga46ea5e2efc181aba1d4d1de06a375c59" name="ga46ea5e2efc181aba1d4d1de06a375c59"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga46ea5e2efc181aba1d4d1de06a375c59">&#9670;&nbsp;</a></span>multicore_launch_core1()</h2>
 

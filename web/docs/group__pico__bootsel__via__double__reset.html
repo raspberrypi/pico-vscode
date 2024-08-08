@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -102,9 +102,13 @@ $(document).ready(function(){initNavTree('group__pico__bootsel__via__double__res
 </div>
 
 <div class="header">
-  <div class="headertitle"><div class="title">pico_bootsel_via_double_reset<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
+  <div class="headertitle"><div class="title">pico_bootsel_via_double_reset<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Optional support to make fast double reset of the system enter BOOTSEL mode.  
+</p>
+<p >Optional support to make fast double reset of the system enter BOOTSEL mode. </p>
 <p >When the 'pico_bootsel_via_double_reset' library is linked, a function is injected before main() which will detect when the system has been reset twice in quick succession, and enter the USB ROM bootloader (BOOTSEL mode) when this happens. This allows a double tap of a reset button on a development board to be used to enter the ROM bootloader, provided this library is always linked. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->

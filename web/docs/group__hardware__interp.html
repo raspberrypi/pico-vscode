@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,6 +108,9 @@ $(document).ready(function(){initNavTree('group__hardware__interp.html',''); ini
   <div class="headertitle"><div class="title">hardware_interp<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Hardware Interpolator API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
@@ -176,10 +179,10 @@ Functions</h2></td></tr>
 <tr class="separator:ga20a0a099084a94e006e68f555685421a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Hardware Interpolator API</p>
+<p >Hardware Interpolator API. </p>
 <p >Each core is equipped with two interpolators (INTERP0 and INTERP1) which can be used to accelerate tasks by combining certain pre-configured simple operations into a single processor cycle. Intended for cases where the pre-configured operation is repeated a large number of times, this results in code which uses both fewer CPU cycles and fewer CPU registers in the time critical sections of the code.</p>
 <p >The interpolators are used heavily to accelerate audio operations within the SDK, but their flexible configuration make it possible to optimise many other tasks such as quantization and dithering, table lookup address generation, affine texture mapping, decompression and linear feedback.</p>
-<p >Please refer to the RP2040 datasheet for more information on the HW interpolators and how they work. </p>
+<p >Please refer to the appropriate RP-series microcontroller datasheet for more information on the HW interpolators and how they work. </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gae90bdfe6d73365cf3bed859ca288f928" name="gae90bdfe6d73365cf3bed859ca288f928"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gae90bdfe6d73365cf3bed859ca288f928">&#9670;&nbsp;</a></span>interp_add_accumulater()</h2>

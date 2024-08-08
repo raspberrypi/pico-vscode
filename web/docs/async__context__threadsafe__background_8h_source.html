@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_async_context/include/pico/async_context_threadsafe_background.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/pico/async_context_threadsafe_background.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -137,9 +137,9 @@ $(document).ready(function(){initNavTree('async__context__threadsafe__background
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="structasync__context__threadsafe__background.html">   56</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structasync__context__threadsafe__background.html">async_context_threadsafe_background</a> {</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_struct" href="structasync__context.html">async_context_t</a> core;</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <a class="code hl_struct" href="structalarm__pool.html">alarm_pool_t</a> *<a class="code hl_struct" href="structalarm__pool.html">alarm_pool</a>; <span class="comment">// this must be on the same core as core_num</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_struct" href="structabsolute__time__t.html">absolute_time_t</a> last_set_alarm_time;</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <a class="code hl_struct" href="struct____packed__aligned.html">recursive_mutex_t</a> lock_mutex;</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    semaphore_t work_needed_sem;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_typedef" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> last_set_alarm_time;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <a class="code hl_struct" href="structrecursive__mutex__t.html">recursive_mutex_t</a> lock_mutex;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <a class="code hl_struct" href="structsemaphore.html">semaphore_t</a> work_needed_sem;</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">volatile</span> <a class="code hl_typedef" href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a> alarm_id;</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#if ASYNC_CONTEXT_THREADSAFE_BACKGROUND_MULTI_CORE</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keyword">volatile</span> <a class="code hl_typedef" href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a> force_alarm_id;</div>
@@ -164,21 +164,22 @@ $(document).ready(function(){initNavTree('async__context__threadsafe__background
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aasync__context_8h_html"><div class="ttname"><a href="async__context_8h.html">async_context.h</a></div></div>
-<div class="ttc" id="agroup__alarm_html_gaa593548569c182a0d65d2e06a9c3493b"><div class="ttname"><a href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a></div><div class="ttdeci">int32_t alarm_id_t</div><div class="ttdoc">The identifier for an alarm.</div><div class="ttdef"><b>Definition:</b> time.h:359</div></div>
+<div class="ttc" id="agroup__alarm_html_gaa593548569c182a0d65d2e06a9c3493b"><div class="ttname"><a href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a></div><div class="ttdeci">int32_t alarm_id_t</div><div class="ttdoc">The identifier for an alarm.</div><div class="ttdef"><b>Definition:</b> time.h:365</div></div>
 <div class="ttc" id="agroup__async__context__threadsafe__background_html_gab8bc5211f18cbc3a6817b1bf82020f8e"><div class="ttname"><a href="group__async__context__threadsafe__background.html#gab8bc5211f18cbc3a6817b1bf82020f8e">async_context_threadsafe_background_init_with_defaults</a></div><div class="ttdeci">static bool async_context_threadsafe_background_init_with_defaults(async_context_threadsafe_background_t *self)</div><div class="ttdoc">Initialize an async_context_threadsafe_background instance with default values.</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.h:103</div></div>
 <div class="ttc" id="agroup__async__context__threadsafe__background_html_gabf48cafcbfa48c9fbef1aa7a18ded9e5"><div class="ttname"><a href="group__async__context__threadsafe__background.html#gabf48cafcbfa48c9fbef1aa7a18ded9e5">async_context_threadsafe_background_init</a></div><div class="ttdeci">bool async_context_threadsafe_background_init(async_context_threadsafe_background_t *self, async_context_threadsafe_background_config_t *config)</div><div class="ttdoc">Initialize an async_context_threadsafe_background instance using the specified configuration.</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.c:195</div></div>
 <div class="ttc" id="agroup__async__context__threadsafe__background_html_gaf8eafbbac141e7f24e377c708ffa1479"><div class="ttname"><a href="group__async__context__threadsafe__background.html#gaf8eafbbac141e7f24e377c708ffa1479">async_context_threadsafe_background_default_config</a></div><div class="ttdeci">async_context_threadsafe_background_config_t async_context_threadsafe_background_default_config(void)</div><div class="ttdoc">Return a copy of the default configuration object used by async_context_threadsafe_background_init_wi...</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.c:28</div></div>
+<div class="ttc" id="agroup__timestamp_html_ga8b7f3d602cc053f05bacceeacc257ed8"><div class="ttname"><a href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a></div><div class="ttdeci">uint64_t absolute_time_t</div><div class="ttdoc">An opaque 64 bit timestamp in microseconds.</div><div class="ttdef"><b>Definition:</b> types.h:43</div></div>
 <div class="ttc" id="airq_8h_html"><div class="ttname"><a href="irq_8h.html">irq.h</a></div></div>
 <div class="ttc" id="amutex_8h_html"><div class="ttname"><a href="mutex_8h.html">mutex.h</a></div></div>
 <div class="ttc" id="asem_8h_html"><div class="ttname"><a href="sem_8h.html">sem.h</a></div></div>
-<div class="ttc" id="astruct____packed__aligned_html"><div class="ttname"><a href="struct____packed__aligned.html">__packed_aligned</a></div><div class="ttdoc">recursive mutex instance</div><div class="ttdef"><b>Definition:</b> mutex.h:47</div></div>
-<div class="ttc" id="astructabsolute__time__t_html"><div class="ttname"><a href="structabsolute__time__t.html">absolute_time_t</a></div><div class="ttdef"><b>Definition:</b> types.h:33</div></div>
-<div class="ttc" id="astructalarm__pool_html"><div class="ttname"><a href="structalarm__pool.html">alarm_pool</a></div><div class="ttdef"><b>Definition:</b> time.c:25</div></div>
+<div class="ttc" id="astructalarm__pool_html"><div class="ttname"><a href="structalarm__pool.html">alarm_pool</a></div><div class="ttdef"><b>Definition:</b> time.c:28</div></div>
 <div class="ttc" id="astructasync__context__threadsafe__background__config_html"><div class="ttname"><a href="structasync__context__threadsafe__background__config.html">async_context_threadsafe_background_config</a></div><div class="ttdoc">Configuration object for async_context_threadsafe_background instances.</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.h:38</div></div>
-<div class="ttc" id="astructasync__context__threadsafe__background__config_html_a8776bae13027752f07a4f3170b2c47b2"><div class="ttname"><a href="structasync__context__threadsafe__background__config.html#a8776bae13027752f07a4f3170b2c47b2">async_context_threadsafe_background_config::custom_alarm_pool</a></div><div class="ttdeci">alarm_pool_t * custom_alarm_pool</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.h:53</div></div>
-<div class="ttc" id="astructasync__context__threadsafe__background__config_html_aaeed113746710afc683e1495409d66d8"><div class="ttname"><a href="structasync__context__threadsafe__background__config.html#aaeed113746710afc683e1495409d66d8">async_context_threadsafe_background_config::low_priority_irq_handler_priority</a></div><div class="ttdeci">uint8_t low_priority_irq_handler_priority</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.h:42</div></div>
+<div class="ttc" id="astructasync__context__threadsafe__background__config_html_a8776bae13027752f07a4f3170b2c47b2"><div class="ttname"><a href="structasync__context__threadsafe__background__config.html#a8776bae13027752f07a4f3170b2c47b2">async_context_threadsafe_background_config::custom_alarm_pool</a></div><div class="ttdeci">alarm_pool_t * custom_alarm_pool</div><div class="ttdoc">a specific alarm pool to use (or NULL to use ta default)</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.h:53</div></div>
+<div class="ttc" id="astructasync__context__threadsafe__background__config_html_aaeed113746710afc683e1495409d66d8"><div class="ttname"><a href="structasync__context__threadsafe__background__config.html#aaeed113746710afc683e1495409d66d8">async_context_threadsafe_background_config::low_priority_irq_handler_priority</a></div><div class="ttdeci">uint8_t low_priority_irq_handler_priority</div><div class="ttdoc">the priority of the low priority IRQ</div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.h:42</div></div>
 <div class="ttc" id="astructasync__context__threadsafe__background_html"><div class="ttname"><a href="structasync__context__threadsafe__background.html">async_context_threadsafe_background</a></div><div class="ttdef"><b>Definition:</b> async_context_threadsafe_background.h:56</div></div>
 <div class="ttc" id="astructasync__context_html"><div class="ttname"><a href="structasync__context.html">async_context</a></div><div class="ttdoc">Base structure type of all async_contexts. For details about its use, see pico_async_context.</div><div class="ttdef"><b>Definition:</b> async_context.h:179</div></div>
+<div class="ttc" id="astructrecursive__mutex__t_html"><div class="ttname"><a href="structrecursive__mutex__t.html">recursive_mutex_t</a></div><div class="ttdoc">recursive mutex instance</div><div class="ttdef"><b>Definition:</b> mutex.h:47</div></div>
+<div class="ttc" id="astructsemaphore_html"><div class="ttname"><a href="structsemaphore.html">semaphore</a></div><div class="ttdef"><b>Definition:</b> sem.h:31</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

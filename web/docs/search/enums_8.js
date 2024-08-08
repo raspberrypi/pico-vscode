@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['vreg_5fvoltage_0',['vreg_voltage',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0',1,'vreg.h']]]
+  ['tick_5fgen_5fnum_5frp2040_0',['tick_gen_num_rp2040',['../group__hardware__ticks.html#ga567ed42c04aa5b006e234d8a4df38b5a',1,'ticks.h']]],
+  ['tick_5fgen_5fnum_5frp2350_1',['tick_gen_num_rp2350',['../group__hardware__ticks.html#ga7c007d63cabddadd107f9b597278c32e',1,'ticks.h']]]
 ];

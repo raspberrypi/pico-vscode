@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,7 +103,8 @@ $(document).ready(function(){initNavTree('structxip__ctrl__hw__t.html',''); init
 
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a>  </div>
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle"><div class="title">xip_ctrl_hw_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -113,11 +114,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab7d42a644da51bd13a0e89cf54d277e7"><td class="memItemLeft" align="right" valign="top"><a id="ab7d42a644da51bd13a0e89cf54d277e7" name="ab7d42a644da51bd13a0e89cf54d277e7"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_CTRL_OFFSET) io_rw_32 ctrl</td></tr>
 <tr class="separator:ab7d42a644da51bd13a0e89cf54d277e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa5c48cb5f79a20a6cee566dd74610c8b"><td class="memItemLeft" align="right" valign="top"><a id="aa5c48cb5f79a20a6cee566dd74610c8b" name="aa5c48cb5f79a20a6cee566dd74610c8b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_FLUSH_OFFSET) io_rw_32 flush</td></tr>
-<tr class="separator:aa5c48cb5f79a20a6cee566dd74610c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f149d98378777c508345b59f0f021f3"><td class="memItemLeft" align="right" valign="top"><a id="a4f149d98378777c508345b59f0f021f3" name="a4f149d98378777c508345b59f0f021f3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_FLUSH_OFFSET) io_wo_32 flush</td></tr>
+<tr class="separator:a4f149d98378777c508345b59f0f021f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af3ea8a23aebc7f09d55cfe0ee409333f"><td class="memItemLeft" align="right" valign="top"><a id="af3ea8a23aebc7f09d55cfe0ee409333f" name="af3ea8a23aebc7f09d55cfe0ee409333f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_STAT_OFFSET) io_ro_32 stat</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_STAT_OFFSET) io_ro_32 <a class="el" href="structstat.html">stat</a></td></tr>
 <tr class="separator:af3ea8a23aebc7f09d55cfe0ee409333f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af38c07b2770e5e8a51d7b4e9974789e6"><td class="memItemLeft" align="right" valign="top"><a id="af38c07b2770e5e8a51d7b4e9974789e6" name="af38c07b2770e5e8a51d7b4e9974789e6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_CTR_HIT_OFFSET) io_rw_32 ctr_hit</td></tr>
@@ -134,9 +135,37 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad3f86f1ddbc7c88af0e70e8b5c8700b5"><td class="memItemLeft" align="right" valign="top"><a id="ad3f86f1ddbc7c88af0e70e8b5c8700b5" name="ad3f86f1ddbc7c88af0e70e8b5c8700b5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_STREAM_FIFO_OFFSET) io_ro_32 stream_fifo</td></tr>
 <tr class="separator:ad3f86f1ddbc7c88af0e70e8b5c8700b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7d42a644da51bd13a0e89cf54d277e7"><td class="memItemLeft" align="right" valign="top"><a id="ab7d42a644da51bd13a0e89cf54d277e7" name="ab7d42a644da51bd13a0e89cf54d277e7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_CTRL_OFFSET) io_rw_32 ctrl</td></tr>
+<tr class="separator:ab7d42a644da51bd13a0e89cf54d277e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ea8a23aebc7f09d55cfe0ee409333f"><td class="memItemLeft" align="right" valign="top"><a id="af3ea8a23aebc7f09d55cfe0ee409333f" name="af3ea8a23aebc7f09d55cfe0ee409333f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_STAT_OFFSET) io_ro_32 <a class="el" href="structstat.html">stat</a></td></tr>
+<tr class="separator:af3ea8a23aebc7f09d55cfe0ee409333f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af38c07b2770e5e8a51d7b4e9974789e6"><td class="memItemLeft" align="right" valign="top"><a id="af38c07b2770e5e8a51d7b4e9974789e6" name="af38c07b2770e5e8a51d7b4e9974789e6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_CTR_HIT_OFFSET) io_rw_32 ctr_hit</td></tr>
+<tr class="separator:af38c07b2770e5e8a51d7b4e9974789e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc32dd9b5813890149ea57347f94cef4"><td class="memItemLeft" align="right" valign="top"><a id="acc32dd9b5813890149ea57347f94cef4" name="acc32dd9b5813890149ea57347f94cef4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_CTR_ACC_OFFSET) io_rw_32 ctr_acc</td></tr>
+<tr class="separator:acc32dd9b5813890149ea57347f94cef4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93a32a1dc897cfc795c850c405d1cee1"><td class="memItemLeft" align="right" valign="top"><a id="a93a32a1dc897cfc795c850c405d1cee1" name="a93a32a1dc897cfc795c850c405d1cee1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_STREAM_ADDR_OFFSET) io_rw_32 stream_addr</td></tr>
+<tr class="separator:a93a32a1dc897cfc795c850c405d1cee1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b5bde167b8667700f583378745fb4e7"><td class="memItemLeft" align="right" valign="top"><a id="a5b5bde167b8667700f583378745fb4e7" name="a5b5bde167b8667700f583378745fb4e7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_STREAM_CTR_OFFSET) io_rw_32 stream_ctr</td></tr>
+<tr class="separator:a5b5bde167b8667700f583378745fb4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3f86f1ddbc7c88af0e70e8b5c8700b5"><td class="memItemLeft" align="right" valign="top"><a id="ad3f86f1ddbc7c88af0e70e8b5c8700b5" name="ad3f86f1ddbc7c88af0e70e8b5c8700b5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (XIP_STREAM_FIFO_OFFSET) io_ro_32 stream_fifo</td></tr>
+<tr class="separator:ad3f86f1ddbc7c88af0e70e8b5c8700b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Data Fields</h2></td></tr>
+<tr class="memitem:aada3c7a1d0288551c781e0d5a881597e"><td class="memItemLeft" align="right" valign="top"><a id="aada3c7a1d0288551c781e0d5a881597e" name="aada3c7a1d0288551c781e0d5a881597e"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_pad0</b></td></tr>
+<tr class="separator:aada3c7a1d0288551c781e0d5a881597e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>hardware_structs/include/hardware/structs/<a class="el" href="xip__ctrl_8h_source.html">xip_ctrl.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2xip_8h_source.html">xip.h</a></li>
+<li>include/hardware/structs/<a class="el" href="rp2350_2hardware__structs_2include_2hardware_2structs_2xip_8h_source.html">xip.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -1,0 +1,9 @@
+<map id="async_context_poll" name="async_context_poll">
+<area shape="rect" id="node1" title=" " alt="" coords="379,199,525,225"/>
+<area shape="rect" id="node2" href="$structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context." alt="" coords="330,109,446,136"/>
+<area shape="rect" id="node3" href="$structasync__context__type.html" title="Implementation of an async_context type, providing methods common to that type." alt="" coords="5,13,157,39"/>
+<area shape="rect" id="node4" href="$structasync__when__pending__worker.html" title="A &quot;worker&quot; instance used by an async_context." alt="" coords="182,5,343,47"/>
+<area shape="rect" id="node5" href="$structasync__work__on__timeout.html" title="A &quot;timeout&quot; instance used by an async_context." alt="" coords="425,13,605,39"/>
+<area shape="rect" id="node6" href="$structsemaphore.html" title=" " alt="" coords="587,109,682,136"/>
+<area shape="rect" id="node7" href="$structlock__core.html" title=" " alt="" coords="686,13,770,39"/>
+</map>

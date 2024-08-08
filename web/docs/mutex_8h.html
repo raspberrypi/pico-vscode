@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_sync/include/pico/mutex.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/mutex.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,13 +111,57 @@ $(document).ready(function(){initNavTree('mutex_8h.html',''); initResizable(); }
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="lock__core_8h_source.html">pico/lock_core.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for mutex.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="mutex_8h__incl.png" border="0" usemap="#ainclude_2pico_2mutex_8h" alt=""/></div>
+<map name="ainclude_2pico_2mutex_8h" id="ainclude_2pico_2mutex_8h">
+<area shape="rect" title=" " alt="" coords="360,5,519,32"/>
+<area shape="rect" href="lock__core_8h.html" title=" " alt="" coords="376,80,503,107"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="409,319,470,345"/>
+<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="307,155,401,181"/>
+<area shape="rect" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html" title=" " alt="" coords="537,155,667,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="589,543,690,569"/>
+<area shape="rect" title=" " alt="" coords="235,393,348,420"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="439,393,543,420"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="907,393,1028,420"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="116,393,211,420"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="436,617,541,644"/>
+<area shape="rect" title=" " alt="" coords="505,692,587,719"/>
+<area shape="rect" title=" " alt="" coords="641,617,712,644"/>
+<area shape="rect" title=" " alt="" coords="737,617,811,644"/>
+<area shape="rect" title=" " alt="" coords="424,468,588,495"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="973,468,1154,495"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="1178,468,1357,495"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="613,468,773,495"/>
+<area shape="rect" title=" " alt="" coords="1381,468,1591,495"/>
+<area shape="rect" title=" " alt="" coords="797,468,948,495"/>
+<area shape="rect" title=" " alt="" coords="968,543,1159,569"/>
+<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="218,237,351,263"/>
+<area shape="rect" title=" " alt="" coords="199,319,381,345"/>
+<area shape="rect" title=" " alt="" coords="5,319,175,345"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="701,237,911,263"/>
+<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="528,229,676,271"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="mutex_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2mutex_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2mutex_8hdep" id="ainclude_2pico_2mutex_8hdep">
+<area shape="rect" title=" " alt="" coords="90,5,249,32"/>
+<area shape="rect" href="async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="5,80,160,136"/>
+<area shape="rect" href="common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="184,95,331,121"/>
+<area shape="rect" href="multicore_8h.html" title=" " alt="" coords="168,184,347,211"/>
+</map>
+</div>
 </div>
 <p><a href="mutex_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct____packed__aligned.html">__packed_aligned</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">recursive mutex instance  <a href="struct____packed__aligned.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">recursive mutex instance  <a href="structrecursive__mutex__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structmutex.html">mutex</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">regular (non recursive) mutex instance  <a href="structmutex.html#details">More...</a><br /></td></tr>
@@ -128,74 +172,73 @@ Macros</h2></td></tr>
 <tr class="memitem:gaa1b5d9dea897013fc5e40bf102045592"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gaa1b5d9dea897013fc5e40bf102045592">auto_init_mutex</a>(name)&#160;&#160;&#160;static __attribute__((section(&quot;.mutex_array&quot;))) mutex_t name</td></tr>
 <tr class="memdesc:gaa1b5d9dea897013fc5e40bf102045592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper macro for static definition of mutexes.  <a href="group__mutex.html#gaa1b5d9dea897013fc5e40bf102045592">More...</a><br /></td></tr>
 <tr class="separator:gaa1b5d9dea897013fc5e40bf102045592"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3c019cd595a52ee87e06bdf20e427660"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga3c019cd595a52ee87e06bdf20e427660">auto_init_recursive_mutex</a>(name)&#160;&#160;&#160;static __attribute__((section(&quot;.mutex_array&quot;))) recursive_mutex_t name = { .core = { .spin_lock = (<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *)1 /* marker for runtime_init */ }, .owner = 0, .enter_count = 0 }</td></tr>
+<tr class="memitem:ga3c019cd595a52ee87e06bdf20e427660"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga3c019cd595a52ee87e06bdf20e427660">auto_init_recursive_mutex</a>(name)&#160;&#160;&#160;static __attribute__((section(&quot;.mutex_array&quot;))) recursive_mutex_t name = { .core = { .spin_lock = (spin_lock_t *)1 /* marker for <a class="el" href="group__pico__runtime.html#gad27ee86dcd85855022a424f61b839d04">runtime_init</a> */ }, .owner = 0, .enter_count = 0 }</td></tr>
 <tr class="memdesc:ga3c019cd595a52ee87e06bdf20e427660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper macro for static definition of recursive mutexes.  <a href="group__mutex.html#ga3c019cd595a52ee87e06bdf20e427660">More...</a><br /></td></tr>
 <tr class="separator:ga3c019cd595a52ee87e06bdf20e427660"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:gaaa26fc3b4f65c4764da7d9b2a7495cc2"><td class="memItemLeft" align="right" valign="top">
-typedef struct <a class="el" href="struct____packed__aligned.html">__packed_aligned</a>&#160;</td><td class="memItemRight" valign="bottom"><b>recursive_mutex_t</b></td></tr>
-<tr class="memdesc:gaaa26fc3b4f65c4764da7d9b2a7495cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">recursive mutex instance <br /></td></tr>
-<tr class="separator:gaaa26fc3b4f65c4764da7d9b2a7495cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa0676aca346799845ab75d3fb6d96ff6"><td class="memItemLeft" align="right" valign="top">
-typedef struct <a class="el" href="struct____packed__aligned.html">__packed_aligned</a> <a class="el" href="structmutex.html">mutex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mutex_t</b></td></tr>
-<tr class="memdesc:gaa0676aca346799845ab75d3fb6d96ff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">regular (non recursive) mutex instance <br /></td></tr>
-<tr class="separator:gaa0676aca346799845ab75d3fb6d96ff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac32ff6793a910bc7b48c8b0bb3c47ea7"><td class="memItemLeft" align="right" valign="top">
+typedef struct <a class="el" href="structmutex.html">mutex</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mutex_t</b></td></tr>
+<tr class="memdesc:gac32ff6793a910bc7b48c8b0bb3c47ea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">regular (non recursive) mutex instance <br /></td></tr>
+<tr class="separator:gac32ff6793a910bc7b48c8b0bb3c47ea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gabe21d7ce624db2df7afe86c4bba400a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gabe21d7ce624db2df7afe86c4bba400a2">mutex_init</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:gabe21d7ce624db2df7afe86c4bba400a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gabe21d7ce624db2df7afe86c4bba400a2">mutex_init</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:gabe21d7ce624db2df7afe86c4bba400a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a mutex structure.  <a href="group__mutex.html#gabe21d7ce624db2df7afe86c4bba400a2">More...</a><br /></td></tr>
 <tr class="separator:gabe21d7ce624db2df7afe86c4bba400a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga30d1f9d58564a1799e293451edc2d28e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga30d1f9d58564a1799e293451edc2d28e">recursive_mutex_init</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:ga30d1f9d58564a1799e293451edc2d28e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga30d1f9d58564a1799e293451edc2d28e">recursive_mutex_init</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:ga30d1f9d58564a1799e293451edc2d28e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a recursive mutex structure.  <a href="group__mutex.html#ga30d1f9d58564a1799e293451edc2d28e">More...</a><br /></td></tr>
 <tr class="separator:ga30d1f9d58564a1799e293451edc2d28e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga65b1c7af0545f478c80b51513d8f6993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga65b1c7af0545f478c80b51513d8f6993">mutex_enter_blocking</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:ga65b1c7af0545f478c80b51513d8f6993"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga65b1c7af0545f478c80b51513d8f6993">mutex_enter_blocking</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:ga65b1c7af0545f478c80b51513d8f6993"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take ownership of a mutex.  <a href="group__mutex.html#ga65b1c7af0545f478c80b51513d8f6993">More...</a><br /></td></tr>
 <tr class="separator:ga65b1c7af0545f478c80b51513d8f6993"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad11f3d954d96cfdc77025735d35983e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gad11f3d954d96cfdc77025735d35983e1">recursive_mutex_enter_blocking</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:gad11f3d954d96cfdc77025735d35983e1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gad11f3d954d96cfdc77025735d35983e1">recursive_mutex_enter_blocking</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:gad11f3d954d96cfdc77025735d35983e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Take ownership of a recursive mutex.  <a href="group__mutex.html#gad11f3d954d96cfdc77025735d35983e1">More...</a><br /></td></tr>
 <tr class="separator:gad11f3d954d96cfdc77025735d35983e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa116de2f28fd7df8fb78b210e07b1ed4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gaa116de2f28fd7df8fb78b210e07b1ed4">mutex_try_enter</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx, uint32_t *owner_out)</td></tr>
+<tr class="memitem:gaa116de2f28fd7df8fb78b210e07b1ed4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gaa116de2f28fd7df8fb78b210e07b1ed4">mutex_try_enter</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx, uint32_t *owner_out)</td></tr>
 <tr class="memdesc:gaa116de2f28fd7df8fb78b210e07b1ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to take ownership of a mutex.  <a href="group__mutex.html#gaa116de2f28fd7df8fb78b210e07b1ed4">More...</a><br /></td></tr>
 <tr class="separator:gaa116de2f28fd7df8fb78b210e07b1ed4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga91088e6bd3929dcf86ed12cd92ee2cd8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga91088e6bd3929dcf86ed12cd92ee2cd8">mutex_try_enter_block_until</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga91088e6bd3929dcf86ed12cd92ee2cd8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga91088e6bd3929dcf86ed12cd92ee2cd8">mutex_try_enter_block_until</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga91088e6bd3929dcf86ed12cd92ee2cd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to take ownership of a mutex until the specified time.  <a href="group__mutex.html#ga91088e6bd3929dcf86ed12cd92ee2cd8">More...</a><br /></td></tr>
 <tr class="separator:ga91088e6bd3929dcf86ed12cd92ee2cd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae431bbb90e45cf9ae47130a5635aa2b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gae431bbb90e45cf9ae47130a5635aa2b0">recursive_mutex_try_enter</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx, uint32_t *owner_out)</td></tr>
+<tr class="memitem:gae431bbb90e45cf9ae47130a5635aa2b0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gae431bbb90e45cf9ae47130a5635aa2b0">recursive_mutex_try_enter</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx, uint32_t *owner_out)</td></tr>
 <tr class="memdesc:gae431bbb90e45cf9ae47130a5635aa2b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to take ownership of a recursive mutex.  <a href="group__mutex.html#gae431bbb90e45cf9ae47130a5635aa2b0">More...</a><br /></td></tr>
 <tr class="separator:gae431bbb90e45cf9ae47130a5635aa2b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga32c6e468289a81a49b4bde50a6280f83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga32c6e468289a81a49b4bde50a6280f83">mutex_enter_timeout_ms</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx, uint32_t timeout_ms)</td></tr>
+<tr class="memitem:ga32c6e468289a81a49b4bde50a6280f83"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga32c6e468289a81a49b4bde50a6280f83">mutex_enter_timeout_ms</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx, uint32_t timeout_ms)</td></tr>
 <tr class="memdesc:ga32c6e468289a81a49b4bde50a6280f83"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for mutex with timeout.  <a href="group__mutex.html#ga32c6e468289a81a49b4bde50a6280f83">More...</a><br /></td></tr>
 <tr class="separator:ga32c6e468289a81a49b4bde50a6280f83"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad54a0bdb7967571caecb62869bd4194d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gad54a0bdb7967571caecb62869bd4194d">recursive_mutex_enter_timeout_ms</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx, uint32_t timeout_ms)</td></tr>
+<tr class="memitem:gad54a0bdb7967571caecb62869bd4194d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gad54a0bdb7967571caecb62869bd4194d">recursive_mutex_enter_timeout_ms</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx, uint32_t timeout_ms)</td></tr>
 <tr class="memdesc:gad54a0bdb7967571caecb62869bd4194d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for recursive mutex with timeout.  <a href="group__mutex.html#gad54a0bdb7967571caecb62869bd4194d">More...</a><br /></td></tr>
 <tr class="separator:gad54a0bdb7967571caecb62869bd4194d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga553f33e9692a19f8ad956a8b770858e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga553f33e9692a19f8ad956a8b770858e0">mutex_enter_timeout_us</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx, uint32_t timeout_us)</td></tr>
+<tr class="memitem:ga553f33e9692a19f8ad956a8b770858e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga553f33e9692a19f8ad956a8b770858e0">mutex_enter_timeout_us</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx, uint32_t timeout_us)</td></tr>
 <tr class="memdesc:ga553f33e9692a19f8ad956a8b770858e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for mutex with timeout.  <a href="group__mutex.html#ga553f33e9692a19f8ad956a8b770858e0">More...</a><br /></td></tr>
 <tr class="separator:ga553f33e9692a19f8ad956a8b770858e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaeeb630a7c13ed3adc567e62c8c737401"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gaeeb630a7c13ed3adc567e62c8c737401">recursive_mutex_enter_timeout_us</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx, uint32_t timeout_us)</td></tr>
+<tr class="memitem:gaeeb630a7c13ed3adc567e62c8c737401"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gaeeb630a7c13ed3adc567e62c8c737401">recursive_mutex_enter_timeout_us</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx, uint32_t timeout_us)</td></tr>
 <tr class="memdesc:gaeeb630a7c13ed3adc567e62c8c737401"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for recursive mutex with timeout.  <a href="group__mutex.html#gaeeb630a7c13ed3adc567e62c8c737401">More...</a><br /></td></tr>
 <tr class="separator:gaeeb630a7c13ed3adc567e62c8c737401"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga69e2f75f0a38378b20c0f2bf9cc7bbe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga69e2f75f0a38378b20c0f2bf9cc7bbe3">mutex_enter_block_until</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga69e2f75f0a38378b20c0f2bf9cc7bbe3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga69e2f75f0a38378b20c0f2bf9cc7bbe3">mutex_enter_block_until</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga69e2f75f0a38378b20c0f2bf9cc7bbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for mutex until a specific time.  <a href="group__mutex.html#ga69e2f75f0a38378b20c0f2bf9cc7bbe3">More...</a><br /></td></tr>
 <tr class="separator:ga69e2f75f0a38378b20c0f2bf9cc7bbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6ce3ca26cbce71a3e29396264e00e253"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga6ce3ca26cbce71a3e29396264e00e253">recursive_mutex_enter_block_until</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga6ce3ca26cbce71a3e29396264e00e253"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga6ce3ca26cbce71a3e29396264e00e253">recursive_mutex_enter_block_until</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga6ce3ca26cbce71a3e29396264e00e253"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for mutex until a specific time.  <a href="group__mutex.html#ga6ce3ca26cbce71a3e29396264e00e253">More...</a><br /></td></tr>
 <tr class="separator:ga6ce3ca26cbce71a3e29396264e00e253"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf528c8fbb5f4532758859d18e24e1673"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gaf528c8fbb5f4532758859d18e24e1673">mutex_exit</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:gaf528c8fbb5f4532758859d18e24e1673"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gaf528c8fbb5f4532758859d18e24e1673">mutex_exit</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:gaf528c8fbb5f4532758859d18e24e1673"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release ownership of a mutex.  <a href="group__mutex.html#gaf528c8fbb5f4532758859d18e24e1673">More...</a><br /></td></tr>
 <tr class="separator:gaf528c8fbb5f4532758859d18e24e1673"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2f75321a04ba731f5875353fbaebc345"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga2f75321a04ba731f5875353fbaebc345">recursive_mutex_exit</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:ga2f75321a04ba731f5875353fbaebc345"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga2f75321a04ba731f5875353fbaebc345">recursive_mutex_exit</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:ga2f75321a04ba731f5875353fbaebc345"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release ownership of a recursive mutex.  <a href="group__mutex.html#ga2f75321a04ba731f5875353fbaebc345">More...</a><br /></td></tr>
 <tr class="separator:ga2f75321a04ba731f5875353fbaebc345"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae4b5ca3e872a6823f6580f1388b6585e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gae4b5ca3e872a6823f6580f1388b6585e">mutex_is_initialized</a> (<a class="el" href="group__mutex.html#gaa0676aca346799845ab75d3fb6d96ff6">mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:gae4b5ca3e872a6823f6580f1388b6585e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gae4b5ca3e872a6823f6580f1388b6585e">mutex_is_initialized</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:gae4b5ca3e872a6823f6580f1388b6585e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test for mutex initialized state.  <a href="group__mutex.html#gae4b5ca3e872a6823f6580f1388b6585e">More...</a><br /></td></tr>
 <tr class="separator:gae4b5ca3e872a6823f6580f1388b6585e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga97e45154e86f0d206665bbce779d112d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga97e45154e86f0d206665bbce779d112d">recursive_mutex_is_initialized</a> (<a class="el" href="group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2">recursive_mutex_t</a> *mtx)</td></tr>
+<tr class="memitem:ga97e45154e86f0d206665bbce779d112d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga97e45154e86f0d206665bbce779d112d">recursive_mutex_is_initialized</a> (<a class="el" href="structrecursive__mutex__t.html">recursive_mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:ga97e45154e86f0d206665bbce779d112d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test for recursive mutex initialized state.  <a href="group__mutex.html#ga97e45154e86f0d206665bbce779d112d">More...</a><br /></td></tr>
 <tr class="separator:ga97e45154e86f0d206665bbce779d112d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac23028c923e78aa44de6d9102d209a6c"><td class="memItemLeft" align="right" valign="top"><a id="ac23028c923e78aa44de6d9102d209a6c" name="ac23028c923e78aa44de6d9102d209a6c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>runtime_init_mutex</b> (void)</td></tr>
+<tr class="separator:ac23028c923e78aa44de6d9102d209a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

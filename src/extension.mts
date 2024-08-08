@@ -28,10 +28,14 @@ import SwitchSDKCommand from "./commands/switchSDK.mjs";
 import { existsSync, readFileSync } from "fs";
 import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
+import RunProjectCommand from "./commands/runProject.mjs";
 import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
 import {
   GetPythonPathCommand,
-  GetEnvPathCommand
+  GetEnvPathCommand,
+  GetGDBPathCommand,
+  GetChipCommand,
+  GetTargetCommand
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -39,6 +43,8 @@ import {
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
   downloadAndInstallTools,
+  downloadAndInstallPicotool,
+  downloadAndInstallOpenOCD,
   downloadEmbedPython,
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
@@ -46,6 +52,8 @@ import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import {
   NewProjectPanel,
   getWebviewOptions,
+  picotoolVersion,
+  openOCDVersion,
 } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
 import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
@@ -89,7 +97,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
       new LaunchTargetPathCommand(),
       new GetPythonPathCommand(),
       new GetEnvPathCommand(),
+      new GetGDBPathCommand(),
+      new GetChipCommand(),
+      new GetTargetCommand(),
       new CompileProjectCommand(),
+      new RunProjectCommand(),
       new ClearGithubApiCacheCommand(),
       new ConditionalDebuggingCommand(),
       new DebugLayoutCommand(),
@@ -206,10 +218,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       selectedToolchainAndSDKVersions[0],
       SDK_REPOSITORY_URL
     )) ||
-    !(await downloadAndInstallTools(
-      selectedToolchainAndSDKVersions[0],
-      process.platform === "win32"
-    ))
+    !(await downloadAndInstallTools(selectedToolchainAndSDKVersions[0])) ||
+    !(await downloadAndInstallPicotool(picotoolVersion))
   ) {
     Logger.log(
       "Failed to install project SDK " +
@@ -225,6 +235,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "Found/installed project SDK " +
         `version: ${selectedToolchainAndSDKVersions[0]}`
     );
+
+    if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
+      Logger.log(`Failed to download and install openocd.`);
+    } else {
+      Logger.log(
+        `Successfully downloaded and installed openocd.`
+      );
+    }
   }
 
   // install if needed

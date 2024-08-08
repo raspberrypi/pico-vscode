@@ -1,13 +1,14 @@
 import { readFileSync } from "fs";
 import { Uri } from "vscode";
-import { isInternetConnected } from "./downloadHelpers.mjs";
+import {
+  isInternetConnected, CURRENT_DATA_VERSION
+} from "./downloadHelpers.mjs";
 import { get } from "https";
 import Logger from "../logger.mjs";
 
-const versionBundlesVersion = "0.10.0";
 const versionBundlesUrl =
   "https://raspberrypi.github.io/pico-vscode/" +
-  `${versionBundlesVersion}/versionBundles.json`;
+  `${CURRENT_DATA_VERSION}/versionBundles.json`;
 
 export interface VersionBundle {
   python: {
@@ -18,6 +19,7 @@ export interface VersionBundle {
   ninja: string;
   cmake: string;
   toolchain: string;
+  riscvToolchain: string;
 }
 
 export interface VersionBundles {
@@ -78,7 +80,7 @@ export default class VersionBundlesLoader {
           Uri.joinPath(
             this._extensionUri,
             "data",
-            versionBundlesVersion,
+            CURRENT_DATA_VERSION,
             "versionBundles.json"
           ).fsPath,
           "utf8"

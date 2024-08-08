@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,6 +109,9 @@ $(document).ready(function(){initNavTree('group__hardware__exception.html',''); 
   <div class="headertitle"><div class="title">hardware_exception<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Methods for setting processor exception handlers.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -119,12 +122,14 @@ Typedefs</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ga504f1c3a5a6959d430665f5d72cf335a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> { <br />
-&#160;&#160;<b>NMI_EXCEPTION</b> = -14
-, <b>HARDFAULT_EXCEPTION</b> = -13
-, <b>SVCALL_EXCEPTION</b> = -5
-, <b>PENDSV_EXCEPTION</b> = -2
+&#160;&#160;<b>MIN_EXCEPTION_NUM</b> = 2
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7">NMI_EXCEPTION</a> = 2
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aadf88404244d6cf50e5103848de3892e2">HARDFAULT_EXCEPTION</a> = 3
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586">SVCALL_EXCEPTION</a> = 11
 , <br />
-&#160;&#160;<b>SYSTICK_EXCEPTION</b> = -1
+&#160;&#160;<a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aae6e5980728dbb2ff717a7867bdb25a3a">PENDSV_EXCEPTION</a> = 14
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa05ced3409f791060c7eab53bc557c333">SYSTICK_EXCEPTION</a> = 15
+, <b>MAX_EXCEPTION_NUM</b> = 15
 <br />
  }</td></tr>
 <tr class="memdesc:ga504f1c3a5a6959d430665f5d72cf335a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception number definitions.  <a href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">More...</a><br /></td></tr>
@@ -141,9 +146,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga51b870aeeca94e21bd35bdfbab20e706"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__hardware__exception.html#ga4de8b8ce1d704966edfc547190f73f0b">exception_handler_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga51b870aeeca94e21bd35bdfbab20e706">exception_get_vtable_handler</a> (enum <a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> num)</td></tr>
 <tr class="memdesc:ga51b870aeeca94e21bd35bdfbab20e706"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current exception handler for the specified exception from the currently installed vector table of the execution core.  <a href="group__hardware__exception.html#ga51b870aeeca94e21bd35bdfbab20e706">More...</a><br /></td></tr>
 <tr class="separator:ga51b870aeeca94e21bd35bdfbab20e706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6567fefaab2f557e12796f8d57bec124"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga6567fefaab2f557e12796f8d57bec124">exception_set_priority</a> (uint num, uint8_t hardware_priority)</td></tr>
+<tr class="memdesc:ga6567fefaab2f557e12796f8d57bec124"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set specified exception's priority.  <a href="group__hardware__exception.html#ga6567fefaab2f557e12796f8d57bec124">More...</a><br /></td></tr>
+<tr class="separator:ga6567fefaab2f557e12796f8d57bec124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7189f5bb3db0bf08c76cb79c1235a71a"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga7189f5bb3db0bf08c76cb79c1235a71a">exception_get_priority</a> (uint num)</td></tr>
+<tr class="memdesc:ga7189f5bb3db0bf08c76cb79c1235a71a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get specified exception's priority.  <a href="group__hardware__exception.html#ga7189f5bb3db0bf08c76cb79c1235a71a">More...</a><br /></td></tr>
+<tr class="separator:ga7189f5bb3db0bf08c76cb79c1235a71a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Methods for setting processor exception handlers</p>
+<p >Methods for setting processor exception handlers. </p>
 <p >Exceptions are identified by a <a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> which is a number from -15 to -1; these are the numbers relative to the index of the first IRQ vector in the vector table. (i.e. vector table index is exception_num plus 16)</p>
 <p >There is one set of exception handlers per core, so the exception handlers for each core as set by these methods are independent.</p>
 <dl class="section note"><dt>Note</dt><dd>That all exception APIs affect the executing core only (i.e. the core calling the function). </dd></dl>
@@ -179,25 +190,94 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Exception number definitions. </p>
-<p >Note for consistency with irq numbers, these numbers are defined to be negative. The VTABLE index is the number here plus 16.</p>
+<p >On Arm these are vector table indices:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Name   </th><th class="markdownTableHeadNone">Value   </th><th class="markdownTableHeadNone">Exception    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">NMI_EXCEPTION   </td><td class="markdownTableBodyNone">-14   </td><td class="markdownTableBodyNone">Non Maskable Interrupt    </td></tr>
+<td class="markdownTableBodyNone">NMI_EXCEPTION   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">Non Maskable Interrupt    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">HARDFAULT_EXCEPTION   </td><td class="markdownTableBodyNone">-13   </td><td class="markdownTableBodyNone">HardFault    </td></tr>
+<td class="markdownTableBodyNone">HARDFAULT_EXCEPTION   </td><td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">HardFault    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SVCALL_EXCEPTION   </td><td class="markdownTableBodyNone">-5   </td><td class="markdownTableBodyNone">SV Call    </td></tr>
+<td class="markdownTableBodyNone">SVCALL_EXCEPTION   </td><td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">SV Call    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">PENDSV_EXCEPTION   </td><td class="markdownTableBodyNone">-2   </td><td class="markdownTableBodyNone">Pend SV    </td></tr>
+<td class="markdownTableBodyNone">PENDSV_EXCEPTION   </td><td class="markdownTableBodyNone">14   </td><td class="markdownTableBodyNone">Pend SV    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SYSTICK_EXCEPTION   </td><td class="markdownTableBodyNone">-1   </td><td class="markdownTableBodyNone">System Tick   </td></tr>
+<td class="markdownTableBodyNone">SYSTICK_EXCEPTION   </td><td class="markdownTableBodyNone">15   </td><td class="markdownTableBodyNone">System Tick   </td></tr>
+</table>
+<p >On RISC-V these are exception cause numbers:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Name   </th><th class="markdownTableHeadNone">Value   </th><th class="markdownTableHeadNone">Exception    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">INSTR_ALIGN_EXCEPTION   </td><td class="markdownTableBodyNone">0   </td><td class="markdownTableBodyNone">Instruction fetch misaligned    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">INSTR_FAULT_EXCEPTION   </td><td class="markdownTableBodyNone">1   </td><td class="markdownTableBodyNone">Instruction fetch bus fault    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">INSTR_ILLEGAL_EXCEPTION   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">Invalid or illegal instruction    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">EBREAK_EXCEPTION   </td><td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">ebreak was not caught by an ex    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LOAD_ALIGN_EXCEPTION   </td><td class="markdownTableBodyNone">4   </td><td class="markdownTableBodyNone">Load address not naturally ali    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LOAD_FAULT_EXCEPTION   </td><td class="markdownTableBodyNone">5   </td><td class="markdownTableBodyNone">Load bus fault    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">STORE_ALIGN_EXCEPTION   </td><td class="markdownTableBodyNone">6   </td><td class="markdownTableBodyNone">Store or AMO address not natur    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">STORE_FAULT_EXCEPTION   </td><td class="markdownTableBodyNone">7   </td><td class="markdownTableBodyNone">Store or AMO bus fault    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ECALL_UMODE_EXCEPTION   </td><td class="markdownTableBodyNone">8   </td><td class="markdownTableBodyNone">ecall was executed in U-mode    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">ECALL_SMODE_EXCEPTION   </td><td class="markdownTableBodyNone">9   </td><td class="markdownTableBodyNone">ecall was executed in S-mode    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ECALL_MMODE_EXCEPTION   </td><td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">ecall was executed in M-mode   </td></tr>
+</table>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7" name="gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7"></a>NMI_EXCEPTION&#160;</td><td class="fielddoc"><p >Non Maskable Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aadf88404244d6cf50e5103848de3892e2" name="gga504f1c3a5a6959d430665f5d72cf335aadf88404244d6cf50e5103848de3892e2"></a>HARDFAULT_EXCEPTION&#160;</td><td class="fielddoc"><p >HardFault Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586" name="gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586"></a>SVCALL_EXCEPTION&#160;</td><td class="fielddoc"><p >SV Call Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aae6e5980728dbb2ff717a7867bdb25a3a" name="gga504f1c3a5a6959d430665f5d72cf335aae6e5980728dbb2ff717a7867bdb25a3a"></a>PENDSV_EXCEPTION&#160;</td><td class="fielddoc"><p >Pend SV Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aa05ced3409f791060c7eab53bc557c333" name="gga504f1c3a5a6959d430665f5d72cf335aa05ced3409f791060c7eab53bc557c333"></a>SYSTICK_EXCEPTION&#160;</td><td class="fielddoc"><p >System Tick Interrupt. </p>
+</td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ga7189f5bb3db0bf08c76cb79c1235a71a" name="ga7189f5bb3db0bf08c76cb79c1235a71a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7189f5bb3db0bf08c76cb79c1235a71a">&#9670;&nbsp;</a></span>exception_get_priority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint exception_get_priority </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get specified exception's priority. </p>
+<p >Numerically-lower values indicate a higher priority. Hardware priorities range from 0 (highest priority) to 255 (lowest priority).</p>
+<p >Only the top 2 bits are significant on ARM Cortex-M0+ on RP2040. </p>
+<p >Only the top 4 bits are significant on ARM Cortex-M33 on RP2350, and exception priorities are not supported on RISC-V </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">num</td><td>Exception number <a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the exception priority </dd></dl>
+
+</div>
+</div>
 <a id="ga51b870aeeca94e21bd35bdfbab20e706" name="ga51b870aeeca94e21bd35bdfbab20e706"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga51b870aeeca94e21bd35bdfbab20e706">&#9670;&nbsp;</a></span>exception_get_vtable_handler()</h2>
 
@@ -301,6 +381,46 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a" title="Exception number definitions.">exception_number</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga6567fefaab2f557e12796f8d57bec124" name="ga6567fefaab2f557e12796f8d57bec124"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6567fefaab2f557e12796f8d57bec124">&#9670;&nbsp;</a></span>exception_set_priority()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool exception_set_priority </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>hardware_priority</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set specified exception's priority. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">num</td><td>Exception number <a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> </td></tr>
+    <tr><td class="paramname">hardware_priority</td><td>Priority to set.</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Numerically-lower values indicate a higher priority. Hardware priorities range from 0 (highest priority) to 255 (lowest priority).</p>
+<p >Only the top 2 bits are significant on ARM Cortex-M0+ on RP2040. </p>
+<p >Only the top 4 bits are significant on ARM Cortex-M33 on RP2350, and exception priorities are not supported on RISC-V  </p>
 
 </div>
 </div>

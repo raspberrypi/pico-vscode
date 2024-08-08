@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_printf/include/pico/printf.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/pico/printf.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -162,7 +162,7 @@ $(document).ready(function(){initNavTree('printf_8h_source.html',''); initResiza
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="comment">// it is called raw to distinguish it from the regular printf which</span></div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="comment">// is in stdio.c and does mutex protection</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#if !PICO_PRINTF_ALWAYS_INCLUDED</span></div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">bool</span> __printflike(1, 0) weak_raw_printf(const <span class="keywordtype">char</span> *fmt, ...);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__pico__stdio.html#gae9afcfe3e3db353e1bddd5b87d7be454">__printflike</a>(1, 0) weak_raw_printf(const <span class="keywordtype">char</span> *fmt, ...);</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keywordtype">bool</span> weak_raw_vprintf(const <span class="keywordtype">char</span> *fmt, va_list args);</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#define weak_raw_printf(...) ({printf(__VA_ARGS__); true;})</span></div>
@@ -183,6 +183,7 @@ $(document).ready(function(){initNavTree('printf_8h_source.html',''); initResiza
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#endif  </span><span class="comment">// _PRINTF_H_</span></div>
+<div class="ttc" id="agroup__pico__stdio_html_gae9afcfe3e3db353e1bddd5b87d7be454"><div class="ttname"><a href="group__pico__stdio.html#gae9afcfe3e3db353e1bddd5b87d7be454">__printflike</a></div><div class="ttdeci">int __printflike(1, 0) stdio_printf(const char *format</div><div class="ttdoc">stdio_getchar Alias for printf that definitely does not go thru the implementation in the standard C ...</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

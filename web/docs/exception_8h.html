@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_exception/include/hardware/exception.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/exception.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -112,14 +112,46 @@ $(document).ready(function(){initNavTree('exception_8h.html',''); initResizable(
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="address__mapped_8h_source.html">hardware/address_mapped.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for exception.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="exception_8h__incl.png" border="0" usemap="#ainclude_2hardware_2exception_8h" alt=""/></div>
+<map name="ainclude_2hardware_2exception_8h" id="ainclude_2hardware_2exception_8h">
+<area shape="rect" title=" " alt="" coords="643,5,857,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="649,155,710,181"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="717,80,927,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,379,259,405"/>
+<area shape="rect" title=" " alt="" coords="420,229,533,256"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="558,229,662,256"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="687,229,808,256"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="832,229,927,256"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,453,111,480"/>
+<area shape="rect" title=" " alt="" coords="74,528,157,555"/>
+<area shape="rect" title=" " alt="" coords="211,453,281,480"/>
+<area shape="rect" title=" " alt="" coords="306,453,381,480"/>
+<area shape="rect" title=" " alt="" coords="173,304,337,331"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,304,543,331"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,304,746,331"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,304,930,331"/>
+<area shape="rect" title=" " alt="" coords="1130,304,1341,331"/>
+<area shape="rect" title=" " alt="" coords="955,304,1105,331"/>
+<area shape="rect" title=" " alt="" coords="357,379,548,405"/>
+</map>
+</div>
 </div>
 <p><a href="exception_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a378bb74a9a37aef379af3619904dbf65"><td class="memItemLeft" align="right" valign="top"><a id="a378bb74a9a37aef379af3619904dbf65" name="a378bb74a9a37aef379af3619904dbf65"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_EXCEPTION</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a378bb74a9a37aef379af3619904dbf65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab04853092d6db6e66a566c96d77ab1e1"><td class="memItemLeft" align="right" valign="top"><a id="ab04853092d6db6e66a566c96d77ab1e1" name="ab04853092d6db6e66a566c96d77ab1e1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_EXCEPTION</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ab04853092d6db6e66a566c96d77ab1e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09567ffc0374e75b57f04d571b731cca"><td class="memItemLeft" align="right" valign="top"><a id="a09567ffc0374e75b57f04d571b731cca" name="a09567ffc0374e75b57f04d571b731cca"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_LOWEST_EXCEPTION_PRIORITY</b>&#160;&#160;&#160;0xff</td></tr>
+<tr class="separator:a09567ffc0374e75b57f04d571b731cca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03fdaddf1972edcf975983c066024388"><td class="memItemLeft" align="right" valign="top"><a id="a03fdaddf1972edcf975983c066024388" name="a03fdaddf1972edcf975983c066024388"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_HIGHEST_EXCEPTION_PRIORITY</b>&#160;&#160;&#160;0x00</td></tr>
+<tr class="separator:a03fdaddf1972edcf975983c066024388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -130,12 +162,14 @@ Typedefs</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ga504f1c3a5a6959d430665f5d72cf335a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> { <br />
-&#160;&#160;<b>NMI_EXCEPTION</b> = -14
-, <b>HARDFAULT_EXCEPTION</b> = -13
-, <b>SVCALL_EXCEPTION</b> = -5
-, <b>PENDSV_EXCEPTION</b> = -2
+&#160;&#160;<b>MIN_EXCEPTION_NUM</b> = 2
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7">NMI_EXCEPTION</a> = 2
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aadf88404244d6cf50e5103848de3892e2">HARDFAULT_EXCEPTION</a> = 3
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586">SVCALL_EXCEPTION</a> = 11
 , <br />
-&#160;&#160;<b>SYSTICK_EXCEPTION</b> = -1
+&#160;&#160;<a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aae6e5980728dbb2ff717a7867bdb25a3a">PENDSV_EXCEPTION</a> = 14
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa05ced3409f791060c7eab53bc557c333">SYSTICK_EXCEPTION</a> = 15
+, <b>MAX_EXCEPTION_NUM</b> = 15
 <br />
  }</td></tr>
 <tr class="memdesc:ga504f1c3a5a6959d430665f5d72cf335a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exception number definitions.  <a href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">More...</a><br /></td></tr>
@@ -152,6 +186,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga51b870aeeca94e21bd35bdfbab20e706"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__hardware__exception.html#ga4de8b8ce1d704966edfc547190f73f0b">exception_handler_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga51b870aeeca94e21bd35bdfbab20e706">exception_get_vtable_handler</a> (enum <a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> num)</td></tr>
 <tr class="memdesc:ga51b870aeeca94e21bd35bdfbab20e706"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current exception handler for the specified exception from the currently installed vector table of the execution core.  <a href="group__hardware__exception.html#ga51b870aeeca94e21bd35bdfbab20e706">More...</a><br /></td></tr>
 <tr class="separator:ga51b870aeeca94e21bd35bdfbab20e706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6567fefaab2f557e12796f8d57bec124"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga6567fefaab2f557e12796f8d57bec124">exception_set_priority</a> (uint num, uint8_t hardware_priority)</td></tr>
+<tr class="memdesc:ga6567fefaab2f557e12796f8d57bec124"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set specified exception's priority.  <a href="group__hardware__exception.html#ga6567fefaab2f557e12796f8d57bec124">More...</a><br /></td></tr>
+<tr class="separator:ga6567fefaab2f557e12796f8d57bec124"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7189f5bb3db0bf08c76cb79c1235a71a"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__exception.html#ga7189f5bb3db0bf08c76cb79c1235a71a">exception_get_priority</a> (uint num)</td></tr>
+<tr class="memdesc:ga7189f5bb3db0bf08c76cb79c1235a71a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get specified exception's priority.  <a href="group__hardware__exception.html#ga7189f5bb3db0bf08c76cb79c1235a71a">More...</a><br /></td></tr>
+<tr class="separator:ga7189f5bb3db0bf08c76cb79c1235a71a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_resets/include/hardware/resets.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/resets.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -117,36 +117,100 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__resets_2include
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="pico_8h.html">pico.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;hardware/structs/resets.h&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#ga667c57ff319d167377da57db69c340fc">   70</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#ga667c57ff319d167377da57db69c340fc">reset_block</a>(uint32_t bits) {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <a class="code hl_function" href="group__hardware__base.html#ga625e737a57f12211cf1f634ca5095ae4">hw_set_bits</a>(&amp;resets_hw-&gt;reset, bits);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gac4e3c8cde9b27b4777761e1940824889">   79</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gac4e3c8cde9b27b4777761e1940824889">unreset_block</a>(uint32_t bits) {</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_function" href="group__hardware__base.html#gafd1c089df868d987daf95870b501c2ed">hw_clear_bits</a>(&amp;resets_hw-&gt;reset, bits);</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gab9a4c7100bc4e2e9dc56a3bf144cf011">   88</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gab9a4c7100bc4e2e9dc56a3bf144cf011">unreset_block_wait</a>(uint32_t bits) {</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <a class="code hl_function" href="group__hardware__base.html#gafd1c089df868d987daf95870b501c2ed">hw_clear_bits</a>(&amp;resets_hw-&gt;reset, bits);</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">while</span> (~resets_hw-&gt;reset_done &amp; bits)</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <a class="code hl_function" href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">tight_loop_contents</a>();</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__hardware__base_html_ga625e737a57f12211cf1f634ca5095ae4"><div class="ttname"><a href="group__hardware__base.html#ga625e737a57f12211cf1f634ca5095ae4">hw_set_bits</a></div><div class="ttdeci">static __force_inline void hw_set_bits(io_rw_32 *addr, uint32_t mask)</div><div class="ttdoc">Atomically set the specified bits to 1 in a HW register.</div><div class="ttdef"><b>Definition:</b> address_mapped.h:121</div></div>
-<div class="ttc" id="agroup__hardware__base_html_gafd1c089df868d987daf95870b501c2ed"><div class="ttname"><a href="group__hardware__base.html#gafd1c089df868d987daf95870b501c2ed">hw_clear_bits</a></div><div class="ttdeci">static __force_inline void hw_clear_bits(io_rw_32 *addr, uint32_t mask)</div><div class="ttdoc">Atomically clear the specified bits to 0 in a HW register.</div><div class="ttdef"><b>Definition:</b> address_mapped.h:131</div></div>
-<div class="ttc" id="agroup__hardware__resets_html_ga667c57ff319d167377da57db69c340fc"><div class="ttname"><a href="group__hardware__resets.html#ga667c57ff319d167377da57db69c340fc">reset_block</a></div><div class="ttdeci">static void reset_block(uint32_t bits)</div><div class="ttdoc">Reset the specified HW blocks.</div><div class="ttdef"><b>Definition:</b> resets.h:70</div></div>
-<div class="ttc" id="agroup__hardware__resets_html_gab9a4c7100bc4e2e9dc56a3bf144cf011"><div class="ttname"><a href="group__hardware__resets.html#gab9a4c7100bc4e2e9dc56a3bf144cf011">unreset_block_wait</a></div><div class="ttdeci">static void unreset_block_wait(uint32_t bits)</div><div class="ttdoc">Bring specified HW blocks out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:88</div></div>
-<div class="ttc" id="agroup__hardware__resets_html_gac4e3c8cde9b27b4777761e1940824889"><div class="ttname"><a href="group__hardware__resets.html#gac4e3c8cde9b27b4777761e1940824889">unreset_block</a></div><div class="ttdeci">static void unreset_block(uint32_t bits)</div><div class="ttdoc">bring specified HW blocks out of reset</div><div class="ttdef"><b>Definition:</b> resets.h:79</div></div>
-<div class="ttc" id="agroup__pico__platform_html_gaf04e1c7eb32935a422d975abdec4f4b0"><div class="ttname"><a href="group__pico__platform.html#gaf04e1c7eb32935a422d975abdec4f4b0">tight_loop_contents</a></div><div class="ttdeci">static __always_inline void tight_loop_contents(void)</div><div class="ttdoc">No-op function for the body of tight loops.</div><div class="ttdef"><b>Definition:</b> platform.h:434</div></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="comment">// PICO_CONFIG: PARAM_ASSERTIONS_ENABLED_HARDWARE_RESETS, Enable/disable assertions in the hardware_resets module, type=bool, default=0, group=hardware_adc</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="preprocessor">#ifndef PARAM_ASSERTIONS_ENABLED_HARDWARE_RESETS</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#ifdef PARAM_ASSERTIONS_ENABLED_RESET </span><span class="comment">// backwards compatibility with SDK &lt; 2.0.0</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#define PARAM_ASSERTIONS_ENABLED_HARDWARE_RESETS PARAM_ASSERTIONS_ENABLED_RESET</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#define PARAM_ASSERTIONS_ENABLED_HARDWARE_RESETS 0</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a>  <span class="keywordtype">void</span> reset_block_reg_mask(io_rw_32 *reset, uint32_t mask) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <a class="code hl_function" href="group__hardware__base.html#ga625e737a57f12211cf1f634ca5095ae4">hw_set_bits</a>(reset, mask);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>}</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a>  <span class="keywordtype">void</span> unreset_block_reg_mask(io_rw_32 *reset, uint32_t mask) {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <a class="code hl_function" href="group__hardware__base.html#gafd1c089df868d987daf95870b501c2ed">hw_clear_bits</a>(reset, mask);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">void</span> unreset_block_reg_mask_wait_blocking(io_rw_32 *reset, io_ro_32 *reset_done, uint32_t mask) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_function" href="group__hardware__base.html#gafd1c089df868d987daf95870b501c2ed">hw_clear_bits</a>(reset, mask);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">while</span> (~*reset_done &amp; mask)</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <a class="code hl_function" href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a>();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>}</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">   92</a></span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a>(uint32_t bits) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    reset_block_reg_mask(&amp;resets_hw-&gt;reset, bits);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>}</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gaa15e86ba29fb6bef52715c8cd2c9b7ce">  101</a></span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gaa15e86ba29fb6bef52715c8cd2c9b7ce">unreset_block_mask</a>(uint32_t bits) {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    unreset_block_reg_mask(&amp;resets_hw-&gt;reset, bits);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">  110</a></span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a>(uint32_t bits) {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    unreset_block_reg_mask_wait_blocking(&amp;resets_hw-&gt;reset, &amp;resets_hw-&gt;reset_done, bits);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#ifndef HARDWARE_RESETS_ENABLE_SDK1XX_COMPATIBILITY</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="preprocessor">#define HARDWARE_RESETS_ENABLE_SDK1XX_COMPATIBILITY 1</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="preprocessor">#if HARDWARE_RESETS_ENABLE_SDK1XX_COMPATIBILITY</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">void</span> reset_block(uint32_t bits) {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <a class="code hl_function" href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a>(bits);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>}</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">void</span> unreset_block(uint32_t bits) {</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <a class="code hl_function" href="group__hardware__resets.html#gaa15e86ba29fb6bef52715c8cd2c9b7ce">unreset_block_mask</a>(bits);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>}</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">void</span> unreset_block_wait(uint32_t bits) {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a>(bits);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">  139</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a>(uint32_t block_num) {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    reset_block_reg_mask(&amp;resets_hw-&gt;reset, 1u &lt;&lt; block_num);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>}</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#ga53301718277cacd11e241809786d2569">  148</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#ga53301718277cacd11e241809786d2569">unreset_block_num</a>(uint block_num) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    invalid_params_if(HARDWARE_RESETS, block_num &gt; NUM_RESETS);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    unreset_block_reg_mask(&amp;resets_hw-&gt;reset, 1u &lt;&lt; block_num);</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">  158</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a>(uint block_num) {</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    invalid_params_if(HARDWARE_RESETS, block_num &gt; NUM_RESETS);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    unreset_block_reg_mask_wait_blocking(&amp;resets_hw-&gt;reset, &amp;resets_hw-&gt;reset_done, 1u &lt;&lt; block_num);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>}</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">  168</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">reset_unreset_block_num_wait_blocking</a>(uint block_num) {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    invalid_params_if(HARDWARE_RESETS, block_num &gt; NUM_RESETS);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    reset_block_reg_mask(&amp;resets_hw-&gt;reset, 1u &lt;&lt; block_num);</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    unreset_block_reg_mask_wait_blocking(&amp;resets_hw-&gt;reset, &amp;resets_hw-&gt;reset_done, 1u &lt;&lt; block_num);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>}</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>}</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__hardware__base_html_ga625e737a57f12211cf1f634ca5095ae4"><div class="ttname"><a href="group__hardware__base.html#ga625e737a57f12211cf1f634ca5095ae4">hw_set_bits</a></div><div class="ttdeci">static __force_inline void hw_set_bits(io_rw_32 *addr, uint32_t mask)</div><div class="ttdoc">Atomically set the specified bits to 1 in a HW register.</div><div class="ttdef"><b>Definition:</b> address_mapped.h:135</div></div>
+<div class="ttc" id="agroup__hardware__base_html_gafd1c089df868d987daf95870b501c2ed"><div class="ttname"><a href="group__hardware__base.html#gafd1c089df868d987daf95870b501c2ed">hw_clear_bits</a></div><div class="ttdeci">static __force_inline void hw_clear_bits(io_rw_32 *addr, uint32_t mask)</div><div class="ttdoc">Atomically clear the specified bits to 0 in a HW register.</div><div class="ttdef"><b>Definition:</b> address_mapped.h:145</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_ga53301718277cacd11e241809786d2569"><div class="ttname"><a href="group__hardware__resets.html#ga53301718277cacd11e241809786d2569">unreset_block_num</a></div><div class="ttdeci">static void unreset_block_num(uint block_num)</div><div class="ttdoc">bring specified HW block out of reset</div><div class="ttdef"><b>Definition:</b> resets.h:148</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gaa15e86ba29fb6bef52715c8cd2c9b7ce"><div class="ttname"><a href="group__hardware__resets.html#gaa15e86ba29fb6bef52715c8cd2c9b7ce">unreset_block_mask</a></div><div class="ttdeci">static __force_inline void unreset_block_mask(uint32_t bits)</div><div class="ttdoc">bring specified HW blocks out of reset</div><div class="ttdef"><b>Definition:</b> resets.h:101</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gab4ade7bf4b70f31099fa113215d7d1b5"><div class="ttname"><a href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a></div><div class="ttdeci">static void reset_block_num(uint32_t block_num)</div><div class="ttdoc">Reset the specified HW block.</div><div class="ttdef"><b>Definition:</b> resets.h:139</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gab94a1dac99356f6b632be0b60d1acd63"><div class="ttname"><a href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a></div><div class="ttdeci">static __force_inline void reset_block_mask(uint32_t bits)</div><div class="ttdoc">Reset the specified HW blocks.</div><div class="ttdef"><b>Definition:</b> resets.h:92</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gae077af002bf9e567048bcbe28f1e82b8"><div class="ttname"><a href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">reset_unreset_block_num_wait_blocking</a></div><div class="ttdeci">static void reset_unreset_block_num_wait_blocking(uint block_num)</div><div class="ttdoc">Reset the specified HW block, and then bring at back out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:168</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gae6cc36bc1b58ebcd68b5ba189fdceb9d"><div class="ttname"><a href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a></div><div class="ttdeci">static void unreset_block_num_wait_blocking(uint block_num)</div><div class="ttdoc">Bring specified HW block out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:158</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gaea9779624aa168697879f1f70d46b4cf"><div class="ttname"><a href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a></div><div class="ttdeci">static __force_inline void unreset_block_mask_wait_blocking(uint32_t bits)</div><div class="ttdoc">Bring specified HW blocks out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:110</div></div>
+<div class="ttc" id="agroup__pico__platform_html_ga23eadd8d1642fb8fe4600708c36e116a"><div class="ttname"><a href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a></div><div class="ttdeci">#define __force_inline</div><div class="ttdoc">Attribute to force inlining of a function regardless of optimization level.</div><div class="ttdef"><b>Definition:</b> compiler.h:125</div></div>
+<div class="ttc" id="agroup__pico__platform_html_gab0d1ba75ceb64131e19f613d7a5313c9"><div class="ttname"><a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a></div><div class="ttdeci">static __force_inline void tight_loop_contents(void)</div><div class="ttdoc">No-op function for the body of tight loops.</div><div class="ttdef"><b>Definition:</b> platform.h:67</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

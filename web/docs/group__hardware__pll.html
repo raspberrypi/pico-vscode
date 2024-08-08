@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,11 +103,21 @@ $(document).ready(function(){initNavTree('group__hardware__pll.html',''); initRe
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">hardware_pll<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Phase Locked Loop control APIs.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:gab0c11a480c3c39d63505a8f0d9f5f1ee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pll.html#gab0c11a480c3c39d63505a8f0d9f5f1ee">PLL_RESET_NUM</a>(pll)</td></tr>
+<tr class="memdesc:gab0c11a480c3c39d63505a8f0d9f5f1ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> used to reset a given PLL instance.  <a href="group__hardware__pll.html#gab0c11a480c3c39d63505a8f0d9f5f1ee">More...</a><br /></td></tr>
+<tr class="separator:gab0c11a480c3c39d63505a8f0d9f5f1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga67cfd74241b25d891f761af9b40d1ac8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pll.html#ga67cfd74241b25d891f761af9b40d1ac8">pll_init</a> (<a class="el" href="structpll__hw__t.html">PLL</a> pll, uint ref_div, uint vco_freq, uint post_div1, uint post_div2)</td></tr>
@@ -118,12 +128,34 @@ Functions</h2></td></tr>
 <tr class="separator:ga4529ac07cbd8575938245850d20aba29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Phase Locked Loop control APIs</p>
+<p >Phase Locked Loop control APIs. </p>
 <p >There are two PLLs in RP2040. They are:</p><ul>
 <li>pll_sys - Used to generate up to a 133MHz system clock</li>
 <li>pll_usb - Used to generate a 48MHz USB reference clock</li>
 </ul>
 <p >For details on how the PLLs are calculated, please refer to the RP2040 datasheet. </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="gab0c11a480c3c39d63505a8f0d9f5f1ee" name="gab0c11a480c3c39d63505a8f0d9f5f1ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab0c11a480c3c39d63505a8f0d9f5f1ee">&#9670;&nbsp;</a></span>PLL_RESET_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PLL_RESET_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">pll</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> used to reset a given PLL instance. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga4529ac07cbd8575938245850d20aba29" name="ga4529ac07cbd8575938245850d20aba29"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4529ac07cbd8575938245850d20aba29">&#9670;&nbsp;</a></span>pll_deinit()</h2>

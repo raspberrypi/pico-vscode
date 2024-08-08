@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('group__queue.html',''); initResizable(
   <div class="headertitle"><div class="title">queue<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__util.html">pico_util</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Multi-core and IRQ safe queue implementation.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -151,7 +154,7 @@ Functions</h2></td></tr>
 <tr class="separator:ga104ec5baa82c9635163a511df7abf124"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Multi-core and IRQ safe queue implementation.</p>
+<p >Multi-core and IRQ safe queue implementation. </p>
 <p >Note that this queue stores values of a specified size, and pushed values are copied into the queue </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gad01f5e5ddf3403416097f31acc2dbeca" name="gad01f5e5ddf3403416097f31acc2dbeca"></a>
@@ -495,7 +498,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">q</td><td>Pointer to a <a class="el" href="structqueue__t.html">queue_t</a> structure, used as a handle </td></tr>
-    <tr><td class="paramname">data</td><td>Pointer to the location to receive the peeked value</td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to the location to receive the peeked value, or NULL if the data isn't required</td></tr>
   </table>
   </dd>
 </dl>
@@ -533,7 +536,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">q</td><td>Pointer to a <a class="el" href="structqueue__t.html">queue_t</a> structure, used as a handle </td></tr>
-    <tr><td class="paramname">data</td><td>Pointer to the location to receive the removed value</td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to the location to receive the removed value, or NULL if the data isn't required</td></tr>
   </table>
   </dd>
 </dl>
@@ -610,7 +613,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">q</td><td>Pointer to a <a class="el" href="structqueue__t.html">queue_t</a> structure, used as a handle </td></tr>
-    <tr><td class="paramname">data</td><td>Pointer to the location to receive the peeked value </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to the location to receive the peeked value, or NULL if the data isn't required </td></tr>
   </table>
   </dd>
 </dl>
@@ -649,7 +652,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">q</td><td>Pointer to a <a class="el" href="structqueue__t.html">queue_t</a> structure, used as a handle </td></tr>
-    <tr><td class="paramname">data</td><td>Pointer to the location to receive the removed value </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to the location to receive the removed value, or NULL if the data isn't required </td></tr>
   </table>
   </dd>
 </dl>

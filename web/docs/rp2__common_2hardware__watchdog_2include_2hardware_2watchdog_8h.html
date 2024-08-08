@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_watchdog/include/hardware/watchdog.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/watchdog.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,15 +103,57 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__watchdog_2inclu
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">watchdog.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/watchdog.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for watchdog.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h__incl.png" border="0" usemap="#ainclude_2hardware_2watchdog_8h" alt=""/></div>
+<map name="ainclude_2hardware_2watchdog_8h" id="ainclude_2hardware_2watchdog_8h">
+<area shape="rect" title=" " alt="" coords="415,5,629,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" title=" " alt="" coords="497,80,707,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h__dep__incl.png" border="0" usemap="#ainclude_2hardware_2watchdog_8hdep" alt=""/></div>
+<map name="ainclude_2hardware_2watchdog_8hdep" id="ainclude_2hardware_2watchdog_8hdep">
+<area shape="rect" title=" " alt="" coords="5,5,219,32"/>
+<area shape="rect" href="rp2__common_2hardware__ticks_2include_2hardware_2ticks_8h_source.html" title=" " alt="" coords="21,80,203,107"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a84c67f21cb2f0354f4818dd41246b11c"><td class="memItemLeft" align="right" valign="top"><a id="a84c67f21cb2f0354f4818dd41246b11c" name="a84c67f21cb2f0354f4818dd41246b11c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_WATCHDOG</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a84c67f21cb2f0354f4818dd41246b11c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:gaa73ccd43d6d755817e71bc3d7eb1fda6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#gaa73ccd43d6d755817e71bc3d7eb1fda6">watchdog_reboot</a> (uint32_t pc, uint32_t sp, uint32_t delay_ms)</td></tr>
@@ -127,15 +169,22 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>watchdog_update</b> (
 <tr class="memitem:ga87042933bd6c335c21131991c83c161d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga87042933bd6c335c21131991c83c161d">watchdog_enable</a> (uint32_t delay_ms, bool pause_on_debug)</td></tr>
 <tr class="memdesc:ga87042933bd6c335c21131991c83c161d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the watchdog.  <a href="group__hardware__watchdog.html#ga87042933bd6c335c21131991c83c161d">More...</a><br /></td></tr>
 <tr class="separator:ga87042933bd6c335c21131991c83c161d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad627aed933db1187ad21853494dbe18d"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>watchdog_disable</b> (void)</td></tr>
+<tr class="memdesc:gad627aed933db1187ad21853494dbe18d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the watchdog. <br /></td></tr>
+<tr class="separator:gad627aed933db1187ad21853494dbe18d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga65f5d24169045b8c7dc709e572535d94"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga65f5d24169045b8c7dc709e572535d94">watchdog_caused_reboot</a> (void)</td></tr>
 <tr class="memdesc:ga65f5d24169045b8c7dc709e572535d94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Did the watchdog cause the last reboot?  <a href="group__hardware__watchdog.html#ga65f5d24169045b8c7dc709e572535d94">More...</a><br /></td></tr>
 <tr class="separator:ga65f5d24169045b8c7dc709e572535d94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga455aa48ca6f11298e184d2ae0e81a085"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">watchdog_enable_caused_reboot</a> (void)</td></tr>
 <tr class="memdesc:ga455aa48ca6f11298e184d2ae0e81a085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Did watchdog_enable cause the last reboot?  <a href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">More...</a><br /></td></tr>
 <tr class="separator:ga455aa48ca6f11298e184d2ae0e81a085"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6fdbd72f3a22c9e8af0fb407acb9002b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga6fdbd72f3a22c9e8af0fb407acb9002b">watchdog_get_count</a> (void)</td></tr>
-<tr class="memdesc:ga6fdbd72f3a22c9e8af0fb407acb9002b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of microseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#ga6fdbd72f3a22c9e8af0fb407acb9002b">More...</a><br /></td></tr>
-<tr class="separator:ga6fdbd72f3a22c9e8af0fb407acb9002b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">watchdog_get_time_remaining_ms</a> (void)</td></tr>
+<tr class="memdesc:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of microseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">More...</a><br /></td></tr>
+<tr class="separator:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a204f67175e557e8dfc63ac79baec3e8b"><td class="memItemLeft" align="right" valign="top"><a id="a204f67175e557e8dfc63ac79baec3e8b" name="a204f67175e557e8dfc63ac79baec3e8b"></a>
+static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>watchdog_get_count</b> (void)</td></tr>
+<tr class="separator:a204f67175e557e8dfc63ac79baec3e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

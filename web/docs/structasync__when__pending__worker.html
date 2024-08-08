@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -112,16 +112,31 @@ $(document).ready(function(){initNavTree('structasync__when__pending__worker.htm
  <a href="structasync__when__pending__worker.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="async__context_8h_source.html">async_context.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for async_when_pending_worker:</div>
+<div class="dyncontent">
+<div class="center"><img src="structasync__when__pending__worker__coll__graph.png" border="0" usemap="#aasync__when__pending__worker_coll__map" alt="Collaboration graph"/></div>
+<map name="aasync__when__pending__worker_coll__map" id="aasync__when__pending__worker_coll__map">
+<area shape="rect" title="A &quot;worker&quot; instance used by an async_context." alt="" coords="5,5,167,47"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a456024ab36675e4c603a3ed79168c686"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structasync__when__pending__worker.html">async_when_pending_worker</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structasync__when__pending__worker.html#a456024ab36675e4c603a3ed79168c686">next</a></td></tr>
+<tr class="memitem:a456024ab36675e4c603a3ed79168c686"><td class="memItemLeft" align="right" valign="top"><a id="a456024ab36675e4c603a3ed79168c686" name="a456024ab36675e4c603a3ed79168c686"></a>
+struct <a class="el" href="structasync__when__pending__worker.html">async_when_pending_worker</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>next</b></td></tr>
+<tr class="memdesc:a456024ab36675e4c603a3ed79168c686"><td class="mdescLeft">&#160;</td><td class="mdescRight">private link list pointer <br /></td></tr>
 <tr class="separator:a456024ab36675e4c603a3ed79168c686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4111ccb1e1ec6e19bf36d23c86b83e0d"><td class="memItemLeft" align="right" valign="top">void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structasync__when__pending__worker.html#a4111ccb1e1ec6e19bf36d23c86b83e0d">do_work</a> )(<a class="el" href="structasync__context.html">async_context_t</a> *context, struct <a class="el" href="structasync__when__pending__worker.html">async_when_pending_worker</a> *worker)</td></tr>
+<tr class="memdesc:a4111ccb1e1ec6e19bf36d23c86b83e0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> when the worker has been marked as having "work pending".  <a href="structasync__when__pending__worker.html#a4111ccb1e1ec6e19bf36d23c86b83e0d">More...</a><br /></td></tr>
 <tr class="separator:a4111ccb1e1ec6e19bf36d23c86b83e0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71770fa6b79959b936ca07f36c3f555a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structasync__when__pending__worker.html#a71770fa6b79959b936ca07f36c3f555a">work_pending</a></td></tr>
+<tr class="memitem:a71770fa6b79959b936ca07f36c3f555a"><td class="memItemLeft" align="right" valign="top"><a id="a71770fa6b79959b936ca07f36c3f555a" name="a71770fa6b79959b936ca07f36c3f555a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>work_pending</b></td></tr>
+<tr class="memdesc:a71770fa6b79959b936ca07f36c3f555a"><td class="mdescLeft">&#160;</td><td class="mdescRight">True if the worker need do_work called. <br /></td></tr>
 <tr class="separator:a71770fa6b79959b936ca07f36c3f555a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3740a43d310dda6e132270a5d3479be"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structasync__when__pending__worker.html#ab3740a43d310dda6e132270a5d3479be">user_data</a></td></tr>
+<tr class="memitem:ab3740a43d310dda6e132270a5d3479be"><td class="memItemLeft" align="right" valign="top"><a id="ab3740a43d310dda6e132270a5d3479be" name="ab3740a43d310dda6e132270a5d3479be"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>user_data</b></td></tr>
+<tr class="memdesc:ab3740a43d310dda6e132270a5d3479be"><td class="mdescLeft">&#160;</td><td class="mdescRight">User data associated with the worker instance. <br /></td></tr>
 <tr class="separator:ab3740a43d310dda6e132270a5d3479be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -142,7 +157,8 @@ async_context_add_worker_in_ms </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> when the worker has been marked as having "work pending"</p>
+
+<p>Called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> when the worker has been marked as having "work pending". </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -153,53 +169,8 @@ async_context_add_worker_in_ms </dd></dl>
 
 </div>
 </div>
-<a id="a456024ab36675e4c603a3ed79168c686" name="a456024ab36675e4c603a3ed79168c686"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a456024ab36675e4c603a3ed79168c686">&#9670;&nbsp;</a></span>next</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="structasync__when__pending__worker.html">async_when_pending_worker</a>* async_when_pending_worker::next</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >private link list pointer </p>
-
-</div>
-</div>
-<a id="ab3740a43d310dda6e132270a5d3479be" name="ab3740a43d310dda6e132270a5d3479be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab3740a43d310dda6e132270a5d3479be">&#9670;&nbsp;</a></span>user_data</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void* async_when_pending_worker::user_data</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >User data associated with the worker instance </p>
-
-</div>
-</div>
-<a id="a71770fa6b79959b936ca07f36c3f555a" name="a71770fa6b79959b936ca07f36c3f555a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71770fa6b79959b936ca07f36c3f555a">&#9670;&nbsp;</a></span>work_pending</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool async_when_pending_worker::work_pending</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >True if the worker need do_work called </p>
-
-</div>
-</div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>pico_async_context/include/pico/<a class="el" href="async__context_8h_source.html">async_context.h</a></li>
+<li>include/pico/<a class="el" href="async__context_8h_source.html">async_context.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

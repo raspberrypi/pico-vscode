@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_stdio_uart/include/pico/stdio_uart.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/pico/stdio_uart.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -141,15 +141,27 @@ $(document).ready(function(){initNavTree('stdio__uart_8h_source.html',''); initR
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="group__pico__stdio__uart.html#ga2335d6c842d8363cf3df6b215f881919">   69</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__stdio__uart.html#ga2335d6c842d8363cf3df6b215f881919">stdio_uart_init_full</a>(uart_inst_t *uart, uint baud_rate, <span class="keywordtype">int</span> tx_pin, <span class="keywordtype">int</span> rx_pin);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__stdio__uart.html#ga3f1c7640efd0d3a9f60cf0581b3e5db3">stdio_uart_deinit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__stdio__uart.html#ga4c07c9747cd1f6cca963e9ab1b827745">stdout_uart_deinit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__stdio__uart.html#ga83ea2a4916972e370b2faff60895611f">stdin_uart_deinit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="group__pico__stdio__uart.html#gab4956585ad29fb33dd08924866209e31">  102</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__stdio__uart.html#gab4956585ad29fb33dd08924866209e31">stdio_uart_deinit_full</a>(uart_inst_t *uart, <span class="keywordtype">int</span> tx_pin, <span class="keywordtype">int</span> rx_pin);</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="agroup__pico__stdio__uart_html_ga2335d6c842d8363cf3df6b215f881919"><div class="ttname"><a href="group__pico__stdio__uart.html#ga2335d6c842d8363cf3df6b215f881919">stdio_uart_init_full</a></div><div class="ttdeci">void stdio_uart_init_full(uart_inst_t *uart, uint baud_rate, int tx_pin, int rx_pin)</div><div class="ttdoc">Perform custom initialization initialize stdin/stdout over UART and add it to the current set of stdi...</div></div>
-<div class="ttc" id="agroup__pico__stdio__uart_html_ga265eeb67b5f1f4720dbe863e34d6acc4"><div class="ttname"><a href="group__pico__stdio__uart.html#ga265eeb67b5f1f4720dbe863e34d6acc4">stdout_uart_init</a></div><div class="ttdeci">void stdout_uart_init(void)</div><div class="ttdoc">Explicitly initialize stdout only (no stdin) over UART and add it to the current set of stdout driver...</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:52</div></div>
-<div class="ttc" id="agroup__pico__stdio__uart_html_ga77fc28ecaf14439cdec18ac5a96d50f4"><div class="ttname"><a href="group__pico__stdio__uart.html#ga77fc28ecaf14439cdec18ac5a96d50f4">stdin_uart_init</a></div><div class="ttdeci">void stdin_uart_init(void)</div><div class="ttdoc">Explicitly initialize stdin only (no stdout) over UART and add it to the current set of stdin drivers...</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:64</div></div>
-<div class="ttc" id="agroup__pico__stdio__uart_html_gafcc9bb58b1eb66b8571a507589f66fc2"><div class="ttname"><a href="group__pico__stdio__uart.html#gafcc9bb58b1eb66b8571a507589f66fc2">stdio_uart_init</a></div><div class="ttdeci">void stdio_uart_init(void)</div><div class="ttdoc">Explicitly initialize stdin/stdout over UART and add it to the current set of stdin/stdout drivers.</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:25</div></div>
+<div class="ttc" id="agroup__pico__stdio__uart_html_ga265eeb67b5f1f4720dbe863e34d6acc4"><div class="ttname"><a href="group__pico__stdio__uart.html#ga265eeb67b5f1f4720dbe863e34d6acc4">stdout_uart_init</a></div><div class="ttdeci">void stdout_uart_init(void)</div><div class="ttdoc">Explicitly initialize stdout only (no stdin) over UART and add it to the current set of stdout driver...</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:69</div></div>
+<div class="ttc" id="agroup__pico__stdio__uart_html_ga3f1c7640efd0d3a9f60cf0581b3e5db3"><div class="ttname"><a href="group__pico__stdio__uart.html#ga3f1c7640efd0d3a9f60cf0581b3e5db3">stdio_uart_deinit</a></div><div class="ttdeci">void stdio_uart_deinit(void)</div><div class="ttdoc">Explicitly deinitialize stdin/stdout over UART and remove it from the current set of stdin/stdout dri...</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:101</div></div>
+<div class="ttc" id="agroup__pico__stdio__uart_html_ga4c07c9747cd1f6cca963e9ab1b827745"><div class="ttname"><a href="group__pico__stdio__uart.html#ga4c07c9747cd1f6cca963e9ab1b827745">stdout_uart_deinit</a></div><div class="ttdeci">void stdout_uart_deinit(void)</div><div class="ttdoc">Explicitly deinitialize stdout only (no stdin) over UART and remove it from the current set of stdout...</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:115</div></div>
+<div class="ttc" id="agroup__pico__stdio__uart_html_ga77fc28ecaf14439cdec18ac5a96d50f4"><div class="ttname"><a href="group__pico__stdio__uart.html#ga77fc28ecaf14439cdec18ac5a96d50f4">stdin_uart_init</a></div><div class="ttdeci">void stdin_uart_init(void)</div><div class="ttdoc">Explicitly initialize stdin only (no stdout) over UART and add it to the current set of stdin drivers...</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:81</div></div>
+<div class="ttc" id="agroup__pico__stdio__uart_html_ga83ea2a4916972e370b2faff60895611f"><div class="ttname"><a href="group__pico__stdio__uart.html#ga83ea2a4916972e370b2faff60895611f">stdin_uart_deinit</a></div><div class="ttdeci">void stdin_uart_deinit(void)</div><div class="ttdoc">Explicitly deinitialize stdin only (no stdout) over UART and remove it from the current set of stdin ...</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:121</div></div>
+<div class="ttc" id="agroup__pico__stdio__uart_html_gab4956585ad29fb33dd08924866209e31"><div class="ttname"><a href="group__pico__stdio__uart.html#gab4956585ad29fb33dd08924866209e31">stdio_uart_deinit_full</a></div><div class="ttdeci">void stdio_uart_deinit_full(uart_inst_t *uart, int tx_pin, int rx_pin)</div><div class="ttdoc">Perform custom deinitialization deinitialize stdin/stdout over UART and remove it from the current se...</div></div>
+<div class="ttc" id="agroup__pico__stdio__uart_html_gafcc9bb58b1eb66b8571a507589f66fc2"><div class="ttname"><a href="group__pico__stdio__uart.html#gafcc9bb58b1eb66b8571a507589f66fc2">stdio_uart_init</a></div><div class="ttdeci">void stdio_uart_init(void)</div><div class="ttdoc">Explicitly initialize stdin/stdout over UART and add it to the current set of stdin/stdout drivers.</div><div class="ttdef"><b>Definition:</b> stdio_uart.c:37</div></div>
 <div class="ttc" id="arp2__common_2hardware__uart_2include_2hardware_2uart_8h_html"><div class="ttname"><a href="rp2__common_2hardware__uart_2include_2hardware_2uart_8h.html">uart.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astructstdio__driver_html"><div class="ttname"><a href="structstdio__driver.html">stdio_driver</a></div><div class="ttdef"><b>Definition:</b> driver.h:12</div></div>

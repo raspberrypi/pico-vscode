@@ -1,0 +1,5 @@
+<map id="io_qspi_hw_t" name="io_qspi_hw_t">
+<area shape="rect" id="node1" title=" " alt="" coords="140,139,247,165"/>
+<area shape="rect" id="node2" href="$structio__qspi__status__ctrl__hw__t.html" title=" " alt="" coords="5,5,187,32"/>
+<area shape="rect" id="node3" href="$structio__qspi__irq__ctrl__hw__t.html" title=" " alt="" coords="211,5,370,32"/>
+</map>

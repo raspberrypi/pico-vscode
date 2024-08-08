@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,11 +104,16 @@ $(document).ready(function(){initNavTree('group__hardware__dma.html',''); initRe
 <div class="header">
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">hardware_dma<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>DMA Controller API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
@@ -116,8 +121,168 @@ Modules</h2></td></tr>
 <tr class="memdesc:group__channel__config"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA channel configuration. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga6c72cc3aafb409371f60fefd0463e289"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga6c72cc3aafb409371f60fefd0463e289">DMA_IRQ_NUM</a>(irq_index)</td></tr>
+<tr class="memdesc:ga6c72cc3aafb409371f60fefd0463e289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the nth DMA interrupt.  <a href="group__hardware__dma.html#ga6c72cc3aafb409371f60fefd0463e289">More...</a><br /></td></tr>
+<tr class="separator:ga6c72cc3aafb409371f60fefd0463e289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gadedf0e3a016a52299183d4d54d9e71e9"><td class="memItemLeft" align="right" valign="top"><a id="gadedf0e3a016a52299183d4d54d9e71e9" name="gadedf0e3a016a52299183d4d54d9e71e9"></a>
+typedef enum <a class="el" href="group__hardware__dma.html#ga6f0a19defc495cfa6078364122266014">dreq_num_rp2350</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dreq_num_t</b></td></tr>
+<tr class="memdesc:gadedf0e3a016a52299183d4d54d9e71e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">DREQ numbers for DMA pacing on RP2350 (used as typedef <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a>) <br /></td></tr>
+<tr class="separator:gadedf0e3a016a52299183d4d54d9e71e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8def0ea481095c94f3a0dd0b4fed999e"><td class="memItemLeft" align="right" valign="top"><a id="ga8def0ea481095c94f3a0dd0b4fed999e" name="ga8def0ea481095c94f3a0dd0b4fed999e"></a>
+typedef enum <a class="el" href="group__hardware__dma.html#ga864c3313155ab20116b62a64bf78df6d">dreq_num_rp2040</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dreq_num_t</b></td></tr>
+<tr class="memdesc:ga8def0ea481095c94f3a0dd0b4fed999e"><td class="mdescLeft">&#160;</td><td class="mdescRight">DREQ numbers for DMA pacing on RP2040 (used as typedef <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a>) <br /></td></tr>
+<tr class="separator:ga8def0ea481095c94f3a0dd0b4fed999e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
+<tr class="memitem:ga6f0a19defc495cfa6078364122266014"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga6f0a19defc495cfa6078364122266014">dreq_num_rp2350</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ad7529b7e45af2d7eab4b740ff15b49d8">DREQ_PIO0_TX0</a> = 0
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ac5fedec084064e1d9ff9c6a382c1ccf8">DREQ_PIO0_TX1</a> = 1
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014aa2e360dbf123d634d08e5fae27aa29e5">DREQ_PIO0_TX2</a> = 2
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a156b1b999c6b2dd877545c8c79060a30">DREQ_PIO0_TX3</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ac4bc12d74b758a7b39c1977c401e2fe1">DREQ_PIO0_RX0</a> = 4
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a19b55b49bb618eed839edccba14c0d8f">DREQ_PIO0_RX1</a> = 5
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a967d6b5eb2d3e06113b2b1606ef2af2c">DREQ_PIO0_RX2</a> = 6
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a10f8705467782c859f05f82aa3c3c9f5">DREQ_PIO0_RX3</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a3c22f2c9eb4a49654bba70dbc99bc893">DREQ_PIO1_TX0</a> = 8
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a37f1bb39c3aa38a753df88e7e6c57feb">DREQ_PIO1_TX1</a> = 9
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a13d7cb74708595298d788ba0ce25f6a0">DREQ_PIO1_TX2</a> = 10
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014aaa5859ea1daaf5f0760fb4dea23116c3">DREQ_PIO1_TX3</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a833bfa99e8b74de9bfc1872958a742e3">DREQ_PIO1_RX0</a> = 12
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a8da9c5655eb51f2fb8a33b16827796a9">DREQ_PIO1_RX1</a> = 13
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a0198dfe2da7237817e780a483144df8f">DREQ_PIO1_RX2</a> = 14
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ab093d84a1df12a37ab6e9d62ee1f6d57">DREQ_PIO1_RX3</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a6a3e73df9d0e562b41b571e272100302">DREQ_PIO2_TX0</a> = 16
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a37c21bac317747dda953dca55954db16">DREQ_PIO2_TX1</a> = 17
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014abadc20c78c83d2db4fcf3980f1d5b87f">DREQ_PIO2_TX2</a> = 18
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014aa94c2b7f002c28a6050dda127aeaf3b1">DREQ_PIO2_TX3</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a8bb28cdeea9248c04665464cabc6b1e6">DREQ_PIO2_RX0</a> = 20
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a58a5eb511f85599b5e2b93cee7537b18">DREQ_PIO2_RX1</a> = 21
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a9f4f2e7b3cf525ff519db02b0047bf87">DREQ_PIO2_RX2</a> = 22
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ae7c631f739c8fb2e161c88911376ab26">DREQ_PIO2_RX3</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a4b8b13f940414660401a7b334d85b64b">DREQ_SPI0_TX</a> = 24
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a46641088908dd355dc82971e7c7fbd35">DREQ_SPI0_RX</a> = 25
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a01d244742e157d2d2fb8e55b5fd6d81b">DREQ_SPI1_TX</a> = 26
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a04665a3e6a5c58a6cbf2d0fe1503cf00">DREQ_SPI1_RX</a> = 27
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a80ecb62e37f0c5af2780b93d4995326d">DREQ_UART0_TX</a> = 28
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a4812587fa3aa4cfd7ea0d91e20246b95">DREQ_UART0_RX</a> = 29
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014aa64110e7f89692b9c789275b4d8b04c0">DREQ_UART1_TX</a> = 30
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ae5c7e2a566983a1148113e2987e059d5">DREQ_UART1_RX</a> = 31
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a2a861c9dcce9e158ace7bc5d547ebde1">DREQ_PWM_WRAP0</a> = 32
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a1504bdb2bd8aaa535903ea11aa2c2994">DREQ_PWM_WRAP1</a> = 33
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014acb766e3b38daca5c8cd35459d835d7a2">DREQ_PWM_WRAP2</a> = 34
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a017ebaacb45d90c4f20db2d5edded874">DREQ_PWM_WRAP3</a> = 35
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a5fdd41bb900549d6ff26772cc9fd507a">DREQ_PWM_WRAP4</a> = 36
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014aced239695d7bf65c41827e1eb6cbc04a">DREQ_PWM_WRAP5</a> = 37
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014add0e022489d6ad4f835a97c6e354c15b">DREQ_PWM_WRAP6</a> = 38
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014adafe5a7f2f401a496e842c7a2c95dac5">DREQ_PWM_WRAP7</a> = 39
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a4ab337ff0746f2d9d432020658a478af">DREQ_PWM_WRAP8</a> = 40
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a8d7bd836d3ba015fc800e227b6408f73">DREQ_PWM_WRAP9</a> = 41
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ad17feaa0e6a99ccf14b5d7285ab363d1">DREQ_PWM_WRAP10</a> = 42
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a14ba987e523bd38f813f93322d053a4c">DREQ_PWM_WRAP11</a> = 43
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ab51c1095a1fec8ad39050cf49fd01835">DREQ_I2C0_TX</a> = 44
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a675d15a4afa861045235a441d46d0580">DREQ_I2C0_RX</a> = 45
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a74c786868da56dbb18b7da2c7748568f">DREQ_I2C1_TX</a> = 46
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a0b5156eb2381872ddc1837d83de16b8b">DREQ_I2C1_RX</a> = 47
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a5f3aedb5ef1de25b99afcde8742b4590">DREQ_ADC</a> = 48
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014aedbcc51f819f4c85c3ab8f51b654ebdc">DREQ_XIP_STREAM</a> = 49
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a79533c8a78e8f62f1f564954a755e02a">DREQ_XIP_QMITX</a> = 50
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a35519b1f622ee38560ffd2dfa1571c9b">DREQ_XIP_QMIRX</a> = 51
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a71865f5a1fc034131dfb351d2c830c03">DREQ_HSTX</a> = 52
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a1ef0656e59fedc445052acc548cce490">DREQ_CORESIGHT</a> = 53
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a7a5f3a4ca267d2cd53c43779fb5494ba">DREQ_SHA256</a> = 54
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a49bb6d90479edbff257068afd1a5bfe1">DREQ_DMA_TIMER0</a> = 59
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a11c9291490c2ddf45df69f45a2f83dcf">DREQ_DMA_TIMER1</a> = 60
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014abb60a9d9038192f9db081b51b9c23f65">DREQ_DMA_TIMER2</a> = 61
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014a86d08425822a129c3eaa1479e920c67c">DREQ_DMA_TIMER3</a> = 62
+, <a class="el" href="group__hardware__dma.html#gga6f0a19defc495cfa6078364122266014ae683f0bb3ee8b854fe4cea850cf9d4c8">DREQ_FORCE</a> = 63
+, <br />
+&#160;&#160;<b>DREQ_COUNT</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga6f0a19defc495cfa6078364122266014"><td class="mdescLeft">&#160;</td><td class="mdescRight">DREQ numbers for DMA pacing on RP2350 (used as typedef <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a>)  <a href="group__hardware__dma.html#ga6f0a19defc495cfa6078364122266014">More...</a><br /></td></tr>
+<tr class="separator:ga6f0a19defc495cfa6078364122266014"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga864c3313155ab20116b62a64bf78df6d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga864c3313155ab20116b62a64bf78df6d">dreq_num_rp2040</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dad7529b7e45af2d7eab4b740ff15b49d8">DREQ_PIO0_TX0</a> = 0
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dac5fedec084064e1d9ff9c6a382c1ccf8">DREQ_PIO0_TX1</a> = 1
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6daa2e360dbf123d634d08e5fae27aa29e5">DREQ_PIO0_TX2</a> = 2
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da156b1b999c6b2dd877545c8c79060a30">DREQ_PIO0_TX3</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dac4bc12d74b758a7b39c1977c401e2fe1">DREQ_PIO0_RX0</a> = 4
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da19b55b49bb618eed839edccba14c0d8f">DREQ_PIO0_RX1</a> = 5
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da967d6b5eb2d3e06113b2b1606ef2af2c">DREQ_PIO0_RX2</a> = 6
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da10f8705467782c859f05f82aa3c3c9f5">DREQ_PIO0_RX3</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da3c22f2c9eb4a49654bba70dbc99bc893">DREQ_PIO1_TX0</a> = 8
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da37f1bb39c3aa38a753df88e7e6c57feb">DREQ_PIO1_TX1</a> = 9
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da13d7cb74708595298d788ba0ce25f6a0">DREQ_PIO1_TX2</a> = 10
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6daaa5859ea1daaf5f0760fb4dea23116c3">DREQ_PIO1_TX3</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da833bfa99e8b74de9bfc1872958a742e3">DREQ_PIO1_RX0</a> = 12
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da8da9c5655eb51f2fb8a33b16827796a9">DREQ_PIO1_RX1</a> = 13
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da0198dfe2da7237817e780a483144df8f">DREQ_PIO1_RX2</a> = 14
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dab093d84a1df12a37ab6e9d62ee1f6d57">DREQ_PIO1_RX3</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da4b8b13f940414660401a7b334d85b64b">DREQ_SPI0_TX</a> = 16
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da46641088908dd355dc82971e7c7fbd35">DREQ_SPI0_RX</a> = 17
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da01d244742e157d2d2fb8e55b5fd6d81b">DREQ_SPI1_TX</a> = 18
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da04665a3e6a5c58a6cbf2d0fe1503cf00">DREQ_SPI1_RX</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da80ecb62e37f0c5af2780b93d4995326d">DREQ_UART0_TX</a> = 20
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da4812587fa3aa4cfd7ea0d91e20246b95">DREQ_UART0_RX</a> = 21
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6daa64110e7f89692b9c789275b4d8b04c0">DREQ_UART1_TX</a> = 22
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dae5c7e2a566983a1148113e2987e059d5">DREQ_UART1_RX</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da2a861c9dcce9e158ace7bc5d547ebde1">DREQ_PWM_WRAP0</a> = 24
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da1504bdb2bd8aaa535903ea11aa2c2994">DREQ_PWM_WRAP1</a> = 25
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dacb766e3b38daca5c8cd35459d835d7a2">DREQ_PWM_WRAP2</a> = 26
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da017ebaacb45d90c4f20db2d5edded874">DREQ_PWM_WRAP3</a> = 27
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da5fdd41bb900549d6ff26772cc9fd507a">DREQ_PWM_WRAP4</a> = 28
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6daced239695d7bf65c41827e1eb6cbc04a">DREQ_PWM_WRAP5</a> = 29
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dadd0e022489d6ad4f835a97c6e354c15b">DREQ_PWM_WRAP6</a> = 30
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dadafe5a7f2f401a496e842c7a2c95dac5">DREQ_PWM_WRAP7</a> = 31
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dab51c1095a1fec8ad39050cf49fd01835">DREQ_I2C0_TX</a> = 32
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da675d15a4afa861045235a441d46d0580">DREQ_I2C0_RX</a> = 33
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da74c786868da56dbb18b7da2c7748568f">DREQ_I2C1_TX</a> = 34
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da0b5156eb2381872ddc1837d83de16b8b">DREQ_I2C1_RX</a> = 35
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da5f3aedb5ef1de25b99afcde8742b4590">DREQ_ADC</a> = 36
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6daedbcc51f819f4c85c3ab8f51b654ebdc">DREQ_XIP_STREAM</a> = 37
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dabaf536bfba84db157116952ae4a5d466">DREQ_XIP_SSITX</a> = 38
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da74f7500adc3af744bfe564b1c90aba0a">DREQ_XIP_SSIRX</a> = 39
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da49bb6d90479edbff257068afd1a5bfe1">DREQ_DMA_TIMER0</a> = 59
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da11c9291490c2ddf45df69f45a2f83dcf">DREQ_DMA_TIMER1</a> = 60
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dabb60a9d9038192f9db081b51b9c23f65">DREQ_DMA_TIMER2</a> = 61
+, <a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da86d08425822a129c3eaa1479e920c67c">DREQ_DMA_TIMER3</a> = 62
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6dae683f0bb3ee8b854fe4cea850cf9d4c8">DREQ_FORCE</a> = 63
+, <b>DREQ_COUNT</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga864c3313155ab20116b62a64bf78df6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">DREQ numbers for DMA pacing on RP2040 (used as typedef <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a>)  <a href="group__hardware__dma.html#ga864c3313155ab20116b62a64bf78df6d">More...</a><br /></td></tr>
+<tr class="separator:ga864c3313155ab20116b62a64bf78df6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaccecdff367b06a019373e9a55d4f3e01"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gaccecdff367b06a019373e9a55d4f3e01">dma_channel_transfer_size</a> { <a class="el" href="group__hardware__dma.html#ggaccecdff367b06a019373e9a55d4f3e01abd7d246406a2ebe4dd49780db176dc3c">DMA_SIZE_8</a> = 0
 , <a class="el" href="group__hardware__dma.html#ggaccecdff367b06a019373e9a55d4f3e01a2e343022ac046b6b67bb99eebc833cfc">DMA_SIZE_16</a> = 1
 , <a class="el" href="group__hardware__dma.html#ggaccecdff367b06a019373e9a55d4f3e01abf1030013f4ad74b45d25cd9a07b6296">DMA_SIZE_32</a> = 2
@@ -252,24 +417,49 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 <tr class="memdesc:ga9b45bfe6985f8c0894d34876eedc3090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if a dma timer is claimed.  <a href="group__hardware__dma.html#ga9b45bfe6985f8c0894d34876eedc3090">More...</a><br /></td></tr>
 <tr class="separator:ga9b45bfe6985f8c0894d34876eedc3090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga58f9c3cb606759e4620c82583f833dc8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga58f9c3cb606759e4620c82583f833dc8">dma_timer_set_fraction</a> (uint timer, uint16_t numerator, uint16_t denominator)</td></tr>
-<tr class="memdesc:ga58f9c3cb606759e4620c82583f833dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the divider for the given DMA timer.  <a href="group__hardware__dma.html#ga58f9c3cb606759e4620c82583f833dc8">More...</a><br /></td></tr>
+<tr class="memdesc:ga58f9c3cb606759e4620c82583f833dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the multiplier for the given DMA timer.  <a href="group__hardware__dma.html#ga58f9c3cb606759e4620c82583f833dc8">More...</a><br /></td></tr>
 <tr class="separator:ga58f9c3cb606759e4620c82583f833dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga75ef6881795fd1760fe813f9e0a79223"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga75ef6881795fd1760fe813f9e0a79223">dma_get_timer_dreq</a> (uint timer_num)</td></tr>
 <tr class="memdesc:ga75ef6881795fd1760fe813f9e0a79223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the DREQ number for a given DMA timer.  <a href="group__hardware__dma.html#ga75ef6881795fd1760fe813f9e0a79223">More...</a><br /></td></tr>
 <tr class="separator:ga75ef6881795fd1760fe813f9e0a79223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5da1507764272564a75939e2cf38fa9a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga5da1507764272564a75939e2cf38fa9a">dma_get_irq_num</a> (uint irq_index)</td></tr>
+<tr class="memdesc:ga5da1507764272564a75939e2cf38fa9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return DMA_IRQ_&lt;irqn&gt;  <a href="group__hardware__dma.html#ga5da1507764272564a75939e2cf38fa9a">More...</a><br /></td></tr>
+<tr class="separator:ga5da1507764272564a75939e2cf38fa9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga655130988c1045bdf711135698adf321"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga655130988c1045bdf711135698adf321">dma_channel_cleanup</a> (uint channel)</td></tr>
 <tr class="memdesc:ga655130988c1045bdf711135698adf321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs DMA channel cleanup after use.  <a href="group__hardware__dma.html#ga655130988c1045bdf711135698adf321">More...</a><br /></td></tr>
 <tr class="separator:ga655130988c1045bdf711135698adf321"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >DMA Controller API</p>
-<p >The RP2040 Direct Memory Access (DMA) master performs bulk data transfers on a processor’s behalf. This leaves processors free to attend to other tasks, or enter low-power sleep states. The data throughput of the DMA is also significantly higher than one of RP2040’s processors.</p>
+<p >DMA Controller API. </p>
+<p >The RP-series microcontroller Direct Memory Access (DMA) master performs bulk data transfers on a processor’s behalf. This leaves processors free to attend to other tasks, or enter low-power sleep states. The data throughput of the DMA is also significantly higher than one of RP-series microcontroller’s processors.</p>
 <p >The DMA can perform one read access and one write access, up to 32 bits in size, every clock cycle. There are 12 independent channels, which each supervise a sequence of bus transfers, usually in one of the following scenarios:</p>
 <ul>
 <li>Memory to peripheral</li>
 <li>Peripheral to memory</li>
 <li>Memory to memory </li>
 </ul>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga6c72cc3aafb409371f60fefd0463e289" name="ga6c72cc3aafb409371f60fefd0463e289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6c72cc3aafb409371f60fefd0463e289">&#9670;&nbsp;</a></span>DMA_IRQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define DMA_IRQ_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">irq_index</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the nth DMA interrupt. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="gaccecdff367b06a019373e9a55d4f3e01" name="gaccecdff367b06a019373e9a55d4f3e01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaccecdff367b06a019373e9a55d4f3e01">&#9670;&nbsp;</a></span>dma_channel_transfer_size</h2>
@@ -291,6 +481,252 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 <tr><td class="fieldname"><a id="ggaccecdff367b06a019373e9a55d4f3e01a2e343022ac046b6b67bb99eebc833cfc" name="ggaccecdff367b06a019373e9a55d4f3e01a2e343022ac046b6b67bb99eebc833cfc"></a>DMA_SIZE_16&#160;</td><td class="fielddoc"><p >Half word transfer (16 bits) </p>
 </td></tr>
 <tr><td class="fieldname"><a id="ggaccecdff367b06a019373e9a55d4f3e01abf1030013f4ad74b45d25cd9a07b6296" name="ggaccecdff367b06a019373e9a55d4f3e01abf1030013f4ad74b45d25cd9a07b6296"></a>DMA_SIZE_32&#160;</td><td class="fielddoc"><p >Word transfer (32 bits) </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga864c3313155ab20116b62a64bf78df6d" name="ga864c3313155ab20116b62a64bf78df6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga864c3313155ab20116b62a64bf78df6d">&#9670;&nbsp;</a></span>dreq_num_rp2040</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__dma.html#ga864c3313155ab20116b62a64bf78df6d">dreq_num_rp2040</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>DREQ numbers for DMA pacing on RP2040 (used as typedef <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a>) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dad7529b7e45af2d7eab4b740ff15b49d8" name="gga864c3313155ab20116b62a64bf78df6dad7529b7e45af2d7eab4b740ff15b49d8"></a>DREQ_PIO0_TX0&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dac5fedec084064e1d9ff9c6a382c1ccf8" name="gga864c3313155ab20116b62a64bf78df6dac5fedec084064e1d9ff9c6a382c1ccf8"></a>DREQ_PIO0_TX1&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6daa2e360dbf123d634d08e5fae27aa29e5" name="gga864c3313155ab20116b62a64bf78df6daa2e360dbf123d634d08e5fae27aa29e5"></a>DREQ_PIO0_TX2&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da156b1b999c6b2dd877545c8c79060a30" name="gga864c3313155ab20116b62a64bf78df6da156b1b999c6b2dd877545c8c79060a30"></a>DREQ_PIO0_TX3&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dac4bc12d74b758a7b39c1977c401e2fe1" name="gga864c3313155ab20116b62a64bf78df6dac4bc12d74b758a7b39c1977c401e2fe1"></a>DREQ_PIO0_RX0&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da19b55b49bb618eed839edccba14c0d8f" name="gga864c3313155ab20116b62a64bf78df6da19b55b49bb618eed839edccba14c0d8f"></a>DREQ_PIO0_RX1&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da967d6b5eb2d3e06113b2b1606ef2af2c" name="gga864c3313155ab20116b62a64bf78df6da967d6b5eb2d3e06113b2b1606ef2af2c"></a>DREQ_PIO0_RX2&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da10f8705467782c859f05f82aa3c3c9f5" name="gga864c3313155ab20116b62a64bf78df6da10f8705467782c859f05f82aa3c3c9f5"></a>DREQ_PIO0_RX3&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da3c22f2c9eb4a49654bba70dbc99bc893" name="gga864c3313155ab20116b62a64bf78df6da3c22f2c9eb4a49654bba70dbc99bc893"></a>DREQ_PIO1_TX0&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da37f1bb39c3aa38a753df88e7e6c57feb" name="gga864c3313155ab20116b62a64bf78df6da37f1bb39c3aa38a753df88e7e6c57feb"></a>DREQ_PIO1_TX1&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da13d7cb74708595298d788ba0ce25f6a0" name="gga864c3313155ab20116b62a64bf78df6da13d7cb74708595298d788ba0ce25f6a0"></a>DREQ_PIO1_TX2&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6daaa5859ea1daaf5f0760fb4dea23116c3" name="gga864c3313155ab20116b62a64bf78df6daaa5859ea1daaf5f0760fb4dea23116c3"></a>DREQ_PIO1_TX3&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da833bfa99e8b74de9bfc1872958a742e3" name="gga864c3313155ab20116b62a64bf78df6da833bfa99e8b74de9bfc1872958a742e3"></a>DREQ_PIO1_RX0&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da8da9c5655eb51f2fb8a33b16827796a9" name="gga864c3313155ab20116b62a64bf78df6da8da9c5655eb51f2fb8a33b16827796a9"></a>DREQ_PIO1_RX1&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da0198dfe2da7237817e780a483144df8f" name="gga864c3313155ab20116b62a64bf78df6da0198dfe2da7237817e780a483144df8f"></a>DREQ_PIO1_RX2&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dab093d84a1df12a37ab6e9d62ee1f6d57" name="gga864c3313155ab20116b62a64bf78df6dab093d84a1df12a37ab6e9d62ee1f6d57"></a>DREQ_PIO1_RX3&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da4b8b13f940414660401a7b334d85b64b" name="gga864c3313155ab20116b62a64bf78df6da4b8b13f940414660401a7b334d85b64b"></a>DREQ_SPI0_TX&#160;</td><td class="fielddoc"><p >Select SPI0's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da46641088908dd355dc82971e7c7fbd35" name="gga864c3313155ab20116b62a64bf78df6da46641088908dd355dc82971e7c7fbd35"></a>DREQ_SPI0_RX&#160;</td><td class="fielddoc"><p >Select SPI0's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da01d244742e157d2d2fb8e55b5fd6d81b" name="gga864c3313155ab20116b62a64bf78df6da01d244742e157d2d2fb8e55b5fd6d81b"></a>DREQ_SPI1_TX&#160;</td><td class="fielddoc"><p >Select SPI1's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da04665a3e6a5c58a6cbf2d0fe1503cf00" name="gga864c3313155ab20116b62a64bf78df6da04665a3e6a5c58a6cbf2d0fe1503cf00"></a>DREQ_SPI1_RX&#160;</td><td class="fielddoc"><p >Select SPI1's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da80ecb62e37f0c5af2780b93d4995326d" name="gga864c3313155ab20116b62a64bf78df6da80ecb62e37f0c5af2780b93d4995326d"></a>DREQ_UART0_TX&#160;</td><td class="fielddoc"><p >Select UART0's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da4812587fa3aa4cfd7ea0d91e20246b95" name="gga864c3313155ab20116b62a64bf78df6da4812587fa3aa4cfd7ea0d91e20246b95"></a>DREQ_UART0_RX&#160;</td><td class="fielddoc"><p >Select UART0's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6daa64110e7f89692b9c789275b4d8b04c0" name="gga864c3313155ab20116b62a64bf78df6daa64110e7f89692b9c789275b4d8b04c0"></a>DREQ_UART1_TX&#160;</td><td class="fielddoc"><p >Select UART1's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dae5c7e2a566983a1148113e2987e059d5" name="gga864c3313155ab20116b62a64bf78df6dae5c7e2a566983a1148113e2987e059d5"></a>DREQ_UART1_RX&#160;</td><td class="fielddoc"><p >Select UART1's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da2a861c9dcce9e158ace7bc5d547ebde1" name="gga864c3313155ab20116b62a64bf78df6da2a861c9dcce9e158ace7bc5d547ebde1"></a>DREQ_PWM_WRAP0&#160;</td><td class="fielddoc"><p >Select PWM Counter 0's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da1504bdb2bd8aaa535903ea11aa2c2994" name="gga864c3313155ab20116b62a64bf78df6da1504bdb2bd8aaa535903ea11aa2c2994"></a>DREQ_PWM_WRAP1&#160;</td><td class="fielddoc"><p >Select PWM Counter 1's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dacb766e3b38daca5c8cd35459d835d7a2" name="gga864c3313155ab20116b62a64bf78df6dacb766e3b38daca5c8cd35459d835d7a2"></a>DREQ_PWM_WRAP2&#160;</td><td class="fielddoc"><p >Select PWM Counter 2's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da017ebaacb45d90c4f20db2d5edded874" name="gga864c3313155ab20116b62a64bf78df6da017ebaacb45d90c4f20db2d5edded874"></a>DREQ_PWM_WRAP3&#160;</td><td class="fielddoc"><p >Select PWM Counter 3's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da5fdd41bb900549d6ff26772cc9fd507a" name="gga864c3313155ab20116b62a64bf78df6da5fdd41bb900549d6ff26772cc9fd507a"></a>DREQ_PWM_WRAP4&#160;</td><td class="fielddoc"><p >Select PWM Counter 4's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6daced239695d7bf65c41827e1eb6cbc04a" name="gga864c3313155ab20116b62a64bf78df6daced239695d7bf65c41827e1eb6cbc04a"></a>DREQ_PWM_WRAP5&#160;</td><td class="fielddoc"><p >Select PWM Counter 5's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dadd0e022489d6ad4f835a97c6e354c15b" name="gga864c3313155ab20116b62a64bf78df6dadd0e022489d6ad4f835a97c6e354c15b"></a>DREQ_PWM_WRAP6&#160;</td><td class="fielddoc"><p >Select PWM Counter 6's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dadafe5a7f2f401a496e842c7a2c95dac5" name="gga864c3313155ab20116b62a64bf78df6dadafe5a7f2f401a496e842c7a2c95dac5"></a>DREQ_PWM_WRAP7&#160;</td><td class="fielddoc"><p >Select PWM Counter 7's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dab51c1095a1fec8ad39050cf49fd01835" name="gga864c3313155ab20116b62a64bf78df6dab51c1095a1fec8ad39050cf49fd01835"></a>DREQ_I2C0_TX&#160;</td><td class="fielddoc"><p >Select I2C0's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da675d15a4afa861045235a441d46d0580" name="gga864c3313155ab20116b62a64bf78df6da675d15a4afa861045235a441d46d0580"></a>DREQ_I2C0_RX&#160;</td><td class="fielddoc"><p >Select I2C0's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da74c786868da56dbb18b7da2c7748568f" name="gga864c3313155ab20116b62a64bf78df6da74c786868da56dbb18b7da2c7748568f"></a>DREQ_I2C1_TX&#160;</td><td class="fielddoc"><p >Select I2C1's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da0b5156eb2381872ddc1837d83de16b8b" name="gga864c3313155ab20116b62a64bf78df6da0b5156eb2381872ddc1837d83de16b8b"></a>DREQ_I2C1_RX&#160;</td><td class="fielddoc"><p >Select I2C1's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da5f3aedb5ef1de25b99afcde8742b4590" name="gga864c3313155ab20116b62a64bf78df6da5f3aedb5ef1de25b99afcde8742b4590"></a>DREQ_ADC&#160;</td><td class="fielddoc"><p >Select the ADC as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6daedbcc51f819f4c85c3ab8f51b654ebdc" name="gga864c3313155ab20116b62a64bf78df6daedbcc51f819f4c85c3ab8f51b654ebdc"></a>DREQ_XIP_STREAM&#160;</td><td class="fielddoc"><p >Select the XIP Streaming FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dabaf536bfba84db157116952ae4a5d466" name="gga864c3313155ab20116b62a64bf78df6dabaf536bfba84db157116952ae4a5d466"></a>DREQ_XIP_SSITX&#160;</td><td class="fielddoc"><p >Select the XIP SSI TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da74f7500adc3af744bfe564b1c90aba0a" name="gga864c3313155ab20116b62a64bf78df6da74f7500adc3af744bfe564b1c90aba0a"></a>DREQ_XIP_SSIRX&#160;</td><td class="fielddoc"><p >Select the XIP SSI RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da49bb6d90479edbff257068afd1a5bfe1" name="gga864c3313155ab20116b62a64bf78df6da49bb6d90479edbff257068afd1a5bfe1"></a>DREQ_DMA_TIMER0&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da11c9291490c2ddf45df69f45a2f83dcf" name="gga864c3313155ab20116b62a64bf78df6da11c9291490c2ddf45df69f45a2f83dcf"></a>DREQ_DMA_TIMER1&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dabb60a9d9038192f9db081b51b9c23f65" name="gga864c3313155ab20116b62a64bf78df6dabb60a9d9038192f9db081b51b9c23f65"></a>DREQ_DMA_TIMER2&#160;</td><td class="fielddoc"><p >Select DMA_TIMER1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da86d08425822a129c3eaa1479e920c67c" name="gga864c3313155ab20116b62a64bf78df6da86d08425822a129c3eaa1479e920c67c"></a>DREQ_DMA_TIMER3&#160;</td><td class="fielddoc"><p >Select DMA_TIMER3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dae683f0bb3ee8b854fe4cea850cf9d4c8" name="gga864c3313155ab20116b62a64bf78df6dae683f0bb3ee8b854fe4cea850cf9d4c8"></a>DREQ_FORCE&#160;</td><td class="fielddoc"><p >Select FORCE as DREQ. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga6f0a19defc495cfa6078364122266014" name="ga6f0a19defc495cfa6078364122266014"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6f0a19defc495cfa6078364122266014">&#9670;&nbsp;</a></span>dreq_num_rp2350</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__dma.html#ga6f0a19defc495cfa6078364122266014">dreq_num_rp2350</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>DREQ numbers for DMA pacing on RP2350 (used as typedef <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a>) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ad7529b7e45af2d7eab4b740ff15b49d8" name="gga6f0a19defc495cfa6078364122266014ad7529b7e45af2d7eab4b740ff15b49d8"></a>DREQ_PIO0_TX0&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ac5fedec084064e1d9ff9c6a382c1ccf8" name="gga6f0a19defc495cfa6078364122266014ac5fedec084064e1d9ff9c6a382c1ccf8"></a>DREQ_PIO0_TX1&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014aa2e360dbf123d634d08e5fae27aa29e5" name="gga6f0a19defc495cfa6078364122266014aa2e360dbf123d634d08e5fae27aa29e5"></a>DREQ_PIO0_TX2&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a156b1b999c6b2dd877545c8c79060a30" name="gga6f0a19defc495cfa6078364122266014a156b1b999c6b2dd877545c8c79060a30"></a>DREQ_PIO0_TX3&#160;</td><td class="fielddoc"><p >Select PIO0's TX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ac4bc12d74b758a7b39c1977c401e2fe1" name="gga6f0a19defc495cfa6078364122266014ac4bc12d74b758a7b39c1977c401e2fe1"></a>DREQ_PIO0_RX0&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a19b55b49bb618eed839edccba14c0d8f" name="gga6f0a19defc495cfa6078364122266014a19b55b49bb618eed839edccba14c0d8f"></a>DREQ_PIO0_RX1&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a967d6b5eb2d3e06113b2b1606ef2af2c" name="gga6f0a19defc495cfa6078364122266014a967d6b5eb2d3e06113b2b1606ef2af2c"></a>DREQ_PIO0_RX2&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a10f8705467782c859f05f82aa3c3c9f5" name="gga6f0a19defc495cfa6078364122266014a10f8705467782c859f05f82aa3c3c9f5"></a>DREQ_PIO0_RX3&#160;</td><td class="fielddoc"><p >Select PIO0's RX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a3c22f2c9eb4a49654bba70dbc99bc893" name="gga6f0a19defc495cfa6078364122266014a3c22f2c9eb4a49654bba70dbc99bc893"></a>DREQ_PIO1_TX0&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a37f1bb39c3aa38a753df88e7e6c57feb" name="gga6f0a19defc495cfa6078364122266014a37f1bb39c3aa38a753df88e7e6c57feb"></a>DREQ_PIO1_TX1&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a13d7cb74708595298d788ba0ce25f6a0" name="gga6f0a19defc495cfa6078364122266014a13d7cb74708595298d788ba0ce25f6a0"></a>DREQ_PIO1_TX2&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014aaa5859ea1daaf5f0760fb4dea23116c3" name="gga6f0a19defc495cfa6078364122266014aaa5859ea1daaf5f0760fb4dea23116c3"></a>DREQ_PIO1_TX3&#160;</td><td class="fielddoc"><p >Select PIO1's TX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a833bfa99e8b74de9bfc1872958a742e3" name="gga6f0a19defc495cfa6078364122266014a833bfa99e8b74de9bfc1872958a742e3"></a>DREQ_PIO1_RX0&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a8da9c5655eb51f2fb8a33b16827796a9" name="gga6f0a19defc495cfa6078364122266014a8da9c5655eb51f2fb8a33b16827796a9"></a>DREQ_PIO1_RX1&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a0198dfe2da7237817e780a483144df8f" name="gga6f0a19defc495cfa6078364122266014a0198dfe2da7237817e780a483144df8f"></a>DREQ_PIO1_RX2&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ab093d84a1df12a37ab6e9d62ee1f6d57" name="gga6f0a19defc495cfa6078364122266014ab093d84a1df12a37ab6e9d62ee1f6d57"></a>DREQ_PIO1_RX3&#160;</td><td class="fielddoc"><p >Select PIO1's RX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a6a3e73df9d0e562b41b571e272100302" name="gga6f0a19defc495cfa6078364122266014a6a3e73df9d0e562b41b571e272100302"></a>DREQ_PIO2_TX0&#160;</td><td class="fielddoc"><p >Select PIO2's TX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a37c21bac317747dda953dca55954db16" name="gga6f0a19defc495cfa6078364122266014a37c21bac317747dda953dca55954db16"></a>DREQ_PIO2_TX1&#160;</td><td class="fielddoc"><p >Select PIO2's TX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014abadc20c78c83d2db4fcf3980f1d5b87f" name="gga6f0a19defc495cfa6078364122266014abadc20c78c83d2db4fcf3980f1d5b87f"></a>DREQ_PIO2_TX2&#160;</td><td class="fielddoc"><p >Select PIO2's TX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014aa94c2b7f002c28a6050dda127aeaf3b1" name="gga6f0a19defc495cfa6078364122266014aa94c2b7f002c28a6050dda127aeaf3b1"></a>DREQ_PIO2_TX3&#160;</td><td class="fielddoc"><p >Select PIO2's TX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a8bb28cdeea9248c04665464cabc6b1e6" name="gga6f0a19defc495cfa6078364122266014a8bb28cdeea9248c04665464cabc6b1e6"></a>DREQ_PIO2_RX0&#160;</td><td class="fielddoc"><p >Select PIO2's RX FIFO 0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a58a5eb511f85599b5e2b93cee7537b18" name="gga6f0a19defc495cfa6078364122266014a58a5eb511f85599b5e2b93cee7537b18"></a>DREQ_PIO2_RX1&#160;</td><td class="fielddoc"><p >Select PIO2's RX FIFO 1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a9f4f2e7b3cf525ff519db02b0047bf87" name="gga6f0a19defc495cfa6078364122266014a9f4f2e7b3cf525ff519db02b0047bf87"></a>DREQ_PIO2_RX2&#160;</td><td class="fielddoc"><p >Select PIO2's RX FIFO 2 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ae7c631f739c8fb2e161c88911376ab26" name="gga6f0a19defc495cfa6078364122266014ae7c631f739c8fb2e161c88911376ab26"></a>DREQ_PIO2_RX3&#160;</td><td class="fielddoc"><p >Select PIO2's RX FIFO 3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a4b8b13f940414660401a7b334d85b64b" name="gga6f0a19defc495cfa6078364122266014a4b8b13f940414660401a7b334d85b64b"></a>DREQ_SPI0_TX&#160;</td><td class="fielddoc"><p >Select SPI0's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a46641088908dd355dc82971e7c7fbd35" name="gga6f0a19defc495cfa6078364122266014a46641088908dd355dc82971e7c7fbd35"></a>DREQ_SPI0_RX&#160;</td><td class="fielddoc"><p >Select SPI0's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a01d244742e157d2d2fb8e55b5fd6d81b" name="gga6f0a19defc495cfa6078364122266014a01d244742e157d2d2fb8e55b5fd6d81b"></a>DREQ_SPI1_TX&#160;</td><td class="fielddoc"><p >Select SPI1's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a04665a3e6a5c58a6cbf2d0fe1503cf00" name="gga6f0a19defc495cfa6078364122266014a04665a3e6a5c58a6cbf2d0fe1503cf00"></a>DREQ_SPI1_RX&#160;</td><td class="fielddoc"><p >Select SPI1's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a80ecb62e37f0c5af2780b93d4995326d" name="gga6f0a19defc495cfa6078364122266014a80ecb62e37f0c5af2780b93d4995326d"></a>DREQ_UART0_TX&#160;</td><td class="fielddoc"><p >Select UART0's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a4812587fa3aa4cfd7ea0d91e20246b95" name="gga6f0a19defc495cfa6078364122266014a4812587fa3aa4cfd7ea0d91e20246b95"></a>DREQ_UART0_RX&#160;</td><td class="fielddoc"><p >Select UART0's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014aa64110e7f89692b9c789275b4d8b04c0" name="gga6f0a19defc495cfa6078364122266014aa64110e7f89692b9c789275b4d8b04c0"></a>DREQ_UART1_TX&#160;</td><td class="fielddoc"><p >Select UART1's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ae5c7e2a566983a1148113e2987e059d5" name="gga6f0a19defc495cfa6078364122266014ae5c7e2a566983a1148113e2987e059d5"></a>DREQ_UART1_RX&#160;</td><td class="fielddoc"><p >Select UART1's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a2a861c9dcce9e158ace7bc5d547ebde1" name="gga6f0a19defc495cfa6078364122266014a2a861c9dcce9e158ace7bc5d547ebde1"></a>DREQ_PWM_WRAP0&#160;</td><td class="fielddoc"><p >Select PWM Counter 0's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a1504bdb2bd8aaa535903ea11aa2c2994" name="gga6f0a19defc495cfa6078364122266014a1504bdb2bd8aaa535903ea11aa2c2994"></a>DREQ_PWM_WRAP1&#160;</td><td class="fielddoc"><p >Select PWM Counter 1's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014acb766e3b38daca5c8cd35459d835d7a2" name="gga6f0a19defc495cfa6078364122266014acb766e3b38daca5c8cd35459d835d7a2"></a>DREQ_PWM_WRAP2&#160;</td><td class="fielddoc"><p >Select PWM Counter 2's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a017ebaacb45d90c4f20db2d5edded874" name="gga6f0a19defc495cfa6078364122266014a017ebaacb45d90c4f20db2d5edded874"></a>DREQ_PWM_WRAP3&#160;</td><td class="fielddoc"><p >Select PWM Counter 3's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a5fdd41bb900549d6ff26772cc9fd507a" name="gga6f0a19defc495cfa6078364122266014a5fdd41bb900549d6ff26772cc9fd507a"></a>DREQ_PWM_WRAP4&#160;</td><td class="fielddoc"><p >Select PWM Counter 4's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014aced239695d7bf65c41827e1eb6cbc04a" name="gga6f0a19defc495cfa6078364122266014aced239695d7bf65c41827e1eb6cbc04a"></a>DREQ_PWM_WRAP5&#160;</td><td class="fielddoc"><p >Select PWM Counter 5's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014add0e022489d6ad4f835a97c6e354c15b" name="gga6f0a19defc495cfa6078364122266014add0e022489d6ad4f835a97c6e354c15b"></a>DREQ_PWM_WRAP6&#160;</td><td class="fielddoc"><p >Select PWM Counter 6's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014adafe5a7f2f401a496e842c7a2c95dac5" name="gga6f0a19defc495cfa6078364122266014adafe5a7f2f401a496e842c7a2c95dac5"></a>DREQ_PWM_WRAP7&#160;</td><td class="fielddoc"><p >Select PWM Counter 7's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a4ab337ff0746f2d9d432020658a478af" name="gga6f0a19defc495cfa6078364122266014a4ab337ff0746f2d9d432020658a478af"></a>DREQ_PWM_WRAP8&#160;</td><td class="fielddoc"><p >Select PWM Counter 8's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a8d7bd836d3ba015fc800e227b6408f73" name="gga6f0a19defc495cfa6078364122266014a8d7bd836d3ba015fc800e227b6408f73"></a>DREQ_PWM_WRAP9&#160;</td><td class="fielddoc"><p >Select PWM Counter 9's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ad17feaa0e6a99ccf14b5d7285ab363d1" name="gga6f0a19defc495cfa6078364122266014ad17feaa0e6a99ccf14b5d7285ab363d1"></a>DREQ_PWM_WRAP10&#160;</td><td class="fielddoc"><p >Select PWM Counter 0's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a14ba987e523bd38f813f93322d053a4c" name="gga6f0a19defc495cfa6078364122266014a14ba987e523bd38f813f93322d053a4c"></a>DREQ_PWM_WRAP11&#160;</td><td class="fielddoc"><p >Select PWM Counter 1's Wrap Value as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ab51c1095a1fec8ad39050cf49fd01835" name="gga6f0a19defc495cfa6078364122266014ab51c1095a1fec8ad39050cf49fd01835"></a>DREQ_I2C0_TX&#160;</td><td class="fielddoc"><p >Select I2C0's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a675d15a4afa861045235a441d46d0580" name="gga6f0a19defc495cfa6078364122266014a675d15a4afa861045235a441d46d0580"></a>DREQ_I2C0_RX&#160;</td><td class="fielddoc"><p >Select I2C0's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a74c786868da56dbb18b7da2c7748568f" name="gga6f0a19defc495cfa6078364122266014a74c786868da56dbb18b7da2c7748568f"></a>DREQ_I2C1_TX&#160;</td><td class="fielddoc"><p >Select I2C1's TX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a0b5156eb2381872ddc1837d83de16b8b" name="gga6f0a19defc495cfa6078364122266014a0b5156eb2381872ddc1837d83de16b8b"></a>DREQ_I2C1_RX&#160;</td><td class="fielddoc"><p >Select I2C1's RX FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a5f3aedb5ef1de25b99afcde8742b4590" name="gga6f0a19defc495cfa6078364122266014a5f3aedb5ef1de25b99afcde8742b4590"></a>DREQ_ADC&#160;</td><td class="fielddoc"><p >Select the ADC as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014aedbcc51f819f4c85c3ab8f51b654ebdc" name="gga6f0a19defc495cfa6078364122266014aedbcc51f819f4c85c3ab8f51b654ebdc"></a>DREQ_XIP_STREAM&#160;</td><td class="fielddoc"><p >Select the XIP Streaming FIFO as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a79533c8a78e8f62f1f564954a755e02a" name="gga6f0a19defc495cfa6078364122266014a79533c8a78e8f62f1f564954a755e02a"></a>DREQ_XIP_QMITX&#160;</td><td class="fielddoc"><p >Select XIP_QMITX as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a35519b1f622ee38560ffd2dfa1571c9b" name="gga6f0a19defc495cfa6078364122266014a35519b1f622ee38560ffd2dfa1571c9b"></a>DREQ_XIP_QMIRX&#160;</td><td class="fielddoc"><p >Select XIP_QMIRX as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a71865f5a1fc034131dfb351d2c830c03" name="gga6f0a19defc495cfa6078364122266014a71865f5a1fc034131dfb351d2c830c03"></a>DREQ_HSTX&#160;</td><td class="fielddoc"><p >Select HSTX as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a1ef0656e59fedc445052acc548cce490" name="gga6f0a19defc495cfa6078364122266014a1ef0656e59fedc445052acc548cce490"></a>DREQ_CORESIGHT&#160;</td><td class="fielddoc"><p >Select CORESIGHT as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a7a5f3a4ca267d2cd53c43779fb5494ba" name="gga6f0a19defc495cfa6078364122266014a7a5f3a4ca267d2cd53c43779fb5494ba"></a>DREQ_SHA256&#160;</td><td class="fielddoc"><p >Select SHA256 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a49bb6d90479edbff257068afd1a5bfe1" name="gga6f0a19defc495cfa6078364122266014a49bb6d90479edbff257068afd1a5bfe1"></a>DREQ_DMA_TIMER0&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a11c9291490c2ddf45df69f45a2f83dcf" name="gga6f0a19defc495cfa6078364122266014a11c9291490c2ddf45df69f45a2f83dcf"></a>DREQ_DMA_TIMER1&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014abb60a9d9038192f9db081b51b9c23f65" name="gga6f0a19defc495cfa6078364122266014abb60a9d9038192f9db081b51b9c23f65"></a>DREQ_DMA_TIMER2&#160;</td><td class="fielddoc"><p >Select DMA_TIMER1 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a86d08425822a129c3eaa1479e920c67c" name="gga6f0a19defc495cfa6078364122266014a86d08425822a129c3eaa1479e920c67c"></a>DREQ_DMA_TIMER3&#160;</td><td class="fielddoc"><p >Select DMA_TIMER3 as DREQ. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ae683f0bb3ee8b854fe4cea850cf9d4c8" name="gga6f0a19defc495cfa6078364122266014ae683f0bb3ee8b854fe4cea850cf9d4c8"></a>DREQ_FORCE&#160;</td><td class="fielddoc"><p >Select FORCE as DREQ. </p>
 </td></tr>
 </table>
 
@@ -323,7 +759,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 
 <p>Stop a DMA transfer. </p>
 <p >Function will only return once the DMA has stopped.</p>
-<p >Note that due to errata RP2040-E13, aborting a channel which has transfers in-flight (i.e. an individual read has taken place but the corresponding write has not), the ABORT status bit will clear prematurely, and subsequently the in-flight transfers will trigger a completion interrupt once they complete.</p>
+<p >RP2040 only: Note that due to errata RP2040-E13, aborting a channel which has transfers in-flight (i.e. an individual read has taken place but the corresponding write has not), the ABORT status bit will clear prematurely, and subsequently the in-flight transfers will trigger a completion interrupt once they complete. </p>
 <p >The effect of this is that you <em>may</em> see a spurious completion interrupt on the channel as a result of calling this method.</p>
 <p >The calling code should be sure to ignore a completion IRQ as a result of this method. This may not require any additional work, as aborting a channel which may be about to complete, when you have a completion IRQ handler registered, is inherently race-prone, and so code is likely needed to disambiguate the two occurrences.</p>
 <p >If that is not the case, but you do have a channel completion IRQ handler registered, you can simply disable/re-enable the IRQ around the call to this method as shown by this code fragment (using DMA IRQ0).</p>
@@ -335,10 +771,11 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 <div class="line"><a class="code hl_function" href="group__hardware__dma.html#gafefe50f20c44bcfa7f729829a5d494f4">dma_channel_acknowledge_irq0</a>(channel);</div>
 <div class="line"><span class="comment">// re-enable the channel on IRQ0</span></div>
 <div class="line"><a class="code hl_function" href="group__hardware__dma.html#gaf60011d46676c87b7139f37188eaa4b9">dma_channel_set_irq0_enabled</a>(channel, <span class="keyword">true</span>);</div>
-<div class="ttc" id="agroup__hardware__dma_html_ga735e7c6c136c078689ead70790f4edb2"><div class="ttname"><a href="group__hardware__dma.html#ga735e7c6c136c078689ead70790f4edb2">dma_channel_abort</a></div><div class="ttdeci">static void dma_channel_abort(uint channel)</div><div class="ttdoc">Stop a DMA transfer.</div><div class="ttdef"><b>Definition:</b> dma.h:527</div></div>
-<div class="ttc" id="agroup__hardware__dma_html_gaf60011d46676c87b7139f37188eaa4b9"><div class="ttname"><a href="group__hardware__dma.html#gaf60011d46676c87b7139f37188eaa4b9">dma_channel_set_irq0_enabled</a></div><div class="ttdeci">static void dma_channel_set_irq0_enabled(uint channel, bool enabled)</div><div class="ttdoc">Enable single DMA channel's interrupt via DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:541</div></div>
-<div class="ttc" id="agroup__hardware__dma_html_gafefe50f20c44bcfa7f729829a5d494f4"><div class="ttname"><a href="group__hardware__dma.html#gafefe50f20c44bcfa7f729829a5d494f4">dma_channel_acknowledge_irq0</a></div><div class="ttdeci">static void dma_channel_acknowledge_irq0(uint channel)</div><div class="ttdoc">Acknowledge a channel IRQ, resetting it as the cause of DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:665</div></div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+<div class="ttc" id="agroup__hardware__dma_html_ga735e7c6c136c078689ead70790f4edb2"><div class="ttname"><a href="group__hardware__dma.html#ga735e7c6c136c078689ead70790f4edb2">dma_channel_abort</a></div><div class="ttdeci">static void dma_channel_abort(uint channel)</div><div class="ttdoc">Stop a DMA transfer.</div><div class="ttdef"><b>Definition:</b> dma.h:544</div></div>
+<div class="ttc" id="agroup__hardware__dma_html_gaf60011d46676c87b7139f37188eaa4b9"><div class="ttname"><a href="group__hardware__dma.html#gaf60011d46676c87b7139f37188eaa4b9">dma_channel_set_irq0_enabled</a></div><div class="ttdeci">static void dma_channel_set_irq0_enabled(uint channel, bool enabled)</div><div class="ttdoc">Enable single DMA channel's interrupt via DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:558</div></div>
+<div class="ttc" id="agroup__hardware__dma_html_gafefe50f20c44bcfa7f729829a5d494f4"><div class="ttname"><a href="group__hardware__dma.html#gafefe50f20c44bcfa7f729829a5d494f4">dma_channel_acknowledge_irq0</a></div><div class="ttdeci">static void dma_channel_acknowledge_irq0(uint channel)</div><div class="ttdoc">Acknowledge a channel IRQ, resetting it as the cause of DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:682</div></div>
+</div><!-- fragment --><p >RP2350 only: Due to errata RP12350-E5 (see the RP2350 datasheet for further detail), it is necessary to clear the enable bit of the aborted channel and any chained channels prior to the abort to prevent re-triggering. </p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">channel</td><td>DMA channel </td></tr>
   </table>
@@ -1261,6 +1698,41 @@ dma_channel_claim_mask </dd></dl>
 
 </div>
 </div>
+<a id="ga5da1507764272564a75939e2cf38fa9a" name="ga5da1507764272564a75939e2cf38fa9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5da1507764272564a75939e2cf38fa9a">&#9670;&nbsp;</a></span>dma_get_irq_num()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int dma_get_irq_num </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>irq_index</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return DMA_IRQ_&lt;irqn&gt; </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">irq_index</td><td>0 the DMA irq index </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The irq_num_to use for DMA </dd></dl>
+
+</div>
+</div>
 <a id="ga75ef6881795fd1760fe813f9e0a79223" name="ga75ef6881795fd1760fe813f9e0a79223"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga75ef6881795fd1760fe813f9e0a79223">&#9670;&nbsp;</a></span>dma_get_timer_dreq()</h2>
 
@@ -1948,8 +2420,8 @@ dma_channel_claim_mask </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Set the divider for the given DMA timer. </p>
-<p >The timer will run at the system_clock_freq * numerator / denominator, so this is the speed that data elements will be transferred at via a DMA channel using this timer as a DREQ</p>
+<p>Set the multiplier for the given DMA timer. </p>
+<p >The timer will run at the system_clock_freq * numerator / denominator, so this is the speed that data elements will be transferred at via a DMA channel using this timer as a DREQ. The multiplier must be less than or equal to one.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">timer</td><td>the dma timer </td></tr>

@@ -292,3 +292,25 @@ export function cmakeGetSelectedToolchainAndSDKVersions(
 
   return [versionMatch[1], versionMatch2[1]];
 }
+
+/**
+ * Extracts the picoVar from the CMakeCache.txt file.
+ *
+ * @param cmakeFilePath The path to the CMakeCache.txt file.
+ * @returns The variable or null if the file could not
+ * be read or the variable could not be extracted.
+ */
+export function cmakeGetPicoVar(
+  cmakeFilePath: string,
+  picoVar: string
+): string | null {
+  const content = readFileSync(cmakeFilePath, "utf8");
+  const picoVarRegex = new RegExp(`^${picoVar}:.*=(.*)$`, "m");
+  const match = content.match(picoVarRegex);
+
+  if (match === null) {
+    return null;
+  }
+
+  return match[1];
+}

@@ -41,17 +41,16 @@ num_repos = 0
 for _ in stuff.GithubRepository:
     num_repos += 0.5
 num_repos = int(num_repos)
-assert num_repos == 5
+assert num_repos == 4
 print("Num repos", num_repos)
 
 
 # Only provide data for these versions
 versions = [
-    ["1.5.1"],
+    ["1.5.1", "2.0.0"],
     ["v3.28.6", "v3.29.6"],
     ["v1.12.1"],
-    ["v1.5.1-alpha-1"],
-    ["v0.12.0-2"],
+    ["v2.0.0-0"],
 ]
 
 headers = {

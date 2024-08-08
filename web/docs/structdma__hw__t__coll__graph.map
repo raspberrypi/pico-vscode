@@ -1,0 +1,6 @@
+<map id="dma_hw_t" name="dma_hw_t">
+<area shape="rect" id="node1" title=" " alt="" coords="202,95,291,121"/>
+<area shape="rect" id="node2" href="$structdma__channel__hw__t.html" title=" " alt="" coords="5,5,152,32"/>
+<area shape="rect" id="node3" href="$structdma__irq__ctrl__hw__t.html" title=" " alt="" coords="176,5,317,32"/>
+<area shape="rect" id="node4" href="$structdma__mpu__region__hw__t.html" title=" " alt="" coords="341,5,515,32"/>
+</map>

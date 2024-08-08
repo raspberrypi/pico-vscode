@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -122,9 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a25deab62cae882b2cdde3439eadf5cf4"><td class="memItemLeft" align="right" valign="top"><a id="a25deab62cae882b2cdde3439eadf5cf4" name="a25deab62cae882b2cdde3439eadf5cf4"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_TIMELR_OFFSET) io_ro_32 timelr</td></tr>
 <tr class="separator:a25deab62cae882b2cdde3439eadf5cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3960efbbaf2b04d4b7c30a0d2e11046"><td class="memItemLeft" align="right" valign="top"><a id="ab3960efbbaf2b04d4b7c30a0d2e11046" name="ab3960efbbaf2b04d4b7c30a0d2e11046"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_ALARM0_OFFSET) io_rw_32 alarm[NUM_TIMERS]</td></tr>
-<tr class="separator:ab3960efbbaf2b04d4b7c30a0d2e11046"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dad00757ac56b619433b9cb9a51d0d1"><td class="memItemLeft" align="right" valign="top"><a id="a1dad00757ac56b619433b9cb9a51d0d1" name="a1dad00757ac56b619433b9cb9a51d0d1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_ALARM0_OFFSET) io_rw_32 alarm[4]</td></tr>
+<tr class="separator:a1dad00757ac56b619433b9cb9a51d0d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ac8eaf58d9b54de1a433bfe3315f3a5"><td class="memItemLeft" align="right" valign="top"><a id="a9ac8eaf58d9b54de1a433bfe3315f3a5" name="a9ac8eaf58d9b54de1a433bfe3315f3a5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_ARMED_OFFSET) io_rw_32 armed</td></tr>
 <tr class="separator:a9ac8eaf58d9b54de1a433bfe3315f3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,9 +152,58 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad369e45baf8be999f11777af1a552ad2"><td class="memItemLeft" align="right" valign="top"><a id="ad369e45baf8be999f11777af1a552ad2" name="ad369e45baf8be999f11777af1a552ad2"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_INTS_OFFSET) io_ro_32 ints</td></tr>
 <tr class="separator:ad369e45baf8be999f11777af1a552ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9fca4cc6b509d9f3bf186593f3ffe08"><td class="memItemLeft" align="right" valign="top"><a id="af9fca4cc6b509d9f3bf186593f3ffe08" name="af9fca4cc6b509d9f3bf186593f3ffe08"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_TIMEHW_OFFSET) io_wo_32 timehw</td></tr>
+<tr class="separator:af9fca4cc6b509d9f3bf186593f3ffe08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34c3e017e2df7ec657566e977d21291f"><td class="memItemLeft" align="right" valign="top"><a id="a34c3e017e2df7ec657566e977d21291f" name="a34c3e017e2df7ec657566e977d21291f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_TIMELW_OFFSET) io_wo_32 timelw</td></tr>
+<tr class="separator:a34c3e017e2df7ec657566e977d21291f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e8718a173704c2d30d49fc2b79fca7"><td class="memItemLeft" align="right" valign="top"><a id="ab3e8718a173704c2d30d49fc2b79fca7" name="ab3e8718a173704c2d30d49fc2b79fca7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_TIMEHR_OFFSET) io_ro_32 timehr</td></tr>
+<tr class="separator:ab3e8718a173704c2d30d49fc2b79fca7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25deab62cae882b2cdde3439eadf5cf4"><td class="memItemLeft" align="right" valign="top"><a id="a25deab62cae882b2cdde3439eadf5cf4" name="a25deab62cae882b2cdde3439eadf5cf4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_TIMELR_OFFSET) io_ro_32 timelr</td></tr>
+<tr class="separator:a25deab62cae882b2cdde3439eadf5cf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dad00757ac56b619433b9cb9a51d0d1"><td class="memItemLeft" align="right" valign="top"><a id="a1dad00757ac56b619433b9cb9a51d0d1" name="a1dad00757ac56b619433b9cb9a51d0d1"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_ALARM0_OFFSET) io_rw_32 alarm[4]</td></tr>
+<tr class="separator:a1dad00757ac56b619433b9cb9a51d0d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ac8eaf58d9b54de1a433bfe3315f3a5"><td class="memItemLeft" align="right" valign="top"><a id="a9ac8eaf58d9b54de1a433bfe3315f3a5" name="a9ac8eaf58d9b54de1a433bfe3315f3a5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_ARMED_OFFSET) io_rw_32 armed</td></tr>
+<tr class="separator:a9ac8eaf58d9b54de1a433bfe3315f3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bfb2496a378e906446140966980ad44"><td class="memItemLeft" align="right" valign="top"><a id="a3bfb2496a378e906446140966980ad44" name="a3bfb2496a378e906446140966980ad44"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_TIMERAWH_OFFSET) io_ro_32 timerawh</td></tr>
+<tr class="separator:a3bfb2496a378e906446140966980ad44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a622c480a01378ff8065654df7d20974e"><td class="memItemLeft" align="right" valign="top"><a id="a622c480a01378ff8065654df7d20974e" name="a622c480a01378ff8065654df7d20974e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_TIMERAWL_OFFSET) io_ro_32 timerawl</td></tr>
+<tr class="separator:a622c480a01378ff8065654df7d20974e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac389f40e41f9080e08894da6d84415e0"><td class="memItemLeft" align="right" valign="top"><a id="ac389f40e41f9080e08894da6d84415e0" name="ac389f40e41f9080e08894da6d84415e0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_DBGPAUSE_OFFSET) io_rw_32 dbgpause</td></tr>
+<tr class="separator:ac389f40e41f9080e08894da6d84415e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa77168ea2f05f8182c4e97882cc7a5d9"><td class="memItemLeft" align="right" valign="top"><a id="aa77168ea2f05f8182c4e97882cc7a5d9" name="aa77168ea2f05f8182c4e97882cc7a5d9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_PAUSE_OFFSET) io_rw_32 pause</td></tr>
+<tr class="separator:aa77168ea2f05f8182c4e97882cc7a5d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab92351fc06648ae5c436a02406a7fbf9"><td class="memItemLeft" align="right" valign="top"><a id="ab92351fc06648ae5c436a02406a7fbf9" name="ab92351fc06648ae5c436a02406a7fbf9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_LOCKED_OFFSET) io_rw_32 locked</td></tr>
+<tr class="separator:ab92351fc06648ae5c436a02406a7fbf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a569c1ae10425f04dec225b8161ba7c4b"><td class="memItemLeft" align="right" valign="top"><a id="a569c1ae10425f04dec225b8161ba7c4b" name="a569c1ae10425f04dec225b8161ba7c4b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_SOURCE_OFFSET) io_rw_32 source</td></tr>
+<tr class="separator:a569c1ae10425f04dec225b8161ba7c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f879c690d34127a9d158bb8673df58e"><td class="memItemLeft" align="right" valign="top"><a id="a4f879c690d34127a9d158bb8673df58e" name="a4f879c690d34127a9d158bb8673df58e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_INTR_OFFSET) io_rw_32 intr</td></tr>
+<tr class="separator:a4f879c690d34127a9d158bb8673df58e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee61996c7b667d437c6d5a7cf9927fd7"><td class="memItemLeft" align="right" valign="top"><a id="aee61996c7b667d437c6d5a7cf9927fd7" name="aee61996c7b667d437c6d5a7cf9927fd7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_INTE_OFFSET) io_rw_32 inte</td></tr>
+<tr class="separator:aee61996c7b667d437c6d5a7cf9927fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a059b98a3419f88e8b7673fe55b00ccec"><td class="memItemLeft" align="right" valign="top"><a id="a059b98a3419f88e8b7673fe55b00ccec" name="a059b98a3419f88e8b7673fe55b00ccec"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_INTF_OFFSET) io_rw_32 intf</td></tr>
+<tr class="separator:a059b98a3419f88e8b7673fe55b00ccec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad369e45baf8be999f11777af1a552ad2"><td class="memItemLeft" align="right" valign="top"><a id="ad369e45baf8be999f11777af1a552ad2" name="ad369e45baf8be999f11777af1a552ad2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (TIMER_INTS_OFFSET) io_ro_32 ints</td></tr>
+<tr class="separator:ad369e45baf8be999f11777af1a552ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>hardware_structs/include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2timer_8h_source.html">timer.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2timer_8h_source.html">timer.h</a></li>
+<li>include/hardware/structs/<a class="el" href="rp2350_2hardware__structs_2include_2hardware_2structs_2timer_8h_source.html">timer.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

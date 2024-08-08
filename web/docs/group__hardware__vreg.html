@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,16 +107,43 @@ $(document).ready(function(){initNavTree('group__hardware__vreg.html',''); initR
   <div class="headertitle"><div class="title">hardware_vreg<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Voltage Regulation API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga9d129557bd02bef7facf45b05130e000"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__vreg.html#ga9d129557bd02bef7facf45b05130e000">vreg_set_voltage</a> (enum <a class="el" href="vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0">vreg_voltage</a> voltage)</td></tr>
 <tr class="memdesc:ga9d129557bd02bef7facf45b05130e000"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set voltage.  <a href="group__hardware__vreg.html#ga9d129557bd02bef7facf45b05130e000">More...</a><br /></td></tr>
 <tr class="separator:ga9d129557bd02bef7facf45b05130e000"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa474bd6a5c0df05f9e4185a470dcd28f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__vreg.html#gaa474bd6a5c0df05f9e4185a470dcd28f">vreg_disable_voltage_limit</a> (void)</td></tr>
+<tr class="memdesc:gaa474bd6a5c0df05f9e4185a470dcd28f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable use of voltages beyond the safe range of operation.  <a href="group__hardware__vreg.html#gaa474bd6a5c0df05f9e4185a470dcd28f">More...</a><br /></td></tr>
+<tr class="separator:gaa474bd6a5c0df05f9e4185a470dcd28f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Voltage Regulation API </p>
+<p >Voltage Regulation API. </p>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="gaa474bd6a5c0df05f9e4185a470dcd28f" name="gaa474bd6a5c0df05f9e4185a470dcd28f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa474bd6a5c0df05f9e4185a470dcd28f">&#9670;&nbsp;</a></span>vreg_disable_voltage_limit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void vreg_disable_voltage_limit </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enable use of voltages beyond the safe range of operation. </p>
+<p >This allows voltages beyond VREG_VOLTAGE_MAX to be used, on platforms where they are available (e.g. RP2350). Attempting to set a higher voltage without first calling this function will result in a voltage of VREG_VOLTAGE_MAX. </p>
+
+</div>
+</div>
 <a id="ga9d129557bd02bef7facf45b05130e000" name="ga9d129557bd02bef7facf45b05130e000"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga9d129557bd02bef7facf45b05130e000">&#9670;&nbsp;</a></span>vreg_set_voltage()</h2>
 

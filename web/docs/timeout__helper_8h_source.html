@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_time/include/pico/timeout_helper.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/pico/timeout_helper.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -114,20 +114,20 @@ $(document).ready(function(){initNavTree('timeout__helper_8h_source.html',''); i
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef _PICO_TIMEOUT_HELPER_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define _PICO_TIMEOUT_HELPER_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="time_8h.html">pico/time.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="common_2pico__time_2include_2pico_2time_8h.html">pico/time.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structtimeout__state.html">   16</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structtimeout__state.html">timeout_state</a> {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_struct" href="structabsolute__time__t.html">absolute_time_t</a> next_timeout;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_typedef" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> next_timeout;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    uint64_t param;</div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>} <a class="code hl_struct" href="structtimeout__state.html">timeout_state_t</a>;</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">typedef</span> bool (*check_timeout_fn)(<a class="code hl_struct" href="structtimeout__state.html">timeout_state_t</a> *ts);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">typedef</span> bool (*check_timeout_fn)(<a class="code hl_struct" href="structtimeout__state.html">timeout_state_t</a> *ts, <span class="keywordtype">bool</span> reset);</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>check_timeout_fn init_single_timeout_until(<a class="code hl_struct" href="structtimeout__state.html">timeout_state_t</a> *ts, <a class="code hl_struct" href="structabsolute__time__t.html">absolute_time_t</a> target);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>check_timeout_fn init_single_timeout_until(<a class="code hl_struct" href="structtimeout__state.html">timeout_state_t</a> *ts, <a class="code hl_typedef" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> target);</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>check_timeout_fn init_per_iteration_timeout_us(<a class="code hl_struct" href="structtimeout__state.html">timeout_state_t</a> *ts, uint64_t per_iteration_timeout_us);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#ifdef __cplusplus</span></div>
@@ -135,9 +135,9 @@ $(document).ready(function(){initNavTree('timeout__helper_8h_source.html',''); i
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="astructabsolute__time__t_html"><div class="ttname"><a href="structabsolute__time__t.html">absolute_time_t</a></div><div class="ttdef"><b>Definition:</b> types.h:33</div></div>
+<div class="ttc" id="acommon_2pico__time_2include_2pico_2time_8h_html"><div class="ttname"><a href="common_2pico__time_2include_2pico_2time_8h.html">time.h</a></div></div>
+<div class="ttc" id="agroup__timestamp_html_ga8b7f3d602cc053f05bacceeacc257ed8"><div class="ttname"><a href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a></div><div class="ttdeci">uint64_t absolute_time_t</div><div class="ttdoc">An opaque 64 bit timestamp in microseconds.</div><div class="ttdef"><b>Definition:</b> types.h:43</div></div>
 <div class="ttc" id="astructtimeout__state_html"><div class="ttname"><a href="structtimeout__state.html">timeout_state</a></div><div class="ttdef"><b>Definition:</b> timeout_helper.h:16</div></div>
-<div class="ttc" id="atime_8h_html"><div class="ttname"><a href="time_8h.html">time.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

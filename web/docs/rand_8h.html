@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_rand/include/pico/rand.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/rand.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,6 +111,40 @@ $(document).ready(function(){initNavTree('rand_8h.html',''); initResizable(); })
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for rand.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rand_8h__incl.png" border="0" usemap="#ainclude_2pico_2rand_8h" alt=""/></div>
+<map name="ainclude_2pico_2rand_8h" id="ainclude_2pico_2rand_8h">
+<area shape="rect" title=" " alt="" coords="369,5,515,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rand_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2rand_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2rand_8hdep" id="ainclude_2pico_2rand_8hdep">
+<area shape="rect" title=" " alt="" coords="5,5,151,32"/>
+<area shape="rect" href="cc_8h_source.html" title=" " alt="" coords="13,80,143,107"/>
+</map>
+</div>
 </div>
 <p><a href="rand_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -136,8 +170,11 @@ Macros</h2></td></tr>
 <tr class="memitem:ac1d3e35b63eae69481aa9f5a83a7de6c"><td class="memItemLeft" align="right" valign="top"><a id="ac1d3e35b63eae69481aa9f5a83a7de6c" name="ac1d3e35b63eae69481aa9f5a83a7de6c"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RAND_SEED_ENTROPY_SRC_TIME</b>&#160;&#160;&#160;PICO_RAND_ENTROPY_SRC_TIME</td></tr>
 <tr class="separator:ac1d3e35b63eae69481aa9f5a83a7de6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade6facffab9919340149541bdca1d824"><td class="memItemLeft" align="right" valign="top"><a id="ade6facffab9919340149541bdca1d824" name="ade6facffab9919340149541bdca1d824"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RAND_SEED_ENTROPY_SRC_BUF_PERF_COUNTER</b>&#160;&#160;&#160;PICO_RAND_ENTROPY_SRC_BUS_PERF_COUNTER</td></tr>
+<tr class="separator:ade6facffab9919340149541bdca1d824"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dc0efe5678a480576780c96c334b026"><td class="memItemLeft" align="right" valign="top"><a id="a3dc0efe5678a480576780c96c334b026" name="a3dc0efe5678a480576780c96c334b026"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RAND_SEED_ENTROPY_SRC_BOARD_ID</b>&#160;&#160;&#160;1</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RAND_SEED_ENTROPY_SRC_BOARD_ID</b>&#160;&#160;&#160;(!PICO_RAND_SEED_ENTROPY_SRC_BOOT_RANDOM)</td></tr>
 <tr class="separator:a3dc0efe5678a480576780c96c334b026"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a413241512da98d1c5b4c8fa85cb7be26"><td class="memItemLeft" align="right" valign="top"><a id="a413241512da98d1c5b4c8fa85cb7be26" name="a413241512da98d1c5b4c8fa85cb7be26"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RAND_SEED_ENTROPY_SRC_RAM_HASH</b>&#160;&#160;&#160;1</td></tr>

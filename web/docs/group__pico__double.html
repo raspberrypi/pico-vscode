@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -105,7 +105,10 @@ $(document).ready(function(){initNavTree('group__pico__double.html',''); initRes
   <div class="headertitle"><div class="title">pico_double<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p >Optimized double-precision floating point functions</p>
+
+<p>Optimized double-precision floating point functions.  
+</p>
+<p >Optimized double-precision floating point functions. </p>
 <p >(Replacement) optimized implementations are provided of the following compiler built-ins and math library functions:</p>
 <ul>
 <li>__aeabi_dadd, __aeabi_ddiv, __aeabi_dmul, __aeabi_drsub, __aeabi_dsub, __aeabi_cdcmpeq, __aeabi_cdrcmple, __aeabi_cdcmple, __aeabi_dcmpeq, __aeabi_dcmplt, __aeabi_dcmple, __aeabi_dcmpge, __aeabi_dcmpgt, __aeabi_dcmpun, __aeabi_i2d, __aeabi_l2d, __aeabi_ui2d, __aeabi_ul2d, __aeabi_d2iz, __aeabi_d2lz, __aeabi_d2uiz, __aeabi_d2ulz, __aeabi_d2f</li>
@@ -114,7 +117,13 @@ $(document).ready(function(){initNavTree('group__pico__double.html',''); initRes
 </ul>
 <p >The following additional optimized functions are also provided:</p>
 <ul>
-<li>fix2double, ufix2double, fix642double, ufix642double, double2fix, double2ufix, double2fix64, double2ufix64, double2int, double2int64, double2int_z, double2int64_z </li>
+<li>int2double, uint2double, int642double, uint642double, fix2double, ufix2double, fix642double, ufix642double</li>
+<li>double2fix, double2ufix, double2fix64, double2ufix64, double2int, double2uint, double2int64, double2uint64, double2int_z, double2int64_z,</li>
+<li>exp10, sincos, powint</li>
+</ul>
+<p >On RP2350 the following additional functions are available; the _fast methods are faster but do not round correctly"</p>
+<ul>
+<li>ddiv_fast, sqrt_fast </li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

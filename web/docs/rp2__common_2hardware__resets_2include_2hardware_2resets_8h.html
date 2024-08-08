@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_resets/include/hardware/resets.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/resets.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,26 +103,104 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__resets_2include
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">resets.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/resets.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for resets.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__resets_2include_2hardware_2resets_8h__incl.png" border="0" usemap="#ainclude_2hardware_2resets_8h" alt=""/></div>
+<map name="ainclude_2hardware_2resets_8h" id="ainclude_2hardware_2resets_8h">
+<area shape="rect" title=" " alt="" coords="420,5,611,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" title=" " alt="" coords="497,80,683,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__resets_2include_2hardware_2resets_8h__dep__incl.png" border="0" usemap="#ainclude_2hardware_2resets_8hdep" alt=""/></div>
+<map name="ainclude_2hardware_2resets_8hdep" id="ainclude_2hardware_2resets_8hdep">
+<area shape="rect" title=" " alt="" coords="62,5,253,32"/>
+<area shape="rect" href="rp2__common_2hardware__uart_2include_2hardware_2uart_8h.html" title=" " alt="" coords="69,80,245,107"/>
+<area shape="rect" href="stdio__uart_8h_source.html" title=" " alt="" coords="5,155,141,196"/>
+<area shape="rect" href="stdlib_8h.html" title=" " alt="" coords="165,162,317,189"/>
+<area shape="rect" href="SEGGER__RTT_8h_source.html" title=" " alt="" coords="140,244,343,271"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__resets_2include_2hardware_2resets_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a09f066f4df5ccf2d7652648beba4cc3f"><td class="memItemLeft" align="right" valign="top"><a id="a09f066f4df5ccf2d7652648beba4cc3f" name="a09f066f4df5ccf2d7652648beba4cc3f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_RESETS</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a09f066f4df5ccf2d7652648beba4cc3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a590916469dffad71bfc7094178040825"><td class="memItemLeft" align="right" valign="top"><a id="a590916469dffad71bfc7094178040825" name="a590916469dffad71bfc7094178040825"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>HARDWARE_RESETS_ENABLE_SDK1XX_COMPATIBILITY</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:a590916469dffad71bfc7094178040825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga667c57ff319d167377da57db69c340fc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#ga667c57ff319d167377da57db69c340fc">reset_block</a> (uint32_t bits)</td></tr>
-<tr class="memdesc:ga667c57ff319d167377da57db69c340fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW blocks.  <a href="group__hardware__resets.html#ga667c57ff319d167377da57db69c340fc">More...</a><br /></td></tr>
-<tr class="separator:ga667c57ff319d167377da57db69c340fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac4e3c8cde9b27b4777761e1940824889"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gac4e3c8cde9b27b4777761e1940824889">unreset_block</a> (uint32_t bits)</td></tr>
-<tr class="memdesc:gac4e3c8cde9b27b4777761e1940824889"><td class="mdescLeft">&#160;</td><td class="mdescRight">bring specified HW blocks out of reset  <a href="group__hardware__resets.html#gac4e3c8cde9b27b4777761e1940824889">More...</a><br /></td></tr>
-<tr class="separator:gac4e3c8cde9b27b4777761e1940824889"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab9a4c7100bc4e2e9dc56a3bf144cf011"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gab9a4c7100bc4e2e9dc56a3bf144cf011">unreset_block_wait</a> (uint32_t bits)</td></tr>
-<tr class="memdesc:gab9a4c7100bc4e2e9dc56a3bf144cf011"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bring specified HW blocks out of reset and wait for completion.  <a href="group__hardware__resets.html#gab9a4c7100bc4e2e9dc56a3bf144cf011">More...</a><br /></td></tr>
-<tr class="separator:gab9a4c7100bc4e2e9dc56a3bf144cf011"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dc0581e9c21b776d613d3c28b9199aa"><td class="memItemLeft" align="right" valign="top"><a id="a6dc0581e9c21b776d613d3c28b9199aa" name="a6dc0581e9c21b776d613d3c28b9199aa"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_block_reg_mask</b> (io_rw_32 *reset, uint32_t mask)</td></tr>
+<tr class="separator:a6dc0581e9c21b776d613d3c28b9199aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06b6d877343fcbd96e04c97a4aad6a9f"><td class="memItemLeft" align="right" valign="top"><a id="a06b6d877343fcbd96e04c97a4aad6a9f" name="a06b6d877343fcbd96e04c97a4aad6a9f"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>unreset_block_reg_mask</b> (io_rw_32 *reset, uint32_t mask)</td></tr>
+<tr class="separator:a06b6d877343fcbd96e04c97a4aad6a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64e14d894c6996ce5f2cefa8c0595eaf"><td class="memItemLeft" align="right" valign="top"><a id="a64e14d894c6996ce5f2cefa8c0595eaf" name="a64e14d894c6996ce5f2cefa8c0595eaf"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>unreset_block_reg_mask_wait_blocking</b> (io_rw_32 *reset, io_ro_32 *reset_done, uint32_t mask)</td></tr>
+<tr class="separator:a64e14d894c6996ce5f2cefa8c0595eaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab94a1dac99356f6b632be0b60d1acd63"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a> (uint32_t bits)</td></tr>
+<tr class="memdesc:gab94a1dac99356f6b632be0b60d1acd63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW blocks.  <a href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">More...</a><br /></td></tr>
+<tr class="separator:gab94a1dac99356f6b632be0b60d1acd63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa15e86ba29fb6bef52715c8cd2c9b7ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gaa15e86ba29fb6bef52715c8cd2c9b7ce">unreset_block_mask</a> (uint32_t bits)</td></tr>
+<tr class="memdesc:gaa15e86ba29fb6bef52715c8cd2c9b7ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">bring specified HW blocks out of reset  <a href="group__hardware__resets.html#gaa15e86ba29fb6bef52715c8cd2c9b7ce">More...</a><br /></td></tr>
+<tr class="separator:gaa15e86ba29fb6bef52715c8cd2c9b7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea9779624aa168697879f1f70d46b4cf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a> (uint32_t bits)</td></tr>
+<tr class="memdesc:gaea9779624aa168697879f1f70d46b4cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bring specified HW blocks out of reset and wait for completion.  <a href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">More...</a><br /></td></tr>
+<tr class="separator:gaea9779624aa168697879f1f70d46b4cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e6e7060c99526eff418260a08616740"><td class="memItemLeft" align="right" valign="top"><a id="a9e6e7060c99526eff418260a08616740" name="a9e6e7060c99526eff418260a08616740"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_block</b> (uint32_t bits)</td></tr>
+<tr class="separator:a9e6e7060c99526eff418260a08616740"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a432b0c3296e0acd4d337ad1f96df41e3"><td class="memItemLeft" align="right" valign="top"><a id="a432b0c3296e0acd4d337ad1f96df41e3" name="a432b0c3296e0acd4d337ad1f96df41e3"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>unreset_block</b> (uint32_t bits)</td></tr>
+<tr class="separator:a432b0c3296e0acd4d337ad1f96df41e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae639728f114f15ace324d0fef4a3c26d"><td class="memItemLeft" align="right" valign="top"><a id="ae639728f114f15ace324d0fef4a3c26d" name="ae639728f114f15ace324d0fef4a3c26d"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>unreset_block_wait</b> (uint32_t bits)</td></tr>
+<tr class="separator:ae639728f114f15ace324d0fef4a3c26d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab4ade7bf4b70f31099fa113215d7d1b5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a> (uint32_t block_num)</td></tr>
+<tr class="memdesc:gab4ade7bf4b70f31099fa113215d7d1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW block.  <a href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">More...</a><br /></td></tr>
+<tr class="separator:gab4ade7bf4b70f31099fa113215d7d1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga53301718277cacd11e241809786d2569"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#ga53301718277cacd11e241809786d2569">unreset_block_num</a> (uint block_num)</td></tr>
+<tr class="memdesc:ga53301718277cacd11e241809786d2569"><td class="mdescLeft">&#160;</td><td class="mdescRight">bring specified HW block out of reset  <a href="group__hardware__resets.html#ga53301718277cacd11e241809786d2569">More...</a><br /></td></tr>
+<tr class="separator:ga53301718277cacd11e241809786d2569"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae6cc36bc1b58ebcd68b5ba189fdceb9d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a> (uint block_num)</td></tr>
+<tr class="memdesc:gae6cc36bc1b58ebcd68b5ba189fdceb9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bring specified HW block out of reset and wait for completion.  <a href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">More...</a><br /></td></tr>
+<tr class="separator:gae6cc36bc1b58ebcd68b5ba189fdceb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae077af002bf9e567048bcbe28f1e82b8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">reset_unreset_block_num_wait_blocking</a> (uint block_num)</td></tr>
+<tr class="memdesc:gae077af002bf9e567048bcbe28f1e82b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW block, and then bring at back out of reset and wait for completion.  <a href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">More...</a><br /></td></tr>
+<tr class="separator:gae077af002bf9e567048bcbe28f1e82b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

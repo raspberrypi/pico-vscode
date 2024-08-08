@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -122,12 +122,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga134933a693c53c4f94c9d3cd3cabfc79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__fifo.html#ga134933a693c53c4f94c9d3cd3cabfc79">multicore_fifo_push_blocking</a> (uint32_t data)</td></tr>
 <tr class="memdesc:ga134933a693c53c4f94c9d3cd3cabfc79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push data on to the write FIFO (data to the other core).  <a href="group__multicore__fifo.html#ga134933a693c53c4f94c9d3cd3cabfc79">More...</a><br /></td></tr>
 <tr class="separator:ga134933a693c53c4f94c9d3cd3cabfc79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga559050fb6fd4a37ccc81ef6272cbf34b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__fifo.html#ga559050fb6fd4a37ccc81ef6272cbf34b">multicore_fifo_push_blocking_inline</a> (uint32_t data)</td></tr>
+<tr class="memdesc:ga559050fb6fd4a37ccc81ef6272cbf34b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push data on to the write FIFO (data to the other core).  <a href="group__multicore__fifo.html#ga559050fb6fd4a37ccc81ef6272cbf34b">More...</a><br /></td></tr>
+<tr class="separator:ga559050fb6fd4a37ccc81ef6272cbf34b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0c32cfcd182d5f1d3a25b6fb503352b7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__fifo.html#ga0c32cfcd182d5f1d3a25b6fb503352b7">multicore_fifo_push_timeout_us</a> (uint32_t data, uint64_t timeout_us)</td></tr>
 <tr class="memdesc:ga0c32cfcd182d5f1d3a25b6fb503352b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push data on to the write FIFO (data to the other core) with timeout.  <a href="group__multicore__fifo.html#ga0c32cfcd182d5f1d3a25b6fb503352b7">More...</a><br /></td></tr>
 <tr class="separator:ga0c32cfcd182d5f1d3a25b6fb503352b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga929272dd1056d8ae05667beda4adb0fc"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__fifo.html#ga929272dd1056d8ae05667beda4adb0fc">multicore_fifo_pop_blocking</a> (void)</td></tr>
 <tr class="memdesc:ga929272dd1056d8ae05667beda4adb0fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop data from the read FIFO (data from the other core).  <a href="group__multicore__fifo.html#ga929272dd1056d8ae05667beda4adb0fc">More...</a><br /></td></tr>
 <tr class="separator:ga929272dd1056d8ae05667beda4adb0fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga282badad31e14f5b593ec1ddffae08f5"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__fifo.html#ga282badad31e14f5b593ec1ddffae08f5">multicore_fifo_pop_blocking_inline</a> (void)</td></tr>
+<tr class="memdesc:ga282badad31e14f5b593ec1ddffae08f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop data from the read FIFO (data from the other core).  <a href="group__multicore__fifo.html#ga282badad31e14f5b593ec1ddffae08f5">More...</a><br /></td></tr>
+<tr class="separator:ga282badad31e14f5b593ec1ddffae08f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga27824f253c72ae50ae97e6f516220c60"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__fifo.html#ga27824f253c72ae50ae97e6f516220c60">multicore_fifo_pop_timeout_us</a> (uint64_t timeout_us, uint32_t *out)</td></tr>
 <tr class="memdesc:ga27824f253c72ae50ae97e6f516220c60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pop data from the read FIFO (data from the other core) with timeout.  <a href="group__multicore__fifo.html#ga27824f253c72ae50ae97e6f516220c60">More...</a><br /></td></tr>
 <tr class="separator:ga27824f253c72ae50ae97e6f516220c60"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,7 +149,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Functions for the inter-core FIFOs. </p>
-<p >The RP2040 contains two FIFOs for passing data, messages or ordered events between the two cores. Each FIFO is 32 bits wide, and 8 entries deep. One of the FIFOs can only be written by core 0, and read by core 1. The other can only be written by core 1, and read by core 0.</p>
+<p >RP-series microcontrollers contains two FIFOs for passing data, messages or ordered events between the two cores. Each FIFO is 32 bits wide, and 8 entries deep on the RP2040, and 4 entries deep on the RP2350. One of the FIFOs can only be written by core 0, and read by core 1. The other can only be written by core 1, and read by core 0.</p>
 <dl class="section note"><dt>Note</dt><dd>The inter-core FIFOs are a very precious resource and are frequently used for SDK functionality (e.g. during core 1 launch or by the <a class="el" href="group__multicore__lockout.html">lockout</a> functions). Additionally they are often required for the exclusive use of an RTOS (e.g. FreeRTOS SMP). For these reasons it is suggested that you do not use the FIFO for your own purposes unless none of the above concerns apply; the majority of cases for transferring data between cores can be eqaully well handled by using a <a class="el" href="group__queue.html">queue</a> </dd></dl>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga96583311e8237cf590d9c78052b288eb" name="ga96583311e8237cf590d9c78052b288eb"></a>
@@ -271,6 +277,37 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga282badad31e14f5b593ec1ddffae08f5" name="ga282badad31e14f5b593ec1ddffae08f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga282badad31e14f5b593ec1ddffae08f5">&#9670;&nbsp;</a></span>multicore_fifo_pop_blocking_inline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t multicore_fifo_pop_blocking_inline </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pop data from the read FIFO (data from the other core). </p>
+<p >This function will block until there is data ready to be read Use <a class="el" href="group__multicore__fifo.html#gaffd246b81370d37fc13181a561303834" title="Check the read FIFO to see if there is data available (sent by the other core)">multicore_fifo_rvalid()</a> to check if data is ready to be read if you don't want to block.</p>
+<p >See the note in the <a class="el" href="group__multicore__fifo.html">fifo</a> section for considerations regarding use of the inter-core FIFOs</p>
+<dl class="section return"><dt>Returns</dt><dd>32 bit data from the read FIFO. </dd></dl>
+
+</div>
+</div>
 <a id="ga27824f253c72ae50ae97e6f516220c60" name="ga27824f253c72ae50ae97e6f516220c60"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga27824f253c72ae50ae97e6f516220c60">&#9670;&nbsp;</a></span>multicore_fifo_pop_timeout_us()</h2>
 
@@ -325,6 +362,42 @@ Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+<p>Push data on to the write FIFO (data to the other core). </p>
+<p >This function will block until there is space for the data to be sent. Use <a class="el" href="group__multicore__fifo.html#ga6065367210695961c11ab3706140d3a9">multicore_fifo_wready()</a> to check if it is possible to write to the FIFO if you don't want to block.</p>
+<p >See the note in the <a class="el" href="group__multicore__fifo.html">fifo</a> section for considerations regarding use of the inter-core FIFOs</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>A 32 bit value to push on to the FIFO </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga559050fb6fd4a37ccc81ef6272cbf34b" name="ga559050fb6fd4a37ccc81ef6272cbf34b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga559050fb6fd4a37ccc81ef6272cbf34b">&#9670;&nbsp;</a></span>multicore_fifo_push_blocking_inline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void multicore_fifo_push_blocking_inline </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Push data on to the write FIFO (data to the other core). </p>

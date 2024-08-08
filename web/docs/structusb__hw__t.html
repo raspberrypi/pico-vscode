@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -114,15 +114,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a770d236880fa483e3a76d4b929922925"><td class="memItemLeft" align="right" valign="top"><a id="a770d236880fa483e3a76d4b929922925" name="a770d236880fa483e3a76d4b929922925"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_ADDR_ENDP_OFFSET) io_rw_32 dev_addr_ctrl</td></tr>
 <tr class="separator:a770d236880fa483e3a76d4b929922925"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a031410d36bd5fa0ce61e63ca0b4230d9"><td class="memItemLeft" align="right" valign="top"><a id="a031410d36bd5fa0ce61e63ca0b4230d9" name="a031410d36bd5fa0ce61e63ca0b4230d9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_ADDR_ENDP1_OFFSET) io_rw_32 int_ep_addr_ctrl[(16 - 1)]</td></tr>
-<tr class="separator:a031410d36bd5fa0ce61e63ca0b4230d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a408ff62bb230237fe24ab0e3a120dfcf"><td class="memItemLeft" align="right" valign="top"><a id="a408ff62bb230237fe24ab0e3a120dfcf" name="a408ff62bb230237fe24ab0e3a120dfcf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_ADDR_ENDP1_OFFSET) io_rw_32 int_ep_addr_ctrl[15]</td></tr>
+<tr class="separator:a408ff62bb230237fe24ab0e3a120dfcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4bd2a0f833c854f44bfdcc85e8c2c50e"><td class="memItemLeft" align="right" valign="top"><a id="a4bd2a0f833c854f44bfdcc85e8c2c50e" name="a4bd2a0f833c854f44bfdcc85e8c2c50e"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_MAIN_CTRL_OFFSET) io_rw_32 main_ctrl</td></tr>
 <tr class="separator:a4bd2a0f833c854f44bfdcc85e8c2c50e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac00b6c5ded6b0f9f10db52b76691101e"><td class="memItemLeft" align="right" valign="top"><a id="ac00b6c5ded6b0f9f10db52b76691101e" name="ac00b6c5ded6b0f9f10db52b76691101e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SOF_WR_OFFSET) io_wo_32 sof_rw</td></tr>
-<tr class="separator:ac00b6c5ded6b0f9f10db52b76691101e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a588b723f350bbf52ee537bb58b42982c"><td class="memItemLeft" align="right" valign="top"><a id="a588b723f350bbf52ee537bb58b42982c" name="a588b723f350bbf52ee537bb58b42982c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SOF_WR_OFFSET) io_wo_32 sof_wr</td></tr>
+<tr class="separator:a588b723f350bbf52ee537bb58b42982c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8e5a36009c998d498b8be9d26fd3f3b"><td class="memItemLeft" align="right" valign="top"><a id="ad8e5a36009c998d498b8be9d26fd3f3b" name="ad8e5a36009c998d498b8be9d26fd3f3b"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SOF_RD_OFFSET) io_ro_32 sof_rd</td></tr>
 <tr class="separator:ad8e5a36009c998d498b8be9d26fd3f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,6 +183,99 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a13dae8b7ff13f80fde3ba1418a628be9"><td class="memItemLeft" align="right" valign="top"><a id="a13dae8b7ff13f80fde3ba1418a628be9" name="a13dae8b7ff13f80fde3ba1418a628be9"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_INTS_OFFSET) io_ro_32 ints</td></tr>
 <tr class="separator:a13dae8b7ff13f80fde3ba1418a628be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a770d236880fa483e3a76d4b929922925"><td class="memItemLeft" align="right" valign="top"><a id="a770d236880fa483e3a76d4b929922925" name="a770d236880fa483e3a76d4b929922925"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_ADDR_ENDP_OFFSET) io_rw_32 dev_addr_ctrl</td></tr>
+<tr class="separator:a770d236880fa483e3a76d4b929922925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a408ff62bb230237fe24ab0e3a120dfcf"><td class="memItemLeft" align="right" valign="top"><a id="a408ff62bb230237fe24ab0e3a120dfcf" name="a408ff62bb230237fe24ab0e3a120dfcf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_ADDR_ENDP1_OFFSET) io_rw_32 int_ep_addr_ctrl[15]</td></tr>
+<tr class="separator:a408ff62bb230237fe24ab0e3a120dfcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bd2a0f833c854f44bfdcc85e8c2c50e"><td class="memItemLeft" align="right" valign="top"><a id="a4bd2a0f833c854f44bfdcc85e8c2c50e" name="a4bd2a0f833c854f44bfdcc85e8c2c50e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_MAIN_CTRL_OFFSET) io_rw_32 main_ctrl</td></tr>
+<tr class="separator:a4bd2a0f833c854f44bfdcc85e8c2c50e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a588b723f350bbf52ee537bb58b42982c"><td class="memItemLeft" align="right" valign="top"><a id="a588b723f350bbf52ee537bb58b42982c" name="a588b723f350bbf52ee537bb58b42982c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SOF_WR_OFFSET) io_wo_32 sof_wr</td></tr>
+<tr class="separator:a588b723f350bbf52ee537bb58b42982c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e5a36009c998d498b8be9d26fd3f3b"><td class="memItemLeft" align="right" valign="top"><a id="ad8e5a36009c998d498b8be9d26fd3f3b" name="ad8e5a36009c998d498b8be9d26fd3f3b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SOF_RD_OFFSET) io_ro_32 sof_rd</td></tr>
+<tr class="separator:ad8e5a36009c998d498b8be9d26fd3f3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a382b61543be2376068f71cff929aaa08"><td class="memItemLeft" align="right" valign="top"><a id="a382b61543be2376068f71cff929aaa08" name="a382b61543be2376068f71cff929aaa08"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SIE_CTRL_OFFSET) io_rw_32 sie_ctrl</td></tr>
+<tr class="separator:a382b61543be2376068f71cff929aaa08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a115c09061a5452505fc9ffdbd96bab2f"><td class="memItemLeft" align="right" valign="top"><a id="a115c09061a5452505fc9ffdbd96bab2f" name="a115c09061a5452505fc9ffdbd96bab2f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SIE_STATUS_OFFSET) io_rw_32 sie_status</td></tr>
+<tr class="separator:a115c09061a5452505fc9ffdbd96bab2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f93c0c778a5b9e077980e5ca1dfe25a"><td class="memItemLeft" align="right" valign="top"><a id="a9f93c0c778a5b9e077980e5ca1dfe25a" name="a9f93c0c778a5b9e077980e5ca1dfe25a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_INT_EP_CTRL_OFFSET) io_rw_32 int_ep_ctrl</td></tr>
+<tr class="separator:a9f93c0c778a5b9e077980e5ca1dfe25a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab30253d0926a9c35107a5db86b588eea"><td class="memItemLeft" align="right" valign="top"><a id="ab30253d0926a9c35107a5db86b588eea" name="ab30253d0926a9c35107a5db86b588eea"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_BUFF_STATUS_OFFSET) io_rw_32 buf_status</td></tr>
+<tr class="separator:ab30253d0926a9c35107a5db86b588eea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d7f582bbc5746398222fb80bdd7acde"><td class="memItemLeft" align="right" valign="top"><a id="a5d7f582bbc5746398222fb80bdd7acde" name="a5d7f582bbc5746398222fb80bdd7acde"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_BUFF_CPU_SHOULD_HANDLE_OFFSET) io_ro_32 buf_cpu_should_handle</td></tr>
+<tr class="separator:a5d7f582bbc5746398222fb80bdd7acde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adca3f334e46c9ce5576c0b5a8ed7a344"><td class="memItemLeft" align="right" valign="top"><a id="adca3f334e46c9ce5576c0b5a8ed7a344" name="adca3f334e46c9ce5576c0b5a8ed7a344"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_EP_ABORT_OFFSET) io_rw_32 abort</td></tr>
+<tr class="separator:adca3f334e46c9ce5576c0b5a8ed7a344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a685cdbf000ee6900ec9556d8e4d27b20"><td class="memItemLeft" align="right" valign="top"><a id="a685cdbf000ee6900ec9556d8e4d27b20" name="a685cdbf000ee6900ec9556d8e4d27b20"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_EP_ABORT_DONE_OFFSET) io_rw_32 abort_done</td></tr>
+<tr class="separator:a685cdbf000ee6900ec9556d8e4d27b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d78f831b08ec3cbe24d7209059ead8"><td class="memItemLeft" align="right" valign="top"><a id="a98d78f831b08ec3cbe24d7209059ead8" name="a98d78f831b08ec3cbe24d7209059ead8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_EP_STALL_ARM_OFFSET) io_rw_32 ep_stall_arm</td></tr>
+<tr class="separator:a98d78f831b08ec3cbe24d7209059ead8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a251fe284f50f40a967100b1b2b441540"><td class="memItemLeft" align="right" valign="top"><a id="a251fe284f50f40a967100b1b2b441540" name="a251fe284f50f40a967100b1b2b441540"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_NAK_POLL_OFFSET) io_rw_32 nak_poll</td></tr>
+<tr class="separator:a251fe284f50f40a967100b1b2b441540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0314ef65880fd09582f2d464c3a4f4ab"><td class="memItemLeft" align="right" valign="top"><a id="a0314ef65880fd09582f2d464c3a4f4ab" name="a0314ef65880fd09582f2d464c3a4f4ab"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_EP_STATUS_STALL_NAK_OFFSET) io_rw_32 ep_nak_stall_status</td></tr>
+<tr class="separator:a0314ef65880fd09582f2d464c3a4f4ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca05e71875e73a24d7fb73a3dc36b5b0"><td class="memItemLeft" align="right" valign="top"><a id="aca05e71875e73a24d7fb73a3dc36b5b0" name="aca05e71875e73a24d7fb73a3dc36b5b0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_USB_MUXING_OFFSET) io_rw_32 muxing</td></tr>
+<tr class="separator:aca05e71875e73a24d7fb73a3dc36b5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a458d775e92507c5ed4528aed641952e6"><td class="memItemLeft" align="right" valign="top"><a id="a458d775e92507c5ed4528aed641952e6" name="a458d775e92507c5ed4528aed641952e6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_USB_PWR_OFFSET) io_rw_32 pwr</td></tr>
+<tr class="separator:a458d775e92507c5ed4528aed641952e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b5deb1f066c7c572ee58e1934ad392a"><td class="memItemLeft" align="right" valign="top"><a id="a7b5deb1f066c7c572ee58e1934ad392a" name="a7b5deb1f066c7c572ee58e1934ad392a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_USBPHY_DIRECT_OFFSET) io_rw_32 phy_direct</td></tr>
+<tr class="separator:a7b5deb1f066c7c572ee58e1934ad392a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9adc556b5fea71e187608bb0a2b8c12"><td class="memItemLeft" align="right" valign="top"><a id="ae9adc556b5fea71e187608bb0a2b8c12" name="ae9adc556b5fea71e187608bb0a2b8c12"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_USBPHY_DIRECT_OVERRIDE_OFFSET) io_rw_32 phy_direct_override</td></tr>
+<tr class="separator:ae9adc556b5fea71e187608bb0a2b8c12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5754f5705e56c80c7eebde262ed7effe"><td class="memItemLeft" align="right" valign="top"><a id="a5754f5705e56c80c7eebde262ed7effe" name="a5754f5705e56c80c7eebde262ed7effe"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_USBPHY_TRIM_OFFSET) io_rw_32 phy_trim</td></tr>
+<tr class="separator:a5754f5705e56c80c7eebde262ed7effe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14c442c382e0896800a3e5c735ece985"><td class="memItemLeft" align="right" valign="top"><a id="a14c442c382e0896800a3e5c735ece985" name="a14c442c382e0896800a3e5c735ece985"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_LINESTATE_TUNING_OFFSET) io_rw_32 linestate_tuning</td></tr>
+<tr class="separator:a14c442c382e0896800a3e5c735ece985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66583208fc1d1ef0f18309eb871472b0"><td class="memItemLeft" align="right" valign="top"><a id="a66583208fc1d1ef0f18309eb871472b0" name="a66583208fc1d1ef0f18309eb871472b0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_INTR_OFFSET) io_ro_32 intr</td></tr>
+<tr class="separator:a66583208fc1d1ef0f18309eb871472b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7729c2105914f1e5fd07aa7962eeabe8"><td class="memItemLeft" align="right" valign="top"><a id="a7729c2105914f1e5fd07aa7962eeabe8" name="a7729c2105914f1e5fd07aa7962eeabe8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_INTE_OFFSET) io_rw_32 inte</td></tr>
+<tr class="separator:a7729c2105914f1e5fd07aa7962eeabe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab25bb8e486a0fc4da6bdd4935766ab18"><td class="memItemLeft" align="right" valign="top"><a id="ab25bb8e486a0fc4da6bdd4935766ab18" name="ab25bb8e486a0fc4da6bdd4935766ab18"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_INTF_OFFSET) io_rw_32 intf</td></tr>
+<tr class="separator:ab25bb8e486a0fc4da6bdd4935766ab18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13dae8b7ff13f80fde3ba1418a628be9"><td class="memItemLeft" align="right" valign="top"><a id="a13dae8b7ff13f80fde3ba1418a628be9" name="a13dae8b7ff13f80fde3ba1418a628be9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_INTS_OFFSET) io_ro_32 ints</td></tr>
+<tr class="separator:a13dae8b7ff13f80fde3ba1418a628be9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c94e3bdb202ce017bd437f5381adf26"><td class="memItemLeft" align="right" valign="top"><a id="a3c94e3bdb202ce017bd437f5381adf26" name="a3c94e3bdb202ce017bd437f5381adf26"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SOF_TIMESTAMP_RAW_OFFSET) io_ro_32 sof_timestamp_raw</td></tr>
+<tr class="separator:a3c94e3bdb202ce017bd437f5381adf26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa348a5ad9e8fb130f6bd2131ec0be21e"><td class="memItemLeft" align="right" valign="top"><a id="aa348a5ad9e8fb130f6bd2131ec0be21e" name="aa348a5ad9e8fb130f6bd2131ec0be21e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SOF_TIMESTAMP_LAST_OFFSET) io_ro_32 sof_timestamp_last</td></tr>
+<tr class="separator:aa348a5ad9e8fb130f6bd2131ec0be21e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80513cbba7c1550e65e3b4066c14e877"><td class="memItemLeft" align="right" valign="top"><a id="a80513cbba7c1550e65e3b4066c14e877" name="a80513cbba7c1550e65e3b4066c14e877"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_SM_STATE_OFFSET) io_ro_32 sm_state</td></tr>
+<tr class="separator:a80513cbba7c1550e65e3b4066c14e877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae398ee940bb074521b3746a23d7f427"><td class="memItemLeft" align="right" valign="top"><a id="aae398ee940bb074521b3746a23d7f427" name="aae398ee940bb074521b3746a23d7f427"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_EP_TX_ERROR_OFFSET) io_rw_32 ep_tx_error</td></tr>
+<tr class="separator:aae398ee940bb074521b3746a23d7f427"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54c91b5b906f87ef1b4bcf102d049666"><td class="memItemLeft" align="right" valign="top"><a id="a54c91b5b906f87ef1b4bcf102d049666" name="a54c91b5b906f87ef1b4bcf102d049666"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_EP_RX_ERROR_OFFSET) io_rw_32 ep_rx_error</td></tr>
+<tr class="separator:a54c91b5b906f87ef1b4bcf102d049666"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af33d217074c0a90333be4e17b48b7086"><td class="memItemLeft" align="right" valign="top"><a id="af33d217074c0a90333be4e17b48b7086" name="af33d217074c0a90333be4e17b48b7086"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (USB_DEV_SM_WATCHDOG_OFFSET) io_rw_32 dev_sm_watchdog</td></tr>
+<tr class="separator:af33d217074c0a90333be4e17b48b7086"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -190,8 +283,9 @@ Data Fields</h2></td></tr>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_pad0</b></td></tr>
 <tr class="separator:a0a8c4003a911863adcc03e718bbcfa8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>hardware_structs/include/hardware/structs/<a class="el" href="usb_8h_source.html">usb.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2usb_8h_source.html">usb.h</a></li>
+<li>include/hardware/structs/<a class="el" href="rp2350_2hardware__structs_2include_2hardware_2structs_2usb_8h_source.html">usb.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

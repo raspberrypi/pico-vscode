@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -115,25 +115,50 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>sem_release()&#160;:&#160;<a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem.h</a></li>
 <li>sem_reset()&#160;:&#160;<a class="el" href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">sem.h</a></li>
 <li>sem_try_acquire()&#160;:&#160;<a class="el" href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">sem.h</a></li>
-<li>set_sys_clock_48mhz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga89efe34eab0b8b96954eb0e19a38c8be">stdlib.h</a></li>
-<li>set_sys_clock_khz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">stdlib.h</a></li>
-<li>set_sys_clock_pll()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">stdlib.h</a></li>
+<li>set_sys_clock_48mhz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga89efe34eab0b8b96954eb0e19a38c8be">clocks.h</a></li>
+<li>set_sys_clock_hz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga28d65a360d9c9423fe5549b216b79683">clocks.h</a></li>
+<li>set_sys_clock_khz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">clocks.h</a></li>
+<li>set_sys_clock_pll()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">clocks.h</a></li>
 <li>setup_default_uart()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#gacf31cd777510116d829aea040b034c4c">stdlib.h</a></li>
+<li>SHA256_BIG_ENDIAN&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ggaaf3089af3667088256de5d352973d5e6a9ed40fa208beaabfc2fc5b8edbd652c1">sha256.h</a></li>
+<li>sha256_endianness&#160;:&#160;<a class="el" href="group__hardware__sha256.html#gaaf3089af3667088256de5d352973d5e6">sha256.h</a></li>
+<li>sha256_err_not_ready()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#gab26b08aabc454e46859d38acdb9afb63">sha256.h</a></li>
+<li>sha256_err_not_ready_clear()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#gaccd81a57687cf83726d87b5da4e63551">sha256.h</a></li>
+<li>sha256_get_result()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga065f30a83c4d96ea85712a0e22f7a62e">sha256.h</a></li>
+<li>sha256_get_write_addr()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#gac7b585e60910cf0e1d927a0824cd0fe1">sha256.h</a></li>
+<li>sha256_is_ready()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga586dc580abe393a0eb4af052da4f9050">sha256.h</a></li>
+<li>sha256_is_sum_valid()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga7e4f6ab4a7738c38d094ecd4c5ee9839">sha256.h</a></li>
+<li>SHA256_LITTLE_ENDIAN&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ggaaf3089af3667088256de5d352973d5e6af7be52b37d04b7ffbd9ba69ba6cad8fd">sha256.h</a></li>
+<li>sha256_put_byte()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#gaa78f58e44c56c61c3e24c119923f28d4">sha256.h</a></li>
+<li>sha256_put_word()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga7d391fa299a4e4f91c591c2e27c82295">sha256.h</a></li>
+<li>SHA256_RESULT_BYTES&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga08a18381a4c5a7c9f7d0d1b6550621a3">sha256.h</a></li>
+<li>sha256_set_bswap()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga21bca5a93ccad014cc890e734c9436eb">sha256.h</a></li>
+<li>sha256_set_dma_size()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga4f35e6d85d8991216e9c1edd7e682cc7">sha256.h</a></li>
+<li>sha256_start()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga327d4bf2af7a8291cc402c569392b4d7">sha256.h</a></li>
+<li>sha256_wait_ready_blocking()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#gaab29e83e6d914d262e9aaf13ed34f06e">sha256.h</a></li>
+<li>sha256_wait_valid_blocking()&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ga98114068a397971354cd24ae75d051a6">sha256.h</a></li>
+<li>SIO_FIFO_IRQ_NUM&#160;:&#160;<a class="el" href="group__pico__multicore.html#ga1413ebfa65114c6f408f4675897ac5ee">multicore.h</a></li>
 <li>sleep_ms()&#160;:&#160;<a class="el" href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">time.h</a></li>
 <li>sleep_until()&#160;:&#160;<a class="el" href="group__sleep.html#ga7abed28d3918fe2b15f8007ba6569172">time.h</a></li>
 <li>sleep_us()&#160;:&#160;<a class="el" href="group__sleep.html#gaeeaebd3a10e0a193022f15c8603772ba">time.h</a></li>
 <li>sm_config_set_clkdiv()&#160;:&#160;<a class="el" href="group__sm__config.html#gae8c09c7a4372da95ad777faae51c5a24">pio.h</a></li>
 <li>sm_config_set_clkdiv_int_frac()&#160;:&#160;<a class="el" href="group__sm__config.html#ga365abc6d25301810ca5ee11e5b36c763">pio.h</a></li>
 <li>sm_config_set_fifo_join()&#160;:&#160;<a class="el" href="group__sm__config.html#gafea1a06362182514518ebd91b2d52fd5">pio.h</a></li>
+<li>sm_config_set_in_pin_base()&#160;:&#160;<a class="el" href="group__sm__config.html#gaaf804a05a2ebaa127d0d216b3d4e3e80">pio.h</a></li>
 <li>sm_config_set_in_pins()&#160;:&#160;<a class="el" href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">pio.h</a></li>
 <li>sm_config_set_in_shift()&#160;:&#160;<a class="el" href="group__sm__config.html#gaed7a6e7dc4f1979c7c62e4773df8c79b">pio.h</a></li>
 <li>sm_config_set_jmp_pin()&#160;:&#160;<a class="el" href="group__sm__config.html#gaf2bfc66d6427ff92519e38dcb611133b">pio.h</a></li>
 <li>sm_config_set_mov_status()&#160;:&#160;<a class="el" href="group__sm__config.html#gacd24870944ce2f00f3f7847bb3e5d543">pio.h</a></li>
+<li>sm_config_set_out_pin_base()&#160;:&#160;<a class="el" href="group__sm__config.html#ga1dbca28933c083592e6e359effe250bf">pio.h</a></li>
+<li>sm_config_set_out_pin_count()&#160;:&#160;<a class="el" href="group__sm__config.html#gade3d072e319fc7d10bec180a9692ea89">pio.h</a></li>
 <li>sm_config_set_out_pins()&#160;:&#160;<a class="el" href="group__sm__config.html#gaf3004bbd996443d0c841664ebc92905c">pio.h</a></li>
 <li>sm_config_set_out_shift()&#160;:&#160;<a class="el" href="group__sm__config.html#ga613bed03e10e569f1b7aede74d40a5b5">pio.h</a></li>
 <li>sm_config_set_out_special()&#160;:&#160;<a class="el" href="group__sm__config.html#ga8a9141ceadf9e735b1e96457865de3f6">pio.h</a></li>
+<li>sm_config_set_set_pin_base()&#160;:&#160;<a class="el" href="group__sm__config.html#ga40d4807c0665d30ceab153b7444560eb">pio.h</a></li>
+<li>sm_config_set_set_pin_count()&#160;:&#160;<a class="el" href="group__sm__config.html#ga78e129fe383f2af0fc5e1448dea4c3d6">pio.h</a></li>
 <li>sm_config_set_set_pins()&#160;:&#160;<a class="el" href="group__sm__config.html#gada1dff2c00b7d3a1cf722880c8373424">pio.h</a></li>
 <li>sm_config_set_sideset()&#160;:&#160;<a class="el" href="group__sm__config.html#gaf543422206a8dbdc2efea85818dd650e">pio.h</a></li>
+<li>sm_config_set_sideset_pin_base()&#160;:&#160;<a class="el" href="group__sm__config.html#ga7abfda1f60c62565d5b13536b0605af7">pio.h</a></li>
 <li>sm_config_set_sideset_pins()&#160;:&#160;<a class="el" href="group__sm__config.html#gad55bf8b410fa1d13bd1bd020587e01d7">pio.h</a></li>
 <li>sm_config_set_wrap()&#160;:&#160;<a class="el" href="group__sm__config.html#gafb753e8b35bbea9209ca4399a845f89c">pio.h</a></li>
 <li>spi0&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga9d931d2e2e5b1dfd8d5f1dea80df4dbd">spi.h</a></li>
@@ -141,14 +166,17 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>spi_cpha_t&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga9850de61d3f6dcacbfb4e5cc5a7d2951">spi.h</a></li>
 <li>spi_cpol_t&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga49a77d9a0320db6d3451a9dda2b8a24b">spi.h</a></li>
 <li>spi_deinit()&#160;:&#160;<a class="el" href="group__hardware__spi.html#gaf0c3a38c80cf84a80602755d7bac77e2">spi.h</a></li>
+<li>SPI_DREQ_NUM&#160;:&#160;<a class="el" href="group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa">spi.h</a></li>
 <li>spi_get_baudrate()&#160;:&#160;<a class="el" href="group__hardware__spi.html#gaa295443736ab03ac882f2d9383cac139">spi.h</a></li>
 <li>spi_get_dreq()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga6241d6c368b1af1b83a12c1e75515486">spi.h</a></li>
 <li>spi_get_index()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga88620398eae6e0f66b551be57a279273">spi.h</a></li>
 <li>spi_init()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0">spi.h</a></li>
 <li>spi_inst_t&#160;:&#160;<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi.h</a></li>
+<li>SPI_INSTANCE&#160;:&#160;<a class="el" href="group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">spi.h</a></li>
 <li>spi_is_busy()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga5623d0396207ccbd3faa64a5d4f397c3">spi.h</a></li>
 <li>spi_is_readable()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga20dcaa3037e92bbcbab50b8635f102ff">spi.h</a></li>
 <li>spi_is_writable()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga0d7c020fac16f57ee8f805000713e405">spi.h</a></li>
+<li>SPI_NUM&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga39308f1ccde24d91e0075059b380dd3a">spi.h</a></li>
 <li>spi_order_t&#160;:&#160;<a class="el" href="group__hardware__spi.html#gaa9e8effacf4291301048ef7df03d353e">spi.h</a></li>
 <li>spi_read16_blocking()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga743b7fbdf120a1b5fc098145e3ce8eaf">spi.h</a></li>
 <li>spi_read_blocking()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga40ce84e76797f81872f12557e537fc48">spi.h</a></li>
@@ -159,27 +187,30 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>spi_write16_read16_blocking()&#160;:&#160;<a class="el" href="group__hardware__spi.html#gad3b96ae828fec8af4b0617db7e904019">spi.h</a></li>
 <li>spi_write_blocking()&#160;:&#160;<a class="el" href="group__hardware__spi.html#ga541ec2a1eee4c7fee2134a8415f3b4c8">spi.h</a></li>
 <li>spi_write_read_blocking()&#160;:&#160;<a class="el" href="group__hardware__spi.html#gabb840d4e3db64ea70fad6bb740717910">spi.h</a></li>
-<li>spin_lock_blocking()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga091e88a7608ed8dbf3e1e984bae54602">sync.h</a></li>
 <li>spin_lock_claim()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga50945cb4c33c3263b69e1fce81c474c7">sync.h</a></li>
 <li>spin_lock_claim_mask()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga41304e0ee0aed1b5c20b0fd8c2adf9e6">sync.h</a></li>
 <li>spin_lock_claim_unused()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga157bccb525bdfd90255490558cbeb9c0">sync.h</a></li>
-<li>spin_lock_get_num()&#160;:&#160;<a class="el" href="group__hardware__sync.html#gad86f015d3ed475401bf83d9a0e449ab1">sync.h</a></li>
-<li>spin_lock_init()&#160;:&#160;<a class="el" href="group__hardware__sync.html#gad38821cab3d935b009c6551d5ff70c4c">sync.h</a></li>
-<li>spin_lock_instance()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga87b2474d96a8de8cdc6e083680a05bb9">sync.h</a></li>
 <li>spin_lock_is_claimed()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga9c66da8cbd0916461d6de2af4340ec4f">sync.h</a></li>
-<li>spin_lock_t&#160;:&#160;<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">sync.h</a></li>
 <li>spin_lock_unclaim()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga177efc085451e4eabfc726897a59ca57">sync.h</a></li>
-<li>spin_lock_unsafe_blocking()&#160;:&#160;<a class="el" href="group__hardware__sync.html#gac4c9286f66d9dbe5287904d481f3b1e3">sync.h</a></li>
-<li>spin_locks_reset()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga667a78000c57bdfb3585cbc56fccbe0b">sync.h</a></li>
-<li>spin_unlock()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga281ce69786da23cab7ba6c42537d4e87">sync.h</a></li>
-<li>spin_unlock_unsafe()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga1cc04df1f5717292b279eb197ff5b4af">sync.h</a></li>
+<li>stdio_deinit_all()&#160;:&#160;<a class="el" href="group__pico__stdio.html#gace6c31545f212bf181718f4fc7587ea7">stdio.h</a></li>
 <li>stdio_filter_driver()&#160;:&#160;<a class="el" href="group__pico__stdio.html#gae3944ee24af8163a9538f01cda3e28df">stdio.h</a></li>
 <li>stdio_flush()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga90927805d6b48285139ab31098623df1">stdio.h</a></li>
+<li>stdio_get_until()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga7ea974d7cbc7f7e325b4a1b0fe80e4ab">stdio.h</a></li>
+<li>stdio_getchar()&#160;:&#160;<a class="el" href="group__pico__stdio.html#gac135c621fb85b37ba7ca271ad44cc984">stdio.h</a></li>
+<li>stdio_getchar_timeout_us()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga26d27f1b58f1385798f93a9799c40b73">stdio.h</a></li>
 <li>stdio_init_all()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio.h</a></li>
+<li>stdio_put_string()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f">stdio.h</a></li>
+<li>stdio_putchar()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga5a0417cd80362b585340991cdbe942ad">stdio.h</a></li>
+<li>stdio_putchar_raw()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga8caa718064b34ce684c02f9f1313ac41">stdio.h</a></li>
+<li>stdio_puts()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga37b78b01a1defa869f4b6eae07cbc86e">stdio.h</a></li>
+<li>stdio_puts_raw()&#160;:&#160;<a class="el" href="group__pico__stdio.html#gad00b5fbfdcfd83b79512b402f5881458">stdio.h</a></li>
 <li>stdio_set_chars_available_callback()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga4b010bf88f65fc5d38a29d5538fa80e1">stdio.h</a></li>
 <li>stdio_set_driver_enabled()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga826d33ec05c3e33dbddf0cb09e329562">stdio.h</a></li>
 <li>stdio_set_translate_crlf()&#160;:&#160;<a class="el" href="group__pico__stdio.html#gaba86bf2cb6b86a9078cd94dcf47b1915">stdio.h</a></li>
+<li>stdio_vprintf()&#160;:&#160;<a class="el" href="group__pico__stdio.html#gaad0147c9744dfa14ffa591007310ad25">stdio.h</a></li>
+<li>SVCALL_EXCEPTION&#160;:&#160;<a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586">exception.h</a></li>
 <li>sync_internal_yield_until_before&#160;:&#160;<a class="el" href="group__lock__core.html#ga133eb482d67637b8b4e947dee5133513">lock_core.h</a></li>
+<li>SYSTICK_EXCEPTION&#160;:&#160;<a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa05ced3409f791060c7eab53bc557c333">exception.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

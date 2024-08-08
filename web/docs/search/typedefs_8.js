@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['recursive_5fmutex_5ft_0',['recursive_mutex_t',['../group__mutex.html#gaaa26fc3b4f65c4764da7d9b2a7495cc2',1,'mutex.h']]],
-  ['repeating_5ftimer_5fcallback_5ft_1',['repeating_timer_callback_t',['../group__repeating__timer.html#ga028fe2b7d00c1927c24131aae7c375f3',1,'time.h']]],
-  ['resus_5fcallback_5ft_2',['resus_callback_t',['../group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037',1,'clocks.h']]],
-  ['rtc_5fcallback_5ft_3',['rtc_callback_t',['../group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1',1,'rtc.h']]]
+  ['pheap_5fcomparator_0',['pheap_comparator',['../pheap_8h.html#a0656dff462e9c9b41b60b7c86ba39f09',1,'pheap.h']]],
+  ['pico_5fsha256_5fstate_5ft_1',['pico_sha256_state_t',['../group__pico__sha256.html#gadb68f9eb89ce1a5b795463cd083a30a0',1,'sha256.h']]],
+  ['pio_5finterrupt_5fsource_5ft_2',['pio_interrupt_source_t',['../group__hardware__pio.html#gab9e9aed4bb165a040415ae342e0902fe',1,'pio.h']]]
 ];

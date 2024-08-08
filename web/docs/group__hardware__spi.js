@@ -2,6 +2,9 @@ var group__hardware__spi =
 [
     [ "spi0", "group__hardware__spi.html#ga9d931d2e2e5b1dfd8d5f1dea80df4dbd", null ],
     [ "spi1", "group__hardware__spi.html#ga3de59ab064bc9405b059edce4366c694", null ],
+    [ "SPI_DREQ_NUM", "group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa", null ],
+    [ "SPI_INSTANCE", "group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9", null ],
+    [ "SPI_NUM", "group__hardware__spi.html#ga39308f1ccde24d91e0075059b380dd3a", null ],
     [ "spi_cpha_t", "group__hardware__spi.html#ga9850de61d3f6dcacbfb4e5cc5a7d2951", null ],
     [ "spi_cpol_t", "group__hardware__spi.html#ga49a77d9a0320db6d3451a9dda2b8a24b", null ],
     [ "spi_order_t", "group__hardware__spi.html#gaa9e8effacf4291301048ef7df03d353e", null ],

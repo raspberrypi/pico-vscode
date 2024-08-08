@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('group__async__context__poll.html','');
   <div class="headertitle"><div class="title">async_context_poll<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__async__context.html">pico_async_context</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="structasync__context__poll.html">async_context_poll</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that is intended for use with a simple polling loop on one core. It is not thread safe.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -115,7 +118,7 @@ Functions</h2></td></tr>
 <tr class="separator:ga4ee772d4efa94ec03e2b2ae2f775837d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p ><a class="el" href="structasync__context__poll.html">async_context_poll</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that is intended for use with a simple polling loop on one core. It is not thread safe.</p>
+<p ><a class="el" href="structasync__context__poll.html">async_context_poll</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that is intended for use with a simple polling loop on one core. It is not thread safe. </p>
 <p >The <a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll()</a> method must be called periodically to handle asynchronous work that may now be pending. <a class="el" href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055">async_context_wait_for_work_until()</a> may be used to block a polling loop until there is work to do, and prevent tight spinning. </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga4ee772d4efa94ec03e2b2ae2f775837d" name="ga4ee772d4efa94ec03e2b2ae2f775837d"></a>

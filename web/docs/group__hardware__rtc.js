@@ -6,6 +6,6 @@ var group__hardware__rtc =
     [ "rtc_get_datetime", "group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f", null ],
     [ "rtc_init", "group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c", null ],
     [ "rtc_running", "group__hardware__rtc.html#gabf6cc1546be8d1ddb56e3d83a915f683", null ],
-    [ "rtc_set_alarm", "group__hardware__rtc.html#gad0018e9069fee8d65c3a01f7bd7ae2f4", null ],
-    [ "rtc_set_datetime", "group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a", null ]
+    [ "rtc_set_alarm", "group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253", null ],
+    [ "rtc_set_datetime", "group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de", null ]
 ];

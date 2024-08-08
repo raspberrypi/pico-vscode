@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_double/include/pico/double.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/double.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,11 +110,50 @@ $(document).ready(function(){initNavTree('double_8h.html',''); initResizable(); 
 <div class="textblock"><code>#include &lt;math.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;pico/bootrom/sf_table.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for double.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="double_8h__incl.png" border="0" usemap="#ainclude_2pico_2double_8h" alt=""/></div>
+<map name="ainclude_2pico_2double_8h" id="ainclude_2pico_2double_8h">
+<area shape="rect" title=" " alt="" coords="362,5,522,32"/>
+<area shape="rect" title=" " alt="" coords="319,80,387,107"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" href="sf__table_8h_source.html" title=" " alt="" coords="497,80,673,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
 </div>
 <p><a href="double_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a94c9379d987e4ea7c7932a2f13337f65"><td class="memItemLeft" align="right" valign="top"><a id="a94c9379d987e4ea7c7932a2f13337f65" name="a94c9379d987e4ea7c7932a2f13337f65"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>int2double</b> (int32_t i)</td></tr>
+<tr class="separator:a94c9379d987e4ea7c7932a2f13337f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19413410422cd0bff0574a935df1424a"><td class="memItemLeft" align="right" valign="top"><a id="a19413410422cd0bff0574a935df1424a" name="a19413410422cd0bff0574a935df1424a"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>uint2double</b> (uint32_t u)</td></tr>
+<tr class="separator:a19413410422cd0bff0574a935df1424a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ef41b9f982a8e417ca503673516dbb9"><td class="memItemLeft" align="right" valign="top"><a id="a9ef41b9f982a8e417ca503673516dbb9" name="a9ef41b9f982a8e417ca503673516dbb9"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>int642double</b> (int64_t i)</td></tr>
+<tr class="separator:a9ef41b9f982a8e417ca503673516dbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a291adbf2879908595c1574ff5ffce2e1"><td class="memItemLeft" align="right" valign="top"><a id="a291adbf2879908595c1574ff5ffce2e1" name="a291adbf2879908595c1574ff5ffce2e1"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>uint642double</b> (uint64_t u)</td></tr>
+<tr class="separator:a291adbf2879908595c1574ff5ffce2e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7d9032f902dca5d3cb42dfcda497947"><td class="memItemLeft" align="right" valign="top"><a id="ae7d9032f902dca5d3cb42dfcda497947" name="ae7d9032f902dca5d3cb42dfcda497947"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>fix2double</b> (int32_t m, int e)</td></tr>
 <tr class="separator:ae7d9032f902dca5d3cb42dfcda497947"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -127,30 +166,36 @@ double&#160;</td><td class="memItemRight" valign="bottom"><b>fix642double</b> (i
 <tr class="memitem:a839c38451211b6a36072eddda3d0d237"><td class="memItemLeft" align="right" valign="top"><a id="a839c38451211b6a36072eddda3d0d237" name="a839c38451211b6a36072eddda3d0d237"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>ufix642double</b> (uint64_t m, int e)</td></tr>
 <tr class="separator:a839c38451211b6a36072eddda3d0d237"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b7addb7d5e37abd453d5d7e5b63c45d"><td class="memItemLeft" align="right" valign="top"><a id="a2b7addb7d5e37abd453d5d7e5b63c45d" name="a2b7addb7d5e37abd453d5d7e5b63c45d"></a>
-int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix</b> (double f, int e)</td></tr>
-<tr class="separator:a2b7addb7d5e37abd453d5d7e5b63c45d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5d1dfcbe0e4e7c8d16867114b07cda4e"><td class="memItemLeft" align="right" valign="top"><a id="a5d1dfcbe0e4e7c8d16867114b07cda4e" name="a5d1dfcbe0e4e7c8d16867114b07cda4e"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix</b> (double f, int e)</td></tr>
-<tr class="separator:a5d1dfcbe0e4e7c8d16867114b07cda4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e851d545a55d22d4eefa66136051636"><td class="memItemLeft" align="right" valign="top"><a id="a4e851d545a55d22d4eefa66136051636" name="a4e851d545a55d22d4eefa66136051636"></a>
-int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix64</b> (double f, int e)</td></tr>
-<tr class="separator:a4e851d545a55d22d4eefa66136051636"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a633645ebd575ce714d6648508fefdfe7"><td class="memItemLeft" align="right" valign="top"><a id="a633645ebd575ce714d6648508fefdfe7" name="a633645ebd575ce714d6648508fefdfe7"></a>
-uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix64</b> (double f, int e)</td></tr>
-<tr class="separator:a633645ebd575ce714d6648508fefdfe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a8d23fe296eab86c6557a0d6cca3bd7"><td class="memItemLeft" align="right" valign="top"><a id="a4a8d23fe296eab86c6557a0d6cca3bd7" name="a4a8d23fe296eab86c6557a0d6cca3bd7"></a>
-int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int</b> (double f)</td></tr>
-<tr class="separator:a4a8d23fe296eab86c6557a0d6cca3bd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06b25e5e68ac15e83744ada9770f7c38"><td class="memItemLeft" align="right" valign="top"><a id="a06b25e5e68ac15e83744ada9770f7c38" name="a06b25e5e68ac15e83744ada9770f7c38"></a>
-int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int64</b> (double f)</td></tr>
-<tr class="separator:a06b25e5e68ac15e83744ada9770f7c38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5816777db2e7e5a46609a1e3d516cdb8"><td class="memItemLeft" align="right" valign="top"><a id="a5816777db2e7e5a46609a1e3d516cdb8" name="a5816777db2e7e5a46609a1e3d516cdb8"></a>
-int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int_z</b> (double f)</td></tr>
-<tr class="separator:a5816777db2e7e5a46609a1e3d516cdb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11f75f6e5f3e0763fad5969983652fe3"><td class="memItemLeft" align="right" valign="top"><a id="a11f75f6e5f3e0763fad5969983652fe3" name="a11f75f6e5f3e0763fad5969983652fe3"></a>
-int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int64_z</b> (double f)</td></tr>
-<tr class="separator:a11f75f6e5f3e0763fad5969983652fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc6577607cf12241eaa2aa648e0a32f"><td class="memItemLeft" align="right" valign="top"><a id="a0bc6577607cf12241eaa2aa648e0a32f" name="a0bc6577607cf12241eaa2aa648e0a32f"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix</b> (double d, int e)</td></tr>
+<tr class="separator:a0bc6577607cf12241eaa2aa648e0a32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afee3c847925ed409465274a10cd61a2e"><td class="memItemLeft" align="right" valign="top"><a id="afee3c847925ed409465274a10cd61a2e" name="afee3c847925ed409465274a10cd61a2e"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix</b> (double d, int e)</td></tr>
+<tr class="separator:afee3c847925ed409465274a10cd61a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a505211eebac2858904614f1617ffd9ca"><td class="memItemLeft" align="right" valign="top"><a id="a505211eebac2858904614f1617ffd9ca" name="a505211eebac2858904614f1617ffd9ca"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix64</b> (double d, int e)</td></tr>
+<tr class="separator:a505211eebac2858904614f1617ffd9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a609fee5031bdf75fa642e435e8422cf6"><td class="memItemLeft" align="right" valign="top"><a id="a609fee5031bdf75fa642e435e8422cf6" name="a609fee5031bdf75fa642e435e8422cf6"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix64</b> (double d, int e)</td></tr>
+<tr class="separator:a609fee5031bdf75fa642e435e8422cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eddb12c9919d6755fbcd604286ba526"><td class="memItemLeft" align="right" valign="top"><a id="a3eddb12c9919d6755fbcd604286ba526" name="a3eddb12c9919d6755fbcd604286ba526"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int</b> (double d)</td></tr>
+<tr class="separator:a3eddb12c9919d6755fbcd604286ba526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9e99d6773e5971364b76f52522af6ac"><td class="memItemLeft" align="right" valign="top"><a id="ac9e99d6773e5971364b76f52522af6ac" name="ac9e99d6773e5971364b76f52522af6ac"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2uint</b> (double d)</td></tr>
+<tr class="separator:ac9e99d6773e5971364b76f52522af6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26dbfc007e4b657e4fb2d20e4fcc3d8b"><td class="memItemLeft" align="right" valign="top"><a id="a26dbfc007e4b657e4fb2d20e4fcc3d8b" name="a26dbfc007e4b657e4fb2d20e4fcc3d8b"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int64</b> (double d)</td></tr>
+<tr class="separator:a26dbfc007e4b657e4fb2d20e4fcc3d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a457a2ec01fe31937e1a411495f9b4b31"><td class="memItemLeft" align="right" valign="top"><a id="a457a2ec01fe31937e1a411495f9b4b31" name="a457a2ec01fe31937e1a411495f9b4b31"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2uint64</b> (double d)</td></tr>
+<tr class="separator:a457a2ec01fe31937e1a411495f9b4b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a5049e98d498225467e5129e21a6743"><td class="memItemLeft" align="right" valign="top"><a id="a8a5049e98d498225467e5129e21a6743" name="a8a5049e98d498225467e5129e21a6743"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int_z</b> (double d)</td></tr>
+<tr class="separator:a8a5049e98d498225467e5129e21a6743"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf43730d25530021d87b238da983f6f"><td class="memItemLeft" align="right" valign="top"><a id="adaf43730d25530021d87b238da983f6f" name="adaf43730d25530021d87b238da983f6f"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int64_z</b> (double d)</td></tr>
+<tr class="separator:adaf43730d25530021d87b238da983f6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea673cadd2aef111e2ee7a813776b768"><td class="memItemLeft" align="right" valign="top"><a id="aea673cadd2aef111e2ee7a813776b768" name="aea673cadd2aef111e2ee7a813776b768"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><b>exp10</b> (double x)</td></tr>
 <tr class="separator:aea673cadd2aef111e2ee7a813776b768"><td class="memSeparator" colspan="2">&#160;</td></tr>

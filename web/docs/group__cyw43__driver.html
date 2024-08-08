@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -274,13 +274,13 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>cyw43_sleep</b></
 <tr><td class="ititle" colspan="2"><p >Current version of the CYW43 driver as major/minor/micro components <a class="anchor" id="CYW43_VERSION_"></a></p>
 </td></tr>
 <tr class="memitem:gaadd2b99aad472bf9da165c4a960261c0"><td class="memItemLeft" align="right" valign="top"><a id="gaadd2b99aad472bf9da165c4a960261c0" name="gaadd2b99aad472bf9da165c4a960261c0"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_VERSION_MAJOR</b>&#160;&#160;&#160;0</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_VERSION_MAJOR</b>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:gaadd2b99aad472bf9da165c4a960261c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga90ab63cdb6ef74c85793545434eb3e07"><td class="memItemLeft" align="right" valign="top"><a id="ga90ab63cdb6ef74c85793545434eb3e07" name="ga90ab63cdb6ef74c85793545434eb3e07"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_VERSION_MINOR</b>&#160;&#160;&#160;9</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_VERSION_MINOR</b>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:ga90ab63cdb6ef74c85793545434eb3e07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga22fd82bc7653894651e5d3139953b7fd"><td class="memItemLeft" align="right" valign="top"><a id="ga22fd82bc7653894651e5d3139953b7fd" name="ga22fd82bc7653894651e5d3139953b7fd"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_VERSION_MICRO</b>&#160;&#160;&#160;0</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_VERSION_MICRO</b>&#160;&#160;&#160;3</td></tr>
 <tr class="separator:ga22fd82bc7653894651e5d3139953b7fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader">CYW43 driver version</h2></td></tr>
@@ -330,7 +330,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>cyw43_sleep</b></
 <tr class="separator:gafa37e40d86db6bcb285bc805950b3436"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7e486c791a17b828715496cdc0ebf47f"><td class="memItemLeft" align="right" valign="top"><a id="ga7e486c791a17b828715496cdc0ebf47f" name="ga7e486c791a17b828715496cdc0ebf47f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_LINK_UP</b>&#160;&#160;&#160;(3)</td></tr>
-<tr class="memdesc:ga7e486c791a17b828715496cdc0ebf47f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect to wifi with an IP address. <br /></td></tr>
+<tr class="memdesc:ga7e486c791a17b828715496cdc0ebf47f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connected to wifi with an IP address. <br /></td></tr>
 <tr class="separator:ga7e486c791a17b828715496cdc0ebf47f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga21651bd28088f63f7925c495e8972ea0"><td class="memItemLeft" align="right" valign="top"><a id="ga21651bd28088f63f7925c495e8972ea0" name="ga21651bd28088f63f7925c495e8972ea0"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>CYW43_LINK_FAIL</b>&#160;&#160;&#160;(-1)</td></tr>
@@ -1090,7 +1090,7 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>cyw43_sleep</b></
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>the driver state object. This should always be <code>&amp;cyw43_state</code> </td></tr>
-    <tr><td class="paramname">max_stas</td><td>Returns the maximum number of devices (STAs) that can be connected to the access point </td></tr>
+    <tr><td class="paramname">max_stas</td><td>Returns the maximum number of devices (STAs) that can be connected to the access point (set to 0 on error) </td></tr>
   </table>
   </dd>
 </dl>
@@ -1187,8 +1187,8 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>cyw43_sleep</b></
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">self</td><td>the driver state object. This should always be <code>&amp;cyw43_state</code> </td></tr>
-    <tr><td class="paramname">num_stas</td><td>Returns the number of devices (STA) connected to the access point </td></tr>
-    <tr><td class="paramname">macs</td><td>Returns the mac addresses of devies (STA) connected to the access point. The supplied buffer should have enough room for 6 bytes per mac address. Call <a class="el" href="group__cyw43__driver.html#gad17b38ecb304595c897b4affec44c215">cyw43_wifi_ap_get_max_stas</a> to determine how many mac addresses can be returned. </td></tr>
+    <tr><td class="paramname">num_stas</td><td>Caller must provide the number of MACs that will fit in the macs buffer; The supplied buffer should have enough room for 6 bytes per MAC address. Returns the number of devices (STA) connected to the access point. </td></tr>
+    <tr><td class="paramname">macs</td><td>Returns up to num_stas MAC addresses of devices (STA) connected to the access point. Call <a class="el" href="group__cyw43__driver.html#gad17b38ecb304595c897b4affec44c215">cyw43_wifi_ap_get_max_stas</a> to determine how many mac addresses can be returned. </td></tr>
   </table>
   </dd>
 </dl>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -113,7 +113,7 @@ $(document).ready(function(){initNavTree('group__sleep.html',''); initResizable(
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga7abed28d3918fe2b15f8007ba6569172"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sleep.html#ga7abed28d3918fe2b15f8007ba6569172">sleep_until</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> target)</td></tr>
+<tr class="memitem:ga7abed28d3918fe2b15f8007ba6569172"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sleep.html#ga7abed28d3918fe2b15f8007ba6569172">sleep_until</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> target)</td></tr>
 <tr class="memdesc:ga7abed28d3918fe2b15f8007ba6569172"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait until after the given timestamp to return.  <a href="group__sleep.html#ga7abed28d3918fe2b15f8007ba6569172">More...</a><br /></td></tr>
 <tr class="separator:ga7abed28d3918fe2b15f8007ba6569172"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaeeaebd3a10e0a193022f15c8603772ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sleep.html#gaeeaebd3a10e0a193022f15c8603772ba">sleep_us</a> (uint64_t us)</td></tr>
@@ -122,7 +122,7 @@ Functions</h2></td></tr>
 <tr class="memitem:gae617a6842d4f3a192064c4354b88fcff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a> (uint32_t ms)</td></tr>
 <tr class="memdesc:gae617a6842d4f3a192064c4354b88fcff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait for the given number of milliseconds before returning.  <a href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">More...</a><br /></td></tr>
 <tr class="separator:gae617a6842d4f3a192064c4354b88fcff"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaedc0ed51a5e908ddd660a5d279009abc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> timeout_timestamp)</td></tr>
+<tr class="memitem:gaedc0ed51a5e908ddd660a5d279009abc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> timeout_timestamp)</td></tr>
 <tr class="memdesc:gaedc0ed51a5e908ddd660a5d279009abc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method for blocking on a timeout.  <a href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">More...</a><br /></td></tr>
 <tr class="separator:gaedc0ed51a5e908ddd660a5d279009abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -134,11 +134,11 @@ Functions</h2></td></tr>
 Lower powered sleep requires use of the <a class="el" href="group__alarm.html#ga5092ceb879289c0a597a389f34b4815e">default alarm pool</a> which may be disabled by the PICO_TIME_DEFAULT_ALARM_POOL_DISABLED #define or currently full in which case these functions become busy waits instead.</dd>
 <dd>
 Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions from a power perspective, the <em>busy_wait</em> equivalent function may return slightly sooner after the target is reached.</dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee" title="Busy wait wasting cycles until after the specified timestamp.">busy_wait_until()</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee" title="Busy wait wasting cycles until after the specified timestamp using the default timer instance.">busy_wait_until()</a> </dd>
 <dd>
-<a class="el" href="group__hardware__timer.html#gac089d1c42bb7658bb43c798454f66e2f" title="Busy wait wasting cycles for the given (64 bit) number of microseconds.">busy_wait_us()</a> </dd>
+<a class="el" href="group__hardware__timer.html#gac089d1c42bb7658bb43c798454f66e2f" title="Busy wait wasting cycles for the given (64 bit) number of microseconds using the default timer instan...">busy_wait_us()</a> </dd>
 <dd>
-<a class="el" href="group__hardware__timer.html#ga89b0f1dcbbdf81c92ade2930e8e38ab6" title="Busy wait wasting cycles for the given (32 bit) number of microseconds.">busy_wait_us_32()</a> </dd></dl>
+<a class="el" href="group__hardware__timer.html#ga89b0f1dcbbdf81c92ade2930e8e38ab6" title="Busy wait wasting cycles for the given (32 bit) number of microseconds using the default timer instan...">busy_wait_us_32()</a> </dd></dl>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaedc0ed51a5e908ddd660a5d279009abc" name="gaedc0ed51a5e908ddd660a5d279009abc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaedc0ed51a5e908ddd660a5d279009abc">&#9670;&nbsp;</a></span>best_effort_wfe_or_timeout()</h2>
@@ -149,7 +149,7 @@ Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions 
         <tr>
           <td class="memname">bool best_effort_wfe_or_timeout </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>timeout_timestamp</em></td><td>)</td>
           <td></td>
         </tr>
@@ -161,7 +161,7 @@ Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions 
 <p >This method can be used to implement a lower power polling loop waiting on some condition signalled by an event (<a class="el" href="group__hardware__sync.html#ga486eada32246494118f8273a80ae6856" title="Insert a SEV instruction in to the code path.">__sev()</a>).</p>
 <p >This is called <em>best_effort</em> because under certain circumstances (notably the default timer pool being disabled or full) the best effort is simply to return immediately without a __wfe, thus turning the calling code into a busy wait.</p>
 <p >Example usage: </p><div class="fragment"><div class="line"><span class="keywordtype">bool</span> my_function_with_timeout_us(uint64_t timeout_us) {</div>
-<div class="line">    <a class="code hl_struct" href="structabsolute__time__t.html">absolute_time_t</a> timeout_time = <a class="code hl_function" href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">make_timeout_time_us</a>(timeout_us);</div>
+<div class="line">    <a class="code hl_typedef" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> timeout_time = <a class="code hl_function" href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">make_timeout_time_us</a>(timeout_us);</div>
 <div class="line">    <span class="keywordflow">do</span> {</div>
 <div class="line">        <span class="comment">// each time round the loop, we check to see if the condition</span></div>
 <div class="line">        <span class="comment">// we are waiting on has happened</span></div>
@@ -173,9 +173,9 @@ Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions 
 <div class="line">    } <span class="keywordflow">while</span> (!<a class="code hl_function" href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a>(timeout_time));</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// timed out</span></div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__sleep_html_gaedc0ed51a5e908ddd660a5d279009abc"><div class="ttname"><a href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a></div><div class="ttdeci">bool best_effort_wfe_or_timeout(absolute_time_t timeout_timestamp)</div><div class="ttdoc">Helper method for blocking on a timeout.</div><div class="ttdef"><b>Definition:</b> time.c:433</div></div>
-<div class="ttc" id="agroup__timestamp_html_ga70921b9073202a54eec3494b4d19ec84"><div class="ttname"><a href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">make_timeout_time_us</a></div><div class="ttdeci">static absolute_time_t make_timeout_time_us(uint64_t us)</div><div class="ttdoc">Convenience method to get the timestamp a number of microseconds from the current time.</div><div class="ttdef"><b>Definition:</b> time.h:131</div></div>
-<div class="ttc" id="astructabsolute__time__t_html"><div class="ttname"><a href="structabsolute__time__t.html">absolute_time_t</a></div><div class="ttdef"><b>Definition:</b> types.h:33</div></div>
+<div class="ttc" id="agroup__sleep_html_gaedc0ed51a5e908ddd660a5d279009abc"><div class="ttname"><a href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a></div><div class="ttdeci">bool best_effort_wfe_or_timeout(absolute_time_t timeout_timestamp)</div><div class="ttdoc">Helper method for blocking on a timeout.</div><div class="ttdef"><b>Definition:</b> time.c:435</div></div>
+<div class="ttc" id="agroup__timestamp_html_ga70921b9073202a54eec3494b4d19ec84"><div class="ttname"><a href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">make_timeout_time_us</a></div><div class="ttdeci">static absolute_time_t make_timeout_time_us(uint64_t us)</div><div class="ttdoc">Convenience method to get the timestamp a number of microseconds from the current time.</div><div class="ttdef"><b>Definition:</b> time.h:136</div></div>
+<div class="ttc" id="agroup__timestamp_html_ga8b7f3d602cc053f05bacceeacc257ed8"><div class="ttname"><a href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a></div><div class="ttdeci">uint64_t absolute_time_t</div><div class="ttdoc">An opaque 64 bit timestamp in microseconds.</div><div class="ttdef"><b>Definition:</b> types.h:43</div></div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">timeout_timestamp</td><td>the timeout time </td></tr>
@@ -222,7 +222,7 @@ Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions 
         <tr>
           <td class="memname">void sleep_until </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structabsolute__time__t.html">absolute_time_t</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
           <td class="paramname"><em>target</em></td><td>)</td>
           <td></td>
         </tr>
@@ -239,7 +239,7 @@ Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions 
 </dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__sleep.html#gaeeaebd3a10e0a193022f15c8603772ba" title="Wait for the given number of microseconds before returning.">sleep_us()</a> </dd>
 <dd>
-<a class="el" href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee" title="Busy wait wasting cycles until after the specified timestamp.">busy_wait_until()</a> </dd></dl>
+<a class="el" href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee" title="Busy wait wasting cycles until after the specified timestamp using the default timer instance.">busy_wait_until()</a> </dd></dl>
 
 </div>
 </div>
@@ -267,7 +267,7 @@ Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions 
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__timer.html#gac089d1c42bb7658bb43c798454f66e2f" title="Busy wait wasting cycles for the given (64 bit) number of microseconds.">busy_wait_us()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__timer.html#gac089d1c42bb7658bb43c798454f66e2f" title="Busy wait wasting cycles for the given (64 bit) number of microseconds using the default timer instan...">busy_wait_us()</a> </dd></dl>
 
 </div>
 </div>

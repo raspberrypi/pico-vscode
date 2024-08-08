@@ -297,6 +297,7 @@ var isPicoWireless = false;
         command: CMD_SUBMIT_EXAMPLE,
         value: {
           example: projectName,
+          boardType: boardType,
 
           selectedSDK: selectedSDK,
           selectedToolchain: selectedToolchain,
@@ -443,13 +444,39 @@ var isPicoWireless = false;
           requiresVersionBundleElements[i].disabled = !result.result;
         }
 
-        if (result.result && "toolchainVersion" in result) {
+        if (result.result && "toolchainVersion" in result && "riscvToolchainVersion" in result) {
           var toolchainSelector = document.getElementById("sel-toolchain");
+          const useRiscv = document.getElementsByClassName('use-riscv');
           var selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
+
+          if (result.riscvToolchainVersion === "NONE") {
+            document.getElementById("sel-pico2").hidden = true;
+            if (document.getElementById('sel-board-type').selectedIndex > 1) {
+              document.getElementById('sel-board-type').selectedIndex = 0;
+            }
+          } else {
+            document.getElementById("sel-pico2").hidden = false;
+          }
+
+          var riscv = document.getElementById("sel-riscv").checked;
+          var board = document.getElementById('sel-board-type').value;
+
+          if (board !== "pico2") {
+            for (let i = 0; i < useRiscv.length; i++) {
+              useRiscv[i].hidden = true;
+            }
+          } else {
+            for (let i = 0; i < useRiscv.length; i++) {
+              useRiscv[i].hidden = false;
+            }
+            if (riscv) {
+              selectedIndex = getIndexByValue(toolchainSelector, result.riscvToolchainVersion);
+            }
+          }
 
           if (selectedIndex !== -1) {
             toolchainSelector.selectedIndex = selectedIndex;
-            console.debug("Updated selected toolchain with new default value", result.toolchainVersion);
+            console.debug("Updated selected toolchain with new default value", toolchainSelector.options[selectedIndex].value);
           } else {
             console.error("Could not find default toolchain version in versionBundle response!");
           }
@@ -544,7 +571,7 @@ var isPicoWireless = false;
   if (selectBoardTypeElement) {
     selectBoardTypeElement.addEventListener('change', function () {
       try {
-        const isPicoWireless = selectBoardTypeElement.value === "pico-w";
+        const isPicoWireless = selectBoardTypeElement.value.endsWith('w');
 
         if (!isPicoWireless) {
           navItemOnClick('nav-basic');
@@ -560,10 +587,25 @@ var isPicoWireless = false;
           // Check the first radio button (none)
           document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
         }
+
+        const sdkVersion = document.getElementById('sel-pico-sdk').value;
+        // send message to extension
+        vscode.postMessage({
+          command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
+          value: sdkVersion.replace("v", "")
+        });
       } catch { }
     });
   }
   document.getElementById('sel-pico-sdk').addEventListener('change', function () {
+    const sdkVersion = document.getElementById('sel-pico-sdk').value;
+    // send message to extension
+    vscode.postMessage({
+      command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
+      value: sdkVersion.replace("v", "")
+    });
+  });
+  document.getElementById('sel-riscv').addEventListener('change', function () {
     const sdkVersion = document.getElementById('sel-pico-sdk').value;
     // send message to extension
     vscode.postMessage({
@@ -580,4 +622,11 @@ var isPicoWireless = false;
   const pythonVersionRadio = document.getElementsByName('python-version-radio');
   if (pythonVersionRadio.length > 0)
     pythonVersionRadio[0].checked = true;
+
+  const sdkVersion = document.getElementById('sel-pico-sdk').value;
+  // send message to extension
+  vscode.postMessage({
+    command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
+    value: sdkVersion.replace("v", "")
+  });
 }());

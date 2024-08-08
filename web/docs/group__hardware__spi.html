@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,6 +109,9 @@ $(document).ready(function(){initNavTree('group__hardware__spi.html',''); initRe
   <div class="headertitle"><div class="title">hardware_spi<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Hardware SPI API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
@@ -116,6 +119,15 @@ Macros</h2></td></tr>
 <tr class="separator:ga9d931d2e2e5b1dfd8d5f1dea80df4dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3de59ab064bc9405b059edce4366c694"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga3de59ab064bc9405b059edce4366c694">spi1</a>&#160;&#160;&#160;((<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *)spi1_hw)</td></tr>
 <tr class="separator:ga3de59ab064bc9405b059edce4366c694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga39308f1ccde24d91e0075059b380dd3a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga39308f1ccde24d91e0075059b380dd3a">SPI_NUM</a>(spi)</td></tr>
+<tr class="memdesc:ga39308f1ccde24d91e0075059b380dd3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SPI number for a SPI instance.  <a href="group__hardware__spi.html#ga39308f1ccde24d91e0075059b380dd3a">More...</a><br /></td></tr>
+<tr class="separator:ga39308f1ccde24d91e0075059b380dd3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">SPI_INSTANCE</a>(num)</td></tr>
+<tr class="memdesc:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SPI instance with the given SPI number.  <a href="group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">More...</a><br /></td></tr>
+<tr class="separator:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa470b3363ffe872bba90d31814d33baa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa">SPI_DREQ_NUM</a>(spi,  is_tx)</td></tr>
+<tr class="memdesc:gaa470b3363ffe872bba90d31814d33baa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from this SPI instance. If is_tx is true, then it is for transfers to the SPI else for transfers from the SPI.  <a href="group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa">More...</a><br /></td></tr>
+<tr class="separator:gaa470b3363ffe872bba90d31814d33baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -138,10 +150,10 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga1dba14fb5488b5e4a69b30678f774df0"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0">spi_init</a> (<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi, uint baudrate)</td></tr>
-<tr class="memdesc:ga1dba14fb5488b5e4a69b30678f774df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise SPI instancesPuts the SPI into a known state, and enable it. Must be called before other functions.  <a href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0">More...</a><br /></td></tr>
+<tr class="memdesc:ga1dba14fb5488b5e4a69b30678f774df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise SPI instances.  <a href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0">More...</a><br /></td></tr>
 <tr class="separator:ga1dba14fb5488b5e4a69b30678f774df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaf0c3a38c80cf84a80602755d7bac77e2">spi_deinit</a> (<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi)</td></tr>
-<tr class="memdesc:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialise SPI instancesPuts the SPI into a disabled state. Init will need to be called to reenable the device functions.  <a href="group__hardware__spi.html#gaf0c3a38c80cf84a80602755d7bac77e2">More...</a><br /></td></tr>
+<tr class="memdesc:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialise SPI instances.  <a href="group__hardware__spi.html#gaf0c3a38c80cf84a80602755d7bac77e2">More...</a><br /></td></tr>
 <tr class="separator:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga37f4c04ce4165ac8c129226336a0b66c"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga37f4c04ce4165ac8c129226336a0b66c">spi_set_baudrate</a> (<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi, uint baudrate)</td></tr>
 <tr class="memdesc:ga37f4c04ce4165ac8c129226336a0b66c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set SPI baudrate.  <a href="group__hardware__spi.html#ga37f4c04ce4165ac8c129226336a0b66c">More...</a><br /></td></tr>
@@ -190,8 +202,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga6241d6c368b1af1b83a12c1e75515486"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Hardware SPI API</p>
-<p >RP2040 has 2 identical instances of the Serial Peripheral Interface (SPI) controller.</p>
+<p >Hardware SPI API. </p>
+<p >RP-series microcontrollers have 2 identical instances of the Serial Peripheral Interface (SPI) controller.</p>
 <p >The PrimeCell SSP is a master or slave interface for synchronous serial communication with peripheral devices that have Motorola SPI, National Semiconductor Microwire, or Texas Instruments synchronous serial interfaces.</p>
 <p >Controller can be defined as master or slave using the <a class="el" href="group__hardware__spi.html#ga127e4bf0fc1d7d271d2e9160c6e3b722">spi_set_slave</a> function.</p>
 <p >Each controller can be connected to a number of GPIO pins, see the datasheet GPIO function selection table for more information. </p>
@@ -228,6 +240,79 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gaa470b3363ffe872bba90d31814d33baa" name="gaa470b3363ffe872bba90d31814d33baa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa470b3363ffe872bba90d31814d33baa">&#9670;&nbsp;</a></span>SPI_DREQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SPI_DREQ_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">spi, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">is_tx&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from this SPI instance. If is_tx is true, then it is for transfers to the SPI else for transfers from the SPI. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="gae1d6ac7c86e9f76d5c1a38c6dfd978b9" name="gae1d6ac7c86e9f76d5c1a38c6dfd978b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">&#9670;&nbsp;</a></span>SPI_INSTANCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SPI_INSTANCE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">num</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the SPI instance with the given SPI number. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="ga39308f1ccde24d91e0075059b380dd3a" name="ga39308f1ccde24d91e0075059b380dd3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga39308f1ccde24d91e0075059b380dd3a">&#9670;&nbsp;</a></span>SPI_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SPI_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">spi</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the SPI number for a SPI instance. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaf0c3a38c80cf84a80602755d7bac77e2" name="gaf0c3a38c80cf84a80602755d7bac77e2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf0c3a38c80cf84a80602755d7bac77e2">&#9670;&nbsp;</a></span>spi_deinit()</h2>
@@ -245,7 +330,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Deinitialise SPI instancesPuts the SPI into a disabled state. Init will need to be called to reenable the device functions. </p>
+<p>Deinitialise SPI instances. </p>
+<p >Puts the SPI into a disabled state. Init will need to be called to re-enable the device functions.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spi</td><td>SPI instance specifier, either <a class="el" href="group__hardware__spi.html#ga9d931d2e2e5b1dfd8d5f1dea80df4dbd">spi0</a> or <a class="el" href="group__hardware__spi.html#ga3de59ab064bc9405b059edce4366c694">spi1</a> </td></tr>
@@ -389,7 +475,8 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialise SPI instancesPuts the SPI into a known state, and enable it. Must be called before other functions. </p>
+<p>Initialise SPI instances. </p>
+<p >Puts the SPI into a known state, and enable it. Must be called before other functions.</p>
 <dl class="section note"><dt>Note</dt><dd>There is no guarantee that the baudrate requested can be achieved exactly; the nearest will be chosen and returned</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -755,7 +842,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Set SPI master/slave. </p>
-<p >Configure the SPI for master- or slave-mode operation. By default, <a class="el" href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0" title="Initialise SPI instancesPuts the SPI into a known state, and enable it. Must be called before other f...">spi_init()</a> sets master-mode.</p>
+<p >Configure the SPI for master- or slave-mode operation. By default, <a class="el" href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0" title="Initialise SPI instances.">spi_init()</a> sets master-mode.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spi</td><td>SPI instance specifier, either <a class="el" href="group__hardware__spi.html#ga9d931d2e2e5b1dfd8d5f1dea80df4dbd">spi0</a> or <a class="el" href="group__hardware__spi.html#ga3de59ab064bc9405b059edce4366c694">spi1</a> </td></tr>

@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_cyw43_driver/include/cyw43_configport.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/cyw43_configport.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -118,7 +118,7 @@ $(document).ready(function(){initNavTree('cyw43__configport_8h_source.html','');
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="pico_8h.html">pico.h</a>&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="gpio_8h.html">hardware/gpio.h</a>&quot;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="time_8h.html">pico/time.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="common_2pico__time_2include_2pico_2time_8h.html">pico/time.h</a>&quot;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#ifdef __cplusplus</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
@@ -278,17 +278,17 @@ $(document).ready(function(){initNavTree('cyw43__configport_8h_source.html','');
 <div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
 <div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="acommon_2pico__time_2include_2pico_2time_8h_html"><div class="ttname"><a href="common_2pico__time_2include_2pico_2time_8h.html">time.h</a></div></div>
 <div class="ttc" id="agpio_8h_html"><div class="ttname"><a href="gpio_8h.html">gpio.h</a></div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_ga6a40edf0d86f6b3f0dcb51a768cf4681"><div class="ttname"><a href="group__hardware__gpio.html#ga6a40edf0d86f6b3f0dcb51a768cf4681">gpio_set_dir</a></div><div class="ttdeci">static void gpio_set_dir(uint gpio, bool out)</div><div class="ttdoc">Set a single GPIO direction.</div><div class="ttdef"><b>Definition:</b> gpio.h:830</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_ga6aca495d644a6ae66050a99ef44defbe"><div class="ttname"><a href="group__hardware__gpio.html#ga6aca495d644a6ae66050a99ef44defbe">gpio_clr_mask</a></div><div class="ttdeci">static void gpio_clr_mask(uint32_t mask)</div><div class="ttdoc">Drive low every GPIO appearing in mask.</div><div class="ttdef"><b>Definition:</b> gpio.h:705</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_gab6bf9552da32b3dd0a5d0db45d8374fc"><div class="ttname"><a href="group__hardware__gpio.html#gab6bf9552da32b3dd0a5d0db45d8374fc">gpio_set_pulls</a></div><div class="ttdeci">void gpio_set_pulls(uint gpio, bool up, bool down)</div><div class="ttdoc">Select up and down pulls on specific GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.c:53</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_gaf38c0b39fba06d1a49d1be56ef548d73"><div class="ttname"><a href="group__hardware__gpio.html#gaf38c0b39fba06d1a49d1be56ef548d73">gpio_get</a></div><div class="ttdeci">static bool gpio_get(uint gpio)</div><div class="ttdoc">Get state of a single specified GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.h:674</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_gaf3aa12aa4543965e24f52cfa9b529904"><div class="ttname"><a href="group__hardware__gpio.html#gaf3aa12aa4543965e24f52cfa9b529904">gpio_set_mask</a></div><div class="ttdeci">static void gpio_set_mask(uint32_t mask)</div><div class="ttdoc">Drive high every GPIO appearing in mask.</div><div class="ttdef"><b>Definition:</b> gpio.h:696</div></div>
-<div class="ttc" id="agroup__hardware__timer_html_gabfffa28d8715f71834934f357e7dc091"><div class="ttname"><a href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">time_us_32</a></div><div class="ttdeci">static uint32_t time_us_32(void)</div><div class="ttdoc">Return a 32 bit timestamp value in microseconds.</div><div class="ttdef"><b>Definition:</b> timer.h:65</div></div>
-<div class="ttc" id="agroup__timestamp_html_ga6a1d4dfb43030b6594fa050f50feb47a"><div class="ttname"><a href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">get_absolute_time</a></div><div class="ttdeci">static absolute_time_t get_absolute_time(void)</div><div class="ttdoc">Return a representation of the current time.</div><div class="ttdef"><b>Definition:</b> time.h:61</div></div>
-<div class="ttc" id="agroup__timestamp_html_gab12467c48bde27171b552ac4dc8c7d59"><div class="ttname"><a href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a></div><div class="ttdeci">static uint32_t to_ms_since_boot(absolute_time_t t)</div><div class="ttdoc">Convert a timestamp into a number of milliseconds since boot.</div><div class="ttdef"><b>Definition:</b> time.h:82</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_ga6a40edf0d86f6b3f0dcb51a768cf4681"><div class="ttname"><a href="group__hardware__gpio.html#ga6a40edf0d86f6b3f0dcb51a768cf4681">gpio_set_dir</a></div><div class="ttdeci">static void gpio_set_dir(uint gpio, bool out)</div><div class="ttdoc">Set a single GPIO direction.</div><div class="ttdef"><b>Definition:</b> gpio.h:1340</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_ga6aca495d644a6ae66050a99ef44defbe"><div class="ttname"><a href="group__hardware__gpio.html#ga6aca495d644a6ae66050a99ef44defbe">gpio_clr_mask</a></div><div class="ttdeci">static void gpio_clr_mask(uint32_t mask)</div><div class="ttdoc">Drive low every GPIO appearing in mask.</div><div class="ttdef"><b>Definition:</b> gpio.h:955</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_gab6bf9552da32b3dd0a5d0db45d8374fc"><div class="ttname"><a href="group__hardware__gpio.html#gab6bf9552da32b3dd0a5d0db45d8374fc">gpio_set_pulls</a></div><div class="ttdeci">void gpio_set_pulls(uint gpio, bool up, bool down)</div><div class="ttdoc">Select up and down pulls on specific GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.c:63</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_gaf38c0b39fba06d1a49d1be56ef548d73"><div class="ttname"><a href="group__hardware__gpio.html#gaf38c0b39fba06d1a49d1be56ef548d73">gpio_get</a></div><div class="ttdeci">static bool gpio_get(uint gpio)</div><div class="ttdoc">Get state of a single specified GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.h:859</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_gaf3aa12aa4543965e24f52cfa9b529904"><div class="ttname"><a href="group__hardware__gpio.html#gaf3aa12aa4543965e24f52cfa9b529904">gpio_set_mask</a></div><div class="ttdeci">static void gpio_set_mask(uint32_t mask)</div><div class="ttdoc">Drive high every GPIO appearing in mask.</div><div class="ttdef"><b>Definition:</b> gpio.h:908</div></div>
+<div class="ttc" id="agroup__hardware__timer_html_gabfffa28d8715f71834934f357e7dc091"><div class="ttname"><a href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">time_us_32</a></div><div class="ttdeci">static uint32_t time_us_32(void)</div><div class="ttdoc">Return a 32 bit timestamp value in microseconds for the default timer instance.</div><div class="ttdef"><b>Definition:</b> timer.h:215</div></div>
+<div class="ttc" id="agroup__timestamp_html_ga6a1d4dfb43030b6594fa050f50feb47a"><div class="ttname"><a href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">get_absolute_time</a></div><div class="ttdeci">static absolute_time_t get_absolute_time(void)</div><div class="ttdoc">Return a representation of the current time.</div><div class="ttdef"><b>Definition:</b> time.h:66</div></div>
+<div class="ttc" id="agroup__timestamp_html_gab12467c48bde27171b552ac4dc8c7d59"><div class="ttname"><a href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a></div><div class="ttdeci">static uint32_t to_ms_since_boot(absolute_time_t t)</div><div class="ttdoc">Convert a timestamp into a number of milliseconds since boot.</div><div class="ttdef"><b>Definition:</b> time.h:87</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
-<div class="ttc" id="atime_8h_html"><div class="ttname"><a href="time_8h.html">time.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

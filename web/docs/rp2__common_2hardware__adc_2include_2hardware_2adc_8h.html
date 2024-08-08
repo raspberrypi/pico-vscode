@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_adc/include/hardware/adc.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/adc.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,14 +111,54 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__adc_2include_2h
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/adc.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="gpio_8h_source.html">hardware/gpio.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for adc.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__adc_2include_2hardware_2adc_8h__incl.png" border="0" usemap="#ainclude_2hardware_2adc_8h" alt=""/></div>
+<map name="ainclude_2hardware_2adc_8h" id="ainclude_2hardware_2adc_8h">
+<area shape="rect" title=" " alt="" coords="666,5,839,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="617,468,678,495"/>
+<area shape="rect" title=" " alt="" coords="667,80,838,107"/>
+<area shape="rect" href="gpio_8h.html" title=" " alt="" coords="879,80,1005,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,692,259,719"/>
+<area shape="rect" title=" " alt="" coords="389,543,503,569"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="527,543,631,569"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="656,543,777,569"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="801,543,896,569"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,767,111,793"/>
+<area shape="rect" title=" " alt="" coords="74,841,157,868"/>
+<area shape="rect" title=" " alt="" coords="211,767,281,793"/>
+<area shape="rect" title=" " alt="" coords="306,767,381,793"/>
+<area shape="rect" title=" " alt="" coords="173,617,337,644"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,617,543,644"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,617,746,644"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,617,930,644"/>
+<area shape="rect" title=" " alt="" coords="1130,617,1341,644"/>
+<area shape="rect" title=" " alt="" coords="955,617,1105,644"/>
+<area shape="rect" title=" " alt="" coords="357,692,548,719"/>
+<area shape="rect" title=" " alt="" coords="685,162,852,189"/>
+<area shape="rect" title=" " alt="" coords="876,155,1043,196"/>
+<area shape="rect" title=" " alt="" coords="1067,155,1214,196"/>
+<area shape="rect" href="irq_8h.html" title=" " alt="" coords="1239,162,1355,189"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="1083,393,1294,420"/>
+<area shape="rect" title=" " alt="" coords="1212,244,1381,271"/>
+<area shape="rect" href="cpu__regs_8h_source.html" title=" " alt="" coords="1405,244,1588,271"/>
+<area shape="rect" title=" " alt="" coords="1331,393,1491,420"/>
+<area shape="rect" href="m33_8h_source.html" title=" " alt="" coords="1211,319,1387,345"/>
+<area shape="rect" title=" " alt="" coords="1463,319,1637,345"/>
+<area shape="rect" title=" " alt="" coords="1661,319,1831,345"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__adc_2include_2hardware_2adc_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a5cdeb4bd33b49b8aeb5db6d35071f1ef"><td class="memItemLeft" align="right" valign="top"><a id="a5cdeb4bd33b49b8aeb5db6d35071f1ef" name="a5cdeb4bd33b49b8aeb5db6d35071f1ef"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_ADC</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a5cdeb4bd33b49b8aeb5db6d35071f1ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2184940532514879b5b91cb921821e14"><td class="memItemLeft" align="right" valign="top"><a id="a2184940532514879b5b91cb921821e14" name="a2184940532514879b5b91cb921821e14"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_ADC</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a2184940532514879b5b91cb921821e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9622105dbe8b3d37a5118dab13c551e9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rp2__common_2hardware__adc_2include_2hardware_2adc_8h.html#a9622105dbe8b3d37a5118dab13c551e9">ADC_TEMPERATURE_CHANNEL_NUM</a>&#160;&#160;&#160;(NUM_ADC_CHANNELS - 1)</td></tr>
+<tr class="separator:a9622105dbe8b3d37a5118dab13c551e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -172,6 +212,22 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>adc_init</b> (void)</
 <tr class="memdesc:gaf8e363e63f40e00c169f7355c9668681"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable ADC interrupts.  <a href="group__hardware__adc.html#gaf8e363e63f40e00c169f7355c9668681">More...</a><br /></td></tr>
 <tr class="separator:gaf8e363e63f40e00c169f7355c9668681"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a9622105dbe8b3d37a5118dab13c551e9" name="a9622105dbe8b3d37a5118dab13c551e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9622105dbe8b3d37a5118dab13c551e9">&#9670;&nbsp;</a></span>ADC_TEMPERATURE_CHANNEL_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define ADC_TEMPERATURE_CHANNEL_NUM&#160;&#160;&#160;(NUM_ADC_CHANNELS - 1)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >The ADC channel number of the on-board temperature sensor </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

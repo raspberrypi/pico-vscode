@@ -14,11 +14,15 @@ var group__alarm =
     [ "alarm_pool_add_alarm_in_us", "group__alarm.html#ga0d00072e81de2d54fa690dc4b4bfe408", null ],
     [ "alarm_pool_cancel_alarm", "group__alarm.html#ga02cc23b4a3109fb8c2d57e24981f2932", null ],
     [ "alarm_pool_core_num", "group__alarm.html#ga4918e03a3ddd5c328d65bd014d26856b", null ],
-    [ "alarm_pool_create", "group__alarm.html#ga1c0e0970bd838e2319ee73eba7ff3b71", null ],
-    [ "alarm_pool_create_with_unused_hardware_alarm", "group__alarm.html#ga6eeda3248dca1d0d26e92206faceb23e", null ],
+    [ "alarm_pool_create", "group__alarm.html#ga185db8b4e54a13d19fca6e5d2761bae6", null ],
+    [ "alarm_pool_create_with_unused_hardware_alarm", "group__alarm.html#ga722973ee82ee4cffb438dc478471d138", null ],
     [ "alarm_pool_destroy", "group__alarm.html#gae7536c4d34088a2d19b2da92b87cbb4e", null ],
     [ "alarm_pool_get_default", "group__alarm.html#ga5092ceb879289c0a597a389f34b4815e", null ],
-    [ "alarm_pool_hardware_alarm_num", "group__alarm.html#ga2dc626c1e534842c85c3902d212f7eef", null ],
     [ "alarm_pool_init_default", "group__alarm.html#gab363026fa15b43405538eb087ee7cfa9", null ],
-    [ "cancel_alarm", "group__alarm.html#gae99f63dc25fe5c3a0d78d9fb90308b1b", null ]
+    [ "alarm_pool_remaining_alarm_time_ms", "group__alarm.html#ga3a9a4343aa9efe22e4324dc82ad2f3ec", null ],
+    [ "alarm_pool_remaining_alarm_time_us", "group__alarm.html#ga342ebecd5ebc1a39f1da0bac81069712", null ],
+    [ "alarm_pool_timer_alarm_num", "group__alarm.html#gaeb9321260fecc29b551d5e6ceffccc99", null ],
+    [ "cancel_alarm", "group__alarm.html#gae99f63dc25fe5c3a0d78d9fb90308b1b", null ],
+    [ "remaining_alarm_time_ms", "group__alarm.html#ga61affbec7fedd98582b1df8b5ca3fe3b", null ],
+    [ "remaining_alarm_time_us", "group__alarm.html#ga549331a1b34938eb9f9dae03712a714c", null ]
 ];

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,6 +108,16 @@ $(document).ready(function(){initNavTree('structpio__hw__t.html',''); initResiza
   <div class="headertitle"><div class="title">pio_hw_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Collaboration diagram for pio_hw_t:</div>
+<div class="dyncontent">
+<div class="center"><img src="structpio__hw__t__coll__graph.png" border="0" usemap="#apio__hw__t_coll__map" alt="Collaboration graph"/></div>
+<map name="apio__hw__t_coll__map" id="apio__hw__t_coll__map">
+<area shape="rect" title=" " alt="" coords="91,95,171,121"/>
+<area shape="rect" href="structpio__sm__hw__t.html" title=" " alt="" coords="5,5,112,32"/>
+<area shape="rect" href="structpio__irq__ctrl__hw__t.html" title=" " alt="" coords="137,5,269,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -123,12 +133,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a20e74c1f3befa8f7086bef1079b85200"><td class="memItemLeft" align="right" valign="top"><a id="a20e74c1f3befa8f7086bef1079b85200" name="a20e74c1f3befa8f7086bef1079b85200"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_FLEVEL_OFFSET) io_ro_32 flevel</td></tr>
 <tr class="separator:a20e74c1f3befa8f7086bef1079b85200"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf34deb7a0feb679769776ef9037a2b1"><td class="memItemLeft" align="right" valign="top"><a id="adf34deb7a0feb679769776ef9037a2b1" name="adf34deb7a0feb679769776ef9037a2b1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_TXF0_OFFSET) io_wo_32 txf[NUM_PIO_STATE_MACHINES]</td></tr>
-<tr class="separator:adf34deb7a0feb679769776ef9037a2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af5cfc4e9afd46ba2b2e5c0cfba6df400"><td class="memItemLeft" align="right" valign="top"><a id="af5cfc4e9afd46ba2b2e5c0cfba6df400" name="af5cfc4e9afd46ba2b2e5c0cfba6df400"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_RXF0_OFFSET) io_ro_32 rxf[NUM_PIO_STATE_MACHINES]</td></tr>
-<tr class="separator:af5cfc4e9afd46ba2b2e5c0cfba6df400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b7fb8b1408c0e350b888392b5de6a83"><td class="memItemLeft" align="right" valign="top"><a id="a9b7fb8b1408c0e350b888392b5de6a83" name="a9b7fb8b1408c0e350b888392b5de6a83"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_TXF0_OFFSET) io_wo_32 txf[4]</td></tr>
+<tr class="separator:a9b7fb8b1408c0e350b888392b5de6a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97aba85946c3f1b12c5368ce4bc9ee5f"><td class="memItemLeft" align="right" valign="top"><a id="a97aba85946c3f1b12c5368ce4bc9ee5f" name="a97aba85946c3f1b12c5368ce4bc9ee5f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_RXF0_OFFSET) io_ro_32 rxf[4]</td></tr>
+<tr class="separator:a97aba85946c3f1b12c5368ce4bc9ee5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5463fd17aa8612927ffb240ca174a3d"><td class="memItemLeft" align="right" valign="top"><a id="ad5463fd17aa8612927ffb240ca174a3d" name="ad5463fd17aa8612927ffb240ca174a3d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ_OFFSET) io_rw_32 irq</td></tr>
 <tr class="separator:ad5463fd17aa8612927ffb240ca174a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,39 +157,92 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:afab49c5733a812fff46b3ae5e9a99c8d"><td class="memItemLeft" align="right" valign="top"><a id="afab49c5733a812fff46b3ae5e9a99c8d" name="afab49c5733a812fff46b3ae5e9a99c8d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_DBG_CFGINFO_OFFSET) io_ro_32 dbg_cfginfo</td></tr>
 <tr class="separator:afab49c5733a812fff46b3ae5e9a99c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09c769a1e12033df88ed11c094f2f59b"><td class="memItemLeft" align="right" valign="top"><a id="a09c769a1e12033df88ed11c094f2f59b" name="a09c769a1e12033df88ed11c094f2f59b"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_INSTR_MEM0_OFFSET) io_wo_32 instr_mem[PIO_INSTRUCTION_COUNT]</td></tr>
-<tr class="separator:a09c769a1e12033df88ed11c094f2f59b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73de2d89df1f644b47d329c091e4f6dd"><td class="memItemLeft" align="right" valign="top"><a id="a73de2d89df1f644b47d329c091e4f6dd" name="a73de2d89df1f644b47d329c091e4f6dd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_INSTR_MEM0_OFFSET) io_wo_32 instr_mem[32]</td></tr>
+<tr class="separator:a73de2d89df1f644b47d329c091e4f6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79e62350f3f50339e5adf546ce5a8745"><td class="memItemLeft" align="right" valign="top"><a id="a79e62350f3f50339e5adf546ce5a8745" name="a79e62350f3f50339e5adf546ce5a8745"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_INTR_OFFSET) io_ro_32 intr</td></tr>
 <tr class="separator:a79e62350f3f50339e5adf546ce5a8745"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47aa9e466a683f24bb1b84ee249e8b5a"><td class="memItemLeft" align="right" valign="top"><a id="a47aa9e466a683f24bb1b84ee249e8b5a" name="a47aa9e466a683f24bb1b84ee249e8b5a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ0_INTE_OFFSET) io_rw_32 inte0</td></tr>
-<tr class="separator:a47aa9e466a683f24bb1b84ee249e8b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2be4f3bdf5013c54cf59cd65c4afecf2"><td class="memItemLeft" align="right" valign="top"><a id="a2be4f3bdf5013c54cf59cd65c4afecf2" name="a2be4f3bdf5013c54cf59cd65c4afecf2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ0_INTF_OFFSET) io_rw_32 intf0</td></tr>
-<tr class="separator:a2be4f3bdf5013c54cf59cd65c4afecf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a768d27748f30f81d4500695d54654dcc"><td class="memItemLeft" align="right" valign="top"><a id="a768d27748f30f81d4500695d54654dcc" name="a768d27748f30f81d4500695d54654dcc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ0_INTS_OFFSET) io_ro_32 ints0</td></tr>
-<tr class="separator:a768d27748f30f81d4500695d54654dcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a9650475492bdcdb935207fbe8212e4"><td class="memItemLeft" align="right" valign="top"><a id="a7a9650475492bdcdb935207fbe8212e4" name="a7a9650475492bdcdb935207fbe8212e4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ1_INTE_OFFSET) io_rw_32 inte1</td></tr>
-<tr class="separator:a7a9650475492bdcdb935207fbe8212e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade44076f27cb3ffb9c28ee40723b0d05"><td class="memItemLeft" align="right" valign="top"><a id="ade44076f27cb3ffb9c28ee40723b0d05" name="ade44076f27cb3ffb9c28ee40723b0d05"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ1_INTF_OFFSET) io_rw_32 intf1</td></tr>
-<tr class="separator:ade44076f27cb3ffb9c28ee40723b0d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb232e95e0db9bac791d6a70b2c86cd4"><td class="memItemLeft" align="right" valign="top"><a id="aeb232e95e0db9bac791d6a70b2c86cd4" name="aeb232e95e0db9bac791d6a70b2c86cd4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ1_INTS_OFFSET) io_ro_32 ints1</td></tr>
-<tr class="separator:aeb232e95e0db9bac791d6a70b2c86cd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0cd145ee32e222ba188ec326be88941"><td class="memItemLeft" align="right" valign="top"><a id="ab0cd145ee32e222ba188ec326be88941" name="ab0cd145ee32e222ba188ec326be88941"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_CTRL_OFFSET) io_rw_32 ctrl</td></tr>
+<tr class="separator:ab0cd145ee32e222ba188ec326be88941"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40655669d44227224da86d88e8515918"><td class="memItemLeft" align="right" valign="top"><a id="a40655669d44227224da86d88e8515918" name="a40655669d44227224da86d88e8515918"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_FSTAT_OFFSET) io_ro_32 fstat</td></tr>
+<tr class="separator:a40655669d44227224da86d88e8515918"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace82c3938fc0f5eddb42467044de190c"><td class="memItemLeft" align="right" valign="top"><a id="ace82c3938fc0f5eddb42467044de190c" name="ace82c3938fc0f5eddb42467044de190c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_FDEBUG_OFFSET) io_rw_32 fdebug</td></tr>
+<tr class="separator:ace82c3938fc0f5eddb42467044de190c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20e74c1f3befa8f7086bef1079b85200"><td class="memItemLeft" align="right" valign="top"><a id="a20e74c1f3befa8f7086bef1079b85200" name="a20e74c1f3befa8f7086bef1079b85200"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_FLEVEL_OFFSET) io_ro_32 flevel</td></tr>
+<tr class="separator:a20e74c1f3befa8f7086bef1079b85200"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b7fb8b1408c0e350b888392b5de6a83"><td class="memItemLeft" align="right" valign="top"><a id="a9b7fb8b1408c0e350b888392b5de6a83" name="a9b7fb8b1408c0e350b888392b5de6a83"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_TXF0_OFFSET) io_wo_32 txf[4]</td></tr>
+<tr class="separator:a9b7fb8b1408c0e350b888392b5de6a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97aba85946c3f1b12c5368ce4bc9ee5f"><td class="memItemLeft" align="right" valign="top"><a id="a97aba85946c3f1b12c5368ce4bc9ee5f" name="a97aba85946c3f1b12c5368ce4bc9ee5f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_RXF0_OFFSET) io_ro_32 rxf[4]</td></tr>
+<tr class="separator:a97aba85946c3f1b12c5368ce4bc9ee5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5463fd17aa8612927ffb240ca174a3d"><td class="memItemLeft" align="right" valign="top"><a id="ad5463fd17aa8612927ffb240ca174a3d" name="ad5463fd17aa8612927ffb240ca174a3d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ_OFFSET) io_rw_32 irq</td></tr>
+<tr class="separator:ad5463fd17aa8612927ffb240ca174a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa184bf829eb60809c4eabbda31e0e2ed"><td class="memItemLeft" align="right" valign="top"><a id="aa184bf829eb60809c4eabbda31e0e2ed" name="aa184bf829eb60809c4eabbda31e0e2ed"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_IRQ_FORCE_OFFSET) io_wo_32 irq_force</td></tr>
+<tr class="separator:aa184bf829eb60809c4eabbda31e0e2ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2ddc8227eaa6911d77afe36cd2a5d09"><td class="memItemLeft" align="right" valign="top"><a id="ab2ddc8227eaa6911d77afe36cd2a5d09" name="ab2ddc8227eaa6911d77afe36cd2a5d09"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_INPUT_SYNC_BYPASS_OFFSET) io_rw_32 input_sync_bypass</td></tr>
+<tr class="separator:ab2ddc8227eaa6911d77afe36cd2a5d09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a024ce6fa4b02b35b7208fe08175e6782"><td class="memItemLeft" align="right" valign="top"><a id="a024ce6fa4b02b35b7208fe08175e6782" name="a024ce6fa4b02b35b7208fe08175e6782"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_DBG_PADOUT_OFFSET) io_ro_32 dbg_padout</td></tr>
+<tr class="separator:a024ce6fa4b02b35b7208fe08175e6782"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a191b4de57350afa2bdbe7bcfc94736b5"><td class="memItemLeft" align="right" valign="top"><a id="a191b4de57350afa2bdbe7bcfc94736b5" name="a191b4de57350afa2bdbe7bcfc94736b5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_DBG_PADOE_OFFSET) io_ro_32 dbg_padoe</td></tr>
+<tr class="separator:a191b4de57350afa2bdbe7bcfc94736b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afab49c5733a812fff46b3ae5e9a99c8d"><td class="memItemLeft" align="right" valign="top"><a id="afab49c5733a812fff46b3ae5e9a99c8d" name="afab49c5733a812fff46b3ae5e9a99c8d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_DBG_CFGINFO_OFFSET) io_ro_32 dbg_cfginfo</td></tr>
+<tr class="separator:afab49c5733a812fff46b3ae5e9a99c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73de2d89df1f644b47d329c091e4f6dd"><td class="memItemLeft" align="right" valign="top"><a id="a73de2d89df1f644b47d329c091e4f6dd" name="a73de2d89df1f644b47d329c091e4f6dd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_INSTR_MEM0_OFFSET) io_wo_32 instr_mem[32]</td></tr>
+<tr class="separator:a73de2d89df1f644b47d329c091e4f6dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0491cdac324939ee0ac1d624c4896e76"><td class="memItemLeft" align="right" valign="top"><a id="a0491cdac324939ee0ac1d624c4896e76" name="a0491cdac324939ee0ac1d624c4896e76"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_RXF0_PUTGET0_OFFSET) io_rw_32 rxf_putget[4][4]</td></tr>
+<tr class="separator:a0491cdac324939ee0ac1d624c4896e76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6eec4f629fd5e2a29b766646ce445e6d"><td class="memItemLeft" align="right" valign="top"><a id="a6eec4f629fd5e2a29b766646ce445e6d" name="a6eec4f629fd5e2a29b766646ce445e6d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_GPIOBASE_OFFSET) io_rw_32 gpiobase</td></tr>
+<tr class="separator:a6eec4f629fd5e2a29b766646ce445e6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79e62350f3f50339e5adf546ce5a8745"><td class="memItemLeft" align="right" valign="top"><a id="a79e62350f3f50339e5adf546ce5a8745" name="a79e62350f3f50339e5adf546ce5a8745"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (PIO_INTR_OFFSET) io_ro_32 intr</td></tr>
+<tr class="separator:a79e62350f3f50339e5adf546ce5a8745"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a0c3af23947a8ddf4e604318d24cdfeac"><td class="memItemLeft" align="right" valign="top"><a id="a0c3af23947a8ddf4e604318d24cdfeac" name="a0c3af23947a8ddf4e604318d24cdfeac"></a>
-<a class="el" href="structpio__sm__hw.html">pio_sm_hw_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>sm</b> [NUM_PIO_STATE_MACHINES]</td></tr>
-<tr class="separator:a0c3af23947a8ddf4e604318d24cdfeac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9838a92529fec2cf86f22e0438ed1678"><td class="memItemLeft" align="right" valign="top"><a id="a9838a92529fec2cf86f22e0438ed1678" name="a9838a92529fec2cf86f22e0438ed1678"></a>
+<a class="el" href="structpio__sm__hw__t.html">pio_sm_hw_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>sm</b> [4]</td></tr>
+<tr class="separator:a9838a92529fec2cf86f22e0438ed1678"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8e88c2c4811d98f53447a2331d47053"><td class="memItemLeft" ><a id="ab8e88c2c4811d98f53447a2331d47053" name="ab8e88c2c4811d98f53447a2331d47053"></a>
+union {</td></tr>
+<tr class="memitem:abce7d98b51bef65f887a0fb486192ba0"><td class="memItemLeft" ><a id="abce7d98b51bef65f887a0fb486192ba0" name="abce7d98b51bef65f887a0fb486192ba0"></a>
+&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:abce7d98b51bef65f887a0fb486192ba0"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:abce7d98b51bef65f887a0fb486192ba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a590b7dd27bdc844d41ad43635ecce98b"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structpio__irq__ctrl__hw__t.html">pio_irq_ctrl_hw_t</a>&#160;&#160;&#160;<b>irq_ctrl</b> [2]</td></tr>
+<tr class="separator:a590b7dd27bdc844d41ad43635ecce98b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8e88c2c4811d98f53447a2331d47053"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:ab8e88c2c4811d98f53447a2331d47053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f4b53ad205ae369a56d2b78319d1d7c"><td class="memItemLeft" ><a id="a2f4b53ad205ae369a56d2b78319d1d7c" name="a2f4b53ad205ae369a56d2b78319d1d7c"></a>
+union {</td></tr>
+<tr class="memitem:aaac794af7b9ab3673758223d60dcf6e2"><td class="memItemLeft" ><a id="aaac794af7b9ab3673758223d60dcf6e2" name="aaac794af7b9ab3673758223d60dcf6e2"></a>
+&#160;&#160;&#160;struct {</td></tr>
+<tr class="memitem:aaac794af7b9ab3673758223d60dcf6e2"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:aaac794af7b9ab3673758223d60dcf6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefdd66f8c3718ffcf19ae0ad814fe216"><td class="memItemLeft" >
+&#160;&#160;&#160;<a class="el" href="structpio__irq__ctrl__hw__t.html">pio_irq_ctrl_hw_t</a>&#160;&#160;&#160;<b>irq_ctrl</b> [2]</td></tr>
+<tr class="separator:aefdd66f8c3718ffcf19ae0ad814fe216"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f4b53ad205ae369a56d2b78319d1d7c"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:a2f4b53ad205ae369a56d2b78319d1d7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>hardware_structs/include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2pio_8h_source.html">pio.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2pio_8h_source.html">pio.h</a></li>
+<li>include/hardware/structs/<a class="el" href="rp2350_2hardware__structs_2include_2hardware_2structs_2pio_8h_source.html">pio.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

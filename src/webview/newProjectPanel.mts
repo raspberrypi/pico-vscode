@@ -41,6 +41,7 @@ import {
   downloadAndInstallSDK,
   downloadAndInstallToolchain,
   downloadAndInstallTools,
+  downloadAndInstallPicotool,
   downloadEmbedPython,
   getScriptsRoot,
 } from "../utils/download.mjs";
@@ -52,7 +53,7 @@ import which from "which";
 import { homedir } from "os";
 import { readFile } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
-import { existsSync } from "fs";
+import { existsSync, readdirSync } from "fs";
 import {
   type Example,
   loadExamples,
@@ -61,6 +62,9 @@ import {
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
   // process.platform === "linux" && process.arch === "arm64";
+
+export const picotoolVersion = "2.0.0";
+export const openOCDVersion = "0.12.0+dev";
 
 interface ImportProjectMessageValue {
   selectedSDK: string;
@@ -80,6 +84,7 @@ interface ImportProjectMessageValue {
 
 interface SubmitExampleMessageValue extends ImportProjectMessageValue {
   example: string;
+  boardType: string;
 }
 
 interface SubmitMessageValue extends ImportProjectMessageValue {
@@ -117,8 +122,11 @@ interface WebviewMessage {
 }
 
 enum BoardType {
-  pico = "Pico",
-  picoW = "Pico W",
+  default = "default",
+  pico = "pico",
+  picoW = "pico_w",
+  pico2 = "pico2",
+  other = "other",
 }
 
 enum ConsoleOption {
@@ -157,6 +165,36 @@ enum Debugger {
   swd = "SWD (Pi host)",
 }
 
+async function enumToBoard(
+  e: BoardType,
+  sdkPath: string
+): Promise<string> {
+  const quickPickItems: string[] = [];
+  let board;
+  switch (e) {
+    case BoardType.pico:
+      return "-board pico";
+    case BoardType.picoW:
+      return "-board pico_w";
+    case BoardType.pico2:
+      return "-board pico2";
+    case BoardType.other:
+      readdirSync(`${sdkPath}/src/boards/include/boards`).forEach(file => {
+        quickPickItems.push(file.split(".")[0]);
+      });
+
+      // show quick pick for board type
+      board = await window.showQuickPick(quickPickItems, {
+        placeHolder: "Select Board",
+      });
+
+      return `-board ${board}`;
+    default:
+      // TODO: maybe just return an empty string
+      throw new Error(`Unknown enum value: ${e as string}`);
+  }
+}
+
 function enumToParam(
   e:
     | BoardType
@@ -167,10 +205,6 @@ function enumToParam(
     | Debugger
 ): string {
   switch (e) {
-    case BoardType.pico:
-      return "-board pico";
-    case BoardType.picoW:
-      return "-board pico_w";
     case ConsoleOption.consoleOverUART:
       return "-uart";
     case ConsoleOption.consoleOverUSB:
@@ -226,6 +260,7 @@ interface ImportProjectOptions {
     toolchainPath: string;
     sdkVersion: string;
     sdkPath: string;
+    picotoolVersion: string;
     openOCDVersion: string;
   };
   ninjaExecutable: string;
@@ -235,10 +270,10 @@ interface ImportProjectOptions {
 
 interface NewExampleBasedProjectOptions extends ImportProjectOptions {
   name: string;
+  boardType: BoardType;
 }
 
 interface NewProjectOptions extends NewExampleBasedProjectOptions {
-  boardType: BoardType;
   consoleOptions: ConsoleOption[];
   libraries: Array<Library | PicoWirelessOption>;
   codeOptions: CodeOption[];
@@ -460,12 +495,18 @@ export class NewProjectPanel {
                 await this._versionBundlesLoader?.getModuleVersion(
                   message.value as string
                 );
+              // change toolchain version on arm64 linux, as Core-V not available for that
+              let riscvToolchain = versionBundle?.riscvToolchain;
+              if (process.platform === "linux" && process.arch === "arm64") {
+                riscvToolchain = "RISCV_RPI";
+              }
               // return result in message of command versionBundleAvailableTest
               await this._panel.webview.postMessage({
                 command: "versionBundleAvailableTest",
                 value: {
                   result: versionBundle !== undefined,
                   toolchainVersion: versionBundle?.toolchain,
+                  riscvToolchainVersion: riscvToolchain,
                 },
               });
             }
@@ -698,8 +739,6 @@ export class NewProjectPanel {
       const selectedToolchain = this._supportedToolchains?.find(
         tc => tc.version === data.selectedToolchain.replaceAll(".", "_")
       );
-      // TODO: read from user
-      const openOCDVersion = "v0.12.0-2";
 
       if (!selectedToolchain) {
         void window.showErrorMessage("Failed to find selected toolchain.");
@@ -815,10 +854,8 @@ export class NewProjectPanel {
               python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
             )) ||
             !(await downloadAndInstallToolchain(selectedToolchain)) ||
-            !(await downloadAndInstallTools(
-              selectedSDK,
-              process.platform === "win32"
-            ))
+            !(await downloadAndInstallTools(selectedSDK)) ||
+            !(await downloadAndInstallPicotool(picotoolVersion))
           ) {
             this._logger.error(
               `Failed to download and install toolchain and SDK.`
@@ -1016,8 +1053,7 @@ export class NewProjectPanel {
         const args: NewProjectOptions = {
           name: theData.projectName,
           projectRoot: projectPath,
-          boardType:
-            theData.boardType === "pico-w" ? BoardType.picoW : BoardType.pico,
+          boardType: theData.boardType as BoardType,
           consoleOptions: [
             theData.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
             theData.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
@@ -1048,6 +1084,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
+            picotoolVersion: picotoolVersion,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1063,12 +1100,14 @@ export class NewProjectPanel {
         const args: NewExampleBasedProjectOptions = {
           name: theData.example,
           projectRoot: projectPath,
+          boardType: theData.boardType as BoardType,
           debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
           toolchainAndSDK: {
             toolchainVersion: selectedToolchain.version,
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
+            picotoolVersion: picotoolVersion,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1088,6 +1127,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
+            picotoolVersion: picotoolVersion,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1224,7 +1264,7 @@ export class NewProjectPanel {
       }
 
       this._versionBundle = await this._versionBundlesLoader.getModuleVersion(
-        availableSDKs[0].replace("v", "")
+        availableSDKs[0]
       );
 
       availableSDKs
@@ -1458,11 +1498,14 @@ export class NewProjectPanel {
                           </p>
                         </div>
                 
-                        <div class="project-options">
+                        <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option value="pico" selected>Pico</option>
-                                <option value="pico-w">Pico W</option>
+                                <option id="sel-${BoardType.default}" value="${BoardType.default}">Default</option>
+                                <option id="sel-${BoardType.pico}" value="${BoardType.pico}">Pico</option>
+                                <option id="sel-${BoardType.picoW}" value="${BoardType.picoW}">Pico W</option>
+                                <option id="sel-${BoardType.pico2}" value="${BoardType.pico2}" selected>Pico 2</option>
+                                <option id="sel-${BoardType.other}" value="${BoardType.other}">Other</option>
                             </select>
                         </div>
                       </div>`
@@ -1539,8 +1582,12 @@ export class NewProjectPanel {
                             ${picoSDKsHtml}
                         </select>
                       </div>
+                      <div class="use-riscv text-sm font-medium text-gray-900 dark:text-white" hidden>
+                        <label for="sel-riscv">Use RISC-V</label>
+                        <input type="checkbox" id="sel-riscv">
+                      </div>
                       <div class="advanced-option" hidden>
-                        <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM Embeded Toolchain version</label>
+                        <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM/RISCV Embeded Toolchain version</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${toolchainsHtml}
                         </select>
@@ -1838,7 +1885,9 @@ export class NewProjectPanel {
     options: ExecOptions
   ): Promise<number | null> {
     return new Promise<number | null>(resolve => {
-      const generatorProcess = exec(command, options, error => {
+      const generatorProcess = exec(command, options, (error, stdout, stderr) => {
+        this._logger.debug(stdout);
+        this._logger.info(stderr);
         if (error) {
           this._logger.error(`Generator Process error: ${error.message}`);
           resolve(null); // indicate error
@@ -1892,15 +1941,17 @@ export class NewProjectPanel {
     }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
     const basicNewProjectOptions: string[] =
-      "boardType" in options && "consoleOptions" in options
+      "consoleOptions" in options
         ? [
-            enumToParam(options.boardType),
+            await enumToBoard(options.boardType, options.toolchainAndSDK.sdkPath),
             ...options.consoleOptions.map(option => enumToParam(option)),
             !options.consoleOptions.includes(ConsoleOption.consoleOverUART)
               ? "-nouart"
               : "",
           ]
-        : [];
+        : "boardType" in options && options.boardType !== BoardType.default
+          ? [await enumToBoard(options.boardType, options.toolchainAndSDK.sdkPath)]
+          : [];
     if (!("boardType" in options) && this._isProjectImport) {
       try {
         const cmakel = await readFile(
@@ -1921,12 +1972,14 @@ export class NewProjectPanel {
         /* ignore */
       }
     } else if (
-      !("boardType" in options) &&
+      ("boardType" in options) &&
       isExampleBased &&
       "name" in options
     ) {
-      if (options.name.includes("picow") || options.name.includes("pico_w")) {
-        basicNewProjectOptions.push(`-board pico_w`);
+      if (options.boardType === BoardType.default) {
+        if (options.name.includes("picow") || options.name.includes("pico_w")) {
+          basicNewProjectOptions.push(`-board pico_w`);
+        }
       }
     }
 
@@ -1972,6 +2025,8 @@ export class NewProjectPanel {
       options.toolchainAndSDK.sdkVersion,
       "--toolchainVersion",
       options.toolchainAndSDK.toolchainVersion,
+      "--picotoolVersion",
+      options.toolchainAndSDK.picotoolVersion,
       "--openOCDVersion",
       options.toolchainAndSDK.openOCDVersion,
       "--ninjaPath",

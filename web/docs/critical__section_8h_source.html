@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_sync/include/pico/critical_section.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/pico/critical_section.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -120,8 +120,8 @@ $(document).ready(function(){initNavTree('critical__section_8h_source.html','');
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structcritical__section.html">   29</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="struct____packed__aligned.html">__packed_aligned</a> <a class="code hl_struct" href="structcritical__section.html">critical_section</a> {</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_typedef" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *spin_lock;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structcritical__section.html">   29</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>__packed_aligned <a class="code hl_struct" href="structcritical__section.html">critical_section</a> {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    spin_lock_t *spin_lock;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    uint32_t save;</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>} critical_section_t;</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
@@ -152,12 +152,10 @@ $(document).ready(function(){initNavTree('critical__section_8h_source.html','');
 <div class="ttc" id="agroup__critical__section_html_ga22cd2722a96179036820e87b29209cfd"><div class="ttname"><a href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">critical_section_init</a></div><div class="ttdeci">void critical_section_init(critical_section_t *crit_sec)</div><div class="ttdoc">Initialise a critical_section structure allowing the system to assign a spin lock number.</div><div class="ttdef"><b>Definition:</b> critical_section.c:13</div></div>
 <div class="ttc" id="agroup__critical__section_html_gab57fcee3973b26dced4601e6018a227c"><div class="ttname"><a href="group__critical__section.html#gab57fcee3973b26dced4601e6018a227c">critical_section_exit</a></div><div class="ttdeci">static void critical_section_exit(critical_section_t *crit_sec)</div><div class="ttdoc">Release a critical_section.</div><div class="ttdef"><b>Definition:</b> critical_section.h:70</div></div>
 <div class="ttc" id="agroup__critical__section_html_gae1b4eb5dcab9ac679970ac43d618de2c"><div class="ttname"><a href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">critical_section_init_with_lock_num</a></div><div class="ttdeci">void critical_section_init_with_lock_num(critical_section_t *crit_sec, uint lock_num)</div><div class="ttdoc">Initialise a critical_section structure assigning a specific spin lock number.</div><div class="ttdef"><b>Definition:</b> critical_section.c:17</div></div>
-<div class="ttc" id="agroup__hardware__sync_html_ga091e88a7608ed8dbf3e1e984bae54602"><div class="ttname"><a href="group__hardware__sync.html#ga091e88a7608ed8dbf3e1e984bae54602">spin_lock_blocking</a></div><div class="ttdeci">static __force_inline uint32_t spin_lock_blocking(spin_lock_t *lock)</div><div class="ttdoc">Acquire a spin lock safely.</div><div class="ttdef"><b>Definition:</b> sync.h:287</div></div>
-<div class="ttc" id="agroup__hardware__sync_html_ga281ce69786da23cab7ba6c42537d4e87"><div class="ttname"><a href="group__hardware__sync.html#ga281ce69786da23cab7ba6c42537d4e87">spin_unlock</a></div><div class="ttdeci">static __force_inline void spin_unlock(spin_lock_t *lock, uint32_t saved_irq)</div><div class="ttdoc">Release a spin lock safely.</div><div class="ttdef"><b>Definition:</b> sync.h:314</div></div>
-<div class="ttc" id="agroup__hardware__sync_html_gad27c7e019d540f863965663b49b259e8"><div class="ttname"><a href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a></div><div class="ttdeci">volatile uint32_t spin_lock_t</div><div class="ttdoc">A spin lock identifier.</div><div class="ttdef"><b>Definition:</b> sync.h:56</div></div>
+<div class="ttc" id="agroup__hardware__sync_html_ga091e88a7608ed8dbf3e1e984bae54602"><div class="ttname"><a href="group__hardware__sync.html#ga091e88a7608ed8dbf3e1e984bae54602">spin_lock_blocking</a></div><div class="ttdeci">static __force_inline uint32_t spin_lock_blocking(spin_lock_t *lock)</div><div class="ttdoc">Acquire a spin lock safely.</div><div class="ttdef"><b>Definition:</b> spin_lock.h:301</div></div>
+<div class="ttc" id="agroup__hardware__sync_html_ga281ce69786da23cab7ba6c42537d4e87"><div class="ttname"><a href="group__hardware__sync.html#ga281ce69786da23cab7ba6c42537d4e87">spin_unlock</a></div><div class="ttdeci">static __force_inline void spin_unlock(spin_lock_t *lock, uint32_t saved_irq)</div><div class="ttdoc">Release a spin lock safely.</div><div class="ttdef"><b>Definition:</b> spin_lock.h:332</div></div>
 <div class="ttc" id="agroup__mutex_html_ga0be65abf0782a68a724bd6d37fd5e010"><div class="ttname"><a href="group__mutex.html#ga0be65abf0782a68a724bd6d37fd5e010">critical_section_is_initialized</a></div><div class="ttdeci">static bool critical_section_is_initialized(critical_section_t *crit_sec)</div><div class="ttdoc">Test whether a critical_section has been initialized.</div><div class="ttdef"><b>Definition:</b> critical_section.h:91</div></div>
 <div class="ttc" id="alock__core_8h_html"><div class="ttname"><a href="lock__core_8h.html">lock_core.h</a></div></div>
-<div class="ttc" id="astruct____packed__aligned_html"><div class="ttname"><a href="struct____packed__aligned.html">__packed_aligned</a></div><div class="ttdoc">recursive mutex instance</div><div class="ttdef"><b>Definition:</b> mutex.h:47</div></div>
 <div class="ttc" id="astructcritical__section_html"><div class="ttname"><a href="structcritical__section.html">critical_section</a></div><div class="ttdef"><b>Definition:</b> critical_section.h:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_pio/include/hardware/pio.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/pio.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -117,6 +117,46 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__pio_2include_2h
 <code>#include &quot;<a class="el" href="gpio_8h_source.html">hardware/gpio.h</a>&quot;</code><br />
 <code>#include &quot;hardware/regs/dreq.h&quot;</code><br />
 <code>#include &quot;hardware/pio_instructions.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for pio.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__pio_2include_2hardware_2pio_8h__incl.png" border="0" usemap="#ainclude_2hardware_2pio_8h" alt=""/></div>
+<map name="ainclude_2hardware_2pio_8h" id="ainclude_2hardware_2pio_8h">
+<area shape="rect" title=" " alt="" coords="812,5,983,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="877,468,939,495"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="5,393,216,420"/>
+<area shape="rect" title=" " alt="" coords="754,80,921,107"/>
+<area shape="rect" href="gpio_8h.html" title=" " alt="" coords="578,80,705,107"/>
+<area shape="rect" title=" " alt="" coords="996,80,1156,107"/>
+<area shape="rect" href="pio__instructions_8h_source.html" title=" " alt="" coords="1044,244,1247,271"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="711,692,812,719"/>
+<area shape="rect" title=" " alt="" coords="530,543,643,569"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="1073,543,1177,569"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="667,543,789,569"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="861,543,955,569"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="557,767,662,793"/>
+<area shape="rect" title=" " alt="" coords="625,841,708,868"/>
+<area shape="rect" title=" " alt="" coords="762,767,833,793"/>
+<area shape="rect" title=" " alt="" coords="857,767,932,793"/>
+<area shape="rect" title=" " alt="" coords="1059,617,1223,644"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="240,617,421,644"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="445,617,624,644"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="648,617,808,644"/>
+<area shape="rect" title=" " alt="" coords="5,617,216,644"/>
+<area shape="rect" title=" " alt="" coords="833,617,983,644"/>
+<area shape="rect" title=" " alt="" coords="235,692,426,719"/>
+<area shape="rect" title=" " alt="" coords="342,162,509,189"/>
+<area shape="rect" title=" " alt="" coords="533,155,699,196"/>
+<area shape="rect" title=" " alt="" coords="724,155,871,196"/>
+<area shape="rect" href="irq_8h.html" title=" " alt="" coords="202,162,318,189"/>
+<area shape="rect" title=" " alt="" coords="555,244,725,271"/>
+<area shape="rect" href="cpu__regs_8h_source.html" title=" " alt="" coords="349,244,531,271"/>
+<area shape="rect" title=" " alt="" coords="437,393,597,420"/>
+<area shape="rect" href="m33_8h_source.html" title=" " alt="" coords="249,319,425,345"/>
+<area shape="rect" title=" " alt="" coords="450,319,625,345"/>
+<area shape="rect" title=" " alt="" coords="701,319,870,345"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__pio_2include_2hardware_2pio_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -130,13 +170,31 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:af9fc8446d79493665fd9ff0dc501166d"><td class="memItemLeft" align="right" valign="top"><a id="af9fc8446d79493665fd9ff0dc501166d" name="af9fc8446d79493665fd9ff0dc501166d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_PIO</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:af9fc8446d79493665fd9ff0dc501166d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a636012736576320587b3f5c284e518b4"><td class="memItemLeft" align="right" valign="top"><a id="a636012736576320587b3f5c284e518b4" name="a636012736576320587b3f5c284e518b4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_PIO</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a636012736576320587b3f5c284e518b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a790af66b1a8486a21fc9ac34607d5832"><td class="memItemLeft" align="right" valign="top"><a id="a790af66b1a8486a21fc9ac34607d5832" name="a790af66b1a8486a21fc9ac34607d5832"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_PIO_VERSION</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a790af66b1a8486a21fc9ac34607d5832"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga916d05e71da7f2173cd22b46bbfa0a11"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a>&#160;&#160;&#160;pio0_hw</td></tr>
 <tr class="separator:ga916d05e71da7f2173cd22b46bbfa0a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga923a261ba19804c404900228e99c9522"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a>&#160;&#160;&#160;pio1_hw</td></tr>
 <tr class="separator:ga923a261ba19804c404900228e99c9522"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga79fcbff988c01df8285f05ce6ad3a86d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga79fcbff988c01df8285f05ce6ad3a86d">PIO_NUM</a>(pio)</td></tr>
+<tr class="memdesc:ga79fcbff988c01df8285f05ce6ad3a86d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the PIO number for a PIO instance.  <a href="group__hardware__pio.html#ga79fcbff988c01df8285f05ce6ad3a86d">More...</a><br /></td></tr>
+<tr class="separator:ga79fcbff988c01df8285f05ce6ad3a86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06134c14db82b7927d96faeb07ab0e8b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga06134c14db82b7927d96faeb07ab0e8b">PIO_INSTANCE</a>(instance)</td></tr>
+<tr class="memdesc:ga06134c14db82b7927d96faeb07ab0e8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the PIO instance with the given PIO number.  <a href="group__hardware__pio.html#ga06134c14db82b7927d96faeb07ab0e8b">More...</a><br /></td></tr>
+<tr class="separator:ga06134c14db82b7927d96faeb07ab0e8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa26de7b3ef34fb86138bf376ab152577"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaa26de7b3ef34fb86138bf376ab152577">PIO_FUNCSEL_NUM</a>(pio,  gpio)</td></tr>
+<tr class="memdesc:gaa26de7b3ef34fb86138bf376ab152577"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns <a class="el" href="group__hardware__gpio.html#ga89b8e5e8a9c515260dea8d1fa96e72c9">gpio_function_t</a> needed to select the PIO function for the given PIO instance on the given GPIO.  <a href="group__hardware__pio.html#gaa26de7b3ef34fb86138bf376ab152577">More...</a><br /></td></tr>
+<tr class="separator:gaa26de7b3ef34fb86138bf376ab152577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab9eca729acb2cebdb1abb7793d0f5bdf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gab9eca729acb2cebdb1abb7793d0f5bdf">PIO_DREQ_NUM</a>(pio,  sm,  is_tx)</td></tr>
+<tr class="memdesc:gab9eca729acb2cebdb1abb7793d0f5bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from a given state machine's FIFOs on this PIO instance. If is_tx is true, then it is for transfers to the PIO state machine TX FIFO else for transfers from the PIO state machine RX FIFO.  <a href="group__hardware__pio.html#gab9eca729acb2cebdb1abb7793d0f5bdf">More...</a><br /></td></tr>
+<tr class="separator:gab9eca729acb2cebdb1abb7793d0f5bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaeb939c4541517980acf9de3ae4010624"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaeb939c4541517980acf9de3ae4010624">PIO_IRQ_NUM</a>(pio,  irqn)</td></tr>
+<tr class="memdesc:gaeb939c4541517980acf9de3ae4010624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for processor interrupts from the given PIO instance.  <a href="group__hardware__pio.html#gaeb939c4541517980acf9de3ae4010624">More...</a><br /></td></tr>
+<tr class="separator:gaeb939c4541517980acf9de3ae4010624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -146,38 +204,42 @@ typedef <a class="el" href="structpio__hw__t.html">pio_hw_t</a> *&#160;</td><td 
 <tr class="memitem:a4e7cba9478a0cc1d3d9c508bd115b947"><td class="memItemLeft" align="right" valign="top"><a id="a4e7cba9478a0cc1d3d9c508bd115b947" name="a4e7cba9478a0cc1d3d9c508bd115b947"></a>
 typedef struct <a class="el" href="structpio__program.html">pio_program</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pio_program_t</b></td></tr>
 <tr class="separator:a4e7cba9478a0cc1d3d9c508bd115b947"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab9e9aed4bb165a040415ae342e0902fe"><td class="memItemLeft" align="right" valign="top">
+typedef enum <a class="el" href="group__hardware__pio.html#ga0e60c768ea29f296b5ef40c02211bbcc">pio_interrupt_source</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pio_interrupt_source_t</b></td></tr>
+<tr class="memdesc:gab9e9aed4bb165a040415ae342e0902fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">PIO interrupt source numbers for pio related IRQs. <br /></td></tr>
+<tr class="separator:gab9e9aed4bb165a040415ae342e0902fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ga7d415b966abbc1c25315d0775d093356"><td class="memItemLeft" align="right" valign="top"><a id="ga7d415b966abbc1c25315d0775d093356" name="ga7d415b966abbc1c25315d0775d093356"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga7d415b966abbc1c25315d0775d093356">pio_fifo_join</a> { <b>PIO_FIFO_JOIN_NONE</b> = 0
-, <b>PIO_FIFO_JOIN_TX</b> = 1
-, <b>PIO_FIFO_JOIN_RX</b> = 2
+<tr class="memitem:ga7d415b966abbc1c25315d0775d093356"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga7d415b966abbc1c25315d0775d093356">pio_fifo_join</a> { <a class="el" href="group__hardware__pio.html#gga7d415b966abbc1c25315d0775d093356a1ecaeaf5a3d81338a276b30f019b05c4">PIO_FIFO_JOIN_NONE</a> = 0
+, <a class="el" href="group__hardware__pio.html#gga7d415b966abbc1c25315d0775d093356a22a2cbf467019804e134a38d40249f50">PIO_FIFO_JOIN_TX</a> = 1
+, <a class="el" href="group__hardware__pio.html#gga7d415b966abbc1c25315d0775d093356ab2cff7409baac4928fec469fe5b44ed0">PIO_FIFO_JOIN_RX</a> = 2
  }</td></tr>
-<tr class="memdesc:ga7d415b966abbc1c25315d0775d093356"><td class="mdescLeft">&#160;</td><td class="mdescRight">FIFO join states. <br /></td></tr>
+<tr class="memdesc:ga7d415b966abbc1c25315d0775d093356"><td class="mdescLeft">&#160;</td><td class="mdescRight">FIFO join states.  <a href="group__hardware__pio.html#ga7d415b966abbc1c25315d0775d093356">More...</a><br /></td></tr>
 <tr class="separator:ga7d415b966abbc1c25315d0775d093356"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga356b3f4974cd31fdc4a2de381aceea5e"><td class="memItemLeft" align="right" valign="top"><a id="ga356b3f4974cd31fdc4a2de381aceea5e" name="ga356b3f4974cd31fdc4a2de381aceea5e"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga356b3f4974cd31fdc4a2de381aceea5e">pio_mov_status_type</a> { <b>STATUS_TX_LESSTHAN</b> = 0
 , <b>STATUS_RX_LESSTHAN</b> = 1
  }</td></tr>
 <tr class="memdesc:ga356b3f4974cd31fdc4a2de381aceea5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">MOV status types. <br /></td></tr>
 <tr class="separator:ga356b3f4974cd31fdc4a2de381aceea5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0e60c768ea29f296b5ef40c02211bbcc"><td class="memItemLeft" align="right" valign="top"><a id="ga0e60c768ea29f296b5ef40c02211bbcc" name="ga0e60c768ea29f296b5ef40c02211bbcc"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga0e60c768ea29f296b5ef40c02211bbcc">pio_interrupt_source</a> { <br />
-&#160;&#160;<b>pis_interrupt0</b> = PIO_INTR_SM0_LSB
-, <b>pis_interrupt1</b> = PIO_INTR_SM1_LSB
-, <b>pis_interrupt2</b> = PIO_INTR_SM2_LSB
-, <b>pis_interrupt3</b> = PIO_INTR_SM3_LSB
+<tr class="memitem:ga0e60c768ea29f296b5ef40c02211bbcc"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga0e60c768ea29f296b5ef40c02211bbcc">pio_interrupt_source</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca23610bee821f3f8fecbfad0e48c6d742">pis_interrupt0</a> = PIO_INTR_SM0_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca6cd394d2b05ae5eec188d5283d16dc49">pis_interrupt1</a> = PIO_INTR_SM1_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca066e1cafa42ed6638c93cc09c9b1a0d4">pis_interrupt2</a> = PIO_INTR_SM2_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca94cf23106019a84873d6db52d1e8470f">pis_interrupt3</a> = PIO_INTR_SM3_LSB
 , <br />
-&#160;&#160;<b>pis_sm0_tx_fifo_not_full</b> = PIO_INTR_SM0_TXNFULL_LSB
-, <b>pis_sm1_tx_fifo_not_full</b> = PIO_INTR_SM1_TXNFULL_LSB
-, <b>pis_sm2_tx_fifo_not_full</b> = PIO_INTR_SM2_TXNFULL_LSB
-, <b>pis_sm3_tx_fifo_not_full</b> = PIO_INTR_SM3_TXNFULL_LSB
+&#160;&#160;<a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca924b2a1d4b6d257ac13608729dcf9ee1">pis_sm0_tx_fifo_not_full</a> = PIO_INTR_SM0_TXNFULL_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca27452b43a8d5d40ab0ba25a195681d48">pis_sm1_tx_fifo_not_full</a> = PIO_INTR_SM1_TXNFULL_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca214d3bdb6ebc516c4094c4eb476d514d">pis_sm2_tx_fifo_not_full</a> = PIO_INTR_SM2_TXNFULL_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca463c09bec3151921a18be2c548e97297">pis_sm3_tx_fifo_not_full</a> = PIO_INTR_SM3_TXNFULL_LSB
 , <br />
-&#160;&#160;<b>pis_sm0_rx_fifo_not_empty</b> = PIO_INTR_SM0_RXNEMPTY_LSB
-, <b>pis_sm1_rx_fifo_not_empty</b> = PIO_INTR_SM1_RXNEMPTY_LSB
-, <b>pis_sm2_rx_fifo_not_empty</b> = PIO_INTR_SM2_RXNEMPTY_LSB
-, <b>pis_sm3_rx_fifo_not_empty</b> = PIO_INTR_SM3_RXNEMPTY_LSB
+&#160;&#160;<a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca959e0b9e484719a0af543fb87a365d52">pis_sm0_rx_fifo_not_empty</a> = PIO_INTR_SM0_RXNEMPTY_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca85ee2774a8e5dfaf61d3866a81cb381c">pis_sm1_rx_fifo_not_empty</a> = PIO_INTR_SM1_RXNEMPTY_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbcca6d7f4a904cb634fd3f30f033874393ac">pis_sm2_rx_fifo_not_empty</a> = PIO_INTR_SM2_RXNEMPTY_LSB
+, <a class="el" href="group__hardware__pio.html#gga0e60c768ea29f296b5ef40c02211bbccaacce0dbc391b9bb05965b7bc1b6f7698">pis_sm3_rx_fifo_not_empty</a> = PIO_INTR_SM3_RXNEMPTY_LSB
 <br />
  }</td></tr>
-<tr class="memdesc:ga0e60c768ea29f296b5ef40c02211bbcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">PIO interrupt source numbers for pio related IRQs. <br /></td></tr>
+<tr class="memdesc:ga0e60c768ea29f296b5ef40c02211bbcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">PIO interrupt source numbers for pio related IRQs.  <a href="group__hardware__pio.html#ga0e60c768ea29f296b5ef40c02211bbcc">More...</a><br /></td></tr>
 <tr class="separator:ga0e60c768ea29f296b5ef40c02211bbcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -191,15 +253,39 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>check_sm_mask<
 <tr class="memitem:a006601f2c642f4708b1bd7849b7b8fc0"><td class="memItemLeft" align="right" valign="top"><a id="a006601f2c642f4708b1bd7849b7b8fc0" name="a006601f2c642f4708b1bd7849b7b8fc0"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>check_pio_param</b> (__unused <a class="el" href="structpio__hw__t.html">PIO</a> pio)</td></tr>
 <tr class="separator:a006601f2c642f4708b1bd7849b7b8fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a526d2364d8f16ff98eb369cf8b0fac61"><td class="memItemLeft" align="right" valign="top"><a id="a526d2364d8f16ff98eb369cf8b0fac61" name="a526d2364d8f16ff98eb369cf8b0fac61"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>check_pio_pin_param</b> (__unused uint pin)</td></tr>
+<tr class="separator:a526d2364d8f16ff98eb369cf8b0fac61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1dbca28933c083592e6e359effe250bf"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga1dbca28933c083592e6e359effe250bf">sm_config_set_out_pin_base</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint out_base)</td></tr>
+<tr class="memdesc:ga1dbca28933c083592e6e359effe250bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base of the 'out' pins in a state machine configuration.  <a href="group__sm__config.html#ga1dbca28933c083592e6e359effe250bf">More...</a><br /></td></tr>
+<tr class="separator:ga1dbca28933c083592e6e359effe250bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gade3d072e319fc7d10bec180a9692ea89"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gade3d072e319fc7d10bec180a9692ea89">sm_config_set_out_pin_count</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint out_count)</td></tr>
+<tr class="memdesc:gade3d072e319fc7d10bec180a9692ea89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of 'out' pins in a state machine configuration.  <a href="group__sm__config.html#gade3d072e319fc7d10bec180a9692ea89">More...</a><br /></td></tr>
+<tr class="separator:gade3d072e319fc7d10bec180a9692ea89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf3004bbd996443d0c841664ebc92905c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gaf3004bbd996443d0c841664ebc92905c">sm_config_set_out_pins</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint out_base, uint out_count)</td></tr>
 <tr class="memdesc:gaf3004bbd996443d0c841664ebc92905c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 'out' pins in a state machine configuration.  <a href="group__sm__config.html#gaf3004bbd996443d0c841664ebc92905c">More...</a><br /></td></tr>
 <tr class="separator:gaf3004bbd996443d0c841664ebc92905c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga40d4807c0665d30ceab153b7444560eb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga40d4807c0665d30ceab153b7444560eb">sm_config_set_set_pin_base</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint set_base)</td></tr>
+<tr class="memdesc:ga40d4807c0665d30ceab153b7444560eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base of the 'set' pins in a state machine configuration.  <a href="group__sm__config.html#ga40d4807c0665d30ceab153b7444560eb">More...</a><br /></td></tr>
+<tr class="separator:ga40d4807c0665d30ceab153b7444560eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78e129fe383f2af0fc5e1448dea4c3d6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga78e129fe383f2af0fc5e1448dea4c3d6">sm_config_set_set_pin_count</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint set_count)</td></tr>
+<tr class="memdesc:ga78e129fe383f2af0fc5e1448dea4c3d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the count of 'set' pins in a state machine configuration.  <a href="group__sm__config.html#ga78e129fe383f2af0fc5e1448dea4c3d6">More...</a><br /></td></tr>
+<tr class="separator:ga78e129fe383f2af0fc5e1448dea4c3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gada1dff2c00b7d3a1cf722880c8373424"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gada1dff2c00b7d3a1cf722880c8373424">sm_config_set_set_pins</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint set_base, uint set_count)</td></tr>
 <tr class="memdesc:gada1dff2c00b7d3a1cf722880c8373424"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 'set' pins in a state machine configuration.  <a href="group__sm__config.html#gada1dff2c00b7d3a1cf722880c8373424">More...</a><br /></td></tr>
 <tr class="separator:gada1dff2c00b7d3a1cf722880c8373424"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaf804a05a2ebaa127d0d216b3d4e3e80"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gaaf804a05a2ebaa127d0d216b3d4e3e80">sm_config_set_in_pin_base</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint in_base)</td></tr>
+<tr class="memdesc:gaaf804a05a2ebaa127d0d216b3d4e3e80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base of the 'in' pins in a state machine configuration.  <a href="group__sm__config.html#gaaf804a05a2ebaa127d0d216b3d4e3e80">More...</a><br /></td></tr>
+<tr class="separator:gaaf804a05a2ebaa127d0d216b3d4e3e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac418400e30520ea3961d8977c180a4f9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">sm_config_set_in_pins</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint in_base)</td></tr>
-<tr class="memdesc:gac418400e30520ea3961d8977c180a4f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 'in' pins in a state machine configuration.  <a href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">More...</a><br /></td></tr>
+<tr class="memdesc:gac418400e30520ea3961d8977c180a4f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base fpr the 'in' pins in a state machine configuration.  <a href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">More...</a><br /></td></tr>
 <tr class="separator:gac418400e30520ea3961d8977c180a4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a441e87022f2178c1c57d509da4aacb75"><td class="memItemLeft" align="right" valign="top"><a id="a441e87022f2178c1c57d509da4aacb75" name="a441e87022f2178c1c57d509da4aacb75"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>sm_config_set_in_pin_count</b> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint in_count)</td></tr>
+<tr class="separator:a441e87022f2178c1c57d509da4aacb75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7abfda1f60c62565d5b13536b0605af7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga7abfda1f60c62565d5b13536b0605af7">sm_config_set_sideset_pin_base</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint sideset_base)</td></tr>
+<tr class="memdesc:ga7abfda1f60c62565d5b13536b0605af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base of the 'sideset' pins in a state machine configuration.  <a href="group__sm__config.html#ga7abfda1f60c62565d5b13536b0605af7">More...</a><br /></td></tr>
+<tr class="separator:ga7abfda1f60c62565d5b13536b0605af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad55bf8b410fa1d13bd1bd020587e01d7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gad55bf8b410fa1d13bd1bd020587e01d7">sm_config_set_sideset_pins</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint sideset_base)</td></tr>
 <tr class="memdesc:gad55bf8b410fa1d13bd1bd020587e01d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 'sideset' pins in a state machine configuration.  <a href="group__sm__config.html#gad55bf8b410fa1d13bd1bd020587e01d7">More...</a><br /></td></tr>
 <tr class="separator:gad55bf8b410fa1d13bd1bd020587e01d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -239,39 +325,51 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>pio_calculate_
 <tr class="memitem:gaf2d2a23b08ba74188160469b3fd09936"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structpio__sm__config.html">pio_sm_config</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gaf2d2a23b08ba74188160469b3fd09936">pio_get_default_sm_config</a> (void)</td></tr>
 <tr class="memdesc:gaf2d2a23b08ba74188160469b3fd09936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the default state machine configuration.  <a href="group__sm__config.html#gaf2d2a23b08ba74188160469b3fd09936">More...</a><br /></td></tr>
 <tr class="separator:gaf2d2a23b08ba74188160469b3fd09936"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0cac3de6da3295d629b987627c50cbcd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga0cac3de6da3295d629b987627c50cbcd">pio_sm_set_config</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, const <a class="el" href="structpio__sm__config.html">pio_sm_config</a> *config)</td></tr>
-<tr class="memdesc:ga0cac3de6da3295d629b987627c50cbcd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a state machine configuration to a state machine.  <a href="group__hardware__pio.html#ga0cac3de6da3295d629b987627c50cbcd">More...</a><br /></td></tr>
-<tr class="separator:ga0cac3de6da3295d629b987627c50cbcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga89688fd1a941797cb0cc80dbbc4bbd5f"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga89688fd1a941797cb0cc80dbbc4bbd5f">pio_get_gpio_base</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio)</td></tr>
+<tr class="memdesc:ga89688fd1a941797cb0cc80dbbc4bbd5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the base GPIO base for the PIO instance.  <a href="group__hardware__pio.html#ga89688fd1a941797cb0cc80dbbc4bbd5f">More...</a><br /></td></tr>
+<tr class="separator:ga89688fd1a941797cb0cc80dbbc4bbd5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga28e9a84f3332ebf088f665d4b676117b"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, const <a class="el" href="structpio__sm__config.html">pio_sm_config</a> *config)</td></tr>
+<tr class="memdesc:ga28e9a84f3332ebf088f665d4b676117b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply a state machine configuration to a state machine.  <a href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">More...</a><br /></td></tr>
+<tr class="separator:ga28e9a84f3332ebf088f665d4b676117b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae86f691914b78d66b1394ae94f3f4aa6"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gae86f691914b78d66b1394ae94f3f4aa6">pio_get_index</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio)</td></tr>
 <tr class="memdesc:gae86f691914b78d66b1394ae94f3f4aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the instance number of a PIO instance.  <a href="group__hardware__pio.html#gae86f691914b78d66b1394ae94f3f4aa6">More...</a><br /></td></tr>
 <tr class="separator:gae86f691914b78d66b1394ae94f3f4aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9e150bfd3d43565a01f38a37fa2884d4"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga9e150bfd3d43565a01f38a37fa2884d4">pio_get_funcsel</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio)</td></tr>
+<tr class="memdesc:ga9e150bfd3d43565a01f38a37fa2884d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the funcsel number of a PIO instance.  <a href="group__hardware__pio.html#ga9e150bfd3d43565a01f38a37fa2884d4">More...</a><br /></td></tr>
+<tr class="separator:ga9e150bfd3d43565a01f38a37fa2884d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga151f87205041da11d3c69be5ddbd5653"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structpio__hw__t.html">PIO</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga151f87205041da11d3c69be5ddbd5653">pio_get_instance</a> (uint instance)</td></tr>
+<tr class="memdesc:ga151f87205041da11d3c69be5ddbd5653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert PIO instance to hardware instance.  <a href="group__hardware__pio.html#ga151f87205041da11d3c69be5ddbd5653">More...</a><br /></td></tr>
+<tr class="separator:ga151f87205041da11d3c69be5ddbd5653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafa244b1be8f53a329db9d26298e054bb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gafa244b1be8f53a329db9d26298e054bb">pio_gpio_init</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint pin)</td></tr>
 <tr class="memdesc:gafa244b1be8f53a329db9d26298e054bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup the function select for a GPIO to use output from the given PIO instance.  <a href="group__hardware__pio.html#gafa244b1be8f53a329db9d26298e054bb">More...</a><br /></td></tr>
 <tr class="separator:gafa244b1be8f53a329db9d26298e054bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4091eef7afda5200a3988b9412fe3b3f"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga4091eef7afda5200a3988b9412fe3b3f">pio_get_dreq</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, bool is_tx)</td></tr>
 <tr class="memdesc:ga4091eef7afda5200a3988b9412fe3b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the DREQ to use for pacing transfers to/from a particular state machine FIFO.  <a href="group__hardware__pio.html#ga4091eef7afda5200a3988b9412fe3b3f">More...</a><br /></td></tr>
 <tr class="separator:ga4091eef7afda5200a3988b9412fe3b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga332210f0e594b24bf64f4bb1c8f49be3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint gpio_base)</td></tr>
+<tr class="memdesc:ga332210f0e594b24bf64f4bb1c8f49be3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base GPIO base for the PIO instance.  <a href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">More...</a><br /></td></tr>
+<tr class="separator:ga332210f0e594b24bf64f4bb1c8f49be3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa8aafe966a46f4de9be59f73cae65a4b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaa8aafe966a46f4de9be59f73cae65a4b">pio_can_add_program</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, const <a class="el" href="structpio__program.html">pio_program_t</a> *program)</td></tr>
 <tr class="memdesc:gaa8aafe966a46f4de9be59f73cae65a4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine whether the given program can (at the time of the call) be loaded onto the PIO instance.  <a href="group__hardware__pio.html#gaa8aafe966a46f4de9be59f73cae65a4b">More...</a><br /></td></tr>
 <tr class="separator:gaa8aafe966a46f4de9be59f73cae65a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaafac789d94b0727bb02ea83a8786897f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaafac789d94b0727bb02ea83a8786897f">pio_can_add_program_at_offset</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, const <a class="el" href="structpio__program.html">pio_program_t</a> *program, uint offset)</td></tr>
 <tr class="memdesc:gaafac789d94b0727bb02ea83a8786897f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine whether the given program can (at the time of the call) be loaded onto the PIO instance starting at a particular location.  <a href="group__hardware__pio.html#gaafac789d94b0727bb02ea83a8786897f">More...</a><br /></td></tr>
 <tr class="separator:gaafac789d94b0727bb02ea83a8786897f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3571e3c7c6e645e92b8d438203a911b9"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga3571e3c7c6e645e92b8d438203a911b9">pio_add_program</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, const <a class="el" href="structpio__program.html">pio_program_t</a> *program)</td></tr>
-<tr class="memdesc:ga3571e3c7c6e645e92b8d438203a911b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to load the program, panicking if not possible.  <a href="group__hardware__pio.html#ga3571e3c7c6e645e92b8d438203a911b9">More...</a><br /></td></tr>
-<tr class="separator:ga3571e3c7c6e645e92b8d438203a911b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga55235a2f9c0df93d0bb0a2b64ad076f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga55235a2f9c0df93d0bb0a2b64ad076f6">pio_add_program_at_offset</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, const <a class="el" href="structpio__program.html">pio_program_t</a> *program, uint offset)</td></tr>
-<tr class="memdesc:ga55235a2f9c0df93d0bb0a2b64ad076f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to load the program at the specified instruction memory offset, panicking if not possible.  <a href="group__hardware__pio.html#ga55235a2f9c0df93d0bb0a2b64ad076f6">More...</a><br /></td></tr>
-<tr class="separator:ga55235a2f9c0df93d0bb0a2b64ad076f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaefbd086e8e96fee073438dac3c20334c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaefbd086e8e96fee073438dac3c20334c">pio_add_program</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, const <a class="el" href="structpio__program.html">pio_program_t</a> *program)</td></tr>
+<tr class="memdesc:gaefbd086e8e96fee073438dac3c20334c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to load the program.  <a href="group__hardware__pio.html#gaefbd086e8e96fee073438dac3c20334c">More...</a><br /></td></tr>
+<tr class="separator:gaefbd086e8e96fee073438dac3c20334c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga12948478935f817218b64e1db3a8ebad"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga12948478935f817218b64e1db3a8ebad">pio_add_program_at_offset</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, const <a class="el" href="structpio__program.html">pio_program_t</a> *program, uint offset)</td></tr>
+<tr class="memdesc:ga12948478935f817218b64e1db3a8ebad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to load the program at the specified instruction memory offset.  <a href="group__hardware__pio.html#ga12948478935f817218b64e1db3a8ebad">More...</a><br /></td></tr>
+<tr class="separator:ga12948478935f817218b64e1db3a8ebad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga81c77d31aff72655977b658a9c37665e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga81c77d31aff72655977b658a9c37665e">pio_remove_program</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, const <a class="el" href="structpio__program.html">pio_program_t</a> *program, uint loaded_offset)</td></tr>
 <tr class="memdesc:ga81c77d31aff72655977b658a9c37665e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a program from a PIO instance's instruction memory.  <a href="group__hardware__pio.html#ga81c77d31aff72655977b658a9c37665e">More...</a><br /></td></tr>
 <tr class="separator:ga81c77d31aff72655977b658a9c37665e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga850396a2a2925bbcc97247a629ca5bd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga850396a2a2925bbcc97247a629ca5bd2">pio_clear_instruction_memory</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio)</td></tr>
 <tr class="memdesc:ga850396a2a2925bbcc97247a629ca5bd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears all of a PIO instance's instruction memory.  <a href="group__hardware__pio.html#ga850396a2a2925bbcc97247a629ca5bd2">More...</a><br /></td></tr>
 <tr class="separator:ga850396a2a2925bbcc97247a629ca5bd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab0001d4af0096dd36168731a020d8a91"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gab0001d4af0096dd36168731a020d8a91">pio_sm_init</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint initial_pc, const <a class="el" href="structpio__sm__config.html">pio_sm_config</a> *config)</td></tr>
-<tr class="memdesc:gab0001d4af0096dd36168731a020d8a91"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets the state machine to a consistent state, and configures it.  <a href="group__hardware__pio.html#gab0001d4af0096dd36168731a020d8a91">More...</a><br /></td></tr>
-<tr class="separator:gab0001d4af0096dd36168731a020d8a91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bd15922f2a2f836650ebbda8425b438"><td class="memItemLeft" align="right" valign="top"><a id="a8bd15922f2a2f836650ebbda8425b438" name="a8bd15922f2a2f836650ebbda8425b438"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>pio_sm_init</b> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint initial_pc, const <a class="el" href="structpio__sm__config.html">pio_sm_config</a> *config)</td></tr>
+<tr class="separator:a8bd15922f2a2f836650ebbda8425b438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa47ec4090dcdc251e44bf4e4cb89a7bc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaa47ec4090dcdc251e44bf4e4cb89a7bc">pio_sm_set_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, bool enabled)</td></tr>
 <tr class="memdesc:gaa47ec4090dcdc251e44bf4e4cb89a7bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable or disable a PIO state machine.  <a href="group__hardware__pio.html#gaa47ec4090dcdc251e44bf4e4cb89a7bc">More...</a><br /></td></tr>
 <tr class="separator:gaa47ec4090dcdc251e44bf4e4cb89a7bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -293,21 +391,21 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>pio_calculate_
 <tr class="memitem:gac3797a9f7e80606152eb44af9ca96398"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gac3797a9f7e80606152eb44af9ca96398">pio_enable_sm_mask_in_sync</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint32_t mask)</td></tr>
 <tr class="memdesc:gac3797a9f7e80606152eb44af9ca96398"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable multiple PIO state machines synchronizing their clock dividers.  <a href="group__hardware__pio.html#gac3797a9f7e80606152eb44af9ca96398">More...</a><br /></td></tr>
 <tr class="separator:gac3797a9f7e80606152eb44af9ca96398"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa90877ab7991e4b8bdea9d43ffb783db"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaa90877ab7991e4b8bdea9d43ffb783db">pio_set_irq0_source_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, enum <a class="el" href="group__hardware__pio.html#ga0e60c768ea29f296b5ef40c02211bbcc">pio_interrupt_source</a> source, bool enabled)</td></tr>
-<tr class="memdesc:gaa90877ab7991e4b8bdea9d43ffb783db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a single source on a PIO's IRQ 0.  <a href="group__hardware__pio.html#gaa90877ab7991e4b8bdea9d43ffb783db">More...</a><br /></td></tr>
-<tr class="separator:gaa90877ab7991e4b8bdea9d43ffb783db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga6b2defaeefeaaed0a027d395374a9a6b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga6b2defaeefeaaed0a027d395374a9a6b">pio_set_irq1_source_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, enum <a class="el" href="group__hardware__pio.html#ga0e60c768ea29f296b5ef40c02211bbcc">pio_interrupt_source</a> source, bool enabled)</td></tr>
-<tr class="memdesc:ga6b2defaeefeaaed0a027d395374a9a6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a single source on a PIO's IRQ 1.  <a href="group__hardware__pio.html#ga6b2defaeefeaaed0a027d395374a9a6b">More...</a><br /></td></tr>
-<tr class="separator:ga6b2defaeefeaaed0a027d395374a9a6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafe39a664c508e08ef4c74b7c3c38bc07"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gafe39a664c508e08ef4c74b7c3c38bc07">pio_set_irq0_source_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, <a class="el" href="group__hardware__pio.html#gab9e9aed4bb165a040415ae342e0902fe">pio_interrupt_source_t</a> source, bool enabled)</td></tr>
+<tr class="memdesc:gafe39a664c508e08ef4c74b7c3c38bc07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a single source on a PIO's IRQ 0.  <a href="group__hardware__pio.html#gafe39a664c508e08ef4c74b7c3c38bc07">More...</a><br /></td></tr>
+<tr class="separator:gafe39a664c508e08ef4c74b7c3c38bc07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4369e665ee8d2db58a83eccad65c917c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga4369e665ee8d2db58a83eccad65c917c">pio_set_irq1_source_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, <a class="el" href="group__hardware__pio.html#gab9e9aed4bb165a040415ae342e0902fe">pio_interrupt_source_t</a> source, bool enabled)</td></tr>
+<tr class="memdesc:ga4369e665ee8d2db58a83eccad65c917c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a single source on a PIO's IRQ 1.  <a href="group__hardware__pio.html#ga4369e665ee8d2db58a83eccad65c917c">More...</a><br /></td></tr>
+<tr class="separator:ga4369e665ee8d2db58a83eccad65c917c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga81259bc71fd3bd81b96e47f9f4ea7b67"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga81259bc71fd3bd81b96e47f9f4ea7b67">pio_set_irq0_source_mask_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint32_t source_mask, bool enabled)</td></tr>
 <tr class="memdesc:ga81259bc71fd3bd81b96e47f9f4ea7b67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable multiple sources on a PIO's IRQ 0.  <a href="group__hardware__pio.html#ga81259bc71fd3bd81b96e47f9f4ea7b67">More...</a><br /></td></tr>
 <tr class="separator:ga81259bc71fd3bd81b96e47f9f4ea7b67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae39150dd6910d2776484526059911b79"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gae39150dd6910d2776484526059911b79">pio_set_irq1_source_mask_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint32_t source_mask, bool enabled)</td></tr>
 <tr class="memdesc:gae39150dd6910d2776484526059911b79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable multiple sources on a PIO's IRQ 1.  <a href="group__hardware__pio.html#gae39150dd6910d2776484526059911b79">More...</a><br /></td></tr>
 <tr class="separator:gae39150dd6910d2776484526059911b79"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga360a1fdcb0fbd7d8ff409f5e7ab0bce3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga360a1fdcb0fbd7d8ff409f5e7ab0bce3">pio_set_irqn_source_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint irq_index, enum <a class="el" href="group__hardware__pio.html#ga0e60c768ea29f296b5ef40c02211bbcc">pio_interrupt_source</a> source, bool enabled)</td></tr>
-<tr class="memdesc:ga360a1fdcb0fbd7d8ff409f5e7ab0bce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a single source on a PIO's specified (0/1) IRQ index.  <a href="group__hardware__pio.html#ga360a1fdcb0fbd7d8ff409f5e7ab0bce3">More...</a><br /></td></tr>
-<tr class="separator:ga360a1fdcb0fbd7d8ff409f5e7ab0bce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga06d0fd918247a86e8394afac67cf6992"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga06d0fd918247a86e8394afac67cf6992">pio_set_irqn_source_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint irq_index, <a class="el" href="group__hardware__pio.html#gab9e9aed4bb165a040415ae342e0902fe">pio_interrupt_source_t</a> source, bool enabled)</td></tr>
+<tr class="memdesc:ga06d0fd918247a86e8394afac67cf6992"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a single source on a PIO's specified (0/1) IRQ index.  <a href="group__hardware__pio.html#ga06d0fd918247a86e8394afac67cf6992">More...</a><br /></td></tr>
+<tr class="separator:ga06d0fd918247a86e8394afac67cf6992"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafc173eb3cb980ed3c823384e42e265bb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gafc173eb3cb980ed3c823384e42e265bb">pio_set_irqn_source_mask_enabled</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint irq_index, uint32_t source_mask, bool enabled)</td></tr>
 <tr class="memdesc:gafc173eb3cb980ed3c823384e42e265bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable multiple sources on a PIO's specified (0/1) IRQ index.  <a href="group__hardware__pio.html#gafc173eb3cb980ed3c823384e42e265bb">More...</a><br /></td></tr>
 <tr class="separator:gafc173eb3cb980ed3c823384e42e265bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -344,6 +442,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>pio_calculate_
 <tr class="memitem:ga87cb36afe5783e2e92bf528b1d50ea07"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga87cb36afe5783e2e92bf528b1d50ea07">pio_sm_set_sideset_pins</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint sideset_base)</td></tr>
 <tr class="memdesc:ga87cb36afe5783e2e92bf528b1d50ea07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current 'sideset' pins for a state machine.  <a href="group__hardware__pio.html#ga87cb36afe5783e2e92bf528b1d50ea07">More...</a><br /></td></tr>
 <tr class="separator:ga87cb36afe5783e2e92bf528b1d50ea07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga97b135c9016b91fbf237c93313d25fd4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga97b135c9016b91fbf237c93313d25fd4">pio_sm_set_jmp_pin</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint pin)</td></tr>
+<tr class="memdesc:ga97b135c9016b91fbf237c93313d25fd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 'jmp' pin for a state machine.  <a href="group__hardware__pio.html#ga97b135c9016b91fbf237c93313d25fd4">More...</a><br /></td></tr>
+<tr class="separator:ga97b135c9016b91fbf237c93313d25fd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab48b30da795dcd73b4a998d67a4af235"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gab48b30da795dcd73b4a998d67a4af235">pio_sm_put</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint32_t data)</td></tr>
 <tr class="memdesc:gab48b30da795dcd73b4a998d67a4af235"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write a word of data to a state machine's TX FIFO.  <a href="group__hardware__pio.html#gab48b30da795dcd73b4a998d67a4af235">More...</a><br /></td></tr>
 <tr class="separator:gab48b30da795dcd73b4a998d67a4af235"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -395,9 +496,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>pio_calculate_
 <tr class="memitem:ga8269f1ef4cb1e4b3b957d5f1fa6fc623"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga8269f1ef4cb1e4b3b957d5f1fa6fc623">pio_sm_set_pindirs_with_mask</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint32_t pin_dirs, uint32_t pin_mask)</td></tr>
 <tr class="memdesc:ga8269f1ef4cb1e4b3b957d5f1fa6fc623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set the pin directions for multiple pins for the PIO instance.  <a href="group__hardware__pio.html#ga8269f1ef4cb1e4b3b957d5f1fa6fc623">More...</a><br /></td></tr>
 <tr class="separator:ga8269f1ef4cb1e4b3b957d5f1fa6fc623"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5025ed880917930d368e00239acf5920"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga5025ed880917930d368e00239acf5920">pio_sm_set_consecutive_pindirs</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint pin_base, uint pin_count, bool is_out)</td></tr>
-<tr class="memdesc:ga5025ed880917930d368e00239acf5920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set the same pin direction for multiple consecutive pins for the PIO instance.  <a href="group__hardware__pio.html#ga5025ed880917930d368e00239acf5920">More...</a><br /></td></tr>
-<tr class="separator:ga5025ed880917930d368e00239acf5920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf5c965ef1ca21684630c8be2cf3e52e7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaf5c965ef1ca21684630c8be2cf3e52e7">pio_sm_set_consecutive_pindirs</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint pins_base, uint pin_count, bool is_out)</td></tr>
+<tr class="memdesc:gaf5c965ef1ca21684630c8be2cf3e52e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set the same pin direction for multiple consecutive pins for the PIO instance.  <a href="group__hardware__pio.html#gaf5c965ef1ca21684630c8be2cf3e52e7">More...</a><br /></td></tr>
+<tr class="separator:gaf5c965ef1ca21684630c8be2cf3e52e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa75bc8b2060929ec2b2599da8081a99b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaa75bc8b2060929ec2b2599da8081a99b">pio_sm_claim</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm)</td></tr>
 <tr class="memdesc:gaa75bc8b2060929ec2b2599da8081a99b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mark a state machine as used.  <a href="group__hardware__pio.html#gaa75bc8b2060929ec2b2599da8081a99b">More...</a><br /></td></tr>
 <tr class="separator:gaa75bc8b2060929ec2b2599da8081a99b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -413,6 +514,24 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>pio_calculate_
 <tr class="memitem:ga699fb7272e3cb5ab76a84fbf3640325d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga699fb7272e3cb5ab76a84fbf3640325d">pio_sm_is_claimed</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm)</td></tr>
 <tr class="memdesc:ga699fb7272e3cb5ab76a84fbf3640325d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if a PIO state machine is claimed.  <a href="group__hardware__pio.html#ga699fb7272e3cb5ab76a84fbf3640325d">More...</a><br /></td></tr>
 <tr class="separator:ga699fb7272e3cb5ab76a84fbf3640325d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga03abf744baa28e22a46fcf81452c47cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga03abf744baa28e22a46fcf81452c47cf">pio_claim_free_sm_and_add_program</a> (const <a class="el" href="structpio__program.html">pio_program_t</a> *program, <a class="el" href="structpio__hw__t.html">PIO</a> *pio, uint *sm, uint *offset)</td></tr>
+<tr class="memdesc:ga03abf744baa28e22a46fcf81452c47cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a PIO and statemachine and adds a program into PIO memory.  <a href="group__hardware__pio.html#ga03abf744baa28e22a46fcf81452c47cf">More...</a><br /></td></tr>
+<tr class="separator:ga03abf744baa28e22a46fcf81452c47cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga53c3bbe939b3c58585d0e19ffe91e18e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga53c3bbe939b3c58585d0e19ffe91e18e">pio_claim_free_sm_and_add_program_for_gpio_range</a> (const <a class="el" href="structpio__program.html">pio_program_t</a> *program, <a class="el" href="structpio__hw__t.html">PIO</a> *pio, uint *sm, uint *offset, uint gpio_base, uint gpio_count, bool set_gpio_base)</td></tr>
+<tr class="memdesc:ga53c3bbe939b3c58585d0e19ffe91e18e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds a PIO and statemachine and adds a program into PIO memory.  <a href="group__hardware__pio.html#ga53c3bbe939b3c58585d0e19ffe91e18e">More...</a><br /></td></tr>
+<tr class="separator:ga53c3bbe939b3c58585d0e19ffe91e18e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8178ef68166e58260da3989bc5f06bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaa8178ef68166e58260da3989bc5f06bd">pio_remove_program_and_unclaim_sm</a> (const <a class="el" href="structpio__program.html">pio_program_t</a> *program, <a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint offset)</td></tr>
+<tr class="memdesc:gaa8178ef68166e58260da3989bc5f06bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes a program from PIO memory and unclaims the state machine.  <a href="group__hardware__pio.html#gaa8178ef68166e58260da3989bc5f06bd">More...</a><br /></td></tr>
+<tr class="separator:gaa8178ef68166e58260da3989bc5f06bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga29b350d20174699f5594fc46a35ca699"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga29b350d20174699f5594fc46a35ca699">pio_get_irq_num</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint irqn)</td></tr>
+<tr class="memdesc:ga29b350d20174699f5594fc46a35ca699"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an IRQ for a PIO hardware instance.  <a href="group__hardware__pio.html#ga29b350d20174699f5594fc46a35ca699">More...</a><br /></td></tr>
+<tr class="separator:ga29b350d20174699f5594fc46a35ca699"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga89d26de56d58a6a1022dba7f21e84b4e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__hardware__pio.html#gab9e9aed4bb165a040415ae342e0902fe">pio_interrupt_source_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga89d26de56d58a6a1022dba7f21e84b4e">pio_get_tx_fifo_not_full_interrupt_source</a> (uint sm)</td></tr>
+<tr class="memdesc:ga89d26de56d58a6a1022dba7f21e84b4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interrupt source for a state machines TX FIFO not full interrupt.  <a href="group__hardware__pio.html#ga89d26de56d58a6a1022dba7f21e84b4e">More...</a><br /></td></tr>
+<tr class="separator:ga89d26de56d58a6a1022dba7f21e84b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad821de9c14a966fc5c16321ed5df92b4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__hardware__pio.html#gab9e9aed4bb165a040415ae342e0902fe">pio_interrupt_source_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gad821de9c14a966fc5c16321ed5df92b4">pio_get_rx_fifo_not_empty_interrupt_source</a> (uint sm)</td></tr>
+<tr class="memdesc:gad821de9c14a966fc5c16321ed5df92b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the interrupt source for a state machines RX FIFO not empty interrupt.  <a href="group__hardware__pio.html#gad821de9c14a966fc5c16321ed5df92b4">More...</a><br /></td></tr>
+<tr class="separator:gad821de9c14a966fc5c16321ed5df92b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

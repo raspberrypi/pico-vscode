@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,11 +108,14 @@ $(document).ready(function(){initNavTree('group__pico__divider.html',''); initRe
   <div class="headertitle"><div class="title">pico_divider<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Optimized 32 and 64 bit division functions accelerated by the RP2040 hardware divider.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
-<tr class="memitem:common_2pico__divider_2include_2pico_2divider_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_2pico__divider_2include_2pico_2divider_8h.html">divider.h</a></td></tr>
-<tr class="memdesc:common_2pico__divider_2include_2pico_2divider_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">High level APIs including combined quotient and remainder functions for 32 and 64 bit accelerated by the hardware divider. <br /></td></tr>
+<tr class="memitem:common_2pico__divider__headers_2include_2pico_2divider_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_2pico__divider__headers_2include_2pico_2divider_8h.html">divider.h</a></td></tr>
+<tr class="memdesc:common_2pico__divider__headers_2include_2pico_2divider_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">High level APIs including combined quotient and remainder functions for 32 and 64 bit accelerated by the hardware divider. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -159,18 +162,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga18a5bbbeb6c84d0357d803b2c5b25039"><td class="memItemLeft" align="right" valign="top">int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#ga18a5bbbeb6c84d0357d803b2c5b25039">divmod_s32s32_rem_unsafe</a> (int32_t a, int32_t b, int32_t *rem)</td></tr>
 <tr class="memdesc:ga18a5bbbeb6c84d0357d803b2c5b25039"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two signed 32-bit values, with remainder.  <a href="group__pico__divider.html#ga18a5bbbeb6c84d0357d803b2c5b25039">More...</a><br /></td></tr>
 <tr class="separator:ga18a5bbbeb6c84d0357d803b2c5b25039"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga832132d1124737c9316dac6c7fe5c752"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#ga832132d1124737c9316dac6c7fe5c752">divmod_s32s32_unsafe</a> (int32_t a, int32_t b)</td></tr>
-<tr class="memdesc:ga832132d1124737c9316dac6c7fe5c752"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two unsigned 32-bit values.  <a href="group__pico__divider.html#ga832132d1124737c9316dac6c7fe5c752">More...</a><br /></td></tr>
-<tr class="separator:ga832132d1124737c9316dac6c7fe5c752"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga712f477f6643e447f5e5890f6e641bef"><td class="memItemLeft" align="right" valign="top">divmod_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#ga712f477f6643e447f5e5890f6e641bef">divmod_s32s32_unsafe</a> (int32_t a, int32_t b)</td></tr>
+<tr class="memdesc:ga712f477f6643e447f5e5890f6e641bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two unsigned 32-bit values.  <a href="group__pico__divider.html#ga712f477f6643e447f5e5890f6e641bef">More...</a><br /></td></tr>
+<tr class="separator:ga712f477f6643e447f5e5890f6e641bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf3c85d6165a3c2a16b7ecad9cf077a58"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#gaf3c85d6165a3c2a16b7ecad9cf077a58">div_u32u32_unsafe</a> (uint32_t a, uint32_t b)</td></tr>
 <tr class="memdesc:gaf3c85d6165a3c2a16b7ecad9cf077a58"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two unsigned 32-bit values.  <a href="group__pico__divider.html#gaf3c85d6165a3c2a16b7ecad9cf077a58">More...</a><br /></td></tr>
 <tr class="separator:gaf3c85d6165a3c2a16b7ecad9cf077a58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga110fad3fe5af8415e2c4bc4272c38591"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#ga110fad3fe5af8415e2c4bc4272c38591">divmod_u32u32_rem_unsafe</a> (uint32_t a, uint32_t b, uint32_t *rem)</td></tr>
 <tr class="memdesc:ga110fad3fe5af8415e2c4bc4272c38591"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two unsigned 32-bit values, with remainder.  <a href="group__pico__divider.html#ga110fad3fe5af8415e2c4bc4272c38591">More...</a><br /></td></tr>
 <tr class="separator:ga110fad3fe5af8415e2c4bc4272c38591"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaca386ee7c507716df3a0b6c1d5ad6502"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#gaca386ee7c507716df3a0b6c1d5ad6502">divmod_u32u32_unsafe</a> (uint32_t a, uint32_t b)</td></tr>
-<tr class="memdesc:gaca386ee7c507716df3a0b6c1d5ad6502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two unsigned 32-bit values.  <a href="group__pico__divider.html#gaca386ee7c507716df3a0b6c1d5ad6502">More...</a><br /></td></tr>
-<tr class="separator:gaca386ee7c507716df3a0b6c1d5ad6502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae6565a48f3e347b344aa776f6b220f13"><td class="memItemLeft" align="right" valign="top">divmod_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#gae6565a48f3e347b344aa776f6b220f13">divmod_u32u32_unsafe</a> (uint32_t a, uint32_t b)</td></tr>
+<tr class="memdesc:gae6565a48f3e347b344aa776f6b220f13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two unsigned 32-bit values.  <a href="group__pico__divider.html#gae6565a48f3e347b344aa776f6b220f13">More...</a><br /></td></tr>
+<tr class="separator:gae6565a48f3e347b344aa776f6b220f13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf7847d0648463a6235c9e7844025d0fb"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html#gaf7847d0648463a6235c9e7844025d0fb">div_s64s64_unsafe</a> (int64_t a, int64_t b)</td></tr>
 <tr class="memdesc:gaf7847d0648463a6235c9e7844025d0fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsafe integer divide of two signed 64-bit values.  <a href="group__pico__divider.html#gaf7847d0648463a6235c9e7844025d0fb">More...</a><br /></td></tr>
 <tr class="separator:gaf7847d0648463a6235c9e7844025d0fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,7 +194,8 @@ Functions</h2></td></tr>
 <tr class="separator:ga18f537358cd342a32fa6781e7ca4b475"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Optimized 32 and 64 bit division functions accelerated by the RP2040 hardware divider. Additionally provides integration with the C <code>/</code> and <code>%</code> operators </p>
+<p >Optimized 32 and 64 bit division functions accelerated by the RP2040 hardware divider. </p>
+<p >Additionally provides integration with the C <code>/</code> and <code>%</code> operators </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga60b86237e096a13f871015a28dceb88a" name="ga60b86237e096a13f871015a28dceb88a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga60b86237e096a13f871015a28dceb88a">&#9670;&nbsp;</a></span>div_s32s32()</h2>
@@ -638,14 +642,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga832132d1124737c9316dac6c7fe5c752" name="ga832132d1124737c9316dac6c7fe5c752"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga832132d1124737c9316dac6c7fe5c752">&#9670;&nbsp;</a></span>divmod_s32s32_unsafe()</h2>
+<a id="ga712f477f6643e447f5e5890f6e641bef" name="ga712f477f6643e447f5e5890f6e641bef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga712f477f6643e447f5e5890f6e641bef">&#9670;&nbsp;</a></span>divmod_s32s32_unsafe()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int64_t divmod_s32s32_unsafe </td>
+          <td class="memname">divmod_result_t divmod_s32s32_unsafe </td>
           <td>(</td>
           <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -982,14 +986,14 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gaca386ee7c507716df3a0b6c1d5ad6502" name="gaca386ee7c507716df3a0b6c1d5ad6502"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaca386ee7c507716df3a0b6c1d5ad6502">&#9670;&nbsp;</a></span>divmod_u32u32_unsafe()</h2>
+<a id="gae6565a48f3e347b344aa776f6b220f13" name="gae6565a48f3e347b344aa776f6b220f13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae6565a48f3e347b344aa776f6b220f13">&#9670;&nbsp;</a></span>divmod_u32u32_unsafe()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">uint64_t divmod_u32u32_unsafe </td>
+          <td class="memname">divmod_result_t divmod_u32u32_unsafe </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>

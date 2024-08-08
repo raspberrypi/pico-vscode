@@ -4,8 +4,10 @@ import { homedir } from "os";
 import { join } from "path";
 import Logger from "../logger.mjs";
 import { readdirSync, statSync, readFileSync } from "fs";
-import { CURRENT_DATA_VERSION, getDataRoot } from "./examplesUtil.mjs";
-import { isInternetConnected } from "./downloadHelpers.mjs";
+import { getDataRoot } from "./downloadHelpers.mjs";
+import {
+  isInternetConnected, CURRENT_DATA_VERSION
+} from "./downloadHelpers.mjs";
 
 const iniUrl =
   "https://raspberrypi.github.io/pico-vscode/" +

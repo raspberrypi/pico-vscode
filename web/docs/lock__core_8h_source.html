@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_sync/include/pico/lock_core.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/pico/lock_core.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -115,7 +115,7 @@ $(document).ready(function(){initNavTree('lock__core_8h_source.html',''); initRe
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define _PICO_LOCK_CORE_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="pico_8h.html">pico.h</a>&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="time_8h.html">pico/time.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="common_2pico__time_2include_2pico_2time_8h.html">pico/time.h</a>&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html">hardware/sync.h</a>&quot;</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="comment">// PICO_CONFIG: PARAM_ASSERTIONS_ENABLED_LOCK_CORE, Enable/disable assertions in the lock core, type=bool, default=0, group=pico_sync</span></div>
@@ -125,7 +125,7 @@ $(document).ready(function(){initNavTree('lock__core_8h_source.html',''); initRe
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="structlock__core.html">   53</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structlock__core.html">lock_core</a> {</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="comment">// spin lock protecting this lock&#39;s state</span></div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_typedef" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *spin_lock;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    spin_lock_t *spin_lock;</div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// note any lock members in containing structures need not be volatile;</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// they are protected by memory/compiler barriers when gaining and release spin locks</span></div>
@@ -136,50 +136,49 @@ $(document).ready(function(){initNavTree('lock__core_8h_source.html',''); initRe
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__lock__core.html#gabc062dfb52c8f7f17ec8427d1c4414d9">lock_init</a>(<a class="code hl_struct" href="structlock__core.html">lock_core_t</a> *core, uint lock_num);</div>
 <div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#ifndef lock_owner_id_t</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">   80</a></span><span class="preprocessor">#define lock_owner_id_t int8_t</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#ifndef LOCK_INVALID_OWNER_ID</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga56aa223ceb22fdc4f0a3464fff119e14">   87</a></span><span class="preprocessor">#define LOCK_INVALID_OWNER_ID ((lock_owner_id_t)-1)</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#ifndef lock_get_caller_owner_id</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="group__lock__core.html#gae28f1d974cf1f1b973127500a764245c">   95</a></span><span class="preprocessor">#define lock_get_caller_owner_id() ((lock_owner_id_t)get_core_num())</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#ifndef lock_is_owner_id_valid</span></div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="preprocessor">#define lock_is_owner_id_valid(id) ((id)&gt;=0)</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="preprocessor">#ifndef lock_is_owner_id_valid</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">#define lock_is_owner_id_valid(id) ((id) != LOCK_INVALID_OWNER_ID)</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="preprocessor">#ifndef lock_internal_spin_unlock_with_wait</span></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="group__lock__core.html#gaaea64ba43b0ff683739ba136fe5a2b29">  126</a></span><span class="preprocessor">#define lock_internal_spin_unlock_with_wait(lock, save) spin_unlock((lock)-&gt;spin_lock, save), __wfe()</span></div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#ifndef lock_internal_spin_unlock_with_notify</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga298f38f465c9115393f0f35f56c13279">  149</a></span><span class="preprocessor">#define lock_internal_spin_unlock_with_notify(lock, save) spin_unlock((lock)-&gt;spin_lock, save), __sev()</span></div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#ifndef lock_internal_spin_unlock_with_best_effort_wait_or_timeout</span></div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga627a09221ed61634d6dfea6f406e104e">  175</a></span><span class="preprocessor">#define lock_internal_spin_unlock_with_best_effort_wait_or_timeout(lock, save, until) ({ \</span></div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="preprocessor">    spin_unlock((lock)-&gt;spin_lock, save);                                                \</span></div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">    best_effort_wfe_or_timeout(until);                                                   \</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">})</span></div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="preprocessor">#ifndef sync_internal_yield_until_before</span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga133eb482d67637b8b4e947dee5133513">  194</a></span><span class="preprocessor">#define sync_internal_yield_until_before(until) ((void)0)</span></div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">   81</a></span><span class="preprocessor">#define lock_owner_id_t int8_t</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#ifndef LOCK_INVALID_OWNER_ID</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga56aa223ceb22fdc4f0a3464fff119e14">   88</a></span><span class="preprocessor">#define LOCK_INVALID_OWNER_ID ((lock_owner_id_t)-1)</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#ifndef lock_get_caller_owner_id</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="group__lock__core.html#gae28f1d974cf1f1b973127500a764245c">   97</a></span><span class="preprocessor">#define lock_get_caller_owner_id() ((lock_owner_id_t)get_core_num())</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="preprocessor">#ifndef lock_is_owner_id_valid</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="preprocessor">#define lock_is_owner_id_valid(id) ((id)&gt;=0)</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#ifndef lock_is_owner_id_valid</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="preprocessor">#define lock_is_owner_id_valid(id) ((id) != LOCK_INVALID_OWNER_ID)</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#ifndef lock_internal_spin_unlock_with_wait</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="group__lock__core.html#gaaea64ba43b0ff683739ba136fe5a2b29">  128</a></span><span class="preprocessor">#define lock_internal_spin_unlock_with_wait(lock, save) spin_unlock((lock)-&gt;spin_lock, save), __wfe()</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#ifndef lock_internal_spin_unlock_with_notify</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga298f38f465c9115393f0f35f56c13279">  151</a></span><span class="preprocessor">#define lock_internal_spin_unlock_with_notify(lock, save) spin_unlock((lock)-&gt;spin_lock, save), __sev()</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#ifndef lock_internal_spin_unlock_with_best_effort_wait_or_timeout</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga627a09221ed61634d6dfea6f406e104e">  177</a></span><span class="preprocessor">#define lock_internal_spin_unlock_with_best_effort_wait_or_timeout(lock, save, until) ({ \</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">    spin_unlock((lock)-&gt;spin_lock, save);                                                \</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="preprocessor">    best_effort_wfe_or_timeout(until);                                                   \</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="preprocessor">})</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="preprocessor">#ifndef sync_internal_yield_until_before</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="group__lock__core.html#ga133eb482d67637b8b4e947dee5133513">  196</a></span><span class="preprocessor">#define sync_internal_yield_until_before(until) ((void)0)</span></div>
 <div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__hardware__sync_html_gad27c7e019d540f863965663b49b259e8"><div class="ttname"><a href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a></div><div class="ttdeci">volatile uint32_t spin_lock_t</div><div class="ttdoc">A spin lock identifier.</div><div class="ttdef"><b>Definition:</b> sync.h:56</div></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="acommon_2pico__time_2include_2pico_2time_8h_html"><div class="ttname"><a href="common_2pico__time_2include_2pico_2time_8h.html">time.h</a></div></div>
 <div class="ttc" id="agroup__lock__core_html_gabc062dfb52c8f7f17ec8427d1c4414d9"><div class="ttname"><a href="group__lock__core.html#gabc062dfb52c8f7f17ec8427d1c4414d9">lock_init</a></div><div class="ttdeci">void lock_init(lock_core_t *core, uint lock_num)</div><div class="ttdoc">Initialise a lock structure.</div><div class="ttdef"><b>Definition:</b> lock_core.c:9</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 <div class="ttc" id="arp2__common_2hardware__sync_2include_2hardware_2sync_8h_html"><div class="ttname"><a href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html">sync.h</a></div></div>
 <div class="ttc" id="astructlock__core_html"><div class="ttname"><a href="structlock__core.html">lock_core</a></div><div class="ttdef"><b>Definition:</b> lock_core.h:53</div></div>
-<div class="ttc" id="atime_8h_html"><div class="ttname"><a href="time_8h.html">time.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

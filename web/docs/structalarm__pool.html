@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,33 +107,51 @@ $(document).ready(function(){initNavTree('structalarm__pool.html',''); initResiz
   <div class="headertitle"><div class="title">alarm_pool Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Collaboration diagram for alarm_pool:</div>
+<div class="dyncontent">
+<div class="center"><img src="structalarm__pool__coll__graph.png" border="0" usemap="#aalarm__pool_coll__map" alt="Collaboration graph"/></div>
+<map name="aalarm__pool_coll__map" id="aalarm__pool_coll__map">
+<area shape="rect" title=" " alt="" coords="26,95,121,121"/>
+<area shape="rect" href="structalarm__pool__entry.html" title=" " alt="" coords="5,5,141,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:af2a37ab928d6f7b6469be2223950478f"><td class="memItemLeft" align="right" valign="top"><a id="af2a37ab928d6f7b6469be2223950478f" name="af2a37ab928d6f7b6469be2223950478f"></a>
-<a class="el" href="structpheap.html">pheap_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>heap</b></td></tr>
-<tr class="separator:af2a37ab928d6f7b6469be2223950478f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa97929b1d0d8f80077555b2dd9a46bb7"><td class="memItemLeft" align="right" valign="top"><a id="aa97929b1d0d8f80077555b2dd9a46bb7" name="aa97929b1d0d8f80077555b2dd9a46bb7"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>timer_alarm_num</b></td></tr>
+<tr class="separator:aa97929b1d0d8f80077555b2dd9a46bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8e202b1b782bf9a85a13b6b65251d57"><td class="memItemLeft" align="right" valign="top"><a id="ab8e202b1b782bf9a85a13b6b65251d57" name="ab8e202b1b782bf9a85a13b6b65251d57"></a>
+uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>core_num</b></td></tr>
+<tr class="separator:ab8e202b1b782bf9a85a13b6b65251d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa0eaeb7224894b849b702224c55e0d3"><td class="memItemLeft" align="right" valign="top"><a id="aaa0eaeb7224894b849b702224c55e0d3" name="aaa0eaeb7224894b849b702224c55e0d3"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>free_head</b></td></tr>
+<tr class="separator:aaa0eaeb7224894b849b702224c55e0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04cb681fd341d015d4a7104d265c64e9"><td class="memItemLeft" align="right" valign="top"><a id="a04cb681fd341d015d4a7104d265c64e9" name="a04cb681fd341d015d4a7104d265c64e9"></a>
+volatile int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>new_head</b></td></tr>
+<tr class="separator:a04cb681fd341d015d4a7104d265c64e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2dca632b60fafe248a9e993fb5af70a"><td class="memItemLeft" align="right" valign="top"><a id="ab2dca632b60fafe248a9e993fb5af70a" name="ab2dca632b60fafe248a9e993fb5af70a"></a>
+volatile bool&#160;</td><td class="memItemRight" valign="bottom"><b>has_pending_cancellations</b></td></tr>
+<tr class="separator:ab2dca632b60fafe248a9e993fb5af70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a263e1150e68074325cfef1782020c8ba"><td class="memItemLeft" align="right" valign="top"><a id="a263e1150e68074325cfef1782020c8ba" name="a263e1150e68074325cfef1782020c8ba"></a>
+int16_t&#160;</td><td class="memItemRight" valign="bottom"><b>ordered_head</b></td></tr>
+<tr class="separator:a263e1150e68074325cfef1782020c8ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5826e72189122f3eec44a7cfb58a0996"><td class="memItemLeft" align="right" valign="top"><a id="a5826e72189122f3eec44a7cfb58a0996" name="a5826e72189122f3eec44a7cfb58a0996"></a>
+uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>num_entries</b></td></tr>
+<tr class="separator:a5826e72189122f3eec44a7cfb58a0996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23554fac3f79c9145a236703c1a74d4d"><td class="memItemLeft" align="right" valign="top"><a id="a23554fac3f79c9145a236703c1a74d4d" name="a23554fac3f79c9145a236703c1a74d4d"></a>
+alarm_pool_timer_t *&#160;</td><td class="memItemRight" valign="bottom"><b>timer</b></td></tr>
+<tr class="separator:a23554fac3f79c9145a236703c1a74d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c957660aa67178f82dad8120aee73d2"><td class="memItemLeft" align="right" valign="top"><a id="a3c957660aa67178f82dad8120aee73d2" name="a3c957660aa67178f82dad8120aee73d2"></a>
-<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>lock</b></td></tr>
+spin_lock_t *&#160;</td><td class="memItemRight" valign="bottom"><b>lock</b></td></tr>
 <tr class="separator:a3c957660aa67178f82dad8120aee73d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d257e184b9e4f65f6b729bf8731fa65"><td class="memItemLeft" align="right" valign="top"><a id="a4d257e184b9e4f65f6b729bf8731fa65" name="a4d257e184b9e4f65f6b729bf8731fa65"></a>
 <a class="el" href="structalarm__pool__entry.html">alarm_pool_entry_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>entries</b></td></tr>
 <tr class="separator:a4d257e184b9e4f65f6b729bf8731fa65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3528e5aa78a9dfb31bdf6088c157b004"><td class="memItemLeft" align="right" valign="top"><a id="a3528e5aa78a9dfb31bdf6088c157b004" name="a3528e5aa78a9dfb31bdf6088c157b004"></a>
-uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>entry_ids_high</b></td></tr>
-<tr class="separator:a3528e5aa78a9dfb31bdf6088c157b004"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a309c5802ab76432b0ebde8585734c20b"><td class="memItemLeft" align="right" valign="top"><a id="a309c5802ab76432b0ebde8585734c20b" name="a309c5802ab76432b0ebde8585734c20b"></a>
-<a class="el" href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>alarm_in_progress</b></td></tr>
-<tr class="separator:a309c5802ab76432b0ebde8585734c20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c09a59c4d85d5992b6e22ee155f71de"><td class="memItemLeft" align="right" valign="top"><a id="a2c09a59c4d85d5992b6e22ee155f71de" name="a2c09a59c4d85d5992b6e22ee155f71de"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>hardware_alarm_num</b></td></tr>
-<tr class="separator:a2c09a59c4d85d5992b6e22ee155f71de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8e202b1b782bf9a85a13b6b65251d57"><td class="memItemLeft" align="right" valign="top"><a id="ab8e202b1b782bf9a85a13b6b65251d57" name="ab8e202b1b782bf9a85a13b6b65251d57"></a>
-uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>core_num</b></td></tr>
-<tr class="separator:ab8e202b1b782bf9a85a13b6b65251d57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>pico_time/time.c</li>
+<li>time.c</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

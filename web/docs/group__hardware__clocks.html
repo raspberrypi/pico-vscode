@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,54 +109,242 @@ $(document).ready(function(){initNavTree('group__hardware__clocks.html',''); ini
   <div class="headertitle"><div class="title">hardware_clocks<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Clock Management API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:gae5b3d4a25ed3bb4916782746a6279507"><td class="memItemLeft" align="right" valign="top"><a id="gae5b3d4a25ed3bb4916782746a6279507" name="gae5b3d4a25ed3bb4916782746a6279507"></a>
+typedef enum <a class="el" href="group__hardware__clocks.html#gacf8c8ac7970cacdec6c5f62a62926644">clock_num_rp2040</a>&#160;</td><td class="memItemRight" valign="bottom"><b>clock_num_t</b></td></tr>
+<tr class="memdesc:gae5b3d4a25ed3bb4916782746a6279507"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock numbers on RP2040 (used as typedef <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a>) <br /></td></tr>
+<tr class="separator:gae5b3d4a25ed3bb4916782746a6279507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9191dff316e7d1c4753f6dff2a72ce77"><td class="memItemLeft" align="right" valign="top"><a id="ga9191dff316e7d1c4753f6dff2a72ce77" name="ga9191dff316e7d1c4753f6dff2a72ce77"></a>
+typedef enum <a class="el" href="group__hardware__clocks.html#ga531be47022a78745db42ab7b29da20e0">clock_dest_num_rp2040</a>&#160;</td><td class="memItemRight" valign="bottom"><b>clock_dest_num_t</b></td></tr>
+<tr class="memdesc:ga9191dff316e7d1c4753f6dff2a72ce77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock destination numbers on RP2040 (used as typedef <a class="el" href="group__hardware__clocks.html#ga316b881883b0533cc32883b31f8a08e3">clock_dest_num_t</a>) <br /></td></tr>
+<tr class="separator:ga9191dff316e7d1c4753f6dff2a72ce77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga824c11c2ae315e0b745f6dd3db936788"><td class="memItemLeft" align="right" valign="top"><a id="ga824c11c2ae315e0b745f6dd3db936788" name="ga824c11c2ae315e0b745f6dd3db936788"></a>
+typedef enum <a class="el" href="group__hardware__clocks.html#gae174e8b50eace53b7752265d166ffce6">clock_num_rp2350</a>&#160;</td><td class="memItemRight" valign="bottom"><b>clock_num_t</b></td></tr>
+<tr class="memdesc:ga824c11c2ae315e0b745f6dd3db936788"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock numbers on RP2350 (used as typedef <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a>) <br /></td></tr>
+<tr class="separator:ga824c11c2ae315e0b745f6dd3db936788"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga316b881883b0533cc32883b31f8a08e3"><td class="memItemLeft" align="right" valign="top"><a id="ga316b881883b0533cc32883b31f8a08e3" name="ga316b881883b0533cc32883b31f8a08e3"></a>
+typedef enum <a class="el" href="group__hardware__clocks.html#ga1c6adf915fb4a4c82e5e702ebc38b5d5">clock_dest_num_rp2350</a>&#160;</td><td class="memItemRight" valign="bottom"><b>clock_dest_num_t</b></td></tr>
+<tr class="memdesc:ga316b881883b0533cc32883b31f8a08e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock destination numbers on RP2350 (used as typedef <a class="el" href="group__hardware__clocks.html#ga316b881883b0533cc32883b31f8a08e3">clock_dest_num_t</a>) <br /></td></tr>
+<tr class="separator:ga316b881883b0533cc32883b31f8a08e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga60fddc9bfe13c979c8e3a777d0d89037"><td class="memItemLeft" align="right" valign="top">typedef void(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a>) (void)</td></tr>
 <tr class="memdesc:ga60fddc9bfe13c979c8e3a777d0d89037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resus callback function type.  <a href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">More...</a><br /></td></tr>
 <tr class="separator:ga60fddc9bfe13c979c8e3a777d0d89037"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:ga7ac25aa331f7c2624795b6088f87d133"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> { <br />
-&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133a8c35a604478e413afed2b3c558df5c64">clk_gpout0</a> = 0
-, <a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133aa1515365ea7f6fc7815d71ac584fcc65">clk_gpout1</a>
-, <a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133a913a8ae975120951e7d5c5c3df66f20f">clk_gpout2</a>
-, <a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133ad95941e57d81620130a1b108e0f57b51">clk_gpout3</a>
+<tr class="memitem:gacf8c8ac7970cacdec6c5f62a62926644"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gacf8c8ac7970cacdec6c5f62a62926644">clock_num_rp2040</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644a8c35a604478e413afed2b3c558df5c64">clk_gpout0</a> = 0
+, <a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644aa1515365ea7f6fc7815d71ac584fcc65">clk_gpout1</a> = 1
+, <a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644a913a8ae975120951e7d5c5c3df66f20f">clk_gpout2</a> = 2
+, <a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644ad95941e57d81620130a1b108e0f57b51">clk_gpout3</a> = 3
 , <br />
-&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133abba6c078e66ad1a30d5b2b15b62093c4">clk_ref</a>
-, <a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133ac1ad7b83e348265a82c8d234489d62ab">clk_sys</a>
-, <a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133a917c020907b42e257410e885822f6c71">clk_peri</a>
-, <a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133acfa6bf0bcaef61805201373db18ed115">clk_usb</a>
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644abba6c078e66ad1a30d5b2b15b62093c4">clk_ref</a> = 4
+, <a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644ac1ad7b83e348265a82c8d234489d62ab">clk_sys</a> = 5
+, <a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644a917c020907b42e257410e885822f6c71">clk_peri</a> = 6
+, <a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644acfa6bf0bcaef61805201373db18ed115">clk_usb</a> = 7
 , <br />
-&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133afb4bd0bf16d8916c4cb56fa77b4f0b0d">clk_adc</a>
-, <a class="el" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133a7af7fc21d0d48fc06d9476ebb7236e16">clk_rtc</a>
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644afb4bd0bf16d8916c4cb56fa77b4f0b0d">clk_adc</a> = 8
+, <a class="el" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644a7af7fc21d0d48fc06d9476ebb7236e16">clk_rtc</a> = 9
 , <b>CLK_COUNT</b>
 <br />
  }</td></tr>
-<tr class="memdesc:ga7ac25aa331f7c2624795b6088f87d133"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration identifying a hardware clock.  <a href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">More...</a><br /></td></tr>
-<tr class="separator:ga7ac25aa331f7c2624795b6088f87d133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:gacf8c8ac7970cacdec6c5f62a62926644"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock numbers on RP2040 (used as typedef <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a>)  <a href="group__hardware__clocks.html#gacf8c8ac7970cacdec6c5f62a62926644">More...</a><br /></td></tr>
+<tr class="separator:gacf8c8ac7970cacdec6c5f62a62926644"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga531be47022a78745db42ab7b29da20e0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga531be47022a78745db42ab7b29da20e0">clock_dest_num_rp2040</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0aa7a13316822ebdd07cdff5d1153e5310">CLK_DEST_SYS_CLOCKS</a> = 0
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a82f9dca3d810a91d3bcb0c55bb0f4c19">CLK_DEST_ADC_ADC</a> = 1
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0adbfba27500f20882fb56f18ad253fe99">CLK_DEST_SYS_ADC</a> = 2
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a15ec1c8d5bbfc27b125f8cee2bfdd195">CLK_DEST_SYS_BUSCTRL</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0ab4619e35c93f6d3ced95dc46a9985111">CLK_DEST_SYS_BUSFABRIC</a> = 4
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0ab755ea73b6228c074c77af35bd685138">CLK_DEST_SYS_DMA</a> = 5
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0acea8045f9a17d3b88e6f3317de4998fa">CLK_DEST_SYS_I2C0</a> = 6
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a48d42cf1310af2059f28646feb4b3dc0">CLK_DEST_SYS_I2C1</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a8791146f5044f87ecad1240400524783">CLK_DEST_SYS_IO</a> = 8
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a86acc3f11f842c926a33e9041f0d7d97">CLK_DEST_SYS_JTAG</a> = 9
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a926ae7e7d7f16c9068b5771c4ab0cf31">CLK_DEST_SYS_VREG_AND_CHIP_RESET</a> = 10
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a5073bc32f089257f5ce13fcf9dccfd66">CLK_DEST_SYS_PADS</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a7ad1ec92e507d96db3c62458345388b3">CLK_DEST_SYS_PIO0</a> = 12
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a1b7c866f60f6d7a3599851eda6236873">CLK_DEST_SYS_PIO1</a> = 13
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0aaf028e60c1678efe0e465a5c4e63be11">CLK_DEST_SYS_PLL_SYS</a> = 14
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a271e8b16de996d59cf242f3aca93a2f4">CLK_DEST_SYS_PLL_USB</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a1dc3155054ea4ba3d0d93c26fdea0d4d">CLK_DEST_SYS_PSM</a> = 16
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a9efe04f57df4b458903c403addec9483">CLK_DEST_SYS_PWM</a> = 17
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0ad5cf6d4b4c6dcc60f79491e33604a9e9">CLK_DEST_SYS_RESETS</a> = 18
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0ae875abcf316976020784c41df511d47a">CLK_DEST_SYS_ROM</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a6ee938da9230f98365dc67ece536c0d4">CLK_DEST_SYS_ROSC</a> = 20
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a863510ab355fb0af8763acca9d54146a">CLK_DEST_RTC_RTC</a> = 21
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0af7e06e650c8533c8a09dc9bbcee9da34">CLK_DEST_SYS_RTC</a> = 22
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a1cd7587c812db4711ac8d27773fb8e14">CLK_DEST_SYS_SIO</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a8f3ca54d0df7350adb6490c17f01a151">CLK_DEST_PERI_SPI0</a> = 24
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0aac3c334ad4b9eb5e6b77d306f9cf6690">CLK_DEST_SYS_SPI0</a> = 25
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0ac8f3984ecd0d63da5c94bc4441d5fdbf">CLK_DEST_PERI_SPI1</a> = 26
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a7db9d6d1b85c7e8d013147af55ac254f">CLK_DEST_SYS_SPI1</a> = 27
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0aa6b672bba828f538d59cffe4bc56b870">CLK_DEST_SYS_SRAM0</a> = 28
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a5c1252a95489d26504d348a6f19e67b0">CLK_DEST_SYS_SRAM1</a> = 29
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a7ae6e07aa86527443649f572c24d1122">CLK_DEST_SYS_SRAM2</a> = 30
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0ad7e2e7aeebabc9a8f4e1a6f6da524d71">CLK_DEST_SYS_SRAM3</a> = 31
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a677f4e9d98d29174fec1004f6e23b2c2">CLK_DEST_SYS_SRAM4</a> = 32
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a7b3c35197cbab8b5ab72b48a82f32311">CLK_DEST_SYS_SRAM5</a> = 33
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a92b8a0c0a339b0f99c691fda320ff861">CLK_DEST_SYS_SYSCFG</a> = 34
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a8b535a46ba2d708945181d4cca938eac">CLK_DEST_SYS_SYSINFO</a> = 35
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a23baa826e55d0832bce75b9e2e754a57">CLK_DEST_SYS_TBMAN</a> = 36
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0aa44be434dc7d9edafd44b3a4f571a57e">CLK_DEST_SYS_TIMER</a> = 37
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a2e51b16c56acbeb6653950af41e53b76">CLK_DEST_PERI_UART0</a> = 38
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a2251766749e744153aaf4d346106b69c">CLK_DEST_SYS_UART0</a> = 39
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a67d5461d0b587344012b3e6115a97268">CLK_DEST_PERI_UART1</a> = 40
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0aaad38671055261992e9f624b24a708f7">CLK_DEST_SYS_UART1</a> = 41
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a2a29b91d850c1b0b6dd1610d8b2f361a">CLK_DEST_SYS_USBCTRL</a> = 42
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0acc49f83fc860608938bf4aeb146f8076">CLK_DEST_USB_USBCTRL</a> = 43
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a6924053ca1ffe2b13ae349b720d61444">CLK_DEST_SYS_WATCHDOG</a> = 44
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a55ccc9b0512b87373e0ebed3bc0a3675">CLK_DEST_SYS_XIP</a> = 45
+, <a class="el" href="group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0afc877f622f554735e90baea698edaf8a">CLK_DEST_SYS_XOSC</a> = 46
+, <b>NUM_CLOCK_DESTINATIONS</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga531be47022a78745db42ab7b29da20e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock destination numbers on RP2040 (used as typedef <a class="el" href="group__hardware__clocks.html#ga316b881883b0533cc32883b31f8a08e3">clock_dest_num_t</a>)  <a href="group__hardware__clocks.html#ga531be47022a78745db42ab7b29da20e0">More...</a><br /></td></tr>
+<tr class="separator:ga531be47022a78745db42ab7b29da20e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae174e8b50eace53b7752265d166ffce6"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gae174e8b50eace53b7752265d166ffce6">clock_num_rp2350</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6a8c35a604478e413afed2b3c558df5c64">clk_gpout0</a> = 0
+, <a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6aa1515365ea7f6fc7815d71ac584fcc65">clk_gpout1</a> = 1
+, <a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6a913a8ae975120951e7d5c5c3df66f20f">clk_gpout2</a> = 2
+, <a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6ad95941e57d81620130a1b108e0f57b51">clk_gpout3</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6abba6c078e66ad1a30d5b2b15b62093c4">clk_ref</a> = 4
+, <a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6ac1ad7b83e348265a82c8d234489d62ab">clk_sys</a> = 5
+, <a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6a917c020907b42e257410e885822f6c71">clk_peri</a> = 6
+, <a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6a6e7b08899a2da06fa900bf195e7193c5">clk_hstx</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6acfa6bf0bcaef61805201373db18ed115">clk_usb</a> = 8
+, <a class="el" href="group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6afb4bd0bf16d8916c4cb56fa77b4f0b0d">clk_adc</a> = 9
+, <b>CLK_COUNT</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:gae174e8b50eace53b7752265d166ffce6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock numbers on RP2350 (used as typedef <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a>)  <a href="group__hardware__clocks.html#gae174e8b50eace53b7752265d166ffce6">More...</a><br /></td></tr>
+<tr class="separator:gae174e8b50eace53b7752265d166ffce6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1c6adf915fb4a4c82e5e702ebc38b5d5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga1c6adf915fb4a4c82e5e702ebc38b5d5">clock_dest_num_rp2350</a> { <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5aa7a13316822ebdd07cdff5d1153e5310">CLK_DEST_SYS_CLOCKS</a> = 0
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a38f611f6e4e267ed77a821452c80bdca">CLK_DEST_SYS_ACCESSCTRL</a> = 1
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a8fe55c6dbc7dc72e0e9e46210769cc22">CLK_DEST_ADC</a> = 2
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5adbfba27500f20882fb56f18ad253fe99">CLK_DEST_SYS_ADC</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ae0542ef5fa70b55e10f4c61ca35bf4fe">CLK_DEST_SYS_BOOTRAM</a> = 4
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a15ec1c8d5bbfc27b125f8cee2bfdd195">CLK_DEST_SYS_BUSCTRL</a> = 5
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ab4619e35c93f6d3ced95dc46a9985111">CLK_DEST_SYS_BUSFABRIC</a> = 6
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ab755ea73b6228c074c77af35bd685138">CLK_DEST_SYS_DMA</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ac5b88dcc7c4bf5dd08fbcb5a61f254ea">CLK_DEST_SYS_GLITCH_DETECTOR</a> = 8
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a5562093c17670895f1dbc52469f07bd2">CLK_DEST_HSTX</a> = 9
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5afee73393c34c44c30df6cd610a579d54">CLK_DEST_SYS_HSTX</a> = 10
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5acea8045f9a17d3b88e6f3317de4998fa">CLK_DEST_SYS_I2C0</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a48d42cf1310af2059f28646feb4b3dc0">CLK_DEST_SYS_I2C1</a> = 12
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a8791146f5044f87ecad1240400524783">CLK_DEST_SYS_IO</a> = 13
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a86acc3f11f842c926a33e9041f0d7d97">CLK_DEST_SYS_JTAG</a> = 14
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a538a61bfced3e933cddc0391f5360ffc">CLK_DEST_REF_OTP</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ae6c65bc827f2b0854e30bfa2d922fbda">CLK_DEST_SYS_OTP</a> = 16
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a5073bc32f089257f5ce13fcf9dccfd66">CLK_DEST_SYS_PADS</a> = 17
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a7ad1ec92e507d96db3c62458345388b3">CLK_DEST_SYS_PIO0</a> = 18
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a1b7c866f60f6d7a3599851eda6236873">CLK_DEST_SYS_PIO1</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a73e94eec50a0d7d9e65dba9347390554">CLK_DEST_SYS_PIO2</a> = 20
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5aaf028e60c1678efe0e465a5c4e63be11">CLK_DEST_SYS_PLL_SYS</a> = 21
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a271e8b16de996d59cf242f3aca93a2f4">CLK_DEST_SYS_PLL_USB</a> = 22
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a1344c68dad37ca6d787453f19d0cbfbb">CLK_DEST_REF_POWMAN</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a8cce4f58134a4027e29097cb39ccde64">CLK_DEST_SYS_POWMAN</a> = 24
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a9efe04f57df4b458903c403addec9483">CLK_DEST_SYS_PWM</a> = 25
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ad5cf6d4b4c6dcc60f79491e33604a9e9">CLK_DEST_SYS_RESETS</a> = 26
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ae875abcf316976020784c41df511d47a">CLK_DEST_SYS_ROM</a> = 27
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a6ee938da9230f98365dc67ece536c0d4">CLK_DEST_SYS_ROSC</a> = 28
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a1dc3155054ea4ba3d0d93c26fdea0d4d">CLK_DEST_SYS_PSM</a> = 29
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a23f702940b3e822a8ef2f916de5f3ca4">CLK_DEST_SYS_SHA256</a> = 30
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a1cd7587c812db4711ac8d27773fb8e14">CLK_DEST_SYS_SIO</a> = 31
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a8f3ca54d0df7350adb6490c17f01a151">CLK_DEST_PERI_SPI0</a> = 32
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5aac3c334ad4b9eb5e6b77d306f9cf6690">CLK_DEST_SYS_SPI0</a> = 33
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ac8f3984ecd0d63da5c94bc4441d5fdbf">CLK_DEST_PERI_SPI1</a> = 34
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a7db9d6d1b85c7e8d013147af55ac254f">CLK_DEST_SYS_SPI1</a> = 35
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5aa6b672bba828f538d59cffe4bc56b870">CLK_DEST_SYS_SRAM0</a> = 36
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a5c1252a95489d26504d348a6f19e67b0">CLK_DEST_SYS_SRAM1</a> = 37
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a7ae6e07aa86527443649f572c24d1122">CLK_DEST_SYS_SRAM2</a> = 38
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ad7e2e7aeebabc9a8f4e1a6f6da524d71">CLK_DEST_SYS_SRAM3</a> = 39
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a677f4e9d98d29174fec1004f6e23b2c2">CLK_DEST_SYS_SRAM4</a> = 40
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a7b3c35197cbab8b5ab72b48a82f32311">CLK_DEST_SYS_SRAM5</a> = 41
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ab2b65f63a864ac8a45bfe110a11db6db">CLK_DEST_SYS_SRAM6</a> = 42
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a50404f44d65aded4e71e207deb5964bc">CLK_DEST_SYS_SRAM7</a> = 43
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a0c84120ed56e95c3340d4df7b5e96fc0">CLK_DEST_SYS_SRAM8</a> = 44
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a2482a2989d3bdbc92042bed83e5f5ef1">CLK_DEST_SYS_SRAM9</a> = 45
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a92b8a0c0a339b0f99c691fda320ff861">CLK_DEST_SYS_SYSCFG</a> = 46
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a8b535a46ba2d708945181d4cca938eac">CLK_DEST_SYS_SYSINFO</a> = 47
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a23baa826e55d0832bce75b9e2e754a57">CLK_DEST_SYS_TBMAN</a> = 48
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a1e9aabaf8df6e58768de88de50ffacca">CLK_DEST_REF_TICKS</a> = 49
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5aa207bbfebc0f0f783815c678cd1dbf61">CLK_DEST_SYS_TICKS</a> = 50
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a97deb8908aaf8dd9cd2e288dfb280af1">CLK_DEST_SYS_TIMER0</a> = 51
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a7fecfce9098d7b9f712ff08dd428b900">CLK_DEST_SYS_TIMER1</a> = 52
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a81a6652dbbb538c5fe6bac61c01cc7a8">CLK_DEST_SYS_TRNG</a> = 53
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a2e51b16c56acbeb6653950af41e53b76">CLK_DEST_PERI_UART0</a> = 54
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a2251766749e744153aaf4d346106b69c">CLK_DEST_SYS_UART0</a> = 55
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a67d5461d0b587344012b3e6115a97268">CLK_DEST_PERI_UART1</a> = 56
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5aaad38671055261992e9f624b24a708f7">CLK_DEST_SYS_UART1</a> = 57
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a2a29b91d850c1b0b6dd1610d8b2f361a">CLK_DEST_SYS_USBCTRL</a> = 58
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5ac1d7d20e0075d82b36b5796b38bc66ce">CLK_DEST_USB</a> = 59
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a6924053ca1ffe2b13ae349b720d61444">CLK_DEST_SYS_WATCHDOG</a> = 60
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a55ccc9b0512b87373e0ebed3bc0a3675">CLK_DEST_SYS_XIP</a> = 61
+, <a class="el" href="group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5afc877f622f554735e90baea698edaf8a">CLK_DEST_SYS_XOSC</a> = 62
+, <b>NUM_CLOCK_DESTINATIONS</b>
+<br />
+ }</td></tr>
+<tr class="memdesc:ga1c6adf915fb4a4c82e5e702ebc38b5d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock destination numbers on RP2350 (used as typedef <a class="el" href="group__hardware__clocks.html#ga316b881883b0533cc32883b31f8a08e3">clock_dest_num_t</a>)  <a href="group__hardware__clocks.html#ga1c6adf915fb4a4c82e5e702ebc38b5d5">More...</a><br /></td></tr>
+<tr class="separator:ga1c6adf915fb4a4c82e5e702ebc38b5d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gad23a3dc38152e44233b5fb3ef2a3f43d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gad23a3dc38152e44233b5fb3ef2a3f43d">clocks_init</a> (void)</td></tr>
-<tr class="memdesc:gad23a3dc38152e44233b5fb3ef2a3f43d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise the clock hardware.  <a href="group__hardware__clocks.html#gad23a3dc38152e44233b5fb3ef2a3f43d">More...</a><br /></td></tr>
-<tr class="separator:gad23a3dc38152e44233b5fb3ef2a3f43d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga90f15783df4e2cb041971a197b2119b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga90f15783df4e2cb041971a197b2119b1">clock_configure</a> (enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq)</td></tr>
-<tr class="memdesc:ga90f15783df4e2cb041971a197b2119b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the specified clock.  <a href="group__hardware__clocks.html#ga90f15783df4e2cb041971a197b2119b1">More...</a><br /></td></tr>
-<tr class="separator:ga90f15783df4e2cb041971a197b2119b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga42c2ec40c0106e7636fd57c726250c96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga42c2ec40c0106e7636fd57c726250c96">clock_stop</a> (enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index)</td></tr>
-<tr class="memdesc:ga42c2ec40c0106e7636fd57c726250c96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the specified clock.  <a href="group__hardware__clocks.html#ga42c2ec40c0106e7636fd57c726250c96">More...</a><br /></td></tr>
-<tr class="separator:ga42c2ec40c0106e7636fd57c726250c96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae78816cc6112538a12adcc604be4b344"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gae78816cc6112538a12adcc604be4b344">clock_get_hz</a> (enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index)</td></tr>
-<tr class="memdesc:gae78816cc6112538a12adcc604be4b344"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current frequency of the specified clock.  <a href="group__hardware__clocks.html#gae78816cc6112538a12adcc604be4b344">More...</a><br /></td></tr>
-<tr class="separator:gae78816cc6112538a12adcc604be4b344"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4da87f338212a24bbebce4dd570b81bb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">clock_configure</a> (clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq)</td></tr>
+<tr class="memdesc:ga4da87f338212a24bbebce4dd570b81bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the specified clock.  <a href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">More...</a><br /></td></tr>
+<tr class="separator:ga4da87f338212a24bbebce4dd570b81bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6b3cc59b3628108d77b2b1b548ec8053"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga6b3cc59b3628108d77b2b1b548ec8053">clock_configure_undivided</a> (clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq)</td></tr>
+<tr class="memdesc:ga6b3cc59b3628108d77b2b1b548ec8053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the specified clock to use the undividded input source.  <a href="group__hardware__clocks.html#ga6b3cc59b3628108d77b2b1b548ec8053">More...</a><br /></td></tr>
+<tr class="separator:ga6b3cc59b3628108d77b2b1b548ec8053"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga097a126a24cec137d4cc6c01a388f8a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga097a126a24cec137d4cc6c01a388f8a5">clock_configure_int_divider</a> (clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t int_divider)</td></tr>
+<tr class="memdesc:ga097a126a24cec137d4cc6c01a388f8a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the specified clock to use the undividded input source.  <a href="group__hardware__clocks.html#ga097a126a24cec137d4cc6c01a388f8a5">More...</a><br /></td></tr>
+<tr class="separator:ga097a126a24cec137d4cc6c01a388f8a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga33862124558abcae451a0607df8d19bc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga33862124558abcae451a0607df8d19bc">clock_stop</a> (clock_handle_t clock)</td></tr>
+<tr class="memdesc:ga33862124558abcae451a0607df8d19bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the specified clock.  <a href="group__hardware__clocks.html#ga33862124558abcae451a0607df8d19bc">More...</a><br /></td></tr>
+<tr class="separator:ga33862124558abcae451a0607df8d19bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa2e43d722ca3375f53cb65513275a625"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gaa2e43d722ca3375f53cb65513275a625">clock_get_hz</a> (clock_handle_t clock)</td></tr>
+<tr class="memdesc:gaa2e43d722ca3375f53cb65513275a625"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current frequency of the specified clock.  <a href="group__hardware__clocks.html#gaa2e43d722ca3375f53cb65513275a625">More...</a><br /></td></tr>
+<tr class="separator:gaa2e43d722ca3375f53cb65513275a625"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaeb4a4f07e66523304837a6498276dd53"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a> (uint src)</td></tr>
 <tr class="memdesc:gaeb4a4f07e66523304837a6498276dd53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Measure a clocks frequency using the Frequency counter.  <a href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">More...</a><br /></td></tr>
 <tr class="separator:gaeb4a4f07e66523304837a6498276dd53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaed3ccd638651449148c30aaf0874cda4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gaed3ccd638651449148c30aaf0874cda4">clock_set_reported_hz</a> (enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index, uint hz)</td></tr>
-<tr class="memdesc:gaed3ccd638651449148c30aaf0874cda4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the "current frequency" of the clock as reported by clock_get_hz without actually changing the clock.  <a href="group__hardware__clocks.html#gaed3ccd638651449148c30aaf0874cda4">More...</a><br /></td></tr>
-<tr class="separator:gaed3ccd638651449148c30aaf0874cda4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9a8d16dd4e2afa2dbb6fc3d884c2269c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga9a8d16dd4e2afa2dbb6fc3d884c2269c">clock_set_reported_hz</a> (clock_handle_t clock, uint hz)</td></tr>
+<tr class="memdesc:ga9a8d16dd4e2afa2dbb6fc3d884c2269c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the "current frequency" of the clock as reported by clock_get_hz without actually changing the clock.  <a href="group__hardware__clocks.html#ga9a8d16dd4e2afa2dbb6fc3d884c2269c">More...</a><br /></td></tr>
+<tr class="separator:ga9a8d16dd4e2afa2dbb6fc3d884c2269c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga614700afaa5ee6767ef2cf662e63f84c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c">clocks_enable_resus</a> (<a class="el" href="group__hardware__clocks.html#ga60fddc9bfe13c979c8e3a777d0d89037">resus_callback_t</a> resus_callback)</td></tr>
 <tr class="memdesc:ga614700afaa5ee6767ef2cf662e63f84c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable the resus function. Restarts clk_sys if it is accidentally stopped.  <a href="group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c">More...</a><br /></td></tr>
 <tr class="separator:ga614700afaa5ee6767ef2cf662e63f84c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -166,16 +354,19 @@ Functions</h2></td></tr>
 <tr class="memitem:ga76d69b8d84158f8c2e99ae84b82ca0a1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">clock_gpio_init</a> (uint gpio, uint src, float div)</td></tr>
 <tr class="memdesc:ga76d69b8d84158f8c2e99ae84b82ca0a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output an optionally divided clock to the specified gpio pin.  <a href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">More...</a><br /></td></tr>
 <tr class="separator:ga76d69b8d84158f8c2e99ae84b82ca0a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab7c219f99ee92b9a14f1012c339c5252"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gab7c219f99ee92b9a14f1012c339c5252">clock_configure_gpin</a> (enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a> clk_index, uint gpio, uint32_t src_freq, uint32_t freq)</td></tr>
-<tr class="memdesc:gab7c219f99ee92b9a14f1012c339c5252"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure a clock to come from a gpio input.  <a href="group__hardware__clocks.html#gab7c219f99ee92b9a14f1012c339c5252">More...</a><br /></td></tr>
-<tr class="separator:gab7c219f99ee92b9a14f1012c339c5252"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae15228c0d8298d19d883a453334a4d40"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__clocks.html#gae15228c0d8298d19d883a453334a4d40">clock_configure_gpin</a> (clock_handle_t clock, uint gpio, uint32_t src_freq, uint32_t freq)</td></tr>
+<tr class="memdesc:gae15228c0d8298d19d883a453334a4d40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure a clock to come from a gpio input.  <a href="group__hardware__clocks.html#gae15228c0d8298d19d883a453334a4d40">More...</a><br /></td></tr>
+<tr class="separator:gae15228c0d8298d19d883a453334a4d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Clock Management API</p>
+<p >Clock Management API. </p>
 <p >This API provides a high level interface to the clock functions.</p>
 <p >The clocks block provides independent clocks to on-chip and external components. It takes inputs from a variety of clock sources allowing the user to trade off performance against cost, board area and power consumption. From these sources it uses multiple clock generators to provide the required clocks. This architecture allows the user flexibility to start and stop clocks independently and to vary some clock frequencies whilst maintaining others at their optimum frequencies</p>
-<p >Please refer to the datasheet for more details on the RP2040 clocks.</p>
+<p >Please refer to the appropriate datasheet for more details on the RP-series clocks.</p>
 <p >The clock source depends on which clock you are attempting to configure. The first table below shows main clock sources. If you are not setting the Reference clock or the System clock, or you are specifying that one of those two will be using an auxiliary clock source, then you will need to use one of the entries from the subsequent tables.</p>
+<ul>
+<li>On RP2040 the clock sources are:</li>
+</ul>
 <p ><b>Main Clock Sources</b></p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -205,7 +396,7 @@ Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">ROSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_ROSC_CLKSRC   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_ROSC_CLKSRC    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">XOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_XOSC_CLKSRC   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_ROSC_CLKSRC    </td></tr>
+<td class="markdownTableBodyNone">XOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_XOSC_CLKSRC   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_XOSC_CLKSRC    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">System clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLK_SYS   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowEven">
@@ -251,6 +442,73 @@ Functions</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">XOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_RTC_CTRL_AUXSRC_VALUE_XOSC_CLKSRC   </td></tr>
 </table>
+<p >On RP2350 the clock sources are:</p><ul>
+<li><b>Main Clock Sources</b></li>
+</ul>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Source   </th><th class="markdownTableHeadNone">Reference Clock   </th><th class="markdownTableHeadNone">System Clock    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ROSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_SRC_VALUE_ROSC_CLKSRC_PH   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Auxiliary   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_SRC_VALUE_CLKSRC_CLK_REF_AUX   </td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_SRC_VALUE_CLKSRC_CLK_SYS_AUX    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">XOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_SRC_VALUE_XOSC_CLKSRC   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">LPOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_SRC_VALUE_LPOSC_CLKSRC   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Reference   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_SRC_VALUE_CLK_REF   </td></tr>
+</table>
+<p ><b>Auxiliary Clock Sources</b></p>
+<p >The auxiliary clock sources available for use in the configure function depend on which clock is being configured. The following table describes the available values that can be used. Note that for clk_gpout[x], x can be 0-3.</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Aux Source   </th><th class="markdownTableHeadNone">clk_gpout[x]   </th><th class="markdownTableHeadNone">clk_ref   </th><th class="markdownTableHeadNone">clk_sys    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">System PLL   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">GPIO in 0   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLKSRC_GPIN0   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_AUXSRC_VALUE_CLKSRC_GPIN0   </td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_CLKSRC_GPIN0    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">GPIO in 1   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLKSRC_GPIN1   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_AUXSRC_VALUE_CLKSRC_GPIN1   </td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_CLKSRC_GPIN1    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">USB PLL   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB   </td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ROSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_ROSC_CLKSRC   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_ROSC_CLKSRC    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">XOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_XOSC_CLKSRC   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_XOSC_CLKSRC    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">LPOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_LPOSC_CLKSRC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_REF_CTRL_AUXSRC_VALUE_LPOSC_CLKSRC   </td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">System clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLK_SYS   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">USB Clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLK_USB   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">ADC clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLK_ADC   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">REF clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLK_REF   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">PERI clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLK_PERI   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">HSTX clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_GPOUTx_CTRL_AUXSRC_VALUE_CLK_PERI   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
+</table>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Aux Source   </th><th class="markdownTableHeadNone">clk_peri   </th><th class="markdownTableHeadNone">clk_hstx   </th><th class="markdownTableHeadNone">clk_usb   </th><th class="markdownTableHeadNone">clk_adc    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">System PLL   </td><td class="markdownTableBodyNone">CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS   </td><td class="markdownTableBodyNone">CLOCKS_CLK_HSTX_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS   </td><td class="markdownTableBodyNone">CLOCKS_CLK_USB_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS   </td><td class="markdownTableBodyNone">CLOCKS_CLK_ADC_CTRL_AUXSRC_VALUE_CLKSRC_PLL_SYS    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">GPIO in 0   </td><td class="markdownTableBodyNone">CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLKSRC_GPIN0   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_USB_CTRL_AUXSRC_VALUE_CLKSRC_GPIN0   </td><td class="markdownTableBodyNone">CLOCKS_CLK_ADC_CTRL_AUXSRC_VALUE_CLKSRC_GPIN0    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">GPIO in 1   </td><td class="markdownTableBodyNone">CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLKSRC_GPIN1   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_USB_CTRL_AUXSRC_VALUE_CLKSRC_GPIN1   </td><td class="markdownTableBodyNone">CLOCKS_CLK_ADC_CTRL_AUXSRC_VALUE_CLKSRC_GPIN1    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">USB PLL   </td><td class="markdownTableBodyNone">CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB   </td><td class="markdownTableBodyNone">CLOCKS_CLK_HSTX_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB   </td><td class="markdownTableBodyNone">CLOCKS_CLK_USB_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB   </td><td class="markdownTableBodyNone">CLOCKS_CLK_ADC_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ROSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_ROSC_CLKSRC_PH   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_USB_CTRL_AUXSRC_VALUE_ROSC_CLKSRC_PH   </td><td class="markdownTableBodyNone">CLOCKS_CLK_ADC_CTRL_AUXSRC_VALUE_ROSC_CLKSRC_PH    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">XOSC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_XOSC_CLKSRC   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone">CLOCKS_CLK_USB_CTRL_AUXSRC_VALUE_XOSC_CLKSRC   </td><td class="markdownTableBodyNone">CLOCKS_CLK_ADC_CTRL_AUXSRC_VALUE_XOSC_CLKSRC    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">System clock   </td><td class="markdownTableBodyNone">CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLK_SYS   </td><td class="markdownTableBodyNone">CLOCKS_CLK_HSTX_CTRL_AUXSRC_VALUE_CLK_SYS   </td><td class="markdownTableBodyNone"></td><td class="markdownTableBodyNone"></td></tr>
+</table>
 <h1><a class="anchor" id="clock_example"></a>
 Example</h1>
 <div class="fragment"><div class="line"> </div>
@@ -292,7 +550,7 @@ Example</h1>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Change clk_sys to be 48MHz. The simplest way is to take this from PLL_USB</span></div>
 <div class="line">    <span class="comment">// which has a source frequency of 48MHz</span></div>
-<div class="line">    <a class="code hl_function" href="group__hardware__clocks.html#ga90f15783df4e2cb041971a197b2119b1">clock_configure</a>(<a class="code hl_enumvalue" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133ac1ad7b83e348265a82c8d234489d62ab">clk_sys</a>,</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">clock_configure</a>(<a class="code hl_enumvalue" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644ac1ad7b83e348265a82c8d234489d62ab">clk_sys</a>,</div>
 <div class="line">                    CLOCKS_CLK_SYS_CTRL_SRC_VALUE_CLKSRC_CLK_SYS_AUX,</div>
 <div class="line">                    CLOCKS_CLK_SYS_CTRL_AUXSRC_VALUE_CLKSRC_PLL_USB,</div>
 <div class="line">                    48 * MHZ,</div>
@@ -302,7 +560,7 @@ Example</h1>
 <div class="line">    <a class="code hl_function" href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll_deinit</a>(pll_sys);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// CLK peri is clocked from clk_sys so need to change clk_peri&#39;s freq</span></div>
-<div class="line">    <a class="code hl_function" href="group__hardware__clocks.html#ga90f15783df4e2cb041971a197b2119b1">clock_configure</a>(<a class="code hl_enumvalue" href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133a917c020907b42e257410e885822f6c71">clk_peri</a>,</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">clock_configure</a>(<a class="code hl_enumvalue" href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644a917c020907b42e257410e885822f6c71">clk_peri</a>,</div>
 <div class="line">                    0,</div>
 <div class="line">                    CLOCKS_CLK_PERI_CTRL_AUXSRC_VALUE_CLK_SYS,</div>
 <div class="line">                    48 * MHZ,</div>
@@ -316,12 +574,12 @@ Example</h1>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__clocks_html_ga90f15783df4e2cb041971a197b2119b1"><div class="ttname"><a href="group__hardware__clocks.html#ga90f15783df4e2cb041971a197b2119b1">clock_configure</a></div><div class="ttdeci">bool clock_configure(enum clock_index clk_index, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq)</div><div class="ttdoc">Configure the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:48</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gaeb4a4f07e66523304837a6498276dd53"><div class="ttname"><a href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a></div><div class="ttdeci">uint32_t frequency_count_khz(uint src)</div><div class="ttdoc">Measure a clocks frequency using the Frequency counter.</div><div class="ttdef"><b>Definition:</b> clocks.c:211</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gga7ac25aa331f7c2624795b6088f87d133a917c020907b42e257410e885822f6c71"><div class="ttname"><a href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133a917c020907b42e257410e885822f6c71">clk_peri</a></div><div class="ttdeci">@ clk_peri</div><div class="ttdoc">Peripheral clock for UART and SPI.</div><div class="ttdef"><b>Definition:</b> clocks.h:34</div></div>
-<div class="ttc" id="agroup__hardware__clocks_html_gga7ac25aa331f7c2624795b6088f87d133ac1ad7b83e348265a82c8d234489d62ab"><div class="ttname"><a href="group__hardware__clocks.html#gga7ac25aa331f7c2624795b6088f87d133ac1ad7b83e348265a82c8d234489d62ab">clk_sys</a></div><div class="ttdeci">@ clk_sys</div><div class="ttdoc">Processors, bus fabric, memory, memory mapped registers.</div><div class="ttdef"><b>Definition:</b> clocks.h:33</div></div>
-<div class="ttc" id="agroup__hardware__pll_html_ga4529ac07cbd8575938245850d20aba29"><div class="ttname"><a href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll_deinit</a></div><div class="ttdeci">void pll_deinit(PLL pll)</div><div class="ttdoc">Release/uninitialise specified PLL.</div><div class="ttdef"><b>Definition:</b> pll.c:75</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:283</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ga4da87f338212a24bbebce4dd570b81bb"><div class="ttname"><a href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">clock_configure</a></div><div class="ttdeci">bool clock_configure(clock_handle_t clock, uint32_t src, uint32_t auxsrc, uint32_t src_freq, uint32_t freq)</div><div class="ttdoc">Configure the specified clock.</div><div class="ttdef"><b>Definition:</b> clocks.c:98</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_gaeb4a4f07e66523304837a6498276dd53"><div class="ttname"><a href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a></div><div class="ttdeci">uint32_t frequency_count_khz(uint src)</div><div class="ttdoc">Measure a clocks frequency using the Frequency counter.</div><div class="ttdef"><b>Definition:</b> clocks.c:133</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ggacf8c8ac7970cacdec6c5f62a62926644a917c020907b42e257410e885822f6c71"><div class="ttname"><a href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644a917c020907b42e257410e885822f6c71">clk_peri</a></div><div class="ttdeci">@ clk_peri</div><div class="ttdoc">Select CLK_PERI as clock source.</div><div class="ttdef"><b>Definition:</b> clocks.h:37</div></div>
+<div class="ttc" id="agroup__hardware__clocks_html_ggacf8c8ac7970cacdec6c5f62a62926644ac1ad7b83e348265a82c8d234489d62ab"><div class="ttname"><a href="group__hardware__clocks.html#ggacf8c8ac7970cacdec6c5f62a62926644ac1ad7b83e348265a82c8d234489d62ab">clk_sys</a></div><div class="ttdeci">@ clk_sys</div><div class="ttdoc">Select CLK_SYS as clock source.</div><div class="ttdef"><b>Definition:</b> clocks.h:36</div></div>
+<div class="ttc" id="agroup__hardware__pll_html_ga4529ac07cbd8575938245850d20aba29"><div class="ttname"><a href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll_deinit</a></div><div class="ttdeci">void pll_deinit(PLL pll)</div><div class="ttdoc">Release/uninitialise specified PLL.</div><div class="ttdef"><b>Definition:</b> pll.c:73</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
 <div class="ttc" id="arp2__common_2hardware__clocks_2include_2hardware_2clocks_8h_html"><div class="ttname"><a href="rp2__common_2hardware__clocks_2include_2hardware_2clocks_8h.html">clocks.h</a></div></div>
 <div class="ttc" id="arp2__common_2hardware__pll_2include_2hardware_2pll_8h_html"><div class="ttname"><a href="rp2__common_2hardware__pll_2include_2hardware_2pll_8h.html">pll.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
@@ -345,47 +603,341 @@ Example</h1>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
-<a id="ga7ac25aa331f7c2624795b6088f87d133" name="ga7ac25aa331f7c2624795b6088f87d133"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7ac25aa331f7c2624795b6088f87d133">&#9670;&nbsp;</a></span>clock_index</h2>
+<a id="ga531be47022a78745db42ab7b29da20e0" name="ga531be47022a78745db42ab7b29da20e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga531be47022a78745db42ab7b29da20e0">&#9670;&nbsp;</a></span>clock_dest_num_rp2040</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a></td>
+          <td class="memname">enum <a class="el" href="group__hardware__clocks.html#ga531be47022a78745db42ab7b29da20e0">clock_dest_num_rp2040</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Enumeration identifying a hardware clock. </p>
+<p>Clock destination numbers on RP2040 (used as typedef <a class="el" href="group__hardware__clocks.html#ga316b881883b0533cc32883b31f8a08e3">clock_dest_num_t</a>) </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133a8c35a604478e413afed2b3c558df5c64" name="gga7ac25aa331f7c2624795b6088f87d133a8c35a604478e413afed2b3c558df5c64"></a>clk_gpout0&#160;</td><td class="fielddoc"><p >GPIO Muxing 0. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0aa7a13316822ebdd07cdff5d1153e5310" name="gga531be47022a78745db42ab7b29da20e0aa7a13316822ebdd07cdff5d1153e5310"></a>CLK_DEST_SYS_CLOCKS&#160;</td><td class="fielddoc"><p >Select SYS_CLOCKS as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133aa1515365ea7f6fc7815d71ac584fcc65" name="gga7ac25aa331f7c2624795b6088f87d133aa1515365ea7f6fc7815d71ac584fcc65"></a>clk_gpout1&#160;</td><td class="fielddoc"><p >GPIO Muxing 1. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a82f9dca3d810a91d3bcb0c55bb0f4c19" name="gga531be47022a78745db42ab7b29da20e0a82f9dca3d810a91d3bcb0c55bb0f4c19"></a>CLK_DEST_ADC_ADC&#160;</td><td class="fielddoc"><p >Select ADC_ADC as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133a913a8ae975120951e7d5c5c3df66f20f" name="gga7ac25aa331f7c2624795b6088f87d133a913a8ae975120951e7d5c5c3df66f20f"></a>clk_gpout2&#160;</td><td class="fielddoc"><p >GPIO Muxing 2. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0adbfba27500f20882fb56f18ad253fe99" name="gga531be47022a78745db42ab7b29da20e0adbfba27500f20882fb56f18ad253fe99"></a>CLK_DEST_SYS_ADC&#160;</td><td class="fielddoc"><p >Select SYS_ADC as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133ad95941e57d81620130a1b108e0f57b51" name="gga7ac25aa331f7c2624795b6088f87d133ad95941e57d81620130a1b108e0f57b51"></a>clk_gpout3&#160;</td><td class="fielddoc"><p >GPIO Muxing 3. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a15ec1c8d5bbfc27b125f8cee2bfdd195" name="gga531be47022a78745db42ab7b29da20e0a15ec1c8d5bbfc27b125f8cee2bfdd195"></a>CLK_DEST_SYS_BUSCTRL&#160;</td><td class="fielddoc"><p >Select SYS_BUSCTRL as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133abba6c078e66ad1a30d5b2b15b62093c4" name="gga7ac25aa331f7c2624795b6088f87d133abba6c078e66ad1a30d5b2b15b62093c4"></a>clk_ref&#160;</td><td class="fielddoc"><p >Watchdog and timers reference clock. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0ab4619e35c93f6d3ced95dc46a9985111" name="gga531be47022a78745db42ab7b29da20e0ab4619e35c93f6d3ced95dc46a9985111"></a>CLK_DEST_SYS_BUSFABRIC&#160;</td><td class="fielddoc"><p >Select SYS_BUSFABRIC as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133ac1ad7b83e348265a82c8d234489d62ab" name="gga7ac25aa331f7c2624795b6088f87d133ac1ad7b83e348265a82c8d234489d62ab"></a>clk_sys&#160;</td><td class="fielddoc"><p >Processors, bus fabric, memory, memory mapped registers. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0ab755ea73b6228c074c77af35bd685138" name="gga531be47022a78745db42ab7b29da20e0ab755ea73b6228c074c77af35bd685138"></a>CLK_DEST_SYS_DMA&#160;</td><td class="fielddoc"><p >Select SYS_DMA as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133a917c020907b42e257410e885822f6c71" name="gga7ac25aa331f7c2624795b6088f87d133a917c020907b42e257410e885822f6c71"></a>clk_peri&#160;</td><td class="fielddoc"><p >Peripheral clock for UART and SPI. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0acea8045f9a17d3b88e6f3317de4998fa" name="gga531be47022a78745db42ab7b29da20e0acea8045f9a17d3b88e6f3317de4998fa"></a>CLK_DEST_SYS_I2C0&#160;</td><td class="fielddoc"><p >Select SYS_I2C0 as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133acfa6bf0bcaef61805201373db18ed115" name="gga7ac25aa331f7c2624795b6088f87d133acfa6bf0bcaef61805201373db18ed115"></a>clk_usb&#160;</td><td class="fielddoc"><p >USB clock. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a48d42cf1310af2059f28646feb4b3dc0" name="gga531be47022a78745db42ab7b29da20e0a48d42cf1310af2059f28646feb4b3dc0"></a>CLK_DEST_SYS_I2C1&#160;</td><td class="fielddoc"><p >Select SYS_I2C1 as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133afb4bd0bf16d8916c4cb56fa77b4f0b0d" name="gga7ac25aa331f7c2624795b6088f87d133afb4bd0bf16d8916c4cb56fa77b4f0b0d"></a>clk_adc&#160;</td><td class="fielddoc"><p >ADC clock. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a8791146f5044f87ecad1240400524783" name="gga531be47022a78745db42ab7b29da20e0a8791146f5044f87ecad1240400524783"></a>CLK_DEST_SYS_IO&#160;</td><td class="fielddoc"><p >Select SYS_IO as clock destination. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga7ac25aa331f7c2624795b6088f87d133a7af7fc21d0d48fc06d9476ebb7236e16" name="gga7ac25aa331f7c2624795b6088f87d133a7af7fc21d0d48fc06d9476ebb7236e16"></a>clk_rtc&#160;</td><td class="fielddoc"><p >Real time clock. </p>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a86acc3f11f842c926a33e9041f0d7d97" name="gga531be47022a78745db42ab7b29da20e0a86acc3f11f842c926a33e9041f0d7d97"></a>CLK_DEST_SYS_JTAG&#160;</td><td class="fielddoc"><p >Select SYS_JTAG as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a926ae7e7d7f16c9068b5771c4ab0cf31" name="gga531be47022a78745db42ab7b29da20e0a926ae7e7d7f16c9068b5771c4ab0cf31"></a>CLK_DEST_SYS_VREG_AND_CHIP_RESET&#160;</td><td class="fielddoc"><p >Select SYS_VREG_AND_CHIP_RESET as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a5073bc32f089257f5ce13fcf9dccfd66" name="gga531be47022a78745db42ab7b29da20e0a5073bc32f089257f5ce13fcf9dccfd66"></a>CLK_DEST_SYS_PADS&#160;</td><td class="fielddoc"><p >Select SYS_PADS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a7ad1ec92e507d96db3c62458345388b3" name="gga531be47022a78745db42ab7b29da20e0a7ad1ec92e507d96db3c62458345388b3"></a>CLK_DEST_SYS_PIO0&#160;</td><td class="fielddoc"><p >Select SYS_PIO0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a1b7c866f60f6d7a3599851eda6236873" name="gga531be47022a78745db42ab7b29da20e0a1b7c866f60f6d7a3599851eda6236873"></a>CLK_DEST_SYS_PIO1&#160;</td><td class="fielddoc"><p >Select SYS_PIO1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0aaf028e60c1678efe0e465a5c4e63be11" name="gga531be47022a78745db42ab7b29da20e0aaf028e60c1678efe0e465a5c4e63be11"></a>CLK_DEST_SYS_PLL_SYS&#160;</td><td class="fielddoc"><p >Select SYS_PLL_SYS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a271e8b16de996d59cf242f3aca93a2f4" name="gga531be47022a78745db42ab7b29da20e0a271e8b16de996d59cf242f3aca93a2f4"></a>CLK_DEST_SYS_PLL_USB&#160;</td><td class="fielddoc"><p >Select SYS_PLL_USB as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a1dc3155054ea4ba3d0d93c26fdea0d4d" name="gga531be47022a78745db42ab7b29da20e0a1dc3155054ea4ba3d0d93c26fdea0d4d"></a>CLK_DEST_SYS_PSM&#160;</td><td class="fielddoc"><p >Select SYS_PSM as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a9efe04f57df4b458903c403addec9483" name="gga531be47022a78745db42ab7b29da20e0a9efe04f57df4b458903c403addec9483"></a>CLK_DEST_SYS_PWM&#160;</td><td class="fielddoc"><p >Select SYS_PWM as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0ad5cf6d4b4c6dcc60f79491e33604a9e9" name="gga531be47022a78745db42ab7b29da20e0ad5cf6d4b4c6dcc60f79491e33604a9e9"></a>CLK_DEST_SYS_RESETS&#160;</td><td class="fielddoc"><p >Select SYS_RESETS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0ae875abcf316976020784c41df511d47a" name="gga531be47022a78745db42ab7b29da20e0ae875abcf316976020784c41df511d47a"></a>CLK_DEST_SYS_ROM&#160;</td><td class="fielddoc"><p >Select SYS_ROM as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a6ee938da9230f98365dc67ece536c0d4" name="gga531be47022a78745db42ab7b29da20e0a6ee938da9230f98365dc67ece536c0d4"></a>CLK_DEST_SYS_ROSC&#160;</td><td class="fielddoc"><p >Select SYS_ROSC as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a863510ab355fb0af8763acca9d54146a" name="gga531be47022a78745db42ab7b29da20e0a863510ab355fb0af8763acca9d54146a"></a>CLK_DEST_RTC_RTC&#160;</td><td class="fielddoc"><p >Select RTC_RTC as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0af7e06e650c8533c8a09dc9bbcee9da34" name="gga531be47022a78745db42ab7b29da20e0af7e06e650c8533c8a09dc9bbcee9da34"></a>CLK_DEST_SYS_RTC&#160;</td><td class="fielddoc"><p >Select SYS_RTC as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a1cd7587c812db4711ac8d27773fb8e14" name="gga531be47022a78745db42ab7b29da20e0a1cd7587c812db4711ac8d27773fb8e14"></a>CLK_DEST_SYS_SIO&#160;</td><td class="fielddoc"><p >Select SYS_SIO as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a8f3ca54d0df7350adb6490c17f01a151" name="gga531be47022a78745db42ab7b29da20e0a8f3ca54d0df7350adb6490c17f01a151"></a>CLK_DEST_PERI_SPI0&#160;</td><td class="fielddoc"><p >Select PERI_SPI0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0aac3c334ad4b9eb5e6b77d306f9cf6690" name="gga531be47022a78745db42ab7b29da20e0aac3c334ad4b9eb5e6b77d306f9cf6690"></a>CLK_DEST_SYS_SPI0&#160;</td><td class="fielddoc"><p >Select SYS_SPI0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0ac8f3984ecd0d63da5c94bc4441d5fdbf" name="gga531be47022a78745db42ab7b29da20e0ac8f3984ecd0d63da5c94bc4441d5fdbf"></a>CLK_DEST_PERI_SPI1&#160;</td><td class="fielddoc"><p >Select PERI_SPI1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a7db9d6d1b85c7e8d013147af55ac254f" name="gga531be47022a78745db42ab7b29da20e0a7db9d6d1b85c7e8d013147af55ac254f"></a>CLK_DEST_SYS_SPI1&#160;</td><td class="fielddoc"><p >Select SYS_SPI1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0aa6b672bba828f538d59cffe4bc56b870" name="gga531be47022a78745db42ab7b29da20e0aa6b672bba828f538d59cffe4bc56b870"></a>CLK_DEST_SYS_SRAM0&#160;</td><td class="fielddoc"><p >Select SYS_SRAM0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a5c1252a95489d26504d348a6f19e67b0" name="gga531be47022a78745db42ab7b29da20e0a5c1252a95489d26504d348a6f19e67b0"></a>CLK_DEST_SYS_SRAM1&#160;</td><td class="fielddoc"><p >Select SYS_SRAM1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a7ae6e07aa86527443649f572c24d1122" name="gga531be47022a78745db42ab7b29da20e0a7ae6e07aa86527443649f572c24d1122"></a>CLK_DEST_SYS_SRAM2&#160;</td><td class="fielddoc"><p >Select SYS_SRAM2 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0ad7e2e7aeebabc9a8f4e1a6f6da524d71" name="gga531be47022a78745db42ab7b29da20e0ad7e2e7aeebabc9a8f4e1a6f6da524d71"></a>CLK_DEST_SYS_SRAM3&#160;</td><td class="fielddoc"><p >Select SYS_SRAM3 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a677f4e9d98d29174fec1004f6e23b2c2" name="gga531be47022a78745db42ab7b29da20e0a677f4e9d98d29174fec1004f6e23b2c2"></a>CLK_DEST_SYS_SRAM4&#160;</td><td class="fielddoc"><p >Select SYS_SRAM4 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a7b3c35197cbab8b5ab72b48a82f32311" name="gga531be47022a78745db42ab7b29da20e0a7b3c35197cbab8b5ab72b48a82f32311"></a>CLK_DEST_SYS_SRAM5&#160;</td><td class="fielddoc"><p >Select SYS_SRAM5 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a92b8a0c0a339b0f99c691fda320ff861" name="gga531be47022a78745db42ab7b29da20e0a92b8a0c0a339b0f99c691fda320ff861"></a>CLK_DEST_SYS_SYSCFG&#160;</td><td class="fielddoc"><p >Select SYS_SYSCFG as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a8b535a46ba2d708945181d4cca938eac" name="gga531be47022a78745db42ab7b29da20e0a8b535a46ba2d708945181d4cca938eac"></a>CLK_DEST_SYS_SYSINFO&#160;</td><td class="fielddoc"><p >Select SYS_SYSINFO as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a23baa826e55d0832bce75b9e2e754a57" name="gga531be47022a78745db42ab7b29da20e0a23baa826e55d0832bce75b9e2e754a57"></a>CLK_DEST_SYS_TBMAN&#160;</td><td class="fielddoc"><p >Select SYS_TBMAN as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0aa44be434dc7d9edafd44b3a4f571a57e" name="gga531be47022a78745db42ab7b29da20e0aa44be434dc7d9edafd44b3a4f571a57e"></a>CLK_DEST_SYS_TIMER&#160;</td><td class="fielddoc"><p >Select SYS_TIMER as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a2e51b16c56acbeb6653950af41e53b76" name="gga531be47022a78745db42ab7b29da20e0a2e51b16c56acbeb6653950af41e53b76"></a>CLK_DEST_PERI_UART0&#160;</td><td class="fielddoc"><p >Select PERI_UART0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a2251766749e744153aaf4d346106b69c" name="gga531be47022a78745db42ab7b29da20e0a2251766749e744153aaf4d346106b69c"></a>CLK_DEST_SYS_UART0&#160;</td><td class="fielddoc"><p >Select SYS_UART0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a67d5461d0b587344012b3e6115a97268" name="gga531be47022a78745db42ab7b29da20e0a67d5461d0b587344012b3e6115a97268"></a>CLK_DEST_PERI_UART1&#160;</td><td class="fielddoc"><p >Select PERI_UART1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0aaad38671055261992e9f624b24a708f7" name="gga531be47022a78745db42ab7b29da20e0aaad38671055261992e9f624b24a708f7"></a>CLK_DEST_SYS_UART1&#160;</td><td class="fielddoc"><p >Select SYS_UART1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a2a29b91d850c1b0b6dd1610d8b2f361a" name="gga531be47022a78745db42ab7b29da20e0a2a29b91d850c1b0b6dd1610d8b2f361a"></a>CLK_DEST_SYS_USBCTRL&#160;</td><td class="fielddoc"><p >Select SYS_USBCTRL as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0acc49f83fc860608938bf4aeb146f8076" name="gga531be47022a78745db42ab7b29da20e0acc49f83fc860608938bf4aeb146f8076"></a>CLK_DEST_USB_USBCTRL&#160;</td><td class="fielddoc"><p >Select USB_USBCTRL as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a6924053ca1ffe2b13ae349b720d61444" name="gga531be47022a78745db42ab7b29da20e0a6924053ca1ffe2b13ae349b720d61444"></a>CLK_DEST_SYS_WATCHDOG&#160;</td><td class="fielddoc"><p >Select SYS_WATCHDOG as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0a55ccc9b0512b87373e0ebed3bc0a3675" name="gga531be47022a78745db42ab7b29da20e0a55ccc9b0512b87373e0ebed3bc0a3675"></a>CLK_DEST_SYS_XIP&#160;</td><td class="fielddoc"><p >Select SYS_XIP as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga531be47022a78745db42ab7b29da20e0afc877f622f554735e90baea698edaf8a" name="gga531be47022a78745db42ab7b29da20e0afc877f622f554735e90baea698edaf8a"></a>CLK_DEST_SYS_XOSC&#160;</td><td class="fielddoc"><p >Select SYS_XOSC as clock destination. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ga1c6adf915fb4a4c82e5e702ebc38b5d5" name="ga1c6adf915fb4a4c82e5e702ebc38b5d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1c6adf915fb4a4c82e5e702ebc38b5d5">&#9670;&nbsp;</a></span>clock_dest_num_rp2350</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__clocks.html#ga1c6adf915fb4a4c82e5e702ebc38b5d5">clock_dest_num_rp2350</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clock destination numbers on RP2350 (used as typedef <a class="el" href="group__hardware__clocks.html#ga316b881883b0533cc32883b31f8a08e3">clock_dest_num_t</a>) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5aa7a13316822ebdd07cdff5d1153e5310" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5aa7a13316822ebdd07cdff5d1153e5310"></a>CLK_DEST_SYS_CLOCKS&#160;</td><td class="fielddoc"><p >Select SYS_CLOCKS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a38f611f6e4e267ed77a821452c80bdca" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a38f611f6e4e267ed77a821452c80bdca"></a>CLK_DEST_SYS_ACCESSCTRL&#160;</td><td class="fielddoc"><p >Select SYS_ACCESSCTRL as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8fe55c6dbc7dc72e0e9e46210769cc22" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8fe55c6dbc7dc72e0e9e46210769cc22"></a>CLK_DEST_ADC&#160;</td><td class="fielddoc"><p >Select ADC as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5adbfba27500f20882fb56f18ad253fe99" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5adbfba27500f20882fb56f18ad253fe99"></a>CLK_DEST_SYS_ADC&#160;</td><td class="fielddoc"><p >Select SYS_ADC as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ae0542ef5fa70b55e10f4c61ca35bf4fe" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ae0542ef5fa70b55e10f4c61ca35bf4fe"></a>CLK_DEST_SYS_BOOTRAM&#160;</td><td class="fielddoc"><p >Select SYS_BOOTRAM as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a15ec1c8d5bbfc27b125f8cee2bfdd195" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a15ec1c8d5bbfc27b125f8cee2bfdd195"></a>CLK_DEST_SYS_BUSCTRL&#160;</td><td class="fielddoc"><p >Select SYS_BUSCTRL as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ab4619e35c93f6d3ced95dc46a9985111" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ab4619e35c93f6d3ced95dc46a9985111"></a>CLK_DEST_SYS_BUSFABRIC&#160;</td><td class="fielddoc"><p >Select SYS_BUSFABRIC as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ab755ea73b6228c074c77af35bd685138" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ab755ea73b6228c074c77af35bd685138"></a>CLK_DEST_SYS_DMA&#160;</td><td class="fielddoc"><p >Select SYS_DMA as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ac5b88dcc7c4bf5dd08fbcb5a61f254ea" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ac5b88dcc7c4bf5dd08fbcb5a61f254ea"></a>CLK_DEST_SYS_GLITCH_DETECTOR&#160;</td><td class="fielddoc"><p >Select SYS_GLITCH_DETECTOR as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a5562093c17670895f1dbc52469f07bd2" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a5562093c17670895f1dbc52469f07bd2"></a>CLK_DEST_HSTX&#160;</td><td class="fielddoc"><p >Select HSTX as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5afee73393c34c44c30df6cd610a579d54" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5afee73393c34c44c30df6cd610a579d54"></a>CLK_DEST_SYS_HSTX&#160;</td><td class="fielddoc"><p >Select SYS_HSTX as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5acea8045f9a17d3b88e6f3317de4998fa" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5acea8045f9a17d3b88e6f3317de4998fa"></a>CLK_DEST_SYS_I2C0&#160;</td><td class="fielddoc"><p >Select SYS_I2C0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a48d42cf1310af2059f28646feb4b3dc0" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a48d42cf1310af2059f28646feb4b3dc0"></a>CLK_DEST_SYS_I2C1&#160;</td><td class="fielddoc"><p >Select SYS_I2C1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8791146f5044f87ecad1240400524783" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8791146f5044f87ecad1240400524783"></a>CLK_DEST_SYS_IO&#160;</td><td class="fielddoc"><p >Select SYS_IO as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a86acc3f11f842c926a33e9041f0d7d97" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a86acc3f11f842c926a33e9041f0d7d97"></a>CLK_DEST_SYS_JTAG&#160;</td><td class="fielddoc"><p >Select SYS_JTAG as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a538a61bfced3e933cddc0391f5360ffc" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a538a61bfced3e933cddc0391f5360ffc"></a>CLK_DEST_REF_OTP&#160;</td><td class="fielddoc"><p >Select REF_OTP as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ae6c65bc827f2b0854e30bfa2d922fbda" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ae6c65bc827f2b0854e30bfa2d922fbda"></a>CLK_DEST_SYS_OTP&#160;</td><td class="fielddoc"><p >Select SYS_OTP as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a5073bc32f089257f5ce13fcf9dccfd66" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a5073bc32f089257f5ce13fcf9dccfd66"></a>CLK_DEST_SYS_PADS&#160;</td><td class="fielddoc"><p >Select SYS_PADS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7ad1ec92e507d96db3c62458345388b3" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7ad1ec92e507d96db3c62458345388b3"></a>CLK_DEST_SYS_PIO0&#160;</td><td class="fielddoc"><p >Select SYS_PIO0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1b7c866f60f6d7a3599851eda6236873" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1b7c866f60f6d7a3599851eda6236873"></a>CLK_DEST_SYS_PIO1&#160;</td><td class="fielddoc"><p >Select SYS_PIO1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a73e94eec50a0d7d9e65dba9347390554" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a73e94eec50a0d7d9e65dba9347390554"></a>CLK_DEST_SYS_PIO2&#160;</td><td class="fielddoc"><p >Select SYS_PIO2 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5aaf028e60c1678efe0e465a5c4e63be11" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5aaf028e60c1678efe0e465a5c4e63be11"></a>CLK_DEST_SYS_PLL_SYS&#160;</td><td class="fielddoc"><p >Select SYS_PLL_SYS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a271e8b16de996d59cf242f3aca93a2f4" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a271e8b16de996d59cf242f3aca93a2f4"></a>CLK_DEST_SYS_PLL_USB&#160;</td><td class="fielddoc"><p >Select SYS_PLL_USB as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1344c68dad37ca6d787453f19d0cbfbb" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1344c68dad37ca6d787453f19d0cbfbb"></a>CLK_DEST_REF_POWMAN&#160;</td><td class="fielddoc"><p >Select REF_POWMAN as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8cce4f58134a4027e29097cb39ccde64" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8cce4f58134a4027e29097cb39ccde64"></a>CLK_DEST_SYS_POWMAN&#160;</td><td class="fielddoc"><p >Select SYS_POWMAN as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a9efe04f57df4b458903c403addec9483" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a9efe04f57df4b458903c403addec9483"></a>CLK_DEST_SYS_PWM&#160;</td><td class="fielddoc"><p >Select SYS_PWM as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ad5cf6d4b4c6dcc60f79491e33604a9e9" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ad5cf6d4b4c6dcc60f79491e33604a9e9"></a>CLK_DEST_SYS_RESETS&#160;</td><td class="fielddoc"><p >Select SYS_RESETS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ae875abcf316976020784c41df511d47a" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ae875abcf316976020784c41df511d47a"></a>CLK_DEST_SYS_ROM&#160;</td><td class="fielddoc"><p >Select SYS_ROM as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a6ee938da9230f98365dc67ece536c0d4" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a6ee938da9230f98365dc67ece536c0d4"></a>CLK_DEST_SYS_ROSC&#160;</td><td class="fielddoc"><p >Select SYS_ROSC as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1dc3155054ea4ba3d0d93c26fdea0d4d" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1dc3155054ea4ba3d0d93c26fdea0d4d"></a>CLK_DEST_SYS_PSM&#160;</td><td class="fielddoc"><p >Select SYS_PSM as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a23f702940b3e822a8ef2f916de5f3ca4" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a23f702940b3e822a8ef2f916de5f3ca4"></a>CLK_DEST_SYS_SHA256&#160;</td><td class="fielddoc"><p >Select SYS_SHA256 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1cd7587c812db4711ac8d27773fb8e14" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1cd7587c812db4711ac8d27773fb8e14"></a>CLK_DEST_SYS_SIO&#160;</td><td class="fielddoc"><p >Select SYS_SIO as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8f3ca54d0df7350adb6490c17f01a151" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8f3ca54d0df7350adb6490c17f01a151"></a>CLK_DEST_PERI_SPI0&#160;</td><td class="fielddoc"><p >Select PERI_SPI0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5aac3c334ad4b9eb5e6b77d306f9cf6690" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5aac3c334ad4b9eb5e6b77d306f9cf6690"></a>CLK_DEST_SYS_SPI0&#160;</td><td class="fielddoc"><p >Select SYS_SPI0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ac8f3984ecd0d63da5c94bc4441d5fdbf" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ac8f3984ecd0d63da5c94bc4441d5fdbf"></a>CLK_DEST_PERI_SPI1&#160;</td><td class="fielddoc"><p >Select PERI_SPI1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7db9d6d1b85c7e8d013147af55ac254f" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7db9d6d1b85c7e8d013147af55ac254f"></a>CLK_DEST_SYS_SPI1&#160;</td><td class="fielddoc"><p >Select SYS_SPI1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5aa6b672bba828f538d59cffe4bc56b870" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5aa6b672bba828f538d59cffe4bc56b870"></a>CLK_DEST_SYS_SRAM0&#160;</td><td class="fielddoc"><p >Select SYS_SRAM0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a5c1252a95489d26504d348a6f19e67b0" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a5c1252a95489d26504d348a6f19e67b0"></a>CLK_DEST_SYS_SRAM1&#160;</td><td class="fielddoc"><p >Select SYS_SRAM1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7ae6e07aa86527443649f572c24d1122" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7ae6e07aa86527443649f572c24d1122"></a>CLK_DEST_SYS_SRAM2&#160;</td><td class="fielddoc"><p >Select SYS_SRAM2 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ad7e2e7aeebabc9a8f4e1a6f6da524d71" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ad7e2e7aeebabc9a8f4e1a6f6da524d71"></a>CLK_DEST_SYS_SRAM3&#160;</td><td class="fielddoc"><p >Select SYS_SRAM3 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a677f4e9d98d29174fec1004f6e23b2c2" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a677f4e9d98d29174fec1004f6e23b2c2"></a>CLK_DEST_SYS_SRAM4&#160;</td><td class="fielddoc"><p >Select SYS_SRAM4 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7b3c35197cbab8b5ab72b48a82f32311" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7b3c35197cbab8b5ab72b48a82f32311"></a>CLK_DEST_SYS_SRAM5&#160;</td><td class="fielddoc"><p >Select SYS_SRAM5 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ab2b65f63a864ac8a45bfe110a11db6db" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ab2b65f63a864ac8a45bfe110a11db6db"></a>CLK_DEST_SYS_SRAM6&#160;</td><td class="fielddoc"><p >Select SYS_SRAM6 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a50404f44d65aded4e71e207deb5964bc" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a50404f44d65aded4e71e207deb5964bc"></a>CLK_DEST_SYS_SRAM7&#160;</td><td class="fielddoc"><p >Select SYS_SRAM7 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a0c84120ed56e95c3340d4df7b5e96fc0" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a0c84120ed56e95c3340d4df7b5e96fc0"></a>CLK_DEST_SYS_SRAM8&#160;</td><td class="fielddoc"><p >Select SYS_SRAM8 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2482a2989d3bdbc92042bed83e5f5ef1" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2482a2989d3bdbc92042bed83e5f5ef1"></a>CLK_DEST_SYS_SRAM9&#160;</td><td class="fielddoc"><p >Select SYS_SRAM9 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a92b8a0c0a339b0f99c691fda320ff861" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a92b8a0c0a339b0f99c691fda320ff861"></a>CLK_DEST_SYS_SYSCFG&#160;</td><td class="fielddoc"><p >Select SYS_SYSCFG as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8b535a46ba2d708945181d4cca938eac" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a8b535a46ba2d708945181d4cca938eac"></a>CLK_DEST_SYS_SYSINFO&#160;</td><td class="fielddoc"><p >Select SYS_SYSINFO as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a23baa826e55d0832bce75b9e2e754a57" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a23baa826e55d0832bce75b9e2e754a57"></a>CLK_DEST_SYS_TBMAN&#160;</td><td class="fielddoc"><p >Select SYS_TBMAN as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1e9aabaf8df6e58768de88de50ffacca" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a1e9aabaf8df6e58768de88de50ffacca"></a>CLK_DEST_REF_TICKS&#160;</td><td class="fielddoc"><p >Select REF_TICKS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5aa207bbfebc0f0f783815c678cd1dbf61" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5aa207bbfebc0f0f783815c678cd1dbf61"></a>CLK_DEST_SYS_TICKS&#160;</td><td class="fielddoc"><p >Select SYS_TICKS as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a97deb8908aaf8dd9cd2e288dfb280af1" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a97deb8908aaf8dd9cd2e288dfb280af1"></a>CLK_DEST_SYS_TIMER0&#160;</td><td class="fielddoc"><p >Select SYS_TIMER0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7fecfce9098d7b9f712ff08dd428b900" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a7fecfce9098d7b9f712ff08dd428b900"></a>CLK_DEST_SYS_TIMER1&#160;</td><td class="fielddoc"><p >Select SYS_TIMER1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a81a6652dbbb538c5fe6bac61c01cc7a8" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a81a6652dbbb538c5fe6bac61c01cc7a8"></a>CLK_DEST_SYS_TRNG&#160;</td><td class="fielddoc"><p >Select SYS_TRNG as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2e51b16c56acbeb6653950af41e53b76" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2e51b16c56acbeb6653950af41e53b76"></a>CLK_DEST_PERI_UART0&#160;</td><td class="fielddoc"><p >Select PERI_UART0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2251766749e744153aaf4d346106b69c" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2251766749e744153aaf4d346106b69c"></a>CLK_DEST_SYS_UART0&#160;</td><td class="fielddoc"><p >Select SYS_UART0 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a67d5461d0b587344012b3e6115a97268" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a67d5461d0b587344012b3e6115a97268"></a>CLK_DEST_PERI_UART1&#160;</td><td class="fielddoc"><p >Select PERI_UART1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5aaad38671055261992e9f624b24a708f7" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5aaad38671055261992e9f624b24a708f7"></a>CLK_DEST_SYS_UART1&#160;</td><td class="fielddoc"><p >Select SYS_UART1 as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2a29b91d850c1b0b6dd1610d8b2f361a" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a2a29b91d850c1b0b6dd1610d8b2f361a"></a>CLK_DEST_SYS_USBCTRL&#160;</td><td class="fielddoc"><p >Select SYS_USBCTRL as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5ac1d7d20e0075d82b36b5796b38bc66ce" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5ac1d7d20e0075d82b36b5796b38bc66ce"></a>CLK_DEST_USB&#160;</td><td class="fielddoc"><p >Select USB as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a6924053ca1ffe2b13ae349b720d61444" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a6924053ca1ffe2b13ae349b720d61444"></a>CLK_DEST_SYS_WATCHDOG&#160;</td><td class="fielddoc"><p >Select SYS_WATCHDOG as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5a55ccc9b0512b87373e0ebed3bc0a3675" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5a55ccc9b0512b87373e0ebed3bc0a3675"></a>CLK_DEST_SYS_XIP&#160;</td><td class="fielddoc"><p >Select SYS_XIP as clock destination. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga1c6adf915fb4a4c82e5e702ebc38b5d5afc877f622f554735e90baea698edaf8a" name="gga1c6adf915fb4a4c82e5e702ebc38b5d5afc877f622f554735e90baea698edaf8a"></a>CLK_DEST_SYS_XOSC&#160;</td><td class="fielddoc"><p >Select SYS_XOSC as clock destination. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gacf8c8ac7970cacdec6c5f62a62926644" name="gacf8c8ac7970cacdec6c5f62a62926644"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacf8c8ac7970cacdec6c5f62a62926644">&#9670;&nbsp;</a></span>clock_num_rp2040</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__clocks.html#gacf8c8ac7970cacdec6c5f62a62926644">clock_num_rp2040</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clock numbers on RP2040 (used as typedef <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a>) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644a8c35a604478e413afed2b3c558df5c64" name="ggacf8c8ac7970cacdec6c5f62a62926644a8c35a604478e413afed2b3c558df5c64"></a>clk_gpout0&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT0 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644aa1515365ea7f6fc7815d71ac584fcc65" name="ggacf8c8ac7970cacdec6c5f62a62926644aa1515365ea7f6fc7815d71ac584fcc65"></a>clk_gpout1&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT1 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644a913a8ae975120951e7d5c5c3df66f20f" name="ggacf8c8ac7970cacdec6c5f62a62926644a913a8ae975120951e7d5c5c3df66f20f"></a>clk_gpout2&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT2 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644ad95941e57d81620130a1b108e0f57b51" name="ggacf8c8ac7970cacdec6c5f62a62926644ad95941e57d81620130a1b108e0f57b51"></a>clk_gpout3&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT3 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644abba6c078e66ad1a30d5b2b15b62093c4" name="ggacf8c8ac7970cacdec6c5f62a62926644abba6c078e66ad1a30d5b2b15b62093c4"></a>clk_ref&#160;</td><td class="fielddoc"><p >Select CLK_REF as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644ac1ad7b83e348265a82c8d234489d62ab" name="ggacf8c8ac7970cacdec6c5f62a62926644ac1ad7b83e348265a82c8d234489d62ab"></a>clk_sys&#160;</td><td class="fielddoc"><p >Select CLK_SYS as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644a917c020907b42e257410e885822f6c71" name="ggacf8c8ac7970cacdec6c5f62a62926644a917c020907b42e257410e885822f6c71"></a>clk_peri&#160;</td><td class="fielddoc"><p >Select CLK_PERI as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644acfa6bf0bcaef61805201373db18ed115" name="ggacf8c8ac7970cacdec6c5f62a62926644acfa6bf0bcaef61805201373db18ed115"></a>clk_usb&#160;</td><td class="fielddoc"><p >Select CLK_USB as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644afb4bd0bf16d8916c4cb56fa77b4f0b0d" name="ggacf8c8ac7970cacdec6c5f62a62926644afb4bd0bf16d8916c4cb56fa77b4f0b0d"></a>clk_adc&#160;</td><td class="fielddoc"><p >Select CLK_ADC as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggacf8c8ac7970cacdec6c5f62a62926644a7af7fc21d0d48fc06d9476ebb7236e16" name="ggacf8c8ac7970cacdec6c5f62a62926644a7af7fc21d0d48fc06d9476ebb7236e16"></a>clk_rtc&#160;</td><td class="fielddoc"><p >Select CLK_RTC as clock source. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="gae174e8b50eace53b7752265d166ffce6" name="gae174e8b50eace53b7752265d166ffce6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae174e8b50eace53b7752265d166ffce6">&#9670;&nbsp;</a></span>clock_num_rp2350</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__clocks.html#gae174e8b50eace53b7752265d166ffce6">clock_num_rp2350</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Clock numbers on RP2350 (used as typedef <a class="el" href="group__hardware__clocks.html#ga824c11c2ae315e0b745f6dd3db936788">clock_num_t</a>) </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6a8c35a604478e413afed2b3c558df5c64" name="ggae174e8b50eace53b7752265d166ffce6a8c35a604478e413afed2b3c558df5c64"></a>clk_gpout0&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT0 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6aa1515365ea7f6fc7815d71ac584fcc65" name="ggae174e8b50eace53b7752265d166ffce6aa1515365ea7f6fc7815d71ac584fcc65"></a>clk_gpout1&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT1 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6a913a8ae975120951e7d5c5c3df66f20f" name="ggae174e8b50eace53b7752265d166ffce6a913a8ae975120951e7d5c5c3df66f20f"></a>clk_gpout2&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT2 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6ad95941e57d81620130a1b108e0f57b51" name="ggae174e8b50eace53b7752265d166ffce6ad95941e57d81620130a1b108e0f57b51"></a>clk_gpout3&#160;</td><td class="fielddoc"><p >Select CLK_GPOUT3 as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6abba6c078e66ad1a30d5b2b15b62093c4" name="ggae174e8b50eace53b7752265d166ffce6abba6c078e66ad1a30d5b2b15b62093c4"></a>clk_ref&#160;</td><td class="fielddoc"><p >Select CLK_REF as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6ac1ad7b83e348265a82c8d234489d62ab" name="ggae174e8b50eace53b7752265d166ffce6ac1ad7b83e348265a82c8d234489d62ab"></a>clk_sys&#160;</td><td class="fielddoc"><p >Select CLK_SYS as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6a917c020907b42e257410e885822f6c71" name="ggae174e8b50eace53b7752265d166ffce6a917c020907b42e257410e885822f6c71"></a>clk_peri&#160;</td><td class="fielddoc"><p >Select CLK_PERI as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6a6e7b08899a2da06fa900bf195e7193c5" name="ggae174e8b50eace53b7752265d166ffce6a6e7b08899a2da06fa900bf195e7193c5"></a>clk_hstx&#160;</td><td class="fielddoc"><p >Select CLK_HSTX as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6acfa6bf0bcaef61805201373db18ed115" name="ggae174e8b50eace53b7752265d166ffce6acfa6bf0bcaef61805201373db18ed115"></a>clk_usb&#160;</td><td class="fielddoc"><p >Select CLK_USB as clock source. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ggae174e8b50eace53b7752265d166ffce6afb4bd0bf16d8916c4cb56fa77b4f0b0d" name="ggae174e8b50eace53b7752265d166ffce6afb4bd0bf16d8916c4cb56fa77b4f0b0d"></a>clk_adc&#160;</td><td class="fielddoc"><p >Select CLK_ADC as clock source. </p>
 </td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga90f15783df4e2cb041971a197b2119b1" name="ga90f15783df4e2cb041971a197b2119b1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga90f15783df4e2cb041971a197b2119b1">&#9670;&nbsp;</a></span>clock_configure()</h2>
+<a id="ga4da87f338212a24bbebce4dd570b81bb" name="ga4da87f338212a24bbebce4dd570b81bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4da87f338212a24bbebce4dd570b81bb">&#9670;&nbsp;</a></span>clock_configure()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -393,8 +945,8 @@ Example</h1>
         <tr>
           <td class="memname">bool clock_configure </td>
           <td>(</td>
-          <td class="paramtype">enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a>&#160;</td>
-          <td class="paramname"><em>clk_index</em>, </td>
+          <td class="paramtype">clock_handle_t&#160;</td>
+          <td class="paramname"><em>clock</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -432,7 +984,7 @@ Example</h1>
 <p >See the tables in the description for details on the possible values for clock sources.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clk_index</td><td>The clock to configure </td></tr>
+    <tr><td class="paramname">clock</td><td>The clock to configure </td></tr>
     <tr><td class="paramname">src</td><td>The main clock source, can be 0. </td></tr>
     <tr><td class="paramname">auxsrc</td><td>The auxiliary clock source, which depends on which clock is being set. Can be 0 </td></tr>
     <tr><td class="paramname">src_freq</td><td>Frequency of the input clock source </td></tr>
@@ -443,8 +995,8 @@ Example</h1>
 
 </div>
 </div>
-<a id="gab7c219f99ee92b9a14f1012c339c5252" name="gab7c219f99ee92b9a14f1012c339c5252"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab7c219f99ee92b9a14f1012c339c5252">&#9670;&nbsp;</a></span>clock_configure_gpin()</h2>
+<a id="gae15228c0d8298d19d883a453334a4d40" name="gae15228c0d8298d19d883a453334a4d40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae15228c0d8298d19d883a453334a4d40">&#9670;&nbsp;</a></span>clock_configure_gpin()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -452,8 +1004,8 @@ Example</h1>
         <tr>
           <td class="memname">bool clock_configure_gpin </td>
           <td>(</td>
-          <td class="paramtype">enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a>&#160;</td>
-          <td class="paramname"><em>clk_index</em>, </td>
+          <td class="paramtype">clock_handle_t&#160;</td>
+          <td class="paramname"><em>clock</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -484,7 +1036,7 @@ Example</h1>
 <p>Configure a clock to come from a gpio input. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clk_index</td><td>The clock to configure </td></tr>
+    <tr><td class="paramname">clock</td><td>The clock to configure </td></tr>
     <tr><td class="paramname">gpio</td><td>The GPIO pin to run the clock from. Valid GPIOs are: 20 and 22. </td></tr>
     <tr><td class="paramname">src_freq</td><td>Frequency of the input clock source </td></tr>
     <tr><td class="paramname">freq</td><td>Requested frequency </td></tr>
@@ -494,8 +1046,119 @@ Example</h1>
 
 </div>
 </div>
-<a id="gae78816cc6112538a12adcc604be4b344" name="gae78816cc6112538a12adcc604be4b344"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae78816cc6112538a12adcc604be4b344">&#9670;&nbsp;</a></span>clock_get_hz()</h2>
+<a id="ga097a126a24cec137d4cc6c01a388f8a5" name="ga097a126a24cec137d4cc6c01a388f8a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga097a126a24cec137d4cc6c01a388f8a5">&#9670;&nbsp;</a></span>clock_configure_int_divider()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clock_configure_int_divider </td>
+          <td>(</td>
+          <td class="paramtype">clock_handle_t&#160;</td>
+          <td class="paramname"><em>clock</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>auxsrc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>src_freq</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>int_divider</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configure the specified clock to use the undividded input source. </p>
+<p >See the tables in the description for details on the possible values for clock sources.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clock</td><td>The clock to configure </td></tr>
+    <tr><td class="paramname">src</td><td>The main clock source, can be 0. </td></tr>
+    <tr><td class="paramname">auxsrc</td><td>The auxiliary clock source, which depends on which clock is being set. Can be 0 </td></tr>
+    <tr><td class="paramname">src_freq</td><td>Frequency of the input clock source </td></tr>
+    <tr><td class="paramname">int_divider</td><td>an integer divider </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga6b3cc59b3628108d77b2b1b548ec8053" name="ga6b3cc59b3628108d77b2b1b548ec8053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6b3cc59b3628108d77b2b1b548ec8053">&#9670;&nbsp;</a></span>clock_configure_undivided()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void clock_configure_undivided </td>
+          <td>(</td>
+          <td class="paramtype">clock_handle_t&#160;</td>
+          <td class="paramname"><em>clock</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>auxsrc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>src_freq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Configure the specified clock to use the undividded input source. </p>
+<p >See the tables in the description for details on the possible values for clock sources.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">clock</td><td>The clock to configure </td></tr>
+    <tr><td class="paramname">src</td><td>The main clock source, can be 0. </td></tr>
+    <tr><td class="paramname">auxsrc</td><td>The auxiliary clock source, which depends on which clock is being set. Can be 0 </td></tr>
+    <tr><td class="paramname">src_freq</td><td>Frequency of the input clock source </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaa2e43d722ca3375f53cb65513275a625" name="gaa2e43d722ca3375f53cb65513275a625"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa2e43d722ca3375f53cb65513275a625">&#9670;&nbsp;</a></span>clock_get_hz()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -503,8 +1166,8 @@ Example</h1>
         <tr>
           <td class="memname">uint32_t clock_get_hz </td>
           <td>(</td>
-          <td class="paramtype">enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a>&#160;</td>
-          <td class="paramname"><em>clk_index</em></td><td>)</td>
+          <td class="paramtype">clock_handle_t&#160;</td>
+          <td class="paramname"><em>clock</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -513,7 +1176,7 @@ Example</h1>
 <p>Get the current frequency of the specified clock. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clk_index</td><td>Clock </td></tr>
+    <tr><td class="paramname">clock</td><td>Clock </td></tr>
   </table>
   </dd>
 </dl>
@@ -624,8 +1287,8 @@ Example</h1>
 
 </div>
 </div>
-<a id="gaed3ccd638651449148c30aaf0874cda4" name="gaed3ccd638651449148c30aaf0874cda4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaed3ccd638651449148c30aaf0874cda4">&#9670;&nbsp;</a></span>clock_set_reported_hz()</h2>
+<a id="ga9a8d16dd4e2afa2dbb6fc3d884c2269c" name="ga9a8d16dd4e2afa2dbb6fc3d884c2269c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9a8d16dd4e2afa2dbb6fc3d884c2269c">&#9670;&nbsp;</a></span>clock_set_reported_hz()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -633,8 +1296,8 @@ Example</h1>
         <tr>
           <td class="memname">void clock_set_reported_hz </td>
           <td>(</td>
-          <td class="paramtype">enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a>&#160;</td>
-          <td class="paramname"><em>clk_index</em>, </td>
+          <td class="paramtype">clock_handle_t&#160;</td>
+          <td class="paramname"><em>clock</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -651,12 +1314,12 @@ Example</h1>
 </div><div class="memdoc">
 
 <p>Set the "current frequency" of the clock as reported by clock_get_hz without actually changing the clock. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__clocks.html#gae78816cc6112538a12adcc604be4b344" title="Get the current frequency of the specified clock.">clock_get_hz()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__clocks.html#gaa2e43d722ca3375f53cb65513275a625" title="Get the current frequency of the specified clock.">clock_get_hz()</a> </dd></dl>
 
 </div>
 </div>
-<a id="ga42c2ec40c0106e7636fd57c726250c96" name="ga42c2ec40c0106e7636fd57c726250c96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga42c2ec40c0106e7636fd57c726250c96">&#9670;&nbsp;</a></span>clock_stop()</h2>
+<a id="ga33862124558abcae451a0607df8d19bc" name="ga33862124558abcae451a0607df8d19bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga33862124558abcae451a0607df8d19bc">&#9670;&nbsp;</a></span>clock_stop()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -664,8 +1327,8 @@ Example</h1>
         <tr>
           <td class="memname">void clock_stop </td>
           <td>(</td>
-          <td class="paramtype">enum <a class="el" href="group__hardware__clocks.html#ga7ac25aa331f7c2624795b6088f87d133">clock_index</a>&#160;</td>
-          <td class="paramname"><em>clk_index</em></td><td>)</td>
+          <td class="paramtype">clock_handle_t&#160;</td>
+          <td class="paramname"><em>clock</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -674,7 +1337,7 @@ Example</h1>
 <p>Stop the specified clock. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">clk_index</td><td>The clock to stop </td></tr>
+    <tr><td class="paramname">clock</td><td>The clock to stop </td></tr>
   </table>
   </dd>
 </dl>
@@ -705,27 +1368,6 @@ Example</h1>
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<a id="gad23a3dc38152e44233b5fb3ef2a3f43d" name="gad23a3dc38152e44233b5fb3ef2a3f43d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad23a3dc38152e44233b5fb3ef2a3f43d">&#9670;&nbsp;</a></span>clocks_init()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void clocks_init </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Initialise the clock hardware. </p>
-<p >Must be called before any other clock function. </p>
 
 </div>
 </div>

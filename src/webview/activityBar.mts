@@ -11,6 +11,7 @@ import Logger from "../logger.mjs";
 import { extensionName } from "../commands/command.mjs";
 import NewProjectCommand from "../commands/newProject.mjs";
 import CompileProjectCommand from "../commands/compileProject.mjs";
+import RunProjectCommand from "../commands/runProject.mjs";
 import SwitchSDKCommand from "../commands/switchSDK.mjs";
 import ConditionalDebuggingCommand from "../commands/conditionalDebugging.mjs";
 import DebugLayoutCommand from "../commands/debugLayout.mjs";
@@ -41,6 +42,7 @@ const IMPORT_PROJECT_LABEL = "Import Project";
 const EXAMPLE_PROJECT_LABEL = "New Project From Examples";
 const SWITCH_SDK_LABEL = "Switch SDK";
 const COMPILE_PROJECT_LABEL = "Compile Project";
+const RUN_PROJECT_LABEL = "Run Project";
 const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
 const DEBUG_PROJECT_LABEL = "Debug Project";
 const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
@@ -91,6 +93,9 @@ export class PicoProjectActivityBar
       case COMPILE_PROJECT_LABEL:
         // alt. "gear", "notifications-configure"
         element.iconPath = new ThemeIcon("file-binary");
+        break;
+      case RUN_PROJECT_LABEL:
+        element.iconPath = new ThemeIcon("run");
         break;
       case CONFIGURE_CMAKE_PROJECT_LABEL:
         // alt. "gather"
@@ -184,6 +189,14 @@ export class PicoProjectActivityBar
           {
             command: `${extensionName}.${CompileProjectCommand.id}`,
             title: COMPILE_PROJECT_LABEL,
+          }
+        ),
+        new QuickAccessCommand(
+          RUN_PROJECT_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${RunProjectCommand.id}`,
+            title: RUN_PROJECT_LABEL,
           }
         ),
         new QuickAccessCommand(

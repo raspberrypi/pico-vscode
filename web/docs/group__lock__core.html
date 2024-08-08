@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,7 +110,7 @@ $(document).ready(function(){initNavTree('group__lock__core.html',''); initResiz
 </div><!--header-->
 <div class="contents">
 
-<p>base synchronization/lock primitive support  
+<p>base synchronization/lock primitive support.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
@@ -120,17 +120,15 @@ Files</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga7e5b614312aabaada704b6a2350d39bc"><td class="memItemLeft" align="right" valign="top"><a id="ga7e5b614312aabaada704b6a2350d39bc" name="ga7e5b614312aabaada704b6a2350d39bc"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>lock_owner_id_t</b>&#160;&#160;&#160;int8_t</td></tr>
-<tr class="memdesc:ga7e5b614312aabaada704b6a2350d39bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">type to use to store the 'owner' of a lock.By default this is int8_t as it only needs to store the core number or -1, however it may be overridden if a larger type is required (e.g. for an RTOS task id) <br /></td></tr>
+<tr class="memitem:ga7e5b614312aabaada704b6a2350d39bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>&#160;&#160;&#160;int8_t</td></tr>
+<tr class="memdesc:ga7e5b614312aabaada704b6a2350d39bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">type to use to store the 'owner' of a lock.  <a href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">More...</a><br /></td></tr>
 <tr class="separator:ga7e5b614312aabaada704b6a2350d39bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga56aa223ceb22fdc4f0a3464fff119e14"><td class="memItemLeft" align="right" valign="top"><a id="ga56aa223ceb22fdc4f0a3464fff119e14" name="ga56aa223ceb22fdc4f0a3464fff119e14"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>LOCK_INVALID_OWNER_ID</b>&#160;&#160;&#160;((<a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>)-1)</td></tr>
 <tr class="memdesc:ga56aa223ceb22fdc4f0a3464fff119e14"><td class="mdescLeft">&#160;</td><td class="mdescRight">marker value to use for a lock_owner_id_t which does not refer to any valid owner <br /></td></tr>
 <tr class="separator:ga56aa223ceb22fdc4f0a3464fff119e14"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae28f1d974cf1f1b973127500a764245c"><td class="memItemLeft" align="right" valign="top"><a id="gae28f1d974cf1f1b973127500a764245c" name="gae28f1d974cf1f1b973127500a764245c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>lock_get_caller_owner_id</b>()&#160;&#160;&#160;((<a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>)<a class="el" href="group__pico__platform.html#ga974b4945ae0ac8892717cb5f05e83c53">get_core_num</a>())</td></tr>
-<tr class="memdesc:gae28f1d974cf1f1b973127500a764245c"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the owner id for the callerBy default this returns the calling core number, but may be overridden (e.g. to return an RTOS task id) <br /></td></tr>
+<tr class="memitem:gae28f1d974cf1f1b973127500a764245c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lock__core.html#gae28f1d974cf1f1b973127500a764245c">lock_get_caller_owner_id</a>()&#160;&#160;&#160;((<a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>)<a class="el" href="group__pico__platform.html#ga58434ad816f519308ee02c639b7965bc">get_core_num</a>())</td></tr>
+<tr class="memdesc:gae28f1d974cf1f1b973127500a764245c"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the owner id for the caller  <a href="group__lock__core.html#gae28f1d974cf1f1b973127500a764245c">More...</a><br /></td></tr>
 <tr class="separator:gae28f1d974cf1f1b973127500a764245c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaaea64ba43b0ff683739ba136fe5a2b29"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lock__core.html#gaaea64ba43b0ff683739ba136fe5a2b29">lock_internal_spin_unlock_with_wait</a>(lock,  save)&#160;&#160;&#160;<a class="el" href="group__hardware__sync.html#ga281ce69786da23cab7ba6c42537d4e87">spin_unlock</a>((lock)-&gt;spin_lock, save), <a class="el" href="group__hardware__sync.html#ga7799a0b9fc6444d463170266392f5fcd">__wfe</a>()</td></tr>
 <tr class="memdesc:gaaea64ba43b0ff683739ba136fe5a2b29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Atomically unlock the lock's spin lock, and wait for a notification.  <a href="group__lock__core.html#gaaea64ba43b0ff683739ba136fe5a2b29">More...</a><br /></td></tr>
@@ -152,13 +150,33 @@ Functions</h2></td></tr>
 <tr class="separator:gabc062dfb52c8f7f17ec8427d1c4414d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >base synchronization/lock primitive support </p>
+<p >base synchronization/lock primitive support. </p>
 <p >Most of the pico_sync locking primitives contain a lock_core_t structure member. This currently just holds a spin lock which is used only to protect the contents of the rest of the structure as part of implementing the synchronization primitive. As such, the spin_lock member of lock core is never still held on return from any function for the primitive.</p>
 <p ><a class="el" href="group__critical__section.html">critical_section</a> is an exceptional case in that it does not have a lock_core_t and simply wraps a spin lock, providing methods to lock and unlock said spin lock.</p>
 <p ><a class="el" href="structlock__core.html">lock_core</a> based structures work by locking the spin lock, checking state, and then deciding whether they additionally need to block or notify when the spin lock is released. In the blocking case, they will wake up again in the future, and try the process again.</p>
 <p >By default the SDK just uses the processors' events via SEV and WEV for notification and blocking as these are sufficient for cross core, and notification from interrupt handlers. However macros are defined in this file that abstract the wait and notify mechanisms to allow the SDK locking functions to effectively be used within an RTOS or other environment.</p>
-<p >When implementing an RTOS, it is desirable for the SDK synchronization primitives that wait, to block the calling task (and immediately yield), and those that notify, to wake a blocked task which isn't on processor. At least the wait macro implementation needs to be atomic with the protecting spin_lock unlock from the callers point of view; i.e. the task should unlock the spin lock when it starts its wait. Such implementation is up to the RTOS integration, however the macros are defined such that such operations are always combined into a single call (so they can be perfomed atomically) even though the default implementation does not need this, as a WFE which starts following the corresponding SEV is not missed. </p>
+<p >When implementing an RTOS, it is desirable for the SDK synchronization primitives that wait, to block the calling task (and immediately yield), and those that notify, to wake a blocked task which isn't on processor. At least the wait macro implementation needs to be atomic with the protecting spin_lock unlock from the callers point of view; i.e. the task should unlock the spin lock when it starts its wait. Such implementation is up to the RTOS integration, however the macros are defined such that such operations are always combined into a single call (so they can be performed atomically) even though the default implementation does not need this, as a WFE which starts following the corresponding SEV is not missed. </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="gae28f1d974cf1f1b973127500a764245c" name="gae28f1d974cf1f1b973127500a764245c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae28f1d974cf1f1b973127500a764245c">&#9670;&nbsp;</a></span>lock_get_caller_owner_id</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lock_get_caller_owner_id</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td>&#160;&#160;&#160;((<a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>)<a class="el" href="group__pico__platform.html#ga58434ad816f519308ee02c639b7965bc">get_core_num</a>())</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>return the owner id for the caller </p>
+<p >By default this returns the calling core number, but may be overridden (e.g. to return an RTOS task id) </p>
+
+</div>
+</div>
 <a id="ga627a09221ed61634d6dfea6f406e104e" name="ga627a09221ed61634d6dfea6f406e104e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga627a09221ed61634d6dfea6f406e104e">&#9670;&nbsp;</a></span>lock_internal_spin_unlock_with_best_effort_wait_or_timeout</h2>
 
@@ -203,7 +221,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">lock</td><td>the <a class="el" href="structlock__core.html">lock_core</a> for the primitive which needs to block </td></tr>
     <tr><td class="paramname">save</td><td>the uint32_t value that should be passed to spin_unlock when the spin lock is unlocked. (i.e. the PRIMASK state when the spin lock was acquire) </td></tr>
-    <tr><td class="paramname">until</td><td>the <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> value </td></tr>
+    <tr><td class="paramname">until</td><td>the <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> value </td></tr>
   </table>
   </dd>
 </dl>
@@ -291,6 +309,23 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga7e5b614312aabaada704b6a2350d39bc" name="ga7e5b614312aabaada704b6a2350d39bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7e5b614312aabaada704b6a2350d39bc">&#9670;&nbsp;</a></span>lock_owner_id_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define lock_owner_id_t&#160;&#160;&#160;int8_t</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>type to use to store the 'owner' of a lock. </p>
+<p >By default this is int8_t as it only needs to store the core number or -1, however it may be overridden if a larger type is required (e.g. for an RTOS task id) </p>
+
+</div>
+</div>
 <a id="ga133eb482d67637b8b4e947dee5133513" name="ga133eb482d67637b8b4e947dee5133513"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga133eb482d67637b8b4e947dee5133513">&#9670;&nbsp;</a></span>sync_internal_yield_until_before</h2>
 
@@ -312,7 +347,7 @@ Functions</h2></td></tr>
 <p >By default this method does nothing, however it can be overridden (for example by an RTOS which is able to block the current task until the scheduler tick before the given time)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">until</td><td>the <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> value </td></tr>
+    <tr><td class="paramname">until</td><td>the <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> value </td></tr>
   </table>
   </dd>
 </dl>

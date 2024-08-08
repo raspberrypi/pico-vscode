@@ -1,9 +1,22 @@
 import { readdirSync, renameSync, rmdirSync, statSync } from "fs";
-import { join } from "path";
+import { dirname, join } from "path";
+import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
 import { exec } from "child_process";
 import AdmZip from "adm-zip";
 import { request } from "https";
+import { fileURLToPath } from "url";
+
+export const CURRENT_DATA_VERSION = "0.15.0";
+
+export function getDataRoot(): string {
+  return joinPosix(
+    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
+    "..",
+    "data",
+    CURRENT_DATA_VERSION
+  );
+}
 
 export function tryUnzipFiles(
   zipFilePath: string,
@@ -33,7 +46,7 @@ export function tryUnzipFiles(
 export function unzipFile(
   zipFilePath: string,
   targetDirectory: string,
-  enforceSuccess: boolean = true
+  enforceSuccess: boolean = false
 ): boolean {
   try {
     if (enforceSuccess) {
@@ -50,10 +63,10 @@ export function unzipFile(
         ? join(targetDirectory, targetDirContents[0])
         : "";
     if (
-      process.platform === "win32" &&
       targetDirContents.length === 1 &&
       statSync(subfolderPath).isDirectory()
     ) {
+      // Move all files and folders from the subfolder to targetDirectory
       readdirSync(subfolderPath).forEach(item => {
         const itemPath = join(subfolderPath, item);
         const newItemPath = join(targetDirectory, item);
@@ -61,6 +74,8 @@ export function unzipFile(
         // Use fs.renameSync to move the item
         renameSync(itemPath, newItemPath);
       });
+
+      // Remove the empty subfolder
       rmdirSync(subfolderPath);
     }
 
@@ -109,21 +124,27 @@ export async function unxzFile(
           Logger.log(`Error extracting archive file: ${error?.message}`);
           resolve(false);
         } else {
-          // Assuming there's only one subfolder in targetDirectory
-          const subfolder = readdirSync(targetDirectory)[0];
-          const subfolderPath = join(targetDirectory, subfolder);
+          const targetDirContents = readdirSync(targetDirectory);
+          const subfolderPath =
+            targetDirContents.length === 1
+              ? join(targetDirectory, targetDirContents[0])
+              : "";
+          if (
+            targetDirContents.length === 1 &&
+            statSync(subfolderPath).isDirectory()
+          ) {
+            // Move all files and folders from the subfolder to targetDirectory
+            readdirSync(subfolderPath).forEach(item => {
+              const itemPath = join(subfolderPath, item);
+              const newItemPath = join(targetDirectory, item);
 
-          // Move all files and folders from the subfolder to targetDirectory
-          readdirSync(subfolderPath).forEach(item => {
-            const itemPath = join(subfolderPath, item);
-            const newItemPath = join(targetDirectory, item);
+              // Use fs.renameSync to move the item
+              renameSync(itemPath, newItemPath);
+            });
 
-            // Use fs.renameSync to move the item
-            renameSync(itemPath, newItemPath);
-          });
-
-          // Remove the empty subfolder
-          rmdirSync(subfolderPath);
+            // Remove the empty subfolder
+            rmdirSync(subfolderPath);
+          }
 
           Logger.log(`Extracted archive file: ${xzFilePath}`);
           resolve(true);

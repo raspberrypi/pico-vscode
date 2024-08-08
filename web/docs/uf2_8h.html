@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: boot_uf2/include/boot/uf2.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/boot/uf2.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,6 +110,17 @@ $(document).ready(function(){initNavTree('uf2_8h.html',''); initResizable(); });
 <div class="contents">
 <div class="textblock"><code>#include &lt;stdint.h&gt;</code><br />
 <code>#include &lt;assert.h&gt;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for uf2.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="uf2_8h__incl.png" border="0" usemap="#ainclude_2boot_2uf2_8h" alt=""/></div>
+<map name="ainclude_2boot_2uf2_8h" id="ainclude_2boot_2uf2_8h">
+<area shape="rect" title=" " alt="" coords="19,5,158,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,76,107"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="101,80,175,107"/>
+<area shape="rect" title=" " alt="" coords="97,155,179,181"/>
+</map>
+</div>
 </div>
 <p><a href="uf2_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -142,8 +153,26 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>UF2_FLAG_MD5_PRESENT</b>&#160;&#160;&#160;0x00004000u</td></tr>
 <tr class="separator:ac61b0fc1ff7274a0e28e5bb1a396f76a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa3e8b45b096854bf103fa950ba646c77"><td class="memItemLeft" align="right" valign="top"><a id="aa3e8b45b096854bf103fa950ba646c77" name="aa3e8b45b096854bf103fa950ba646c77"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>RP2040_FAMILY_ID</b>&#160;&#160;&#160;0xe48bff56</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RP2040_FAMILY_ID</b>&#160;&#160;&#160;0xe48bff56u</td></tr>
 <tr class="separator:aa3e8b45b096854bf103fa950ba646c77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc21fe58e317197989a9df1a3300493"><td class="memItemLeft" align="right" valign="top"><a id="a1dc21fe58e317197989a9df1a3300493" name="a1dc21fe58e317197989a9df1a3300493"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>ABSOLUTE_FAMILY_ID</b>&#160;&#160;&#160;0xe48bff57u</td></tr>
+<tr class="separator:a1dc21fe58e317197989a9df1a3300493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81d3167f5138149b3d79d9659a45bf7c"><td class="memItemLeft" align="right" valign="top"><a id="a81d3167f5138149b3d79d9659a45bf7c" name="a81d3167f5138149b3d79d9659a45bf7c"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>DATA_FAMILY_ID</b>&#160;&#160;&#160;0xe48bff58u</td></tr>
+<tr class="separator:a81d3167f5138149b3d79d9659a45bf7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ed8b08fbae22fe91a02cf0db92ad003"><td class="memItemLeft" align="right" valign="top"><a id="a4ed8b08fbae22fe91a02cf0db92ad003" name="a4ed8b08fbae22fe91a02cf0db92ad003"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RP2350_ARM_S_FAMILY_ID</b>&#160;&#160;&#160;0xe48bff59u</td></tr>
+<tr class="separator:a4ed8b08fbae22fe91a02cf0db92ad003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8651959376430ea2c96e3697e659e4e0"><td class="memItemLeft" align="right" valign="top"><a id="a8651959376430ea2c96e3697e659e4e0" name="a8651959376430ea2c96e3697e659e4e0"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RP2350_RISCV_FAMILY_ID</b>&#160;&#160;&#160;0xe48bff5au</td></tr>
+<tr class="separator:a8651959376430ea2c96e3697e659e4e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb1ccc6525a835ea3861c4bbfdd444ff"><td class="memItemLeft" align="right" valign="top"><a id="acb1ccc6525a835ea3861c4bbfdd444ff" name="acb1ccc6525a835ea3861c4bbfdd444ff"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>RP2350_ARM_NS_FAMILY_ID</b>&#160;&#160;&#160;0xe48bff5bu</td></tr>
+<tr class="separator:acb1ccc6525a835ea3861c4bbfdd444ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a314d1ef3ad7cd76484b49fd2ae928beb"><td class="memItemLeft" align="right" valign="top"><a id="a314d1ef3ad7cd76484b49fd2ae928beb" name="a314d1ef3ad7cd76484b49fd2ae928beb"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>FAMILY_ID_MAX</b>&#160;&#160;&#160;0xe48bff5bu</td></tr>
+<tr class="separator:a314d1ef3ad7cd76484b49fd2ae928beb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

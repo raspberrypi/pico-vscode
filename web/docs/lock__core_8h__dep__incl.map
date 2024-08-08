@@ -1,0 +1,11 @@
+<map id="include/pico/lock_core.h" name="include/pico/lock_core.h">
+<area shape="rect" id="node1" title=" " alt="" coords="255,5,434,32"/>
+<area shape="rect" id="node2" href="$critical__section_8h.html" title=" " alt="" coords="5,80,153,121"/>
+<area shape="rect" id="node5" href="$mutex_8h.html" title=" " alt="" coords="177,87,336,114"/>
+<area shape="rect" id="node7" href="$sem_8h.html" title=" " alt="" coords="361,87,505,114"/>
+<area shape="rect" id="node9" href="$queue_8h.html" title=" " alt="" coords="529,87,710,114"/>
+<area shape="rect" id="node3" href="$common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="97,184,243,211"/>
+<area shape="rect" id="node4" href="$multicore_8h.html" title=" " alt="" coords="81,273,259,300"/>
+<area shape="rect" id="node6" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="267,169,422,225"/>
+<area shape="rect" id="node8" href="$async__context__poll_8h_source.html" title=" " alt="" coords="447,177,589,218"/>
+</map>

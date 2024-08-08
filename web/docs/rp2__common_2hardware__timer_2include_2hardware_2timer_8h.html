@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_timer/include/hardware/timer.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/timer.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,14 +111,99 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__timer_2include_
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/timer.h&quot;</code><br />
+<code>#include &quot;hardware/regs/intctrl.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for timer.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__timer_2include_2hardware_2timer_8h__incl.png" border="0" usemap="#ainclude_2hardware_2timer_8h" alt=""/></div>
+<map name="ainclude_2hardware_2timer_8h" id="ainclude_2hardware_2timer_8h">
+<area shape="rect" title=" " alt="" coords="495,5,679,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" title=" " alt="" coords="497,80,678,107"/>
+<area shape="rect" title=" " alt="" coords="703,80,872,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__timer_2include_2hardware_2timer_8h__dep__incl.png" border="0" usemap="#ainclude_2hardware_2timer_8hdep" alt=""/></div>
+<map name="ainclude_2hardware_2timer_8hdep" id="ainclude_2hardware_2timer_8hdep">
+<area shape="rect" title=" " alt="" coords="1922,5,2106,32"/>
+<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="1842,80,1989,107"/>
+<area shape="rect" href="time__adapter_8h_source.html" title=" " alt="" coords="2013,80,2215,107"/>
+<area shape="rect" href="cyw43__configport_8h_source.html" title=" " alt="" coords="461,162,660,189"/>
+<area shape="rect" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html" title=" " alt="" coords="1831,162,2000,189"/>
+<area shape="rect" href="async__context_8h.html" title=" " alt="" coords="1032,244,1175,285"/>
+<area shape="rect" href="lock__core_8h.html" title=" " alt="" coords="1627,162,1806,189"/>
+<area shape="rect" href="rp2__common_2pico__sha256_2include_2pico_2sha256_8h.html" title=" " alt="" coords="2025,162,2187,189"/>
+<area shape="rect" href="stdlib_8h.html" title=" " alt="" coords="2211,162,2363,189"/>
+<area shape="rect" href="timeout__helper_8h_source.html" title=" " alt="" coords="2387,155,2542,196"/>
+<area shape="rect" href="cyw43__config_8h_source.html" title=" " alt="" coords="23,251,146,278"/>
+<area shape="rect" href="cyw43_8h.html" title="CYW43 driver interface." alt="" coords="5,437,81,464"/>
+<area shape="rect" href="cyw43__ll_8h_source.html" title=" " alt="" coords="39,348,130,375"/>
+<area shape="rect" href="cyw43__arch_8h.html" title=" " alt="" coords="621,512,767,553"/>
+<area shape="rect" href="cyw43__btbus_8h.html" title="CYW43 Bluetooth BUS API." alt="" coords="105,437,224,464"/>
+<area shape="rect" href="i2c__slave_8h.html" title=" " alt="" coords="2111,251,2288,278"/>
+<area shape="rect" href="async__context__base_8h_source.html" title=" " alt="" coords="155,341,297,382"/>
+<area shape="rect" href="async__context__freertos_8h_source.html" title=" " alt="" coords="321,341,469,382"/>
+<area shape="rect" href="async__context__poll_8h_source.html" title=" " alt="" coords="1383,341,1525,382"/>
+<area shape="rect" href="async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="1550,333,1705,389"/>
+<area shape="rect" href="btstack__cyw43_8h.html" title=" " alt="" coords="494,341,646,382"/>
+<area shape="rect" href="btstack__run__loop__async__context_8h_source.html" title=" " alt="" coords="671,341,869,382"/>
+<area shape="rect" href="lwip__freertos_8h.html" title=" " alt="" coords="893,348,1095,375"/>
+<area shape="rect" href="lwip__nosys_8h.html" title=" " alt="" coords="1119,348,1307,375"/>
+<area shape="rect" href="critical__section_8h.html" title=" " alt="" coords="1732,244,1880,285"/>
+<area shape="rect" href="mutex_8h.html" title=" " alt="" coords="1549,251,1708,278"/>
+<area shape="rect" href="sem_8h.html" title=" " alt="" coords="1381,251,1525,278"/>
+<area shape="rect" href="queue_8h.html" title=" " alt="" coords="1905,251,2086,278"/>
+<area shape="rect" href="common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="1729,348,1875,375"/>
+<area shape="rect" href="multicore_8h.html" title=" " alt="" coords="1713,437,1891,464"/>
+<area shape="rect" href="SEGGER__RTT_8h_source.html" title=" " alt="" coords="2313,251,2515,278"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a296e21380cdfb647fa97853d274f72a0"><td class="memItemLeft" align="right" valign="top"><a id="a296e21380cdfb647fa97853d274f72a0" name="a296e21380cdfb647fa97853d274f72a0"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_TIMER</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a296e21380cdfb647fa97853d274f72a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab855a75c8756cea25ff3b08fa1b2c339"><td class="memItemLeft" align="right" valign="top"><a id="ab855a75c8756cea25ff3b08fa1b2c339" name="ab855a75c8756cea25ff3b08fa1b2c339"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_TIMER</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ab855a75c8756cea25ff3b08fa1b2c339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7087b84f4fb4ecce424000c90fce84e4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga7087b84f4fb4ecce424000c90fce84e4">TIMER_ALARM_IRQ_NUM</a>(timer,  alarm_num)</td></tr>
+<tr class="memdesc:ga7087b84f4fb4ecce424000c90fce84e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the given timer instance.  <a href="group__hardware__timer.html#ga7087b84f4fb4ecce424000c90fce84e4">More...</a><br /></td></tr>
+<tr class="separator:ga7087b84f4fb4ecce424000c90fce84e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad96d6d69599253d1880356a4d71ecf19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gad96d6d69599253d1880356a4d71ecf19">TIMER_ALARM_NUM_FROM_IRQ</a>(irq_num)</td></tr>
+<tr class="memdesc:gad96d6d69599253d1880356a4d71ecf19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the alarm number from an \irq_num_t. See TIMER_INSTANCE_NUM_FROM_IRQ to get the timer instance number.  <a href="group__hardware__timer.html#gad96d6d69599253d1880356a4d71ecf19">More...</a><br /></td></tr>
+<tr class="separator:gad96d6d69599253d1880356a4d71ecf19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab3d512da219783a171937d52f17c19d4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gab3d512da219783a171937d52f17c19d4">TIMER_NUM_FROM_IRQ</a>(irq_num)</td></tr>
+<tr class="memdesc:gab3d512da219783a171937d52f17c19d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the alarm number from an \irq_num_t. See TIMER_INSTANCE_NUM_FROM_IRQ to get the alarm number.  <a href="group__hardware__timer.html#gab3d512da219783a171937d52f17c19d4">More...</a><br /></td></tr>
+<tr class="separator:gab3d512da219783a171937d52f17c19d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8ab54d1221d9318ac36daa9790660d8b"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DEFAULT_TIMER</b>&#160;&#160;&#160;0</td></tr>
+<tr class="memdesc:ga8ab54d1221d9318ac36daa9790660d8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">The default timer instance number of the timer instance used for APIs that don't take an explicit timer instance  On RP2040 this must be 0 as there is only one timer instance   On RP2040 this may be set to 0 or 1 . <br /></td></tr>
+<tr class="separator:ga8ab54d1221d9318ac36daa9790660d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga929d2a5b281a0f0321a4273f63ca9ce3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga929d2a5b281a0f0321a4273f63ca9ce3">PICO_DEFAULT_TIMER_INSTANCE</a>()</td></tr>
+<tr class="memdesc:ga929d2a5b281a0f0321a4273f63ca9ce3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the default timer instance on the platform based on the setting of PICO_DEFAULT_TIMER.  <a href="group__hardware__timer.html#ga929d2a5b281a0f0321a4273f63ca9ce3">More...</a><br /></td></tr>
+<tr class="separator:ga929d2a5b281a0f0321a4273f63ca9ce3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af98d33946f4792178e8c4dbb88cb3567"><td class="memItemLeft" align="right" valign="top"><a id="af98d33946f4792178e8c4dbb88cb3567" name="af98d33946f4792178e8c4dbb88cb3567"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>timer_hw</b>&#160;&#160;&#160;<a class="el" href="group__hardware__timer.html#ga929d2a5b281a0f0321a4273f63ca9ce3">PICO_DEFAULT_TIMER_INSTANCE</a>()</td></tr>
+<tr class="separator:af98d33946f4792178e8c4dbb88cb3567"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -130,51 +215,108 @@ Functions</h2></td></tr>
 <tr class="memitem:adaa9c77d6d42e1ebf2ad8562b428aeb3"><td class="memItemLeft" align="right" valign="top"><a id="adaa9c77d6d42e1ebf2ad8562b428aeb3" name="adaa9c77d6d42e1ebf2ad8562b428aeb3"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>check_hardware_alarm_num_param</b> (__unused uint alarm_num)</td></tr>
 <tr class="separator:adaa9c77d6d42e1ebf2ad8562b428aeb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2b3cd8f1226824b3a85fb2bca66e70fd"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga2b3cd8f1226824b3a85fb2bca66e70fd">timer_time_us_32</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer)</td></tr>
+<tr class="memdesc:ga2b3cd8f1226824b3a85fb2bca66e70fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a 32 bit timestamp value in microseconds for a given timer instance.  <a href="group__hardware__timer.html#ga2b3cd8f1226824b3a85fb2bca66e70fd">More...</a><br /></td></tr>
+<tr class="separator:ga2b3cd8f1226824b3a85fb2bca66e70fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabfffa28d8715f71834934f357e7dc091"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">time_us_32</a> (void)</td></tr>
-<tr class="memdesc:gabfffa28d8715f71834934f357e7dc091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a 32 bit timestamp value in microseconds.  <a href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">More...</a><br /></td></tr>
+<tr class="memdesc:gabfffa28d8715f71834934f357e7dc091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a 32 bit timestamp value in microseconds for the default timer instance.  <a href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">More...</a><br /></td></tr>
 <tr class="separator:gabfffa28d8715f71834934f357e7dc091"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga937b4fb64eb4c7cc59464b38365d72d9"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga937b4fb64eb4c7cc59464b38365d72d9">timer_time_us_64</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer)</td></tr>
+<tr class="memdesc:ga937b4fb64eb4c7cc59464b38365d72d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current 64 bit timestamp value in microseconds for a given timer instance.  <a href="group__hardware__timer.html#ga937b4fb64eb4c7cc59464b38365d72d9">More...</a><br /></td></tr>
+<tr class="separator:ga937b4fb64eb4c7cc59464b38365d72d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7bbcd996dbd3dd4adc03a80272fb2fc3"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3">time_us_64</a> (void)</td></tr>
-<tr class="memdesc:ga7bbcd996dbd3dd4adc03a80272fb2fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current 64 bit timestamp value in microseconds.  <a href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3">More...</a><br /></td></tr>
+<tr class="memdesc:ga7bbcd996dbd3dd4adc03a80272fb2fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current 64 bit timestamp value in microseconds for the default timer instance.  <a href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3">More...</a><br /></td></tr>
 <tr class="separator:ga7bbcd996dbd3dd4adc03a80272fb2fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9eaeafc2c64a5f1d5e0ddef2c7d4bbec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga9eaeafc2c64a5f1d5e0ddef2c7d4bbec">timer_busy_wait_us_32</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint32_t delay_us)</td></tr>
+<tr class="memdesc:ga9eaeafc2c64a5f1d5e0ddef2c7d4bbec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given (32 bit) number of microseconds using the given timer instance.  <a href="group__hardware__timer.html#ga9eaeafc2c64a5f1d5e0ddef2c7d4bbec">More...</a><br /></td></tr>
+<tr class="separator:ga9eaeafc2c64a5f1d5e0ddef2c7d4bbec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga89b0f1dcbbdf81c92ade2930e8e38ab6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga89b0f1dcbbdf81c92ade2930e8e38ab6">busy_wait_us_32</a> (uint32_t delay_us)</td></tr>
-<tr class="memdesc:ga89b0f1dcbbdf81c92ade2930e8e38ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given (32 bit) number of microseconds.  <a href="group__hardware__timer.html#ga89b0f1dcbbdf81c92ade2930e8e38ab6">More...</a><br /></td></tr>
+<tr class="memdesc:ga89b0f1dcbbdf81c92ade2930e8e38ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given (32 bit) number of microseconds using the default timer instance.  <a href="group__hardware__timer.html#ga89b0f1dcbbdf81c92ade2930e8e38ab6">More...</a><br /></td></tr>
 <tr class="separator:ga89b0f1dcbbdf81c92ade2930e8e38ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa129f3464b270d9e820605a7237c422a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gaa129f3464b270d9e820605a7237c422a">timer_busy_wait_us</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint64_t delay_us)</td></tr>
+<tr class="memdesc:gaa129f3464b270d9e820605a7237c422a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given (64 bit) number of microseconds using the given timer instance.  <a href="group__hardware__timer.html#gaa129f3464b270d9e820605a7237c422a">More...</a><br /></td></tr>
+<tr class="separator:gaa129f3464b270d9e820605a7237c422a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac089d1c42bb7658bb43c798454f66e2f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gac089d1c42bb7658bb43c798454f66e2f">busy_wait_us</a> (uint64_t delay_us)</td></tr>
-<tr class="memdesc:gac089d1c42bb7658bb43c798454f66e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given (64 bit) number of microseconds.  <a href="group__hardware__timer.html#gac089d1c42bb7658bb43c798454f66e2f">More...</a><br /></td></tr>
+<tr class="memdesc:gac089d1c42bb7658bb43c798454f66e2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given (64 bit) number of microseconds using the default timer instance.  <a href="group__hardware__timer.html#gac089d1c42bb7658bb43c798454f66e2f">More...</a><br /></td></tr>
 <tr class="separator:gac089d1c42bb7658bb43c798454f66e2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac61c07fc2cc25c340be6e8f6e61fd30a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gac61c07fc2cc25c340be6e8f6e61fd30a">timer_busy_wait_ms</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint32_t delay_ms)</td></tr>
+<tr class="memdesc:gac61c07fc2cc25c340be6e8f6e61fd30a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given number of milliseconds using the given timer instance.  <a href="group__hardware__timer.html#gac61c07fc2cc25c340be6e8f6e61fd30a">More...</a><br /></td></tr>
+<tr class="separator:gac61c07fc2cc25c340be6e8f6e61fd30a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga17519ddf048fbdf533decf9e77c956d4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga17519ddf048fbdf533decf9e77c956d4">busy_wait_ms</a> (uint32_t delay_ms)</td></tr>
-<tr class="memdesc:ga17519ddf048fbdf533decf9e77c956d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given number of milliseconds.  <a href="group__hardware__timer.html#ga17519ddf048fbdf533decf9e77c956d4">More...</a><br /></td></tr>
+<tr class="memdesc:ga17519ddf048fbdf533decf9e77c956d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles for the given number of milliseconds using the default timer instance.  <a href="group__hardware__timer.html#ga17519ddf048fbdf533decf9e77c956d4">More...</a><br /></td></tr>
 <tr class="separator:ga17519ddf048fbdf533decf9e77c956d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab1c72f391015ff00a96b24477aa327ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee">busy_wait_until</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t)</td></tr>
-<tr class="memdesc:gab1c72f391015ff00a96b24477aa327ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles until after the specified timestamp.  <a href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee">More...</a><br /></td></tr>
+<tr class="memitem:ga93c8c8020551f0656c3f59335aa823d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga93c8c8020551f0656c3f59335aa823d6">timer_busy_wait_until</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:ga93c8c8020551f0656c3f59335aa823d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles until after the specified timestamp using the given timer instance.  <a href="group__hardware__timer.html#ga93c8c8020551f0656c3f59335aa823d6">More...</a><br /></td></tr>
+<tr class="separator:ga93c8c8020551f0656c3f59335aa823d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab1c72f391015ff00a96b24477aa327ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee">busy_wait_until</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:gab1c72f391015ff00a96b24477aa327ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Busy wait wasting cycles until after the specified timestamp using the default timer instance.  <a href="group__hardware__timer.html#gab1c72f391015ff00a96b24477aa327ee">More...</a><br /></td></tr>
 <tr class="separator:gab1c72f391015ff00a96b24477aa327ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1e41eca96d5c1b3b5e69e3b1a00cdf7d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga1e41eca96d5c1b3b5e69e3b1a00cdf7d">time_reached</a> (<a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t)</td></tr>
-<tr class="memdesc:ga1e41eca96d5c1b3b5e69e3b1a00cdf7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the specified timestamp has been reached.  <a href="group__hardware__timer.html#ga1e41eca96d5c1b3b5e69e3b1a00cdf7d">More...</a><br /></td></tr>
+<tr class="memitem:ga2a8c570e4536f0ceab896475ac5cc5e7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga2a8c570e4536f0ceab896475ac5cc5e7">timer_time_reached</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:ga2a8c570e4536f0ceab896475ac5cc5e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the specified timestamp has been reached on the given timer instance.  <a href="group__hardware__timer.html#ga2a8c570e4536f0ceab896475ac5cc5e7">More...</a><br /></td></tr>
+<tr class="separator:ga2a8c570e4536f0ceab896475ac5cc5e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1e41eca96d5c1b3b5e69e3b1a00cdf7d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga1e41eca96d5c1b3b5e69e3b1a00cdf7d">time_reached</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:ga1e41eca96d5c1b3b5e69e3b1a00cdf7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the specified timestamp has been reached on the default timer instance.  <a href="group__hardware__timer.html#ga1e41eca96d5c1b3b5e69e3b1a00cdf7d">More...</a><br /></td></tr>
 <tr class="separator:ga1e41eca96d5c1b3b5e69e3b1a00cdf7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa4e5b9946e1ce19788b46b8bf9987a4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gaa4e5b9946e1ce19788b46b8bf9987a4b">timer_hardware_alarm_claim</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:gaa4e5b9946e1ce19788b46b8bf9987a4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively claim the use of this hardware alarm_num on the given timer instance  <a href="group__hardware__timer.html#gaa4e5b9946e1ce19788b46b8bf9987a4b">More...</a><br /></td></tr>
+<tr class="separator:gaa4e5b9946e1ce19788b46b8bf9987a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga51e6919f4f860e59e9d6f5403805cb8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga51e6919f4f860e59e9d6f5403805cb8f">hardware_alarm_claim</a> (uint alarm_num)</td></tr>
-<tr class="memdesc:ga51e6919f4f860e59e9d6f5403805cb8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively claim the use of this hardware alarm_num  <a href="group__hardware__timer.html#ga51e6919f4f860e59e9d6f5403805cb8f">More...</a><br /></td></tr>
+<tr class="memdesc:ga51e6919f4f860e59e9d6f5403805cb8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively claim the use of this hardware alarm_num on the default timer instance  <a href="group__hardware__timer.html#ga51e6919f4f860e59e9d6f5403805cb8f">More...</a><br /></td></tr>
 <tr class="separator:ga51e6919f4f860e59e9d6f5403805cb8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8942fc87edfb495a2dd75a4703700642"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga8942fc87edfb495a2dd75a4703700642">timer_hardware_alarm_claim_unused</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, bool required)</td></tr>
+<tr class="memdesc:ga8942fc87edfb495a2dd75a4703700642"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively claim the use of a hardware alarm_num on the given timer instance  <a href="group__hardware__timer.html#ga8942fc87edfb495a2dd75a4703700642">More...</a><br /></td></tr>
+<tr class="separator:ga8942fc87edfb495a2dd75a4703700642"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4500581b13256638c00054d85870c1f2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga4500581b13256638c00054d85870c1f2">hardware_alarm_claim_unused</a> (bool required)</td></tr>
-<tr class="memdesc:ga4500581b13256638c00054d85870c1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively claim the use of this hardware alarm_num  <a href="group__hardware__timer.html#ga4500581b13256638c00054d85870c1f2">More...</a><br /></td></tr>
+<tr class="memdesc:ga4500581b13256638c00054d85870c1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively claim the use of a hardware alarm_num on the default timer instance  <a href="group__hardware__timer.html#ga4500581b13256638c00054d85870c1f2">More...</a><br /></td></tr>
 <tr class="separator:ga4500581b13256638c00054d85870c1f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac8ff547eecf2fd3eb1124cd3a5afe85a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gac8ff547eecf2fd3eb1124cd3a5afe85a">timer_hardware_alarm_unclaim</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:gac8ff547eecf2fd3eb1124cd3a5afe85a"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively release the claim on use of this hardware alarm_num on the given timer instance  <a href="group__hardware__timer.html#gac8ff547eecf2fd3eb1124cd3a5afe85a">More...</a><br /></td></tr>
+<tr class="separator:gac8ff547eecf2fd3eb1124cd3a5afe85a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0d9ea3c5f1d4ea94812b338afbcef7e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga0d9ea3c5f1d4ea94812b338afbcef7e5">hardware_alarm_unclaim</a> (uint alarm_num)</td></tr>
-<tr class="memdesc:ga0d9ea3c5f1d4ea94812b338afbcef7e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively release the claim on use of this hardware alarm_num  <a href="group__hardware__timer.html#ga0d9ea3c5f1d4ea94812b338afbcef7e5">More...</a><br /></td></tr>
+<tr class="memdesc:ga0d9ea3c5f1d4ea94812b338afbcef7e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">cooperatively release the claim on use of this hardware alarm_num on the default timer instance  <a href="group__hardware__timer.html#ga0d9ea3c5f1d4ea94812b338afbcef7e5">More...</a><br /></td></tr>
 <tr class="separator:ga0d9ea3c5f1d4ea94812b338afbcef7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga46d3b463f5ea48b21e285fe06e2960fe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga46d3b463f5ea48b21e285fe06e2960fe">timer_hardware_alarm_is_claimed</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:ga46d3b463f5ea48b21e285fe06e2960fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if a hardware alarm has been claimed on the given timer instance.  <a href="group__hardware__timer.html#ga46d3b463f5ea48b21e285fe06e2960fe">More...</a><br /></td></tr>
+<tr class="separator:ga46d3b463f5ea48b21e285fe06e2960fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6a5ed8cbc0ddea150ba932810ddef2e0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga6a5ed8cbc0ddea150ba932810ddef2e0">hardware_alarm_is_claimed</a> (uint alarm_num)</td></tr>
-<tr class="memdesc:ga6a5ed8cbc0ddea150ba932810ddef2e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if a hardware alarm has been claimed.  <a href="group__hardware__timer.html#ga6a5ed8cbc0ddea150ba932810ddef2e0">More...</a><br /></td></tr>
+<tr class="memdesc:ga6a5ed8cbc0ddea150ba932810ddef2e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if a hardware alarm has been claimed on the default timer instance.  <a href="group__hardware__timer.html#ga6a5ed8cbc0ddea150ba932810ddef2e0">More...</a><br /></td></tr>
 <tr class="separator:ga6a5ed8cbc0ddea150ba932810ddef2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1f7d02607a27915fea3b99a65319d3c1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga1f7d02607a27915fea3b99a65319d3c1">timer_hardware_alarm_set_callback</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num, <a class="el" href="group__hardware__timer.html#gaf2ca140ecc0d1e8087b584ed3707b80a">hardware_alarm_callback_t</a> callback)</td></tr>
+<tr class="memdesc:ga1f7d02607a27915fea3b99a65319d3c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a callback for a hardware alarm for a given timer instance on this core.  <a href="group__hardware__timer.html#ga1f7d02607a27915fea3b99a65319d3c1">More...</a><br /></td></tr>
+<tr class="separator:ga1f7d02607a27915fea3b99a65319d3c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa4c3c72008c100ca25f94b806f13f112"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gaa4c3c72008c100ca25f94b806f13f112">hardware_alarm_set_callback</a> (uint alarm_num, <a class="el" href="group__hardware__timer.html#gaf2ca140ecc0d1e8087b584ed3707b80a">hardware_alarm_callback_t</a> callback)</td></tr>
-<tr class="memdesc:gaa4c3c72008c100ca25f94b806f13f112"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a callback for a hardware timer on this core.  <a href="group__hardware__timer.html#gaa4c3c72008c100ca25f94b806f13f112">More...</a><br /></td></tr>
+<tr class="memdesc:gaa4c3c72008c100ca25f94b806f13f112"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable/Disable a callback for a hardware alarm on the default timer instance on this core.  <a href="group__hardware__timer.html#gaa4c3c72008c100ca25f94b806f13f112">More...</a><br /></td></tr>
 <tr class="separator:gaa4c3c72008c100ca25f94b806f13f112"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga62098633d173c24c56c359df2e886ed2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga62098633d173c24c56c359df2e886ed2">hardware_alarm_set_target</a> (uint alarm_num, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> t)</td></tr>
-<tr class="memdesc:ga62098633d173c24c56c359df2e886ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current target for the specified hardware alarm.  <a href="group__hardware__timer.html#ga62098633d173c24c56c359df2e886ed2">More...</a><br /></td></tr>
+<tr class="memitem:ga8590dbfd69db9c3da5b628cd81efc22d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga8590dbfd69db9c3da5b628cd81efc22d">timer_hardware_alarm_set_target</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:ga8590dbfd69db9c3da5b628cd81efc22d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current target for a specific hardware alarm on the given timer instance.  <a href="group__hardware__timer.html#ga8590dbfd69db9c3da5b628cd81efc22d">More...</a><br /></td></tr>
+<tr class="separator:ga8590dbfd69db9c3da5b628cd81efc22d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga62098633d173c24c56c359df2e886ed2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga62098633d173c24c56c359df2e886ed2">hardware_alarm_set_target</a> (uint alarm_num, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:ga62098633d173c24c56c359df2e886ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the current target for the specified hardware alarm on the default timer instance.  <a href="group__hardware__timer.html#ga62098633d173c24c56c359df2e886ed2">More...</a><br /></td></tr>
 <tr class="separator:ga62098633d173c24c56c359df2e886ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabdb6ba35d83bbf4e3d385821fef7fd05"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gabdb6ba35d83bbf4e3d385821fef7fd05">timer_hardware_alarm_cancel</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:gabdb6ba35d83bbf4e3d385821fef7fd05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel an existing target (if any) for a specific hardware_alarm on the given timer instance.  <a href="group__hardware__timer.html#gabdb6ba35d83bbf4e3d385821fef7fd05">More...</a><br /></td></tr>
+<tr class="separator:gabdb6ba35d83bbf4e3d385821fef7fd05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5bc42f680998e4c30fb7389fee9aa59f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga5bc42f680998e4c30fb7389fee9aa59f">hardware_alarm_cancel</a> (uint alarm_num)</td></tr>
-<tr class="memdesc:ga5bc42f680998e4c30fb7389fee9aa59f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel an existing target (if any) for a given hardware_alarm.  <a href="group__hardware__timer.html#ga5bc42f680998e4c30fb7389fee9aa59f">More...</a><br /></td></tr>
+<tr class="memdesc:ga5bc42f680998e4c30fb7389fee9aa59f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cancel an existing target (if any) for the specified hardware_alarm on the default timer instance.  <a href="group__hardware__timer.html#ga5bc42f680998e4c30fb7389fee9aa59f">More...</a><br /></td></tr>
 <tr class="separator:ga5bc42f680998e4c30fb7389fee9aa59f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga638f76034b217ff7f8999ca16b919f63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga638f76034b217ff7f8999ca16b919f63">timer_hardware_alarm_force_irq</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:ga638f76034b217ff7f8999ca16b919f63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force and IRQ for a specific hardware alarm on the given timer instance.  <a href="group__hardware__timer.html#ga638f76034b217ff7f8999ca16b919f63">More...</a><br /></td></tr>
+<tr class="separator:ga638f76034b217ff7f8999ca16b919f63"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5182b9f67e7f878548460f6f57e22ec0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga5182b9f67e7f878548460f6f57e22ec0">hardware_alarm_force_irq</a> (uint alarm_num)</td></tr>
-<tr class="memdesc:ga5182b9f67e7f878548460f6f57e22ec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force and IRQ for a specific hardware alarm.  <a href="group__hardware__timer.html#ga5182b9f67e7f878548460f6f57e22ec0">More...</a><br /></td></tr>
+<tr class="memdesc:ga5182b9f67e7f878548460f6f57e22ec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force and IRQ for a specific hardware alarm on the default timer instance.  <a href="group__hardware__timer.html#ga5182b9f67e7f878548460f6f57e22ec0">More...</a><br /></td></tr>
 <tr class="separator:ga5182b9f67e7f878548460f6f57e22ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3531b9148290b15a491cfb6e6aafa850"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga3531b9148290b15a491cfb6e6aafa850">timer_hardware_alarm_get_irq_num</a> (__unused <a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:ga3531b9148290b15a491cfb6e6aafa850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the given timer instance.  <a href="group__hardware__timer.html#ga3531b9148290b15a491cfb6e6aafa850">More...</a><br /></td></tr>
+<tr class="separator:ga3531b9148290b15a491cfb6e6aafa850"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4ab38331811cb4dd911385666b5f51a1"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga4ab38331811cb4dd911385666b5f51a1">hardware_alarm_get_irq_num</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:ga4ab38331811cb4dd911385666b5f51a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the default timer instance.  <a href="group__hardware__timer.html#ga4ab38331811cb4dd911385666b5f51a1">More...</a><br /></td></tr>
+<tr class="separator:ga4ab38331811cb4dd911385666b5f51a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6e6a907da0b44a8fb2db2277ad05079c"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga6e6a907da0b44a8fb2db2277ad05079c">timer_get_index</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer)</td></tr>
+<tr class="memdesc:ga6e6a907da0b44a8fb2db2277ad05079c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the timer number for a timer instance.  <a href="group__hardware__timer.html#ga6e6a907da0b44a8fb2db2277ad05079c">More...</a><br /></td></tr>
+<tr class="separator:ga6e6a907da0b44a8fb2db2277ad05079c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1a268fc4a0ad01d2879a7a7334cf9984"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga1a268fc4a0ad01d2879a7a7334cf9984">timer_get_instance</a> (uint timer_num)</td></tr>
+<tr class="memdesc:ga1a268fc4a0ad01d2879a7a7334cf9984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the timer instance with the given timer number.  <a href="group__hardware__timer.html#ga1a268fc4a0ad01d2879a7a7334cf9984">More...</a><br /></td></tr>
+<tr class="separator:ga1a268fc4a0ad01d2879a7a7334cf9984"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

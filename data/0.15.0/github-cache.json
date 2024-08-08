@@ -1,0 +1,331 @@
+{
+  "githubApiCache-0-0": [
+    "1.5.1",
+    "2.0.0"
+  ],
+  "githubApiCache-0-1-1.5.1": {
+    "assets": [
+      {
+        "id": 112935743,
+        "name": "sdk-1.5.1-html-doc.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk/releases/download/1.5.1/sdk-1.5.1-html-doc.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk/releases/107707260/assets"
+  },
+  "githubApiCache-0-1-2.0.0": {
+    "assets": [
+      {
+        "id": 184711853,
+        "name": "pico-sdk-2.0.0.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk/releases/download/2.0.0/pico-sdk-2.0.0.tar.gz"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk/releases/169292056/assets"
+  },
+  "githubApiCache-1-0": [
+    "v3.28.6",
+    "v3.29.6"
+  ],
+  "githubApiCache-1-1-v3.28.6": {
+    "assets": [
+      {
+        "id": 171682637,
+        "name": "cmake-3.28.6-files-v1.json",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-files-v1.json"
+      },
+      {
+        "id": 171682639,
+        "name": "cmake-3.28.6-linux-aarch64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-aarch64.sh"
+      },
+      {
+        "id": 171682797,
+        "name": "cmake-3.28.6-linux-aarch64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-aarch64.tar.gz"
+      },
+      {
+        "id": 171682872,
+        "name": "cmake-3.28.6-linux-x86_64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-x86_64.sh"
+      },
+      {
+        "id": 171682906,
+        "name": "cmake-3.28.6-linux-x86_64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-linux-x86_64.tar.gz"
+      },
+      {
+        "id": 171682946,
+        "name": "cmake-3.28.6-macos-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos-universal.dmg"
+      },
+      {
+        "id": 171683083,
+        "name": "cmake-3.28.6-macos-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos-universal.tar.gz"
+      },
+      {
+        "id": 171683266,
+        "name": "cmake-3.28.6-macos10.10-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos10.10-universal.dmg"
+      },
+      {
+        "id": 171683323,
+        "name": "cmake-3.28.6-macos10.10-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-macos10.10-universal.tar.gz"
+      },
+      {
+        "id": 171683404,
+        "name": "cmake-3.28.6-SHA-256.txt",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-SHA-256.txt"
+      },
+      {
+        "id": 171683405,
+        "name": "cmake-3.28.6-SHA-256.txt.asc",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-SHA-256.txt.asc"
+      },
+      {
+        "id": 171683406,
+        "name": "cmake-3.28.6-windows-arm64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-arm64.msi"
+      },
+      {
+        "id": 171683440,
+        "name": "cmake-3.28.6-windows-arm64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-arm64.zip"
+      },
+      {
+        "id": 171683535,
+        "name": "cmake-3.28.6-windows-i386.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-i386.msi"
+      },
+      {
+        "id": 171683624,
+        "name": "cmake-3.28.6-windows-i386.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-i386.zip"
+      },
+      {
+        "id": 171683745,
+        "name": "cmake-3.28.6-windows-x86_64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-x86_64.msi"
+      },
+      {
+        "id": 171683767,
+        "name": "cmake-3.28.6-windows-x86_64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6-windows-x86_64.zip"
+      },
+      {
+        "id": 171683790,
+        "name": "cmake-3.28.6.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6.tar.gz"
+      },
+      {
+        "id": 171683796,
+        "name": "cmake-3.28.6.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.28.6/cmake-3.28.6.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/158667625/assets"
+  },
+  "githubApiCache-1-1-v3.29.6": {
+    "assets": [
+      {
+        "id": 174341995,
+        "name": "cmake-3.29.6-files-v1.json",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-files-v1.json"
+      },
+      {
+        "id": 174341999,
+        "name": "cmake-3.29.6-linux-aarch64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-aarch64.sh"
+      },
+      {
+        "id": 174342062,
+        "name": "cmake-3.29.6-linux-aarch64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-aarch64.tar.gz"
+      },
+      {
+        "id": 174342111,
+        "name": "cmake-3.29.6-linux-x86_64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-x86_64.sh"
+      },
+      {
+        "id": 174347312,
+        "name": "cmake-3.29.6-linux-x86_64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-linux-x86_64.tar.gz"
+      },
+      {
+        "id": 174342299,
+        "name": "cmake-3.29.6-macos-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos-universal.dmg"
+      },
+      {
+        "id": 174342411,
+        "name": "cmake-3.29.6-macos-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos-universal.tar.gz"
+      },
+      {
+        "id": 174342498,
+        "name": "cmake-3.29.6-macos10.10-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos10.10-universal.dmg"
+      },
+      {
+        "id": 174342661,
+        "name": "cmake-3.29.6-macos10.10-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-macos10.10-universal.tar.gz"
+      },
+      {
+        "id": 174342833,
+        "name": "cmake-3.29.6-SHA-256.txt",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-SHA-256.txt"
+      },
+      {
+        "id": 174342839,
+        "name": "cmake-3.29.6-SHA-256.txt.asc",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-SHA-256.txt.asc"
+      },
+      {
+        "id": 174342841,
+        "name": "cmake-3.29.6-windows-arm64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-arm64.msi"
+      },
+      {
+        "id": 174342900,
+        "name": "cmake-3.29.6-windows-arm64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-arm64.zip"
+      },
+      {
+        "id": 174342965,
+        "name": "cmake-3.29.6-windows-i386.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-i386.msi"
+      },
+      {
+        "id": 174342982,
+        "name": "cmake-3.29.6-windows-i386.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-i386.zip"
+      },
+      {
+        "id": 174343004,
+        "name": "cmake-3.29.6-windows-x86_64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-x86_64.msi"
+      },
+      {
+        "id": 174343044,
+        "name": "cmake-3.29.6-windows-x86_64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6-windows-x86_64.zip"
+      },
+      {
+        "id": 174343086,
+        "name": "cmake-3.29.6.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6.tar.gz"
+      },
+      {
+        "id": 174343102,
+        "name": "cmake-3.29.6.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.29.6/cmake-3.29.6.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/160931478/assets"
+  },
+  "githubApiCache-2-0": [
+    "v1.12.1"
+  ],
+  "githubApiCache-2-1-v1.12.1": {
+    "assets": [
+      {
+        "id": 167333823,
+        "name": "ninja-linux-aarch64.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux-aarch64.zip"
+      },
+      {
+        "id": 167333509,
+        "name": "ninja-linux.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-linux.zip"
+      },
+      {
+        "id": 167333196,
+        "name": "ninja-mac.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-mac.zip"
+      },
+      {
+        "id": 167333379,
+        "name": "ninja-win.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-win.zip"
+      },
+      {
+        "id": 167333478,
+        "name": "ninja-winarm64.zip",
+        "browser_download_url": "https://github.com/ninja-build/ninja/releases/download/v1.12.1/ninja-winarm64.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/ninja-build/ninja/releases/155357494/assets"
+  },
+  "githubApiCache-3-0": [
+    "v2.0.0-0"
+  ],
+  "githubApiCache-3-1-v2.0.0-0": {
+    "assets": [
+      {
+        "id": 184711252,
+        "name": "openocd-0.12.0+dev-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/openocd-0.12.0%2Bdev-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 184710255,
+        "name": "openocd-0.12.0+dev-arm64-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/openocd-0.12.0%2Bdev-arm64-mac.zip"
+      },
+      {
+        "id": 184711712,
+        "name": "openocd-0.12.0+dev-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/openocd-0.12.0%2Bdev-x64-win.zip"
+      },
+      {
+        "id": 184709989,
+        "name": "openocd-0.12.0+dev-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/openocd-0.12.0%2Bdev-x86_64-lin.tar.gz"
+      },
+      {
+        "id": 184711250,
+        "name": "pico-sdk-tools-2.0.0-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/pico-sdk-tools-2.0.0-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 184710252,
+        "name": "pico-sdk-tools-2.0.0-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/pico-sdk-tools-2.0.0-mac.zip"
+      },
+      {
+        "id": 184711713,
+        "name": "pico-sdk-tools-2.0.0-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/pico-sdk-tools-2.0.0-x64-win.zip"
+      },
+      {
+        "id": 184709990,
+        "name": "pico-sdk-tools-2.0.0-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/pico-sdk-tools-2.0.0-x86_64-lin.tar.gz"
+      },
+      {
+        "id": 184711251,
+        "name": "picotool-2.0.0-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/picotool-2.0.0-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 184710253,
+        "name": "picotool-2.0.0-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/picotool-2.0.0-mac.zip"
+      },
+      {
+        "id": 184711714,
+        "name": "picotool-2.0.0-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/picotool-2.0.0-x64-win.zip"
+      },
+      {
+        "id": 184709988,
+        "name": "picotool-2.0.0-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-0/picotool-2.0.0-x86_64-lin.tar.gz"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk-tools/releases/169351844/assets"
+  }
+}

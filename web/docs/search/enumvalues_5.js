@@ -1,16 +1,12 @@
 var searchData=
 [
-  ['vreg_5fvoltage_5f0_5f85_0',['VREG_VOLTAGE_0_85',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f0_5f90_1',['VREG_VOLTAGE_0_90',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f0_5f95_2',['VREG_VOLTAGE_0_95',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f00_3',['VREG_VOLTAGE_1_00',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f05_4',['VREG_VOLTAGE_1_05',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f10_5',['VREG_VOLTAGE_1_10',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f15_6',['VREG_VOLTAGE_1_15',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f20_7',['VREG_VOLTAGE_1_20',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f25_8',['VREG_VOLTAGE_1_25',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f30_9',['VREG_VOLTAGE_1_30',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59',1,'vreg.h']]],
-  ['vreg_5fvoltage_5fdefault_10',['VREG_VOLTAGE_DEFAULT',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a67b3c8176289c56896430a44599d9910',1,'vreg.h']]],
-  ['vreg_5fvoltage_5fmax_11',['VREG_VOLTAGE_MAX',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0addc0833fc1d69fbec46dff9db1fa129f',1,'vreg.h']]],
-  ['vreg_5fvoltage_5fmin_12',['VREG_VOLTAGE_MIN',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0aaf7723eab97235298b913112c29c7e21',1,'vreg.h']]]
+  ['i2c0_5firq_0',['I2C0_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae54e6d9ba3c33888744c4ba77a7a4255',1,'I2C0_IRQ():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae54e6d9ba3c33888744c4ba77a7a4255',1,'I2C0_IRQ():&#160;intctrl_rp2040.h']]],
+  ['i2c1_5firq_1',['I2C1_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a3d4c9de91954651ee3dee7c066fc3db9',1,'I2C1_IRQ():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a3d4c9de91954651ee3dee7c066fc3db9',1,'I2C1_IRQ():&#160;intctrl_rp2040.h']]],
+  ['i2c_5fslave_5ffinish_2',['I2C_SLAVE_FINISH',['../group__pico__i2c__slave.html#ggad8b613f0d4e9d1b9511ca0b6d6ab7e8ca857dc8c139941a8f8bb6888a84e4b83f',1,'i2c_slave.h']]],
+  ['i2c_5fslave_5freceive_3',['I2C_SLAVE_RECEIVE',['../group__pico__i2c__slave.html#ggad8b613f0d4e9d1b9511ca0b6d6ab7e8ca7bc1a9bb9db707479c140a49c4d62a51',1,'i2c_slave.h']]],
+  ['i2c_5fslave_5frequest_4',['I2C_SLAVE_REQUEST',['../group__pico__i2c__slave.html#ggad8b613f0d4e9d1b9511ca0b6d6ab7e8ca495a6f0ce75738519ac201349ac38c22',1,'i2c_slave.h']]],
+  ['io_5firq_5fbank0_5',['IO_IRQ_BANK0',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae9d0650a36de3bfbad6edc82a613d3c1',1,'IO_IRQ_BANK0():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae9d0650a36de3bfbad6edc82a613d3c1',1,'IO_IRQ_BANK0():&#160;intctrl_rp2040.h']]],
+  ['io_5firq_5fbank0_5fns_6',['IO_IRQ_BANK0_NS',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8cfea98eab080d57d60d751d78b9397d',1,'intctrl.h']]],
+  ['io_5firq_5fqspi_7',['IO_IRQ_QSPI',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8af5aa261b359dd160a1d8c3bc558ceb2b',1,'IO_IRQ_QSPI():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3af5aa261b359dd160a1d8c3bc558ceb2b',1,'IO_IRQ_QSPI():&#160;intctrl_rp2040.h']]],
+  ['io_5firq_5fqspi_5fns_8',['IO_IRQ_QSPI_NS',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ac2d22291df1fa6859d5c86ba7eae9018',1,'intctrl.h']]]
 ];

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,9 +107,18 @@ $(document).ready(function(){initNavTree('group__hardware__divider.html',''); in
   <div class="headertitle"><div class="title">hardware_divider<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>RP2040 Low Low-level hardware-divider API. Non-RP2040 platforms provide software versions of all the functions.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga806e168e895d53a3c261ba3e95ed2639"><td class="memItemLeft" align="right" valign="top">static divmod_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga806e168e895d53a3c261ba3e95ed2639">hw_divider_divmod_s32</a> (int32_t a, int32_t b)</td></tr>
+<tr class="memdesc:ga806e168e895d53a3c261ba3e95ed2639"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a signed HW divide and wait for result.  <a href="group__hardware__divider.html#ga806e168e895d53a3c261ba3e95ed2639">More...</a><br /></td></tr>
+<tr class="separator:ga806e168e895d53a3c261ba3e95ed2639"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac2f4fea8c3ef19a04e574f64f5f520c2"><td class="memItemLeft" align="right" valign="top">static divmod_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gac2f4fea8c3ef19a04e574f64f5f520c2">hw_divider_divmod_u32</a> (uint32_t a, uint32_t b)</td></tr>
+<tr class="memdesc:gac2f4fea8c3ef19a04e574f64f5f520c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do an unsigned HW divide and wait for result.  <a href="group__hardware__divider.html#gac2f4fea8c3ef19a04e574f64f5f520c2">More...</a><br /></td></tr>
+<tr class="separator:gac2f4fea8c3ef19a04e574f64f5f520c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3388fa85b0c81ee403a3e5bb34dc7274"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga3388fa85b0c81ee403a3e5bb34dc7274">hw_divider_divmod_s32_start</a> (int32_t a, int32_t b)</td></tr>
 <tr class="memdesc:ga3388fa85b0c81ee403a3e5bb34dc7274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a signed asynchronous divide.  <a href="group__hardware__divider.html#ga3388fa85b0c81ee403a3e5bb34dc7274">More...</a><br /></td></tr>
 <tr class="separator:ga3388fa85b0c81ee403a3e5bb34dc7274"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,24 +134,6 @@ Functions</h2></td></tr>
 <tr class="memitem:gac1fa72fbead3c6737dfcb4dd7b3db6ed"><td class="memItemLeft" align="right" valign="top">static divmod_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gac1fa72fbead3c6737dfcb4dd7b3db6ed">hw_divider_result_wait</a> (void)</td></tr>
 <tr class="memdesc:gac1fa72fbead3c6737dfcb4dd7b3db6ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide.  <a href="group__hardware__divider.html#gac1fa72fbead3c6737dfcb4dd7b3db6ed">More...</a><br /></td></tr>
 <tr class="separator:gac1fa72fbead3c6737dfcb4dd7b3db6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga56d6c26b06211b6f6ae3069b2c612562"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga56d6c26b06211b6f6ae3069b2c612562">hw_divider_u32_quotient_wait</a> (void)</td></tr>
-<tr class="memdesc:ga56d6c26b06211b6f6ae3069b2c612562"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, unsigned quotient only.  <a href="group__hardware__divider.html#ga56d6c26b06211b6f6ae3069b2c612562">More...</a><br /></td></tr>
-<tr class="separator:ga56d6c26b06211b6f6ae3069b2c612562"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab10a183b8e7bd77ae20a811a4265ea56"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">hw_divider_s32_quotient_wait</a> (void)</td></tr>
-<tr class="memdesc:gab10a183b8e7bd77ae20a811a4265ea56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, signed quotient only.  <a href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">More...</a><br /></td></tr>
-<tr class="separator:gab10a183b8e7bd77ae20a811a4265ea56"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2e23739484aa748a5900d215d279acdf"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga2e23739484aa748a5900d215d279acdf">hw_divider_u32_remainder_wait</a> (void)</td></tr>
-<tr class="memdesc:ga2e23739484aa748a5900d215d279acdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, unsigned remainder only.  <a href="group__hardware__divider.html#ga2e23739484aa748a5900d215d279acdf">More...</a><br /></td></tr>
-<tr class="separator:ga2e23739484aa748a5900d215d279acdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad2e7f31926e286544a8d47fdf8131eb5"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gad2e7f31926e286544a8d47fdf8131eb5">hw_divider_s32_remainder_wait</a> (void)</td></tr>
-<tr class="memdesc:gad2e7f31926e286544a8d47fdf8131eb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, signed remainder only.  <a href="group__hardware__divider.html#gad2e7f31926e286544a8d47fdf8131eb5">More...</a><br /></td></tr>
-<tr class="separator:gad2e7f31926e286544a8d47fdf8131eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad63b9ae70e46f2f4a15031bae2840fe6"><td class="memItemLeft" align="right" valign="top">divmod_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gad63b9ae70e46f2f4a15031bae2840fe6">hw_divider_divmod_s32</a> (int32_t a, int32_t b)</td></tr>
-<tr class="memdesc:gad63b9ae70e46f2f4a15031bae2840fe6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a signed HW divide and wait for result.  <a href="group__hardware__divider.html#gad63b9ae70e46f2f4a15031bae2840fe6">More...</a><br /></td></tr>
-<tr class="separator:gad63b9ae70e46f2f4a15031bae2840fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga06210a63b20d94eab07864825b6f5ff9"><td class="memItemLeft" align="right" valign="top">divmod_result_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga06210a63b20d94eab07864825b6f5ff9">hw_divider_divmod_u32</a> (uint32_t a, uint32_t b)</td></tr>
-<tr class="memdesc:ga06210a63b20d94eab07864825b6f5ff9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do an unsigned HW divide and wait for result.  <a href="group__hardware__divider.html#ga06210a63b20d94eab07864825b6f5ff9">More...</a><br /></td></tr>
-<tr class="separator:ga06210a63b20d94eab07864825b6f5ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga21752b8ee127370df37cd9a9e4e4050e"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga21752b8ee127370df37cd9a9e4e4050e">to_quotient_u32</a> (divmod_result_t r)</td></tr>
 <tr class="memdesc:ga21752b8ee127370df37cd9a9e4e4050e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Efficient extraction of unsigned quotient from 32p32 fixed point.  <a href="group__hardware__divider.html#ga21752b8ee127370df37cd9a9e4e4050e">More...</a><br /></td></tr>
 <tr class="separator:ga21752b8ee127370df37cd9a9e4e4050e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,6 +146,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga7ca08fd8fd1961ee25233d4587067178"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga7ca08fd8fd1961ee25233d4587067178">to_remainder_s32</a> (divmod_result_t r)</td></tr>
 <tr class="memdesc:ga7ca08fd8fd1961ee25233d4587067178"><td class="mdescLeft">&#160;</td><td class="mdescRight">Efficient extraction of signed remainder from 32p32 fixed point.  <a href="group__hardware__divider.html#ga7ca08fd8fd1961ee25233d4587067178">More...</a><br /></td></tr>
 <tr class="separator:ga7ca08fd8fd1961ee25233d4587067178"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga56d6c26b06211b6f6ae3069b2c612562"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga56d6c26b06211b6f6ae3069b2c612562">hw_divider_u32_quotient_wait</a> (void)</td></tr>
+<tr class="memdesc:ga56d6c26b06211b6f6ae3069b2c612562"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, unsigned quotient only.  <a href="group__hardware__divider.html#ga56d6c26b06211b6f6ae3069b2c612562">More...</a><br /></td></tr>
+<tr class="separator:ga56d6c26b06211b6f6ae3069b2c612562"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab10a183b8e7bd77ae20a811a4265ea56"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">hw_divider_s32_quotient_wait</a> (void)</td></tr>
+<tr class="memdesc:gab10a183b8e7bd77ae20a811a4265ea56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, signed quotient only.  <a href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">More...</a><br /></td></tr>
+<tr class="separator:gab10a183b8e7bd77ae20a811a4265ea56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e23739484aa748a5900d215d279acdf"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga2e23739484aa748a5900d215d279acdf">hw_divider_u32_remainder_wait</a> (void)</td></tr>
+<tr class="memdesc:ga2e23739484aa748a5900d215d279acdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, unsigned remainder only.  <a href="group__hardware__divider.html#ga2e23739484aa748a5900d215d279acdf">More...</a><br /></td></tr>
+<tr class="separator:ga2e23739484aa748a5900d215d279acdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad2e7f31926e286544a8d47fdf8131eb5"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gad2e7f31926e286544a8d47fdf8131eb5">hw_divider_s32_remainder_wait</a> (void)</td></tr>
+<tr class="memdesc:gad2e7f31926e286544a8d47fdf8131eb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return result of last asynchronous HW divide, signed remainder only.  <a href="group__hardware__divider.html#gad2e7f31926e286544a8d47fdf8131eb5">More...</a><br /></td></tr>
+<tr class="separator:gad2e7f31926e286544a8d47fdf8131eb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8f8f25f9f8feefb588fefed9992e180b"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga8f8f25f9f8feefb588fefed9992e180b">hw_divider_u32_quotient</a> (uint32_t a, uint32_t b)</td></tr>
 <tr class="memdesc:ga8f8f25f9f8feefb588fefed9992e180b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do an unsigned HW divide, wait for result, return quotient.  <a href="group__hardware__divider.html#ga8f8f25f9f8feefb588fefed9992e180b">More...</a><br /></td></tr>
 <tr class="separator:ga8f8f25f9f8feefb588fefed9992e180b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -183,19 +186,20 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>hw_divider_pau
 <tr class="memitem:ga82f0cdc6ef9e74346c0af8e492a0eb8d"><td class="memItemLeft" align="right" valign="top">static int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#ga82f0cdc6ef9e74346c0af8e492a0eb8d">hw_divider_s32_remainder_inlined</a> (int32_t a, int32_t b)</td></tr>
 <tr class="memdesc:ga82f0cdc6ef9e74346c0af8e492a0eb8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Do a hardware signed HW divide, wait for result, return remainder.  <a href="group__hardware__divider.html#ga82f0cdc6ef9e74346c0af8e492a0eb8d">More...</a><br /></td></tr>
 <tr class="separator:ga82f0cdc6ef9e74346c0af8e492a0eb8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaece26f017d6025e4a706a51f5e70b581"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gaece26f017d6025e4a706a51f5e70b581">hw_divider_save_state</a> (<a class="el" href="structhw__divider__state__t.html">hw_divider_state_t</a> *dest)</td></tr>
-<tr class="memdesc:gaece26f017d6025e4a706a51f5e70b581"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the calling cores hardware divider state.  <a href="group__hardware__divider.html#gaece26f017d6025e4a706a51f5e70b581">More...</a><br /></td></tr>
-<tr class="separator:gaece26f017d6025e4a706a51f5e70b581"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafb85f4db52d29ed6f000ed6c8bc95328"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gafb85f4db52d29ed6f000ed6c8bc95328">hw_divider_restore_state</a> (<a class="el" href="structhw__divider__state__t.html">hw_divider_state_t</a> *src)</td></tr>
-<tr class="memdesc:gafb85f4db52d29ed6f000ed6c8bc95328"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a saved hardware divider state into the current core's hardware divider.  <a href="group__hardware__divider.html#gafb85f4db52d29ed6f000ed6c8bc95328">More...</a><br /></td></tr>
-<tr class="separator:gafb85f4db52d29ed6f000ed6c8bc95328"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac12f398a163e90ca4d52386bd7e161b9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gac12f398a163e90ca4d52386bd7e161b9">hw_divider_save_state</a> (hw_divider_state_t *dest)</td></tr>
+<tr class="memdesc:gac12f398a163e90ca4d52386bd7e161b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save the calling cores hardware divider state.  <a href="group__hardware__divider.html#gac12f398a163e90ca4d52386bd7e161b9">More...</a><br /></td></tr>
+<tr class="separator:gac12f398a163e90ca4d52386bd7e161b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa8efb2ea90ef78f863b1c518c5824002"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__divider.html#gaa8efb2ea90ef78f863b1c518c5824002">hw_divider_restore_state</a> (hw_divider_state_t *src)</td></tr>
+<tr class="memdesc:gaa8efb2ea90ef78f863b1c518c5824002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Load a saved hardware divider state into the current core's hardware divider.  <a href="group__hardware__divider.html#gaa8efb2ea90ef78f863b1c518c5824002">More...</a><br /></td></tr>
+<tr class="separator:gaa8efb2ea90ef78f863b1c518c5824002"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Low-level hardware-divider access</p>
+<p >RP2040 Low Low-level hardware-divider API. Non-RP2040 platforms provide software versions of all the functions. </p>
 <p >The SIO contains an 8-cycle signed/unsigned divide/modulo circuit, per core. Calculation is started by writing a dividend and divisor to the two argument registers, DIVIDEND and DIVISOR. The divider calculates the quotient / and remainder % of this division over the next 8 cycles, and on the 9th cycle the results can be read from the two result registers DIV_QUOTIENT and DIV_REMAINDER. A 'ready' bit in register DIV_CSR can be polled to wait for the calculation to complete, or software can insert a fixed 8-cycle delay</p>
 <p >This header provides low level macros and inline functions for accessing the hardware dividers directly, and perhaps most usefully performing asynchronous divides. These functions however do not follow the regular SDK conventions for saving/restoring the divider state, so are not generally safe to call from interrupt handlers</p>
 <p >The pico_divider library provides a more user friendly set of APIs over the divider (and support for 64 bit divides), and of course by default regular C language integer divisions are redirected through that library, meaning you can just use C level <code>/</code> and <code>%</code> operators and gain the benefits of the fast hardware divider.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__divider.html">pico_divider</a></dd></dl>
+<p >On RP2350 there is no hardware divider, and the functions are implemented in software </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__divider.html" title="Optimized 32 and 64 bit division functions accelerated by the RP2040 hardware divider.">pico_divider</a></dd></dl>
 <h2><a class="anchor" id="divider_example"></a>
 Example</h2>
 <div class="fragment"><div class="line"> </div>
@@ -210,7 +214,7 @@ Example</h2>
 <div class="line">    <span class="comment">// This is the basic hardware divider function</span></div>
 <div class="line">    int32_t dividend = 123456;</div>
 <div class="line">    int32_t divisor = -321;</div>
-<div class="line">    divmod_result_t result = <a class="code hl_function" href="group__hardware__divider.html#gad63b9ae70e46f2f4a15031bae2840fe6">hw_divider_divmod_s32</a>(dividend, divisor);</div>
+<div class="line">    divmod_result_t result = <a class="code hl_function" href="group__hardware__divider.html#ga806e168e895d53a3c261ba3e95ed2639">hw_divider_divmod_s32</a>(dividend, divisor);</div>
 <div class="line"> </div>
 <div class="line">    printf(<span class="stringliteral">&quot;%d/%d = %d remainder %d\n&quot;</span>, dividend, divisor, <a class="code hl_function" href="group__hardware__divider.html#ga62820b8678505f5ea007cedd012da0aa">to_quotient_s32</a>(result), <a class="code hl_function" href="group__hardware__divider.html#ga7ca08fd8fd1961ee25233d4587067178">to_remainder_s32</a>(result));</div>
 <div class="line"> </div>
@@ -222,7 +226,7 @@ Example</h2>
 <div class="line">    <span class="comment">// This is the recommended unsigned fast divider for general use.</span></div>
 <div class="line">    int32_t udividend = 123456;</div>
 <div class="line">    int32_t udivisor = 321;</div>
-<div class="line">    divmod_result_t uresult = <a class="code hl_function" href="group__hardware__divider.html#ga06210a63b20d94eab07864825b6f5ff9">hw_divider_divmod_u32</a>(udividend, udivisor);</div>
+<div class="line">    divmod_result_t uresult = <a class="code hl_function" href="group__hardware__divider.html#gac2f4fea8c3ef19a04e574f64f5f520c2">hw_divider_divmod_u32</a>(udividend, udivisor);</div>
 <div class="line"> </div>
 <div class="line">    printf(<span class="stringliteral">&quot;%d/%d = %d remainder %d\n&quot;</span>, udividend, udivisor, <a class="code hl_function" href="group__hardware__divider.html#ga21752b8ee127370df37cd9a9e4e4050e">to_quotient_u32</a>(uresult), <a class="code hl_function" href="group__hardware__divider.html#gaea3762e4a27f1e42f8e03e6607917462">to_remainder_u32</a>(uresult));</div>
 <div class="line"> </div>
@@ -254,44 +258,46 @@ Example</h2>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Note however you must manually save/restore the divider state if you call the inlined methods from within an IRQ</span></div>
 <div class="line">    <span class="comment">// handler.</span></div>
-<div class="line">    <a class="code hl_struct" href="structhw__divider__state__t.html">hw_divider_state_t</a> state;</div>
+<div class="line">    hw_divider_state_t state;</div>
 <div class="line">    <a class="code hl_function" href="group__hardware__divider.html#ga3388fa85b0c81ee403a3e5bb34dc7274">hw_divider_divmod_s32_start</a>(dividend, divisor);</div>
-<div class="line">    <a class="code hl_function" href="group__hardware__divider.html#gaece26f017d6025e4a706a51f5e70b581">hw_divider_save_state</a>(&amp;state);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__divider.html#gac12f398a163e90ca4d52386bd7e161b9">hw_divider_save_state</a>(&amp;state);</div>
 <div class="line"> </div>
 <div class="line">    <a class="code hl_function" href="group__hardware__divider.html#ga3388fa85b0c81ee403a3e5bb34dc7274">hw_divider_divmod_s32_start</a>(123, 7);</div>
 <div class="line">    printf(<span class="stringliteral">&quot;inner %d / %d = %d\n&quot;</span>, 123, 7, <a class="code hl_function" href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">hw_divider_s32_quotient_wait</a>());</div>
 <div class="line"> </div>
-<div class="line">    <a class="code hl_function" href="group__hardware__divider.html#gafb85f4db52d29ed6f000ed6c8bc95328">hw_divider_restore_state</a>(&amp;state);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__divider.html#gaa8efb2ea90ef78f863b1c518c5824002">hw_divider_restore_state</a>(&amp;state);</div>
 <div class="line">    int32_t tmp = <a class="code hl_function" href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">hw_divider_s32_quotient_wait</a>();</div>
 <div class="line">    printf(<span class="stringliteral">&quot;outer divide %d / %d = %d\n&quot;</span>, dividend, divisor, tmp);</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__divider_html_ga06210a63b20d94eab07864825b6f5ff9"><div class="ttname"><a href="group__hardware__divider.html#ga06210a63b20d94eab07864825b6f5ff9">hw_divider_divmod_u32</a></div><div class="ttdeci">divmod_result_t hw_divider_divmod_u32(uint32_t a, uint32_t b)</div><div class="ttdoc">Do an unsigned HW divide and wait for result.</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_ga21752b8ee127370df37cd9a9e4e4050e"><div class="ttname"><a href="group__hardware__divider.html#ga21752b8ee127370df37cd9a9e4e4050e">to_quotient_u32</a></div><div class="ttdeci">static uint32_t to_quotient_u32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of unsigned quotient from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:205</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_ga23a3a2a911f5d78bb56799969b079f94"><div class="ttname"><a href="group__hardware__divider.html#ga23a3a2a911f5d78bb56799969b079f94">hw_divider_s32_quotient_inlined</a></div><div class="ttdeci">static int32_t hw_divider_s32_quotient_inlined(int32_t a, int32_t b)</div><div class="ttdoc">Do a hardware signed HW divide, wait for result, return quotient.</div><div class="ttdef"><b>Definition:</b> divider.h:352</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_ga3388fa85b0c81ee403a3e5bb34dc7274"><div class="ttname"><a href="group__hardware__divider.html#ga3388fa85b0c81ee403a3e5bb34dc7274">hw_divider_divmod_s32_start</a></div><div class="ttdeci">static void hw_divider_divmod_s32_start(int32_t a, int32_t b)</div><div class="ttdoc">Start a signed asynchronous divide.</div><div class="ttdef"><b>Definition:</b> divider.h:54</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_ga62820b8678505f5ea007cedd012da0aa"><div class="ttname"><a href="group__hardware__divider.html#ga62820b8678505f5ea007cedd012da0aa">to_quotient_s32</a></div><div class="ttdeci">static int32_t to_quotient_s32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of signed quotient from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:215</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_ga7ca08fd8fd1961ee25233d4587067178"><div class="ttname"><a href="group__hardware__divider.html#ga7ca08fd8fd1961ee25233d4587067178">to_remainder_s32</a></div><div class="ttdeci">static int32_t to_remainder_s32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of signed remainder from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:239</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_gab10a183b8e7bd77ae20a811a4265ea56"><div class="ttname"><a href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">hw_divider_s32_quotient_wait</a></div><div class="ttdeci">static int32_t hw_divider_s32_quotient_wait(void)</div><div class="ttdoc">Return result of last asynchronous HW divide, signed quotient only.</div><div class="ttdef"><b>Definition:</b> divider.h:144</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_gac1fa72fbead3c6737dfcb4dd7b3db6ed"><div class="ttname"><a href="group__hardware__divider.html#gac1fa72fbead3c6737dfcb4dd7b3db6ed">hw_divider_result_wait</a></div><div class="ttdeci">static divmod_result_t hw_divider_result_wait(void)</div><div class="ttdoc">Return result of last asynchronous HW divide.</div><div class="ttdef"><b>Definition:</b> divider.h:120</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_gad63b9ae70e46f2f4a15031bae2840fe6"><div class="ttname"><a href="group__hardware__divider.html#gad63b9ae70e46f2f4a15031bae2840fe6">hw_divider_divmod_s32</a></div><div class="ttdeci">divmod_result_t hw_divider_divmod_s32(int32_t a, int32_t b)</div><div class="ttdoc">Do a signed HW divide and wait for result.</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_gaea3762e4a27f1e42f8e03e6607917462"><div class="ttname"><a href="group__hardware__divider.html#gaea3762e4a27f1e42f8e03e6607917462">to_remainder_u32</a></div><div class="ttdeci">static uint32_t to_remainder_u32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of unsigned remainder from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:227</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_gaece26f017d6025e4a706a51f5e70b581"><div class="ttname"><a href="group__hardware__divider.html#gaece26f017d6025e4a706a51f5e70b581">hw_divider_save_state</a></div><div class="ttdeci">void hw_divider_save_state(hw_divider_state_t *dest)</div><div class="ttdoc">Save the calling cores hardware divider state.</div></div>
-<div class="ttc" id="agroup__hardware__divider_html_gafb85f4db52d29ed6f000ed6c8bc95328"><div class="ttname"><a href="group__hardware__divider.html#gafb85f4db52d29ed6f000ed6c8bc95328">hw_divider_restore_state</a></div><div class="ttdeci">void hw_divider_restore_state(hw_divider_state_t *src)</div><div class="ttdoc">Load a saved hardware divider state into the current core's hardware divider.</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:283</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_ga21752b8ee127370df37cd9a9e4e4050e"><div class="ttname"><a href="group__hardware__divider.html#ga21752b8ee127370df37cd9a9e4e4050e">to_quotient_u32</a></div><div class="ttdeci">static uint32_t to_quotient_u32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of unsigned quotient from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:198</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_ga23a3a2a911f5d78bb56799969b079f94"><div class="ttname"><a href="group__hardware__divider.html#ga23a3a2a911f5d78bb56799969b079f94">hw_divider_s32_quotient_inlined</a></div><div class="ttdeci">static int32_t hw_divider_s32_quotient_inlined(int32_t a, int32_t b)</div><div class="ttdoc">Do a hardware signed HW divide, wait for result, return quotient.</div><div class="ttdef"><b>Definition:</b> divider.h:440</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_ga3388fa85b0c81ee403a3e5bb34dc7274"><div class="ttname"><a href="group__hardware__divider.html#ga3388fa85b0c81ee403a3e5bb34dc7274">hw_divider_divmod_s32_start</a></div><div class="ttdeci">static void hw_divider_divmod_s32_start(int32_t a, int32_t b)</div><div class="ttdoc">Start a signed asynchronous divide.</div><div class="ttdef"><b>Definition:</b> divider.h:107</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_ga62820b8678505f5ea007cedd012da0aa"><div class="ttname"><a href="group__hardware__divider.html#ga62820b8678505f5ea007cedd012da0aa">to_quotient_s32</a></div><div class="ttdeci">static int32_t to_quotient_s32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of signed quotient from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:208</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_ga7ca08fd8fd1961ee25233d4587067178"><div class="ttname"><a href="group__hardware__divider.html#ga7ca08fd8fd1961ee25233d4587067178">to_remainder_s32</a></div><div class="ttdeci">static int32_t to_remainder_s32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of signed remainder from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:232</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_ga806e168e895d53a3c261ba3e95ed2639"><div class="ttname"><a href="group__hardware__divider.html#ga806e168e895d53a3c261ba3e95ed2639">hw_divider_divmod_s32</a></div><div class="ttdeci">static divmod_result_t hw_divider_divmod_s32(int32_t a, int32_t b)</div><div class="ttdoc">Do a signed HW divide and wait for result.</div><div class="ttdef"><b>Definition:</b> divider.h:74</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_gaa8efb2ea90ef78f863b1c518c5824002"><div class="ttname"><a href="group__hardware__divider.html#gaa8efb2ea90ef78f863b1c518c5824002">hw_divider_restore_state</a></div><div class="ttdeci">static void hw_divider_restore_state(hw_divider_state_t *src)</div><div class="ttdoc">Load a saved hardware divider state into the current core's hardware divider.</div><div class="ttdef"><b>Definition:</b> divider.h:506</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_gab10a183b8e7bd77ae20a811a4265ea56"><div class="ttname"><a href="group__hardware__divider.html#gab10a183b8e7bd77ae20a811a4265ea56">hw_divider_s32_quotient_wait</a></div><div class="ttdeci">static int32_t hw_divider_s32_quotient_wait(void)</div><div class="ttdoc">Return result of last asynchronous HW divide, signed quotient only.</div><div class="ttdef"><b>Definition:</b> divider.h:260</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_gac12f398a163e90ca4d52386bd7e161b9"><div class="ttname"><a href="group__hardware__divider.html#gac12f398a163e90ca4d52386bd7e161b9">hw_divider_save_state</a></div><div class="ttdeci">static void hw_divider_save_state(hw_divider_state_t *dest)</div><div class="ttdoc">Save the calling cores hardware divider state.</div><div class="ttdef"><b>Definition:</b> divider.h:491</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_gac1fa72fbead3c6737dfcb4dd7b3db6ed"><div class="ttname"><a href="group__hardware__divider.html#gac1fa72fbead3c6737dfcb4dd7b3db6ed">hw_divider_result_wait</a></div><div class="ttdeci">static divmod_result_t hw_divider_result_wait(void)</div><div class="ttdoc">Return result of last asynchronous HW divide.</div><div class="ttdef"><b>Definition:</b> divider.h:187</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_gac2f4fea8c3ef19a04e574f64f5f520c2"><div class="ttname"><a href="group__hardware__divider.html#gac2f4fea8c3ef19a04e574f64f5f520c2">hw_divider_divmod_u32</a></div><div class="ttdeci">static divmod_result_t hw_divider_divmod_u32(uint32_t a, uint32_t b)</div><div class="ttdoc">Do an unsigned HW divide and wait for result.</div><div class="ttdef"><b>Definition:</b> divider.h:92</div></div>
+<div class="ttc" id="agroup__hardware__divider_html_gaea3762e4a27f1e42f8e03e6607917462"><div class="ttname"><a href="group__hardware__divider.html#gaea3762e4a27f1e42f8e03e6607917462">to_remainder_u32</a></div><div class="ttdeci">static uint32_t to_remainder_u32(divmod_result_t r)</div><div class="ttdoc">Efficient extraction of unsigned remainder from 32p32 fixed point.</div><div class="ttdef"><b>Definition:</b> divider.h:220</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
 <div class="ttc" id="arp2__common_2hardware__divider_2include_2hardware_2divider_8h_html"><div class="ttname"><a href="rp2__common_2hardware__divider_2include_2hardware_2divider_8h.html">divider.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
-<div class="ttc" id="astructhw__divider__state__t_html"><div class="ttname"><a href="structhw__divider__state__t.html">hw_divider_state_t</a></div><div class="ttdef"><b>Definition:</b> divider.h:375</div></div>
 </div><!-- fragment --> <h2 class="groupheader">Function Documentation</h2>
-<a id="gad63b9ae70e46f2f4a15031bae2840fe6" name="gad63b9ae70e46f2f4a15031bae2840fe6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gad63b9ae70e46f2f4a15031bae2840fe6">&#9670;&nbsp;</a></span>hw_divider_divmod_s32()</h2>
+<a id="ga806e168e895d53a3c261ba3e95ed2639" name="ga806e168e895d53a3c261ba3e95ed2639"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga806e168e895d53a3c261ba3e95ed2639">&#9670;&nbsp;</a></span>hw_divider_divmod_s32()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">divmod_result_t hw_divider_divmod_s32 </td>
+          <td class="memname">static divmod_result_t hw_divider_divmod_s32 </td>
           <td>(</td>
           <td class="paramtype">int32_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -308,6 +314,11 @@ Example</h2>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Do a signed HW divide and wait for result. </p>
@@ -369,14 +380,17 @@ Example</h2>
 
 </div>
 </div>
-<a id="ga06210a63b20d94eab07864825b6f5ff9" name="ga06210a63b20d94eab07864825b6f5ff9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga06210a63b20d94eab07864825b6f5ff9">&#9670;&nbsp;</a></span>hw_divider_divmod_u32()</h2>
+<a id="gac2f4fea8c3ef19a04e574f64f5f520c2" name="gac2f4fea8c3ef19a04e574f64f5f520c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac2f4fea8c3ef19a04e574f64f5f520c2">&#9670;&nbsp;</a></span>hw_divider_divmod_u32()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">divmod_result_t hw_divider_divmod_u32 </td>
+          <td class="memname">static divmod_result_t hw_divider_divmod_u32 </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
@@ -393,6 +407,11 @@ Example</h2>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Do an unsigned HW divide and wait for result. </p>
@@ -548,20 +567,28 @@ Example</h2>
 
 </div>
 </div>
-<a id="gafb85f4db52d29ed6f000ed6c8bc95328" name="gafb85f4db52d29ed6f000ed6c8bc95328"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gafb85f4db52d29ed6f000ed6c8bc95328">&#9670;&nbsp;</a></span>hw_divider_restore_state()</h2>
+<a id="gaa8efb2ea90ef78f863b1c518c5824002" name="gaa8efb2ea90ef78f863b1c518c5824002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa8efb2ea90ef78f863b1c518c5824002">&#9670;&nbsp;</a></span>hw_divider_restore_state()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hw_divider_restore_state </td>
+          <td class="memname">static void hw_divider_restore_state </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structhw__divider__state__t.html">hw_divider_state_t</a> *&#160;</td>
+          <td class="paramtype">hw_divider_state_t *&#160;</td>
           <td class="paramname"><em>src</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Load a saved hardware divider state into the current core's hardware divider. </p>
@@ -789,24 +816,32 @@ Example</h2>
 
 </div>
 </div>
-<a id="gaece26f017d6025e4a706a51f5e70b581" name="gaece26f017d6025e4a706a51f5e70b581"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaece26f017d6025e4a706a51f5e70b581">&#9670;&nbsp;</a></span>hw_divider_save_state()</h2>
+<a id="gac12f398a163e90ca4d52386bd7e161b9" name="gac12f398a163e90ca4d52386bd7e161b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac12f398a163e90ca4d52386bd7e161b9">&#9670;&nbsp;</a></span>hw_divider_save_state()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void hw_divider_save_state </td>
+          <td class="memname">static void hw_divider_save_state </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structhw__divider__state__t.html">hw_divider_state_t</a> *&#160;</td>
+          <td class="paramtype">hw_divider_state_t *&#160;</td>
           <td class="paramname"><em>dest</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Save the calling cores hardware divider state. </p>
-<p >Copy the current core's hardware divider state into the provided structure. This method waits for the divider results to be stable, then copies them to memory. They can be restored via <a class="el" href="group__hardware__divider.html#gafb85f4db52d29ed6f000ed6c8bc95328" title="Load a saved hardware divider state into the current core&#39;s hardware divider.">hw_divider_restore_state()</a></p>
+<p >Copy the current core's hardware divider state into the provided structure. This method waits for the divider results to be stable, then copies them to memory. They can be restored via <a class="el" href="group__hardware__divider.html#gaa8efb2ea90ef78f863b1c518c5824002" title="Load a saved hardware divider state into the current core&#39;s hardware divider.">hw_divider_restore_state()</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dest</td><td>the location to store the divider state </td></tr>

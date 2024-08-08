@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_dma/include/hardware/dma.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/dma.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -114,6 +114,44 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__dma_2include_2h
 <code>#include &quot;hardware/structs/dma.h&quot;</code><br />
 <code>#include &quot;hardware/regs/dreq.h&quot;</code><br />
 <code>#include &quot;pico/assert.h&quot;</code><br />
+<code>#include &quot;hardware/regs/intctrl.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for dma.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__dma_2include_2hardware_2dma_8h__incl.png" border="0" usemap="#ainclude_2hardware_2dma_8h" alt=""/></div>
+<map name="ainclude_2hardware_2dma_8h" id="ainclude_2hardware_2dma_8h">
+<area shape="rect" title=" " alt="" coords="1268,5,1447,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="508,80,569,107"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="381,379,486,405"/>
+<area shape="rect" title=" " alt="" coords="1269,80,1445,107"/>
+<area shape="rect" title=" " alt="" coords="1469,80,1629,107"/>
+<area shape="rect" title=" " alt="" coords="1654,80,1823,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="171,304,272,331"/>
+<area shape="rect" title=" " alt="" coords="279,155,393,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="417,155,521,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="546,155,667,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="691,155,786,181"/>
+<area shape="rect" title=" " alt="" coords="249,453,332,480"/>
+<area shape="rect" title=" " alt="" coords="186,379,257,405"/>
+<area shape="rect" title=" " alt="" coords="281,379,356,405"/>
+<area shape="rect" title=" " alt="" coords="27,229,191,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="216,229,397,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="421,229,600,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="624,229,784,256"/>
+<area shape="rect" title=" " alt="" coords="808,229,1019,256"/>
+<area shape="rect" title=" " alt="" coords="1043,229,1194,256"/>
+<area shape="rect" title=" " alt="" coords="297,304,487,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__dma_2include_2hardware_2dma_8h__dep__incl.png" border="0" usemap="#ainclude_2hardware_2dma_8hdep" alt=""/></div>
+<map name="ainclude_2hardware_2dma_8hdep" id="ainclude_2hardware_2dma_8hdep">
+<area shape="rect" title=" " alt="" coords="5,5,184,32"/>
+<area shape="rect" href="rp2__common_2pico__sha256_2include_2pico_2sha256_8h.html" title=" " alt="" coords="13,80,176,107"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__dma_2include_2hardware_2dma_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -124,24 +162,12 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a17994a037387ebd93b4bf249a5725688"><td class="memItemLeft" align="right" valign="top"><a id="a17994a037387ebd93b4bf249a5725688" name="a17994a037387ebd93b4bf249a5725688"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DREQ_DMA_TIMER0</b>&#160;&#160;&#160;DMA_CH0_CTRL_TRIG_TREQ_SEL_VALUE_TIMER0</td></tr>
-<tr class="separator:a17994a037387ebd93b4bf249a5725688"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a209acd80f2a2373bc3c4965375624ec1"><td class="memItemLeft" align="right" valign="top"><a id="a209acd80f2a2373bc3c4965375624ec1" name="a209acd80f2a2373bc3c4965375624ec1"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DREQ_DMA_TIMER1</b>&#160;&#160;&#160;DMA_CH0_CTRL_TRIG_TREQ_SEL_VALUE_TIMER1</td></tr>
-<tr class="separator:a209acd80f2a2373bc3c4965375624ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47d319c081f9e20af7a90bf92a695f0c"><td class="memItemLeft" align="right" valign="top"><a id="a47d319c081f9e20af7a90bf92a695f0c" name="a47d319c081f9e20af7a90bf92a695f0c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DREQ_DMA_TIMER2</b>&#160;&#160;&#160;DMA_CH0_CTRL_TRIG_TREQ_SEL_VALUE_TIMER2</td></tr>
-<tr class="separator:a47d319c081f9e20af7a90bf92a695f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99ef7df7901a8e00a499230e22b7a0a8"><td class="memItemLeft" align="right" valign="top"><a id="a99ef7df7901a8e00a499230e22b7a0a8" name="a99ef7df7901a8e00a499230e22b7a0a8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DREQ_DMA_TIMER3</b>&#160;&#160;&#160;DMA_CH0_CTRL_TRIG_TREQ_SEL_VALUE_TIMER3</td></tr>
-<tr class="separator:a99ef7df7901a8e00a499230e22b7a0a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc89c674373f2defa2dda703adf83ac8"><td class="memItemLeft" align="right" valign="top"><a id="adc89c674373f2defa2dda703adf83ac8" name="adc89c674373f2defa2dda703adf83ac8"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>DREQ_FORCE</b>&#160;&#160;&#160;DMA_CH0_CTRL_TRIG_TREQ_SEL_VALUE_PERMANENT</td></tr>
-<tr class="separator:adc89c674373f2defa2dda703adf83ac8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbe4e2627447f8a17d8cdba09d395176"><td class="memItemLeft" align="right" valign="top"><a id="afbe4e2627447f8a17d8cdba09d395176" name="afbe4e2627447f8a17d8cdba09d395176"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_DMA</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:afbe4e2627447f8a17d8cdba09d395176"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84ce358a69e81abaf4a137ad160ca737"><td class="memItemLeft" align="right" valign="top"><a id="a84ce358a69e81abaf4a137ad160ca737" name="a84ce358a69e81abaf4a137ad160ca737"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_DMA</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a84ce358a69e81abaf4a137ad160ca737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c72cc3aafb409371f60fefd0463e289"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga6c72cc3aafb409371f60fefd0463e289">DMA_IRQ_NUM</a>(irq_index)</td></tr>
+<tr class="memdesc:ga6c72cc3aafb409371f60fefd0463e289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the nth DMA interrupt.  <a href="group__hardware__dma.html#ga6c72cc3aafb409371f60fefd0463e289">More...</a><br /></td></tr>
+<tr class="separator:ga6c72cc3aafb409371f60fefd0463e289"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -330,11 +356,14 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 <tr class="memdesc:ga9b45bfe6985f8c0894d34876eedc3090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if a dma timer is claimed.  <a href="group__hardware__dma.html#ga9b45bfe6985f8c0894d34876eedc3090">More...</a><br /></td></tr>
 <tr class="separator:ga9b45bfe6985f8c0894d34876eedc3090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga58f9c3cb606759e4620c82583f833dc8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga58f9c3cb606759e4620c82583f833dc8">dma_timer_set_fraction</a> (uint timer, uint16_t numerator, uint16_t denominator)</td></tr>
-<tr class="memdesc:ga58f9c3cb606759e4620c82583f833dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the divider for the given DMA timer.  <a href="group__hardware__dma.html#ga58f9c3cb606759e4620c82583f833dc8">More...</a><br /></td></tr>
+<tr class="memdesc:ga58f9c3cb606759e4620c82583f833dc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the multiplier for the given DMA timer.  <a href="group__hardware__dma.html#ga58f9c3cb606759e4620c82583f833dc8">More...</a><br /></td></tr>
 <tr class="separator:ga58f9c3cb606759e4620c82583f833dc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga75ef6881795fd1760fe813f9e0a79223"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga75ef6881795fd1760fe813f9e0a79223">dma_get_timer_dreq</a> (uint timer_num)</td></tr>
 <tr class="memdesc:ga75ef6881795fd1760fe813f9e0a79223"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the DREQ number for a given DMA timer.  <a href="group__hardware__dma.html#ga75ef6881795fd1760fe813f9e0a79223">More...</a><br /></td></tr>
 <tr class="separator:ga75ef6881795fd1760fe813f9e0a79223"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5da1507764272564a75939e2cf38fa9a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga5da1507764272564a75939e2cf38fa9a">dma_get_irq_num</a> (uint irq_index)</td></tr>
+<tr class="memdesc:ga5da1507764272564a75939e2cf38fa9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return DMA_IRQ_&lt;irqn&gt;  <a href="group__hardware__dma.html#ga5da1507764272564a75939e2cf38fa9a">More...</a><br /></td></tr>
+<tr class="separator:ga5da1507764272564a75939e2cf38fa9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga655130988c1045bdf711135698adf321"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga655130988c1045bdf711135698adf321">dma_channel_cleanup</a> (uint channel)</td></tr>
 <tr class="memdesc:ga655130988c1045bdf711135698adf321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Performs DMA channel cleanup after use.  <a href="group__hardware__dma.html#ga655130988c1045bdf711135698adf321">More...</a><br /></td></tr>
 <tr class="separator:ga655130988c1045bdf711135698adf321"><td class="memSeparator" colspan="2">&#160;</td></tr>

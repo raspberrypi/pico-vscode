@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_flash/include/pico/flash.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/flash.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,8 +110,31 @@ $(document).ready(function(){initNavTree('pico__flash_2include_2pico_2flash_8h.h
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="hardware__flash_2include_2hardware_2flash_8h_source.html">hardware/flash.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="time_8h_source.html">pico/time.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for flash.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="pico__flash_2include_2pico_2flash_8h__incl.png" border="0" usemap="#ainclude_2pico_2flash_8h" alt=""/></div>
+<map name="ainclude_2pico_2flash_8h" id="ainclude_2pico_2flash_8h">
+<area shape="rect" title=" " alt="" coords="369,5,515,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
 </div>
 <p><a href="pico__flash_2include_2pico_2flash_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -135,12 +158,16 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga2ad3247806ca16dec03e655eaec1775f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">flash_safe_execute_core_init</a> (void)</td></tr>
+<tr class="memdesc:ga2ad3247806ca16dec03e655eaec1775f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a core such that the other core can lock it out during <a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a>.  <a href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">More...</a><br /></td></tr>
 <tr class="separator:ga2ad3247806ca16dec03e655eaec1775f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaed14b762cb5fd483995bd36fc8ad338d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#gaed14b762cb5fd483995bd36fc8ad338d">flash_safe_execute_core_deinit</a> (void)</td></tr>
+<tr class="memdesc:gaed14b762cb5fd483995bd36fc8ad338d"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initialize work done by <a class="el" href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">flash_safe_execute_core_init</a>.  <a href="group__pico__flash.html#gaed14b762cb5fd483995bd36fc8ad338d">More...</a><br /></td></tr>
 <tr class="separator:gaed14b762cb5fd483995bd36fc8ad338d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga679076dc10c5beb73d5f1abdb52d6735"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a> (void(*func)(void *), void *param, uint32_t enter_exit_timeout_ms)</td></tr>
+<tr class="memdesc:ga679076dc10c5beb73d5f1abdb52d6735"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a function with IRQs disabled and with the other core also not executing/reading flash.  <a href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">More...</a><br /></td></tr>
 <tr class="separator:ga679076dc10c5beb73d5f1abdb52d6735"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaee44bd9bc42463f0521535825e8d90b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structflash__safety__helper__t.html">flash_safety_helper_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">get_flash_safety_helper</a> (void)</td></tr>
+<tr class="memdesc:gaee44bd9bc42463f0521535825e8d90b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal method to return the flash safety helper implementation.  <a href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">More...</a><br /></td></tr>
 <tr class="separator:gaee44bd9bc42463f0521535825e8d90b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

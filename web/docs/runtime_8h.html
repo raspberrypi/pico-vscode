@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_runtime/include/pico/runtime.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/runtime.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,18 +103,75 @@ $(document).ready(function(){initNavTree('runtime_8h.html',''); initResizable();
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">runtime.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for runtime.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="runtime_8h__incl.png" border="0" usemap="#ainclude_2pico_2runtime_8h" alt=""/></div>
+<map name="ainclude_2pico_2runtime_8h" id="ainclude_2pico_2runtime_8h">
+<area shape="rect" title=" " alt="" coords="359,5,525,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="runtime_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2runtime_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2runtime_8hdep" id="ainclude_2pico_2runtime_8hdep">
+<area shape="rect" title=" " alt="" coords="5,5,172,32"/>
+<area shape="rect" href="runtime__init_8h.html" title=" " alt="" coords="11,80,166,121"/>
+</map>
+</div>
+</div>
 <p><a href="runtime_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a880a56b29dd99d1ca66f8bfd6da1fb0f"><td class="memItemLeft" align="right" valign="top"><a id="a880a56b29dd99d1ca66f8bfd6da1fb0f" name="a880a56b29dd99d1ca66f8bfd6da1fb0f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RUNTIME_INIT_FUNC</b>(func,  priority_string)&#160;&#160;&#160;uintptr_t __used __attribute__((section(&quot;.preinit_array.&quot; priority_string))) __pre_init_ ## func = (uintptr_t)(void (*)(void)) (func)</td></tr>
+<tr class="separator:a880a56b29dd99d1ca66f8bfd6da1fb0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf1399dab0b4bd70f505c66930aaf680"><td class="memItemLeft" align="right" valign="top"><a id="aaf1399dab0b4bd70f505c66930aaf680" name="aaf1399dab0b4bd70f505c66930aaf680"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RUNTIME_INIT_FUNC_HW</b>(func,  priority_string)&#160;&#160;&#160;PICO_RUNTIME_INIT_FUNC(func, priority_string)</td></tr>
+<tr class="separator:aaf1399dab0b4bd70f505c66930aaf680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63469718172c1bdd6409d3f97a01f627"><td class="memItemLeft" align="right" valign="top"><a id="a63469718172c1bdd6409d3f97a01f627" name="a63469718172c1bdd6409d3f97a01f627"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RUNTIME_INIT_FUNC_RUNTIME</b>(func,  priority_string)&#160;&#160;&#160;PICO_RUNTIME_INIT_FUNC(func, priority_string)</td></tr>
+<tr class="separator:a63469718172c1bdd6409d3f97a01f627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b530370d9fa696caf994aa738e3bd12"><td class="memItemLeft" align="right" valign="top"><a id="a7b530370d9fa696caf994aa738e3bd12" name="a7b530370d9fa696caf994aa738e3bd12"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_RUNTIME_INIT_FUNC_PER_CORE</b>(func,  priority_string)&#160;&#160;&#160;PICO_RUNTIME_INIT_FUNC(func, &quot;ZZZZZ.&quot; priority_string)</td></tr>
+<tr class="separator:a7b530370d9fa696caf994aa738e3bd12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a96c40fb81f57915ea757cfdb60788bfe"><td class="memItemLeft" align="right" valign="top"><a id="a96c40fb81f57915ea757cfdb60788bfe" name="a96c40fb81f57915ea757cfdb60788bfe"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>runtime_install_stack_guard</b> (void *stack_bottom)</td></tr>
-<tr class="separator:a96c40fb81f57915ea757cfdb60788bfe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad27ee86dcd85855022a424f61b839d04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__runtime.html#gad27ee86dcd85855022a424f61b839d04">runtime_init</a> (void)</td></tr>
+<tr class="memdesc:gad27ee86dcd85855022a424f61b839d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run all the initializations that are usually called by crt0.S before entering main.  <a href="group__pico__runtime.html#gad27ee86dcd85855022a424f61b839d04">More...</a><br /></td></tr>
+<tr class="separator:gad27ee86dcd85855022a424f61b839d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211e6581ee735d76d2664897e895f50f"><td class="memItemLeft" align="right" valign="top"><a id="a211e6581ee735d76d2664897e895f50f" name="a211e6581ee735d76d2664897e895f50f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>runtime_run_initializers</b> (void)</td></tr>
+<tr class="separator:a211e6581ee735d76d2664897e895f50f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace9a5010f2311096b6913cedf0ae2419"><td class="memItemLeft" align="right" valign="top"><a id="ace9a5010f2311096b6913cedf0ae2419" name="ace9a5010f2311096b6913cedf0ae2419"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>runtime_run_per_core_initializers</b> (void)</td></tr>
+<tr class="separator:ace9a5010f2311096b6913cedf0ae2419"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

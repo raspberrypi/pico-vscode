@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,6 +108,15 @@ $(document).ready(function(){initNavTree('structsio__hw__t.html',''); initResiza
   <div class="headertitle"><div class="title">sio_hw_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Collaboration diagram for sio_hw_t:</div>
+<div class="dyncontent">
+<div class="center"><img src="structsio__hw__t__coll__graph.png" border="0" usemap="#asio__hw__t_coll__map" alt="Collaboration graph"/></div>
+<map name="asio__hw__t_coll__map" id="asio__hw__t_coll__map">
+<area shape="rect" title=" " alt="" coords="15,95,94,121"/>
+<area shape="rect" href="structinterp__hw__t.html" title=" " alt="" coords="5,5,104,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -201,6 +210,144 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0cdbc292c2f9f514373a39b2d95356dd"><td class="memItemLeft" align="right" valign="top"><a id="a0cdbc292c2f9f514373a39b2d95356dd" name="a0cdbc292c2f9f514373a39b2d95356dd"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_DIV_CSR_OFFSET) io_ro_32 div_csr</td></tr>
 <tr class="separator:a0cdbc292c2f9f514373a39b2d95356dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ea42a7132422f1de3779c394e093bdd"><td class="memItemLeft" align="right" valign="top"><a id="a1ea42a7132422f1de3779c394e093bdd" name="a1ea42a7132422f1de3779c394e093bdd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_SPINLOCK0_OFFSET) io_rw_32 spinlock[32]</td></tr>
+<tr class="separator:a1ea42a7132422f1de3779c394e093bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78ee2eba04baff1ba8a0439b6db179e6"><td class="memItemLeft" align="right" valign="top"><a id="a78ee2eba04baff1ba8a0439b6db179e6" name="a78ee2eba04baff1ba8a0439b6db179e6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_CPUID_OFFSET) io_ro_32 cpuid</td></tr>
+<tr class="separator:a78ee2eba04baff1ba8a0439b6db179e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cdd88861b53db3cf0789596ba271ea2"><td class="memItemLeft" align="right" valign="top"><a id="a6cdd88861b53db3cf0789596ba271ea2" name="a6cdd88861b53db3cf0789596ba271ea2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_IN_OFFSET) io_ro_32 gpio_in</td></tr>
+<tr class="separator:a6cdd88861b53db3cf0789596ba271ea2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a901dd486063bee179be882ffbc1930fd"><td class="memItemLeft" align="right" valign="top"><a id="a901dd486063bee179be882ffbc1930fd" name="a901dd486063bee179be882ffbc1930fd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_IN_OFFSET) io_ro_32 gpio_hi_in</td></tr>
+<tr class="separator:a901dd486063bee179be882ffbc1930fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c99dd4068dab00d801ab962586bedbc"><td class="memItemLeft" align="right" valign="top"><a id="a6c99dd4068dab00d801ab962586bedbc" name="a6c99dd4068dab00d801ab962586bedbc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OUT_OFFSET) io_rw_32 gpio_out</td></tr>
+<tr class="separator:a6c99dd4068dab00d801ab962586bedbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a202a40f4705639e1253d89246587d3e3"><td class="memItemLeft" align="right" valign="top"><a id="a202a40f4705639e1253d89246587d3e3" name="a202a40f4705639e1253d89246587d3e3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OUT_OFFSET) io_rw_32 gpio_hi_out</td></tr>
+<tr class="separator:a202a40f4705639e1253d89246587d3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00c7dc55c834bd10c0f74374d6f0cd4d"><td class="memItemLeft" align="right" valign="top"><a id="a00c7dc55c834bd10c0f74374d6f0cd4d" name="a00c7dc55c834bd10c0f74374d6f0cd4d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OUT_SET_OFFSET) io_wo_32 gpio_set</td></tr>
+<tr class="separator:a00c7dc55c834bd10c0f74374d6f0cd4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6605b13ba4ffa9eed68844f61729b0df"><td class="memItemLeft" align="right" valign="top"><a id="a6605b13ba4ffa9eed68844f61729b0df" name="a6605b13ba4ffa9eed68844f61729b0df"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OUT_SET_OFFSET) io_wo_32 gpio_hi_set</td></tr>
+<tr class="separator:a6605b13ba4ffa9eed68844f61729b0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1294c6078e700642b65edbe047694395"><td class="memItemLeft" align="right" valign="top"><a id="a1294c6078e700642b65edbe047694395" name="a1294c6078e700642b65edbe047694395"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OUT_CLR_OFFSET) io_wo_32 gpio_clr</td></tr>
+<tr class="separator:a1294c6078e700642b65edbe047694395"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85205f38e946161acaf97374bc41d3d9"><td class="memItemLeft" align="right" valign="top"><a id="a85205f38e946161acaf97374bc41d3d9" name="a85205f38e946161acaf97374bc41d3d9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OUT_CLR_OFFSET) io_wo_32 gpio_hi_clr</td></tr>
+<tr class="separator:a85205f38e946161acaf97374bc41d3d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45a2f6607399090feb9b9b9d085d7a04"><td class="memItemLeft" align="right" valign="top"><a id="a45a2f6607399090feb9b9b9d085d7a04" name="a45a2f6607399090feb9b9b9d085d7a04"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OUT_XOR_OFFSET) io_wo_32 gpio_togl</td></tr>
+<tr class="separator:a45a2f6607399090feb9b9b9d085d7a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f8ffba52620fe35112a109040a83e58"><td class="memItemLeft" align="right" valign="top"><a id="a8f8ffba52620fe35112a109040a83e58" name="a8f8ffba52620fe35112a109040a83e58"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OUT_XOR_OFFSET) io_wo_32 gpio_hi_togl</td></tr>
+<tr class="separator:a8f8ffba52620fe35112a109040a83e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d26da55e8fc15f7a932d9cc04c7a03b"><td class="memItemLeft" align="right" valign="top"><a id="a2d26da55e8fc15f7a932d9cc04c7a03b" name="a2d26da55e8fc15f7a932d9cc04c7a03b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OE_OFFSET) io_rw_32 gpio_oe</td></tr>
+<tr class="separator:a2d26da55e8fc15f7a932d9cc04c7a03b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2be4e485db21cd05c99658d72c788f5"><td class="memItemLeft" align="right" valign="top"><a id="ac2be4e485db21cd05c99658d72c788f5" name="ac2be4e485db21cd05c99658d72c788f5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OE_OFFSET) io_rw_32 gpio_hi_oe</td></tr>
+<tr class="separator:ac2be4e485db21cd05c99658d72c788f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8ec87f8743d33927128433cb950ee01"><td class="memItemLeft" align="right" valign="top"><a id="ab8ec87f8743d33927128433cb950ee01" name="ab8ec87f8743d33927128433cb950ee01"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OE_SET_OFFSET) io_wo_32 gpio_oe_set</td></tr>
+<tr class="separator:ab8ec87f8743d33927128433cb950ee01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aba460dcfb3359bbebd2d6dd1ce5d5e"><td class="memItemLeft" align="right" valign="top"><a id="a4aba460dcfb3359bbebd2d6dd1ce5d5e" name="a4aba460dcfb3359bbebd2d6dd1ce5d5e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OE_SET_OFFSET) io_wo_32 gpio_hi_oe_set</td></tr>
+<tr class="separator:a4aba460dcfb3359bbebd2d6dd1ce5d5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33cce789d510c11fd63de325e6936eaa"><td class="memItemLeft" align="right" valign="top"><a id="a33cce789d510c11fd63de325e6936eaa" name="a33cce789d510c11fd63de325e6936eaa"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OE_CLR_OFFSET) io_wo_32 gpio_oe_clr</td></tr>
+<tr class="separator:a33cce789d510c11fd63de325e6936eaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8da0a6cdc12ae16fe420041eb694e4ce"><td class="memItemLeft" align="right" valign="top"><a id="a8da0a6cdc12ae16fe420041eb694e4ce" name="a8da0a6cdc12ae16fe420041eb694e4ce"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OE_CLR_OFFSET) io_wo_32 gpio_hi_oe_clr</td></tr>
+<tr class="separator:a8da0a6cdc12ae16fe420041eb694e4ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9e22716490ad57e5c3e4321a11ed194"><td class="memItemLeft" align="right" valign="top"><a id="aa9e22716490ad57e5c3e4321a11ed194" name="aa9e22716490ad57e5c3e4321a11ed194"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_OE_XOR_OFFSET) io_wo_32 gpio_oe_togl</td></tr>
+<tr class="separator:aa9e22716490ad57e5c3e4321a11ed194"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a548f4a54696dd26ee62e431c3e4f4454"><td class="memItemLeft" align="right" valign="top"><a id="a548f4a54696dd26ee62e431c3e4f4454" name="a548f4a54696dd26ee62e431c3e4f4454"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_GPIO_HI_OE_XOR_OFFSET) io_wo_32 gpio_hi_oe_togl</td></tr>
+<tr class="separator:a548f4a54696dd26ee62e431c3e4f4454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acaa6a375dc30e0f13e49b1150d5b22bf"><td class="memItemLeft" align="right" valign="top"><a id="acaa6a375dc30e0f13e49b1150d5b22bf" name="acaa6a375dc30e0f13e49b1150d5b22bf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_FIFO_ST_OFFSET) io_rw_32 fifo_st</td></tr>
+<tr class="separator:acaa6a375dc30e0f13e49b1150d5b22bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4adfbdb8cae2188f3459ddd07963c81f"><td class="memItemLeft" align="right" valign="top"><a id="a4adfbdb8cae2188f3459ddd07963c81f" name="a4adfbdb8cae2188f3459ddd07963c81f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_FIFO_WR_OFFSET) io_wo_32 fifo_wr</td></tr>
+<tr class="separator:a4adfbdb8cae2188f3459ddd07963c81f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ca97af3d9187f37e2a2cbc780967bda"><td class="memItemLeft" align="right" valign="top"><a id="a8ca97af3d9187f37e2a2cbc780967bda" name="a8ca97af3d9187f37e2a2cbc780967bda"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_FIFO_RD_OFFSET) io_ro_32 fifo_rd</td></tr>
+<tr class="separator:a8ca97af3d9187f37e2a2cbc780967bda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8187deb5d6d8250b4930091bbfe1fe7b"><td class="memItemLeft" align="right" valign="top"><a id="a8187deb5d6d8250b4930091bbfe1fe7b" name="a8187deb5d6d8250b4930091bbfe1fe7b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_SPINLOCK_ST_OFFSET) io_ro_32 spinlock_st</td></tr>
+<tr class="separator:a8187deb5d6d8250b4930091bbfe1fe7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ea42a7132422f1de3779c394e093bdd"><td class="memItemLeft" align="right" valign="top"><a id="a1ea42a7132422f1de3779c394e093bdd" name="a1ea42a7132422f1de3779c394e093bdd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_SPINLOCK0_OFFSET) io_rw_32 spinlock[32]</td></tr>
+<tr class="separator:a1ea42a7132422f1de3779c394e093bdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e05de6d73be24ee24409088d2afdc8"><td class="memItemLeft" align="right" valign="top"><a id="ae2e05de6d73be24ee24409088d2afdc8" name="ae2e05de6d73be24ee24409088d2afdc8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_DOORBELL_OUT_SET_OFFSET) io_rw_32 doorbell_out_set</td></tr>
+<tr class="separator:ae2e05de6d73be24ee24409088d2afdc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfe31b360630abd049b00ca4234001c8"><td class="memItemLeft" align="right" valign="top"><a id="abfe31b360630abd049b00ca4234001c8" name="abfe31b360630abd049b00ca4234001c8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_DOORBELL_OUT_CLR_OFFSET) io_rw_32 doorbell_out_clr</td></tr>
+<tr class="separator:abfe31b360630abd049b00ca4234001c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b52879c38a2b1bb325cc943a7162ba3"><td class="memItemLeft" align="right" valign="top"><a id="a9b52879c38a2b1bb325cc943a7162ba3" name="a9b52879c38a2b1bb325cc943a7162ba3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_DOORBELL_IN_SET_OFFSET) io_rw_32 doorbell_in_set</td></tr>
+<tr class="separator:a9b52879c38a2b1bb325cc943a7162ba3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a468cea1ad5058f6093afb21b94a8f940"><td class="memItemLeft" align="right" valign="top"><a id="a468cea1ad5058f6093afb21b94a8f940" name="a468cea1ad5058f6093afb21b94a8f940"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_DOORBELL_IN_CLR_OFFSET) io_rw_32 doorbell_in_clr</td></tr>
+<tr class="separator:a468cea1ad5058f6093afb21b94a8f940"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f766bc8c4f8de72261d0d8bed728e65"><td class="memItemLeft" align="right" valign="top"><a id="a3f766bc8c4f8de72261d0d8bed728e65" name="a3f766bc8c4f8de72261d0d8bed728e65"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_PERI_NONSEC_OFFSET) io_rw_32 peri_nonsec</td></tr>
+<tr class="separator:a3f766bc8c4f8de72261d0d8bed728e65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a701ac88e1fb56279c7c11ca07bbcf2bb"><td class="memItemLeft" align="right" valign="top"><a id="a701ac88e1fb56279c7c11ca07bbcf2bb" name="a701ac88e1fb56279c7c11ca07bbcf2bb"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_RISCV_SOFTIRQ_OFFSET) io_rw_32 riscv_softirq</td></tr>
+<tr class="separator:a701ac88e1fb56279c7c11ca07bbcf2bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47b9c973e8b86633defeedce73484d07"><td class="memItemLeft" align="right" valign="top"><a id="a47b9c973e8b86633defeedce73484d07" name="a47b9c973e8b86633defeedce73484d07"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_MTIME_CTRL_OFFSET) io_rw_32 mtime_ctrl</td></tr>
+<tr class="separator:a47b9c973e8b86633defeedce73484d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80348b106fc2767330791a1678b7be44"><td class="memItemLeft" align="right" valign="top"><a id="a80348b106fc2767330791a1678b7be44" name="a80348b106fc2767330791a1678b7be44"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_MTIME_OFFSET) io_rw_32 mtime</td></tr>
+<tr class="separator:a80348b106fc2767330791a1678b7be44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f8358bf2d9fa8dc3f98e45b8506619f"><td class="memItemLeft" align="right" valign="top"><a id="a1f8358bf2d9fa8dc3f98e45b8506619f" name="a1f8358bf2d9fa8dc3f98e45b8506619f"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_MTIMEH_OFFSET) io_rw_32 mtimeh</td></tr>
+<tr class="separator:a1f8358bf2d9fa8dc3f98e45b8506619f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7917955f6d533c4b71b7a854f47d132c"><td class="memItemLeft" align="right" valign="top"><a id="a7917955f6d533c4b71b7a854f47d132c" name="a7917955f6d533c4b71b7a854f47d132c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_MTIMECMP_OFFSET) io_rw_32 mtimecmp</td></tr>
+<tr class="separator:a7917955f6d533c4b71b7a854f47d132c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1663c615c15177435c6c04f99dd45ec"><td class="memItemLeft" align="right" valign="top"><a id="ac1663c615c15177435c6c04f99dd45ec" name="ac1663c615c15177435c6c04f99dd45ec"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_MTIMECMPH_OFFSET) io_rw_32 mtimecmph</td></tr>
+<tr class="separator:ac1663c615c15177435c6c04f99dd45ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b400261bd2de93f2d2df2442f62ef78"><td class="memItemLeft" align="right" valign="top"><a id="a3b400261bd2de93f2d2df2442f62ef78" name="a3b400261bd2de93f2d2df2442f62ef78"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_CTRL_OFFSET) io_rw_32 tmds_ctrl</td></tr>
+<tr class="separator:a3b400261bd2de93f2d2df2442f62ef78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd8eb0dbe7a980e2d50147dff9e42f3a"><td class="memItemLeft" align="right" valign="top"><a id="abd8eb0dbe7a980e2d50147dff9e42f3a" name="abd8eb0dbe7a980e2d50147dff9e42f3a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_WDATA_OFFSET) io_wo_32 tmds_wdata</td></tr>
+<tr class="separator:abd8eb0dbe7a980e2d50147dff9e42f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af07c75d594420b1096204b826a7de0ed"><td class="memItemLeft" align="right" valign="top"><a id="af07c75d594420b1096204b826a7de0ed" name="af07c75d594420b1096204b826a7de0ed"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_PEEK_SINGLE_OFFSET) io_ro_32 tmds_peek_single</td></tr>
+<tr class="separator:af07c75d594420b1096204b826a7de0ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cc31fa2c2e4ef9dd6c077ba96fbc3b0"><td class="memItemLeft" align="right" valign="top"><a id="a3cc31fa2c2e4ef9dd6c077ba96fbc3b0" name="a3cc31fa2c2e4ef9dd6c077ba96fbc3b0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_POP_SINGLE_OFFSET) io_ro_32 tmds_pop_single</td></tr>
+<tr class="separator:a3cc31fa2c2e4ef9dd6c077ba96fbc3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8328c5bbebcb09b677d2e3f332694f88"><td class="memItemLeft" align="right" valign="top"><a id="a8328c5bbebcb09b677d2e3f332694f88" name="a8328c5bbebcb09b677d2e3f332694f88"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_PEEK_DOUBLE_L0_OFFSET) io_ro_32 tmds_peek_double_l0</td></tr>
+<tr class="separator:a8328c5bbebcb09b677d2e3f332694f88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a195acdb7ce29a956afeafd26ef839412"><td class="memItemLeft" align="right" valign="top"><a id="a195acdb7ce29a956afeafd26ef839412" name="a195acdb7ce29a956afeafd26ef839412"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_POP_DOUBLE_L0_OFFSET) io_ro_32 tmds_pop_double_l0</td></tr>
+<tr class="separator:a195acdb7ce29a956afeafd26ef839412"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae96b505a583d75b01f8b28047da6947a"><td class="memItemLeft" align="right" valign="top"><a id="ae96b505a583d75b01f8b28047da6947a" name="ae96b505a583d75b01f8b28047da6947a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_PEEK_DOUBLE_L1_OFFSET) io_ro_32 tmds_peek_double_l1</td></tr>
+<tr class="separator:ae96b505a583d75b01f8b28047da6947a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fc64ae0c2151182c3dfc5dd0f96afd3"><td class="memItemLeft" align="right" valign="top"><a id="a4fc64ae0c2151182c3dfc5dd0f96afd3" name="a4fc64ae0c2151182c3dfc5dd0f96afd3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_POP_DOUBLE_L1_OFFSET) io_ro_32 tmds_pop_double_l1</td></tr>
+<tr class="separator:a4fc64ae0c2151182c3dfc5dd0f96afd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c95c707b58f8e11017d71304ab9c1b0"><td class="memItemLeft" align="right" valign="top"><a id="a4c95c707b58f8e11017d71304ab9c1b0" name="a4c95c707b58f8e11017d71304ab9c1b0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_PEEK_DOUBLE_L2_OFFSET) io_ro_32 tmds_peek_double_l2</td></tr>
+<tr class="separator:a4c95c707b58f8e11017d71304ab9c1b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8be5c713fd76c3257cf1e403fbd8ee23"><td class="memItemLeft" align="right" valign="top"><a id="a8be5c713fd76c3257cf1e403fbd8ee23" name="a8be5c713fd76c3257cf1e403fbd8ee23"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>_REG_</b> (SIO_TMDS_POP_DOUBLE_L2_OFFSET) io_ro_32 tmds_pop_double_l2</td></tr>
+<tr class="separator:a8be5c713fd76c3257cf1e403fbd8ee23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
@@ -210,12 +357,19 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_pad0</b></td></t
 <tr class="memitem:a71109ef8883dfafc592a80c6638b4681"><td class="memItemLeft" align="right" valign="top"><a id="a71109ef8883dfafc592a80c6638b4681" name="a71109ef8883dfafc592a80c6638b4681"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_pad1</b></td></tr>
 <tr class="separator:a71109ef8883dfafc592a80c6638b4681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a928e01a88b9590731eb81bfaad9d7f5f"><td class="memItemLeft" align="right" valign="top"><a id="a928e01a88b9590731eb81bfaad9d7f5f" name="a928e01a88b9590731eb81bfaad9d7f5f"></a>
+<tr class="memitem:a6529df6033b926ae9d6995572fa5fada"><td class="memItemLeft" align="right" valign="top"><a id="a6529df6033b926ae9d6995572fa5fada" name="a6529df6033b926ae9d6995572fa5fada"></a>
 <a class="el" href="structinterp__hw__t.html">interp_hw_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>interp</b> [2]</td></tr>
-<tr class="separator:a928e01a88b9590731eb81bfaad9d7f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a6529df6033b926ae9d6995572fa5fada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbef0fd71dc2122e954221ace7732524"><td class="memItemLeft" align="right" valign="top"><a id="adbef0fd71dc2122e954221ace7732524" name="adbef0fd71dc2122e954221ace7732524"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_pad2</b> [3]</td></tr>
+<tr class="separator:adbef0fd71dc2122e954221ace7732524"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a861a06f8bcc5ca4f862501bfc451d758"><td class="memItemLeft" align="right" valign="top"><a id="a861a06f8bcc5ca4f862501bfc451d758" name="a861a06f8bcc5ca4f862501bfc451d758"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>_pad3</b> [2]</td></tr>
+<tr class="separator:a861a06f8bcc5ca4f862501bfc451d758"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
-<li>hardware_structs/include/hardware/structs/<a class="el" href="sio_8h_source.html">sio.h</a></li>
+<hr/>The documentation for this struct was generated from the following files:<ul>
+<li>include/hardware/structs/<a class="el" href="rp2040_2hardware__structs_2include_2hardware_2structs_2sio_8h_source.html">sio.h</a></li>
+<li>include/hardware/structs/<a class="el" href="rp2350_2hardware__structs_2include_2hardware_2structs_2sio_8h_source.html">sio.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

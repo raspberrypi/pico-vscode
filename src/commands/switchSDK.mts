@@ -205,7 +205,7 @@ export default class SwitchSDKCommand extends Command {
           toolchain: toolchain,
         })),
         {
-          placeHolder: "Select ARM Embeded Toolchain version",
+          placeHolder: "Select ARM/RISCV Embeded Toolchain version",
         }
       );
     } catch (error) {
@@ -395,8 +395,7 @@ export default class SwitchSDKCommand extends Command {
         if (
           (await downloadAndInstallSDK(selectedSDK.sdk, SDK_REPOSITORY_URL)) &&
           (await downloadAndInstallTools(
-            selectedSDK.sdk,
-            process.platform === "win32"
+            selectedSDK.sdk
           ))
         ) {
           progress.report({

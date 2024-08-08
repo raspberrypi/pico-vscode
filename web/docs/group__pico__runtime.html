@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -102,10 +102,65 @@ $(document).ready(function(){initNavTree('group__pico__runtime.html',''); initRe
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_runtime<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
-<p >Aggregate runtime support including <a class="el" href="group__pico__bit__ops.html">pico_bit_ops</a>, <a class="el" href="group__pico__divider.html">pico_divider</a>, <a class="el" href="group__pico__double.html">pico_double</a>, <a class="el" href="group__pico__int64__ops.html">pico_int64_ops</a>, <a class="el" href="group__pico__float.html">pico_float</a>, <a class="el" href="group__pico__malloc.html">pico_malloc</a>, <a class="el" href="group__pico__mem__ops.html">pico_mem_ops</a> and <a class="el" href="group__pico__standard__link.html">pico_standard_link</a> </p>
+
+<p>Basic runtime support for running pre-main initializers provided by other libraries.  
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gad27ee86dcd85855022a424f61b839d04"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__runtime.html#gad27ee86dcd85855022a424f61b839d04">runtime_init</a> (void)</td></tr>
+<tr class="memdesc:gad27ee86dcd85855022a424f61b839d04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run all the initializations that are usually called by crt0.S before entering main.  <a href="group__pico__runtime.html#gad27ee86dcd85855022a424f61b839d04">More...</a><br /></td></tr>
+<tr class="separator:gad27ee86dcd85855022a424f61b839d04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<p >Basic runtime support for running pre-main initializers provided by other libraries. </p>
+<p >This library aggregates the following other libraries (if available):</p>
+<ul>
+<li><a class="el" href="group__hardware__uart.html">hardware_uart</a></li>
+<li><a class="el" href="group__pico__bit__ops.html">pico_bit_ops</a></li>
+<li><a class="el" href="group__pico__divider.html">pico_divider</a></li>
+<li><a class="el" href="group__pico__double.html">pico_double</a></li>
+<li><a class="el" href="group__pico__int64__ops.html">pico_int64_ops</a></li>
+<li><a class="el" href="group__pico__float.html">pico_float</a></li>
+<li><a class="el" href="group__pico__malloc.html">pico_malloc</a></li>
+<li><a class="el" href="group__pico__mem__ops.html">pico_mem_ops</a></li>
+<li><a class="el" href="group__pico__atomic.html">pico_atomic</a></li>
+<li><a class="el" href="group__pico__cxx__options.html">pico_cxx_options</a></li>
+<li><a class="el" href="group__pico__standard__binary__info.html">pico_standard_binary_info</a></li>
+<li><a class="el" href="group__pico__standard__link.html">pico_standard_link</a></li>
+<li><a class="el" href="group__pico__sync.html">pico_sync</a></li>
+<li><a class="el" href="group__pico__printf.html">pico_printf</a></li>
+<li><a class="el" href="group__pico__crt0.html">pico_crt0</a></li>
+<li><a class="el" href="group__pico__clib__interface.html">pico_clib_interface</a></li>
+<li><a class="el" href="group__pico__stdio.html">pico_stdio</a> </li>
+</ul>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="gad27ee86dcd85855022a424f61b839d04" name="gad27ee86dcd85855022a424f61b839d04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad27ee86dcd85855022a424f61b839d04">&#9670;&nbsp;</a></span>runtime_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void runtime_init </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run all the initializations that are usually called by crt0.S before entering main. </p>
+<p >This method is useful to set up the runtime after performing a watchdog or powman reboot via scratch vector. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

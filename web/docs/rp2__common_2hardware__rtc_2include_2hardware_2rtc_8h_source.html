@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_rtc/include/hardware/rtc.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/rtc.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -125,13 +125,13 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__rtc_2include_2h
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc_init</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a">rtc_set_datetime</a>(<a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a>(<a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#gabf6cc1546be8d1ddb56e3d83a915f683">rtc_running</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gad0018e9069fee8d65c3a01f7bd7ae2f4">rtc_set_alarm</a>(<a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t, <a class="code hl_typedef" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a> user_callback);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253">rtc_set_alarm</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t, <a class="code hl_typedef" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a> user_callback);</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gab7f69ee0de1cae2518b2822fd82d5201">rtc_enable_alarm</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
@@ -143,15 +143,15 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__rtc_2include_2h
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="agroup__hardware__rtc_html_ga05a9e12c70c56e6e2a9869d0682045d1"><div class="ttname"><a href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a></div><div class="ttdeci">void(* rtc_callback_t)(void)</div><div class="ttdef"><b>Definition:</b> rtc.h:40</div></div>
-<div class="ttc" id="agroup__hardware__rtc_html_ga718b866eab2ba73221d37f7d15ba9737"><div class="ttname"><a href="group__hardware__rtc.html#ga718b866eab2ba73221d37f7d15ba9737">rtc_disable_alarm</a></div><div class="ttdeci">void rtc_disable_alarm(void)</div><div class="ttdoc">Disable the RTC alarm (if active)</div><div class="ttdef"><b>Definition:</b> rtc.c:185</div></div>
-<div class="ttc" id="agroup__hardware__rtc_html_ga7c5528e71733b7bfc0b0543cd3bb6d3f"><div class="ttname"><a href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a></div><div class="ttdeci">bool rtc_get_datetime(datetime_t *t)</div><div class="ttdoc">Get the current time from the RTC.</div><div class="ttdef"><b>Definition:</b> rtc.c:88</div></div>
-<div class="ttc" id="agroup__hardware__rtc_html_gaa7ac37764f6ec16198f72707a8e1b58a"><div class="ttname"><a href="group__hardware__rtc.html#gaa7ac37764f6ec16198f72707a8e1b58a">rtc_set_datetime</a></div><div class="ttdeci">bool rtc_set_datetime(datetime_t *t)</div><div class="ttdoc">Set the RTC to the specified time.</div><div class="ttdef"><b>Definition:</b> rtc.c:55</div></div>
-<div class="ttc" id="agroup__hardware__rtc_html_gab7f69ee0de1cae2518b2822fd82d5201"><div class="ttname"><a href="group__hardware__rtc.html#gab7f69ee0de1cae2518b2822fd82d5201">rtc_enable_alarm</a></div><div class="ttdeci">void rtc_enable_alarm(void)</div><div class="ttdoc">Enable the RTC alarm (if inactive)</div><div class="ttdef"><b>Definition:</b> rtc.c:109</div></div>
+<div class="ttc" id="agroup__hardware__rtc_html_ga076d68dec35129dd2b44d16ae457a3de"><div class="ttname"><a href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a></div><div class="ttdeci">bool rtc_set_datetime(const datetime_t *t)</div><div class="ttdoc">Set the RTC to the specified time.</div><div class="ttdef"><b>Definition:</b> rtc.c:54</div></div>
+<div class="ttc" id="agroup__hardware__rtc_html_ga718b866eab2ba73221d37f7d15ba9737"><div class="ttname"><a href="group__hardware__rtc.html#ga718b866eab2ba73221d37f7d15ba9737">rtc_disable_alarm</a></div><div class="ttdeci">void rtc_disable_alarm(void)</div><div class="ttdoc">Disable the RTC alarm (if active)</div><div class="ttdef"><b>Definition:</b> rtc.c:184</div></div>
+<div class="ttc" id="agroup__hardware__rtc_html_ga7c5528e71733b7bfc0b0543cd3bb6d3f"><div class="ttname"><a href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a></div><div class="ttdeci">bool rtc_get_datetime(datetime_t *t)</div><div class="ttdoc">Get the current time from the RTC.</div><div class="ttdef"><b>Definition:</b> rtc.c:87</div></div>
+<div class="ttc" id="agroup__hardware__rtc_html_gaac8ad85f301295b6a130aa8e00122253"><div class="ttname"><a href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253">rtc_set_alarm</a></div><div class="ttdeci">void rtc_set_alarm(const datetime_t *t, rtc_callback_t user_callback)</div><div class="ttdoc">Set a time in the future for the RTC to call a user provided callback.</div><div class="ttdef"><b>Definition:</b> rtc.c:146</div></div>
+<div class="ttc" id="agroup__hardware__rtc_html_gab7f69ee0de1cae2518b2822fd82d5201"><div class="ttname"><a href="group__hardware__rtc.html#gab7f69ee0de1cae2518b2822fd82d5201">rtc_enable_alarm</a></div><div class="ttdeci">void rtc_enable_alarm(void)</div><div class="ttdoc">Enable the RTC alarm (if inactive)</div><div class="ttdef"><b>Definition:</b> rtc.c:108</div></div>
 <div class="ttc" id="agroup__hardware__rtc_html_gabf6cc1546be8d1ddb56e3d83a915f683"><div class="ttname"><a href="group__hardware__rtc.html#gabf6cc1546be8d1ddb56e3d83a915f683">rtc_running</a></div><div class="ttdeci">bool rtc_running(void)</div><div class="ttdoc">Is the RTC running?</div><div class="ttdef"><b>Definition:</b> rtc.c:18</div></div>
 <div class="ttc" id="agroup__hardware__rtc_html_gacf9024748b942a7ae375cf75951afa9c"><div class="ttname"><a href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc_init</a></div><div class="ttdeci">void rtc_init(void)</div><div class="ttdoc">Initialise the RTC system.</div><div class="ttdef"><b>Definition:</b> rtc.c:22</div></div>
-<div class="ttc" id="agroup__hardware__rtc_html_gad0018e9069fee8d65c3a01f7bd7ae2f4"><div class="ttname"><a href="group__hardware__rtc.html#gad0018e9069fee8d65c3a01f7bd7ae2f4">rtc_set_alarm</a></div><div class="ttdeci">void rtc_set_alarm(datetime_t *t, rtc_callback_t user_callback)</div><div class="ttdoc">Set a time in the future for the RTC to call a user provided callback.</div><div class="ttdef"><b>Definition:</b> rtc.c:147</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
-<div class="ttc" id="astructdatetime__t_html"><div class="ttname"><a href="structdatetime__t.html">datetime_t</a></div><div class="ttdoc">Structure containing date and time information.</div><div class="ttdef"><b>Definition:</b> types.h:93</div></div>
+<div class="ttc" id="astructdatetime__t_html"><div class="ttname"><a href="structdatetime__t.html">datetime_t</a></div><div class="ttdoc">Structure containing date and time information.</div><div class="ttdef"><b>Definition:</b> types.h:107</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

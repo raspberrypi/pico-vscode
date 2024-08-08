@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,11 +107,14 @@ $(document).ready(function(){initNavTree('group__pico__time.html',''); initResiz
   <div class="headertitle"><div class="title">pico_time<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>API for accurate timestamps, sleeping, and time based callbacks.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
 <tr class="memitem:group__timestamp"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html">timestamp</a></td></tr>
-<tr class="memdesc:group__timestamp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp functions relating to points in time (including the current time) <br /></td></tr>
+<tr class="memdesc:group__timestamp"><td class="mdescLeft">&#160;</td><td class="mdescRight">Timestamp functions relating to points in time (including the current time). <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__sleep"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sleep.html">sleep</a></td></tr>
 <tr class="memdesc:group__sleep"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleep functions for delaying execution in a lower power state. <br /></td></tr>
@@ -124,7 +127,7 @@ Modules</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >API for accurate timestamps, sleeping, and time based callbacks</p>
+<p >API for accurate timestamps, sleeping, and time based callbacks. </p>
 <dl class="section note"><dt>Note</dt><dd>The functions defined here provide a much more powerful and user friendly wrapping around the low level hardware timer functionality. For these functions (and any other SDK functionality e.g. timeouts, that relies on them) to work correctly, the hardware timer should not be modified. i.e. it is expected to be monotonically increasing once per microsecond. Fortunately there is no need to modify the hardware timer as any functionality you can think of that isn't already covered here can easily be modelled by adding or subtracting a constant value from the unmodified hardware timer.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__timer.html">hardware_timer</a> </dd></dl>
 </div><!-- contents -->

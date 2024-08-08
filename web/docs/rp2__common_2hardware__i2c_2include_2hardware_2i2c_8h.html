@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_i2c/include/hardware/i2c.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/i2c.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -111,9 +111,49 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__i2c_2include_2h
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="time_8h_source.html">pico/time.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="common_2pico__time_2include_2pico_2time_8h_source.html">pico/time.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/i2c.h&quot;</code><br />
 <code>#include &quot;hardware/regs/dreq.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for i2c.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h__incl.png" border="0" usemap="#ainclude_2hardware_2i2c_8h" alt=""/></div>
+<map name="ainclude_2hardware_2i2c_8h" id="ainclude_2hardware_2i2c_8h">
+<area shape="rect" title=" " alt="" coords="511,5,680,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,229,473,256"/>
+<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="471,80,565,107"/>
+<area shape="rect" title=" " alt="" coords="589,80,756,107"/>
+<area shape="rect" title=" " alt="" coords="781,80,941,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,453,259,480"/>
+<area shape="rect" title=" " alt="" coords="252,304,365,331"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,304,494,331"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,304,717,331"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,304,836,331"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,528,111,555"/>
+<area shape="rect" title=" " alt="" coords="74,603,157,629"/>
+<area shape="rect" title=" " alt="" coords="211,528,281,555"/>
+<area shape="rect" title=" " alt="" coords="306,528,381,555"/>
+<area shape="rect" title=" " alt="" coords="173,379,337,405"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,379,543,405"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,379,746,405"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,379,930,405"/>
+<area shape="rect" title=" " alt="" coords="954,379,1165,405"/>
+<area shape="rect" title=" " alt="" coords="1189,379,1340,405"/>
+<area shape="rect" title=" " alt="" coords="357,453,548,480"/>
+<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="521,155,654,181"/>
+<area shape="rect" title=" " alt="" coords="497,229,678,256"/>
+<area shape="rect" title=" " alt="" coords="703,229,872,256"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h__dep__incl.png" border="0" usemap="#ainclude_2hardware_2i2c_8hdep" alt=""/></div>
+<map name="ainclude_2hardware_2i2c_8hdep" id="ainclude_2hardware_2i2c_8hdep">
+<area shape="rect" title=" " alt="" coords="9,5,179,32"/>
+<area shape="rect" href="i2c__slave_8h.html" title=" " alt="" coords="5,80,183,107"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -124,9 +164,21 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:acc036b4b75db8754217935819ca23825"><td class="memItemLeft" align="right" valign="top"><a id="acc036b4b75db8754217935819ca23825" name="acc036b4b75db8754217935819ca23825"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_I2C</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:acc036b4b75db8754217935819ca23825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eec00c1c43648dc914b4fb726d5bcc5"><td class="memItemLeft" align="right" valign="top"><a id="a0eec00c1c43648dc914b4fb726d5bcc5" name="a0eec00c1c43648dc914b4fb726d5bcc5"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_I2C</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a0eec00c1c43648dc914b4fb726d5bcc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga15780f5c76a6e85e6a9d91dc6ca754bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga15780f5c76a6e85e6a9d91dc6ca754bc">I2C_NUM</a>(i2c)</td></tr>
+<tr class="memdesc:ga15780f5c76a6e85e6a9d91dc6ca754bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the I2C number for a I2C instance.  <a href="group__hardware__i2c.html#ga15780f5c76a6e85e6a9d91dc6ca754bc">More...</a><br /></td></tr>
+<tr class="separator:ga15780f5c76a6e85e6a9d91dc6ca754bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa18845e47b403a6a54008a776f56b46"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#gaaa18845e47b403a6a54008a776f56b46">I2C_INSTANCE</a>(num)</td></tr>
+<tr class="memdesc:gaaa18845e47b403a6a54008a776f56b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the I2C instance with the given I2C number.  <a href="group__hardware__i2c.html#gaaa18845e47b403a6a54008a776f56b46">More...</a><br /></td></tr>
+<tr class="separator:gaaa18845e47b403a6a54008a776f56b46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6e96753676145c21b2165f6fde8e0f2a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga6e96753676145c21b2165f6fde8e0f2a">I2C_DREQ_NUM</a>(i2c,  is_tx)</td></tr>
+<tr class="memdesc:ga6e96753676145c21b2165f6fde8e0f2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from this I2C instance. If is_tx is true, then it is for transfers to the I2C instance else for transfers from the I2C instance.  <a href="group__hardware__i2c.html#ga6e96753676145c21b2165f6fde8e0f2a">More...</a><br /></td></tr>
+<tr class="separator:ga6e96753676145c21b2165f6fde8e0f2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1097488c8b489a829c2b2eb8b39e345f"><td class="memItemLeft" align="right" valign="top"><a id="a1097488c8b489a829c2b2eb8b39e345f" name="a1097488c8b489a829c2b2eb8b39e345f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>i2c_hw_index</b>(i2c)&#160;&#160;&#160;<a class="el" href="group__hardware__i2c.html#gaae747755a45e2fbf96d60bfbc7837f5d">i2c_get_index</a>(i2c)</td></tr>
+<tr class="separator:a1097488c8b489a829c2b2eb8b39e345f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -148,19 +200,19 @@ Functions</h2></td></tr>
 <tr class="memitem:ga42571b2db5d1ed0dc083385c230dc9e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga42571b2db5d1ed0dc083385c230dc9e8">i2c_set_slave_mode</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, bool slave, uint8_t addr)</td></tr>
 <tr class="memdesc:ga42571b2db5d1ed0dc083385c230dc9e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set I2C port to slave mode.  <a href="group__hardware__i2c.html#ga42571b2db5d1ed0dc083385c230dc9e8">More...</a><br /></td></tr>
 <tr class="separator:ga42571b2db5d1ed0dc083385c230dc9e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4643e9968abc430c501adb569a14afa3"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga4643e9968abc430c501adb569a14afa3">i2c_hw_index</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c)</td></tr>
-<tr class="memdesc:ga4643e9968abc430c501adb569a14afa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert I2C instance to hardware instance number.  <a href="group__hardware__i2c.html#ga4643e9968abc430c501adb569a14afa3">More...</a><br /></td></tr>
-<tr class="separator:ga4643e9968abc430c501adb569a14afa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb868326e8b0bef077a98e1302b0ff9a"><td class="memItemLeft" align="right" valign="top"><a id="afb868326e8b0bef077a98e1302b0ff9a" name="afb868326e8b0bef077a98e1302b0ff9a"></a>
-static <a class="el" href="structi2c__hw__t.html">i2c_hw_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>i2c_get_hw</b> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c)</td></tr>
-<tr class="separator:afb868326e8b0bef077a98e1302b0ff9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41d828faedc218c5d118f60e8130e7ce"><td class="memItemLeft" align="right" valign="top"><a id="a41d828faedc218c5d118f60e8130e7ce" name="a41d828faedc218c5d118f60e8130e7ce"></a>
-static <a class="el" href="structi2c__inst.html">i2c_inst_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>i2c_get_instance</b> (uint instance)</td></tr>
-<tr class="separator:a41d828faedc218c5d118f60e8130e7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gafbad5cc392c9c22618ff9fe3b0f20ea5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#gafbad5cc392c9c22618ff9fe3b0f20ea5">i2c_write_blocking_until</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, const uint8_t *src, size_t len, bool nostop, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:gaae747755a45e2fbf96d60bfbc7837f5d"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#gaae747755a45e2fbf96d60bfbc7837f5d">i2c_get_index</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c)</td></tr>
+<tr class="memdesc:gaae747755a45e2fbf96d60bfbc7837f5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert I2C instance to hardware instance number.  <a href="group__hardware__i2c.html#gaae747755a45e2fbf96d60bfbc7837f5d">More...</a><br /></td></tr>
+<tr class="separator:gaae747755a45e2fbf96d60bfbc7837f5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafb868326e8b0bef077a98e1302b0ff9a"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structi2c__hw__t.html">i2c_hw_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#gafb868326e8b0bef077a98e1302b0ff9a">i2c_get_hw</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c)</td></tr>
+<tr class="memdesc:gafb868326e8b0bef077a98e1302b0ff9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return pointer to structure containing i2c hardware registers.  <a href="group__hardware__i2c.html#gafb868326e8b0bef077a98e1302b0ff9a">More...</a><br /></td></tr>
+<tr class="separator:gafb868326e8b0bef077a98e1302b0ff9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2a132ff74d7b816a6238037fa0e0c2c4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structi2c__inst.html">i2c_inst_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga2a132ff74d7b816a6238037fa0e0c2c4">i2c_get_instance</a> (uint num)</td></tr>
+<tr class="memdesc:ga2a132ff74d7b816a6238037fa0e0c2c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert I2C hardware instance number to I2C instance.  <a href="group__hardware__i2c.html#ga2a132ff74d7b816a6238037fa0e0c2c4">More...</a><br /></td></tr>
+<tr class="separator:ga2a132ff74d7b816a6238037fa0e0c2c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafbad5cc392c9c22618ff9fe3b0f20ea5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#gafbad5cc392c9c22618ff9fe3b0f20ea5">i2c_write_blocking_until</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, const uint8_t *src, size_t len, bool nostop, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:gafbad5cc392c9c22618ff9fe3b0f20ea5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to write specified number of bytes to address, blocking until the specified absolute time is reached.  <a href="group__hardware__i2c.html#gafbad5cc392c9c22618ff9fe3b0f20ea5">More...</a><br /></td></tr>
 <tr class="separator:gafbad5cc392c9c22618ff9fe3b0f20ea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga186c30fab0a661586493c8d51a493850"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga186c30fab0a661586493c8d51a493850">i2c_read_blocking_until</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, uint8_t *dst, size_t len, bool nostop, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga186c30fab0a661586493c8d51a493850"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga186c30fab0a661586493c8d51a493850">i2c_read_blocking_until</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, uint8_t *dst, size_t len, bool nostop, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga186c30fab0a661586493c8d51a493850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to read specified number of bytes from address, blocking until the specified absolute time is reached.  <a href="group__hardware__i2c.html#ga186c30fab0a661586493c8d51a493850">More...</a><br /></td></tr>
 <tr class="separator:ga186c30fab0a661586493c8d51a493850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0abb49ca0282530c2655f188b72eb653"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga0abb49ca0282530c2655f188b72eb653">i2c_write_timeout_us</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, const uint8_t *src, size_t len, bool nostop, uint timeout_us)</td></tr>

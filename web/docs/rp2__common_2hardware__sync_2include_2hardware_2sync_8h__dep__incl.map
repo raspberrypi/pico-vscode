@@ -1,0 +1,14 @@
+<map id="include/hardware/sync.h" name="include/hardware/sync.h">
+<area shape="rect" id="node1" title=" " alt="" coords="228,5,408,32"/>
+<area shape="rect" id="node2" href="$claim_8h.html" title=" " alt="" coords="23,87,210,114"/>
+<area shape="rect" id="node3" href="$spin__lock_8h_source.html" title=" " alt="" coords="234,80,402,121"/>
+<area shape="rect" id="node4" href="$lock__core_8h.html" title=" " alt="" coords="426,87,605,114"/>
+<area shape="rect" id="node12" href="$queue_8h.html" title=" " alt="" coords="614,177,795,203"/>
+<area shape="rect" id="node5" href="$critical__section_8h.html" title=" " alt="" coords="441,169,589,211"/>
+<area shape="rect" id="node8" href="$mutex_8h.html" title=" " alt="" coords="259,177,417,203"/>
+<area shape="rect" id="node10" href="$sem_8h.html" title=" " alt="" coords="90,177,234,203"/>
+<area shape="rect" id="node6" href="$common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="351,273,498,300"/>
+<area shape="rect" id="node7" href="$multicore_8h.html" title=" " alt="" coords="335,363,514,389"/>
+<area shape="rect" id="node9" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="173,259,327,315"/>
+<area shape="rect" id="node11" href="$async__context__poll_8h_source.html" title=" " alt="" coords="5,266,148,307"/>
+</map>

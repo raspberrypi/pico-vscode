@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: pico_sync/include/pico/sem.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/pico/sem.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,6 +110,51 @@ $(document).ready(function(){initNavTree('sem_8h.html',''); initResizable(); });
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="lock__core_8h_source.html">pico/lock_core.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for sem.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="sem_8h__incl.png" border="0" usemap="#ainclude_2pico_2sem_8h" alt=""/></div>
+<map name="ainclude_2pico_2sem_8h" id="ainclude_2pico_2sem_8h">
+<area shape="rect" title=" " alt="" coords="367,5,511,32"/>
+<area shape="rect" href="lock__core_8h.html" title=" " alt="" coords="376,80,503,107"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="409,319,470,345"/>
+<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="307,155,401,181"/>
+<area shape="rect" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html" title=" " alt="" coords="537,155,667,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="589,543,690,569"/>
+<area shape="rect" title=" " alt="" coords="235,393,348,420"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="439,393,543,420"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="907,393,1028,420"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="116,393,211,420"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="436,617,541,644"/>
+<area shape="rect" title=" " alt="" coords="505,692,587,719"/>
+<area shape="rect" title=" " alt="" coords="641,617,712,644"/>
+<area shape="rect" title=" " alt="" coords="737,617,811,644"/>
+<area shape="rect" title=" " alt="" coords="424,468,588,495"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="973,468,1154,495"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="1178,468,1357,495"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="613,468,773,495"/>
+<area shape="rect" title=" " alt="" coords="1381,468,1591,495"/>
+<area shape="rect" title=" " alt="" coords="797,468,948,495"/>
+<area shape="rect" title=" " alt="" coords="968,543,1159,569"/>
+<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="218,237,351,263"/>
+<area shape="rect" title=" " alt="" coords="199,319,381,345"/>
+<area shape="rect" title=" " alt="" coords="5,319,175,345"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="701,237,911,263"/>
+<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="528,229,676,271"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="sem_8h__dep__incl.png" border="0" usemap="#ainclude_2pico_2sem_8hdep" alt=""/></div>
+<map name="ainclude_2pico_2sem_8hdep" id="ainclude_2pico_2sem_8hdep">
+<area shape="rect" title=" " alt="" coords="178,5,322,32"/>
+<area shape="rect" href="async__context__poll_8h_source.html" title=" " alt="" coords="5,87,148,129"/>
+<area shape="rect" href="async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="173,80,327,136"/>
+<area shape="rect" href="common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="351,95,498,121"/>
+<area shape="rect" href="multicore_8h.html" title=" " alt="" coords="335,184,514,211"/>
+</map>
+</div>
 </div>
 <p><a href="sem_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -120,37 +165,37 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a160d132eee35ba700aef4be2ec5281c4"><td class="memItemLeft" align="right" valign="top"><a id="a160d132eee35ba700aef4be2ec5281c4" name="a160d132eee35ba700aef4be2ec5281c4"></a>
-typedef struct <a class="el" href="struct____packed__aligned.html">__packed_aligned</a> <a class="el" href="structsemaphore.html">semaphore</a>&#160;</td><td class="memItemRight" valign="bottom"><b>semaphore_t</b></td></tr>
-<tr class="separator:a160d132eee35ba700aef4be2ec5281c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7faa1c561b3d822cda7bb84f27ee9448"><td class="memItemLeft" align="right" valign="top"><a id="a7faa1c561b3d822cda7bb84f27ee9448" name="a7faa1c561b3d822cda7bb84f27ee9448"></a>
+typedef struct <a class="el" href="structsemaphore.html">semaphore</a>&#160;</td><td class="memItemRight" valign="bottom"><b>semaphore_t</b></td></tr>
+<tr class="separator:a7faa1c561b3d822cda7bb84f27ee9448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab4e56b5ccfacafd2fb17765e702a21ba">sem_init</a> (semaphore_t *sem, int16_t initial_permits, int16_t max_permits)</td></tr>
+<tr class="memitem:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab4e56b5ccfacafd2fb17765e702a21ba">sem_init</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, int16_t initial_permits, int16_t max_permits)</td></tr>
 <tr class="memdesc:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a semaphore structure.  <a href="group__sem.html#gab4e56b5ccfacafd2fb17765e702a21ba">More...</a><br /></td></tr>
 <tr class="separator:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gad9e065ef0c0e59309f9bdb5fb74bb7c1">sem_available</a> (semaphore_t *sem)</td></tr>
+<tr class="memitem:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gad9e065ef0c0e59309f9bdb5fb74bb7c1">sem_available</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of available permits on the semaphore.  <a href="group__sem.html#gad9e065ef0c0e59309f9bdb5fb74bb7c1">More...</a><br /></td></tr>
 <tr class="separator:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaeac89066f5fdbde0c7db2718464dcbde"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem_release</a> (semaphore_t *sem)</td></tr>
+<tr class="memitem:gaeac89066f5fdbde0c7db2718464dcbde"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem_release</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:gaeac89066f5fdbde0c7db2718464dcbde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a permit on a semaphore.  <a href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">More...</a><br /></td></tr>
 <tr class="separator:gaeac89066f5fdbde0c7db2718464dcbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">sem_reset</a> (semaphore_t *sem, int16_t permits)</td></tr>
+<tr class="memitem:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">sem_reset</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, int16_t permits)</td></tr>
 <tr class="memdesc:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset semaphore to a specific number of available permits.  <a href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">More...</a><br /></td></tr>
 <tr class="separator:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaefa22667355703497ae883f68a87aacf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaefa22667355703497ae883f68a87aacf">sem_acquire_blocking</a> (semaphore_t *sem)</td></tr>
+<tr class="memitem:gaefa22667355703497ae883f68a87aacf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaefa22667355703497ae883f68a87aacf">sem_acquire_blocking</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:gaefa22667355703497ae883f68a87aacf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a permit from the semaphore.  <a href="group__sem.html#gaefa22667355703497ae883f68a87aacf">More...</a><br /></td></tr>
 <tr class="separator:gaefa22667355703497ae883f68a87aacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga38275bfc4c00e5039028f58860709610"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga38275bfc4c00e5039028f58860709610">sem_acquire_timeout_ms</a> (semaphore_t *sem, uint32_t timeout_ms)</td></tr>
+<tr class="memitem:ga38275bfc4c00e5039028f58860709610"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga38275bfc4c00e5039028f58860709610">sem_acquire_timeout_ms</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, uint32_t timeout_ms)</td></tr>
 <tr class="memdesc:ga38275bfc4c00e5039028f58860709610"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a permit from a semaphore, with timeout.  <a href="group__sem.html#ga38275bfc4c00e5039028f58860709610">More...</a><br /></td></tr>
 <tr class="separator:ga38275bfc4c00e5039028f58860709610"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f5a509fb132e8e764795a66773500ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga0f5a509fb132e8e764795a66773500ad">sem_acquire_timeout_us</a> (semaphore_t *sem, uint32_t timeout_us)</td></tr>
+<tr class="memitem:ga0f5a509fb132e8e764795a66773500ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga0f5a509fb132e8e764795a66773500ad">sem_acquire_timeout_us</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, uint32_t timeout_us)</td></tr>
 <tr class="memdesc:ga0f5a509fb132e8e764795a66773500ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a permit from a semaphore, with timeout.  <a href="group__sem.html#ga0f5a509fb132e8e764795a66773500ad">More...</a><br /></td></tr>
 <tr class="separator:ga0f5a509fb132e8e764795a66773500ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga4410f17fc2f35b91e5bcfaf18bcf26ae">sem_acquire_block_until</a> (semaphore_t *sem, <a class="el" href="structabsolute__time__t.html">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga4410f17fc2f35b91e5bcfaf18bcf26ae">sem_acquire_block_until</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait to acquire a permit from a semaphore until a specific time.  <a href="group__sem.html#ga4410f17fc2f35b91e5bcfaf18bcf26ae">More...</a><br /></td></tr>
 <tr class="separator:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">sem_try_acquire</a> (semaphore_t *sem)</td></tr>
+<tr class="memitem:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">sem_try_acquire</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to acquire a permit from a semaphore without blocking.  <a href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">More...</a><br /></td></tr>
 <tr class="separator:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

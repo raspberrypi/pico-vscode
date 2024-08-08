@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_pll/include/hardware/pll.h Source File</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/pll.h Source File</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -126,36 +126,43 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__pll_2include_2h
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#define pll_sys pll_sys_hw</span></div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#define pll_usb pll_usb_hw</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#ifndef PICO_PLL_VCO_MIN_FREQ_KHZ</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifndef PICO_PLL_VCO_MIN_FREQ_MHZ</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define PICO_PLL_VCO_MIN_FREQ_KHZ (750 * KHZ)</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#define PICO_PLL_VCO_MIN_FREQ_KHZ (PICO_PLL_VCO_MIN_FREQ_MHZ * KHZ)</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#ifndef PICO_PLL_VCO_MAX_FREQ_KHZ</span></div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#ifndef PICO_PLL_VCO_MAX_FREQ_MHZ</span></div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#define PICO_PLL_VCO_MAX_FREQ_KHZ (1600 * KHZ)</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define PICO_PLL_VCO_MAX_FREQ_KHZ (PICO_PLL_VCO_MAX_FREQ_MHZ * KHZ)</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__pll.html#ga67cfd74241b25d891f761af9b40d1ac8">pll_init</a>(<a class="code hl_struct" href="structpll__hw__t.html">PLL</a> pll, uint ref_div, uint vco_freq, uint post_div1, uint post_div2);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll_deinit</a>(<a class="code hl_struct" href="structpll__hw__t.html">PLL</a> pll);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__hardware__pll_html_ga4529ac07cbd8575938245850d20aba29"><div class="ttname"><a href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll_deinit</a></div><div class="ttdeci">void pll_deinit(PLL pll)</div><div class="ttdoc">Release/uninitialise specified PLL.</div><div class="ttdef"><b>Definition:</b> pll.c:75</div></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#ifndef PICO_PLL_VCO_MIN_FREQ_HZ</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#ifdef PICO_PLL_VCO_MIN_FREQ_MHZ</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define PICO_PLL_VCO_MIN_FREQ_HZ (PICO_PLL_VCO_MIN_FREQ_MHZ * MHZ)</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#elif defined(PICO_PLL_VCO_MIN_FREQ_KHZ)</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#define PICO_PLL_VCO_MIN_FREQ_HZ (PICO_PLL_VCO_MIN_FREQ_KHZ * KHZ)</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#define PICO_PLL_VCO_MIN_FREQ_HZ (750 * MHZ)</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#ifndef PICO_PLL_VCO_MAX_FREQ_HZ</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#ifdef PICO_PLL_VCO_MAX_FREQ_MHZ</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define PICO_PLL_VCO_MAX_FREQ_HZ (PICO_PLL_VCO_MAX_FREQ_MHZ * MHZ)</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#elif defined(PICO_PLL_VCO_MAX_FREQ_KHZ)</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="preprocessor">#define PICO_PLL_VCO_MAX_FREQ_HZ (PICO_PLL_VCO_MAX_FREQ_KHZ * KHZ)</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#define PICO_PLL_VCO_MAX_FREQ_HZ (1600 * MHZ)</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__pll.html#ga67cfd74241b25d891f761af9b40d1ac8">pll_init</a>(<a class="code hl_struct" href="structpll__hw__t.html">PLL</a> pll, uint ref_div, uint vco_freq, uint post_div1, uint post_div2);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll_deinit</a>(<a class="code hl_struct" href="structpll__hw__t.html">PLL</a> pll);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#ifndef PLL_RESET_NUM</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="group__hardware__pll.html#gab0c11a480c3c39d63505a8f0d9f5f1ee">   83</a></span><span class="preprocessor">#define PLL_RESET_NUM(pll) ((pll_usb_hw == (pll)) ? RESET_PLL_USB : RESET_PLL_SYS)</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__hardware__pll_html_ga4529ac07cbd8575938245850d20aba29"><div class="ttname"><a href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll_deinit</a></div><div class="ttdeci">void pll_deinit(PLL pll)</div><div class="ttdoc">Release/uninitialise specified PLL.</div><div class="ttdef"><b>Definition:</b> pll.c:73</div></div>
 <div class="ttc" id="agroup__hardware__pll_html_ga67cfd74241b25d891f761af9b40d1ac8"><div class="ttname"><a href="group__hardware__pll.html#ga67cfd74241b25d891f761af9b40d1ac8">pll_init</a></div><div class="ttdeci">void pll_init(PLL pll, uint ref_div, uint vco_freq, uint post_div1, uint post_div2)</div><div class="ttdoc">Initialise specified PLL.</div><div class="ttdef"><b>Definition:</b> pll.c:13</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
-<div class="ttc" id="astructpll__hw__t_html"><div class="ttname"><a href="structpll__hw__t.html">pll_hw_t</a></div><div class="ttdef"><b>Definition:</b> pll.h:24</div></div>
+<div class="ttc" id="astructpll__hw__t_html"><div class="ttname"><a href="structpll__hw__t.html">pll_hw_t</a></div><div class="ttdef"><b>Definition:</b> pll.h:27</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

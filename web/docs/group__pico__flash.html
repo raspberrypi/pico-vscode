@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,24 +107,31 @@ $(document).ready(function(){initNavTree('group__pico__flash.html',''); initResi
   <div class="headertitle"><div class="title">pico_flash<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>High level flash API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga2ad3247806ca16dec03e655eaec1775f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">flash_safe_execute_core_init</a> (void)</td></tr>
+<tr class="memdesc:ga2ad3247806ca16dec03e655eaec1775f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a core such that the other core can lock it out during <a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a>.  <a href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">More...</a><br /></td></tr>
 <tr class="separator:ga2ad3247806ca16dec03e655eaec1775f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaed14b762cb5fd483995bd36fc8ad338d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#gaed14b762cb5fd483995bd36fc8ad338d">flash_safe_execute_core_deinit</a> (void)</td></tr>
+<tr class="memdesc:gaed14b762cb5fd483995bd36fc8ad338d"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-initialize work done by <a class="el" href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">flash_safe_execute_core_init</a>.  <a href="group__pico__flash.html#gaed14b762cb5fd483995bd36fc8ad338d">More...</a><br /></td></tr>
 <tr class="separator:gaed14b762cb5fd483995bd36fc8ad338d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga679076dc10c5beb73d5f1abdb52d6735"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a> (void(*func)(void *), void *param, uint32_t enter_exit_timeout_ms)</td></tr>
+<tr class="memdesc:ga679076dc10c5beb73d5f1abdb52d6735"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute a function with IRQs disabled and with the other core also not executing/reading flash.  <a href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">More...</a><br /></td></tr>
 <tr class="separator:ga679076dc10c5beb73d5f1abdb52d6735"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaee44bd9bc42463f0521535825e8d90b2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structflash__safety__helper__t.html">flash_safety_helper_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">get_flash_safety_helper</a> (void)</td></tr>
+<tr class="memdesc:gaee44bd9bc42463f0521535825e8d90b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Internal method to return the flash safety helper implementation.  <a href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">More...</a><br /></td></tr>
 <tr class="separator:gaee44bd9bc42463f0521535825e8d90b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >High level flash API</p>
+<p >High level flash API. </p>
 <p >Flash cannot be erased or written to when in XIP mode. However the system cannot directly access memory in the flash address space when not in XIP mode.</p>
 <p >It is therefore critical that no code or data is being read from flash while flash is been written or erased.</p>
 <p >If only one core is being used, then the problem is simple - just disable interrupts; however if code is running on the other core, then it has to be asked, nicely, to avoid flash for a bit. This is hard to do if you don't have complete control of the code running on that core at all times.</p>
-<p >This library provides a <a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a> method which calls a function back having sucessfully gotten into a state where interrupts are disabled, and the other core is not executing or reading from flash.</p>
+<p >This library provides a <a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a> method which calls a function back having successfully gotten into a state where interrupts are disabled, and the other core is not executing or reading from flash.</p>
 <p >How it does this is dependent on the supported environment (Free RTOS SMP or pico_multicore). Additionally the user can provide their own mechanism by providing a strong definition of <a class="el" href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">get_flash_safety_helper()</a>.</p>
 <p >Using the default settings, flash_safe_execute will only call the callback function if the state is safe otherwise returning an error (or an assert depending on PICO_FLASH_ASSERT_ON_UNSAFE).</p>
 <p >There are conditions where safety would not be guaranteed:</p>
@@ -170,7 +177,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Execute a function with IRQs disabled and with the other core also not executing/reading flash</p>
+
+<p>Execute a function with IRQs disabled and with the other core also not executing/reading flash. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">func</td><td>the function to call </td></tr>
@@ -179,7 +187,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>PICO_OK on success (the function will have been called). PICO_TIMEOUT on timeout (the function may have been called). PICO_ERROR_NOT_PERMITTED if safe execution is not possible (the function will not have been called). PICO_ERROR_INSUFFICIENT_RESOURCES if the method fails due to dynamic resource exhaustion (the function will not have been called) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>PICO_OK on success (the function will have been called). PICO_ERROR_TIMEOUT on timeout (the function may have been called). PICO_ERROR_NOT_PERMITTED if safe execution is not possible (the function will not have been called). PICO_ERROR_INSUFFICIENT_RESOURCES if the method fails due to dynamic resource exhaustion (the function will not have been called) </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>if PICO_FLASH_ASSERT_ON_UNSAFE is 1, this function will assert in debug mode vs returning PICO_ERROR_NOT_PERMITTED </dd></dl>
 
 </div>
@@ -199,7 +207,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >De-initialize work done by <a class="el" href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">flash_safe_execute_core_init</a></p>
+
+<p>De-initialize work done by <a class="el" href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">flash_safe_execute_core_init</a>. </p>
 <dl class="section return"><dt>Returns</dt><dd>true on success </dd></dl>
 
 </div>
@@ -219,7 +228,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Initialize a core such that the other core can lock it out during <a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a>.</p>
+
+<p>Initialize a core such that the other core can lock it out during <a class="el" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>This is not necessary for FreeRTOS SMP, but should be used when launching via <a class="el" href="group__pico__multicore.html#ga46ea5e2efc181aba1d4d1de06a375c59">multicore_launch_core1</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true on success; there is no need to call <a class="el" href="group__pico__flash.html#gaed14b762cb5fd483995bd36fc8ad338d">flash_safe_execute_core_deinit()</a> on failure. </dd></dl>
 
@@ -240,7 +250,8 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Internal method to return the flash safety helper implementation.</p>
+
+<p>Internal method to return the flash safety helper implementation. </p>
 <p >Advanced users can provide their own implementation of this function to perform different inter-core coordination before disabling XIP mode.</p>
 <dl class="section return"><dt>Returns</dt><dd>the <a class="el" href="structflash__safety__helper__t.html">flash_safety_helper_t</a> </dd></dl>
 

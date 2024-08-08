@@ -1,6 +1,4 @@
 import { join as joinPosix } from "path/posix";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
 import Logger from "../logger.mjs";
 import { existsSync, readFileSync } from "fs";
 import { homedir } from "os";
@@ -9,9 +7,9 @@ import Settings from "../settings.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
 import { get } from "https";
-import { isInternetConnected } from "./downloadHelpers.mjs";
-
-export const CURRENT_DATA_VERSION = "0.10.0";
+import {
+  isInternetConnected, CURRENT_DATA_VERSION, getDataRoot
+} from "./downloadHelpers.mjs";
 
 const EXAMPLES_REPOSITORY_URL =
   "https://github.com/raspberrypi/pico-examples.git";
@@ -30,15 +28,6 @@ interface ExamplesFile {
     path: string;
     name: string;
   };
-}
-
-export function getDataRoot(): string {
-  return joinPosix(
-    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
-    "..",
-    "data",
-    CURRENT_DATA_VERSION
-  );
 }
 
 function buildExamplesPath(): string {

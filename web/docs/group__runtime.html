@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -113,41 +113,68 @@ Modules</h2></td></tr>
 <tr class="memitem:group__boot__stage2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__boot__stage2.html">boot_stage2</a></td></tr>
 <tr class="memdesc:group__boot__stage2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second stage boot loaders responsible for setting up external flash. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__pico__atomic"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__atomic.html">pico_atomic</a></td></tr>
+<tr class="memdesc:group__pico__atomic"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper implementations for C11 atomics. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__base"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html">pico_base</a></td></tr>
+<tr class="memdesc:group__pico__base"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core types and macros for the Raspberry Pi Pico SDK. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__binary__info"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__binary__info.html">pico_binary_info</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__pico__bit__ops"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bit__ops.html">pico_bit_ops</a></td></tr>
+<tr class="memdesc:group__pico__binary__info"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info is intended for embedding machine readable information with the binary in FLASH. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__bootrom"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html">pico_bootrom</a></td></tr>
+<tr class="memdesc:group__pico__bootrom"><td class="mdescLeft">&#160;</td><td class="mdescRight">Access to functions and data in the bootrom. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__pico__bootsel__via__double__reset"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootsel__via__double__reset.html">pico_bootsel_via_double_reset</a></td></tr>
+<tr class="memitem:group__pico__bit__ops"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bit__ops.html">pico_bit_ops</a></td></tr>
+<tr class="memdesc:group__pico__bit__ops"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimized bit manipulation functions. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__cxx__options"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__cxx__options.html">pico_cxx_options</a></td></tr>
 <tr class="memdesc:group__pico__cxx__options"><td class="mdescLeft">&#160;</td><td class="mdescRight">non-code library controlling C++ related compile options <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__pico__clib__interface"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__clib__interface.html">pico_clib_interface</a></td></tr>
+<tr class="memdesc:group__pico__clib__interface"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the necessary glue code required by the particular C/C++ runtime being used. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__pico__crt0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__crt0.html">pico_crt0</a></td></tr>
+<tr class="memdesc:group__pico__crt0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the default linker scripts and the program entry/exit point. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__divider"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__divider.html">pico_divider</a></td></tr>
+<tr class="memdesc:group__pico__divider"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimized 32 and 64 bit division functions accelerated by the RP2040 hardware divider. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__double"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__double.html">pico_double</a></td></tr>
+<tr class="memdesc:group__pico__double"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimized double-precision floating point functions. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__float"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__float.html">pico_float</a></td></tr>
+<tr class="memdesc:group__pico__float"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimized single-precision floating point functions. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__int64__ops"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__int64__ops.html">pico_int64_ops</a></td></tr>
+<tr class="memdesc:group__pico__int64__ops"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optimized replacement implementations of the compiler built-in 64 bit multiplication. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__malloc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__malloc.html">pico_malloc</a></td></tr>
+<tr class="memdesc:group__pico__malloc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multi-core safety for malloc, calloc and free. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__mem__ops"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__mem__ops.html">pico_mem_ops</a></td></tr>
+<tr class="memdesc:group__pico__mem__ops"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides optimized replacement implementations of the compiler built-in memcpy, memset and related functions. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__platform"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html">pico_platform</a></td></tr>
+<tr class="memdesc:group__pico__platform"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macros and definitions (and functions when included by non assembly code) for the RP2 family device / architecture to provide a common abstraction over low level compiler / platform specifics. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__printf"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__printf.html">pico_printf</a></td></tr>
+<tr class="memdesc:group__pico__printf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compact replacement for printf by Marco Paland (<a href="#" onclick="location.href='mai'+'lto:'+'inf'+'o@'+'pal'+'an'+'d.c'+'om'; return false;">info@<span class="obfuscator">.nosp@m.</span>pala<span class="obfuscator">.nosp@m.</span>nd.co<span class="obfuscator">.nosp@m.</span>m</a>) <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__runtime"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__runtime.html">pico_runtime</a></td></tr>
+<tr class="memdesc:group__pico__runtime"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic runtime support for running pre-main initializers provided by other libraries. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__pico__runtime__init"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__runtime__init.html">pico_runtime_init</a></td></tr>
+<tr class="memdesc:group__pico__runtime__init"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main runtime initialization functions required to set up the runtime environment before entering main. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__stdio"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html">pico_stdio</a></td></tr>
+<tr class="memdesc:group__pico__stdio"><td class="mdescLeft">&#160;</td><td class="mdescRight">Customized stdio support allowing for input and output from UART, USB, semi-hosting etc. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:group__pico__standard__binary__info"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__standard__binary__info.html">pico_standard_binary_info</a></td></tr>
+<tr class="memdesc:group__pico__standard__binary__info"><td class="mdescLeft">&#160;</td><td class="mdescRight">Includes default information about the binary that can be displayed by picotool. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__standard__link"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__standard__link.html">pico_standard_link</a></td></tr>
-<tr class="memdesc:group__pico__standard__link"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard link step providing the basics for creating a runnable binary. <br /></td></tr>
+<tr class="memdesc:group__pico__standard__link"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup for link options for a standard SDK executable. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

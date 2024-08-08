@@ -15,11 +15,9 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
 
   async execute(): Promise<boolean> {
     // Get the task with the specified name
-    const task = (await tasks.fetchTasks()).find(task => () => {
-      console.log(`[TASK] ${task.name}`);
-
-      return task.name === "Compile Project";
-    });
+    const task = (await tasks.fetchTasks()).find(
+      (task) => task.name === "Compile Project"
+    );
 
     const settings = Settings.getInstance();
     if (
@@ -39,14 +37,17 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
 
       // add callbacks for task completion
       const end = tasks.onDidEndTaskProcess(e => {
-        emitter.emit(
-          "terminated",
-          e.exitCode === undefined ? -1 : e.exitCode
-        );
+        if (e.execution.task === task) {
+          emitter.emit(
+            "terminated",
+            e.exitCode === undefined ? -1 : e.exitCode
+          );
+        }
       });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const end2 = tasks.onDidEndTask(e => {
-        emitter.emit("terminated", -1);
+        if (e.execution.task === task) {
+          emitter.emit("terminated", -1);
+        }
       });
 
       await tasks.executeTask(task);

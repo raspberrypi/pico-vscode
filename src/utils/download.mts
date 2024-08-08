@@ -1,7 +1,7 @@
 import {
   createWriteStream, existsSync, readdirSync, symlinkSync, unlinkSync
 } from "fs";
-import { mkdir, readFile } from "fs/promises";
+import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
@@ -43,11 +43,24 @@ const TOOLS_PLATFORMS: { [key: string]: string } = {
   win32: "x64-win",
 };
 
-/// Translate nodejs platform names to xpack openocd platform names
-const OPENOCD_PLATFORMS: { [key: string]: string } = {
-  darwin: "darwin",
-  linux: "linux",
-  win32: "win32",
+/// Release tags for the sdk tools
+const TOOLS_RELEASES: { [key: string]: string } = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "1.5.1": "v1.5.1-1",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "2.0.0": "v2.0.0-0",
+};
+
+/// Release tags for picotool
+const PICOTOOL_RELEASES: { [key: string]: string } = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "2.0.0": "v2.0.0-0",
+};
+
+/// Release tags for openocd
+const OPENOCD_RELEASES: { [key: string]: string } = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "0.12.0+dev": "v2.0.0-0",
 };
 
 /// Translate nodejs platform names to cmake platform names
@@ -78,6 +91,15 @@ export function buildToolsPath(version: string): string {
     homedir().replaceAll("\\", "/"),
     ".pico-sdk",
     "tools",
+    version
+  );
+}
+
+export function buildPicotoolPath(version: string): string {
+  return joinPosix(
+    homedir().replaceAll("\\", "/"),
+    ".pico-sdk",
+    "picotool",
     version
   );
 }
@@ -124,6 +146,129 @@ export function buildPython3Path(version: string): string {
     "python",
     version
   );
+}
+
+export async function downloadAndInstallZip(
+  url: string,
+  targetDirectory: string,
+  archiveFileName: string,
+  logName: string,
+  extraCallback?: () => void,
+): Promise<boolean> {
+
+  // Check if the SDK is already installed
+  if (
+    existsSync(targetDirectory)
+    && readdirSync(targetDirectory).length !== 0
+  ) {
+    Logger.log(`${logName} is already installed.`);
+
+    return true;
+  }
+
+  // Ensure the target directory exists
+  await mkdir(targetDirectory, { recursive: true });
+
+  const downloadUrl = url;
+  const basenameSplit = basename(downloadUrl).split(".");
+  let artifactExt = basenameSplit.pop();
+  if (artifactExt === "xz" || artifactExt === "gz") {
+    artifactExt = basenameSplit.pop() + "." + artifactExt;
+  }
+
+  if (artifactExt === undefined) {
+    return false;
+  }
+
+  const tmpBasePath = join(tmpdir(), "pico-sdk");
+  await mkdir(tmpBasePath, { recursive: true });
+  const archiveFilePath = join(tmpBasePath, archiveFileName);
+
+  return new Promise(resolve => {
+    const requestOptions = {
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Accept: "*/*",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "Accept-Encoding": "gzip, deflate, br",
+      },
+    };
+
+    get(downloadUrl, requestOptions, response => {
+      const code = response.statusCode ?? 404;
+
+      if (code >= 400) {
+        //return reject(new Error(response.statusMessage));
+        Logger.log(
+          `Error while downloading ${logName}: ` + response.statusMessage
+        );
+
+        return resolve(false);
+      }
+
+      // handle redirects
+      if (code > 300 && code < 400 && !!response.headers.location) {
+        return resolve(
+          downloadAndInstallZip(
+            response.headers.location,
+            targetDirectory, archiveFileName, logName, extraCallback
+          )
+        );
+      }
+
+      // save the file to disk
+      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // unpack the archive
+        if (artifactExt === "tar.xz" || artifactExt === "tar.gz") {
+          unxzFile(archiveFilePath, targetDirectory)
+            .then(success => {
+              // delete tmp file
+              unlinkSync(archiveFilePath);
+
+              if (extraCallback !== undefined) {
+                extraCallback();
+              }
+
+              resolve(success);
+            })
+            .catch(() => {
+              unlinkSync(archiveFilePath);
+              unlinkSync(targetDirectory);
+              resolve(false);
+            });
+        } else if (artifactExt === "zip") {
+          const success = unzipFile(archiveFilePath, targetDirectory);
+          // delete tmp file
+          unlinkSync(archiveFilePath);
+
+          if (extraCallback !== undefined) {
+            extraCallback();
+          }
+
+          if (!success) {
+            unlinkSync(targetDirectory);
+          }
+          resolve(success);
+        } else {
+          unlinkSync(archiveFilePath);
+          unlinkSync(targetDirectory);
+          Logger.log(`Error: unknown archive extension: ${artifactExt}`);
+          resolve(false);
+        }
+      });
+
+      response.pipe(fileWriter);
+    }).on("error", () => {
+      // clean
+      unlinkSync(archiveFilePath);
+      unlinkSync(targetDirectory);
+      Logger.log(`Error while downloading ${logName}.`);
+
+      return false;
+    });
+  });
 }
 
 export async function downloadAndInstallSDK(
@@ -359,6 +504,11 @@ async function downloadAndInstallGithubAsset(
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
           unlinkSync(archiveFilePath);
+
+          if (extraCallback !== undefined) {
+            extraCallback();
+          }
+
           if (!success) {
             unlinkSync(targetDirectory);
           }
@@ -379,26 +529,50 @@ async function downloadAndInstallGithubAsset(
 }
 
 export async function downloadAndInstallTools(
-  version: string,
-  required: boolean
+  version: string
 ): Promise<boolean> {
-  if (process.platform !== "win32") {
-    Logger.log("SDK Tools installation not on Windows is not supported.");
-
-    return !required;
-  }
-
+  const assetExt: string = process.platform === "linux" ? "tar.gz" : "zip";
   const targetDirectory = buildToolsPath(version);
-  const archiveFileName = `sdk-tools.zip`;
-  const assetName = `pico-sdk-tools-1.5.1-${
+  const archiveFileName = `sdk-tools.${assetExt}`;
+  const assetName = `pico-sdk-tools-${version}${
+    process.platform === "linux"
+      ? process.arch === "arm64"
+        ? "-aarch64"
+        : "-x86_64"
+      : ""
+  }-${
     TOOLS_PLATFORMS[process.platform]
-  }.zip`;
+  }.${assetExt}`;
 
   return downloadAndInstallGithubAsset(
-    version, "v1.5.1-alpha-1", 
+    version, TOOLS_RELEASES[version], 
     GithubRepository.tools,
     targetDirectory, archiveFileName, assetName,
     "SDK Tools"
+  );
+}
+
+export async function downloadAndInstallPicotool(
+  version: string
+): Promise<boolean> {
+  const assetExt: string = process.platform === "linux" ? "tar.gz" : "zip";
+  const targetDirectory = buildPicotoolPath(version);
+  const archiveFileName = `picotool.${assetExt}`;
+  const assetName = `picotool-${version}${
+    process.platform === "linux"
+      ? process.arch === "arm64"
+        ? "-aarch64"
+        : "-x86_64"
+      : ""
+  }-${
+    TOOLS_PLATFORMS[process.platform]
+  }.${assetExt}`;
+
+  return downloadAndInstallGithubAsset(
+    version, PICOTOOL_RELEASES[version], 
+    GithubRepository.tools,
+    targetDirectory, archiveFileName, assetName,
+    "Picotool"
   );
 }
 
@@ -545,63 +719,67 @@ export async function downloadAndInstallNinja(
 
 /// Detects if the current system is a Raspberry Pi with Debian
 /// by reading /proc/cpuinfo and /etc/os-release
-async function isRaspberryPi(): Promise<boolean> {
-  try {
-    // TODO: imporove detection speed
-    const cpuInfo = await readFile("/proc/cpuinfo", "utf8");
-    const osRelease = await readFile("/etc/os-release", "utf8");
-    const versionId = osRelease.match(/VERSION_ID="?(\d+)"?/)?.[1] ?? "0";
+// async function isRaspberryPi(): Promise<boolean> {
+//   try {
+//     // TODO: imporove detection speed
+//     const cpuInfo = await readFile("/proc/cpuinfo", "utf8");
+//     const osRelease = await readFile("/etc/os-release", "utf8");
+//     const versionId = osRelease.match(/VERSION_ID="?(\d+)"?/)?.[1] ?? "0";
 
-    return (
-      cpuInfo.toLowerCase().includes("raspberry pi") &&
-      osRelease.toLowerCase().includes(`name="debian gnu/linux"`) &&
-      parseInt(versionId) >= 12
-    );
-  } catch (error) {
-    // Handle file read error or other exceptions
-    Logger.log(
-      "Error reading /proc/cpuinfo or /etc/os-release:",
-      error instanceof Error ? error.message : (error as string)
-    );
+//     return (
+//       cpuInfo.toLowerCase().includes("raspberry pi") &&
+//       osRelease.toLowerCase().includes(`name="debian gnu/linux"`) &&
+//       parseInt(versionId) >= 12
+//     );
+//   } catch (error) {
+//     // Handle file read error or other exceptions
+//     Logger.log(
+//       "Error reading /proc/cpuinfo or /etc/os-release:",
+//       error instanceof Error ? error.message : (error as string)
+//     );
 
-    return false;
-  }
-}
+//     return false;
+//   }
+// }
 
 export async function downloadAndInstallOpenOCD(
   version: string
 ): Promise<boolean> {
   if (
-    (await isRaspberryPi()) ||
-    (process.platform === "win32" && process.arch !== "x64") ||
+    (process.platform === "darwin" && process.arch === "x64") ||
     (process.platform === "linux" && !["arm64", "x64"].includes(process.arch))
   ) {
     Logger.log("OpenOCD installation not supported on this platform.");
 
     return false;
   }
-
+  const assetExt: string = process.platform === "linux" ? "tar.gz" : "zip";
   const targetDirectory = buildOpenOCDPath(version);
-
-  const assetExt: string = process.platform === "win32" ? "zip" : "tar.gz";
   const archiveFileName = `openocd.${assetExt}`;
-  const assetName = `xpack-openocd-${version.replace("v", "")}-${
-    OPENOCD_PLATFORMS[process.platform]
-  }-${process.arch === "arm64" ? "arm64" : "x64"}.${assetExt}`;
+  const assetName = `openocd-${version}${
+    process.platform === "linux"
+      ? process.arch === "arm64"
+        ? "-aarch64"
+        : "-x86_64"
+      : process.platform === "darwin"
+        ? "-arm64" : ""
+  }-${
+    TOOLS_PLATFORMS[process.platform]
+  }.${assetExt}`;
 
   const extraCallback = (): void => {
     // on darwin and linux platforms create windows compatible alias
     // so confiuration works on all platforms
     symlinkSync(
-      join(targetDirectory, "bin", "openocd"),
-      join(targetDirectory, "bin", "openocd.exe"),
+      join(targetDirectory, "openocd"),
+      join(targetDirectory, "openocd.exe"),
       "file"
     );
   };
 
   return downloadAndInstallGithubAsset(
-    version, version, 
-    GithubRepository.openocd,
+    version, OPENOCD_RELEASES[version], 
+    GithubRepository.tools,
     targetDirectory, archiveFileName, assetName,
     "OpenOCD", extraCallback
   );

@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_sync/include/hardware/sync.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/sync.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,65 +104,79 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__sync_2include_2
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
-<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">sync.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="address__mapped_8h_source.html">hardware/address_mapped.h</a>&quot;</code><br />
-<code>#include &quot;hardware/regs/sio.h&quot;</code><br />
+<code>#include &quot;hardware/sync/spin_lock.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for sync.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__sync_2include_2hardware_2sync_8h__incl.png" border="0" usemap="#ainclude_2hardware_2sync_8h" alt=""/></div>
+<map name="ainclude_2hardware_2sync_8h" id="ainclude_2hardware_2sync_8h">
+<area shape="rect" title=" " alt="" coords="644,5,824,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="641,169,702,196"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="833,87,1043,114"/>
+<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="660,80,808,121"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,393,259,420"/>
+<area shape="rect" title=" " alt="" coords="425,244,539,271"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="563,244,667,271"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,244,813,271"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,244,932,271"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,468,111,495"/>
+<area shape="rect" title=" " alt="" coords="74,543,157,569"/>
+<area shape="rect" title=" " alt="" coords="211,468,281,495"/>
+<area shape="rect" title=" " alt="" coords="306,468,381,495"/>
+<area shape="rect" title=" " alt="" coords="173,319,337,345"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,319,543,345"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,319,746,345"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,319,930,345"/>
+<area shape="rect" title=" " alt="" coords="1130,319,1341,345"/>
+<area shape="rect" title=" " alt="" coords="955,319,1105,345"/>
+<area shape="rect" title=" " alt="" coords="357,393,548,420"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__sync_2include_2hardware_2sync_8h__dep__incl.png" border="0" usemap="#ainclude_2hardware_2sync_8hdep" alt=""/></div>
+<map name="ainclude_2hardware_2sync_8hdep" id="ainclude_2hardware_2sync_8hdep">
+<area shape="rect" title=" " alt="" coords="228,5,408,32"/>
+<area shape="rect" href="claim_8h.html" title=" " alt="" coords="23,87,210,114"/>
+<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="234,80,402,121"/>
+<area shape="rect" href="lock__core_8h.html" title=" " alt="" coords="426,87,605,114"/>
+<area shape="rect" href="queue_8h.html" title=" " alt="" coords="614,177,795,203"/>
+<area shape="rect" href="critical__section_8h.html" title=" " alt="" coords="441,169,589,211"/>
+<area shape="rect" href="mutex_8h.html" title=" " alt="" coords="259,177,417,203"/>
+<area shape="rect" href="sem_8h.html" title=" " alt="" coords="90,177,234,203"/>
+<area shape="rect" href="common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="351,273,498,300"/>
+<area shape="rect" href="multicore_8h.html" title=" " alt="" coords="335,363,514,389"/>
+<area shape="rect" href="async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="173,259,327,315"/>
+<area shape="rect" href="async__context__poll_8h_source.html" title=" " alt="" coords="5,266,148,307"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a57002e8d084337f2ac215beab9fd29a3"><td class="memItemLeft" align="right" valign="top"><a id="a57002e8d084337f2ac215beab9fd29a3" name="a57002e8d084337f2ac215beab9fd29a3"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_SYNC</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a57002e8d084337f2ac215beab9fd29a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a40c2ccd192cfd2a8bcce7c6827617f49"><td class="memItemLeft" align="right" valign="top"><a id="a40c2ccd192cfd2a8bcce7c6827617f49" name="a40c2ccd192cfd2a8bcce7c6827617f49"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_IRQ</b>&#160;&#160;&#160;9</td></tr>
-<tr class="separator:a40c2ccd192cfd2a8bcce7c6827617f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2f99c3b5502ed89fdf16842147342c2e"><td class="memItemLeft" align="right" valign="top"><a id="a2f99c3b5502ed89fdf16842147342c2e" name="a2f99c3b5502ed89fdf16842147342c2e"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_TIMER</b>&#160;&#160;&#160;10</td></tr>
-<tr class="separator:a2f99c3b5502ed89fdf16842147342c2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a7a9493ccd69f41411e43b6c1ccab8d"><td class="memItemLeft" align="right" valign="top"><a id="a4a7a9493ccd69f41411e43b6c1ccab8d" name="a4a7a9493ccd69f41411e43b6c1ccab8d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_HARDWARE_CLAIM</b>&#160;&#160;&#160;11</td></tr>
-<tr class="separator:a4a7a9493ccd69f41411e43b6c1ccab8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28ebba32a07ed4fd5d918ffa847c249f"><td class="memItemLeft" align="right" valign="top"><a id="a28ebba32a07ed4fd5d918ffa847c249f" name="a28ebba32a07ed4fd5d918ffa847c249f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_RAND</b>&#160;&#160;&#160;12</td></tr>
-<tr class="separator:a28ebba32a07ed4fd5d918ffa847c249f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad5a0886dc129f84187e7c5034b97364"><td class="memItemLeft" align="right" valign="top"><a id="aad5a0886dc129f84187e7c5034b97364" name="aad5a0886dc129f84187e7c5034b97364"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_OS1</b>&#160;&#160;&#160;14</td></tr>
-<tr class="separator:aad5a0886dc129f84187e7c5034b97364"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08b04e5c8c37e986579a4b6fc7180f18"><td class="memItemLeft" align="right" valign="top"><a id="a08b04e5c8c37e986579a4b6fc7180f18" name="a08b04e5c8c37e986579a4b6fc7180f18"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_OS2</b>&#160;&#160;&#160;15</td></tr>
-<tr class="separator:a08b04e5c8c37e986579a4b6fc7180f18"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a243151570e11a25477e3d9d0676d1bf2"><td class="memItemLeft" align="right" valign="top"><a id="a243151570e11a25477e3d9d0676d1bf2" name="a243151570e11a25477e3d9d0676d1bf2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_STRIPED_FIRST</b>&#160;&#160;&#160;16</td></tr>
-<tr class="separator:a243151570e11a25477e3d9d0676d1bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95bfa25823b74378a7d53971d0edd23d"><td class="memItemLeft" align="right" valign="top"><a id="a95bfa25823b74378a7d53971d0edd23d" name="a95bfa25823b74378a7d53971d0edd23d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_STRIPED_LAST</b>&#160;&#160;&#160;23</td></tr>
-<tr class="separator:a95bfa25823b74378a7d53971d0edd23d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82cb84aa3356da0ee2e1fa85b1448f70"><td class="memItemLeft" align="right" valign="top"><a id="a82cb84aa3356da0ee2e1fa85b1448f70" name="a82cb84aa3356da0ee2e1fa85b1448f70"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_CLAIM_FREE_FIRST</b>&#160;&#160;&#160;24</td></tr>
-<tr class="separator:a82cb84aa3356da0ee2e1fa85b1448f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a040b9b5b89d524e0e828e18472dbed24"><td class="memItemLeft" align="right" valign="top"><a id="a040b9b5b89d524e0e828e18472dbed24" name="a040b9b5b89d524e0e828e18472dbed24"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SPINLOCK_ID_CLAIM_FREE_LAST</b>&#160;&#160;&#160;31</td></tr>
-<tr class="separator:a040b9b5b89d524e0e828e18472dbed24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6caddf4f43a2065ee197c55cd1f8e8e"><td class="memItemLeft" align="right" valign="top"><a id="ad6caddf4f43a2065ee197c55cd1f8e8e" name="ad6caddf4f43a2065ee197c55cd1f8e8e"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_SYNC</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:ad6caddf4f43a2065ee197c55cd1f8e8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2717529dbfc6e8655ae671b2e3d8b7b"><td class="memItemLeft" align="right" valign="top"><a id="af2717529dbfc6e8655ae671b2e3d8b7b" name="af2717529dbfc6e8655ae671b2e3d8b7b"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>remove_volatile_cast</b>(t,  x)&#160;&#160;&#160;({<a class="el" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a>(); Clang_Pragma(&quot;clang diagnostic push&quot;); Clang_Pragma(&quot;clang diagnostic ignored \&quot;-Wcast-qual\&quot;&quot;); (t)(x); Clang_Pragma(&quot;clang diagnostic pop&quot;); })</td></tr>
 <tr class="separator:af2717529dbfc6e8655ae671b2e3d8b7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:gad27c7e019d540f863965663b49b259e8"><td class="memItemLeft" align="right" valign="top">
-typedef volatile uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>spin_lock_t</b></td></tr>
-<tr class="memdesc:gad27c7e019d540f863965663b49b259e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">A spin lock identifier. <br /></td></tr>
-<tr class="separator:gad27c7e019d540f863965663b49b259e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38c90374caaf03336146a208546d139a"><td class="memItemLeft" align="right" valign="top"><a id="a38c90374caaf03336146a208546d139a" name="a38c90374caaf03336146a208546d139a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>remove_volatile_cast_no_barrier</b>(t,  x)&#160;&#160;&#160;({ Clang_Pragma(&quot;clang diagnostic push&quot;); Clang_Pragma(&quot;clang diagnostic ignored \&quot;-Wcast-qual\&quot;&quot;); (t)(x); Clang_Pragma(&quot;clang diagnostic pop&quot;); })</td></tr>
+<tr class="separator:a38c90374caaf03336146a208546d139a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga9442d73d817ec600c67a632edf8c6668"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga9442d73d817ec600c67a632edf8c6668">__nop</a> (void)</td></tr>
+<tr class="memdesc:ga9442d73d817ec600c67a632edf8c6668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a NOP instruction in to the code path.  <a href="group__hardware__sync.html#ga9442d73d817ec600c67a632edf8c6668">More...</a><br /></td></tr>
+<tr class="separator:ga9442d73d817ec600c67a632edf8c6668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga486eada32246494118f8273a80ae6856"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga486eada32246494118f8273a80ae6856">__sev</a> (void)</td></tr>
 <tr class="memdesc:ga486eada32246494118f8273a80ae6856"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a SEV instruction in to the code path.  <a href="group__hardware__sync.html#ga486eada32246494118f8273a80ae6856">More...</a><br /></td></tr>
 <tr class="separator:ga486eada32246494118f8273a80ae6856"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -195,34 +209,9 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 <tr class="memitem:ga863cdac424a18c8ebfcc62107a4c2ad2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2">restore_interrupts</a> (uint32_t status)</td></tr>
 <tr class="memdesc:ga863cdac424a18c8ebfcc62107a4c2ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore interrupts to a specified state.  <a href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2">More...</a><br /></td></tr>
 <tr class="separator:ga863cdac424a18c8ebfcc62107a4c2ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga87b2474d96a8de8cdc6e083680a05bb9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga87b2474d96a8de8cdc6e083680a05bb9">spin_lock_instance</a> (uint lock_num)</td></tr>
-<tr class="memdesc:ga87b2474d96a8de8cdc6e083680a05bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get HW Spinlock instance from number.  <a href="group__hardware__sync.html#ga87b2474d96a8de8cdc6e083680a05bb9">More...</a><br /></td></tr>
-<tr class="separator:ga87b2474d96a8de8cdc6e083680a05bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad86f015d3ed475401bf83d9a0e449ab1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gad86f015d3ed475401bf83d9a0e449ab1">spin_lock_get_num</a> (<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *lock)</td></tr>
-<tr class="memdesc:gad86f015d3ed475401bf83d9a0e449ab1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get HW Spinlock number from instance.  <a href="group__hardware__sync.html#gad86f015d3ed475401bf83d9a0e449ab1">More...</a><br /></td></tr>
-<tr class="separator:gad86f015d3ed475401bf83d9a0e449ab1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gac4c9286f66d9dbe5287904d481f3b1e3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gac4c9286f66d9dbe5287904d481f3b1e3">spin_lock_unsafe_blocking</a> (<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *lock)</td></tr>
-<tr class="memdesc:gac4c9286f66d9dbe5287904d481f3b1e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a spin lock without disabling interrupts (hence unsafe)  <a href="group__hardware__sync.html#gac4c9286f66d9dbe5287904d481f3b1e3">More...</a><br /></td></tr>
-<tr class="separator:gac4c9286f66d9dbe5287904d481f3b1e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1cc04df1f5717292b279eb197ff5b4af"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga1cc04df1f5717292b279eb197ff5b4af">spin_unlock_unsafe</a> (<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *lock)</td></tr>
-<tr class="memdesc:ga1cc04df1f5717292b279eb197ff5b4af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a spin lock without re-enabling interrupts.  <a href="group__hardware__sync.html#ga1cc04df1f5717292b279eb197ff5b4af">More...</a><br /></td></tr>
-<tr class="separator:ga1cc04df1f5717292b279eb197ff5b4af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga091e88a7608ed8dbf3e1e984bae54602"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga091e88a7608ed8dbf3e1e984bae54602">spin_lock_blocking</a> (<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *lock)</td></tr>
-<tr class="memdesc:ga091e88a7608ed8dbf3e1e984bae54602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a spin lock safely.  <a href="group__hardware__sync.html#ga091e88a7608ed8dbf3e1e984bae54602">More...</a><br /></td></tr>
-<tr class="separator:ga091e88a7608ed8dbf3e1e984bae54602"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gada2be3ad9fabcda77e8bec99e12333fd"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gada2be3ad9fabcda77e8bec99e12333fd">is_spin_locked</a> (<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *lock)</td></tr>
-<tr class="memdesc:gada2be3ad9fabcda77e8bec99e12333fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if a spinlock is currently acquired elsewhere.  <a href="group__hardware__sync.html#gada2be3ad9fabcda77e8bec99e12333fd">More...</a><br /></td></tr>
-<tr class="separator:gada2be3ad9fabcda77e8bec99e12333fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga281ce69786da23cab7ba6c42537d4e87"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga281ce69786da23cab7ba6c42537d4e87">spin_unlock</a> (<a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *lock, uint32_t saved_irq)</td></tr>
-<tr class="memdesc:ga281ce69786da23cab7ba6c42537d4e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a spin lock safely.  <a href="group__hardware__sync.html#ga281ce69786da23cab7ba6c42537d4e87">More...</a><br /></td></tr>
-<tr class="separator:ga281ce69786da23cab7ba6c42537d4e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad38821cab3d935b009c6551d5ff70c4c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__hardware__sync.html#gad27c7e019d540f863965663b49b259e8">spin_lock_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gad38821cab3d935b009c6551d5ff70c4c">spin_lock_init</a> (uint lock_num)</td></tr>
-<tr class="memdesc:gad38821cab3d935b009c6551d5ff70c4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a spin lock.  <a href="group__hardware__sync.html#gad38821cab3d935b009c6551d5ff70c4c">More...</a><br /></td></tr>
-<tr class="separator:gad38821cab3d935b009c6551d5ff70c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga667a78000c57bdfb3585cbc56fccbe0b"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>spin_locks_reset</b> (void)</td></tr>
-<tr class="memdesc:ga667a78000c57bdfb3585cbc56fccbe0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release all spin locks. <br /></td></tr>
-<tr class="separator:ga667a78000c57bdfb3585cbc56fccbe0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4bb69d1717ab90105ea05b82291fc0c7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">restore_interrupts_from_disabled</a> (uint32_t status)</td></tr>
+<tr class="memdesc:ga4bb69d1717ab90105ea05b82291fc0c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore interrupts to a specified state with restricted transitions.  <a href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">More...</a><br /></td></tr>
+<tr class="separator:ga4bb69d1717ab90105ea05b82291fc0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8f4578aa492d4d37dfbdab5c99ab5b1c"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga8f4578aa492d4d37dfbdab5c99ab5b1c">next_striped_spin_lock_num</a> (void)</td></tr>
 <tr class="memdesc:ga8f4578aa492d4d37dfbdab5c99ab5b1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a spin lock number from the <em>striped</em> range.  <a href="group__hardware__sync.html#ga8f4578aa492d4d37dfbdab5c99ab5b1c">More...</a><br /></td></tr>
 <tr class="separator:ga8f4578aa492d4d37dfbdab5c99ab5b1c"><td class="memSeparator" colspan="2">&#160;</td></tr>

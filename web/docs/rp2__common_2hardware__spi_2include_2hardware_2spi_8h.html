@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
 	<meta name="generator" content="Doxygen 1.9.4"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<title>Raspberry Pi Pico SDK: hardware_spi/include/hardware/spi.h File Reference</title>
+	<title>Raspberry Pi Pico SDK: include/hardware/spi.h File Reference</title>
 	<!-- <link href="tabs.css" rel="stylesheet" type="text/css"/> -->
 	<script type="text/javascript" src="jquery.js"></script>
 	<script type="text/javascript" src="dynsections.js"></script>
@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -113,22 +113,60 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__spi_2include_2h
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/spi.h&quot;</code><br />
 <code>#include &quot;hardware/regs/dreq.h&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for spi.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__spi_2include_2hardware_2spi_8h__incl.png" border="0" usemap="#ainclude_2hardware_2spi_8h" alt=""/></div>
+<map name="ainclude_2hardware_2spi_8h" id="ainclude_2hardware_2spi_8h">
+<area shape="rect" title=" " alt="" coords="496,5,665,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" title=" " alt="" coords="497,80,664,107"/>
+<area shape="rect" title=" " alt="" coords="689,80,849,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
+</map>
+</div>
 </div>
 <p><a href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a25272bdec918957684ecb70a48908937"><td class="memItemLeft" align="right" valign="top"><a id="a25272bdec918957684ecb70a48908937" name="a25272bdec918957684ecb70a48908937"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_SPI</b>&#160;&#160;&#160;0</td></tr>
-<tr class="separator:a25272bdec918957684ecb70a48908937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af774322b726b6272e417085e87ab3e4f"><td class="memItemLeft" align="right" valign="top"><a id="af774322b726b6272e417085e87ab3e4f" name="af774322b726b6272e417085e87ab3e4f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_SPI</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:af774322b726b6272e417085e87ab3e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9d931d2e2e5b1dfd8d5f1dea80df4dbd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga9d931d2e2e5b1dfd8d5f1dea80df4dbd">spi0</a>&#160;&#160;&#160;((<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *)spi0_hw)</td></tr>
 <tr class="separator:ga9d931d2e2e5b1dfd8d5f1dea80df4dbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3de59ab064bc9405b059edce4366c694"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga3de59ab064bc9405b059edce4366c694">spi1</a>&#160;&#160;&#160;((<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *)spi1_hw)</td></tr>
 <tr class="separator:ga3de59ab064bc9405b059edce4366c694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga39308f1ccde24d91e0075059b380dd3a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga39308f1ccde24d91e0075059b380dd3a">SPI_NUM</a>(spi)</td></tr>
+<tr class="memdesc:ga39308f1ccde24d91e0075059b380dd3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SPI number for a SPI instance.  <a href="group__hardware__spi.html#ga39308f1ccde24d91e0075059b380dd3a">More...</a><br /></td></tr>
+<tr class="separator:ga39308f1ccde24d91e0075059b380dd3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">SPI_INSTANCE</a>(num)</td></tr>
+<tr class="memdesc:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SPI instance with the given SPI number.  <a href="group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">More...</a><br /></td></tr>
+<tr class="separator:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa470b3363ffe872bba90d31814d33baa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa">SPI_DREQ_NUM</a>(spi,  is_tx)</td></tr>
+<tr class="memdesc:gaa470b3363ffe872bba90d31814d33baa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from this SPI instance. If is_tx is true, then it is for transfers to the SPI else for transfers from the SPI.  <a href="group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa">More...</a><br /></td></tr>
+<tr class="separator:gaa470b3363ffe872bba90d31814d33baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a9b7b2428cfc34b20c3857980811b51a9"><td class="memItemLeft" align="right" valign="top">typedef struct spi_inst&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a></td></tr>
+<tr class="memitem:a9b7b2428cfc34b20c3857980811b51a9"><td class="memItemLeft" align="right" valign="top"><a id="a9b7b2428cfc34b20c3857980811b51a9" name="a9b7b2428cfc34b20c3857980811b51a9"></a>
+typedef struct spi_inst&#160;</td><td class="memItemRight" valign="bottom"><b>spi_inst_t</b></td></tr>
+<tr class="memdesc:a9b7b2428cfc34b20c3857980811b51a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opaque type representing an SPI instance. <br /></td></tr>
 <tr class="separator:a9b7b2428cfc34b20c3857980811b51a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
@@ -152,10 +190,10 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga1dba14fb5488b5e4a69b30678f774df0"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0">spi_init</a> (<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi, uint baudrate)</td></tr>
-<tr class="memdesc:ga1dba14fb5488b5e4a69b30678f774df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise SPI instancesPuts the SPI into a known state, and enable it. Must be called before other functions.  <a href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0">More...</a><br /></td></tr>
+<tr class="memdesc:ga1dba14fb5488b5e4a69b30678f774df0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise SPI instances.  <a href="group__hardware__spi.html#ga1dba14fb5488b5e4a69b30678f774df0">More...</a><br /></td></tr>
 <tr class="separator:ga1dba14fb5488b5e4a69b30678f774df0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaf0c3a38c80cf84a80602755d7bac77e2">spi_deinit</a> (<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi)</td></tr>
-<tr class="memdesc:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialise SPI instancesPuts the SPI into a disabled state. Init will need to be called to reenable the device functions.  <a href="group__hardware__spi.html#gaf0c3a38c80cf84a80602755d7bac77e2">More...</a><br /></td></tr>
+<tr class="memdesc:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialise SPI instances.  <a href="group__hardware__spi.html#gaf0c3a38c80cf84a80602755d7bac77e2">More...</a><br /></td></tr>
 <tr class="separator:gaf0c3a38c80cf84a80602755d7bac77e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga37f4c04ce4165ac8c129226336a0b66c"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga37f4c04ce4165ac8c129226336a0b66c">spi_set_baudrate</a> (<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi, uint baudrate)</td></tr>
 <tr class="memdesc:ga37f4c04ce4165ac8c129226336a0b66c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set SPI baudrate.  <a href="group__hardware__spi.html#ga37f4c04ce4165ac8c129226336a0b66c">More...</a><br /></td></tr>
@@ -209,22 +247,6 @@ static const <a class="el" href="structspi__hw__t.html">spi_hw_t</a> *&#160;</td
 <tr class="memdesc:ga6241d6c368b1af1b83a12c1e75515486"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the DREQ to use for pacing transfers to/from a particular SPI instance.  <a href="group__hardware__spi.html#ga6241d6c368b1af1b83a12c1e75515486">More...</a><br /></td></tr>
 <tr class="separator:ga6241d6c368b1af1b83a12c1e75515486"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Typedef Documentation</h2>
-<a id="a9b7b2428cfc34b20c3857980811b51a9" name="a9b7b2428cfc34b20c3857980811b51a9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b7b2428cfc34b20c3857980811b51a9">&#9670;&nbsp;</a></span>spi_inst_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef struct spi_inst <a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p >Opaque type representing an SPI instance. </p>
-
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

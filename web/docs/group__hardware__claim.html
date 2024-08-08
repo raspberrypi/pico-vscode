@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v1.5.1
+				v2.0.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -107,6 +107,9 @@ $(document).ready(function(){initNavTree('group__hardware__claim.html',''); init
   <div class="headertitle"><div class="title">hardware_claim<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Lightweight hardware resource management API.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -130,7 +133,7 @@ Functions</h2></td></tr>
 <tr class="separator:gae5ebb9e8ede55de49e6296953d731005"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p >Lightweight hardware resource management</p>
+<p >Lightweight hardware resource management API. </p>
 <p ><code>hardware_claim</code> provides a simple API for management of hardware resources at runtime.</p>
 <p >This API is usually called by other hardware specific <em>claiming</em> APIs and provides simple multi-core safe methods to manipulate compact bit-sets representing hardware resources.</p>
 <p >This API allows any other library to cooperatively participate in a scheme by which both compile time and runtime allocation of resources can co-exist, and conflicts can be avoided or detected (depending on the use case) without the libraries having any other knowledge of each other.</p>
