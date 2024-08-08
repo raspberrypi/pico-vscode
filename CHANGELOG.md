@@ -8,6 +8,20 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.15.0] - 2024-08-08
+
+### Added
+- RP2350 support, with SDK 2.0.0
+- Picotool now included
+- Run button, which uses picotool to flash the device over USB
+
+### Fixed
+- Fix missing quotes around gitExecutable (#25)
+
+### Changed
+- If GitHub API rate limit is reached, now downloads a cached response from GitHub pages
+- Checks for non-empty target directories, to make retrying installations simpler
+
 ## [0.14.0] - 2024-06-28
 
 ### Fixed
