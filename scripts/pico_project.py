@@ -829,7 +829,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             // Also works fine for flash binaries
             "overrideLaunchCommands": [
                 "monitor reset init",
-                "load ${{command:raspberry-pi-pico.launchTargetPath}}"
+                "load \"${{command:raspberry-pi-pico.launchTargetPath}}\""
             ],
             "openOCDLaunchCommands": [
                 "adapter speed 5000"
