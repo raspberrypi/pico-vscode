@@ -595,7 +595,7 @@ def GenerateCMake(folder, params):
                 "endif()\n"
                 f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
                 f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
-                f"set(pioasm_HINT {cmakeToolsPath('2.0.0-dev')}/pioasm)\n" # todo: set this back to sdkVersion
+                f"set(pioasm_HINT {cmakeToolsPath(params['sdkVersion'])}/pioasm)\n"
                 "if(EXISTS ${pioasm_HINT})\n"
                 "    set(pioasm_DIR ${pioasm_HINT})\n"
                 "endif()\n"
