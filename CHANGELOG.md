@@ -8,6 +8,16 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.15.1] - 2024-08-09
+
+### Fixed
+- Fix project compilation after moving build directory (#29)
+- Fix issues with debugging with spaces in the path
+- Fix pioasm path
+
+### Changed
+- No longer packaged as pre-release, to remove additional prompt when installing the extension
+
 ## [0.15.0] - 2024-08-08
 
 ### Added
