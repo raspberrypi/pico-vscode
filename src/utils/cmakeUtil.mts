@@ -1,10 +1,10 @@
 import { exec } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
 import Settings from "../settings.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync, rmSync } from "fs";
 import Logger from "../logger.mjs";
 import { readFile, writeFile } from "fs/promises";
 import { rimraf, windows as rimrafWindows } from "rimraf";
@@ -108,6 +108,35 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
     );
 
     return false;
+  }
+
+  if (existsSync(join(folder.fsPath, "build", "CMakeCache.txt"))) {
+    // check if the build directory has been moved
+
+    const buildDir = join(folder.fsPath, "build");
+
+    const cacheBuildDir = cmakeGetPicoVar(
+      join(buildDir, "CMakeCache.txt"),
+      "CMAKE_CACHEFILE_DIR"
+    );
+
+    if (cacheBuildDir !== null) {
+      let p1 = resolve(buildDir);
+      let p2 = resolve(cacheBuildDir);
+      if (process.platform === "win32") {
+        p1 = p1.toLowerCase();
+        p2 = p2.toLowerCase();
+      }
+
+      if (p1 !== p2) {
+        console.warn(
+          `Build directory has been moved from ${p1} to ${p2}` +
+          ` - Deleting CMakeCache.txt and regenerating.`
+        );
+
+        rmSync(join(buildDir, "CMakeCache.txt"));
+      }
+    }
   }
 
   try {
