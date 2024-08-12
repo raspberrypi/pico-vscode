@@ -4,6 +4,7 @@ import { join } from "path";
 import { SettingsKey } from "../settings.mjs";
 import { type WorkspaceConfiguration, workspace } from "vscode";
 import { dirname } from "path/posix";
+import { compareGe } from "./semverUtil.mjs";
 
 interface Configuration {
   includePath: string[];
@@ -38,10 +39,13 @@ async function updateCppPropertiesFile(
       config.forcedInclude = config.forcedInclude.filter(
         item => !item.startsWith("${userHome}/.pico-sdk")
       );
+      const baseHeadersFolderName = compareGe(newSDKVersion, "2.0.0")
+        ? "pico_base_headers"
+        : "pico_base";
       // Add the new pico-sdk forcedInclude
       config.forcedInclude.push(
         `\${userHome}/.pico-sdk/sdk/${newSDKVersion}` +
-          "/src/common/pico_base/include/pico.h"
+          `/src/common/${baseHeadersFolderName}/include/pico.h`
       );
 
       // Update the compilerPath
@@ -137,15 +141,16 @@ async function updateSettingsFile(
 
     // PATH
     // replace env: with env_ before splitting at :
-    const oldPath = currentValue[key.includes("windows") ? "Path" : "PATH"]
-      .replaceAll("${env:", "${env_");
+    const oldPath = currentValue[
+      key.includes("windows") ? "Path" : "PATH"
+    ].replaceAll("${env:", "${env_");
     Logger.log(`Oldpath ${oldPath}`);
     const pathList = oldPath.split(key.includes("windows") ? ";" : ":");
     let toolchainIdx = -1;
     let cmakeIdx = -1;
     let ninjaIdx = -1;
 
-    for (let i=0; i < pathList.length; i++) {
+    for (let i = 0; i < pathList.length; i++) {
       pathList[i] = pathList[i].replaceAll("${env_", "${env:");
       Logger.log(pathList[i]);
       const item = pathList[i];
@@ -205,7 +210,8 @@ async function updateSettingsFile(
   if (newNinjaVersion) {
     await config.update(
       "raspberry-pi-pico." + SettingsKey.ninjaPath,
-      buildNinjaHomePath(newNinjaVersion), null
+      buildNinjaHomePath(newNinjaVersion),
+      null
     );
   }
   if (newCMakeVersion) {
@@ -216,7 +222,8 @@ async function updateSettingsFile(
     );
     await config.update(
       "raspberry-pi-pico." + SettingsKey.cmakePath,
-      buildCMakeHomePath(newCMakeVersion), null
+      buildCMakeHomePath(newCMakeVersion),
+      null
     );
   }
 }

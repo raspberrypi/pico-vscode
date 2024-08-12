@@ -400,6 +400,16 @@ def propertiesToolchainPath(toolchainVersion, force_windows=False, force_non_win
 def codeToolchainPath(toolchainVersion):
     return f"${{userHome}}{relativeToolchainPath(toolchainVersion)}"
 
+def semver_compare_ge(first, second):
+    """ Compare two semantic version strings and return True if the first is greater or equal to the second """
+    first_tuple = tuple(map(int, first.split(".")))
+    second_tuple = tuple(map(int, second.split(".")))
+    
+    assert len(first_tuple) == 3
+    assert len(second_tuple) == 3
+
+    return first_tuple >= second_tuple
+
 def CheckPrerequisites():
     global isMac, isWindows, isx86
     isMac = (platform.system() == 'Darwin')
@@ -877,6 +887,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 }}
 '''
 
+            base_headers_folder_name = "pico_base_headers" if semver_compare_ge(sdkVersion, "2.0.0") else "pico_base"
             properties = f'''{{
     "configurations": [
         {{
@@ -886,7 +897,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "{codeSdkPath(sdkVersion)}/**"
             ],
             "forcedInclude": [
-                "{codeSdkPath(sdkVersion)}/src/common/pico_base/include/pico.h",
+                "{codeSdkPath(sdkVersion)}/src/common/{base_headers_folder_name}/include/pico.h",
                 "${{workspaceFolder}}/build/generated/pico_base/pico/config_autogen.h"
             ],
             "defines": [],

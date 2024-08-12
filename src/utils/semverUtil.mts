@@ -34,3 +34,40 @@ export function compare(a: string, b: string): number {
 
   return 0;
 }
+
+/**
+ * Function to compare two semantic version strings.
+ * Returns true if the first version is greater than or equal to the second version.
+ *
+ * @param first - The first version string.
+ * @param second - The second version string.
+ * @returns boolean - True if the first version is greater than or equal to the second version.
+ * Defaults to false if the version strings are invalid. (behaviour will be removed in
+ * a future version)
+ */
+export function compareGe(first: string, second: string): boolean {
+  // Split the version strings into parts and convert them to numbers
+  const firstParts = first.split(".").map(Number);
+  const secondParts = second.split(".").map(Number);
+
+  // Ensure both versions have three parts
+  if (firstParts.length !== 3 || secondParts.length !== 3) {
+    // TODO: use proper error handling in switch SDK
+    /*throw new Error(
+      "Version strings must have exactly three parts (major.minor.patch)"
+    );*/
+    return false;
+  }
+
+  // Compare the version parts
+  for (let i = 0; i < 3; i++) {
+    if (firstParts[i] > secondParts[i]) {
+      return true;
+    } else if (firstParts[i] < secondParts[i]) {
+      return false;
+    }
+  }
+
+  // If all parts are equal
+  return true;
+}
