@@ -394,9 +394,7 @@ export default class SwitchSDKCommand extends Command {
         // download and install selected SDK
         if (
           (await downloadAndInstallSDK(selectedSDK.sdk, SDK_REPOSITORY_URL)) &&
-          (await downloadAndInstallTools(
-            selectedSDK.sdk
-          ))
+          (await downloadAndInstallTools(selectedSDK.sdk))
         ) {
           progress.report({
             increment: 40,
@@ -444,11 +442,17 @@ export default class SwitchSDKCommand extends Command {
               increment: 10,
             });
 
-            await cmakeUpdateSDK(
+            const cmakeUpdateResult = await cmakeUpdateSDK(
               workspaceFolder.uri,
               selectedSDK.sdk,
               selectedToolchain.toolchain.version
             );
+
+            if (!cmakeUpdateResult) {
+              void window.showWarningMessage(
+                "Failed to update CMakeLists.txt for new SDK version."
+              );
+            }
 
             progress.report({
               // show sdk installed notification
