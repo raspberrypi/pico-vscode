@@ -61,7 +61,7 @@ import {
 } from "../utils/examplesUtil.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
-  // process.platform === "linux" && process.arch === "arm64";
+// process.platform === "linux" && process.arch === "arm64";
 
 export const picotoolVersion = "2.0.0";
 export const openOCDVersion = "0.12.0+dev";
@@ -165,10 +165,7 @@ enum Debugger {
   swd = "SWD (Pi host)",
 }
 
-async function enumToBoard(
-  e: BoardType,
-  sdkPath: string
-): Promise<string> {
+async function enumToBoard(e: BoardType, sdkPath: string): Promise<string> {
   const quickPickItems: string[] = [];
   let board;
   switch (e) {
@@ -1501,11 +1498,24 @@ export class NewProjectPanel {
                         <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option id="sel-${BoardType.default}" value="${BoardType.default}">Default</option>
-                                <option id="sel-${BoardType.pico}" value="${BoardType.pico}">Pico</option>
-                                <option id="sel-${BoardType.picoW}" value="${BoardType.picoW}">Pico W</option>
-                                <option id="sel-${BoardType.pico2}" value="${BoardType.pico2}" selected>Pico 2</option>
-                                <option id="sel-${BoardType.other}" value="${BoardType.other}">Other</option>
+                                ${
+                                  // show the default option only if a use has the option to create base on an example
+                                  this._examples.length > 0
+                                    ? `<option id="sel-${BoardType.default}" value="${BoardType.default}">Default</option>`
+                                    : ""
+                                }
+                                <option id="sel-${BoardType.pico}" value="${
+                          BoardType.pico
+                        }">Pico</option>
+                                <option id="sel-${BoardType.picoW}" value="${
+                          BoardType.picoW
+                        }">Pico W</option>
+                                <option id="sel-${BoardType.pico2}" value="${
+                          BoardType.pico2
+                        }" selected>Pico 2</option>
+                                <option id="sel-${BoardType.other}" value="${
+                          BoardType.other
+                        }">Other</option>
                             </select>
                         </div>
                       </div>`
@@ -1885,14 +1895,18 @@ export class NewProjectPanel {
     options: ExecOptions
   ): Promise<number | null> {
     return new Promise<number | null>(resolve => {
-      const generatorProcess = exec(command, options, (error, stdout, stderr) => {
-        this._logger.debug(stdout);
-        this._logger.info(stderr);
-        if (error) {
-          this._logger.error(`Generator Process error: ${error.message}`);
-          resolve(null); // indicate error
+      const generatorProcess = exec(
+        command,
+        options,
+        (error, stdout, stderr) => {
+          this._logger.debug(stdout);
+          this._logger.info(stderr);
+          if (error) {
+            this._logger.error(`Generator Process error: ${error.message}`);
+            resolve(null); // indicate error
+          }
         }
-      });
+      );
 
       generatorProcess.on("exit", code => {
         // Resolve with exit code or -1 if code is undefined
@@ -1940,18 +1954,37 @@ export class NewProjectPanel {
         : ""
     }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
+    // convert the selected board type to a vaild option
+    // for the project generator
+    let boardTypeFromEnum = "";
+    if ("boardType" in options) {
+      try {
+        boardTypeFromEnum = await enumToBoard(
+          options.boardType === BoardType.default
+            ? BoardType.pico
+            : options.boardType,
+          options.toolchainAndSDK.sdkPath
+        );
+      } catch (error) {
+        await window.showErrorMessage(
+          "Unknown board type: " + options.boardType
+        );
+        return;
+      }
+    }
+
     const basicNewProjectOptions: string[] =
       "consoleOptions" in options
         ? [
-            await enumToBoard(options.boardType, options.toolchainAndSDK.sdkPath),
+            boardTypeFromEnum,
             ...options.consoleOptions.map(option => enumToParam(option)),
             !options.consoleOptions.includes(ConsoleOption.consoleOverUART)
               ? "-nouart"
               : "",
           ]
         : "boardType" in options && options.boardType !== BoardType.default
-          ? [await enumToBoard(options.boardType, options.toolchainAndSDK.sdkPath)]
-          : [];
+        ? [boardTypeFromEnum]
+        : [];
     if (!("boardType" in options) && this._isProjectImport) {
       try {
         const cmakel = await readFile(
@@ -1971,11 +2004,7 @@ export class NewProjectPanel {
       } catch {
         /* ignore */
       }
-    } else if (
-      ("boardType" in options) &&
-      isExampleBased &&
-      "name" in options
-    ) {
+    } else if ("boardType" in options && isExampleBased && "name" in options) {
       if (options.boardType === BoardType.default) {
         if (options.name.includes("picow") || options.name.includes("pico_w")) {
           basicNewProjectOptions.push(`-board pico_w`);

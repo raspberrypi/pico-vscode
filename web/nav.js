@@ -108,6 +108,7 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
   const examplesList = document.getElementById('examples-list');
   const projectNameGrid = document.getElementById('project-name-grid');
   const projectNameDropdownButton = document.getElementById('project-name-dropdown-button');
+  const defaultBoardTypeOption = document.getElementById('sel-default');
 
   if (isExampleMode && (forceOn === undefined || !forceOn) && (forceOff === undefined || forceOff)) {
     if (createFromExampleBtn) {
@@ -119,6 +120,29 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       projectNameDropdownButton.classList.add('hidden');
       // crashes the webview
       //projectNameInput.required = true;
+    }
+
+    if (defaultBoardTypeOption) {
+      defaultBoardTypeOption.hidden = true;
+      defaultBoardTypeOption.disabled = true;
+
+      // if selected switch selection to first not hidden option
+      if (defaultBoardTypeOption.selected) {
+        const boardTypeSelector = document.getElementById('sel-board-type');
+
+        if (boardTypeSelector) {
+          // select first not hidden option
+          for (let i = 0; i < boardTypeSelector.options.length; i++) {
+            const option = boardTypeSelector.options[i];
+
+            // Check if the option is not hidden
+            if (option.style.display !== 'none' && option.hidden === false) {
+              boardTypeSelector.selectedIndex = i;
+              break;
+            }
+          }
+        }
+      }
     }
 
     if (projectNameInput) {
@@ -153,6 +177,12 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
 
       //projectNameInput.setAttribute('list', "examples-list");
       projectNameInput.setAttribute('placeholder', 'Select an example');
+
+      if (defaultBoardTypeOption) {
+        defaultBoardTypeOption.hidden = false;
+        defaultBoardTypeOption.disabled = false;
+        defaultBoardTypeOption.selected = true;
+      }
 
       window.removeExampleItems = window.removeExampleItems || function () {
         if (examplesList !== null) {
@@ -303,6 +333,24 @@ window.onload = function () {
       createFromExampleBtn.classList.add('hidden');
     }
     toggleCreateFromExampleMode(true);
+  } else {
+    // hide if not force from example
+    const defaultBoardTypeOption = document.getElementById('sel-default');
+    if (defaultBoardTypeOption) {
+      defaultBoardTypeOption.hidden = true;
+      defaultBoardTypeOption.disabled = true;
+    }
+  }
+
+  // TODO: maybe can remove if sel-pico2 disable is moved into state restore
+  const sdkSelector = document.getElementById('sel-pico-sdk');
+  if (sdkSelector) {
+    if (parseInt(sdkSelector.value.split(".")[0]) < 2) {
+      const selPico2 = document.getElementById('sel-pico2');
+      if (selPico2) {
+        selPico2.disabled = true;
+      }
+    }
   }
 
   const burgerMenu = document.getElementById("burger-menu");

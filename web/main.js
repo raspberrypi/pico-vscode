@@ -450,12 +450,26 @@ var isPicoWireless = false;
           var selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
 
           if (result.riscvToolchainVersion === "NONE") {
-            document.getElementById("sel-pico2").hidden = true;
-            if (document.getElementById('sel-board-type').selectedIndex > 1) {
-              document.getElementById('sel-board-type').selectedIndex = 0;
+            document.getElementById("sel-pico2").disabled = true;
+            const boardTypeSelector = document.getElementById('sel-board-type');
+
+            if (boardTypeSelector && boardTypeSelector.value.includes("pico2")) {
+              // first element could be hidden
+              //document.getElementById('sel-board-type').selectedIndex = 0;
+
+              // select first not hidden option
+              for (let i = 0; i < boardTypeSelector.options.length; i++) {
+                const option = boardTypeSelector.options[i];
+
+                // Check if the option is not hidden
+                if (option.style.display !== 'none' && option.hidden === false) {
+                  boardTypeSelector.selectedIndex = i;
+                  break;
+                }
+              }
             }
           } else {
-            document.getElementById("sel-pico2").hidden = false;
+            document.getElementById("sel-pico2").disabled = false;
           }
 
           var riscv = document.getElementById("sel-riscv").checked;
@@ -569,8 +583,9 @@ var isPicoWireless = false;
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);
   const selectBoardTypeElement = document.getElementById('sel-board-type');
   if (selectBoardTypeElement) {
-    selectBoardTypeElement.addEventListener('change', function () {
+    selectBoardTypeElement.addEventListener('change', function (event) {
       try {
+        // TODO: fix not very future proof for different model naming
         const isPicoWireless = selectBoardTypeElement.value.endsWith('w');
 
         if (!isPicoWireless) {

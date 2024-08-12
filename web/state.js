@@ -29,6 +29,7 @@ class State {
   cppCodeGen;
   cppRttiCodeGen;
   cppExceptionsCodeGen;
+  selRiscv;
   debuggerSelection;
 
   // special ui only state
@@ -47,13 +48,17 @@ function restoreState(state) {
   /*if (state.projectLocation) {
     document.getElementById('inp-project-location').value = state.projectLocation;
   }*/
+  // TODO: currently must be restorted before board type because otherwise 
+  // the change of board type would trigger the change listener sending version bundle message
+  // this would undisable the pico2 board type and it does not get disabled again in the loading
+  // So maybe restore the board type disable state after restoring the state to avaoid these conflicts
+  if (state.selectedSDK) {
+    document.getElementById('sel-pico-sdk').value = state.selectedSDK;
+  }
   if (state.boardType) {
     document.getElementById('sel-board-type').value = state.boardType;
     // trigger change event to update the ui based on the selected board
     document.getElementById('sel-board-type').dispatchEvent(new Event('change'));
-  }
-  if (state.selectedSDK) {
-    document.getElementById('sel-pico-sdk').value = state.selectedSDK;
   }
   if (state.selectedToolchain) {
     document.getElementById('sel-toolchain').value = state.selectedToolchain;
@@ -380,6 +385,9 @@ function setupStateSystem(vscode) {
             break;
           case "cpp-exceptions-code-gen-cblist":
             state.cppExceptionsCodeGen = checkbox.checked;
+            break;
+          case "sel-riscv":
+            state.selRiscv = checkbox.checked;
             break;
         }
 
