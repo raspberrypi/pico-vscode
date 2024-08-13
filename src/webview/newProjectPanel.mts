@@ -1969,6 +1969,7 @@ export class NewProjectPanel {
         await window.showErrorMessage(
           "Unknown board type: " + options.boardType
         );
+
         return;
       }
     }

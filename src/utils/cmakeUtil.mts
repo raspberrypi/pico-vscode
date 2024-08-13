@@ -256,7 +256,7 @@ export async function cmakeUpdateSDK(
 
     const content = await readFile(cmakeFilePath, "utf8");
 
-    var modifiedContent = content
+    let modifiedContent = content
       .replace(
         sdkPathRegex,
         `set(PICO_SDK_PATH \${USERHOME}/.pico-sdk/sdk/${newSDKVersion})`
@@ -272,7 +272,8 @@ export async function cmakeUpdateSDK(
       );
 
     const picoBoard = content.match(picoBoardRegex);
-    // update the PICO_BOARD variable if it's a pico2 board and the new sdk version is less than 2.0.0
+    // update the PICO_BOARD variable if it's a pico2 board and the new sdk
+    // version is less than 2.0.0
     if (
       picoBoard !== null &&
       picoBoard[1].includes("pico2") &&
@@ -310,11 +311,12 @@ export async function cmakeUpdateSDK(
       await rimraf(join(folder.fsPath, "build"), { maxRetries: 2 });
     }
     await configureCmakeNinja(folder);
-
     Logger.log("Reconfigured CMake successfully.");
+
     return true;
   } catch (error) {
     Logger.log("Error updating paths in CMakeLists.txt!");
+
     return false;
   }
 }

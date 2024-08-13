@@ -107,11 +107,13 @@ export function compareLt(first: string, second: string): boolean {
 
 /**
  * Function to compare the major versions of two semantic version strings.
- * Returns true if the first version's major part is greater than or equal to the second version's major part.
+ * Returns true if the first version's major part is greater than or equal
+ * to the second version's major part.
  *
  * @param first - The first version string.
  * @param second - The second version string.
- * @returns boolean - True if the first version's major part is greater than or equal to the second version's major part.
+ * @returns boolean - True if the first version's major part is greater than or
+ * equal to the second version's major part.
  */
 export function compareGeMajor(first: string, second: string): boolean {
   // Split the version strings into parts and convert them to numbers
@@ -128,7 +130,8 @@ export function compareGeMajor(first: string, second: string): boolean {
  *
  * @param first - The first version string.
  * @param second - The second version string.
- * @returns boolean - True if the first version's major part is less than the second version's major part.
+ * @returns boolean - True if the first version's major part is less than the
+ * second version's major part.
  */
 export function compareLtMajor(first: string, second: string): boolean {
   // Split the version strings into parts and convert them to numbers
