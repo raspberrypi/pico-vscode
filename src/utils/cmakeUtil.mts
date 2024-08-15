@@ -336,7 +336,7 @@ export async function cmakeUpdateSDK(
         `set(sdkVersion ${newSDKVersion})\n` +
         `set(toolchainVersion ${newToolchainVersion})\n` +
         `set(picotoolVersion ${picotoolVersion})\n` +
-        `include(${buildCMakeIncPath()})\n` +
+        `include(${buildCMakeIncPath(false)})\n` +
         // eslint-disable-next-line max-len
         "# ===================================================================================="
       );
