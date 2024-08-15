@@ -79,6 +79,12 @@
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
+        "command": "raspberry-pi-pico.switchBoard",
+        "title": "Switch Board",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
+      },
+      {
         "command": "raspberry-pi-pico.launchTargetPath",
         "title": "Get path of the project executable",
         "category": "Raspberry Pi Pico",

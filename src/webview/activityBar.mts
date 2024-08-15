@@ -22,6 +22,7 @@ import OpenSdkDocumentationCommand, {
 import ConfigureCmakeCommand from "../commands/configureCmake.mjs";
 import ImportProjectCommand from "../commands/importProject.mjs";
 import NewExampleProjectCommand from "../commands/newExampleProject.mjs";
+import SwitchBoardCommand from "../commands/switchBoard.mjs";
 
 export class QuickAccessCommand extends TreeItem {
   constructor(
@@ -41,6 +42,7 @@ const NEW_PROJECT_LABEL = "New Project";
 const IMPORT_PROJECT_LABEL = "Import Project";
 const EXAMPLE_PROJECT_LABEL = "New Project From Examples";
 const SWITCH_SDK_LABEL = "Switch SDK";
+const SWITCH_BOARD_LABEL = "Switch Board";
 const COMPILE_PROJECT_LABEL = "Compile Project";
 const RUN_PROJECT_LABEL = "Run Project";
 const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
@@ -105,6 +107,9 @@ export class PicoProjectActivityBar
         // repo-forked or extensions; alt. "replace-all"
         element.iconPath = new ThemeIcon("find-replace-all");
         element.description = `Current: ${this._sdkVersion}`;
+        break;
+      case SWITCH_BOARD_LABEL:
+        element.iconPath = new ThemeIcon("circuit-board");
         break;
       case DEBUG_LAYOUT_PROJECT_LABEL:
         element.iconPath = new ThemeIcon("debug-console");
@@ -213,6 +218,14 @@ export class PicoProjectActivityBar
           {
             command: `${extensionName}.${SwitchSDKCommand.id}`,
             title: SWITCH_SDK_LABEL,
+          }
+        ),
+        new QuickAccessCommand(
+          SWITCH_BOARD_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${SwitchBoardCommand.id}`,
+            title: SWITCH_BOARD_LABEL,
           }
         ),
         new QuickAccessCommand(

@@ -15,6 +15,7 @@ import {
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
 import {
+  cmakeGetSelectedBoard,
   cmakeGetSelectedToolchainAndSDKVersions,
   configureCmakeNinja,
 } from "./utils/cmakeUtil.mjs";
@@ -68,6 +69,7 @@ import { homedir } from "os";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
+import SwitchBoardCommand from "./commands/switchBoard.mjs";
 
 const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -94,6 +96,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     [
       new NewProjectCommand(context.extensionUri),
       new SwitchSDKCommand(ui, context.extensionUri),
+      new SwitchBoardCommand(ui),
       new LaunchTargetPathCommand(),
       new GetPythonPathCommand(),
       new GetEnvPathCommand(),
@@ -466,6 +469,13 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   ui.showStatusBarItems();
   ui.updateSDKVersion(selectedToolchainAndSDKVersions[0]);
+
+  const selectedBoard = cmakeGetSelectedBoard(workspaceFolder.uri);
+  if (selectedBoard !== null) {
+    ui.updateBoard(selectedBoard);
+  } else {
+    ui.updateBoard("unknown");
+  }
 
   // auto project configuration with cmake
   if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
