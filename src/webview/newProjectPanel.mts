@@ -627,7 +627,10 @@ export class NewProjectPanel {
 
               const result = await setupExample(
                 example,
-                this._projectRoot.fsPath.replaceAll("\\", "/")
+                // required to support backslashes in macOS/Linux folder names
+                process.platform !== "win32"
+                  ? this._projectRoot.fsPath
+                  : this._projectRoot.fsPath.replaceAll("\\", "/")
               );
 
               if (!result) {
@@ -1570,7 +1573,8 @@ export class NewProjectPanel {
                                     ? "C:\\MyProject"
                                     : "C:\\Project\\To\\Import"
                                 }" disabled value="${
-      this._projectRoot !== undefined
+      // support folder names with backslashes on linux and macOS
+      this._projectRoot !== undefined && process.platform === "win32"
         ? this._projectRoot.fsPath.replaceAll("\\", "/")
         : ""
     }"/>
@@ -2049,7 +2053,9 @@ export class NewProjectPanel {
               0,
               options.projectRoot.lastIndexOf("/")
             )
-          : options.projectRoot
+          : isWindows
+          ? options.projectRoot
+          : options.projectRoot.replaceAll("\\", "\\\\")
       }"`,
       "--sdkVersion",
       options.toolchainAndSDK.sdkVersion,

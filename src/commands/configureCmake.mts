@@ -23,7 +23,10 @@ export default class ConfigureCmakeCommand extends Command {
       return;
     }
 
-    await configureCmakeNinja(workspaceFolder.uri);
-    await window.showInformationMessage("CMake has configured your build.");
+    if (await configureCmakeNinja(workspaceFolder.uri)) {
+      await window.showInformationMessage("CMake has configured your build.");
+    } else {
+      await window.showWarningMessage("CMake has not configured your build.");
+    }
   }
 }

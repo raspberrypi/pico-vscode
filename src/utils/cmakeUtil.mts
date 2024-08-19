@@ -91,6 +91,17 @@ export async function getPath(): Promise<string> {
 }
 
 export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
+  if (process.platform !== "win32" && folder.fsPath.includes("\\")) {
+    const errorMsg =
+      "CMake currently does not support folder names with backslashes.";
+    Logger.log(errorMsg);
+    await window.showErrorMessage(
+      "Failed to configure cmake for the current project. " + errorMsg
+    );
+
+    return false;
+  }
+
   const settings = Settings.getInstance();
   if (settings === undefined) {
     Logger.log("Error: Settings not initialized.");
@@ -417,9 +428,7 @@ export function cmakeGetSelectedToolchainAndSDKVersions(
  * @returns An string with the board or null if the file could not
  * be read or the board could not be extracted.
  */
-export function cmakeGetSelectedBoard(
-  folder: Uri
-): string | null {
+export function cmakeGetSelectedBoard(folder: Uri): string | null {
   const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
   const content = readFileSync(cmakeFilePath, "utf8");
 

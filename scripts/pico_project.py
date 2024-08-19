@@ -568,7 +568,8 @@ def GenerateCMake(folder, params):
 
     # OK, for the path, CMake will accept forward slashes on Windows, and thats
     # seemingly a bit easier to handle than the backslashes
-    p = str(params['sdkPath']).replace('\\','/')
+    # macOS and Linux do accept backslashes in folder names, therefore it needs an extra case
+    p = str(params['sdkPath']).replace('\\','/') if not isWindows else str(params['sdkPath'])
 
     cmake_header1 = (f"# Generated Cmake Pico project file\n\n"
                  "cmake_minimum_required(VERSION 3.13)\n\n"
