@@ -40,7 +40,7 @@ const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
 
 const NEW_PROJECT_LABEL = "New Project";
 const IMPORT_PROJECT_LABEL = "Import Project";
-const EXAMPLE_PROJECT_LABEL = "New Project From Examples";
+const EXAMPLE_PROJECT_LABEL = "New Project From Example";
 const SWITCH_SDK_LABEL = "Switch SDK";
 const SWITCH_BOARD_LABEL = "Switch Board";
 const COMPILE_PROJECT_LABEL = "Compile Project";
