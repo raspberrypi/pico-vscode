@@ -50,7 +50,7 @@ import VersionBundlesLoader, {
   type VersionBundle,
 } from "../utils/versionBundles.mjs";
 import which from "which";
-import { homedir } from "os";
+import { homedir, platform } from "os";
 import { readFile } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync, readdirSync } from "fs";
@@ -1354,6 +1354,7 @@ export class NewProjectPanel {
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
+    const isWindows = process.platform === "win32";
 
     return `<!DOCTYPE html>
     <html lang="en">
@@ -1570,8 +1571,12 @@ export class NewProjectPanel {
                                 </span>
                                 <input type="text" id="inp-project-location" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="${
                                   !this._isProjectImport
-                                    ? "C:\\MyProject"
-                                    : "C:\\Project\\To\\Import"
+                                    ? isWindows
+                                      ? "C:\\MyProject"
+                                      : "/home/user/MyProject"
+                                    : isWindows
+                                    ? "C:\\Project\\To\\Import"
+                                    : "/home/user/Project/To/Import"
                                 }" disabled value="${
       // support folder names with backslashes on linux and macOS
       this._projectRoot !== undefined && process.platform === "win32"
