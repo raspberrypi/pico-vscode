@@ -79,6 +79,12 @@
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
+        "command": "raspberry-pi-pico.switchBoard",
+        "title": "Switch Board",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
+      },
+      {
         "command": "raspberry-pi-pico.launchTargetPath",
         "title": "Get path of the project executable",
         "category": "Raspberry Pi Pico",
@@ -234,31 +240,31 @@
     "test": "yarn run lint"
   },
   "devDependencies": {
-    "@eslint/js": "^9.3.0",
-    "@rollup/plugin-commonjs": "^25.0.7",
+    "@eslint/js": "^9.9.0",
+    "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/adm-zip": "^0.5.5",
-    "@types/ini": "^4.1.0",
+    "@types/ini": "^4.1.1",
     "@types/node": "18.17.x",
-    "@types/uuid": "^9.0.8",
+    "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.87.0",
-    "@types/which": "^3.0.3",
-    "eslint": "^9.3.0",
+    "@types/which": "^3.0.4",
+    "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.3.0",
-    "rollup": "^4.17.2",
-    "tslib": "^2.6.2",
-    "typescript": "^5.4.5",
-    "typescript-eslint": "^7.9.0"
+    "globals": "^15.9.0",
+    "rollup": "^4.21.0",
+    "tslib": "^2.6.3",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.1.0"
   },
   "dependencies": {
-    "adm-zip": "^0.5.12",
-    "ini": "^4.1.2",
+    "adm-zip": "^0.5.15",
+    "ini": "^4.1.3",
     "rimraf": "^5.0.7",
     "undici": "^6.19.7",
-    "uuid": "^9.0.1",
+    "uuid": "^10.0.0",
     "which": "^4.0.0"
   },
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@4.4.0"
 }

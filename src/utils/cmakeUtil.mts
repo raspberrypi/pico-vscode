@@ -21,13 +21,13 @@ export async function getPythonPath(): Promise<string> {
   }
 
   const pythonPath = (
-    await which(
+    (await which(
       settings
         .getString(SettingsKey.python3Path)
         ?.replace(HOME_VAR, homedir()) ||
         (process.platform === "win32" ? "python" : "python3"),
       { nothrow: true }
-    )
+    )) || ""
   ).replaceAll("\\", "/");
 
   return `${pythonPath.replaceAll("\\", "/")}`;
@@ -42,18 +42,18 @@ export async function getPath(): Promise<string> {
   }
 
   const ninjaPath = (
-    await which(
+    (await which(
       settings.getString(SettingsKey.ninjaPath)?.replace(HOME_VAR, homedir()) ||
         "ninja",
       { nothrow: true }
-    )
+    )) || ""
   ).replaceAll("\\", "/");
   const cmakePath = (
-    await which(
+    (await which(
       settings.getString(SettingsKey.cmakePath)?.replace(HOME_VAR, homedir()) ||
         "cmake",
       { nothrow: true }
-    )
+    )) || ""
   ).replaceAll("\\", "/");
   Logger.log(
     settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
@@ -61,15 +61,15 @@ export async function getPath(): Promise<string> {
   // TODO: maybe also check for "python" on unix systems
   const pythonPath = await getPythonPath();
 
-  if (ninjaPath === null || cmakePath === null) {
+  if (ninjaPath.length === 0 || cmakePath.length === 0) {
     const missingTools = [];
-    if (ninjaPath === null) {
+    if (ninjaPath.length === 0) {
       missingTools.push("Ninja");
     }
-    if (cmakePath === null) {
+    if (cmakePath.length === 0) {
       missingTools.push("CMake");
     }
-    if (pythonPath === null) {
+    if (pythonPath.length === 0) {
       missingTools.push("Python 3");
     }
     void showRequirementsNotMetErrorMessage(missingTools);
@@ -91,6 +91,17 @@ export async function getPath(): Promise<string> {
 }
 
 export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
+  if (process.platform !== "win32" && folder.fsPath.includes("\\")) {
+    const errorMsg =
+      "CMake currently does not support folder names with backslashes.";
+    Logger.log(errorMsg);
+    await window.showErrorMessage(
+      "Failed to configure cmake for the current project. " + errorMsg
+    );
+
+    return false;
+  }
+
   const settings = Settings.getInstance();
   if (settings === undefined) {
     Logger.log("Error: Settings not initialized.");
@@ -219,7 +230,62 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
     );
 
     return true;
-  } catch (e) {
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Changes the board in the CMakeLists.txt file.
+ *
+ * @param folder The root folder of the workspace to configure.
+ * @param newBoard The new board to use
+ */
+export async function cmakeUpdateBoard(
+  folder: Uri,
+  newBoard: string
+): Promise<boolean> {
+  // TODO: support for scaning for seperate locations of the CMakeLists.txt file in the project
+  const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
+  const picoBoardRegex = /^set\(PICO_BOARD\s+([^)]+)\)$/m;
+
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.log("Error: Settings not initialized.");
+
+    return false;
+  }
+
+  try {
+    // check if CMakeLists.txt exists in the root folder
+    await workspace.fs.stat(folder.with({ path: cmakeFilePath }));
+
+    const content = await readFile(cmakeFilePath, "utf8");
+
+    const modifiedContent = content.replace(
+      picoBoardRegex,
+      `set(PICO_BOARD ${newBoard} CACHE STRING "Board type")`
+    );
+
+    await writeFile(cmakeFilePath, modifiedContent, "utf8");
+    Logger.log("Updated board in CMakeLists.txt successfully.");
+
+    // reconfigure so .build gets updated
+    // TODO: To get a behavior similar to the rm -rf Unix command,
+    // use rmSync with options { recursive: true, force: true }
+    // to remove rimraf requirement
+    if (process.platform === "win32") {
+      await rimrafWindows(join(folder.fsPath, "build"), { maxRetries: 2 });
+    } else {
+      await rimraf(join(folder.fsPath, "build"), { maxRetries: 2 });
+    }
+    await configureCmakeNinja(folder);
+    Logger.log("Reconfigured CMake successfully.");
+
+    return true;
+  } catch {
+    Logger.log("Error updating board in CMakeLists.txt!");
+
     return false;
   }
 }
@@ -314,7 +380,7 @@ export async function cmakeUpdateSDK(
     Logger.log("Reconfigured CMake successfully.");
 
     return true;
-  } catch (error) {
+  } catch {
     Logger.log("Error updating paths in CMakeLists.txt!");
 
     return false;
@@ -353,6 +419,34 @@ export function cmakeGetSelectedToolchainAndSDKVersions(
   }
 
   return [versionMatch[1], versionMatch2[1]];
+}
+
+/**
+ * Extracts the board from the CMakeLists.txt file.
+ *
+ * @param cmakeFilePath The path to the CMakeLists.txt file.
+ * @returns An string with the board or null if the file could not
+ * be read or the board could not be extracted.
+ */
+export function cmakeGetSelectedBoard(folder: Uri): string | null {
+  const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
+  const content = readFileSync(cmakeFilePath, "utf8");
+
+  const picoBoardRegex = /^set\(PICO_BOARD\s+([^)]+)\)$/m;
+
+  const match = content.match(picoBoardRegex);
+
+  if (match !== null) {
+    const board = match[1].split("CACHE")[0].trim();
+
+    if (board === null) {
+      return null;
+    }
+
+    return board;
+  } else {
+    return null;
+  }
 }
 
 /**

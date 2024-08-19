@@ -150,7 +150,7 @@ export async function unxzFile(
           resolve(true);
         }
       });
-    } catch (error) {
+    } catch {
       resolve(false);
     }
   });

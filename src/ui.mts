@@ -6,6 +6,7 @@ enum StatusBarItemKey {
   compile = "raspberry-pi-pico.compileProject",
   run = "raspberry-pi-pico.runProject",
   picoSDKQuickPick = "raspberry-pi-pico.sdk-quick-pick",
+  picoBoardQuickPick = "raspberry-pi-pico.board-quick-pick",
 }
 
 const STATUS_BAR_ITEMS: {
@@ -27,6 +28,11 @@ const STATUS_BAR_ITEMS: {
     text: "Pico SDK: <version>",
     command: "raspberry-pi-pico.switchSDK",
     tooltip: "Select Pico SDK",
+  },
+  [StatusBarItemKey.picoBoardQuickPick]: {
+    text: "Board: <board>",
+    command: "raspberry-pi-pico.switchBoard",
+    tooltip: "Select Board",
   },
 };
 
@@ -60,6 +66,12 @@ export default class UI {
       StatusBarItemKey.picoSDKQuickPick
     ].text.replace("<version>", version);
     this._activityBarProvider.refresh(version);
+  }
+
+  public updateBoard(board: string): void {
+    this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
+      StatusBarItemKey.picoBoardQuickPick
+    ].text.replace("<board>", board);
   }
 
   /*

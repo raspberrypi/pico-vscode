@@ -32,7 +32,7 @@ export default [
       "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
       "@typescript-eslint/explicit-function-return-type": ["error", { allowExpressions: true }],
       "@typescript-eslint/consistent-type-exports": "error",
-      "@typescript-eslint/semi": "warn",
+      "semi": "warn",
       curly: "warn",
       eqeqeq: "warn",
       "no-throw-literal": "warn",

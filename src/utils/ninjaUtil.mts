@@ -40,7 +40,7 @@ export function detectInstalledToolchains(): InstalledNinja[] {
 
       installedNinjas.push({ version, path: toolchainPath });
     }
-  } catch (error) {
+  } catch {
     Logger.log("Error while detecting installed Toolchains.");
   }
 

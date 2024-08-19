@@ -1,15 +1,16 @@
 import { CommandWithResult } from "./command.mjs";
 import { commands, workspace } from "vscode";
 import {
-  getPythonPath, getPath,
-  cmakeGetSelectedToolchainAndSDKVersions, cmakeGetPicoVar
+  getPythonPath,
+  getPath,
+  cmakeGetSelectedToolchainAndSDKVersions,
+  cmakeGetPicoVar,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
 import { buildToolchainPath } from "../utils/download.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 
-export class GetPythonPathCommand
-                      extends CommandWithResult<string> {
+export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
     super("getPythonPath");
   }
@@ -28,8 +29,7 @@ export class GetPythonPathCommand
   }
 }
 
-export class GetEnvPathCommand
-                      extends CommandWithResult<string> {
+export class GetEnvPathCommand extends CommandWithResult<string> {
   constructor() {
     super("getEnvPath");
   }
@@ -48,8 +48,7 @@ export class GetEnvPathCommand
   }
 }
 
-export class GetGDBPathCommand
-                      extends CommandWithResult<string> {
+export class GetGDBPathCommand extends CommandWithResult<string> {
   constructor() {
     super("getGDBPath");
   }
@@ -65,9 +64,9 @@ export class GetGDBPathCommand
     const workspaceFolder = workspace.workspaceFolders?.[0];
 
     const selectedToolchainAndSDKVersions =
-    cmakeGetSelectedToolchainAndSDKVersions(
-      join(workspaceFolder.uri.fsPath, "CMakeLists.txt")
-    );
+      cmakeGetSelectedToolchainAndSDKVersions(
+        join(workspaceFolder.uri.fsPath, "CMakeLists.txt")
+      );
     if (selectedToolchainAndSDKVersions === null) {
       return "";
     }
@@ -93,8 +92,7 @@ export class GetGDBPathCommand
   }
 }
 
-export class GetChipCommand
-                      extends CommandWithResult<string> {
+export class GetChipCommand extends CommandWithResult<string> {
   constructor() {
     super("getChip");
   }
@@ -112,7 +110,8 @@ export class GetChipCommand
     const settings = Settings.getInstance();
     let buildDir = join(workspaceFolder.uri.fsPath, "build");
     if (
-      settings !== undefined && settings.getBoolean(SettingsKey.useCmakeTools)
+      settings !== undefined &&
+      settings.getBoolean(SettingsKey.useCmakeTools)
     ) {
       // Compiling with CMake Tools
       const cmakeBuildDir: string = await commands.executeCommand(
@@ -124,8 +123,7 @@ export class GetChipCommand
       }
     }
 
-    const platform =
-    cmakeGetPicoVar(
+    const platform = cmakeGetPicoVar(
       join(buildDir, "CMakeCache.txt"),
       "PICO_PLATFORM"
     );
@@ -141,8 +139,7 @@ export class GetChipCommand
   }
 }
 
-export class GetTargetCommand
-                      extends CommandWithResult<string> {
+export class GetTargetCommand extends CommandWithResult<string> {
   constructor() {
     super("getTarget");
   }
@@ -160,7 +157,8 @@ export class GetTargetCommand
     const settings = Settings.getInstance();
     let buildDir = join(workspaceFolder.uri.fsPath, "build");
     if (
-      settings !== undefined && settings.getBoolean(SettingsKey.useCmakeTools)
+      settings !== undefined &&
+      settings.getBoolean(SettingsKey.useCmakeTools)
     ) {
       // Compiling with CMake Tools
       const cmakeBuildDir: string = await commands.executeCommand(
@@ -172,8 +170,7 @@ export class GetTargetCommand
       }
     }
 
-    const platform =
-    cmakeGetPicoVar(
+    const platform = cmakeGetPicoVar(
       join(buildDir, "CMakeCache.txt"),
       "PICO_PLATFORM"
     );

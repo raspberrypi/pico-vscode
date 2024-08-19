@@ -50,7 +50,7 @@ import VersionBundlesLoader, {
   type VersionBundle,
 } from "../utils/versionBundles.mjs";
 import which from "which";
-import { homedir } from "os";
+import { homedir, platform } from "os";
 import { readFile } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync, readdirSync } from "fs";
@@ -627,7 +627,10 @@ export class NewProjectPanel {
 
               const result = await setupExample(
                 example,
-                this._projectRoot.fsPath.replaceAll("\\", "/")
+                // required to support backslashes in macOS/Linux folder names
+                process.platform !== "win32"
+                  ? this._projectRoot.fsPath
+                  : this._projectRoot.fsPath.replaceAll("\\", "/")
               );
 
               if (!result) {
@@ -1054,7 +1057,7 @@ export class NewProjectPanel {
           consoleOptions: [
             theData.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
             theData.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
-          ].filter(option => option !== null) as ConsoleOption[],
+          ].filter(option => option !== null),
           libraries: [
             theData.spiFeature ? Library.spi : null,
             theData.i2cFeature ? Library.i2c : null,
@@ -1074,7 +1077,7 @@ export class NewProjectPanel {
             theData.cpp ? CodeOption.cpp : null,
             theData.cppRtti ? CodeOption.cppRtti : null,
             theData.cppExceptions ? CodeOption.cppExceptions : null,
-          ].filter(option => option !== null) as CodeOption[],
+          ].filter(option => option !== null),
           debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
           toolchainAndSDK: {
             toolchainVersion: selectedToolchain.version,
@@ -1351,6 +1354,7 @@ export class NewProjectPanel {
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
+    const isWindows = process.platform === "win32";
 
     return `<!DOCTYPE html>
     <html lang="en">
@@ -1567,10 +1571,15 @@ export class NewProjectPanel {
                                 </span>
                                 <input type="text" id="inp-project-location" class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="${
                                   !this._isProjectImport
-                                    ? "C:\\MyProject"
-                                    : "C:\\Project\\To\\Import"
+                                    ? isWindows
+                                      ? "C:\\MyProject"
+                                      : "/home/user/MyProject"
+                                    : isWindows
+                                    ? "C:\\Project\\To\\Import"
+                                    : "/home/user/Project/To/Import"
                                 }" disabled value="${
-      this._projectRoot !== undefined
+      // support folder names with backslashes on linux and macOS
+      this._projectRoot !== undefined && process.platform === "win32"
         ? this._projectRoot.fsPath.replaceAll("\\", "/")
         : ""
     }"/>
@@ -1965,7 +1974,7 @@ export class NewProjectPanel {
             : options.boardType,
           options.toolchainAndSDK.sdkPath
         );
-      } catch (error) {
+      } catch {
         await window.showErrorMessage(
           "Unknown board type: " + options.boardType
         );
@@ -2049,7 +2058,9 @@ export class NewProjectPanel {
               0,
               options.projectRoot.lastIndexOf("/")
             )
-          : options.projectRoot
+          : isWindows
+          ? options.projectRoot
+          : options.projectRoot.replaceAll("\\", "\\\\")
       }"`,
       "--sdkVersion",
       options.toolchainAndSDK.sdkVersion,

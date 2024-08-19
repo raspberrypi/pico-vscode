@@ -13,9 +13,7 @@ export const execAsync = promisify(exec);
 /**
  * Get installed version of git, and install it if it isn't already
  */
-export async function getGit(
-  settings: Settings
-): Promise<string | undefined> {
+export async function getGit(settings: Settings): Promise<string | undefined> {
   let gitExecutable: string | undefined =
     settings
       .getString(SettingsKey.gitPath)
@@ -42,7 +40,7 @@ export async function getGit(
     }
   }
 
-  return gitPath;
+  return gitPath || undefined;
 }
 
 /**

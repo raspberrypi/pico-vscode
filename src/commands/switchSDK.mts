@@ -208,7 +208,7 @@ export default class SwitchSDKCommand extends Command {
           placeHolder: "Select ARM/RISCV Embeded Toolchain version",
         }
       );
-    } catch (error) {
+    } catch {
       void window.showErrorMessage(
         "Failed to get supported toolchain versions. " +
           "Make sure you are connected to the internet."

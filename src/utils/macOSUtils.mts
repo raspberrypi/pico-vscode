@@ -52,7 +52,7 @@ export default class MacOSPythonPkgExtractor {
       const payloadPath = join(tempDir, "Python_Framework.pkg", "Payload");
       const tarCmd = `tar -xvf "${payloadPath}" -C "${this.targetDirectory}"`;
       this.runCommand(tarCmd);
-    } catch (error) {
+    } catch {
       exceptionOccurred = true;
     } finally {
       // Clean up: Remove the temporary directory

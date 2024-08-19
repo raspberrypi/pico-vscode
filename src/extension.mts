@@ -15,6 +15,7 @@ import {
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
 import {
+  cmakeGetSelectedBoard,
   cmakeGetSelectedToolchainAndSDKVersions,
   configureCmakeNinja,
 } from "./utils/cmakeUtil.mjs";
@@ -35,7 +36,7 @@ import {
   GetEnvPathCommand,
   GetGDBPathCommand,
   GetChipCommand,
-  GetTargetCommand
+  GetTargetCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -68,6 +69,7 @@ import { homedir } from "os";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
+import SwitchBoardCommand from "./commands/switchBoard.mjs";
 
 const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -88,28 +90,30 @@ export async function activate(context: ExtensionContext): Promise<void> {
   ui.init();
 
   const COMMANDS: Array<
-    Command | CommandWithResult<string> |
-    CommandWithResult<boolean> | CommandWithArgs
-  > =
-    [
-      new NewProjectCommand(context.extensionUri),
-      new SwitchSDKCommand(ui, context.extensionUri),
-      new LaunchTargetPathCommand(),
-      new GetPythonPathCommand(),
-      new GetEnvPathCommand(),
-      new GetGDBPathCommand(),
-      new GetChipCommand(),
-      new GetTargetCommand(),
-      new CompileProjectCommand(),
-      new RunProjectCommand(),
-      new ClearGithubApiCacheCommand(),
-      new ConditionalDebuggingCommand(),
-      new DebugLayoutCommand(),
-      new OpenSdkDocumentationCommand(context.extensionUri),
-      new ConfigureCmakeCommand(),
-      new ImportProjectCommand(context.extensionUri),
-      new NewExampleProjectCommand(context.extensionUri),
-    ];
+    | Command
+    | CommandWithResult<string>
+    | CommandWithResult<boolean>
+    | CommandWithArgs
+  > = [
+    new NewProjectCommand(context.extensionUri),
+    new SwitchSDKCommand(ui, context.extensionUri),
+    new SwitchBoardCommand(ui),
+    new LaunchTargetPathCommand(),
+    new GetPythonPathCommand(),
+    new GetEnvPathCommand(),
+    new GetGDBPathCommand(),
+    new GetChipCommand(),
+    new GetTargetCommand(),
+    new CompileProjectCommand(),
+    new RunProjectCommand(),
+    new ClearGithubApiCacheCommand(),
+    new ConditionalDebuggingCommand(),
+    new DebugLayoutCommand(),
+    new OpenSdkDocumentationCommand(context.extensionUri),
+    new ConfigureCmakeCommand(),
+    new ImportProjectCommand(context.extensionUri),
+    new NewExampleProjectCommand(context.extensionUri),
+  ];
 
   // register all command handlers
   COMMANDS.forEach(command => {
@@ -237,11 +241,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
     );
 
     if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
-      Logger.log(`Failed to download and install openocd.`);
+      Logger.log("Failed to download and install openocd.");
     } else {
-      Logger.log(
-        `Successfully downloaded and installed openocd.`
-      );
+      Logger.log("Successfully downloaded and installed openocd.");
     }
   }
 
@@ -466,6 +468,13 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   ui.showStatusBarItems();
   ui.updateSDKVersion(selectedToolchainAndSDKVersions[0]);
+
+  const selectedBoard = cmakeGetSelectedBoard(workspaceFolder.uri);
+  if (selectedBoard !== null) {
+    ui.updateBoard(selectedBoard);
+  } else {
+    ui.updateBoard("unknown");
+  }
 
   // auto project configuration with cmake
   if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
