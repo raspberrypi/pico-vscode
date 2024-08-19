@@ -1057,7 +1057,7 @@ export class NewProjectPanel {
           consoleOptions: [
             theData.uartStdioSupport ? ConsoleOption.consoleOverUART : null,
             theData.usbStdioSupport ? ConsoleOption.consoleOverUSB : null,
-          ].filter(option => option !== null) as ConsoleOption[],
+          ].filter(option => option !== null),
           libraries: [
             theData.spiFeature ? Library.spi : null,
             theData.i2cFeature ? Library.i2c : null,
@@ -1077,7 +1077,7 @@ export class NewProjectPanel {
             theData.cpp ? CodeOption.cpp : null,
             theData.cppRtti ? CodeOption.cppRtti : null,
             theData.cppExceptions ? CodeOption.cppExceptions : null,
-          ].filter(option => option !== null) as CodeOption[],
+          ].filter(option => option !== null),
           debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
           toolchainAndSDK: {
             toolchainVersion: selectedToolchain.version,
@@ -1969,7 +1969,7 @@ export class NewProjectPanel {
             : options.boardType,
           options.toolchainAndSDK.sdkPath
         );
-      } catch (error) {
+      } catch {
         await window.showErrorMessage(
           "Unknown board type: " + options.boardType
         );

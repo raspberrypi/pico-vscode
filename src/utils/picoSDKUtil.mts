@@ -51,7 +51,7 @@ export function detectInstalledSDKs(): InstalledSDK[] {
 
       installedSDKs.push({ version, sdkPath });
     }
-  } catch (error) {
+  } catch {
     Logger.log("Error while detecting installed SDKs.");
   }
 

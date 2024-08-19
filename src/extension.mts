@@ -36,7 +36,7 @@ import {
   GetEnvPathCommand,
   GetGDBPathCommand,
   GetChipCommand,
-  GetTargetCommand
+  GetTargetCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -90,29 +90,30 @@ export async function activate(context: ExtensionContext): Promise<void> {
   ui.init();
 
   const COMMANDS: Array<
-    Command | CommandWithResult<string> |
-    CommandWithResult<boolean> | CommandWithArgs
-  > =
-    [
-      new NewProjectCommand(context.extensionUri),
-      new SwitchSDKCommand(ui, context.extensionUri),
-      new SwitchBoardCommand(ui),
-      new LaunchTargetPathCommand(),
-      new GetPythonPathCommand(),
-      new GetEnvPathCommand(),
-      new GetGDBPathCommand(),
-      new GetChipCommand(),
-      new GetTargetCommand(),
-      new CompileProjectCommand(),
-      new RunProjectCommand(),
-      new ClearGithubApiCacheCommand(),
-      new ConditionalDebuggingCommand(),
-      new DebugLayoutCommand(),
-      new OpenSdkDocumentationCommand(context.extensionUri),
-      new ConfigureCmakeCommand(),
-      new ImportProjectCommand(context.extensionUri),
-      new NewExampleProjectCommand(context.extensionUri),
-    ];
+    | Command
+    | CommandWithResult<string>
+    | CommandWithResult<boolean>
+    | CommandWithArgs
+  > = [
+    new NewProjectCommand(context.extensionUri),
+    new SwitchSDKCommand(ui, context.extensionUri),
+    new SwitchBoardCommand(ui),
+    new LaunchTargetPathCommand(),
+    new GetPythonPathCommand(),
+    new GetEnvPathCommand(),
+    new GetGDBPathCommand(),
+    new GetChipCommand(),
+    new GetTargetCommand(),
+    new CompileProjectCommand(),
+    new RunProjectCommand(),
+    new ClearGithubApiCacheCommand(),
+    new ConditionalDebuggingCommand(),
+    new DebugLayoutCommand(),
+    new OpenSdkDocumentationCommand(context.extensionUri),
+    new ConfigureCmakeCommand(),
+    new ImportProjectCommand(context.extensionUri),
+    new NewExampleProjectCommand(context.extensionUri),
+  ];
 
   // register all command handlers
   COMMANDS.forEach(command => {
@@ -240,11 +241,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
     );
 
     if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
-      Logger.log(`Failed to download and install openocd.`);
+      Logger.log("Failed to download and install openocd.");
     } else {
-      Logger.log(
-        `Successfully downloaded and installed openocd.`
-      );
+      Logger.log("Successfully downloaded and installed openocd.");
     }
   }
 

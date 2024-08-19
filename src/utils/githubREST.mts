@@ -4,6 +4,7 @@ import GithubApiCache, {
   GithubApiCacheEntryDataType,
 } from "./githubApiCache.mjs";
 import { type RequestOptions, request } from "https";
+import { unknownToError } from "./catchHelper.mjs";
 
 const HTTP_STATUS_OK = 200;
 const HTTP_STATUS_NOT_MODIFIED = 304;
@@ -123,8 +124,9 @@ async function makeAsyncGetRequest<T>(
           };
           resolve(response);
         } catch (error) {
+          // TODO: replace with proper logging
           console.error("Error parsing JSON:", error);
-          reject(error);
+          reject(unknownToError(error));
         }
       });
     });
@@ -193,13 +195,15 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
     } else {
       throw new Error("response.data is null");
     }
-  } catch (error) {
+  } catch {
     Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
 
-    return (await GithubApiCache.getInstance().getDefaultResponse(
-      repository,
-      GithubApiCacheEntryDataType.releases
-    ))?.data as string[];
+    return (
+      await GithubApiCache.getInstance().getDefaultResponse(
+        repository,
+        GithubApiCacheEntryDataType.releases
+      )
+    )?.data as string[];
   }
 }
 
@@ -278,13 +282,15 @@ export async function getGithubReleaseByTag(
     } else {
       throw new Error("response.data is null");
     }
-  } catch (error) {
+  } catch {
     Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
 
-    return (await GithubApiCache.getInstance().getDefaultResponse(
-      repository,
-      GithubApiCacheEntryDataType.tag,
-      tag
-    ))?.data as GithubReleaseResponse;
+    return (
+      await GithubApiCache.getInstance().getDefaultResponse(
+        repository,
+        GithubApiCacheEntryDataType.tag,
+        tag
+      )
+    )?.data as GithubReleaseResponse;
   }
 }

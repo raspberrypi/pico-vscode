@@ -4,7 +4,8 @@ import { commands, window, workspace, type Uri } from "vscode";
 import { existsSync, readdirSync } from "fs";
 import { buildSDKPath } from "../utils/download.mjs";
 import {
-  cmakeGetSelectedToolchainAndSDKVersions, cmakeUpdateBoard
+  cmakeGetSelectedToolchainAndSDKVersions,
+  cmakeUpdateBoard,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
 import { compareLtMajor } from "../utils/semverUtil.mjs";
@@ -17,13 +18,8 @@ export default class SwitchBoardCommand extends Command {
     super(SwitchBoardCommand.id);
   }
 
-  public static async askBoard(
-    folder: Uri
-  ): Promise<string | undefined> {
-    const quickPickItems: string[] = [
-      "pico",
-      "pico_w"
-    ];
+  public static async askBoard(folder: Uri): Promise<string | undefined> {
+    const quickPickItems: string[] = ["pico", "pico_w"];
 
     const versions = cmakeGetSelectedToolchainAndSDKVersions(
       join(folder.fsPath, "CMakeLists.txt")
@@ -45,11 +41,11 @@ export default class SwitchBoardCommand extends Command {
 
     const sdkPath = buildSDKPath(sdkVersion);
 
-    readdirSync(join(
-      sdkPath, "src", "boards", "include", "boards"
-    )).forEach(file => {
-      quickPickItems.push(file.split(".")[0]);
-    });
+    readdirSync(join(sdkPath, "src", "boards", "include", "boards")).forEach(
+      file => {
+        quickPickItems.push(file.split(".")[0]);
+      }
+    );
 
     // show quick pick for board type
     const board = await window.showQuickPick(quickPickItems, {
@@ -67,7 +63,6 @@ export default class SwitchBoardCommand extends Command {
       workspaceFolder === undefined ||
       !existsSync(join(workspaceFolder.uri.fsPath, "CMakeLists.txt"))
     ) {
-  
       return;
     }
 

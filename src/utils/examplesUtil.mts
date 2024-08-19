@@ -3,14 +3,19 @@ import Logger from "../logger.mjs";
 import { existsSync, readFileSync, rmSync } from "fs";
 import { homedir } from "os";
 import {
-  getGit, sparseCheckout, sparseCloneRepository, execAsync
+  getGit,
+  sparseCheckout,
+  sparseCloneRepository,
+  execAsync,
 } from "./gitUtil.mjs";
 import Settings from "../settings.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
 import { get } from "https";
 import {
-  isInternetConnected, CURRENT_DATA_VERSION, getDataRoot
+  isInternetConnected,
+  CURRENT_DATA_VERSION,
+  getDataRoot,
 } from "./downloadHelpers.mjs";
 
 const EXAMPLES_REPOSITORY_URL =
@@ -18,10 +23,8 @@ const EXAMPLES_REPOSITORY_URL =
 const EXAMPLES_JSON_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/examples.json`;
-const EXAMPLES_GITREF = 
-  "7fe60d6b4027771e45d97f207532c41b1d8c5418";
-const EXAMPLES_TAG = 
-  "sdk-2.0.0";
+const EXAMPLES_GITREF = "7fe60d6b4027771e45d97f207532c41b1d8c5418";
+const EXAMPLES_TAG = "sdk-2.0.0";
 
 export interface Example {
   path: string;
@@ -60,8 +63,7 @@ export async function loadExamples(): Promise<Example[]> {
   try {
     if (!(await isInternetConnected())) {
       throw new Error(
-        "Error while downloading examples list. " +
-          "No internet connection"
+        "Error while downloading examples list. " + "No internet connection"
       );
     }
     const result = await new Promise<Example[]>((resolve, reject) => {
@@ -108,7 +110,7 @@ export async function loadExamples(): Promise<Example[]> {
       );
 
       return parseExamplesJson(examplesFile.toString("utf-8"));
-    } catch (e) {
+    } catch {
       Logger.log("Failed to load examples.json");
 
       return [];
@@ -131,9 +133,7 @@ export async function setupExample(
   }
 
   // TODO: this does take about 2s - may be reduced
-  const requirementsCheck = await checkForInstallationRequirements(
-    settings
-  );
+  const requirementsCheck = await checkForInstallationRequirements(settings);
   if (!requirementsCheck) {
     return false;
   }
@@ -167,11 +167,7 @@ export async function setupExample(
   }
 
   Logger.log(`Spare-checkout selected example: ${example.name}`);
-  const result = await sparseCheckout(
-    examplesRepoPath,
-    example.path,
-    gitPath
-  );
+  const result = await sparseCheckout(examplesRepoPath, example.path, gitPath);
   if (!result) {
     return result;
   }

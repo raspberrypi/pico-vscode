@@ -1,5 +1,5 @@
 import { tasks, window } from "vscode";
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
 
@@ -15,7 +15,7 @@ export default class RunProjectCommand extends CommandWithResult<boolean> {
   async execute(): Promise<boolean> {
     // Get the task with the specified name
     const task = (await tasks.fetchTasks()).find(
-      (task) => task.name === "Run Project"
+      task => task.name === "Run Project"
     );
 
     if (task) {
@@ -41,7 +41,7 @@ export default class RunProjectCommand extends CommandWithResult<boolean> {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const code = await new Promise<number>((resolve, reject) => {
         emitter.on("terminated", code => {
-          if (typeof(code) === 'number') {
+          if (typeof code === "number") {
             resolve(code);
           } else {
             resolve(-1);
@@ -64,6 +64,5 @@ export default class RunProjectCommand extends CommandWithResult<boolean> {
 
       return false;
     }
-
   }
 }

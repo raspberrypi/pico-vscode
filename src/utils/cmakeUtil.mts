@@ -21,13 +21,13 @@ export async function getPythonPath(): Promise<string> {
   }
 
   const pythonPath = (
-    await which(
+    (await which(
       settings
         .getString(SettingsKey.python3Path)
         ?.replace(HOME_VAR, homedir()) ||
         (process.platform === "win32" ? "python" : "python3"),
       { nothrow: true }
-    )
+    )) || ""
   ).replaceAll("\\", "/");
 
   return `${pythonPath.replaceAll("\\", "/")}`;
@@ -42,18 +42,18 @@ export async function getPath(): Promise<string> {
   }
 
   const ninjaPath = (
-    await which(
+    (await which(
       settings.getString(SettingsKey.ninjaPath)?.replace(HOME_VAR, homedir()) ||
         "ninja",
       { nothrow: true }
-    )
+    )) || ""
   ).replaceAll("\\", "/");
   const cmakePath = (
-    await which(
+    (await which(
       settings.getString(SettingsKey.cmakePath)?.replace(HOME_VAR, homedir()) ||
         "cmake",
       { nothrow: true }
-    )
+    )) || ""
   ).replaceAll("\\", "/");
   Logger.log(
     settings.getString(SettingsKey.python3Path)?.replace(HOME_VAR, homedir())
@@ -61,15 +61,15 @@ export async function getPath(): Promise<string> {
   // TODO: maybe also check for "python" on unix systems
   const pythonPath = await getPythonPath();
 
-  if (ninjaPath === null || cmakePath === null) {
+  if (ninjaPath.length === 0 || cmakePath.length === 0) {
     const missingTools = [];
-    if (ninjaPath === null) {
+    if (ninjaPath.length === 0) {
       missingTools.push("Ninja");
     }
-    if (cmakePath === null) {
+    if (cmakePath.length === 0) {
       missingTools.push("CMake");
     }
-    if (pythonPath === null) {
+    if (pythonPath.length === 0) {
       missingTools.push("Python 3");
     }
     void showRequirementsNotMetErrorMessage(missingTools);
@@ -230,7 +230,7 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
     );
 
     return true;
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -283,7 +283,7 @@ export async function cmakeUpdateBoard(
     Logger.log("Reconfigured CMake successfully.");
 
     return true;
-  } catch (error) {
+  } catch {
     Logger.log("Error updating board in CMakeLists.txt!");
 
     return false;
@@ -380,7 +380,7 @@ export async function cmakeUpdateSDK(
     Logger.log("Reconfigured CMake successfully.");
 
     return true;
-  } catch (error) {
+  } catch {
     Logger.log("Error updating paths in CMakeLists.txt!");
 
     return false;

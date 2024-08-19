@@ -65,7 +65,7 @@ async function updateCppPropertiesFile(
     await writeFile(file, updatedJsonData, "utf8");
 
     console.log("cpp_properties.json file updated successfully.");
-  } catch (error) {
+  } catch {
     Logger.log("Error updating cpp_properties.json file.");
   }
 }

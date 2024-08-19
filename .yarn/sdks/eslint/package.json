@@ -1,6 +1,6 @@
 {
   "name": "eslint",
-  "version": "9.3.0-sdk",
+  "version": "9.9.0-sdk",
   "main": "./lib/api.js",
   "type": "commonjs",
   "bin": {

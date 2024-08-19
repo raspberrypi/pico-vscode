@@ -1,5 +1,9 @@
 import {
-  createWriteStream, existsSync, readdirSync, symlinkSync, unlinkSync
+  createWriteStream,
+  existsSync,
+  readdirSync,
+  symlinkSync,
+  unlinkSync,
 } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
@@ -153,13 +157,12 @@ export async function downloadAndInstallZip(
   targetDirectory: string,
   archiveFileName: string,
   logName: string,
-  extraCallback?: () => void,
+  extraCallback?: () => void
 ): Promise<boolean> {
-
   // Check if the SDK is already installed
   if (
-    existsSync(targetDirectory)
-    && readdirSync(targetDirectory).length !== 0
+    existsSync(targetDirectory) &&
+    readdirSync(targetDirectory).length !== 0
   ) {
     Logger.log(`${logName} is already installed.`);
 
@@ -213,7 +216,10 @@ export async function downloadAndInstallZip(
         return resolve(
           downloadAndInstallZip(
             response.headers.location,
-            targetDirectory, archiveFileName, logName, extraCallback
+            targetDirectory,
+            archiveFileName,
+            logName,
+            extraCallback
           )
         );
       }
@@ -284,9 +290,7 @@ export async function downloadAndInstallSDK(
   }
 
   // TODO: this does take about 2s - may be reduced
-  const requirementsCheck = await checkForInstallationRequirements(
-    settings
-  );
+  const requirementsCheck = await checkForInstallationRequirements(settings);
   if (!requirementsCheck) {
     return false;
   }
@@ -295,8 +299,8 @@ export async function downloadAndInstallSDK(
 
   // Check if the SDK is already installed
   if (
-    existsSync(targetDirectory)
-    && readdirSync(targetDirectory).length !== 0
+    existsSync(targetDirectory) &&
+    readdirSync(targetDirectory).length !== 0
   ) {
     Logger.log(`SDK ${version} is already installed.`);
 
@@ -309,12 +313,7 @@ export async function downloadAndInstallSDK(
   // using deferred execution to avoid git clone if git is not available
   if (
     gitPath !== undefined &&
-    (await cloneRepository(
-      repositoryUrl,
-      version,
-      targetDirectory,
-      gitPath
-    ))
+    (await cloneRepository(repositoryUrl, version, targetDirectory, gitPath))
   ) {
     settings.reload();
     // check python requirements
@@ -352,13 +351,13 @@ async function downloadAndInstallGithubAsset(
   logName: string,
   extraCallback?: () => void,
 
-  redirectURL?: string,
+  redirectURL?: string
 ): Promise<boolean> {
   // Check if the asset is already installed
   if (
-    redirectURL === undefined
-    && existsSync(targetDirectory)
-    && readdirSync(targetDirectory).length !== 0
+    redirectURL === undefined &&
+    existsSync(targetDirectory) &&
+    readdirSync(targetDirectory).length !== 0
   ) {
     Logger.log(`${logName} ${version} is already installed.`);
 
@@ -376,10 +375,7 @@ async function downloadAndInstallGithubAsset(
 
   try {
     if (redirectURL === undefined) {
-      const release = await getGithubReleaseByTag(
-        repo,
-        releaseVersion
-      );
+      const release = await getGithubReleaseByTag(repo, releaseVersion);
       if (release === undefined) {
         return false;
       }
@@ -429,11 +425,12 @@ async function downloadAndInstallGithubAsset(
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "X-GitHub-Api-Version": "2022-11-28",
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      "Accept": "application/octet-stream",
+      Accept: "application/octet-stream",
     };
     const owner = ownerOfRepository(repo);
     const repository = repoNameOfRepository(repo);
-    url = `${GITHUB_API_BASE_URL}/repos/${owner}/${repository}/` +
+    url =
+      `${GITHUB_API_BASE_URL}/repos/${owner}/${repository}/` +
       `releases/assets/${assetID}`;
     const urlObj = new URL(url);
     options = {
@@ -531,7 +528,7 @@ async function downloadAndInstallGithubAsset(
 export async function downloadAndInstallTools(
   version: string
 ): Promise<boolean> {
-  if (parseInt(version.split('.')[0]) < 2) {
+  if (parseInt(version.split(".")[0]) < 2) {
     if (process.platform !== "win32") {
       Logger.log(`Skipping tools install not on Windows for pre-2.0.0 SDK.`);
 
@@ -547,14 +544,15 @@ export async function downloadAndInstallTools(
         ? "-aarch64"
         : "-x86_64"
       : ""
-  }-${
-    TOOLS_PLATFORMS[process.platform]
-  }.${assetExt}`;
+  }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
 
   return downloadAndInstallGithubAsset(
-    version, TOOLS_RELEASES[version], 
+    version,
+    TOOLS_RELEASES[version],
     GithubRepository.tools,
-    targetDirectory, archiveFileName, assetName,
+    targetDirectory,
+    archiveFileName,
+    assetName,
     "SDK Tools"
   );
 }
@@ -571,14 +569,15 @@ export async function downloadAndInstallPicotool(
         ? "-aarch64"
         : "-x86_64"
       : ""
-  }-${
-    TOOLS_PLATFORMS[process.platform]
-  }.${assetExt}`;
+  }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
 
   return downloadAndInstallGithubAsset(
-    version, PICOTOOL_RELEASES[version], 
+    version,
+    PICOTOOL_RELEASES[version],
     GithubRepository.tools,
-    targetDirectory, archiveFileName, assetName,
+    targetDirectory,
+    archiveFileName,
+    assetName,
     "Picotool"
   );
 }
@@ -591,9 +590,9 @@ export async function downloadAndInstallToolchain(
 
   // Check if the SDK is already installed
   if (
-    redirectURL === undefined
-    && existsSync(targetDirectory)
-    && readdirSync(targetDirectory).length !== 0
+    redirectURL === undefined &&
+    existsSync(targetDirectory) &&
+    readdirSync(targetDirectory).length !== 0
   ) {
     Logger.log(`Toolchain ${toolchain.version} is already installed.`);
 
@@ -717,9 +716,12 @@ export async function downloadAndInstallNinja(
   }.zip`;
 
   return downloadAndInstallGithubAsset(
-    version, version, 
+    version,
+    version,
     GithubRepository.ninja,
-    targetDirectory, archiveFileName, assetName,
+    targetDirectory,
+    archiveFileName,
+    assetName,
     "ninja"
   );
 }
@@ -769,10 +771,9 @@ export async function downloadAndInstallOpenOCD(
         ? "-aarch64"
         : "-x86_64"
       : process.platform === "darwin"
-        ? "-arm64" : ""
-  }-${
-    TOOLS_PLATFORMS[process.platform]
-  }.${assetExt}`;
+      ? "-arm64"
+      : ""
+  }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
 
   const extraCallback = (): void => {
     if (process.platform !== "win32") {
@@ -787,10 +788,14 @@ export async function downloadAndInstallOpenOCD(
   };
 
   return downloadAndInstallGithubAsset(
-    version, OPENOCD_RELEASES[version], 
+    version,
+    OPENOCD_RELEASES[version],
     GithubRepository.tools,
-    targetDirectory, archiveFileName, assetName,
-    "OpenOCD", extraCallback
+    targetDirectory,
+    archiveFileName,
+    assetName,
+    "OpenOCD",
+    extraCallback
   );
 }
 
@@ -839,10 +844,14 @@ export async function downloadAndInstallCmake(
   };
 
   return downloadAndInstallGithubAsset(
-    version, version, 
+    version,
+    version,
     GithubRepository.cmake,
-    targetDirectory, archiveFileName, assetName,
-    "CMake", extraCallback
+    targetDirectory,
+    archiveFileName,
+    assetName,
+    "CMake",
+    extraCallback
   );
 }
 
@@ -875,9 +884,9 @@ export async function downloadEmbedPython(
 
   // Check if the Embed Python is already installed
   if (
-    redirectURL === undefined
-    && existsSync(targetDirectory)
-    && readdirSync(targetDirectory).length !== 0
+    redirectURL === undefined &&
+    existsSync(targetDirectory) &&
+    readdirSync(targetDirectory).length !== 0
   ) {
     Logger.log(`Embed Python is already installed correctly.`);
 

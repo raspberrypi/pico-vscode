@@ -6,7 +6,7 @@ enum StatusBarItemKey {
   compile = "raspberry-pi-pico.compileProject",
   run = "raspberry-pi-pico.runProject",
   picoSDKQuickPick = "raspberry-pi-pico.sdk-quick-pick",
-  picoBoardQuickPick = "raspberry-pi-pico.board-quick-pick"
+  picoBoardQuickPick = "raspberry-pi-pico.board-quick-pick",
 }
 
 const STATUS_BAR_ITEMS: {
