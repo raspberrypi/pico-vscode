@@ -8,6 +8,20 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.15.2] - 2024-08-23
+
+### Added
+- Switch board command, for simple switching between boards
+
+### Fixed
+- Fix download issues by switching to new library (#47)
+- Fix switching SDK versions with unsupported PICO_BOARD (#36)
+- Fix moved force include (#30)
+
+### Changed
+- Use a common pico-vscode.cmake include file, and change the DO NEVER EDIT section (#41)
+- Replace project location placeholders with platform dependent hints (#44)
+
 ## [0.15.1] - 2024-08-09
 
 ### Fixed
