@@ -1,0 +1,35 @@
+{
+  "1.5.0": {
+    "python": {
+      "version": "3.9.13",
+      "macos": "https://www.python.org/ftp/python/3.9.13/python-3.9.13-macos11.pkg",
+      "windowsAmd64": "https://www.python.org/ftp/python/3.9.13/python-3.9.13-embed-amd64.zip"
+    },
+    "ninja": "v1.12.1",
+    "cmake": "v3.28.6",
+    "toolchain": "12_3_Rel1",
+    "riscvToolchain": "NONE"
+  },
+  "1.5.1": {
+    "python": {
+      "version": "3.12.1",
+      "macos": "https://www.python.org/ftp/python/3.12.1/python-3.12.1-macos11.pkg",
+      "windowsAmd64": "https://www.python.org/ftp/python/3.12.1/python-3.12.1-embed-amd64.zip"
+    },
+    "ninja": "v1.12.1",
+    "cmake": "v3.28.6",
+    "toolchain": "13_2_Rel1",
+    "riscvToolchain": "NONE"
+  },
+  "2.0.0": {
+    "python": {
+      "version": "3.12.1",
+      "macos": "https://www.python.org/ftp/python/3.12.1/python-3.12.1-macos11.pkg",
+      "windowsAmd64": "https://www.python.org/ftp/python/3.12.1/python-3.12.1-embed-amd64.zip"
+    },
+    "ninja": "v1.12.1",
+    "cmake": "v3.28.6",
+    "toolchain": "13_2_Rel1",
+    "riscvToolchain": "RISCV_COREV_MAY_24"
+  }
+}

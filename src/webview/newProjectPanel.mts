@@ -267,10 +267,13 @@ interface ImportProjectOptions {
 
 interface NewExampleBasedProjectOptions extends ImportProjectOptions {
   name: string;
+  libNames: [string];
   boardType: BoardType;
 }
 
-interface NewProjectOptions extends NewExampleBasedProjectOptions {
+interface NewProjectOptions extends ImportProjectOptions {
+  name: string;
+  boardType: BoardType;
   consoleOptions: ConsoleOption[];
   libraries: Array<Library | PicoWirelessOption>;
   codeOptions: CodeOption[];
@@ -573,7 +576,7 @@ export class NewProjectPanel {
                   title: `Importing project ${projectFolderName} from ${this._projectRoot?.fsPath}, this may take a while...`,
                 },
                 async progress =>
-                  this._generateProjectOperation(progress, data, message, false)
+                  this._generateProjectOperation(progress, data, message)
               );
             }
             break;
@@ -649,7 +652,7 @@ export class NewProjectPanel {
                   }, this may take a while...`,
                 },
                 async progress =>
-                  this._generateProjectOperation(progress, data, message, true)
+                  this._generateProjectOperation(progress, data, message, example)
               );
             }
             break;
@@ -723,7 +726,7 @@ export class NewProjectPanel {
       | SubmitExampleMessageValue
       | ImportProjectMessageValue,
     message: WebviewMessage,
-    exampleBased: boolean = false
+    example?: Example
   ): Promise<void> {
     const projectPath = this._projectRoot?.fsPath ?? "";
 
@@ -1048,7 +1051,7 @@ export class NewProjectPanel {
           return;
       }
 
-      if (!exampleBased && !this._isProjectImport) {
+      if (example === undefined && !this._isProjectImport) {
         const theData = data as SubmitMessageValue;
         const args: NewProjectOptions = {
           name: theData.projectName,
@@ -1095,10 +1098,11 @@ export class NewProjectPanel {
           args,
           python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
         );
-      } else if (exampleBased && !this._isProjectImport) {
+      } else if (example !== undefined && !this._isProjectImport) {
         const theData = data as SubmitExampleMessageValue;
         const args: NewExampleBasedProjectOptions = {
           name: theData.example,
+          libNames: example.libNames,
           projectRoot: projectPath,
           boardType: theData.boardType as BoardType,
           debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
@@ -1119,7 +1123,7 @@ export class NewProjectPanel {
           python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/")),
           true
         );
-      } else if (this._isProjectImport && !exampleBased) {
+      } else if (this._isProjectImport && example === undefined) {
         const args: ImportProjectOptions = {
           projectRoot: projectPath,
           toolchainAndSDK: {
@@ -2014,11 +2018,14 @@ export class NewProjectPanel {
       } catch {
         /* ignore */
       }
-    } else if ("boardType" in options && isExampleBased && "name" in options) {
+    } else if ("boardType" in options && isExampleBased && "name" in options && "libNames" in options) {
       if (options.boardType === BoardType.default) {
         if (options.name.includes("picow") || options.name.includes("pico_w")) {
           basicNewProjectOptions.push(`-board pico_w`);
         }
+      }
+      for (const libName of options.libNames) {
+        basicNewProjectOptions.push(`-examLibs ${libName}`);
       }
     }
 

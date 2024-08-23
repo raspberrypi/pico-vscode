@@ -29,6 +29,10 @@ const EXAMPLES_TAG = "sdk-2.0.0";
 export interface Example {
   path: string;
   name: string;
+  libPaths: [string];
+  libNames: [string];
+  boards: [string];
+  supportRiscV: boolean;
   searchKey: string;
 }
 
@@ -36,6 +40,10 @@ interface ExamplesFile {
   [key: string]: {
     path: string;
     name: string;
+    libPaths: [string];
+    libNames: [string];
+    boards: [string];
+    supportRiscV: boolean;
   };
 }
 
@@ -50,6 +58,10 @@ function parseExamplesJson(data: string): Example[] {
     return Object.keys(examples).map(key => ({
       path: examples[key].path,
       name: examples[key].name,
+      libPaths: examples[key].libPaths,
+      libNames: examples[key].libNames,
+      boards: examples[key].boards,
+      supportRiscV: examples[key].supportRiscV,
       searchKey: key,
     }));
   } catch {
@@ -166,10 +178,18 @@ export async function setupExample(
     }
   }
 
-  Logger.log(`Spare-checkout selected example: ${example.name}`);
+  Logger.log(`Sparse-checkout selected example: ${example.name}`);
   const result = await sparseCheckout(examplesRepoPath, example.path, gitPath);
   if (!result) {
     return result;
+  }
+
+  for (const libPath of example.libPaths) {
+    Logger.log(`Sparse-checkout selected example required path: ${libPath}`);
+    const result = await sparseCheckout(examplesRepoPath, libPath, gitPath);
+    if (!result) {
+      return result;
+    }
   }
 
   Logger.log(`Copying example from ${absoluteExamplePath} to ${targetPath}`);
@@ -177,6 +197,22 @@ export async function setupExample(
   await cp(absoluteExamplePath, joinPosix(targetPath, example.searchKey), {
     recursive: true,
   });
+
+  for (let i=0; i < example.libPaths.length; i++) {
+    const libPath = example.libPaths[i];
+    const libName = example.libNames[i];
+    const absoluteLibPath = joinPosix(examplesRepoPath, libPath);
+    Logger.log(
+      `Copying example required path from ${absoluteLibPath} ` +
+      `to ${targetPath}/${example.searchKey}/${libName}`
+    );
+    // TODO: use example.name or example.search key for project folder name?
+    await cp(
+      absoluteLibPath,
+      joinPosix(targetPath, example.searchKey, libName
+    ), {recursive: true});
+  }
+
   Logger.log("Done copying example.");
 
   return result;

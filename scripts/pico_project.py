@@ -466,6 +466,7 @@ def ParseCommandLine():
     parser.add_argument("-cmp", "--cmakePath", help="CMake path")
     parser.add_argument("-cupy", "--customPython", action='store_true', help="Custom python path used to execute the script.")
     parser.add_argument("-openOCDVersion", "--openOCDVersion", help="OpenOCD version to use - defaults to 0", default=0)
+    parser.add_argument("-examLibs", "--exampleLibs", action='append', help="Include an examples library in the folder")
 
     return parser.parse_args()
 
@@ -556,11 +557,6 @@ def GenerateCMake(folder, params):
     projectName = params['projectName']
     board_type = params['boardtype']
 
-    # OK, for the path, CMake will accept forward slashes on Windows, and thats
-    # seemingly a bit easier to handle than the backslashes
-    # macOS and Linux do accept backslashes in folder names, therefore it needs an extra case
-    p = str(params['sdkPath']).replace('\\','/') if not isWindows else str(params['sdkPath'])
-
     cmake_header1 = (f"# Generated Cmake Pico project file\n\n"
                  "cmake_minimum_required(VERSION 3.13)\n\n"
                  "set(CMAKE_C_STANDARD 11)\n"
@@ -630,12 +626,17 @@ def GenerateCMake(folder, params):
                 file.write(cmake_header_us)
                 file.write(cmake_header2)
                 file.write(cmake_header3)
+                for lib in params["exampleLibs"]:
+                    file.write(f"add_subdirectory({lib})\n")
                 file.flush()
                 # Remove example_auto_set_url
                 for i, line in enumerate(lines):
                     if "example_auto_set_url" in line:
                         lines[i] = ""
                         print("Removed", line, lines[i])
+                    if "target_link_libraries" in line:
+                        for lib in params["exampleLibs"]:
+                            lines[i] += f"  {lib}\n"
                 file.writelines(lines)
         return
 
@@ -1223,116 +1224,118 @@ def DoEverything(parent, params):
 ###################################################################################
 # main execution starteth here
 
-sourcefolder = os.path.dirname(os.path.abspath(__file__))
+if __name__ == "__main__":
+    sourcefolder = os.path.dirname(os.path.abspath(__file__))
 
-args = ParseCommandLine()
+    args = ParseCommandLine()
 
-if args.nouart:
-    args.uart = False
+    if args.nouart:
+        args.uart = False
 
-if args.debugger > len(debugger_list) - 1:
-    args.debugger = 0
+    if args.debugger > len(debugger_list) - 1:
+        args.debugger = 0
 
-if "RISCV" in args.toolchainVersion:
-    if "COREV" in args.toolchainVersion:
-        COMPILER_TRIPLE = COREV_TRIPLE
+    if "RISCV" in args.toolchainVersion:
+        if "COREV" in args.toolchainVersion:
+            COMPILER_TRIPLE = COREV_TRIPLE
+        else:
+            COMPILER_TRIPLE = RISCV_TRIPLE
+
+    # Check we have everything we need to compile etc
+    c = CheckPrerequisites()
+
+    ## TODO Do both warnings in the same error message so user does have to keep coming back to find still more to do
+
+    if c == None:
+        m = f'Unable to find the `{COMPILER_NAME()}` compiler\n'
+        m +='You will need to install an appropriate compiler to build a Raspberry Pi Pico project\n'
+        m += 'See the Raspberry Pi Pico documentation for how to do this on your particular platform\n'
+
+        print(m)
+        sys.exit(-1)
+
+    if args.name == None and not args.gui and not args.list and not args.configs and not args.boardlist:
+        print("No project name specfied\n")
+        sys.exit(-1)
+
+    # Check if we were provided a compiler path, and override the default if so
+    if args.cpath:
+        compilerPath = Path(args.cpath)
+    elif args.toolchainVersion:
+        compilerPath = Path(codeToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME())
     else:
-        COMPILER_TRIPLE = RISCV_TRIPLE
+        compilerPath = Path(c)
 
-# Check we have everything we need to compile etc
-c = CheckPrerequisites()
+    # load/parse any configuration dictionary we may have
+    LoadConfigurations()
 
-## TODO Do both warnings in the same error message so user does have to keep coming back to find still more to do
+    p = CheckSDKPath(args.gui)
 
-if c == None:
-    m = f'Unable to find the `{COMPILER_NAME()}` compiler\n'
-    m +='You will need to install an appropriate compiler to build a Raspberry Pi Pico project\n'
-    m += 'See the Raspberry Pi Pico documentation for how to do this on your particular platform\n'
+    if p == None:
+        sys.exit(-1)
 
-    print(m)
-    sys.exit(-1)
+    sdkPath = Path(p)
 
-if args.name == None and not args.gui and not args.list and not args.configs and not args.boardlist:
-    print("No project name specfied\n")
-    sys.exit(-1)
+    boardtype_list = LoadBoardTypes(sdkPath)
+    boardtype_list.sort()
 
-# Check if we were provided a compiler path, and override the default if so
-if args.cpath:
-    compilerPath = Path(args.cpath)
-elif args.toolchainVersion:
-    compilerPath = Path(codeToolchainPath(args.toolchainVersion)+"/bin/"+COMPILER_NAME())
-else:
-    compilerPath = Path(c)
+    projectRoot = Path(os.getcwd()) if not args.projectRoot else Path(args.projectRoot)
 
-# load/parse any configuration dictionary we may have
-LoadConfigurations()
+    if args.list or args.configs or args.boardlist:
+        if args.list:
+            print("Available project features:\n")
+            for feat in features_list:
+                print(feat.ljust(6), '\t', features_list[feat][GUI_TEXT])
+            print('\n')
 
-p = CheckSDKPath(args.gui)
+        if args.configs:
+            print("Available project configuration items:\n")
+            for conf in configuration_dictionary:
+                print(conf['name'].ljust(40), '\t', conf['description'])
+            print('\n')
 
-if p == None:
-    sys.exit(-1)
+        if args.boardlist:
+            print("Available board types:\n")
+            for board in boardtype_list:
+                print(board)
+            print('\n')
 
-sdkPath = Path(p)
+        sys.exit(0)
+    else :
+        params={
+            'sdkPath'       : sdkPath,
+            'projectRoot'   : projectRoot,
+            'projectName'   : args.name,
+            'wantGUI'       : False,
+            'wantOverwrite' : args.overwrite,
+            'wantConvert'   : args.convert or args.example,
+            'wantExample'   : args.example,
+            'wantThreadsafeBackground'  : False,
+            'wantPoll'                  : False,
+            'boardtype'     : args.boardtype,
+            'wantBuild'     : args.build,
+            'features'      : args.feature,
+            'projects'      : args.project,
+            'configs'       : (),
+            'wantRunFromRAM': args.runFromRAM,
+            'wantExamples'  : args.examples,
+            'wantUART'      : args.uart,
+            'wantUSB'       : args.usb,
+            'wantCPP'       : args.cpp,
+            'debugger'      : args.debugger,
+            'exceptions'    : args.cppexceptions,
+            'rtti'          : args.cpprtti,
+            'ssid'          : '',
+            'password'      : '',
+            'sdkVersion'    : args.sdkVersion,
+            'toolchainVersion': args.toolchainVersion,
+            'picotoolVersion': args.picotoolVersion,
+            'ninjaPath'     : args.ninjaPath,
+            'cmakePath'     : args.cmakePath,
+            'customPython'  : args.customPython,
+            'openOCDVersion': args.openOCDVersion,
+            'exampleLibs'   : args.exampleLibs if args.exampleLibs is not None else []
+            }
 
-boardtype_list = LoadBoardTypes(sdkPath)
-boardtype_list.sort()
-
-projectRoot = Path(os.getcwd()) if not args.projectRoot else Path(args.projectRoot)
-
-if args.list or args.configs or args.boardlist:
-    if args.list:
-        print("Available project features:\n")
-        for feat in features_list:
-            print(feat.ljust(6), '\t', features_list[feat][GUI_TEXT])
-        print('\n')
-
-    if args.configs:
-        print("Available project configuration items:\n")
-        for conf in configuration_dictionary:
-            print(conf['name'].ljust(40), '\t', conf['description'])
-        print('\n')
-
-    if args.boardlist:
-        print("Available board types:\n")
-        for board in boardtype_list:
-            print(board)
-        print('\n')
-
-    sys.exit(0)
-else :
-    params={
-        'sdkPath'       : sdkPath,
-        'projectRoot'   : projectRoot,
-        'projectName'   : args.name,
-        'wantGUI'       : False,
-        'wantOverwrite' : args.overwrite,
-        'wantConvert'   : args.convert or args.example,
-        'wantExample'   : args.example,
-        'wantThreadsafeBackground'  : False,
-        'wantPoll'                  : False,
-        'boardtype'     : args.boardtype,
-        'wantBuild'     : args.build,
-        'features'      : args.feature,
-        'projects'      : args.project,
-        'configs'       : (),
-        'wantRunFromRAM': args.runFromRAM,
-        'wantExamples'  : args.examples,
-        'wantUART'      : args.uart,
-        'wantUSB'       : args.usb,
-        'wantCPP'       : args.cpp,
-        'debugger'      : args.debugger,
-        'exceptions'    : args.cppexceptions,
-        'rtti'          : args.cpprtti,
-        'ssid'          : '',
-        'password'      : '',
-        'sdkVersion'    : args.sdkVersion,
-        'toolchainVersion': args.toolchainVersion,
-        'picotoolVersion': args.picotoolVersion,
-        'ninjaPath'     : args.ninjaPath,
-        'cmakePath'     : args.cmakePath,
-        'customPython'  : args.customPython,
-        'openOCDVersion': args.openOCDVersion
-        }
-
-    DoEverything(None, params)
-    sys.exit(0)
+        DoEverything(None, params)
+        sys.exit(0)
