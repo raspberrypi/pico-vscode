@@ -3,7 +3,7 @@ import {
   existsSync,
   readdirSync,
   symlinkSync,
-  unlinkSync,
+  rmSync
 } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
@@ -231,7 +231,7 @@ export async function downloadAndInstallZip(
           unxzFile(archiveFilePath, targetDirectory)
             .then(success => {
               // delete tmp file
-              unlinkSync(archiveFilePath);
+              rmSync(archiveFilePath, { recursive: true, force: true });
 
               if (extraCallback !== undefined) {
                 extraCallback();
@@ -240,26 +240,26 @@ export async function downloadAndInstallZip(
               resolve(success);
             })
             .catch(() => {
-              unlinkSync(archiveFilePath);
-              unlinkSync(targetDirectory);
+              rmSync(archiveFilePath, { recursive: true, force: true });
+              rmSync(targetDirectory, { recursive: true, force: true });
               resolve(false);
             });
         } else if (artifactExt === "zip") {
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
-          unlinkSync(archiveFilePath);
+          rmSync(archiveFilePath, { recursive: true, force: true });
 
           if (extraCallback !== undefined) {
             extraCallback();
           }
 
           if (!success) {
-            unlinkSync(targetDirectory);
+            rmSync(targetDirectory, { recursive: true, force: true });
           }
           resolve(success);
         } else {
-          unlinkSync(archiveFilePath);
-          unlinkSync(targetDirectory);
+          rmSync(archiveFilePath, { recursive: true, force: true });
+          rmSync(targetDirectory, { recursive: true, force: true });
           Logger.log(`Error: unknown archive extension: ${artifactExt}`);
           resolve(false);
         }
@@ -268,8 +268,8 @@ export async function downloadAndInstallZip(
       response.pipe(fileWriter);
     }).on("error", () => {
       // clean
-      unlinkSync(archiveFilePath);
-      unlinkSync(targetDirectory);
+      rmSync(archiveFilePath, { recursive: true, force: true });
+      rmSync(targetDirectory, { recursive: true, force: true });
       Logger.log(`Error while downloading ${logName}.`);
 
       return false;
@@ -484,7 +484,7 @@ async function downloadAndInstallGithubAsset(
           unxzFile(archiveFilePath, targetDirectory)
             .then(success => {
               // delete tmp file
-              unlinkSync(archiveFilePath);
+              rmSync(archiveFilePath, { recursive: true, force: true });
 
               if (extraCallback !== undefined) {
                 extraCallback();
@@ -493,26 +493,26 @@ async function downloadAndInstallGithubAsset(
               resolve(success);
             })
             .catch(() => {
-              unlinkSync(archiveFilePath);
-              unlinkSync(targetDirectory);
+              rmSync(archiveFilePath, { recursive: true, force: true });
+              rmSync(targetDirectory, { recursive: true, force: true });
               resolve(false);
             });
         } else if (archiveFileName.endsWith("zip")) {
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
-          unlinkSync(archiveFilePath);
+          rmSync(archiveFilePath, { recursive: true, force: true });
 
           if (extraCallback !== undefined) {
             extraCallback();
           }
 
           if (!success) {
-            unlinkSync(targetDirectory);
+            rmSync(targetDirectory, { recursive: true, force: true });
           }
           resolve(success);
         } else {
-          unlinkSync(archiveFilePath);
-          unlinkSync(targetDirectory);
+          rmSync(archiveFilePath, { recursive: true, force: true });
+          rmSync(targetDirectory, { recursive: true, force: true });
           Logger.log(`Error: unknown archive extension: ${archiveFileName}`);
           resolve(false);
         }
@@ -588,20 +588,6 @@ export async function downloadAndInstallToolchain(
 ): Promise<boolean> {
   const targetDirectory = buildToolchainPath(toolchain.version);
 
-  // Check if the SDK is already installed
-  if (
-    redirectURL === undefined &&
-    existsSync(targetDirectory) &&
-    readdirSync(targetDirectory).length !== 0
-  ) {
-    Logger.log(`Toolchain ${toolchain.version} is already installed.`);
-
-    return true;
-  }
-
-  // Ensure the target directory exists
-  await mkdir(targetDirectory, { recursive: true });
-
   // select download url for platform()_arch()
   const platformDouble = `${process.platform}_${process.arch}`;
   const downloadUrl = redirectURL ?? toolchain.downloadUrls[platformDouble];
@@ -615,85 +601,11 @@ export async function downloadAndInstallToolchain(
     return false;
   }
 
-  const tmpBasePath = join(tmpdir(), "pico-sdk");
-  await mkdir(tmpBasePath, { recursive: true });
-  const archiveFilePath = join(
-    tmpBasePath,
-    `${toolchain.version}.${artifactExt}`
+  const archiveFileName = `${toolchain.version}.${artifactExt}`;
+
+  return downloadAndInstallZip(
+    downloadUrl, targetDirectory, archiveFileName, "Toolchain"
   );
-
-  return new Promise(resolve => {
-    const requestOptions = {
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Accept: "*/*",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "Accept-Encoding": "gzip, deflate, br",
-      },
-    };
-
-    get(downloadUrl, requestOptions, response => {
-      const code = response.statusCode ?? 404;
-
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log(
-          "Error while downloading toolchain: " + response.statusMessage
-        );
-
-        return resolve(false);
-      }
-
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadAndInstallToolchain(toolchain, response.headers.location)
-        );
-      }
-
-      // save the file to disk
-      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
-        // unpack the archive
-        if (artifactExt === "tar.xz" || artifactExt === "tar.gz") {
-          unxzFile(archiveFilePath, targetDirectory)
-            .then(success => {
-              // delete tmp file
-              unlinkSync(archiveFilePath);
-              resolve(success);
-            })
-            .catch(() => {
-              unlinkSync(archiveFilePath);
-              unlinkSync(targetDirectory);
-              resolve(false);
-            });
-        } else if (artifactExt === "zip") {
-          const success = unzipFile(archiveFilePath, targetDirectory);
-          // delete tmp file
-          unlinkSync(archiveFilePath);
-          if (!success) {
-            unlinkSync(targetDirectory);
-          }
-          resolve(success);
-        } else {
-          unlinkSync(archiveFilePath);
-          unlinkSync(targetDirectory);
-          Logger.log(`Error: unknown archive extension: ${artifactExt}`);
-          resolve(false);
-        }
-      });
-
-      response.pipe(fileWriter);
-    }).on("error", () => {
-      // clean
-      unlinkSync(archiveFilePath);
-      unlinkSync(targetDirectory);
-      Logger.log("Error while downloading toolchain.");
-
-      return false;
-    });
-  });
 }
 
 export async function downloadAndInstallNinja(
@@ -997,7 +909,7 @@ export async function downloadEmbedPython(
           // unpack the archive
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
-          unlinkSync(archiveFilePath);
+          rmSync(archiveFilePath, { recursive: true, force: true });
           resolve(
             success ? `${settingsTargetDirectory}/python.exe` : undefined
           );
