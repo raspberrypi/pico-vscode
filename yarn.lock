@@ -587,10 +587,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"adm-zip@npm:^0.5.15":
-  version: 0.5.15
-  resolution: "adm-zip@npm:0.5.15"
-  checksum: 10/279463faa4037be020b3d2bef3852efbee364f3a37378ccc14806cd73e53bd9c45532e6d0ac557606cea3f8c329c5abfd0e1d197471a6aeb4e4ea7c7ad9c03b5
+"adm-zip@npm:^0.5.14 <0.5.15":
+  version: 0.5.14
+  resolution: "adm-zip@npm:0.5.14"
+  checksum: 10/64ccd4dca1195572fc185c42cdce8ebb9117dceaf590cc09536fd1dce2e7fc2afa6c7600095f7a6776db5ea638e855c2bc68c9bbaee47153e3d352324d10a27d
   languageName: node
   linkType: hard
 
@@ -2195,7 +2195,7 @@ __metadata:
     "@types/uuid": "npm:^10.0.0"
     "@types/vscode": "npm:^1.87.0"
     "@types/which": "npm:^3.0.4"
-    adm-zip: "npm:^0.5.15"
+    adm-zip: "npm:^0.5.14 <0.5.15"
     eslint: "npm:^9.9.0"
     eslint-config-prettier: "npm:^9.1.0"
     globals: "npm:^15.9.0"

@@ -1,6 +1,8 @@
 name: Build .vsix release asset
 
-on: push
+on:
+  push:
+  pull_request:
 
 permissions:
   contents: write

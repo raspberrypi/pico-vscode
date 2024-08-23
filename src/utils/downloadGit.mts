@@ -1,4 +1,4 @@
-import { createWriteStream, existsSync, unlinkSync } from "fs";
+import { createWriteStream, existsSync, rmSync } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
 import { join } from "path";
@@ -86,7 +86,7 @@ export async function downloadGit(
         if (process.platform === "darwin") {
           unxzFile(archiveFilePath, targetDirectory)
             .then(success => {
-              unlinkSync(archiveFilePath);
+              rmSync(archiveFilePath, { recursive: true, force: true });
               resolve(
                 success ? `${settingsTargetDirectory}/bin/git` : undefined
               );
@@ -98,7 +98,7 @@ export async function downloadGit(
           // unpack the archive
           const success = unzipFile(archiveFilePath, targetDirectory);
           // delete tmp file
-          unlinkSync(archiveFilePath);
+          rmSync(archiveFilePath, { recursive: true, force: true });
 
           if (success) {
             // remove include section from gitconfig included in MiniGit
