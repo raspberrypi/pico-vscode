@@ -259,13 +259,15 @@ export async function downloadAndInstallZip(
           Logger.log(`Error: unknown archive extension: ${artifactExt}`);
           resolve(false);
         }
-      }), () => {
-        // error - clean
-        rmSync(archiveFilePath, { recursive: true, force: true });
-        rmSync(targetDirectory, { recursive: true, force: true });
-        Logger.log(`Error while downloading ${logName}.`);
+      }), error => {
+        if (error) {
+          // error - clean
+          rmSync(archiveFilePath, { recursive: true, force: true });
+          rmSync(targetDirectory, { recursive: true, force: true });
+          Logger.log(`Error while downloading ${logName}:` + error.message);
 
-        return false;
+          resolve(false);
+        }
       }
     );
   });
