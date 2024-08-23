@@ -10,7 +10,9 @@ import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger from "../logger.mjs";
-import { get, type RequestOptions } from "https";
+import { STATUS_CODES } from "http";
+import type { Dispatcher } from "undici";
+import { Client } from "undici";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
 import { cloneRepository, initSubmodules, getGit } from "./gitUtil.mjs";
 import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
@@ -172,8 +174,7 @@ export async function downloadAndInstallZip(
   // Ensure the target directory exists
   await mkdir(targetDirectory, { recursive: true });
 
-  const downloadUrl = url;
-  const basenameSplit = basename(downloadUrl).split(".");
+  const basenameSplit = basename(url).split(".");
   let artifactExt = basenameSplit.pop();
   if (artifactExt === "xz" || artifactExt === "gz") {
     artifactExt = basenameSplit.pop() + "." + artifactExt;
@@ -188,7 +189,12 @@ export async function downloadAndInstallZip(
   const archiveFilePath = join(tmpBasePath, archiveFileName);
 
   return new Promise(resolve => {
-    const requestOptions = {
+    const downloadUrl = new URL(url);
+    const client = new Client(downloadUrl.origin);
+
+    const requestOptions : Dispatcher.RequestOptions = {
+      path: downloadUrl.pathname + downloadUrl.search,
+      method: "GET",
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
@@ -197,35 +203,25 @@ export async function downloadAndInstallZip(
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "Accept-Encoding": "gzip, deflate, br",
       },
+      maxRedirections: 3,
     };
 
-    get(downloadUrl, requestOptions, response => {
-      const code = response.statusCode ?? 404;
+    // save requested stream to file
+    client.stream(requestOptions, ({statusCode}) =>
+      createWriteStream(archiveFilePath).on("finish", () => {
+        const code = statusCode ?? 404;
 
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log(
-          `Error while downloading ${logName}: ` + response.statusMessage
-        );
+        if (code >= 400) {
+          //return reject(new Error(STATUS_CODES[code]));
+          Logger.log(
+            `Error while downloading ${logName}: ` + STATUS_CODES[code]
+          );
 
-        return resolve(false);
-      }
+          return resolve(false);
+        }
 
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadAndInstallZip(
-            response.headers.location,
-            targetDirectory,
-            archiveFileName,
-            logName,
-            extraCallback
-          )
-        );
-      }
-
-      // save the file to disk
-      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
+        // any redirects should have been handled by undici
+        
         // unpack the archive
         if (artifactExt === "tar.xz" || artifactExt === "tar.gz") {
           unxzFile(archiveFilePath, targetDirectory)
@@ -263,17 +259,17 @@ export async function downloadAndInstallZip(
           Logger.log(`Error: unknown archive extension: ${artifactExt}`);
           resolve(false);
         }
-      });
+      }), error => {
+        if (error) {
+          // error - clean
+          rmSync(archiveFilePath, { recursive: true, force: true });
+          rmSync(targetDirectory, { recursive: true, force: true });
+          Logger.log(`Error while downloading ${logName}:` + error.message);
 
-      response.pipe(fileWriter);
-    }).on("error", () => {
-      // clean
-      rmSync(archiveFilePath, { recursive: true, force: true });
-      rmSync(targetDirectory, { recursive: true, force: true });
-      Logger.log(`Error while downloading ${logName}.`);
-
-      return false;
-    });
+          resolve(false);
+        }
+      }
+    );
   });
 }
 
@@ -410,13 +406,16 @@ async function downloadAndInstallGithubAsset(
   }
 
   let url = asset.browser_download_url;
-  let options: RequestOptions = {};
+  let options: Dispatcher.RequestOptions;
+  let client: Client;
 
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
 
   if (redirectURL !== undefined) {
     Logger.log(`Downloading after redirect: ${redirectURL}`);
-  } else if (githubPAT && githubPAT.length > 0) {
+  }
+  
+  if ((redirectURL === undefined) && (githubPAT && githubPAT.length > 0)) {
     // Use GitHub API to download the asset (will return a redirect)
     Logger.log(`Using GitHub API for download`);
     const assetID = asset.id;
@@ -433,7 +432,9 @@ async function downloadAndInstallGithubAsset(
       `${GITHUB_API_BASE_URL}/repos/${owner}/${repository}/` +
       `releases/assets/${assetID}`;
     const urlObj = new URL(url);
+    client = new Client(urlObj.origin);
     options = {
+      path: urlObj.pathname + urlObj.search,
       method: "GET",
       headers: {
         ...getAuthorizationHeaders(),
@@ -441,44 +442,52 @@ async function downloadAndInstallGithubAsset(
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": EXT_USER_AGENT,
       },
-      hostname: urlObj.hostname,
-      path: urlObj.pathname,
-      minVersion: "TLSv1.2",
-      protocol: urlObj.protocol,
+      maxRedirections: 0, // don't automatically follow redirects
+    };
+  } else {
+    const urlObj = new URL(url);
+    client = new Client(urlObj.origin);
+    options = {
+      path: urlObj.pathname + urlObj.search,
+      method: "GET",
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
+      },
+      maxRedirections: 0, // don't automatically follow redirects
     };
   }
 
   return new Promise(resolve => {
-    // Use https.get to download the asset
-    get(url, options, response => {
-      const code = response.statusCode ?? 404;
+    // Use client.stream to download the asset
+    client.stream(options, ({statusCode, headers}) =>
+      createWriteStream(archiveFilePath).on("finish", () => {
+        const code = statusCode ?? 404;
 
-      // redirects not supported
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log(`Error downloading ${logName}: ` + response.statusMessage);
+        if (code >= 400) {
+          //return reject(new Error(STATUS_CODES[code]));
+          Logger.log(`Error downloading ${logName}: ` + STATUS_CODES[code]);
 
-        return resolve(false);
-      }
+          return resolve(false);
+        }
 
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadAndInstallGithubAsset(
-            version,
-            releaseVersion,
-            repo,
-            targetDirectory,
-            archiveFileName,
-            assetName,
-            logName,
-            extraCallback,
-            response.headers.location
-          )
-        );
-      }
+        // handle redirects
+        if (code > 300 && !!headers.location) {
+          return resolve(
+            downloadAndInstallGithubAsset(
+              version,
+              releaseVersion,
+              repo,
+              targetDirectory,
+              archiveFileName,
+              assetName,
+              logName,
+              extraCallback,
+              headers.location.toString()
+            )
+          );
+        }
 
-      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
         // unpack the archive
         if (archiveFileName.endsWith("tar.gz")) {
           unxzFile(archiveFilePath, targetDirectory)
@@ -516,12 +525,13 @@ async function downloadAndInstallGithubAsset(
           Logger.log(`Error: unknown archive extension: ${archiveFileName}`);
           resolve(false);
         }
-      });
-      response.pipe(fileWriter);
-    }).on("error", error => {
-      Logger.log(`Error downloading ${logName} asset:` + error.message);
-      resolve(false);
-    });
+      }), error => {
+        if (error) {
+          Logger.log(`Error downloading ${logName} asset:` + error.message);
+          resolve(false);
+        }
+      }
+    );
   });
 }
 
@@ -583,14 +593,13 @@ export async function downloadAndInstallPicotool(
 }
 
 export async function downloadAndInstallToolchain(
-  toolchain: SupportedToolchainVersion,
-  redirectURL?: string
+  toolchain: SupportedToolchainVersion
 ): Promise<boolean> {
   const targetDirectory = buildToolchainPath(toolchain.version);
 
   // select download url for platform()_arch()
   const platformDouble = `${process.platform}_${process.arch}`;
-  const downloadUrl = redirectURL ?? toolchain.downloadUrls[platformDouble];
+  const downloadUrl = toolchain.downloadUrls[platformDouble];
   const basenameSplit = basename(downloadUrl).split(".");
   let artifactExt = basenameSplit.pop();
   if (artifactExt === "xz" || artifactExt === "gz") {
@@ -809,7 +818,7 @@ export async function downloadEmbedPython(
   await mkdir(targetDirectory, { recursive: true });
 
   // select download url
-  const downloadUrl = versionBundle.python.windowsAmd64;
+  const downloadUrl = new URL(versionBundle.python.windowsAmd64);
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
@@ -819,7 +828,11 @@ export async function downloadEmbedPython(
   );
 
   return new Promise(resolve => {
-    const requestOptions = {
+    const client = new Client(downloadUrl.origin);
+
+    const requestOptions : Dispatcher.RequestOptions = {
+      path: downloadUrl.pathname + downloadUrl.search,
+      method: "GET",
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
@@ -828,27 +841,23 @@ export async function downloadEmbedPython(
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "Accept-Encoding": "gzip, deflate, br",
       },
+      maxRedirections: 3,
     };
 
-    get(downloadUrl, requestOptions, response => {
-      const code = response.statusCode ?? 0;
+    // save requested stream to file
+    client.stream(requestOptions, ({statusCode}) =>
+      createWriteStream(archiveFilePath).on("finish", () => {
+        const code = statusCode ?? 0;
 
-      if (code >= 400) {
-        //return reject(new Error(response.statusMessage));
-        Logger.log("Error while downloading python: " + response.statusMessage);
+        if (code >= 400) {
+          //return reject(new Error(STATUS_CODES[code]));
+          Logger.log("Error while downloading python: " + STATUS_CODES[code]);
 
-        return resolve(undefined);
-      }
+          return resolve(undefined);
+        }
 
-      // handle redirects
-      if (code > 300 && code < 400 && !!response.headers.location) {
-        return resolve(
-          downloadEmbedPython(versionBundle, response.headers.location)
-        );
-      }
+        // any redirects should have been handled by undici
 
-      // save the file to disk
-      const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
         // doesn't work correctly therefore use pyenvInstallPython instead
         // TODO: remove unused darwin code-path here
         if (process.platform === "darwin") {
@@ -914,13 +923,13 @@ export async function downloadEmbedPython(
             success ? `${settingsTargetDirectory}/python.exe` : undefined
           );
         }
-      });
-
-      response.pipe(fileWriter);
-    }).on("error", () => {
-      Logger.log("Error while downloading Embed Python.");
-
-      return false;
-    });
+      }), (err) => {
+        if (err) {
+          Logger.log("Error while downloading Embed Python.");
+          
+          return false;
+        }
+      }
+    );
   });
 }

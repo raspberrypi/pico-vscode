@@ -2205,6 +2205,7 @@ __metadata:
     tslib: "npm:^2.6.3"
     typescript: "npm:^5.5.4"
     typescript-eslint: "npm:^8.1.0"
+    undici: "npm:^6.19.7"
     uuid: "npm:^10.0.0"
     which: "npm:^4.0.0"
   languageName: unknown
@@ -2635,6 +2636,13 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10/746fdd0865c5ce4f15e494c57ede03a9e12ede59cfdb40da3a281807853fe63b00ef1c912d7222143499aa82f18b8b472baa1830df8804746d09b55f6cf5b1cc
+  languageName: node
+  linkType: hard
+
+"undici@npm:^6.19.7":
+  version: 6.19.7
+  resolution: "undici@npm:6.19.7"
+  checksum: 10/77fb8b0377388f6dba8244b015841318d621031211b4f3c2273d809304b77ec44adeba4b89dfd6708bdc044190e18f068e5b231882ef15d057d4624e46f544e3
   languageName: node
   linkType: hard
 
