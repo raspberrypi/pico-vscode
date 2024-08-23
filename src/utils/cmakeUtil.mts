@@ -307,6 +307,7 @@ export async function cmakeUpdateSDK(
 ): Promise<boolean> {
   // TODO: support for scaning for seperate locations of the CMakeLists.txt file in the project
   const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
+  // This regex requires multiline (m) and dotall (s) flags to work
   const updateSectionRegex =
     new RegExp(`^# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}.*# =+$`, "ms");
   const picoBoardRegex = /^set\(PICO_BOARD\s+([^)]+)\)$/m;
