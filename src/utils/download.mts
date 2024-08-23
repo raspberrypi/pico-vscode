@@ -96,8 +96,7 @@ export function buildCMakeIncPath(absolute: boolean): string {
   // TODO: maybe replace . with _
   const relPath = joinPosix(
     ".pico-sdk",
-    "cmake",
-    "pico-vscode.cmake"
+    "cmake"
   );
   if (absolute) {
     return joinPosix(
@@ -313,9 +312,10 @@ export async function downloadAndInstallSDK(
   }
 
   // Install pico-vscode.cmake file - overwrite if it's already there
+  await mkdir(buildCMakeIncPath(true), { recursive: true });
   copyFileSync(
     joinPosix(getScriptsRoot(), "pico-vscode.cmake"),
-    buildCMakeIncPath(true)
+    joinPosix(buildCMakeIncPath(true), "pico-vscode.cmake")
   );
 
   const targetDirectory = buildSDKPath(version);
