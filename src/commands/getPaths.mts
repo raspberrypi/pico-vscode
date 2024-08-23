@@ -53,7 +53,7 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
     super("getGDBPath");
   }
 
-  execute(): string {
+  async execute(): Promise<string> {
     if (
       workspace.workspaceFolders === undefined ||
       workspace.workspaceFolders.length === 0
@@ -64,9 +64,9 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
     const workspaceFolder = workspace.workspaceFolders?.[0];
 
     const selectedToolchainAndSDKVersions =
-      cmakeGetSelectedToolchainAndSDKVersions(
-        join(workspaceFolder.uri.fsPath, "CMakeLists.txt")
-      );
+    await cmakeGetSelectedToolchainAndSDKVersions(
+      workspaceFolder.uri
+    );
     if (selectedToolchainAndSDKVersions === null) {
       return "";
     }

@@ -361,17 +361,8 @@ def relativePicotoolPath(picotoolVersion):
 def relativeOpenOCDPath(openocdVersion):
     return f"/.pico-sdk/openocd/{openocdVersion}"
 
-def cmakeSdkPath(sdkVersion):
-    return f"${{USERHOME}}{relativeSDKPath(sdkVersion)}"
-
-def cmakeToolchainPath(toolchainVersion):
-    return f"${{USERHOME}}{relativeToolchainPath(toolchainVersion)}"
-
-def cmakeToolsPath(sdkVersion):
-    return f"${{USERHOME}}{relativeToolsPath(sdkVersion)}"
-
-def cmakePicotoolPath(picotoolVersion):
-    return f"${{USERHOME}}{relativePicotoolPath(picotoolVersion)}"
+def cmakeIncPath():
+    return "${USERHOME}/.pico-sdk/cmake/pico-vscode.cmake"
 
 def propertiesSdkPath(sdkVersion, force_windows=False, force_non_windows=False):
     if (isWindows or force_windows) and not force_non_windows:
@@ -561,7 +552,6 @@ def GenerateMain(folder, projectName, features, cpp):
 
 
 def GenerateCMake(folder, params):
-   
     filename = Path(folder) / CMAKELIST_FILENAME
     projectName = params['projectName']
     board_type = params['boardtype']
@@ -579,69 +569,35 @@ def GenerateCMake(folder, params):
                  "# Initialise pico_sdk from installed location\n"
                  "# (note this can come from environment, CMake cache etc)\n\n"
                 )
-    
+
     # if you change the do never edit headline you need to change the check for it in extension.mts
-    cmake_header_us_1_5_1 = (
-                "# == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==\n"
-                "if(WIN32)\n"
-                "   set(USERHOME $ENV{USERPROFILE})\n"
-                "else()\n"
-                "    set(USERHOME $ENV{HOME})\n"
-                "endif()\n"
-                f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
-                f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
-                "if(WIN32)\n"
-                f"    set(pico-sdk-tools_DIR {cmakeToolsPath(params['sdkVersion'])})\n"
-                "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config.cmake)\n"
-                "    include(${pico-sdk-tools_DIR}/pico-sdk-tools-config-version.cmake)\n"
-                "endif()\n"
-                "# ====================================================================================\n"
-                )
     cmake_header_us = (
                 "# == DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==\n"
                 "if(WIN32)\n"
-                "   set(USERHOME $ENV{USERPROFILE})\n"
+                "    set(USERHOME $ENV{USERPROFILE})\n"
                 "else()\n"
                 "    set(USERHOME $ENV{HOME})\n"
                 "endif()\n"
-                f"set(PICO_SDK_PATH {cmakeSdkPath(params['sdkVersion'])})\n"
-                f"set(PICO_TOOLCHAIN_PATH {cmakeToolchainPath(params['toolchainVersion'])})\n"
-                f"set(pioasm_HINT {cmakeToolsPath(params['sdkVersion'])}/pioasm)\n"
-                "if(EXISTS ${pioasm_HINT})\n"
-                "    set(pioasm_DIR ${pioasm_HINT})\n"
-                "endif()\n"
-                f"set(picotool_HINT {cmakePicotoolPath(params['picotoolVersion'])}/picotool)\n"
-                "if(EXISTS ${picotool_HINT})\n"
-                "    set(picotool_DIR ${picotool_HINT})\n"
-                "endif()\n"
-                "if(PICO_TOOLCHAIN_PATH MATCHES \"RISCV\")\n"
-                "    set(PICO_PLATFORM rp2350-riscv CACHE STRING \"Pico Platform\")\n"
-                "    if(PICO_TOOLCHAIN_PATH MATCHES \"COREV\")\n"
-                "        set(PICO_COMPILER pico_riscv_gcc_zcb_zcmp)\n"
-                "    endif()\n"
-                "endif()\n"
+                f"set(sdkVersion {params['sdkVersion']})\n"
+                f"set(toolchainVersion {params['toolchainVersion']})\n"
+                f"set(picotoolVersion {params['picotoolVersion']})\n"
+                f"include({cmakeIncPath()})\n"
                 "# ====================================================================================\n"
                 )
 
-    # Use old header for version less than 2.0.0
-    if params['sdkVersion'].split(".")[0] < "2":
-        cmake_header_us = cmake_header_us_1_5_1
     cmake_header2 = (
                  f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
                  "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
                  "include(pico_sdk_import.cmake)\n\n"
-                 "if (PICO_SDK_VERSION_STRING VERSION_LESS \"1.4.0\")\n"
-                 "  message(FATAL_ERROR \"Raspberry Pi Pico SDK version 1.4.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}\")\n"
-                 "endif()\n\n"
                  f"project({projectName} C CXX ASM)\n"
                 )
-    
+
     cmake_header3 = (
                 "\n# Initialise the Raspberry Pi Pico SDK\n"
                 "pico_sdk_init()\n\n"
                 "# Add executable. Default name is the project name, version 0.1\n\n"
                 )
-    
+
 
     if params['wantConvert']:
         with open(filename, 'r+') as file:

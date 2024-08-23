@@ -11,6 +11,9 @@ import { rimraf, windows as rimrafWindows } from "rimraf";
 import { homedir } from "os";
 import which from "which";
 import { compareLtMajor } from "./semverUtil.mjs";
+import { picotoolVersion } from "../webview/newProjectPanel.mjs";
+import { CMAKE_DO_NOT_EDIT_HEADER_PREFIX } from "../extension.mjs";
+import { buildCMakeIncPath } from "./download.mjs";
 
 export async function getPythonPath(): Promise<string> {
   const settings = Settings.getInstance();
@@ -304,9 +307,9 @@ export async function cmakeUpdateSDK(
 ): Promise<boolean> {
   // TODO: support for scaning for seperate locations of the CMakeLists.txt file in the project
   const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
-  const sdkPathRegex = /^set\(PICO_SDK_PATH\s+([^)]+)\)$/m;
-  const toolchainPathRegex = /^set\(PICO_TOOLCHAIN_PATH\s+([^)]+)\)$/m;
-  const toolsPathRegex = /^set\(pico-sdk-tools_DIR\s+([^)]+)\)$/m;
+  // This regex requires multiline (m) and dotall (s) flags to work
+  const updateSectionRegex =
+    new RegExp(`^# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}.*# =+$`, "ms");
   const picoBoardRegex = /^set\(PICO_BOARD\s+([^)]+)\)$/m;
 
   const settings = Settings.getInstance();
@@ -324,17 +327,19 @@ export async function cmakeUpdateSDK(
 
     let modifiedContent = content
       .replace(
-        sdkPathRegex,
-        `set(PICO_SDK_PATH \${USERHOME}/.pico-sdk/sdk/${newSDKVersion})`
-      )
-      .replace(
-        toolchainPathRegex,
-        "set(PICO_TOOLCHAIN_PATH ${USERHOME}/.pico-sdk" +
-          `/toolchain/${newToolchainVersion})`
-      )
-      .replace(
-        toolsPathRegex,
-        `set(pico-sdk-tools_DIR \${USERHOME}/.pico-sdk/tools/${newSDKVersion})`
+        updateSectionRegex,
+        `# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}\n` +
+        "if(WIN32)\n" +
+        "    set(USERHOME $ENV{USERPROFILE})\n" +
+        "else()\n" +
+        "    set(USERHOME $ENV{HOME})\n" +
+        "endif()\n" +
+        `set(sdkVersion ${newSDKVersion})\n` +
+        `set(toolchainVersion ${newToolchainVersion})\n` +
+        `set(picotoolVersion ${picotoolVersion})\n` +
+        `include(${buildCMakeIncPath(false)})\n` +
+        // eslint-disable-next-line max-len
+        "# ===================================================================================="
       );
 
     const picoBoard = content.match(picoBoardRegex);
@@ -394,31 +399,48 @@ export async function cmakeUpdateSDK(
  * @returns An tupple with the [sdk, toolchain] versions or null if the file could not
  * be read or the versions could not be extracted.
  */
-export function cmakeGetSelectedToolchainAndSDKVersions(
-  cmakeFilePath: string
-): [string, string] | null {
+export async function cmakeGetSelectedToolchainAndSDKVersions(
+  folder: Uri
+): Promise<[string, string, string] | null> {
+  const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
   const content = readFileSync(cmakeFilePath, "utf8");
+
+  // 0.15.1 and before
   const sdkPathRegex = /^set\(PICO_SDK_PATH\s+([^)]+)\)$/m;
   const toolchainPathRegex = /^set\(PICO_TOOLCHAIN_PATH\s+([^)]+)\)$/m;
-  const match = content.match(sdkPathRegex);
-  const match2 = content.match(toolchainPathRegex);
+  const oldMatch = content.match(sdkPathRegex);
+  const oldMatch2 = content.match(toolchainPathRegex);
 
-  if (match === null || match2 === null) {
+  // Current
+  const sdkVersionRegex = /^set\(sdkVersion\s+([^)]+)\)$/m;
+  const toolchainVersionRegex = /^set\(toolchainVersion\s+([^)]+)\)$/m;
+  const picotoolVersionRegex = /^set\(picotoolVersion\s+([^)]+)\)$/m;
+  const match = content.match(sdkVersionRegex);
+  const match2 = content.match(toolchainVersionRegex);
+  const match3 = content.match(picotoolVersionRegex);
+
+  if (match !== null && match2 !== null && match3 !== null) {
+    return [match[1], match2[1], match3[1]];
+  } else if (oldMatch !== null && oldMatch2 !== null) {
+    const path = oldMatch[1];
+    const path2 = oldMatch2[1];
+    const versionRegex = /^\${USERHOME}\/\.pico-sdk\/sdk\/([^)]+)$/m;
+    const versionRegex2 = /^\${USERHOME}\/\.pico-sdk\/toolchain\/([^)]+)$/m;
+    const versionMatch = path.match(versionRegex);
+    const versionMatch2 = path2.match(versionRegex2);
+
+    if (versionMatch === null || versionMatch2 === null) {
+      return null;
+    }
+
+    Logger.log("Updating extension lines in CMake file");
+    await cmakeUpdateSDK(folder, versionMatch[1], versionMatch2[1]);
+    Logger.log("Extension lines updated");
+
+    return [versionMatch[1], versionMatch2[1], picotoolVersion];
+  } else {
     return null;
   }
-
-  const path = match[1];
-  const path2 = match2[1];
-  const versionRegex = /^\${USERHOME}\/\.pico-sdk\/sdk\/([^)]+)$/m;
-  const versionRegex2 = /^\${USERHOME}\/\.pico-sdk\/toolchain\/([^)]+)$/m;
-  const versionMatch = path.match(versionRegex);
-  const versionMatch2 = path2.match(versionRegex2);
-
-  if (versionMatch === null || versionMatch2 === null) {
-    return null;
-  }
-
-  return [versionMatch[1], versionMatch2[1]];
 }
 
 /**

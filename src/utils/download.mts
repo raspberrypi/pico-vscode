@@ -1,4 +1,5 @@
 import {
+  copyFileSync,
   createWriteStream,
   existsSync,
   readdirSync,
@@ -89,6 +90,26 @@ export function buildSDKPath(version: string): string {
     "sdk",
     version
   );
+}
+
+export function buildCMakeIncPath(absolute: boolean): string {
+  // TODO: maybe replace . with _
+  const relPath = joinPosix(
+    ".pico-sdk",
+    "cmake",
+    "pico-vscode.cmake"
+  );
+  if (absolute) {
+    return joinPosix(
+      homedir().replaceAll("\\", "/"),
+      relPath
+    );
+  } else {
+    return joinPosix(
+      "${USERHOME}",
+      relPath
+    );
+  }
 }
 
 export function buildToolsPath(version: string): string {
@@ -290,6 +311,12 @@ export async function downloadAndInstallSDK(
   if (!requirementsCheck) {
     return false;
   }
+
+  // Install pico-vscode.cmake file - overwrite if it's already there
+  copyFileSync(
+    joinPosix(getScriptsRoot(), "pico-vscode.cmake"),
+    buildCMakeIncPath(true)
+  );
 
   const targetDirectory = buildSDKPath(version);
 

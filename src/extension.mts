@@ -71,7 +71,7 @@ import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 
-const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
+export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
   "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
@@ -203,8 +203,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // get sdk selected in the project
   const selectedToolchainAndSDKVersions =
-    cmakeGetSelectedToolchainAndSDKVersions(
-      join(workspaceFolder.uri.fsPath, "CMakeLists.txt")
+    await cmakeGetSelectedToolchainAndSDKVersions(
+      workspaceFolder.uri
     );
   if (selectedToolchainAndSDKVersions === null) {
     return;

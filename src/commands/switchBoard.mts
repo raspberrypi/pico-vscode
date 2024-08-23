@@ -21,8 +21,8 @@ export default class SwitchBoardCommand extends Command {
   public static async askBoard(folder: Uri): Promise<string | undefined> {
     const quickPickItems: string[] = ["pico", "pico_w"];
 
-    const versions = cmakeGetSelectedToolchainAndSDKVersions(
-      join(folder.fsPath, "CMakeLists.txt")
+    const versions = await cmakeGetSelectedToolchainAndSDKVersions(
+      folder
     );
 
     if (versions === null) {
