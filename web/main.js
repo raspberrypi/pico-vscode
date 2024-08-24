@@ -631,6 +631,45 @@ var isPicoWireless = false;
       value: sdkVersion.replace("v", "")
     });
   });
+  document.getElementById('inp-project-name').addEventListener('input', function () {
+    if (typeof examples === 'undefined') {
+      return;
+    }
+    const projName = document.getElementById('inp-project-name').value;
+    console.log(`${projName} is now`);
+    if (!(Object.keys(examples).includes(projName))) {
+      return;
+    }
+    console.log(`${projName} is an example`);
+    // update available boards
+    const example = examples[projName];
+    const boards = example.boards;
+    for (const board of boards) {
+      console.log(`${projName} supports ${board}`);
+    }
+    const board_sels = document.querySelectorAll('[id^="sel-pico"]')
+    board_sels.forEach(e => {e.disabled = true});
+    for (const board of boards) {
+      document.getElementById(`sel-${board}`).disabled = false;
+    }
+    const boardTypeSelector = document.getElementById('sel-board-type');
+
+    if (boardTypeSelector) {
+      // first element could be hidden
+      //document.getElementById('sel-board-type').selectedIndex = 0;
+
+      // select first not hidden option
+      for (let i = 0; i < boardTypeSelector.options.length; i++) {
+        const option = boardTypeSelector.options[i];
+
+        // Check if the option is not hidden
+        if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
+          boardTypeSelector.selectedIndex = i;
+          break;
+        }
+      }
+    }
+  });
 
   const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
   if (ninjaVersionRadio.length > 0)

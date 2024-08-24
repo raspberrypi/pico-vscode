@@ -122,7 +122,6 @@ interface WebviewMessage {
 }
 
 enum BoardType {
-  default = "default",
   pico = "pico",
   picoW = "pico_w",
   pico2 = "pico2",
@@ -1390,9 +1389,9 @@ export class NewProjectPanel {
           ${
             !this._isProjectImport && this._examples.length > 0
               ? `
-          var examples = ["${this._examples
-            .map(e => e.searchKey)
-            .join('", "')}"]`
+          var examples = {${this._examples
+            .map(e => `"${e.searchKey}": {"boards": [${e.boards.map(b => `"${b}"`).join(', ')}], "supportRiscV": ${e.supportRiscV}}`)
+            .join(', ')}}`
               : ""
           }
           var doProjectImport = ${this._isProjectImport};
@@ -1506,12 +1505,6 @@ export class NewProjectPanel {
                         <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                ${
-                                  // show the default option only if a use has the option to create base on an example
-                                  this._examples.length > 0
-                                    ? `<option id="sel-${BoardType.default}" value="${BoardType.default}">Default</option>`
-                                    : ""
-                                }
                                 <option id="sel-${BoardType.pico}" value="${
                           BoardType.pico
                         }">Pico</option>
@@ -1973,9 +1966,7 @@ export class NewProjectPanel {
     if ("boardType" in options) {
       try {
         boardTypeFromEnum = await enumToBoard(
-          options.boardType === BoardType.default
-            ? BoardType.pico
-            : options.boardType,
+          options.boardType,
           options.toolchainAndSDK.sdkPath
         );
       } catch {
@@ -1996,7 +1987,7 @@ export class NewProjectPanel {
               ? "-nouart"
               : "",
           ]
-        : "boardType" in options && options.boardType !== BoardType.default
+        : "boardType" in options
         ? [boardTypeFromEnum]
         : [];
     if (!("boardType" in options) && this._isProjectImport) {
@@ -2019,11 +2010,6 @@ export class NewProjectPanel {
         /* ignore */
       }
     } else if ("boardType" in options && isExampleBased && "name" in options && "libNames" in options) {
-      if (options.boardType === BoardType.default) {
-        if (options.name.includes("picow") || options.name.includes("pico_w")) {
-          basicNewProjectOptions.push(`-board pico_w`);
-        }
-      }
       for (const libName of options.libNames) {
         basicNewProjectOptions.push(`-examLibs ${libName}`);
       }
