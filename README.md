@@ -53,6 +53,10 @@ This extension contributes the following settings:
 * `raspberry-pi-pico.cmakeAutoConfigure`: Enable/Disable cmake auto configure on project load
 * `raspberry-pi-pico.githubToken`: Takes a GitHub personal access token (classic) with the `public_repo` scope. It is used to check GitHub for available versions of the Pico SDK and other tools. Without one, the extension will use the GitHub API unauthenticated, which has a much lower rate limit causing many features to not work properly if the limit is reached. The unauthenticated rate limit is per public IP address, so this is more likely to be necessary if you share your IP address with many other users.
 
+## VS Code Profiles
+
+For developers working with multiple microcontroller toolchains, you can install the extension into a [VS Code Profile](https://code.visualstudio.com/docs/editor/profiles) to prevent conflicts with other toolchains. To do this simply download the sample profile [here](scripts/Pico.code-profile), then press Ctrl+Shift+P and click "Profiles: Import Profile" to import that file. This will install the extension into only the Pico profile, to prevent any conflicts with other extensions.
+
 ## Known Issues
 
 - Custom Ninja, Python3 and git paths are not stored in `CMakeLists.txt` like the SDK and Toolchain paths, so using them requires the user to build and configure the project through the extension
