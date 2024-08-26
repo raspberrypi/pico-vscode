@@ -42,7 +42,7 @@
     "Snippets",
     "Other"
   ],
-  "extensionPack": [
+  "extensionDependencies": [
     "marus25.cortex-debug",
     "ms-vscode.cpptools",
     "ms-vscode.cpptools-extension-pack",
