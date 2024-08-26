@@ -2089,7 +2089,6 @@ export class NewProjectPanel {
       env: customEnv,
       cwd: getScriptsRoot(),
       windowsHide: true,
-      timeout: 15000,
     });
     if (
       (process.platform === "linux" && generatorExitCode === null) ||
