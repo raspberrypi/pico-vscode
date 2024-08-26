@@ -32,7 +32,7 @@ jobs:
       - name: Modify package.json for OVSX
         # ms-vscode extensions not available on OpenVSX registry, so remove dependencies
         run: |
-          sed -i 's/\n\s"ms-vscode.*",//g' package.json
+          sed -i 's/"ms-vscode.*",//g' package.json
       - name: Package Extension for OVSX
         run: |
           vsce package -o ovsx-raspberry-pi-pico.vsix
