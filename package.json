@@ -43,10 +43,10 @@
     "Other"
   ],
   "extensionDependencies": [
-    "marus25.cortex-debug",
     "ms-vscode.cpptools",
     "ms-vscode.cpptools-extension-pack",
-    "ms-vscode.vscode-serial-monitor"
+    "ms-vscode.vscode-serial-monitor",
+    "marus25.cortex-debug"
   ],
   "main": "./dist/extension.cjs",
   "markdown": "github",
