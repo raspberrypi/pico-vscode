@@ -152,6 +152,19 @@ export class GetChipCommand extends CommandWithResult<string> {
   }
 }
 
+export class GetChipUppercaseCommand extends CommandWithResult<string> {
+  constructor() {
+    super("getChipUppercase");
+  }
+
+  async execute(): Promise<string> {
+    const cmd = new GetChipCommand();
+    const chip = await cmd.execute();
+
+    return chip.toUpperCase();
+  }
+}
+
 export class GetTargetCommand extends CommandWithResult<string> {
   constructor() {
     super("getTarget");

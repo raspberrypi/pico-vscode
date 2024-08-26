@@ -37,6 +37,7 @@ import {
   GetGDBPathCommand,
   GetChipCommand,
   GetTargetCommand,
+  GetChipUppercaseCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -103,6 +104,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetEnvPathCommand(),
     new GetGDBPathCommand(),
     new GetChipCommand(),
+    new GetChipUppercaseCommand(),
     new GetTargetCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),

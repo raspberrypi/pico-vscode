@@ -115,6 +115,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getChipUppercase",
+        "title": "Get Chip Uppercase",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.getTarget",
         "title": "Get OpenOCD Target",
         "category": "Raspberry Pi Pico",

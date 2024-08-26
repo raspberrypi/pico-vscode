@@ -785,12 +785,12 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "servertype": "openocd",\
 {f'{server_path}: "{openocd_path}",' if openocd_path else ""}
             "gdbPath": "${{command:raspberry-pi-pico.getGDBPath}}",
-            "device": "${{command:raspberry-pi-pico.getChip}}",
+            "device": "${{command:raspberry-pi-pico.getChipUppercase}}",
             "configFiles": [
                 "{debugger}",
                 "target/${{command:raspberry-pi-pico.getTarget}}.cfg"
             ],
-            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChip}}.svd",
+            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd",
             "runToEntryPoint": "main",
             // Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
             // Also works fine for flash binaries
@@ -811,8 +811,8 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "servertype": "external",
             "gdbTarget": "localhost:3333",
             "gdbPath": "${{command:raspberry-pi-pico.getGDBPath}}",
-            "device": "${{command:raspberry-pi-pico.getChip}}",
-            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChip}}.svd",
+            "device": "${{command:raspberry-pi-pico.getChipUppercase}}",
+            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd"
             "runToEntryPoint": "main",
             // Give restart the same functionality as runToEntryPoint - main
             "postRestartCommands": [
@@ -838,7 +838,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
                 "limit": 4
             }},
             "preLaunchTask": "Flash",
-            "svdPath": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChip}}.svd"
+            "svdPath": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd"
         }},
     ]
 }}
