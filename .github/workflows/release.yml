@@ -35,7 +35,6 @@ jobs:
           sed -i 's/\n\s"ms-vscode.*",//g' package.json
       - name: Package Extension for OVSX
         run: |
-          yarn lint
           vsce package -o ovsx-raspberry-pi-pico.vsix
       - name: Test PAT
         if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
