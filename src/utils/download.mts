@@ -179,7 +179,8 @@ export async function downloadAndInstallZip(
   targetDirectory: string,
   archiveFileName: string,
   logName: string,
-  extraCallback?: () => void
+  extraCallback?: () => void,
+  redirectURL?: string
 ): Promise<boolean> {
   // Check if the SDK is already installed
   if (
@@ -209,7 +210,7 @@ export async function downloadAndInstallZip(
   const archiveFilePath = join(tmpBasePath, archiveFileName);
 
   return new Promise(resolve => {
-    const downloadUrl = new URL(url);
+    const downloadUrl = new URL(redirectURL ?? url);
     const client = new Client(downloadUrl.origin);
 
     const requestOptions : Dispatcher.RequestOptions = {
@@ -217,17 +218,17 @@ export async function downloadAndInstallZip(
       method: "GET",
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
+        "User-Agent": EXT_USER_AGENT,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         Accept: "*/*",
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "Accept-Encoding": "gzip, deflate, br",
       },
-      maxRedirections: 3,
+      maxRedirections: 0,
     };
 
     // save requested stream to file
-    client.stream(requestOptions, ({statusCode}) =>
+    client.stream(requestOptions, ({statusCode, headers}) =>
       createWriteStream(archiveFilePath).on("finish", () => {
         const code = statusCode ?? 404;
 
@@ -240,7 +241,19 @@ export async function downloadAndInstallZip(
           return resolve(false);
         }
 
-        // any redirects should have been handled by undici
+        // handle redirects
+        if (code > 300 && !!headers.location) {
+          return resolve(
+            downloadAndInstallZip(
+              url,
+              targetDirectory,
+              archiveFileName,
+              logName,
+              extraCallback,
+              headers.location.toString()
+            )
+          );
+        }
         
         // unpack the archive
         if (artifactExt === "tar.xz" || artifactExt === "tar.gz") {
