@@ -37,6 +37,13 @@ examples.clear()
 
 CURRENT_DATA_VERSION = "0.16.0"
 
+try:
+    shutil.rmtree("pico-examples")
+except FileNotFoundError:
+    pass
+os.system("git clone https://github.com/raspberrypi/pico-examples.git --depth=1")
+os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.0.0"
+
 for board in boards:
     for platform in platforms[board]:
         try:
@@ -65,12 +72,7 @@ for board in boards:
                     continue
                 targets.append(target)
 
-        print(targets)
-
         walk_dir = "./pico-examples"
-
-        print('walk_dir (absolute) = ' + os.path.abspath(walk_dir))
-
         target_locs = {}
         lib_locs = {}
 
@@ -91,7 +93,6 @@ for board in boards:
                                 tmp["locs"].append(file_path)
                                 lib_locs[target] = tmp
                     if "add_executable" in f_content:
-                        print('\t- file %s (full path: %s)' % (filename, file_path))
                         exes = []
                         for target in targets:
                             if f"example_auto_set_url({target})" in f_content:
@@ -102,8 +103,6 @@ for board in boards:
                                 })
                                 tmp["locs"].append(file_path)
                                 target_locs[target] = tmp
-                        if len(exes):
-                            print("Has executables", exes)
 
         for k, v in target_locs.items():
             if len(v["locs"]) > 1:
@@ -115,24 +114,10 @@ for board in boards:
                     if lib in f_content:
                         target_locs[k]["libs"].append(lib)
 
-        print("Libs")
-
         for k, v in lib_locs.items():
             if len(v["locs"]) > 1:
                 raise ValueError(f"Too many locs {v}")
             lib_locs[k]["loc"] = v["locs"][0]
-            print(k, v)
-
-        print("Targets with libs")
-
-        # to_del = []
-        for k, v in target_locs.items():
-            if len(v["libs"]) > 0:
-                print(k, v)
-            # else:
-            #     to_del.append(k)
-        # for k in to_del:
-        #     del target_locs[k]
 
         # Test build them all
         try:
@@ -194,8 +179,6 @@ for board in boards:
 
             shutil.rmtree("tmp")
             shutil.rmtree("tmp-build")
-
-print(examples)
 
 with open(f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json", "w") as f:
     json.dump(examples, f, indent=4)

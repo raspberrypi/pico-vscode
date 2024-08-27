@@ -615,12 +615,12 @@ def GenerateCMake(folder, params):
                 # Get project name
                 for line in lines:
                     if "add_executable" in line:
-                        newProjectName = line.split('(')[1].split()[0].strip().strip("()")
                         if params["wantThreadsafeBackground"] or params["wantPoll"]:
+                            newProjectName = line.split('(')[1].split()[0].strip().strip("()")
                             newProjectName = newProjectName.replace("_background", "")
                             newProjectName = newProjectName.replace("_poll", "")
-                        print("New project name", newProjectName)
-                        cmake_header2 = cmake_header2.replace(projectName, newProjectName)
+                            print("New project name", newProjectName)
+                            cmake_header2 = cmake_header2.replace(projectName, newProjectName)
                 # Write all headers
                 file.write(cmake_header1)
                 file.write(cmake_header_us)
