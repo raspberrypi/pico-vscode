@@ -502,14 +502,17 @@ var isPicoWireless = false;
         var ninjaRadioButtons = document.querySelectorAll('input[name="ninja-version-radio"]');
         var cmakeRadioButtons = document.querySelectorAll('input[name="cmake-version-radio"]');
 
-        // Check if the first radio button is selected and disabled
-        if (pythonRadioButtons[0].checked && pythonRadioButtons[0].disabled) {
-          // Find the first non-disabled radio button
-          for (var i = 1; i < pythonRadioButtons.length; i++) {
-            if (!pythonRadioButtons[i].disabled) {
-              // Select the first non-disabled radio button
-              pythonRadioButtons[i].checked = true;
-              break;
+        // Don't check if no pythonRadioButtons, eg on Linux
+        if (pythonRadioButtons.length > 0) {
+          // Check if the first radio button is selected and disabled
+          if (pythonRadioButtons[0].checked && pythonRadioButtons[0].disabled) {
+            // Find the first non-disabled radio button
+            for (var i = 1; i < pythonRadioButtons.length; i++) {
+              if (!pythonRadioButtons[i].disabled) {
+                // Select the first non-disabled radio button
+                pythonRadioButtons[i].checked = true;
+                break;
+              }
             }
           }
         }
