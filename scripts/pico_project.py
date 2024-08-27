@@ -751,6 +751,12 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
     os.chdir(projectPath)
 
+    # Add a simple .gitignore file if there isn't one
+    if not os.path.isfile(".gitignore"):
+        file = open(".gitignore", "w")
+        file.write("build\n")
+        file.close()
+
     debugger = debugger_config_list[debugger]
 
     if debugger == "raspberrypi-swd.cfg":
