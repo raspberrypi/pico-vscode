@@ -41,6 +41,7 @@ On older images the requirements can be installed by running `sudo apt install o
 - Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 - \[Optional\] OpenOCD for debugging (Raspberry Pi OS only)
 - \[Optional\] gdb-multiarch for debugging (x86_64 only)
+- \[Ubuntu 22.04\] libftdi1-2 and libhidapi-hidraw0 apt packages are required to use OpenOCD
 
 ## Extension Settings
 
