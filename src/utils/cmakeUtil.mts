@@ -188,7 +188,7 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
         const command =
           `${
             process.env.ComSpec === "powershell.exe" ? "&" : ""
-          }"${cmake}" -DCMAKE_BUILD_TYPE=Debug ${
+          }"${cmake}" ${
             pythonPath.includes("/")
               ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `
               : ""

@@ -1174,19 +1174,19 @@ def DoEverything(parent, params):
     if isWindows:
         if shutil.which("ninja") or (params["ninjaPath"] != None and params["ninjaPath"] != ""):
             # When installing SDK version 1.5.0 on windows with installer pico-setup-windows-x64-standalone.exe, ninja is used 
-            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug -G Ninja ..'
+            cmakeCmd = params['cmakePath'] + ' -G Ninja ..'
             makeCmd = params['ninjaPath'] + ' '        
         else:
             # Everything else assume nmake
-            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" ..'
+            cmakeCmd = params['cmakePath'] + ' -G "NMake Makefiles" ..'
             makeCmd = 'nmake '
     else:
         # Ninja now works OK under Linux, so if installed use it by default. It's faster.
         if shutil.which("ninja") or (params["ninjaPath"] != None and params["ninjaPath"] != ""):
-            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug -G Ninja ..'
+            cmakeCmd = params['cmakePath'] + ' -G Ninja ..'
             makeCmd = params['ninjaPath'] + ' '
         else:
-            cmakeCmd = params['cmakePath'] + ' -DCMAKE_BUILD_TYPE=Debug ..'
+            cmakeCmd = params['cmakePath'] + ' ..'
             makeCmd = 'make -j' + str(cpus)
 
     os.system(cmakeCmd)
