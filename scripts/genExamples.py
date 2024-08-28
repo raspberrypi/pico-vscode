@@ -161,7 +161,7 @@ for board in boards:
                 if examples.get(target) != None:
                     example = examples[target]
                     assert(example["path"] == loc.replace(f"{walk_dir}/", ""))
-                    assert(example["name"] == loc.split('/')[-1])
+                    assert(example["name"] == target)
                     assert(example["libPaths"] == [lib_locs[lib]["loc"].replace("/CMakeLists.txt", "").replace(f"{walk_dir}/", "") for lib in v["libs"]])
                     assert(example["libNames"] == v["libs"])
                     if not board in example["boards"]:
@@ -170,7 +170,7 @@ for board in boards:
                 else:
                     examples[target] = {
                         "path": loc.replace(f"{walk_dir}/", ""),
-                        "name": loc.split('/')[-1],
+                        "name": target,
                         "libPaths": [lib_locs[lib]["loc"].replace("/CMakeLists.txt", "").replace(f"{walk_dir}/", "") for lib in v["libs"]],
                         "libNames": v["libs"],
                         "boards": [board],
