@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-import sys
+import glob
 import shutil
 import json
 
@@ -41,7 +41,12 @@ try:
     shutil.rmtree("pico-examples")
 except FileNotFoundError:
     pass
-os.system("git clone https://github.com/raspberrypi/pico-examples.git --depth=1")
+try:
+    for path in glob.glob("errors-pico*"):
+        shutil.rmtree(path)
+except FileNotFoundError:
+    pass
+os.system("git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-2.0.0")
 os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.0.0"
 
 for board in boards:

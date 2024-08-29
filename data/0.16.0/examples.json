@@ -1265,26 +1265,6 @@
         ],
         "supportRiscV": true
     },
-    "enc_bootloader": {
-        "path": "bootloaders/encrypted",
-        "name": "enc_bootloader",
-        "libPaths": [],
-        "libNames": [],
-        "boards": [
-            "pico2"
-        ],
-        "supportRiscV": false
-    },
-    "hello_serial_enc": {
-        "path": "bootloaders/encrypted",
-        "name": "hello_serial_enc",
-        "libPaths": [],
-        "libNames": [],
-        "boards": [
-            "pico2"
-        ],
-        "supportRiscV": false
-    },
     "boot_info": {
         "path": "system/boot_info",
         "name": "boot_info",

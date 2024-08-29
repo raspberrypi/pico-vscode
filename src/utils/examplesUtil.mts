@@ -23,7 +23,7 @@ const EXAMPLES_REPOSITORY_URL =
 const EXAMPLES_JSON_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/examples.json`;
-const EXAMPLES_GITREF = "175b382597cbd9d437643b024c8dd5ea18f69a7e";
+const EXAMPLES_GITREF = "7fe60d6b4027771e45d97f207532c41b1d8c5418";
 const EXAMPLES_TAG = "sdk-2.0.0";
 
 export interface Example {
@@ -152,7 +152,7 @@ export async function setupExample(
 
   const gitPath = await getGit(settings);
 
-  if (existsSync(examplesRepoPath)) {
+  if (existsSync(joinPosix(examplesRepoPath, ".git"))) {
     const ref = await execAsync(
       `cd "${examplesRepoPath}" && ${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
