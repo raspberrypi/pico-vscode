@@ -303,7 +303,8 @@ export async function cmakeUpdateBoard(
 export async function cmakeUpdateSDK(
   folder: Uri,
   newSDKVersion: string,
-  newToolchainVersion: string
+  newToolchainVersion: string,
+  reconfigure: boolean = true
 ): Promise<boolean> {
   // TODO: support for scaning for seperate locations of the CMakeLists.txt file in the project
   const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
@@ -372,17 +373,19 @@ export async function cmakeUpdateSDK(
     await writeFile(cmakeFilePath, modifiedContent, "utf8");
     Logger.log("Updated paths in CMakeLists.txt successfully.");
 
-    // reconfigure so .build gets updated
-    // TODO: To get a behavior similar to the rm -rf Unix command,
-    // use rmSync with options { recursive: true, force: true }
-    // to remove rimraf requirement
-    if (process.platform === "win32") {
-      await rimrafWindows(join(folder.fsPath, "build"), { maxRetries: 2 });
-    } else {
-      await rimraf(join(folder.fsPath, "build"), { maxRetries: 2 });
+    if (reconfigure) {
+      // reconfigure so .build gets updated
+      // TODO: To get a behavior similar to the rm -rf Unix command,
+      // use rmSync with options { recursive: true, force: true }
+      // to remove rimraf requirement
+      if (process.platform === "win32") {
+        await rimrafWindows(join(folder.fsPath, "build"), { maxRetries: 2 });
+      } else {
+        await rimraf(join(folder.fsPath, "build"), { maxRetries: 2 });
+      }
+      await configureCmakeNinja(folder);
+      Logger.log("Reconfigured CMake successfully.");
     }
-    await configureCmakeNinja(folder);
-    Logger.log("Reconfigured CMake successfully.");
 
     return true;
   } catch {

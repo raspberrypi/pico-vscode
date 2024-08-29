@@ -98,7 +98,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   > = [
     new NewProjectCommand(context.extensionUri),
     new SwitchSDKCommand(ui, context.extensionUri),
-    new SwitchBoardCommand(ui),
+    new SwitchBoardCommand(ui, context.extensionUri),
     new LaunchTargetPathCommand(),
     new GetPythonPathCommand(),
     new GetEnvPathCommand(),
