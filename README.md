@@ -26,7 +26,7 @@ This extension is documented in the [Getting started with Raspberry Pi Pico](htt
 
 ### macOS
 All requirements for macOS can be installed by running `xcode-select --install` from Terminal
-- Git (in PATH)
+- Git 2.28 or later (in PATH)
 - Tar (in PATH)
 - Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 
@@ -36,7 +36,7 @@ On older images the requirements can be installed by running `sudo apt install o
 
 ### Linux
 - Python 3.9 or later (in PATH or set in settings)
-- Git (in PATH)
+- Git 2.28 or later (in PATH)
 - Tar (in PATH)
 - Native C/C++ compiler (in PATH), supported compilers are: `gcc` and `clang`
 - \[Optional\] OpenOCD for debugging (Raspberry Pi OS only)
