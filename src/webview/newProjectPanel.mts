@@ -122,7 +122,6 @@ interface WebviewMessage {
 }
 
 enum BoardType {
-  default = "default",
   pico = "pico",
   picoW = "pico_w",
   pico2 = "pico2",
@@ -267,10 +266,13 @@ interface ImportProjectOptions {
 
 interface NewExampleBasedProjectOptions extends ImportProjectOptions {
   name: string;
+  libNames: [string];
   boardType: BoardType;
 }
 
-interface NewProjectOptions extends NewExampleBasedProjectOptions {
+interface NewProjectOptions extends ImportProjectOptions {
+  name: string;
+  boardType: BoardType;
   consoleOptions: ConsoleOption[];
   libraries: Array<Library | PicoWirelessOption>;
   codeOptions: CodeOption[];
@@ -573,7 +575,7 @@ export class NewProjectPanel {
                   title: `Importing project ${projectFolderName} from ${this._projectRoot?.fsPath}, this may take a while...`,
                 },
                 async progress =>
-                  this._generateProjectOperation(progress, data, message, false)
+                  this._generateProjectOperation(progress, data, message)
               );
             }
             break;
@@ -649,7 +651,7 @@ export class NewProjectPanel {
                   }, this may take a while...`,
                 },
                 async progress =>
-                  this._generateProjectOperation(progress, data, message, true)
+                  this._generateProjectOperation(progress, data, message, example)
               );
             }
             break;
@@ -723,7 +725,7 @@ export class NewProjectPanel {
       | SubmitExampleMessageValue
       | ImportProjectMessageValue,
     message: WebviewMessage,
-    exampleBased: boolean = false
+    example?: Example
   ): Promise<void> {
     const projectPath = this._projectRoot?.fsPath ?? "";
 
@@ -1048,7 +1050,7 @@ export class NewProjectPanel {
           return;
       }
 
-      if (!exampleBased && !this._isProjectImport) {
+      if (example === undefined && !this._isProjectImport) {
         const theData = data as SubmitMessageValue;
         const args: NewProjectOptions = {
           name: theData.projectName,
@@ -1095,10 +1097,11 @@ export class NewProjectPanel {
           args,
           python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
         );
-      } else if (exampleBased && !this._isProjectImport) {
+      } else if (example !== undefined && !this._isProjectImport) {
         const theData = data as SubmitExampleMessageValue;
         const args: NewExampleBasedProjectOptions = {
           name: theData.example,
+          libNames: example.libNames,
           projectRoot: projectPath,
           boardType: theData.boardType as BoardType,
           debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
@@ -1119,7 +1122,7 @@ export class NewProjectPanel {
           python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/")),
           true
         );
-      } else if (this._isProjectImport && !exampleBased) {
+      } else if (this._isProjectImport && example === undefined) {
         const args: ImportProjectOptions = {
           projectRoot: projectPath,
           toolchainAndSDK: {
@@ -1386,9 +1389,9 @@ export class NewProjectPanel {
           ${
             !this._isProjectImport && this._examples.length > 0
               ? `
-          var examples = ["${this._examples
-            .map(e => e.searchKey)
-            .join('", "')}"]`
+          var examples = {${this._examples
+            .map(e => `"${e.searchKey}": {"boards": [${e.boards.map(b => `"${b}"`).join(', ')}], "supportRiscV": ${e.supportRiscV}}`)
+            .join(', ')}}`
               : ""
           }
           var doProjectImport = ${this._isProjectImport};
@@ -1502,12 +1505,6 @@ export class NewProjectPanel {
                         <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                ${
-                                  // show the default option only if a use has the option to create base on an example
-                                  this._examples.length > 0
-                                    ? `<option id="sel-${BoardType.default}" value="${BoardType.default}">Default</option>`
-                                    : ""
-                                }
                                 <option id="sel-${BoardType.pico}" value="${
                           BoardType.pico
                         }">Pico</option>
@@ -1969,9 +1966,7 @@ export class NewProjectPanel {
     if ("boardType" in options) {
       try {
         boardTypeFromEnum = await enumToBoard(
-          options.boardType === BoardType.default
-            ? BoardType.pico
-            : options.boardType,
+          options.boardType,
           options.toolchainAndSDK.sdkPath
         );
       } catch {
@@ -1992,7 +1987,7 @@ export class NewProjectPanel {
               ? "-nouart"
               : "",
           ]
-        : "boardType" in options && options.boardType !== BoardType.default
+        : "boardType" in options
         ? [boardTypeFromEnum]
         : [];
     if (!("boardType" in options) && this._isProjectImport) {
@@ -2014,11 +2009,9 @@ export class NewProjectPanel {
       } catch {
         /* ignore */
       }
-    } else if ("boardType" in options && isExampleBased && "name" in options) {
-      if (options.boardType === BoardType.default) {
-        if (options.name.includes("picow") || options.name.includes("pico_w")) {
-          basicNewProjectOptions.push(`-board pico_w`);
-        }
+    } else if ("boardType" in options && isExampleBased && "name" in options && "libNames" in options) {
+      for (const libName of options.libNames) {
+        basicNewProjectOptions.push(`-examLibs ${libName}`);
       }
     }
 

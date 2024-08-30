@@ -226,7 +226,7 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
         }
 
         const isInputEmpty = projectNameInput.value === "";
-        for (let i of examples.sort()) {
+        for (let i of Object.keys(examples).sort()) {
           // startsWith was to strict for the examples name format we use
           if (isInputEmpty || i.toLowerCase().includes(projectNameInput.value.toLowerCase())) {
             // create li element
@@ -309,7 +309,7 @@ window.onload = function () {
       //const exampleOptions = Array.from(examplesList.options).map(option => option.value);
 
       const inputValue = projectNameInput.value;
-      const isValueInOptions = examples.includes(inputValue);
+      const isValueInOptions = Object.keys(examples).includes(inputValue);
 
       if (isValueInOptions) {
         // example selected

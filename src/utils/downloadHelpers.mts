@@ -7,7 +7,7 @@ import AdmZip from "adm-zip";
 import { request } from "https";
 import { fileURLToPath } from "url";
 
-export const CURRENT_DATA_VERSION = "0.15.0";
+export const CURRENT_DATA_VERSION = "0.16.0";
 
 export function getDataRoot(): string {
   return joinPosix(
