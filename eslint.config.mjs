@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
 
-export default [
+export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintConfigPrettier,
@@ -19,7 +19,7 @@ export default [
         ...globals.commonjs
       },
       parserOptions: {
-        project: true,
+        projectService: true,
         tsconfigRootDir: import.meta.dirname
       }
     },
@@ -55,4 +55,4 @@ export default [
       "web/**/*.js",
     ]
   }
-];
+);
