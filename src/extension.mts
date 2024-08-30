@@ -74,6 +74,7 @@ import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
+import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -140,6 +141,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
           state && state.isImportProject,
           state && state.forceFromExample
         );
+      },
+    })
+  );
+
+  context.subscriptions.push(
+    window.registerWebviewPanelSerializer(NewMicroPythonProjectPanel.viewType, {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+        // Reset the webview options so we use latest uri for `localResourceRoots`.
+        webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+        NewMicroPythonProjectPanel.revive(webviewPanel, context.extensionUri);
       },
     })
   );

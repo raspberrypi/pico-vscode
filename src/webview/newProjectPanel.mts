@@ -119,7 +119,7 @@ interface SubmitMessageValue extends ImportProjectMessageValue {
   cppExceptions: boolean;
 }
 
-interface WebviewMessage {
+export interface WebviewMessage {
   command: string;
   value: object | string | SubmitMessageValue;
 }
@@ -736,7 +736,7 @@ export class NewProjectPanel {
       // update webview
       void this._panel.webview.postMessage({
         command: "changeLocation",
-        value: projectUri?.fsPath,
+        value: projectUri.fsPath,
       });
     }
   }
