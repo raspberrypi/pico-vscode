@@ -338,7 +338,10 @@ export async function cmakeUpdateSDK(
         `set(sdkVersion ${newSDKVersion})\n` +
         `set(toolchainVersion ${newToolchainVersion})\n` +
         `set(picotoolVersion ${picotoolVersion})\n` +
-        `include(${buildCMakeIncPath(false)}/pico-vscode.cmake)\n` +
+        `set(picoVscode ${buildCMakeIncPath(false)}/pico-vscode.cmake)\n` +
+        "if (EXISTS ${picoVscode})\n" +
+        "    include(${picoVscode})\n" +
+        "endif()\n" +
         // eslint-disable-next-line max-len
         "# ===================================================================================="
       );
