@@ -326,6 +326,8 @@ export default class SwitchSDKCommand extends Command {
       selectedSDK.label.replace("v", "")
     );
 
+    const selectedPicotool = versionBundle?.picotool;
+
     const configureAdvancedOptions = await window.showQuickPick(["No", "Yes"], {
       title: "Switch Tools",
       placeHolder: "Configure advanced options?",
@@ -445,7 +447,8 @@ export default class SwitchSDKCommand extends Command {
             const cmakeUpdateResult = await cmakeUpdateSDK(
               workspaceFolder.uri,
               selectedSDK.sdk,
-              selectedToolchain.toolchain.version
+              selectedToolchain.toolchain.version,
+              selectedPicotool ?? "2.0.0"
             );
 
             if (!cmakeUpdateResult) {

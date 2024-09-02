@@ -28,6 +28,7 @@ import {
   SDK_REPOSITORY_URL,
   getCmakeReleases,
   getNinjaReleases,
+  getPicotoolReleases,
   getSDKReleases,
 } from "../utils/githubREST.mjs";
 import {
@@ -63,12 +64,12 @@ import {
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
 
-export const picotoolVersion = "2.0.0";
 export const openOCDVersion = "0.12.0+dev";
 
 interface ImportProjectMessageValue {
   selectedSDK: string;
   selectedToolchain: string;
+  selectedPicotool: string;
   ninjaMode: number;
   ninjaPath: string;
   ninjaVersion: string;
@@ -495,10 +496,7 @@ export class NewProjectPanel {
                   message.value as string
                 );
               // change toolchain version on arm64 linux, as Core-V not available for that
-              let riscvToolchain = versionBundle?.riscvToolchain;
-              if (process.platform === "linux" && process.arch === "arm64") {
-                riscvToolchain = "RISCV_RPI";
-              }
+              const riscvToolchain = versionBundle?.riscvToolchain;
               // return result in message of command versionBundleAvailableTest
               await this._panel.webview.postMessage({
                 command: "versionBundleAvailableTest",
@@ -741,6 +739,7 @@ export class NewProjectPanel {
       const selectedToolchain = this._supportedToolchains?.find(
         tc => tc.version === data.selectedToolchain.replaceAll(".", "_")
       );
+      const selectedPicotool = data.selectedPicotool.slice(0);
 
       if (!selectedToolchain) {
         void window.showErrorMessage("Failed to find selected toolchain.");
@@ -857,7 +856,7 @@ export class NewProjectPanel {
             )) ||
             !(await downloadAndInstallToolchain(selectedToolchain)) ||
             !(await downloadAndInstallTools(selectedSDK)) ||
-            !(await downloadAndInstallPicotool(picotoolVersion))
+            !(await downloadAndInstallPicotool(selectedPicotool))
           ) {
             this._logger.error(
               `Failed to download and install toolchain and SDK.`
@@ -1086,7 +1085,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
-            picotoolVersion: picotoolVersion,
+            picotoolVersion: selectedPicotool,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1110,7 +1109,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
-            picotoolVersion: picotoolVersion,
+            picotoolVersion: selectedPicotool,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1130,7 +1129,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
-            picotoolVersion: picotoolVersion,
+            picotoolVersion: selectedPicotool,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1243,6 +1242,7 @@ export class NewProjectPanel {
     // TODO: add offline handling - only load installed ones
     let toolchainsHtml = "";
     let picoSDKsHtml = "";
+    let picotoolsHtml = "";
     let ninjasHtml = "";
     let cmakesHtml = "";
 
@@ -1257,6 +1257,7 @@ export class NewProjectPanel {
       const supportedToolchains = await getSupportedToolchains();
       const ninjaReleases = await getNinjaReleases();
       const cmakeReleases = await getCmakeReleases();
+      const picotoolReleases = await getPicotoolReleases();
 
       if (availableSDKs.length === 0 || supportedToolchains.length === 0) {
         this._logger.error(
@@ -1280,6 +1281,14 @@ export class NewProjectPanel {
               ? `class="advanced-option-2" disabled`
               : ""
           }>v${sdk}</option>`;
+        });
+
+      picotoolReleases
+        .sort((a, b) => compare(b, a))
+        .forEach(picotool => {
+          picotoolsHtml += `<option ${
+            picotoolsHtml.length === 0 ? "selected " : ""
+          }value="${picotool}">${picotool}</option>`;
         });
 
       supportedToolchains.forEach(toolchain => {
@@ -1606,6 +1615,12 @@ export class NewProjectPanel {
                         <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM/RISCV Embeded Toolchain version</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${toolchainsHtml}
+                        </select>
+                      </div>
+                      <div hidden>
+                        <label for="sel-picotool" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select picotool version</label>
+                        <select id="sel-picotool" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            ${picotoolsHtml}
                         </select>
                       </div>
                     </div>

@@ -16,6 +16,7 @@ export enum GithubRepository {
   cmake = 1,
   ninja = 2,
   tools = 3,
+  picotool = 4,
 }
 
 export type GithubReleaseResponse = {
@@ -46,6 +47,8 @@ export function ownerOfRepository(repository: GithubRepository): string {
       return "ninja-build";
     case GithubRepository.tools:
       return "raspberrypi";
+    case GithubRepository.picotool:
+      return "raspberrypi"
   }
 }
 
@@ -59,6 +62,8 @@ export function repoNameOfRepository(repository: GithubRepository): string {
       return "ninja";
     case GithubRepository.tools:
       return "pico-sdk-tools";
+    case GithubRepository.picotool:
+      return "picotool"
   }
 }
 
@@ -209,6 +214,10 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
 
 export async function getSDKReleases(): Promise<string[]> {
   return getReleases(GithubRepository.picoSDK);
+}
+
+export async function getPicotoolReleases(): Promise<string[]> {
+  return getReleases(GithubRepository.picotool);
 }
 
 export async function getNinjaReleases(): Promise<string[]> {

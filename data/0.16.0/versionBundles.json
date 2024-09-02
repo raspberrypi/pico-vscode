@@ -7,6 +7,7 @@
     },
     "ninja": "v1.12.1",
     "cmake": "v3.28.6",
+    "picotool": "2.0.0",
     "toolchain": "12_3_Rel1",
     "riscvToolchain": "NONE"
   },
@@ -18,6 +19,7 @@
     },
     "ninja": "v1.12.1",
     "cmake": "v3.28.6",
+    "picotool": "2.0.0",
     "toolchain": "13_2_Rel1",
     "riscvToolchain": "NONE"
   },
@@ -29,7 +31,8 @@
     },
     "ninja": "v1.12.1",
     "cmake": "v3.28.6",
+    "picotool": "2.0.0",
     "toolchain": "13_2_Rel1",
-    "riscvToolchain": "RISCV_COREV_MAY_24"
+    "riscvToolchain": "RISCV_RPI_2_0_0_1"
   }
 }

@@ -15,6 +15,7 @@ import {
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger from "./logger.mjs";
 import {
+  CMAKE_DO_NOT_EDIT_HEADER_PREFIX,
   cmakeGetSelectedBoard,
   cmakeGetSelectedToolchainAndSDKVersions,
   configureCmakeNinja,
@@ -54,7 +55,6 @@ import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import {
   NewProjectPanel,
   getWebviewOptions,
-  picotoolVersion,
   openOCDVersion,
 } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
@@ -71,10 +71,6 @@ import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
-
-export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
-  // eslint-disable-next-line max-len
-  "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.log("Extension activated.");
@@ -225,7 +221,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       SDK_REPOSITORY_URL
     )) ||
     !(await downloadAndInstallTools(selectedToolchainAndSDKVersions[0])) ||
-    !(await downloadAndInstallPicotool(picotoolVersion))
+    !(await downloadAndInstallPicotool(selectedToolchainAndSDKVersions[2]))
   ) {
     Logger.log(
       "Failed to install project SDK " +

@@ -106,6 +106,8 @@ var isPicoWireless = false;
     const selectedSDK = document.getElementById('sel-pico-sdk').value;
     // selected toolchain
     const selectedToolchain = document.getElementById('sel-toolchain').value;
+    // selected picotool
+    const selectedPicotool = document.getElementById('sel-picotool').value;
 
     // TODO: maybe move these duplicate sections for ninja, cmake and python into a generic helper function
 
@@ -276,6 +278,7 @@ var isPicoWireless = false;
         value: {
           selectedSDK: selectedSDK,
           selectedToolchain: selectedToolchain,
+          selectedPicotool: selectedPicotool,
           ninjaMode: Number(ninjaMode),
           ninjaPath: ninjaPath,
           ninjaVersion: ninjaVersion,
@@ -301,6 +304,7 @@ var isPicoWireless = false;
 
           selectedSDK: selectedSDK,
           selectedToolchain: selectedToolchain,
+          selectedPicotool: selectedPicotool,
           ninjaMode: Number(ninjaMode),
           ninjaPath: ninjaPath,
           ninjaVersion: ninjaVersion,
@@ -366,6 +370,7 @@ var isPicoWireless = false;
         boardType: boardType,
         selectedSDK: selectedSDK,
         selectedToolchain: selectedToolchain,
+        selectedPicotool: selectedPicotool,
         ninjaMode: Number(ninjaMode),
         ninjaPath: ninjaPath,
         ninjaVersion: ninjaVersion,
@@ -493,6 +498,18 @@ var isPicoWireless = false;
             console.debug("Updated selected toolchain with new default value", toolchainSelector.options[selectedIndex].value);
           } else {
             console.error("Could not find default toolchain version in versionBundle response!");
+          }
+        }
+
+        if (result.result && "picotoolVersion" in result) {
+          var picotoolSelector = document.getElementById("sel-picotool");
+          var selectedIndex = getIndexByValue(picotoolSelector, result.picotoolVersion);
+
+          if (selectedIndex !== -1) {
+            picotoolSelector.selectedIndex = selectedIndex;
+            console.debug("Updated selected picotool with new default value", picotoolSelector.options[selectedIndex].value);
+          } else {
+            console.error("Could not find default picotool version in versionBundle response!");
           }
         }
 
