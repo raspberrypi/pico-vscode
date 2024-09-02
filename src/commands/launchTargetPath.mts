@@ -71,7 +71,7 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
         "cmake.launchTargetPath"
       );
       if (path) {
-        return path;
+        return path.replaceAll("\\", "/");
       }
     }
 
