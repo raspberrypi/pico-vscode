@@ -22,8 +22,6 @@ import {
 import which from "which";
 import { existsSync } from "fs";
 import { join } from "path";
-import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mts";
-import { downloadEmbedPython } from "../utils/download.mts";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -307,7 +305,7 @@ while True:
     except KeyboardInterrupt:
         break
 pin.off()
-print("Finished.")`;
+print("Finished.")\r\n`;
       const filePath = join(projectFolder, "blink.py");
       await workspace.fs.writeFile(
         Uri.file(filePath),
