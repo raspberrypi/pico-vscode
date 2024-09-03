@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+import type { Webview, Progress } from "vscode";
 import {
   Uri,
   ViewColumn,
@@ -5,19 +7,17 @@ import {
   type WebviewPanel,
   type Disposable,
   ColorThemeKind,
-  Webview,
   workspace,
   ProgressLocation,
-  Progress,
   commands,
 } from "vscode";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
+import type { WebviewMessage } from "./newProjectPanel.mjs";
 import {
   getNonce,
   getProjectFolderDialogOptions,
   getWebviewOptions,
-  WebviewMessage,
 } from "./newProjectPanel.mjs";
 import which from "which";
 import { existsSync } from "fs";
@@ -42,7 +42,7 @@ export class NewMicroPythonProjectPanel {
 
   private _projectRoot?: Uri;
 
-  public static createOrShow(extensionUri: Uri, projectUri?: Uri) {
+  public static createOrShow(extensionUri: Uri, projectUri?: Uri): void {
     const column = window.activeTextEditor
       ? window.activeTextEditor.viewColumn
       : undefined;
@@ -194,7 +194,8 @@ export class NewMicroPythonProjectPanel {
                 existsSync(join(this._projectRoot.fsPath, data.projectName))
               ) {
                 void window.showErrorMessage(
-                  "Project already exists. Please select a different project name or root."
+                  "Project already exists. " +
+                    "Please select a different project name or root."
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -246,7 +247,8 @@ export class NewMicroPythonProjectPanel {
       projectPath.length === 0
     ) {
       void window.showErrorMessage(
-        "Failed to generate MicroPython project. Please try again and check your settings."
+        "Failed to generate MicroPython project. " +
+          "Please try again and check your settings."
       );
 
       return;
@@ -311,7 +313,7 @@ print("Finished.")\r\n`;
         Uri.file(filePath),
         new TextEncoder().encode(blinkPyCode)
       );
-    } catch (err) {
+    } catch {
       progress.report({
         message: "Failed",
         increment: 100,

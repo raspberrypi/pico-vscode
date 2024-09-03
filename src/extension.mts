@@ -74,6 +74,7 @@ import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
+// eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
