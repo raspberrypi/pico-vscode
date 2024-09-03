@@ -293,8 +293,7 @@ export class NewMicroPythonProjectPanel {
     try {
       await workspace.fs.createDirectory(Uri.file(projectFolder));
       // also create a blink.py in it with a import machine
-      const blinkPyCode = `# Only works on Raspberry Pi Pico not the W models
-from machine import Pin
+      const blinkPyCode = `from machine import Pin
 from utime import sleep
 
 pin = Pin("LED", Pin.OUT)
