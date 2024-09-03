@@ -819,7 +819,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "gdbTarget": "localhost:3333",
             "gdbPath": "${{command:raspberry-pi-pico.getGDBPath}}",
             "device": "${{command:raspberry-pi-pico.getChipUppercase}}",
-            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd"
+            "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd",
             "runToEntryPoint": "main",
             // Give restart the same functionality as runToEntryPoint - main
             "postRestartCommands": [
