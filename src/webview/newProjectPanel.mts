@@ -1585,8 +1585,10 @@ export class NewProjectPanel {
                                     : "/home/user/Project/To/Import"
                                 }" disabled value="${
       // support folder names with backslashes on linux and macOS
-      this._projectRoot !== undefined && process.platform === "win32"
-        ? this._projectRoot.fsPath.replaceAll("\\", "/")
+      this._projectRoot !== undefined
+        ? process.platform === "win32"
+          ? this._projectRoot.fsPath.replaceAll("\\", "/")
+          : this._projectRoot.fsPath
         : ""
     }"/>
                             </div>
