@@ -1,5 +1,5 @@
 import { join as joinPosix } from "path/posix";
-import Logger from "../logger.mjs";
+import Logger, { LoggerSource } from "../logger.mjs";
 import { existsSync, readFileSync, rmSync } from "fs";
 import { homedir } from "os";
 import {
@@ -17,6 +17,7 @@ import {
   CURRENT_DATA_VERSION,
   getDataRoot,
 } from "./downloadHelpers.mjs";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 const EXAMPLES_REPOSITORY_URL =
   "https://github.com/raspberrypi/pico-examples.git";
@@ -64,13 +65,22 @@ function parseExamplesJson(data: string): Example[] {
       supportRiscV: examples[key].supportRiscV,
       searchKey: key,
     }));
-  } catch {
-    Logger.log("Failed to parse examples.json");
+  } catch (error) {
+    Logger.error(
+      LoggerSource.examples,
+      "Failed to parse examples.json.",
+      unknownErrorToString(error)
+    );
 
     return [];
   }
 }
 
+/**
+ * Downloads the examples list from the internet or loads the included examples.json.
+ *
+ * @returns A promise that resolves with an array of Example objects.
+ */
 export async function loadExamples(): Promise<Example[]> {
   try {
     if (!(await isInternetConnected())) {
@@ -109,12 +119,18 @@ export async function loadExamples(): Promise<Example[]> {
       });
     });
 
-    // TODO: Logger.debug
-    Logger.log(`Successfully downloaded examples list from the internet.`);
+    Logger.info(
+      LoggerSource.examples,
+      "Successfully downloaded examples list from the internet."
+    );
 
     return result;
   } catch (error) {
-    Logger.log(error instanceof Error ? error.message : (error as string));
+    Logger.warn(
+      LoggerSource.examples,
+      "Failed to download examples:",
+      unknownErrorToString(error)
+    );
 
     try {
       const examplesFile = readFileSync(
@@ -122,8 +138,12 @@ export async function loadExamples(): Promise<Example[]> {
       );
 
       return parseExamplesJson(examplesFile.toString("utf-8"));
-    } catch {
-      Logger.log("Failed to load examples.json");
+    } catch (error) {
+      Logger.error(
+        LoggerSource.examples,
+        "Failed to load included examples.json.",
+        unknownErrorToString(error)
+      );
 
       return [];
     }

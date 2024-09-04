@@ -39,6 +39,7 @@ import {
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -184,7 +185,7 @@ export async function downloadAndInstallZip(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`${logName} is already installed.`);
+    Logger.info(LoggerSource.downloader, `${logName} is already installed.`);
 
     return true;
   }
@@ -233,8 +234,9 @@ export async function downloadAndInstallZip(
 
           if (code >= 400) {
             //return reject(new Error(STATUS_CODES[code]));
-            Logger.log(
-              `Error while downloading ${logName}: ` + STATUS_CODES[code]
+            Logger.error(
+              LoggerSource.downloader,
+              `Downloading ${logName} failed: ` + STATUS_CODES[code]
             );
 
             return resolve(false);
@@ -288,7 +290,10 @@ export async function downloadAndInstallZip(
           } else {
             rmSync(archiveFilePath, { recursive: true, force: true });
             rmSync(targetDirectory, { recursive: true, force: true });
-            Logger.log(`Error: unknown archive extension: ${artifactExt}`);
+            Logger.error(
+              LoggerSource.downloader,
+              `Unknown archive extension: ${artifactExt}`
+            );
             resolve(false);
           }
         }),
@@ -297,7 +302,11 @@ export async function downloadAndInstallZip(
           // error - clean
           rmSync(archiveFilePath, { recursive: true, force: true });
           rmSync(targetDirectory, { recursive: true, force: true });
-          Logger.log(`Error while downloading ${logName}:` + error.message);
+          Logger.error(
+            LoggerSource.downloader,
+            `Downloading ${logName} failed:`,
+            error.message
+          );
 
           resolve(false);
         }
@@ -306,6 +315,15 @@ export async function downloadAndInstallZip(
   });
 }
 
+/**
+ * Downloads and installs the Pico SDK.
+ *
+ * @param version The version of the SDK to download
+ * @param repositoryUrl The URL of the repository to download the SDK from
+ * @param python3Path The path to a Python3 executable
+ * @returns A promise that resolves to true if the SDK was successfully
+ * downloaded and installed, false otherwise
+ */
 export async function downloadAndInstallSDK(
   version: string,
   repositoryUrl: string,
@@ -313,7 +331,7 @@ export async function downloadAndInstallSDK(
 ): Promise<boolean> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
-    Logger.log("Error: Settings not initialized.");
+    Logger.error(LoggerSource.downloader, "Settings not initialized.");
 
     return false;
   }
@@ -338,7 +356,10 @@ export async function downloadAndInstallSDK(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`SDK ${version} is already installed.`);
+    Logger.info(
+      LoggerSource.downloader,
+      `SDK ${version} is already installed.`
+    );
 
     return true;
   }
@@ -362,8 +383,9 @@ export async function downloadAndInstallSDK(
     const python3: string | null = await which(python3Exe, { nothrow: true });
 
     if (python3 === null) {
-      Logger.log(
-        "Error: Python3 is not installed and could not be downloaded."
+      Logger.error(
+        LoggerSource.downloader,
+        "Python3 is not installed and could not be downloaded."
       );
 
       void window.showErrorMessage("Python3 is not installed and in PATH.");
@@ -377,6 +399,21 @@ export async function downloadAndInstallSDK(
   return false;
 }
 
+/**
+ * Downloads and installs a GitHub release asset.
+ *
+ * @param version The version of the asset to download
+ * @param releaseVersion The release tag of the asset to download
+ * @param repo The repository to download the asset from
+ * @param targetDirectory The directory to install the asset to
+ * @param archiveFileName The name of the archive file to download
+ * @param assetName The name of the asset to download
+ * @param logName The name of the asset to log
+ * @param extraCallback An optional callback to execute after the asset is installed
+ * @param redirectURL An optional redirect URL to download the asset
+ * from (used to follow redirects recursively)
+ * @returns A promise that resolves to true if the asset was downloaded and installed successfully
+ */
 async function downloadAndInstallGithubAsset(
   version: string,
   releaseVersion: string,
@@ -389,13 +426,16 @@ async function downloadAndInstallGithubAsset(
 
   redirectURL?: string
 ): Promise<boolean> {
-  // Check if the asset is already installed
+  // Check if the asset has already been installed
   if (
     redirectURL === undefined &&
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`${logName} ${version} is already installed.`);
+    Logger.info(
+      LoggerSource.downloader,
+      `${logName} ${version} is already installed.`
+    );
 
     return true;
   }
@@ -416,8 +456,7 @@ async function downloadAndInstallGithubAsset(
         return false;
       }
 
-      // Find the asset
-      Logger.log(release.assetsUrl);
+      // Find the asset to download
       asset = release.assets.find(asset => asset.name === assetName);
     } else {
       asset = {
@@ -428,18 +467,19 @@ async function downloadAndInstallGithubAsset(
       };
     }
   } catch (error) {
-    Logger.log(
-      `Error fetching ${logName} release ${version}. ${
-        error instanceof Error ? error.message : (error as string)
-      }`
+    Logger.error(
+      LoggerSource.downloader,
+      "Fetching ${logName} release ${version} failed:",
+      unknownErrorToString(error)
     );
 
     return false;
   }
 
   if (!asset) {
-    Logger.log(
-      `Error release asset for ${logName} release ${version} not found.`
+    Logger.error(
+      LoggerSource.downloader,
+      `Release asset for ${logName} release ${version} not found.`
     );
 
     return false;
@@ -695,15 +735,16 @@ export async function downloadAndInstallToolchain(
   );
 }
 
+/**
+ * Download and install the Ninja build system.
+ *
+ * @param version The version of Ninja to download
+ * @returns A promise that resolves to true if Ninja was
+ * successfully downloaded and installed, false otherwise
+ */
 export async function downloadAndInstallNinja(
   version: string
 ): Promise<boolean> {
-  /*if (process.platform === "linux") {
-    Logger.log("Ninja installation on Linux is not supported.");
-
-    return false;
-  }*/
-
   const targetDirectory = buildNinjaPath(version);
   const archiveFileName = `ninja.zip`;
   const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}${
@@ -802,7 +843,7 @@ export async function downloadAndInstallOpenOCD(
 }
 
 /**
- * Supports Windows and macOS amd64 and arm64.
+ * Supports Windows and macOS and Linux.
  *
  * @param version
  * @returns
@@ -810,12 +851,6 @@ export async function downloadAndInstallOpenOCD(
 export async function downloadAndInstallCmake(
   version: string
 ): Promise<boolean> {
-  /*if (process.platform === "linux") {
-    Logger.log("CMake installation on Linux is not supported.");
-
-    return false;
-  }*/
-
   const targetDirectory = buildCMakePath(version);
   const assetExt = process.platform === "win32" ? "zip" : "tar.gz";
   const archiveFileName = `cmake-${version}.${assetExt}`;
@@ -833,7 +868,7 @@ export async function downloadAndInstallCmake(
 
   const extraCallback = (): void => {
     // on macOS the download includes an app bundle
-    // create a symlink so it has the same paths as on other platforms
+    // create a symlink so it has the same path as on other platforms
     if (process.platform === "darwin") {
       symlinkSync(
         join(targetDirectory, "CMake.app", "Contents", "bin"),
@@ -944,9 +979,10 @@ export async function downloadEmbedPython(
 
           if (code >= 400) {
             //return reject(new Error(STATUS_CODES[code]));
-            Logger.log(
+            Logger.error(
               LoggerSource.downloader,
-              "Downloading embed Python3 failed: " + STATUS_CODES[code]
+              "Downloading embed Python3 failed:",
+              STATUS_CODES[code] ?? `Unknown status code '${code}'`
             );
 
             return resolve(undefined);

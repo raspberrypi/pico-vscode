@@ -30,10 +30,13 @@ interface Stringable {
  * @enum {string}
  */
 export enum LoggerSource {
-  gitHubRestApi = "githubREST",
+  githubRestApi = "githubREST",
   gitDownloader = "downloadGit",
   downloader = "download",
   requirements = "requirementsUtil",
+  examples = "examplesUtil",
+  githubApiCache = "githubApiCache",
+  extension = "extension",
 }
 
 /**
@@ -61,7 +64,7 @@ export default class Logger {
     message: string | undefined,
     ...optionalParams: Stringable[]
   ): void {
-    console.log(`${EXT_LOG_PREFIX} ${message}`, ...optionalParams);
+    console.log(`[${EXT_LOG_PREFIX}] ${message}`, ...optionalParams);
   }
 
   private static shouldLog(level: LogLevel): boolean {

@@ -8,6 +8,7 @@ import { exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import { EXT_USER_AGENT } from "./githubREST.mjs";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 const GIT_DOWNLOAD_URL_WIN_AMD64 =
   "https://github.com/git-for-windows/git/releases/download" +
@@ -41,7 +42,7 @@ export async function downloadGit(
 
   // Check if the Embed Python is already installed
   if (redirectURL === undefined && existsSync(targetDirectory)) {
-    Logger.log(`Git is already installed.`);
+    Logger.info(LoggerSource.gitDownloader, `Git is already installed.`);
 
     return process.platform === "win32"
       ? `${settingsTargetDirectory}/cmd/git.exe`
@@ -75,7 +76,11 @@ export async function downloadGit(
 
       if (code >= 400) {
         //return reject(new Error(response.statusMessage));
-        Logger.log("Error while downloading git: " + response.statusMessage);
+        Logger.error(
+          LoggerSource.gitDownloader,
+          "Downloading git failed:",
+          response.statusMessage ?? "{No status message vailable}."
+        );
 
         resolve(undefined);
       }
@@ -116,10 +121,10 @@ export async function downloadGit(
                 "--remove-section include",
               error => {
                 if (error) {
-                  Logger.log(
-                    `Error executing git: ${
-                      error instanceof Error ? error.message : (error as string)
-                    }`
+                  Logger.error(
+                    LoggerSource.gitDownloader,
+                    "Executing git failed:",
+                    unknownErrorToString(error)
                   );
                   resolve(undefined);
                 } else {
@@ -134,8 +139,12 @@ export async function downloadGit(
       });
 
       response.pipe(fileWriter);
-    }).on("error", () => {
-      Logger.log("Error while downloading git.");
+    }).on("error", err => {
+      Logger.error(
+        LoggerSource.gitDownloader,
+        "Downloading git failed:",
+        err.message
+      );
 
       return false;
     });

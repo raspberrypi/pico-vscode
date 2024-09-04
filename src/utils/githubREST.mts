@@ -114,7 +114,7 @@ export function getAuthorizationHeaders(): AuthorizationHeaders {
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
   if (githubPAT && githubPAT.length > 0) {
     Logger.info(
-      LoggerSource.gitHubRestApi,
+      LoggerSource.githubRestApi,
       "Using GitHub PAT for authentication with the GitHub REST API"
     );
     headers.Authorization = `Bearer ${githubPAT}`;
@@ -181,7 +181,7 @@ async function makeAsyncGetRequest<T>(
           resolve(response);
         } catch (error) {
           Logger.error(
-            LoggerSource.gitHubRestApi,
+            LoggerSource.githubRestApi,
             "Parsing JSON failed:",
             unknownErrorToString(error)
           );
@@ -192,7 +192,7 @@ async function makeAsyncGetRequest<T>(
 
     req.on("error", error => {
       Logger.error(
-        LoggerSource.gitHubRestApi,
+        LoggerSource.githubRestApi,
         "GET request failed:",
         error.message
       );
@@ -229,7 +229,12 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
     );
 
     if (response.status === HTTP_STATUS_NOT_MODIFIED) {
-      Logger.log("Using cached response for", repo, "releases");
+      Logger.debug(
+        LoggerSource.githubRestApi,
+        "Using cached response for",
+        repo,
+        "releases."
+      );
 
       const cachedResponse = await GithubApiCache.getInstance().getResponse(
         repository,
@@ -265,8 +270,14 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
     } else {
       throw new Error("response.data is null");
     }
-  } catch {
-    Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
+  } catch (error) {
+    Logger.error(
+      LoggerSource.githubRestApi,
+      "Fetching",
+      repoNameOfRepository(repository),
+      "releases failed:",
+      unknownErrorToString(error)
+    );
 
     return (
       await GithubApiCache.getInstance().getDefaultResponse(
@@ -328,7 +339,13 @@ export async function getGithubReleaseByTag(
     );
 
     if (response.status === HTTP_STATUS_NOT_MODIFIED) {
-      Logger.log("Using cached response for", repo, "release by tag", tag);
+      Logger.debug(
+        LoggerSource.githubRestApi,
+        "Using cached response for",
+        repo,
+        "release by tag",
+        tag
+      );
 
       const cachedResponse = await GithubApiCache.getInstance().getResponse(
         repository,
@@ -365,8 +382,14 @@ export async function getGithubReleaseByTag(
     } else {
       throw new Error("response.data is null");
     }
-  } catch {
-    Logger.log("Error fetching", repoNameOfRepository(repository), "releases");
+  } catch (error) {
+    Logger.error(
+      LoggerSource.githubRestApi,
+      "Fetching",
+      repoNameOfRepository(repository),
+      "releases failed:",
+      unknownErrorToString(error)
+    );
 
     return (
       await GithubApiCache.getInstance().getDefaultResponse(
@@ -385,7 +408,7 @@ export async function getGithubReleaseByTag(
  */
 export async function githubApiUnauthorized(): Promise<void> {
   Logger.warn(
-    LoggerSource.gitHubRestApi,
+    LoggerSource.githubRestApi,
     "GitHub API returned unauthorized. Removing GitHub PAT from settings."
   );
   // show a warning to the user
