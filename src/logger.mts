@@ -33,6 +33,7 @@ export enum LoggerSource {
   gitHubRestApi = "githubREST",
   gitDownloader = "downloadGit",
   downloader = "download",
+  requirements = "requirementsUtil",
 }
 
 /**

@@ -16,7 +16,7 @@ import type { Dispatcher } from "undici";
 import { Client } from "undici";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
 import { cloneRepository, initSubmodules, getGit } from "./gitUtil.mjs";
-import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
+import { checkForGit } from "./requirementsUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import type { VersionBundle } from "./versionBundles.mjs";
@@ -319,7 +319,7 @@ export async function downloadAndInstallSDK(
   }
 
   // TODO: this does take about 2s - may be reduced
-  const requirementsCheck = await checkForInstallationRequirements(settings);
+  const requirementsCheck = await checkForGit(settings);
   if (!requirementsCheck) {
     return false;
   }
@@ -452,12 +452,15 @@ async function downloadAndInstallGithubAsset(
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
 
   if (redirectURL !== undefined) {
-    Logger.log(`Downloading after redirect: ${redirectURL}`);
+    Logger.debug(
+      LoggerSource.downloader,
+      `Downloading after redirect: ${redirectURL}`
+    );
   }
 
   if (redirectURL === undefined && githubPAT && githubPAT.length > 0) {
     // Use GitHub API to download the asset (will return a redirect)
-    Logger.log(`Using GitHub API for download`);
+    Logger.debug(LoggerSource.downloader, "Using GitHub API for download");
     const assetID = asset.id;
 
     const headers: { [key: string]: string } = {
@@ -502,7 +505,10 @@ async function downloadAndInstallGithubAsset(
     //, data: Dispatcher.StreamData)
     const clientErrorCallback = (error: Error | null): void => {
       if (error) {
-        Logger.log(`Error downloading ${logName} asset:` + error.message);
+        Logger.error(
+          LoggerSource.downloader,
+          `Downloading ${logName} asset failed:` + error.message
+        );
         resolve(false);
       }
     };
@@ -529,7 +535,10 @@ async function downloadAndInstallGithubAsset(
               });
           }
           //return reject(new Error(STATUS_CODES[code]));
-          Logger.log(`Error downloading ${logName}: ` + STATUS_CODES[code]);
+          Logger.error(
+            LoggerSource.downloader,
+            `Downloading ${logName} failed: ` + STATUS_CODES[code]
+          );
 
           return resolve(false);
         }
@@ -603,7 +612,10 @@ export async function downloadAndInstallTools(
 ): Promise<boolean> {
   if (parseInt(version.split(".")[0]) < 2) {
     if (process.platform !== "win32") {
-      Logger.log(`Skipping tools install not on Windows for pre-2.0.0 SDK.`);
+      Logger.debug(
+        LoggerSource.downloader,
+        `Skipping tools install on non Windows system for pre-2.0.0 SDK.`
+      );
 
       return true;
     }
@@ -745,7 +757,10 @@ export async function downloadAndInstallOpenOCD(
     (process.platform === "darwin" && process.arch === "x64") ||
     (process.platform === "linux" && !["arm64", "x64"].includes(process.arch))
   ) {
-    Logger.log("OpenOCD installation not supported on this platform.");
+    Logger.error(
+      LoggerSource.downloader,
+      "Installation of OpenOCD not supported on this platform."
+    );
 
     return false;
   }
@@ -843,7 +858,13 @@ export async function downloadAndInstallCmake(
 }
 
 /**
- * Only supported Windows amd64 and arm64.
+ * Downloads and installs Python3 Embed.
+ *
+ * Supports Windows x64.
+ *
+ * Even tough this function supports downloading python3 on
+ * macOS arm64 it doesn't work correctly therefore it's
+ * excluded here use pyenvInstallPython instead.
  *
  * @returns
  */
@@ -858,8 +879,9 @@ export async function downloadEmbedPython(
     process.platform !== "win32" ||
     (process.platform === "win32" && process.arch !== "x64")
   ) {
-    Logger.log(
-      "Embed Python installation on Windows x64 and macOS arm64 only."
+    Logger.error(
+      LoggerSource.downloader,
+      "Embed Python installation is only supported on Windows x64."
     );
 
     return;
@@ -875,7 +897,10 @@ export async function downloadEmbedPython(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`Embed Python is already installed correctly.`);
+    Logger.info(
+      LoggerSource.downloader,
+      `Embed Python is already installed correctly.`
+    );
 
     return `${settingsTargetDirectory}/python.exe`;
   }
@@ -919,7 +944,10 @@ export async function downloadEmbedPython(
 
           if (code >= 400) {
             //return reject(new Error(STATUS_CODES[code]));
-            Logger.log("Error while downloading python: " + STATUS_CODES[code]);
+            Logger.log(
+              LoggerSource.downloader,
+              "Downloading embed Python3 failed: " + STATUS_CODES[code]
+            );
 
             return resolve(undefined);
           }
@@ -927,7 +955,7 @@ export async function downloadEmbedPython(
           // any redirects should have been handled by undici
 
           // doesn't work correctly therefore use pyenvInstallPython instead
-          // TODO: remove unused darwin code-path here
+          // TODO: maybe remove unused darwin code-path here
           if (process.platform === "darwin") {
             const pkgExtractor = new MacOSPythonPkgExtractor(
               archiveFilePath,
@@ -938,8 +966,9 @@ export async function downloadEmbedPython(
               .extractPkg()
               .then(success => {
                 if (versionBundle.python.version.lastIndexOf(".") <= 2) {
-                  Logger.log(
-                    "Error while extracting Python: " +
+                  Logger.error(
+                    LoggerSource.downloader,
+                    "Extracting Embed Python3 failed - " +
                       "Python version has wrong format."
                   );
                   resolve(undefined);
@@ -994,7 +1023,11 @@ export async function downloadEmbedPython(
         }),
       err => {
         if (err) {
-          Logger.log("Error while downloading Embed Python.");
+          Logger.error(
+            LoggerSource.downloader,
+            "Downloading Embed Python failed:",
+            err.message
+          );
 
           return false;
         }

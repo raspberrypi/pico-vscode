@@ -9,7 +9,7 @@ import {
   execAsync,
 } from "./gitUtil.mjs";
 import Settings from "../settings.mjs";
-import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
+import { checkForGit } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
 import { get } from "https";
 import {
@@ -145,7 +145,7 @@ export async function setupExample(
   }
 
   // TODO: this does take about 2s - may be reduced
-  const requirementsCheck = await checkForInstallationRequirements(settings);
+  const requirementsCheck = await checkForGit(settings);
   if (!requirementsCheck) {
     return false;
   }
@@ -198,19 +198,20 @@ export async function setupExample(
     recursive: true,
   });
 
-  for (let i=0; i < example.libPaths.length; i++) {
+  for (let i = 0; i < example.libPaths.length; i++) {
     const libPath = example.libPaths[i];
     const libName = example.libNames[i];
     const absoluteLibPath = joinPosix(examplesRepoPath, libPath);
     Logger.log(
       `Copying example required path from ${absoluteLibPath} ` +
-      `to ${targetPath}/${example.searchKey}/${libName}`
+        `to ${targetPath}/${example.searchKey}/${libName}`
     );
     // TODO: use example.name or example.search key for project folder name?
     await cp(
       absoluteLibPath,
-      joinPosix(targetPath, example.searchKey, libName
-    ), {recursive: true});
+      joinPosix(targetPath, example.searchKey, libName),
+      { recursive: true }
+    );
   }
 
   Logger.log("Done copying example.");

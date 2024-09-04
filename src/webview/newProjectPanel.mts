@@ -51,7 +51,7 @@ import VersionBundlesLoader, {
   type VersionBundle,
 } from "../utils/versionBundles.mjs";
 import which from "which";
-import { homedir, platform } from "os";
+import { homedir } from "os";
 import { readFile } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync, readdirSync } from "fs";
@@ -649,7 +649,12 @@ export class NewProjectPanel {
                   }, this may take a while...`,
                 },
                 async progress =>
-                  this._generateProjectOperation(progress, data, message, example)
+                  this._generateProjectOperation(
+                    progress,
+                    data,
+                    message,
+                    example
+                  )
               );
             }
             break;
@@ -1399,8 +1404,13 @@ export class NewProjectPanel {
             !this._isProjectImport && this._examples.length > 0
               ? `
           var examples = {${this._examples
-            .map(e => `"${e.searchKey}": {"boards": [${e.boards.map(b => `"${b}"`).join(', ')}], "supportRiscV": ${e.supportRiscV}}`)
-            .join(', ')}}`
+            .map(
+              e =>
+                `"${e.searchKey}": {"boards": [${e.boards
+                  .map(b => `"${b}"`)
+                  .join(", ")}], "supportRiscV": ${e.supportRiscV}}`
+            )
+            .join(", ")}}`
               : ""
           }
           var doProjectImport = ${this._isProjectImport};
@@ -2026,7 +2036,12 @@ export class NewProjectPanel {
       } catch {
         /* ignore */
       }
-    } else if ("boardType" in options && isExampleBased && "name" in options && "libNames" in options) {
+    } else if (
+      "boardType" in options &&
+      isExampleBased &&
+      "name" in options &&
+      "libNames" in options
+    ) {
       for (const libName of options.libNames) {
         basicNewProjectOptions.push(`-examLibs ${libName}`);
       }
