@@ -18,17 +18,27 @@ jobs:
       - name: Setup node v18
         uses: actions/setup-node@v4
         with: 
-          # the current node version use in vscode
+          # the current node version used included in VS Code
           node-version: '18'
           cache: 'yarn'
       - name: Install Dependencies
         run: |
           npm i -g @vscode/vsce ovsx
           yarn
-      - name: Package Extension
+      - name: Lint Extension
+        run: yarn lint
+      - name: Package Extension Debug Version
         run: |
-          yarn lint
           vsce package
+          for file in raspberry-pi-pico*.vsix; do
+            mv "$file" "debug-${file%.vsix}.vsix"
+          done
+        env:
+          BUILD_ENV: debug
+      - name: Package Extension Production Version
+        run: vsce package
+        env:
+          BUILD_ENV: production
       - name: Modify package.json for OVSX
         # ms-vscode extensions not available on OpenVSX registry, so remove dependencies
         run: |
@@ -36,6 +46,8 @@ jobs:
       - name: Package Extension for OVSX
         run: |
           vsce package -o ovsx-raspberry-pi-pico.vsix
+        env:
+          BUILD_ENV: production
       - name: Test PAT
         if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
         env:
@@ -51,6 +63,7 @@ jobs:
         with:
           name: raspberry-pi-pico
           path: |
+            debug-raspberry-pi-pico-*.vsix
             raspberry-pi-pico-*.vsix
             ovsx-raspberry-pi-pico.vsix
       - name: Add Release Asset
@@ -58,6 +71,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
+            debug-raspberry-pi-pico-*.vsix
             raspberry-pi-pico-*.vsix
             ovsx-raspberry-pi-pico.vsix
       - name: Publish Extension

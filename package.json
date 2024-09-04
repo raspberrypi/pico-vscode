@@ -248,7 +248,7 @@
     "vscode:prepublish": "yarn run package",
     "compile": "rollup -c",
     "watch": "rollup -cw",
-    "package": "rollup -c --environment BUILD:production --sourcemap hidden",
+    "package": "rimraf dist && node scripts/build.mjs",
     "lint": "eslint src",
     "test": "yarn run lint"
   },
