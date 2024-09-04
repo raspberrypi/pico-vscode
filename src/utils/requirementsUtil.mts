@@ -48,7 +48,7 @@ export async function checkForInstallationRequirements(
       requirementsMet = false;
     } else if (process.platform === "darwin") {
       void window.showErrorMessage(
-        "Installation of the Pico-SDK requires Git to be installed " +
+        "Installation of the Pico SDK requires Git to be installed " +
           "and in PATH. You can install it by running " +
           "`xcode-select --install` in the terminal and restart your computer."
       );

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 type LogLevel = "debug" | "info" | "warn" | "error";
 
-const logLevel: LogLevel = process.env.BUILD ? "warn" : "debug";
+const logLevel: LogLevel =
+  process.env.BUILD === "production" ? "warn" : "debug";
 
 // ANSI escape codes for colored console output
 const red = "\x1b[31m";
@@ -12,7 +13,7 @@ const magenta = "\x1b[35m";
 // ANSI escape code to reset color
 const reset = "\x1b[0m";
 
-const EXT_LOG_PREFIX = "[raspberry-pi-pico]";
+const EXT_LOG_PREFIX = "raspberry-pi-pico";
 
 /**
  * Interface for objects that can be converted to a string with the toString() method.
@@ -21,8 +22,17 @@ interface Stringable {
   toString(): string;
 }
 
+/**
+ * Log source identifiers for functions that aren't
+ * part of a class and therefore don't have a class name.
+ * Current convention is to use the file name.
+ *
+ * @enum {string}
+ */
 export enum LoggerSource {
   gitHubRestApi = "githubREST",
+  gitDownloader = "downloadGit",
+  downloader = "download",
 }
 
 /**
