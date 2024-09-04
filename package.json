@@ -256,10 +256,12 @@
   },
   "scripts": {
     "postinstall": "yarn dlx @yarnpkg/sdks vscode",
+    "vscode:uninstall": "node ./dist/vscodeUninstaller.mjs",
     "vscode:prepublish": "yarn run package",
+    "compile-uninstaller": "rollup -c uninstall.rollup.config.mjs --environment BUILD:production",
     "compile": "rollup -c",
     "watch": "rollup -cw",
-    "package": "rimraf dist && node scripts/build.mjs",
+    "package": "rimraf dist && node scripts/build.mjs && yarn run compile-uninstaller",
     "lint": "eslint src",
     "test": "yarn run lint"
   },
@@ -267,6 +269,7 @@
     "@eslint/js": "^9.9.0",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/adm-zip": "^0.5.5",
     "@types/ini": "^4.1.1",
