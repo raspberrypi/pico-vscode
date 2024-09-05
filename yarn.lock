@@ -653,6 +653,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vscode/python-extension@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "@vscode/python-extension@npm:1.0.5"
+  checksum: 10/aeaa1ee9275f8679aa745c3096a68e1952328b8c7de90e1665f369e321dafb3e1271d42c32e4f8d6a3c92f6cdbb4aaef22cc45101764a623900efc4f3dfd3270
+  languageName: node
+  linkType: hard
+
 "abbrev@npm:^1.0.0":
   version: 1.1.1
   resolution: "abbrev@npm:1.1.1"
@@ -2452,6 +2459,7 @@ __metadata:
     "@types/uuid": "npm:^10.0.0"
     "@types/vscode": "npm:^1.92.0"
     "@types/which": "npm:^3.0.4"
+    "@vscode/python-extension": "npm:^1.0.5"
     adm-zip: "npm:^0.5.14 <0.5.15"
     eslint: "npm:^9.9.0"
     eslint-config-prettier: "npm:^9.1.0"

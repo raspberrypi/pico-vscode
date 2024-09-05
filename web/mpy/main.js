@@ -86,13 +86,12 @@ var submitted = false;
       }
     }
     if (pythonVersionRadio.length == 0) {
-      // default to python mode 1 == System version
-      pythonMode = 1;
+      // default to python mode 0 == python ext version
+      pythonMode = 0;
     }
 
     // if python version is null or not a number, smaller than 0 or bigger than 3, set it to 0
     if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
-      // TODO: first check if defaul is supported
       pythonMode = 0;
       console.debug('Invalid python version value: ' + pythonMode.toString());
       vscode.postMessage({
@@ -103,11 +102,14 @@ var submitted = false;
 
       return;
     }
-    if (pythonMode == 2) {
+    if (pythonMode === 0) {
+      const pyenvKnownSel = document.getElementById("sel-pyenv-known");
+      pythonPath = pyenvKnownSel.value;
+    } else if (pythonMode === 2) {
       const files = document.getElementById('python-path-executable').files;
 
       if (files.length == 1) {
-        cmakePath = files[0].name;
+        pythonPath = files[0].name;
       } else {
         console.debug("Please select a valid python executable file");
         vscode.postMessage({
