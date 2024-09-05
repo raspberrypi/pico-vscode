@@ -122,7 +122,7 @@ var isPicoWireless = false;
         break;
       }
     }
-    if (ninjaVersionRadio.length == 0) {
+    if (ninjaVersionRadio.length === 0) {
       // default to ninja mode 1 == System version
       ninjaMode = 1;
     }
@@ -139,12 +139,12 @@ var isPicoWireless = false;
 
       return;
     }
-    if (ninjaMode == 2) {
+    if (ninjaMode === 2) {
       ninjaVersion = document.getElementById('sel-ninja').value;
     } else if (ninjaMode == 3) {
       const files = document.getElementById('ninja-path-executable').files;
 
-      if (files.length == 1) {
+      if (files.length === 1) {
         ninjaPath = files[0].name;
       } else {
         console.debug("Please select a valid ninja executable file");
@@ -169,7 +169,7 @@ var isPicoWireless = false;
         break;
       }
     }
-    if (cmakeVersionRadio.length == 0) {
+    if (cmakeVersionRadio.length === 0) {
       // default to cmake mode 1 == System version
       cmakeMode = 1;
     }
@@ -187,12 +187,12 @@ var isPicoWireless = false;
 
       return;
     }
-    if (cmakeMode == 2) {
+    if (cmakeMode === 2) {
       cmakeVersion = document.getElementById('sel-cmake').value;
     } else if (cmakeMode == 3) {
       const files = document.getElementById('cmake-path-executable').files;
 
-      if (files.length == 1) {
+      if (files.length === 1) {
         cmakePath = files[0].name;
       } else {
         console.debug("Please select a valid cmake executable file");
@@ -216,7 +216,7 @@ var isPicoWireless = false;
         break;
       }
     }
-    if (pythonVersionRadio.length == 0) {
+    if (pythonVersionRadio.length === 0) {
       // default to python mode 1 == System version
       pythonMode = 1;
     }
@@ -234,11 +234,11 @@ var isPicoWireless = false;
 
       return;
     }
-    if (pythonMode == 2) {
+    if (pythonMode === 2) {
       const files = document.getElementById('python-path-executable').files;
 
-      if (files.length == 1) {
-        cmakePath = files[0].name;
+      if (files.length === 1) {
+        pythonPath = files[0].name;
       } else {
         console.debug("Please select a valid python executable file");
         vscode.postMessage({
@@ -665,7 +665,7 @@ var isPicoWireless = false;
       console.log(`${projName} supports ${board}`);
     }
     const board_sels = document.querySelectorAll('[id^="sel-pico"]')
-    board_sels.forEach(e => {e.disabled = true});
+    board_sels.forEach(e => { e.disabled = true });
     for (const board of boards) {
       document.getElementById(`sel-${board}`).disabled = false;
     }
