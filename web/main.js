@@ -429,7 +429,7 @@ var isPicoWireless = false;
         document.getElementById('inp-project-location').value = message.value;
         break;
       case CMD_SET_THEME:
-        console.log("set theme", message.theme);
+        console.log("[raspberry-pi-pico] Set theme mode to:", message.theme);
         // update UI
         if (message.theme == "dark") {
           // explicitly choose dark mode
@@ -455,7 +455,7 @@ var isPicoWireless = false;
           var selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
 
           if (result.riscvToolchainVersion === "NONE") {
-            document.getElementById("sel-pico2").disabled = true;
+            document.getElementById("option-board-type-pico2").disabled = true;
             const boardTypeSelector = document.getElementById('sel-board-type');
 
             if (boardTypeSelector && boardTypeSelector.value.includes("pico2")) {
@@ -474,7 +474,7 @@ var isPicoWireless = false;
               }
             }
           } else {
-            document.getElementById("sel-pico2").disabled = false;
+            document.getElementById("option-board-type-pico2").disabled = false;
           }
 
           var riscv = document.getElementById("sel-riscv").checked;
@@ -495,9 +495,9 @@ var isPicoWireless = false;
 
           if (selectedIndex !== -1) {
             toolchainSelector.selectedIndex = selectedIndex;
-            console.debug("Updated selected toolchain with new default value", toolchainSelector.options[selectedIndex].value);
+            console.debug("[raspberry-pi-pico] Updated selected toolchain with new default value", toolchainSelector.options[selectedIndex].value);
           } else {
-            console.error("Could not find default toolchain version in versionBundle response!");
+            console.error("[raspberry-pi-pico] Could not find default toolchain version in versionBundle response!");
           }
         }
 
@@ -507,9 +507,9 @@ var isPicoWireless = false;
 
           if (selectedIndex !== -1) {
             picotoolSelector.selectedIndex = selectedIndex;
-            console.debug("Updated selected picotool with new default value", picotoolSelector.options[selectedIndex].value);
+            console.debug("[raspberry-pi-pico] Updated selected picotool with new default value", picotoolSelector.options[selectedIndex].value);
           } else {
-            console.error("Could not find default picotool version in versionBundle response!");
+            console.error("[raspberry-pi-pico] Could not find default picotool version in versionBundle response!");
           }
         }
 
@@ -612,6 +612,13 @@ var isPicoWireless = false;
           navItemOnClick('nav-basic');
         }
 
+        const createFromExampleBtn = document.getElementById('btn-create-from-example');
+        const isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
+        console.log("isExampleMode", isExampleMode);
+        if (isExampleMode) {
+          return;
+        }
+
         // hide pico wireless nav item
         document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
         // hide pico wireless section
@@ -629,7 +636,9 @@ var isPicoWireless = false;
           command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
           value: sdkVersion.replace("v", "")
         });
-      } catch { }
+      } catch (error) {
+        console.error("[raspberry-pi-pico - new pico project] Error while changing board type", error);
+      }
     });
   }
   document.getElementById('sel-pico-sdk').addEventListener('change', function () {
@@ -653,21 +662,22 @@ var isPicoWireless = false;
       return;
     }
     const projName = document.getElementById('inp-project-name').value;
-    console.log(`${projName} is now`);
+
     if (!(Object.keys(examples).includes(projName))) {
       return;
     }
-    console.log(`${projName} is an example`);
+    console.debug("[raspberry-pi-pico - new pico project form example] Example selected:" + projName);
+
     // update available boards
     const example = examples[projName];
     const boards = example.boards;
     for (const board of boards) {
-      console.log(`${projName} supports ${board}`);
+      console.debug(`[raspberry-pi-pico - new pico project from example] Example ${projName} supports ${board}`);
     }
-    const board_sels = document.querySelectorAll('[id^="sel-pico"]')
+    const board_sels = document.querySelectorAll('[id^="option-board-type-"]');
     board_sels.forEach(e => { e.disabled = true });
     for (const board of boards) {
-      document.getElementById(`sel-${board}`).disabled = false;
+      document.getElementById(`option-board-type-${board}`).disabled = false;
     }
     const boardTypeSelector = document.getElementById('sel-board-type');
 

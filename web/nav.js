@@ -342,11 +342,11 @@ window.onload = function () {
     }
   }
 
-  // TODO: maybe can remove if sel-pico2 disable is moved into state restore
+  // TODO: maybe can remove if option-board-type-pico2 disable is moved into state restore
   const sdkSelector = document.getElementById('sel-pico-sdk');
   if (sdkSelector) {
     if (parseInt(sdkSelector.value.split(".")[0]) < 2) {
-      const selPico2 = document.getElementById('sel-pico2');
+      const selPico2 = document.getElementById('option-board-type-pico2');
       if (selPico2) {
         selPico2.disabled = true;
       }
