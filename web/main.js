@@ -450,12 +450,15 @@ var isPicoWireless = false;
         }
 
         if (result.result && "toolchainVersion" in result && "riscvToolchainVersion" in result) {
-          var toolchainSelector = document.getElementById("sel-toolchain");
+          const toolchainSelector = document.getElementById("sel-toolchain");
           const useRiscv = document.getElementsByClassName('use-riscv');
-          var selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
+          let selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
+          const optionBoardTypePico2 = document.getElementById("option-board-type-pico2");
 
           if (result.riscvToolchainVersion === "NONE") {
-            document.getElementById("option-board-type-pico2").disabled = true;
+            if (optionBoardTypePico2) {
+              optionBoardTypePico2.disabled = true
+            }
             const boardTypeSelector = document.getElementById('sel-board-type');
 
             if (boardTypeSelector && boardTypeSelector.value.includes("pico2")) {
@@ -474,22 +477,26 @@ var isPicoWireless = false;
               }
             }
           } else {
-            document.getElementById("option-board-type-pico2").disabled = false;
+            if (optionBoardTypePico2) {
+              optionBoardTypePico2.disabled = false;
+            }
           }
 
-          var riscv = document.getElementById("sel-riscv").checked;
-          var board = document.getElementById('sel-board-type').value;
+          if (!doProjectImport) {
+            const riscv = document.getElementById("sel-riscv").checked;
+            const board = document.getElementById('sel-board-type').value;
 
-          if (board !== "pico2") {
-            for (let i = 0; i < useRiscv.length; i++) {
-              useRiscv[i].hidden = true;
-            }
-          } else {
-            for (let i = 0; i < useRiscv.length; i++) {
-              useRiscv[i].hidden = false;
-            }
-            if (riscv) {
-              selectedIndex = getIndexByValue(toolchainSelector, result.riscvToolchainVersion);
+            if (board !== "pico2") {
+              for (let i = 0; i < useRiscv.length; i++) {
+                useRiscv[i].hidden = true;
+              }
+            } else {
+              for (let i = 0; i < useRiscv.length; i++) {
+                useRiscv[i].hidden = false;
+              }
+              if (riscv) {
+                selectedIndex = getIndexByValue(toolchainSelector, result.riscvToolchainVersion);
+              }
             }
           }
 
@@ -502,8 +509,8 @@ var isPicoWireless = false;
         }
 
         if (result.result && "picotoolVersion" in result) {
-          var picotoolSelector = document.getElementById("sel-picotool");
-          var selectedIndex = getIndexByValue(picotoolSelector, result.picotoolVersion);
+          const picotoolSelector = document.getElementById("sel-picotool");
+          const selectedIndex = getIndexByValue(picotoolSelector, result.picotoolVersion);
 
           if (selectedIndex !== -1) {
             picotoolSelector.selectedIndex = selectedIndex;
@@ -515,9 +522,9 @@ var isPicoWireless = false;
 
         // get all radio buttons with the specified names and select the first non-disabled option for each if the currently selected option is disabled
         // TODO: move in a helper function
-        var pythonRadioButtons = document.querySelectorAll('input[name="python-version-radio"]');
-        var ninjaRadioButtons = document.querySelectorAll('input[name="ninja-version-radio"]');
-        var cmakeRadioButtons = document.querySelectorAll('input[name="cmake-version-radio"]');
+        const pythonRadioButtons = document.querySelectorAll('input[name="python-version-radio"]');
+        const ninjaRadioButtons = document.querySelectorAll('input[name="ninja-version-radio"]');
+        const cmakeRadioButtons = document.querySelectorAll('input[name="cmake-version-radio"]');
 
         // Don't check if no pythonRadioButtons, eg on Linux
         if (pythonRadioButtons.length > 0) {
@@ -657,46 +664,50 @@ var isPicoWireless = false;
       value: sdkVersion.replace("v", "")
     });
   });
-  document.getElementById('inp-project-name').addEventListener('input', function () {
-    if (typeof examples === 'undefined') {
-      return;
-    }
-    const projName = document.getElementById('inp-project-name').value;
 
-    if (!(Object.keys(examples).includes(projName))) {
-      return;
-    }
-    console.debug("[raspberry-pi-pico - new pico project form example] Example selected:" + projName);
+  const projectNameInput = document.getElementById('inp-project-name');
+  if (projectNameInput) {
+    projectNameInput.addEventListener('input', function () {
+      if (typeof examples === 'undefined') {
+        return;
+      }
+      const projName = document.getElementById('inp-project-name').value;
 
-    // update available boards
-    const example = examples[projName];
-    const boards = example.boards;
-    for (const board of boards) {
-      console.debug(`[raspberry-pi-pico - new pico project from example] Example ${projName} supports ${board}`);
-    }
-    const board_sels = document.querySelectorAll('[id^="option-board-type-"]');
-    board_sels.forEach(e => { e.disabled = true });
-    for (const board of boards) {
-      document.getElementById(`option-board-type-${board}`).disabled = false;
-    }
-    const boardTypeSelector = document.getElementById('sel-board-type');
+      if (!(Object.keys(examples).includes(projName))) {
+        return;
+      }
+      console.debug("[raspberry-pi-pico - new pico project form example] Example selected:" + projName);
 
-    if (boardTypeSelector) {
-      // first element could be hidden
-      //document.getElementById('sel-board-type').selectedIndex = 0;
+      // update available boards
+      const example = examples[projName];
+      const boards = example.boards;
+      for (const board of boards) {
+        console.debug(`[raspberry-pi-pico - new pico project from example] Example ${projName} supports ${board}`);
+      }
+      const board_sels = document.querySelectorAll('[id^="option-board-type-"]');
+      board_sels.forEach(e => { e.disabled = true });
+      for (const board of boards) {
+        document.getElementById(`option-board-type-${board}`).disabled = false;
+      }
+      const boardTypeSelector = document.getElementById('sel-board-type');
 
-      // select first not hidden option
-      for (let i = 0; i < boardTypeSelector.options.length; i++) {
-        const option = boardTypeSelector.options[i];
+      if (boardTypeSelector) {
+        // first element could be hidden
+        //document.getElementById('sel-board-type').selectedIndex = 0;
 
-        // Check if the option is not hidden
-        if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
-          boardTypeSelector.selectedIndex = i;
-          break;
+        // select first not hidden option
+        for (let i = 0; i < boardTypeSelector.options.length; i++) {
+          const option = boardTypeSelector.options[i];
+
+          // Check if the option is not hidden
+          if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
+            boardTypeSelector.selectedIndex = i;
+            break;
+          }
         }
       }
-    }
-  });
+    });
+  }
 
   const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
   if (ninjaVersionRadio.length > 0)
