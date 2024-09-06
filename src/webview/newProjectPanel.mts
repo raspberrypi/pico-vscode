@@ -60,6 +60,7 @@ import {
   loadExamples,
   setupExample,
 } from "../utils/examplesUtil.mjs";
+import { unknownErrorToString } from "../utils/errorHelper.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
@@ -1175,7 +1176,18 @@ export class NewProjectPanel {
     );
 
     if (html !== "") {
-      this._panel.webview.html = html;
+      try {
+        this._panel.webview.html = html;
+      } catch (error) {
+        this._logger.error(
+          "Failed to set webview html. Webview might have been disposed. Error: ",
+          unknownErrorToString(error)
+        );
+        // properly dispose panel
+        this.dispose();
+
+        return;
+      }
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
