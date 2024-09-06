@@ -12,7 +12,7 @@ import { unknownErrorToString } from "./errorHelper.mjs";
 
 const GIT_DOWNLOAD_URL_WIN_AMD64 =
   "https://github.com/git-for-windows/git/releases/download" +
-  "/v2.43.0.windows.1/MinGit-2.43.0-64-bit.zip";
+  "/v2.46.0.windows.1/MinGit-2.46.0-64-bit.zip";
 
 /**
  * Downloads and installs a portable version of Git.
