@@ -123,10 +123,18 @@ export async function activate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(
     window.registerWebviewPanelSerializer(NewProjectPanel.viewType, {
       // eslint-disable-next-line @typescript-eslint/require-await
-      async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+      async deserializeWebviewPanel(
+        webviewPanel: WebviewPanel,
+        state: { isImportProject: boolean; forceFromExample: boolean }
+      ): Promise<void> {
         // Reset the webview options so we use latest uri for `localResourceRoots`.
         webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
-        NewProjectPanel.revive(webviewPanel, context.extensionUri, false);
+        NewProjectPanel.revive(
+          webviewPanel,
+          context.extensionUri,
+          state && state.isImportProject,
+          state && state.forceFromExample
+        );
       },
     })
   );

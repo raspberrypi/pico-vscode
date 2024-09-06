@@ -1422,13 +1422,11 @@ export class NewProjectPanel {
                   .map(b => `"${b}"`)
                   .join(", ")}], "supportRiscV": ${e.supportRiscV}}`
             )
-            .join(", ")}}`
+            .join(", ")}};`
               : ""
           }
           var doProjectImport = ${this._isProjectImport};
-          const forceCreateFromExample = ${
-            forceCreateFromExample ? "true" : "false"
-          };
+          var forceCreateFromExample = ${forceCreateFromExample};
         </script>
       </head>
       <body class="scroll-smooth w-screen">

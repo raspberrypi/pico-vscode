@@ -305,6 +305,16 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
           event.stopPropagation();
           if (window.selectedSuggestion) {
             window.selectedSuggestion.click();
+          } else {
+            // check if one example is exactly the same as the input value and select it
+            const suggestions = document.querySelectorAll('.examples-list-suggestion');
+            const equalElement = Array.from(suggestions).find(suggestion => {
+              const innerHTML = suggestion.innerHTML.trim(); // Get innerHTML and trim whitespace
+              return innerHTML.startsWith('<b>') && innerHTML.endsWith('</b>');
+            });
+            if (equalElement) {
+              equalElement.click();
+            }
           }
         } else if (event.key === 'Escape') {
           if (arg2) {
