@@ -911,7 +911,7 @@ export class NewProjectPanel {
               increment: 100,
             });
             await window.showErrorMessage(
-              "Failed to get ninja version for the selected Pico-SDK version."
+              "Failed to get ninja version for the selected Pico SDK version."
             );
 
             return;
@@ -1179,7 +1179,7 @@ export class NewProjectPanel {
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load available Pico-SDKs and/or supported toolchains. This may be due to an outdated personal access token for GitHub."
+        "Failed to load available Pico SDKs and/or supported toolchains. This may be due to an outdated personal access token for GitHub or a exceeded rate limit."
       );
       this.dispose();
     }
@@ -1615,7 +1615,7 @@ export class NewProjectPanel {
                     </div>
                     <div class="grid gap-6 md:grid-cols-2 mt-6">
                       <div>
-                        <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Pico-SDK version</label>
+                        <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Pico SDK version</label>
                         <select id="sel-pico-sdk" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${picoSDKsHtml}
                         </select>

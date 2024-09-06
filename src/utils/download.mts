@@ -36,6 +36,7 @@ import {
   GITHUB_API_VERSION,
   HTTP_STATUS_UNAUTHORIZED,
   githubApiUnauthorized,
+  HTTP_STATUS_FORBIDDEN,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
@@ -540,6 +541,8 @@ async function downloadAndInstallGithubAsset(
       maxRedirections: 0, // don't automatically follow redirects
     };
   }
+  // keep track of retries
+  let retries = 0;
 
   return new Promise(resolve => {
     //, data: Dispatcher.StreamData)
@@ -562,6 +565,18 @@ async function downloadAndInstallGithubAsset(
 
         if (code >= 400) {
           if (code === HTTP_STATUS_UNAUTHORIZED) {
+            retries++;
+            if (retries > 2) {
+              Logger.error(
+                LoggerSource.downloader,
+                `Downloading ${logName} failed. Multiple ` + STATUS_CODES[code]
+              );
+              resolve(false);
+
+              return;
+            }
+            // githubApiUnauthorized will take care of removing the
+            // token so it isn't used in retry attpemt
             githubApiUnauthorized()
               .then(() => {
                 client.stream(
@@ -573,6 +588,12 @@ async function downloadAndInstallGithubAsset(
               .catch(() => {
                 resolve(false);
               });
+          } else if (code === HTTP_STATUS_FORBIDDEN) {
+            Logger.error(
+              LoggerSource.downloader,
+              `Downloading ${logName} failed: ` + STATUS_CODES[code]
+            );
+            resolve(false);
           }
           //return reject(new Error(STATUS_CODES[code]));
           Logger.error(

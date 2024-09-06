@@ -5,12 +5,13 @@ import GithubApiCache, {
 } from "./githubApiCache.mjs";
 import { type RequestOptions, request } from "https";
 import { unknownErrorToString, unknownToError } from "./errorHelper.mjs";
-import { window } from "vscode";
+import { env, Uri, window } from "vscode";
 
 // TODO: move into web consts
 export const HTTP_STATUS_OK = 200;
 export const HTTP_STATUS_NOT_MODIFIED = 304;
 export const HTTP_STATUS_UNAUTHORIZED = 401;
+export const HTTP_STATUS_FORBIDDEN = 403;
 export const EXT_USER_AGENT = "Raspberry Pi Pico VS Code Extension";
 export const GITHUB_API_BASE_URL = "https://api.github.com";
 export const GITHUB_API_VERSION = "2022-11-28";
@@ -247,6 +248,12 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
       await githubApiUnauthorized();
 
       return getReleases(repository);
+    } else if (response.status === HTTP_STATUS_FORBIDDEN) {
+      githubApiForbidden();
+
+      // return the default response as without a PAT
+      // ther is no way a rerun will succeed in the near future
+      throw new Error("GitHub API Code 403 Forbidden");
     } else if (response.status !== 200) {
       throw new Error("Error http status code: " + response.status);
     }
@@ -359,6 +366,12 @@ export async function getGithubReleaseByTag(
       await githubApiUnauthorized();
 
       return getGithubReleaseByTag(repository, tag);
+    } else if (response.status === HTTP_STATUS_FORBIDDEN) {
+      githubApiForbidden();
+
+      // return the default response as without a PAT
+      // ther is no way a rerun will succeed in the near future
+      throw new Error("GitHub API Code 403 Forbidden");
     } else if (response.status !== 200) {
       throw new Error("Error http status code: " + response.status);
     }
@@ -417,4 +430,33 @@ export async function githubApiUnauthorized(): Promise<void> {
       "It has now been removed from the settings."
   );
   await Settings.getInstance()?.updateGlobal(SettingsKey.githubToken, "");
+}
+
+/**
+ * Show rate limit exceeded warning to the user.
+ */
+export function githubApiForbidden(): void {
+  Logger.warn(
+    LoggerSource.githubRestApi,
+    "GitHub API Code 403 Forbidden. Probably rate limit exceeded."
+  );
+  // show a rate limit warning to the user
+  void window
+    .showWarningMessage(
+      "GitHub API rate limit exceeded. Please try again later." +
+        "Consider adding a GitHub Personal Access Token in the settings " +
+        "to increase your rate limit.",
+      "More Info"
+    )
+    .then(selection => {
+      if (selection === "More Info") {
+        env.openExternal(
+          Uri.parse(
+            "https://github.com/raspberrypi/pico-vscode" +
+              "/?tab=readme-ov-file#github-api-rate-limit-error-" +
+              "while-retrieving-sdk-and-toolchain-versions"
+          )
+        );
+      }
+    });
 }
