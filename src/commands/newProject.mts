@@ -1,4 +1,4 @@
-import { Command } from "./command.mjs";
+import { CommandWithArgs } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { window, type Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
@@ -15,7 +15,7 @@ export enum ProjectLang {
   micropython = 2,
 }
 
-export default class NewProjectCommand extends Command {
+export default class NewProjectCommand extends CommandWithArgs {
   private readonly _logger: Logger = new Logger("NewProjectCommand");
   private readonly _extensionUri: Uri;
   private static readonly micropythonOption = "MicroPython";
