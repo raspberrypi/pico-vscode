@@ -175,6 +175,11 @@
         "command": "raspberry-pi-pico.newExampleProject",
         "title": "New Example Pico Project",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.uninstallPicoSDK",
+        "title": "Uninstall Pico SDK",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {

@@ -71,6 +71,7 @@ import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
+import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -111,6 +112,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new ConfigureCmakeCommand(),
     new ImportProjectCommand(context.extensionUri),
     new NewExampleProjectCommand(context.extensionUri),
+    new UninstallPicoSDKCommand(),
   ];
 
   // register all command handlers
