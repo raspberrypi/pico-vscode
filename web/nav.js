@@ -111,6 +111,9 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
   const defaultBoardTypeOption = document.getElementById('sel-default');
 
   if (isExampleMode && (forceOn === undefined || !forceOn) && (forceOff === undefined || forceOff)) {
+    // clear input to avoid crashing the webview
+    projectNameInput.value = '';
+
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'false');
       createFromExampleBtn.innerText = 'Example';

@@ -1494,7 +1494,7 @@ export class NewProjectPanel {
                                   forceCreateFromExample
                                     ? "Select an example"
                                     : "Project name"
-                                }" required/>
+                                }" required/> <!-- without this required the webview will crash every time you hit the examples button -->
                                 <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border border-l-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 ${
                                   !forceCreateFromExample ? "hidden" : ""
                                 }">&#9660;</button>
