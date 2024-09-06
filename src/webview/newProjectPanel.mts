@@ -1495,26 +1495,25 @@ export class NewProjectPanel {
                                     ? "Select an example"
                                     : "Project name"
                                 }" required/> <!-- without this required the webview will crash every time you hit the examples button -->
-                                <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border border-l-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 ${
+                                <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 ${
                                   !forceCreateFromExample ? "hidden" : ""
                                 }">&#9660;</button>
+                                ${
+                                  this._examples.length > 0
+                                    ? `   
+                                    <ul id="examples-list" class="bg-gray-50 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-b-lg"></ul>                          
+                                <!--<datalist id="examples-list">
+                                  <option value="\${this._examples
+                                    .map(e => e.searchKey)
+                                    .join(
+                                      '">example project</option>\n<option value="'
+                                    )}">example project</option>
+                                </datalist>-->`
+                                    : ""
+                                }
                             </div>
-                            <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-3 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 ml-2 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="Create from example">Example</button>
+                            <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-3 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="Create from example">Example</button>
                           </div>
-                              
-                          ${
-                            this._examples.length > 0
-                              ? `   
-                              <ul id="examples-list"></ul>                          
-                          <!--<datalist id="examples-list">
-                            <option value="\${this._examples
-                              .map(e => e.searchKey)
-                              .join(
-                                '">example project</option>\n<option value="'
-                              )}">example project</option>
-                          </datalist>-->`
-                              : ""
-                          }
 
                           <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden>
                               <span class="font-medium">Error</span> Please enter a valid project name.
