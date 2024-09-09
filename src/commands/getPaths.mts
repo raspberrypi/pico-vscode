@@ -10,7 +10,7 @@ import { join } from "path";
 import { buildToolchainPath } from "../utils/download.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 import which from "which";
-import { exec } from "child_process";
+import { execSync } from "child_process";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -85,16 +85,19 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
       // Arm toolchains have incorrect libncurses versions on Linux (specifically RPiOS)
       const gdbPath = await which("gdb", { nothrow: true });
       if (gdbPath !== null) {
-        // Test if system gdb supports arm_any architecture
-        exec(
-          `"${gdbPath}" --batch -ex "set arch"`,
-          (error, stdout, stderr) => {
-            if (stdout.includes("arm_any") || stderr.includes("arm_any")) {
-              return "gdb";
-            }
-          }
-        )
-      } else if (process.arch === "arm64") {
+        // Test if system gdb supports arm_any architecture - throws an error if it's not available
+        try {
+          execSync(
+            `"${gdbPath}" --batch -ex "set arch arm_any"`, {stdio: 'pipe'}
+          );
+
+          return "gdb";
+        } catch {
+          //pass
+        }
+      }
+      // Default to gdb on arm64
+      if (process.arch === "arm64") {
         return "gdb";
       } else {
         return "gdb-multiarch";

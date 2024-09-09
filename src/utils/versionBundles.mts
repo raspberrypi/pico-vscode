@@ -19,6 +19,7 @@ export interface VersionBundle {
   };
   ninja: string;
   cmake: string;
+  picotool: string;
   toolchain: string;
   riscvToolchain: string;
 }

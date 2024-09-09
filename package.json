@@ -134,7 +134,7 @@
       },
       {
         "command": "raspberry-pi-pico.runProject",
-        "title": "Run Pico Project",
+        "title": "Run Pico Project (USB)",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
@@ -175,6 +175,17 @@
         "command": "raspberry-pi-pico.newExampleProject",
         "title": "New Example Pico Project",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.uninstallPicoSDK",
+        "title": "Uninstall Pico SDK",
+        "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.flashProject",
+        "title": "Flash Pico Project (SWD)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
       }
     ],
     "configuration": {
@@ -234,14 +245,21 @@
           "type": "tree"
         }
       ]
-    }
+    },
+    "viewsWelcome": [
+      {
+        "view": "explorer",
+        "contents": "[Create Pico Project](command:raspberry-pi-pico.newProject)\r\nTo learn more about working with the Raspberry Pi Pico SDK see our [Getting Started](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf) guide.",
+        "when": "workspaceFolderCount == 0"
+      }
+    ]
   },
   "scripts": {
     "postinstall": "yarn dlx @yarnpkg/sdks vscode",
     "vscode:prepublish": "yarn run package",
     "compile": "rollup -c",
     "watch": "rollup -cw",
-    "package": "rollup -c --environment BUILD:production --sourcemap hidden",
+    "package": "rimraf dist && node scripts/build.mjs",
     "lint": "eslint src",
     "test": "yarn run lint"
   },

@@ -14,6 +14,7 @@ const CMD_NOT_CREATE_FROM_EXAMPLE = 'notCreateFromExample';
 
 var submitted = false;
 var isPicoWireless = false;
+var exampleSupportedBoards = [];
 
 (function () {
   const vscode = acquireVsCodeApi();
@@ -106,6 +107,8 @@ var isPicoWireless = false;
     const selectedSDK = document.getElementById('sel-pico-sdk').value;
     // selected toolchain
     const selectedToolchain = document.getElementById('sel-toolchain').value;
+    // selected picotool
+    const selectedPicotool = document.getElementById('sel-picotool').value;
 
     // TODO: maybe move these duplicate sections for ninja, cmake and python into a generic helper function
 
@@ -120,7 +123,7 @@ var isPicoWireless = false;
         break;
       }
     }
-    if (ninjaVersionRadio.length == 0) {
+    if (ninjaVersionRadio.length === 0) {
       // default to ninja mode 1 == System version
       ninjaMode = 1;
     }
@@ -137,12 +140,12 @@ var isPicoWireless = false;
 
       return;
     }
-    if (ninjaMode == 2) {
+    if (ninjaMode === 2) {
       ninjaVersion = document.getElementById('sel-ninja').value;
     } else if (ninjaMode == 3) {
       const files = document.getElementById('ninja-path-executable').files;
 
-      if (files.length == 1) {
+      if (files.length === 1) {
         ninjaPath = files[0].name;
       } else {
         console.debug("Please select a valid ninja executable file");
@@ -167,7 +170,7 @@ var isPicoWireless = false;
         break;
       }
     }
-    if (cmakeVersionRadio.length == 0) {
+    if (cmakeVersionRadio.length === 0) {
       // default to cmake mode 1 == System version
       cmakeMode = 1;
     }
@@ -185,12 +188,12 @@ var isPicoWireless = false;
 
       return;
     }
-    if (cmakeMode == 2) {
+    if (cmakeMode === 2) {
       cmakeVersion = document.getElementById('sel-cmake').value;
     } else if (cmakeMode == 3) {
       const files = document.getElementById('cmake-path-executable').files;
 
-      if (files.length == 1) {
+      if (files.length === 1) {
         cmakePath = files[0].name;
       } else {
         console.debug("Please select a valid cmake executable file");
@@ -214,7 +217,7 @@ var isPicoWireless = false;
         break;
       }
     }
-    if (pythonVersionRadio.length == 0) {
+    if (pythonVersionRadio.length === 0) {
       // default to python mode 1 == System version
       pythonMode = 1;
     }
@@ -232,11 +235,11 @@ var isPicoWireless = false;
 
       return;
     }
-    if (pythonMode == 2) {
+    if (pythonMode === 2) {
       const files = document.getElementById('python-path-executable').files;
 
-      if (files.length == 1) {
-        cmakePath = files[0].name;
+      if (files.length === 1) {
+        pythonPath = files[0].name;
       } else {
         console.debug("Please select a valid python executable file");
         vscode.postMessage({
@@ -276,6 +279,7 @@ var isPicoWireless = false;
         value: {
           selectedSDK: selectedSDK,
           selectedToolchain: selectedToolchain,
+          selectedPicotool: selectedPicotool,
           ninjaMode: Number(ninjaMode),
           ninjaPath: ninjaPath,
           ninjaVersion: ninjaVersion,
@@ -301,6 +305,7 @@ var isPicoWireless = false;
 
           selectedSDK: selectedSDK,
           selectedToolchain: selectedToolchain,
+          selectedPicotool: selectedPicotool,
           ninjaMode: Number(ninjaMode),
           ninjaPath: ninjaPath,
           ninjaVersion: ninjaVersion,
@@ -366,6 +371,7 @@ var isPicoWireless = false;
         boardType: boardType,
         selectedSDK: selectedSDK,
         selectedToolchain: selectedToolchain,
+        selectedPicotool: selectedPicotool,
         ninjaMode: Number(ninjaMode),
         ninjaPath: ninjaPath,
         ninjaVersion: ninjaVersion,
@@ -424,16 +430,36 @@ var isPicoWireless = false;
         document.getElementById('inp-project-location').value = message.value;
         break;
       case CMD_SET_THEME:
-        console.log("set theme", message.theme);
+        console.log("[raspberry-pi-pico] Set theme mode to:", message.theme);
+
+        // get riscv image
+        const riscvIcon = document.getElementById('riscvIcon');
+
         // update UI
         if (message.theme == "dark") {
           // explicitly choose dark mode
           localStorage.theme = 'dark'
           document.body.classList.add('dark')
+          // riscv toggle button concept
+          /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+            riscvIcon.src = riscvWhiteSvgUri;
+          } else {
+            riscvIcon.src = riscvWhiteYellowSvgUri;
+          }*/
+          // set riscv icon variant to white
+          riscvIcon.src = riscvWhiteSvgUri;
         } else if (message.theme == "light") {
           document.body.classList.remove('dark')
           // explicitly choose light mode
           localStorage.theme = 'light'
+          // riscv toggle button concept
+          /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+            riscvIcon.src = riscvBlackSvgUri;
+          } else {
+            riscvIcon.src = riscvColorSvgUri;
+          }*/
+          // set riscv icon variant to black
+          riscvIcon.src = riscvBlackSvgUri;
         }
         break;
       case CMD_VERSION_BUNDLE_AVAILABLE_TEST:
@@ -445,12 +471,15 @@ var isPicoWireless = false;
         }
 
         if (result.result && "toolchainVersion" in result && "riscvToolchainVersion" in result) {
-          var toolchainSelector = document.getElementById("sel-toolchain");
+          const toolchainSelector = document.getElementById("sel-toolchain");
           const useRiscv = document.getElementsByClassName('use-riscv');
-          var selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
+          let selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
+          const optionBoardTypePico2 = document.getElementById("option-board-type-pico2");
 
           if (result.riscvToolchainVersion === "NONE") {
-            document.getElementById("sel-pico2").disabled = true;
+            if (optionBoardTypePico2) {
+              optionBoardTypePico2.disabled = true
+            }
             const boardTypeSelector = document.getElementById('sel-board-type');
 
             if (boardTypeSelector && boardTypeSelector.value.includes("pico2")) {
@@ -462,45 +491,85 @@ var isPicoWireless = false;
                 const option = boardTypeSelector.options[i];
 
                 // Check if the option is not hidden
-                if (option.style.display !== 'none' && option.hidden === false) {
+                if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
                   boardTypeSelector.selectedIndex = i;
+                  // Create a new change event
+                  const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: true } });
+                  // Dispatch the event to trigger the change handler
+                  boardTypeSelector.dispatchEvent(event);
                   break;
                 }
               }
             }
           } else {
-            document.getElementById("sel-pico2").disabled = false;
+            if (optionBoardTypePico2 && (exampleSupportedBoards.length === 0 || exampleSupportedBoards.includes("pico2"))) {
+              optionBoardTypePico2.disabled = false;
+            }
           }
 
-          var riscv = document.getElementById("sel-riscv").checked;
-          var board = document.getElementById('sel-board-type').value;
+          if (!doProjectImport) {
+            const board = document.getElementById('sel-board-type').value;
+            const riscvSelected = document.getElementById('sel-riscv').checked;
 
-          if (board !== "pico2") {
-            for (let i = 0; i < useRiscv.length; i++) {
-              useRiscv[i].hidden = true;
-            }
-          } else {
-            for (let i = 0; i < useRiscv.length; i++) {
-              useRiscv[i].hidden = false;
-            }
-            if (riscv) {
-              selectedIndex = getIndexByValue(toolchainSelector, result.riscvToolchainVersion);
+            if (board !== "pico2") {
+              // ui update to account for hidden elements
+              const boardTypeRiscvGrid = document.getElementById("board-type-riscv-grid");
+              // remove grid-cols-2 class
+              boardTypeRiscvGrid.classList.remove("grid-cols-2");
+
+              // hide elements
+              for (let i = 0; i < useRiscv.length; i++) {
+                useRiscv[i].hidden = true;
+              }
+            } else {
+              // ui update to account for next unhidden elements
+              const boardTypeRiscvGrid = document.getElementById("board-type-riscv-grid");
+              // add grid-cols-2 class
+              boardTypeRiscvGrid.classList.add("grid-cols-2");
+
+              // show elements again
+              for (let i = 0; i < useRiscv.length; i++) {
+                useRiscv[i].hidden = false;
+              }
+              if (riscvSelected) {
+                selectedIndex = getIndexByValue(toolchainSelector, result.riscvToolchainVersion);
+              }
             }
           }
 
           if (selectedIndex !== -1) {
             toolchainSelector.selectedIndex = selectedIndex;
-            console.debug("Updated selected toolchain with new default value", toolchainSelector.options[selectedIndex].value);
+            // Create a new change event
+            const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: true } });
+            // Dispatch the event to trigger the change handler
+            toolchainSelector.dispatchEvent(event);
+            console.debug("[raspberry-pi-pico] Updated selected toolchain with new default value", toolchainSelector.options[selectedIndex].value);
           } else {
-            console.error("Could not find default toolchain version in versionBundle response!");
+            console.error("[raspberry-pi-pico] Could not find default toolchain version in versionBundle response!");
+          }
+        }
+
+        if (result.result && "picotoolVersion" in result) {
+          const picotoolSelector = document.getElementById("sel-picotool");
+          const selectedIndex = getIndexByValue(picotoolSelector, result.picotoolVersion);
+
+          if (selectedIndex !== -1) {
+            picotoolSelector.selectedIndex = selectedIndex;
+            // Create a new change event
+            const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: true } });
+            // Dispatch the event to trigger the change handler
+            picotoolSelector.dispatchEvent(event);
+            console.debug("[raspberry-pi-pico] Updated selected picotool with new default value", picotoolSelector.options[selectedIndex].value);
+          } else {
+            console.error("[raspberry-pi-pico] Could not find default picotool version in versionBundle response!");
           }
         }
 
         // get all radio buttons with the specified names and select the first non-disabled option for each if the currently selected option is disabled
         // TODO: move in a helper function
-        var pythonRadioButtons = document.querySelectorAll('input[name="python-version-radio"]');
-        var ninjaRadioButtons = document.querySelectorAll('input[name="ninja-version-radio"]');
-        var cmakeRadioButtons = document.querySelectorAll('input[name="cmake-version-radio"]');
+        const pythonRadioButtons = document.querySelectorAll('input[name="python-version-radio"]');
+        const ninjaRadioButtons = document.querySelectorAll('input[name="ninja-version-radio"]');
+        const cmakeRadioButtons = document.querySelectorAll('input[name="cmake-version-radio"]');
 
         // Don't check if no pythonRadioButtons, eg on Linux
         if (pythonRadioButtons.length > 0) {
@@ -595,27 +664,40 @@ var isPicoWireless = false;
           navItemOnClick('nav-basic');
         }
 
-        // hide pico wireless nav item
-        document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
-        // hide pico wireless section
-        document.getElementById('section-pico-wireless').hidden = !isPicoWireless;
+        const createFromExampleBtn = document.getElementById('btn-create-from-example');
+        const isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
 
-        // reset selection
-        if (!isPicoWireless) {
-          // Check the first radio button (none)
-          document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
+        if (!isExampleMode) {
+          // hide pico wireless nav item
+          document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
+          // hide pico wireless section
+          document.getElementById('section-pico-wireless').hidden = !isPicoWireless;
+
+          // reset selection
+          if (!isPicoWireless) {
+            // Check the first radio button (none)
+            document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
+          }
         }
 
-        const sdkVersion = document.getElementById('sel-pico-sdk').value;
-        // send message to extension
-        vscode.postMessage({
-          command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
-          value: sdkVersion.replace("v", "")
-        });
-      } catch { }
+        // leave event empty to not retrigger cmd version bundle available test
+        if (!event.detail || !event.detail.doNotFireEvents) {
+          const sdkVersion = document.getElementById('sel-pico-sdk').value;
+          // send message to extension
+          vscode.postMessage({
+            command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
+            value: sdkVersion.replace("v", "")
+          });
+        }
+      } catch (error) {
+        console.error("[raspberry-pi-pico - new pico project] Error while changing board type", error);
+      }
     });
   }
-  document.getElementById('sel-pico-sdk').addEventListener('change', function () {
+  document.getElementById('sel-pico-sdk').addEventListener('change', function (event) {
+    if (event.detail && event.detail.doNotFireEvents) {
+      return;
+    }
     const sdkVersion = document.getElementById('sel-pico-sdk').value;
     // send message to extension
     vscode.postMessage({
@@ -623,7 +705,34 @@ var isPicoWireless = false;
       value: sdkVersion.replace("v", "")
     });
   });
-  document.getElementById('sel-riscv').addEventListener('change', function () {
+  // used for riscv toggle button concept, also requires changes in the setTheme command receiver
+  /*document.getElementById('riscvToggle').addEventListener('click', function () {
+    const riscvIcon = document.getElementById('riscvIcon');
+    const isSelected = riscvIcon.getAttribute('data-selected') === 'true';
+
+    if (isSelected) {
+      // Unselect (switch to black or white in dark mode)
+      if (localStorage.theme === "dark") {
+        riscvIcon.src = riscvWhiteSvgUri; // Dark mode
+      } else {
+        riscvIcon.src = riscvBlackSvgUri; // Light mode
+      }
+      riscvIcon.setAttribute('data-selected', 'false');
+    } else {
+      // Select (switch to color)
+      if (localStorage.theme === "dark") {
+        riscvIcon.src = riscvWhiteYellowSvgUri; // Dark mode
+      } else {
+        riscvIcon.src = riscvColorSvgUri; // Light mode
+      }
+      riscvIcon.setAttribute('data-selected', 'true');
+    }
+  });*/
+
+  document.getElementById('sel-riscv').addEventListener('change', function (event) {
+    if (event.detail && event.detail.doNotFireEvents) {
+      return;
+    }
     const sdkVersion = document.getElementById('sel-pico-sdk').value;
     // send message to extension
     vscode.postMessage({
@@ -631,45 +740,56 @@ var isPicoWireless = false;
       value: sdkVersion.replace("v", "")
     });
   });
-  document.getElementById('inp-project-name').addEventListener('input', function () {
-    if (typeof examples === 'undefined') {
-      return;
-    }
-    const projName = document.getElementById('inp-project-name').value;
-    console.log(`${projName} is now`);
-    if (!(Object.keys(examples).includes(projName))) {
-      return;
-    }
-    console.log(`${projName} is an example`);
-    // update available boards
-    const example = examples[projName];
-    const boards = example.boards;
-    for (const board of boards) {
-      console.log(`${projName} supports ${board}`);
-    }
-    const board_sels = document.querySelectorAll('[id^="sel-pico"]')
-    board_sels.forEach(e => {e.disabled = true});
-    for (const board of boards) {
-      document.getElementById(`sel-${board}`).disabled = false;
-    }
-    const boardTypeSelector = document.getElementById('sel-board-type');
 
-    if (boardTypeSelector) {
-      // first element could be hidden
-      //document.getElementById('sel-board-type').selectedIndex = 0;
+  const projectNameInput = document.getElementById('inp-project-name');
+  if (projectNameInput) {
+    projectNameInput.addEventListener('input', function () {
+      if (typeof examples === 'undefined') {
+        return;
+      }
+      const projName = document.getElementById('inp-project-name').value;
 
-      // select first not hidden option
-      for (let i = 0; i < boardTypeSelector.options.length; i++) {
-        const option = boardTypeSelector.options[i];
+      if (!(Object.keys(examples).includes(projName))) {
+        // TODO: maybe clear exampleSupportedBoards
+        return;
+      }
+      console.debug("[raspberry-pi-pico - new pico project form example] Example selected:" + projName);
 
-        // Check if the option is not hidden
-        if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
-          boardTypeSelector.selectedIndex = i;
-          break;
+      // update available boards
+      const example = examples[projName];
+      exampleSupportedBoards = example.boards;
+      const boardSels = document.querySelectorAll('[id^="option-board-type-"]');
+      boardSels.forEach(e => { e.disabled = true });
+      for (const board of exampleSupportedBoards) {
+        console.debug(`[raspberry-pi-pico - new pico project from example] Example ${projName} supports ${board}`);
+        const option = document.getElementById(`option-board-type-${board}`);
+        if (option) {
+          option.disabled = false;
         }
       }
-    }
-  });
+      const boardTypeSelector = document.getElementById('sel-board-type');
+
+      if (boardTypeSelector && !exampleSupportedBoards.includes(boardTypeSelector.value)) {
+        // first element could be hidden
+        //document.getElementById('sel-board-type').selectedIndex = 0;
+
+        // select first not hidden option
+        for (let i = 0; i < boardTypeSelector.options.length; i++) {
+          const option = boardTypeSelector.options[i];
+
+          // Check if the option is not hidden
+          if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
+            boardTypeSelector.selectedIndex = i;
+            // Create a new change event
+            const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: false } });
+            // Dispatch the event to trigger the change handler
+            boardTypeSelector.dispatchEvent(event);
+            break;
+          }
+        }
+      }
+    });
+  }
 
   const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
   if (ninjaVersionRadio.length > 0)

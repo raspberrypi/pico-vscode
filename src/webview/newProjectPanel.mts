@@ -28,6 +28,7 @@ import {
   SDK_REPOSITORY_URL,
   getCmakeReleases,
   getNinjaReleases,
+  getPicotoolReleases,
   getSDKReleases,
 } from "../utils/githubREST.mjs";
 import {
@@ -50,7 +51,7 @@ import VersionBundlesLoader, {
   type VersionBundle,
 } from "../utils/versionBundles.mjs";
 import which from "which";
-import { homedir, platform } from "os";
+import { homedir } from "os";
 import { readFile } from "fs/promises";
 import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync, readdirSync } from "fs";
@@ -59,16 +60,17 @@ import {
   loadExamples,
   setupExample,
 } from "../utils/examplesUtil.mjs";
+import { unknownErrorToString } from "../utils/errorHelper.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
 
-export const picotoolVersion = "2.0.0";
 export const openOCDVersion = "0.12.0+dev";
 
 interface ImportProjectMessageValue {
   selectedSDK: string;
   selectedToolchain: string;
+  selectedPicotool: string;
   ninjaMode: number;
   ninjaPath: string;
   ninjaVersion: string;
@@ -495,10 +497,7 @@ export class NewProjectPanel {
                   message.value as string
                 );
               // change toolchain version on arm64 linux, as Core-V not available for that
-              let riscvToolchain = versionBundle?.riscvToolchain;
-              if (process.platform === "linux" && process.arch === "arm64") {
-                riscvToolchain = "RISCV_RPI";
-              }
+              const riscvToolchain = versionBundle?.riscvToolchain;
               // return result in message of command versionBundleAvailableTest
               await this._panel.webview.postMessage({
                 command: "versionBundleAvailableTest",
@@ -651,7 +650,12 @@ export class NewProjectPanel {
                   }, this may take a while...`,
                 },
                 async progress =>
-                  this._generateProjectOperation(progress, data, message, example)
+                  this._generateProjectOperation(
+                    progress,
+                    data,
+                    message,
+                    example
+                  )
               );
             }
             break;
@@ -741,6 +745,7 @@ export class NewProjectPanel {
       const selectedToolchain = this._supportedToolchains?.find(
         tc => tc.version === data.selectedToolchain.replaceAll(".", "_")
       );
+      const selectedPicotool = data.selectedPicotool.slice(0);
 
       if (!selectedToolchain) {
         void window.showErrorMessage("Failed to find selected toolchain.");
@@ -857,7 +862,7 @@ export class NewProjectPanel {
             )) ||
             !(await downloadAndInstallToolchain(selectedToolchain)) ||
             !(await downloadAndInstallTools(selectedSDK)) ||
-            !(await downloadAndInstallPicotool(picotoolVersion))
+            !(await downloadAndInstallPicotool(selectedPicotool))
           ) {
             this._logger.error(
               `Failed to download and install toolchain and SDK.`
@@ -907,7 +912,7 @@ export class NewProjectPanel {
               increment: 100,
             });
             await window.showErrorMessage(
-              "Failed to get ninja version for the selected Pico-SDK version."
+              "Failed to get ninja version for the selected Pico SDK version."
             );
 
             return;
@@ -1086,7 +1091,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
-            picotoolVersion: picotoolVersion,
+            picotoolVersion: selectedPicotool,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1110,7 +1115,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
-            picotoolVersion: picotoolVersion,
+            picotoolVersion: selectedPicotool,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1130,7 +1135,7 @@ export class NewProjectPanel {
             toolchainPath: buildToolchainPath(selectedToolchain.version),
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
-            picotoolVersion: picotoolVersion,
+            picotoolVersion: selectedPicotool,
             openOCDVersion: openOCDVersion,
           },
           ninjaExecutable,
@@ -1171,11 +1176,22 @@ export class NewProjectPanel {
     );
 
     if (html !== "") {
-      this._panel.webview.html = html;
+      try {
+        this._panel.webview.html = html;
+      } catch (error) {
+        this._logger.error(
+          "Failed to set webview html. Webview might have been disposed. Error: ",
+          unknownErrorToString(error)
+        );
+        // properly dispose panel
+        this.dispose();
+
+        return;
+      }
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load available Pico-SDKs and/or supported toolchains. This may be due to an outdated personal access token for GitHub."
+        "Failed to load available Pico SDKs and/or supported toolchains. This may be due to an outdated personal access token for GitHub or a exceeded rate limit."
       );
       this.dispose();
     }
@@ -1237,12 +1253,46 @@ export class NewProjectPanel {
       Uri.joinPath(this._extensionUri, "web", "raspberrypi-nav-header-dark.svg")
     );
 
+    const riscvWhiteSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_White.svg"
+      )
+    );
+    const riscvWhiteYellowSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_White_Yellow.svg"
+      )
+    );
+    const riscvBlackSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_Black.svg"
+      )
+    );
+    const riscvColorSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_Color.svg"
+      )
+    );
+
     this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
 
     // construct auxiliar html
     // TODO: add offline handling - only load installed ones
     let toolchainsHtml = "";
     let picoSDKsHtml = "";
+    let picotoolsHtml = "";
     let ninjasHtml = "";
     let cmakesHtml = "";
 
@@ -1257,6 +1307,7 @@ export class NewProjectPanel {
       const supportedToolchains = await getSupportedToolchains();
       const ninjaReleases = await getNinjaReleases();
       const cmakeReleases = await getCmakeReleases();
+      const picotoolReleases = await getPicotoolReleases();
 
       if (availableSDKs.length === 0 || supportedToolchains.length === 0) {
         this._logger.error(
@@ -1280,6 +1331,14 @@ export class NewProjectPanel {
               ? `class="advanced-option-2" disabled`
               : ""
           }>v${sdk}</option>`;
+        });
+
+      picotoolReleases
+        .sort((a, b) => compare(b, a))
+        .forEach(picotool => {
+          picotoolsHtml += `<option ${
+            picotoolsHtml.length === 0 ? "selected " : ""
+          }value="${picotool}">${picotool}</option>`;
         });
 
       supportedToolchains.forEach(toolchain => {
@@ -1390,14 +1449,23 @@ export class NewProjectPanel {
             !this._isProjectImport && this._examples.length > 0
               ? `
           var examples = {${this._examples
-            .map(e => `"${e.searchKey}": {"boards": [${e.boards.map(b => `"${b}"`).join(', ')}], "supportRiscV": ${e.supportRiscV}}`)
-            .join(', ')}}`
+            .map(
+              e =>
+                `"${e.searchKey}": {"boards": [${e.boards
+                  .map(b => `"${b}"`)
+                  .join(", ")}], "supportRiscV": ${e.supportRiscV}}`
+            )
+            .join(", ")}};`
               : ""
           }
           var doProjectImport = ${this._isProjectImport};
-          const forceCreateFromExample = ${
-            forceCreateFromExample ? "true" : "false"
-          };
+          var forceCreateFromExample = ${forceCreateFromExample};
+
+          // riscv logos
+          const riscvWhiteSvgUri = "${riscvWhiteSvgUri.toString()}";
+          const riscvWhiteYellowSvgUri = "${riscvWhiteYellowSvgUri.toString()}";
+          const riscvBlackSvgUri = "${riscvBlackSvgUri.toString()}";
+          const riscvColorSvgUri = "${riscvColorSvgUri.toString()}";
         </script>
       </head>
       <body class="scroll-smooth w-screen">
@@ -1475,49 +1543,57 @@ export class NewProjectPanel {
                                   forceCreateFromExample
                                     ? "Select an example"
                                     : "Project name"
-                                }" required/>
-                                <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border border-l-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 ${
+                                }" required/> <!-- without this required the webview will crash every time you hit the examples button -->
+                                <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 ${
                                   !forceCreateFromExample ? "hidden" : ""
                                 }">&#9660;</button>
+                                ${
+                                  this._examples.length > 0
+                                    ? `   
+                                    <ul id="examples-list" class="bg-gray-50 border-gray-300 dark:bg-gray-700 dark:border-gray-600 rounded-b-lg"></ul>                          
+                                <!--<datalist id="examples-list">
+                                  <option value="\${this._examples
+                                    .map(e => e.searchKey)
+                                    .join(
+                                      '">example project</option>\n<option value="'
+                                    )}">example project</option>
+                                </datalist>-->`
+                                    : ""
+                                }
                             </div>
-                            <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-3 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 ml-2 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="Create from example">Example</button>
+                            <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-3 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="Create from example">Example</button>
                           </div>
-                              
-                          ${
-                            this._examples.length > 0
-                              ? `   
-                              <ul id="examples-list"></ul>                          
-                          <!--<datalist id="examples-list">
-                            <option value="\${this._examples
-                              .map(e => e.searchKey)
-                              .join(
-                                '">example project</option>\n<option value="'
-                              )}">example project</option>
-                          </datalist>-->`
-                              : ""
-                          }
 
                           <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden>
                               <span class="font-medium">Error</span> Please enter a valid project name.
                           </p>
                         </div>
                 
-                        <div>
+                        <div id="board-type-riscv-grid" class="grid gap-6 grid-cols-2">
+                          <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option id="sel-${BoardType.pico}" value="${
-                          BoardType.pico
-                        }">Pico</option>
-                                <option id="sel-${BoardType.picoW}" value="${
-                          BoardType.picoW
-                        }">Pico W</option>
-                                <option id="sel-${BoardType.pico2}" value="${
-                          BoardType.pico2
-                        }" selected>Pico 2</option>
-                                <option id="sel-${BoardType.other}" value="${
-                          BoardType.other
-                        }">Other</option>
+                             <option id="option-board-type-${
+                               BoardType.pico2
+                             }" value="${BoardType.pico2}">Pico 2</option>    
+                              <option id="option-board-type-${
+                                BoardType.pico
+                              }" value="${BoardType.pico}">Pico</option>
+                              <option id="option-board-type-${
+                                BoardType.picoW
+                              }" value="${BoardType.picoW}">Pico W</option>
+                              <option id="option-board-type-${
+                                BoardType.other
+                              }" value="${BoardType.other}">Other</option>
                             </select>
+                          </div>
+                          <div class="use-riscv text-sm font-medium text-gray-900 dark:text-white" hidden>
+                            <label for="riscvToggle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Architecture (Pico 2)</label>
+                            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-lg dark:bg-gray-700">
+                              <input type="checkbox" id="sel-riscv" class="ms-2" />
+                              <img id="riscvIcon" src="${riscvColorSvgUri.toString()}" alt="RISC-V Logo" class="h-6 mx-auto w-28">
+                            </div>
+                          </div>
                         </div>
                       </div>`
                       : `<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
@@ -1576,8 +1652,10 @@ export class NewProjectPanel {
                                     : "/home/user/Project/To/Import"
                                 }" disabled value="${
       // support folder names with backslashes on linux and macOS
-      this._projectRoot !== undefined && process.platform === "win32"
-        ? this._projectRoot.fsPath.replaceAll("\\", "/")
+      this._projectRoot !== undefined
+        ? process.platform === "win32"
+          ? this._projectRoot.fsPath.replaceAll("\\", "/")
+          : this._projectRoot.fsPath
         : ""
     }"/>
                             </div>
@@ -1593,19 +1671,22 @@ export class NewProjectPanel {
                     </div>
                     <div class="grid gap-6 md:grid-cols-2 mt-6">
                       <div>
-                        <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Pico-SDK version</label>
+                        <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Pico SDK version</label>
                         <select id="sel-pico-sdk" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${picoSDKsHtml}
                         </select>
                       </div>
-                      <div class="use-riscv text-sm font-medium text-gray-900 dark:text-white" hidden>
-                        <label for="sel-riscv">Use RISC-V</label>
-                        <input type="checkbox" id="sel-riscv">
-                      </div>
+                      
                       <div class="advanced-option" hidden>
                         <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM/RISCV Embeded Toolchain version</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${toolchainsHtml}
+                        </select>
+                      </div>
+                      <div hidden>
+                        <label for="sel-picotool" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select picotool version</label>
+                        <select id="sel-picotool" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            ${picotoolsHtml}
                         </select>
                       </div>
                     </div>
@@ -2009,7 +2090,12 @@ export class NewProjectPanel {
       } catch {
         /* ignore */
       }
-    } else if ("boardType" in options && isExampleBased && "name" in options && "libNames" in options) {
+    } else if (
+      "boardType" in options &&
+      isExampleBased &&
+      "name" in options &&
+      "libNames" in options
+    ) {
       for (const libName of options.libNames) {
         basicNewProjectOptions.push(`-examLibs ${libName}`);
       }

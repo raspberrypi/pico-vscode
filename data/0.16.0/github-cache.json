@@ -383,5 +383,18 @@
       }
     ],
     "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk-tools/releases/169351844/assets"
+  },
+  "githubApiCache-4-0": [
+    "2.0.0"
+  ],
+  "githubApiCache-4-1-2.0.0": {
+    "assets": [
+      {
+        "id": 184690696,
+        "name": "picotool-2.0.0.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/picotool/releases/download/2.0.0/picotool-2.0.0.tar.gz"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/picotool/releases/169321961/assets"
   }
-}
+}

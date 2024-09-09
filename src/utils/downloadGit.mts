@@ -2,22 +2,25 @@ import { createWriteStream, existsSync, rmSync } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
 import { join } from "path";
-import Logger from "../logger.mjs";
+import Logger, { LoggerSource } from "../logger.mjs";
 import { get } from "https";
 import { exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
-
-// TODO: extracted from download.mts to resolved circular dependency
+import { EXT_USER_AGENT } from "./githubREST.mjs";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 const GIT_DOWNLOAD_URL_WIN_AMD64 =
   "https://github.com/git-for-windows/git/releases/download" +
-  "/v2.43.0.windows.1/MinGit-2.43.0-64-bit.zip";
+  "/v2.46.0.windows.1/MinGit-2.46.0-64-bit.zip";
 
 /**
- * Only supported Windows amd64 and macOS arm64 and amd64.
+ * Downloads and installs a portable version of Git.
  *
- * @returns
+ * Supports Windows x64 and macOS x64 + amd64.
+ * But currently only execution on Windows x64 is enabled.
+ *
+ * @returns The path to the installed Git executable or undefined if the installation failed
  */
 export async function downloadGit(
   redirectURL?: string
@@ -26,7 +29,10 @@ export async function downloadGit(
     process.platform !== "win32" ||
     (process.platform === "win32" && process.arch !== "x64")
   ) {
-    Logger.log("Git installation on Windows x64 and macOS only.");
+    Logger.debug(
+      LoggerSource.gitDownloader,
+      "Portable Git installation only supported on Windows x64."
+    );
 
     return;
   }
@@ -36,7 +42,7 @@ export async function downloadGit(
 
   // Check if the Embed Python is already installed
   if (redirectURL === undefined && existsSync(targetDirectory)) {
-    Logger.log(`Git is already installed.`);
+    Logger.info(LoggerSource.gitDownloader, `Git is already installed.`);
 
     return process.platform === "win32"
       ? `${settingsTargetDirectory}/cmd/git.exe`
@@ -57,7 +63,7 @@ export async function downloadGit(
     const requestOptions = {
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
+        "User-Agent": EXT_USER_AGENT,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         Accept: "*/*",
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -70,7 +76,11 @@ export async function downloadGit(
 
       if (code >= 400) {
         //return reject(new Error(response.statusMessage));
-        Logger.log("Error while downloading git: " + response.statusMessage);
+        Logger.error(
+          LoggerSource.gitDownloader,
+          "Downloading git failed:",
+          response.statusMessage ?? "{No status message vailable}."
+        );
 
         resolve(undefined);
       }
@@ -82,7 +92,7 @@ export async function downloadGit(
 
       // save the file to disk
       const fileWriter = createWriteStream(archiveFilePath).on("finish", () => {
-        // TODO: remove unused code-path here
+        // TODO: maybe remove unused code-path here
         if (process.platform === "darwin") {
           unxzFile(archiveFilePath, targetDirectory)
             .then(success => {
@@ -111,10 +121,10 @@ export async function downloadGit(
                 "--remove-section include",
               error => {
                 if (error) {
-                  Logger.log(
-                    `Error executing git: ${
-                      error instanceof Error ? error.message : (error as string)
-                    }`
+                  Logger.error(
+                    LoggerSource.gitDownloader,
+                    "Executing git failed:",
+                    unknownErrorToString(error)
                   );
                   resolve(undefined);
                 } else {
@@ -129,8 +139,12 @@ export async function downloadGit(
       });
 
       response.pipe(fileWriter);
-    }).on("error", () => {
-      Logger.log("Error while downloading git.");
+    }).on("error", err => {
+      Logger.error(
+        LoggerSource.gitDownloader,
+        "Downloading git failed:",
+        err.message
+      );
 
       return false;
     });

@@ -4,19 +4,19 @@ import {
   existsSync,
   readdirSync,
   symlinkSync,
-  rmSync
+  rmSync,
 } from "fs";
 import { mkdir } from "fs/promises";
 import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
-import Logger from "../logger.mjs";
+import Logger, { LoggerSource } from "../logger.mjs";
 import { STATUS_CODES } from "http";
 import type { Dispatcher } from "undici";
 import { Client } from "undici";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
 import { cloneRepository, initSubmodules, getGit } from "./gitUtil.mjs";
-import { checkForInstallationRequirements } from "./requirementsUtil.mjs";
+import { checkForGit } from "./requirementsUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import type { VersionBundle } from "./versionBundles.mjs";
@@ -33,8 +33,14 @@ import {
   GITHUB_API_BASE_URL,
   ownerOfRepository,
   repoNameOfRepository,
+  GITHUB_API_VERSION,
+  HTTP_STATUS_UNAUTHORIZED,
+  githubApiUnauthorized,
+  HTTP_STATUS_FORBIDDEN,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
+import type { Writable } from "stream";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -77,15 +83,17 @@ const CMAKE_PLATFORMS: { [key: string]: string } = {
   win32: "windows",
 };
 
+// Compute and cache the home directory
+const homeDirectory: string = homedir();
+
 export function buildToolchainPath(version: string): string {
-  // TODO: maybe put homedir() into a global
-  return joinPosix(homedir(), ".pico-sdk", "toolchain", version);
+  return joinPosix(homeDirectory, ".pico-sdk", "toolchain", version);
 }
 
 export function buildSDKPath(version: string): string {
   // TODO: maybe replace . with _
   return joinPosix(
-    homedir().replaceAll("\\", "/"),
+    homeDirectory.replaceAll("\\", "/"),
     ".pico-sdk",
     "sdk",
     version
@@ -94,27 +102,18 @@ export function buildSDKPath(version: string): string {
 
 export function buildCMakeIncPath(absolute: boolean): string {
   // TODO: maybe replace . with _
-  const relPath = joinPosix(
-    ".pico-sdk",
-    "cmake"
-  );
+  const relPath = joinPosix(".pico-sdk", "cmake");
   if (absolute) {
-    return joinPosix(
-      homedir().replaceAll("\\", "/"),
-      relPath
-    );
+    return joinPosix(homeDirectory.replaceAll("\\", "/"), relPath);
   } else {
-    return joinPosix(
-      "${USERHOME}",
-      relPath
-    );
+    return joinPosix("${USERHOME}", relPath);
   }
 }
 
 export function buildToolsPath(version: string): string {
   // TODO: maybe replace . with _
   return joinPosix(
-    homedir().replaceAll("\\", "/"),
+    homeDirectory.replaceAll("\\", "/"),
     ".pico-sdk",
     "tools",
     version
@@ -123,7 +122,7 @@ export function buildToolsPath(version: string): string {
 
 export function buildPicotoolPath(version: string): string {
   return joinPosix(
-    homedir().replaceAll("\\", "/"),
+    homeDirectory.replaceAll("\\", "/"),
     ".pico-sdk",
     "picotool",
     version
@@ -140,7 +139,7 @@ export function getScriptsRoot(): string {
 
 export function buildNinjaPath(version: string): string {
   return joinPosix(
-    homedir().replaceAll("\\", "/"),
+    homeDirectory.replaceAll("\\", "/"),
     ".pico-sdk",
     "ninja",
     version
@@ -149,7 +148,7 @@ export function buildNinjaPath(version: string): string {
 
 export function buildOpenOCDPath(version: string): string {
   return joinPosix(
-    homedir().replaceAll("\\", "/"),
+    homeDirectory.replaceAll("\\", "/"),
     ".pico-sdk",
     "openocd",
     version
@@ -158,7 +157,7 @@ export function buildOpenOCDPath(version: string): string {
 
 export function buildCMakePath(version: string): string {
   return joinPosix(
-    homedir().replaceAll("\\", "/"),
+    homeDirectory.replaceAll("\\", "/"),
     ".pico-sdk",
     "cmake",
     version
@@ -167,7 +166,7 @@ export function buildCMakePath(version: string): string {
 
 export function buildPython3Path(version: string): string {
   return joinPosix(
-    homedir().replaceAll("\\", "/"),
+    homeDirectory.replaceAll("\\", "/"),
     ".pico-sdk",
     "python",
     version
@@ -187,7 +186,7 @@ export async function downloadAndInstallZip(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`${logName} is already installed.`);
+    Logger.info(LoggerSource.downloader, `${logName} is already installed.`);
 
     return true;
   }
@@ -213,7 +212,7 @@ export async function downloadAndInstallZip(
     const downloadUrl = new URL(redirectURL ?? url);
     const client = new Client(downloadUrl.origin);
 
-    const requestOptions : Dispatcher.RequestOptions = {
+    const requestOptions: Dispatcher.RequestOptions = {
       path: downloadUrl.pathname + downloadUrl.search,
       method: "GET",
       headers: {
@@ -228,76 +227,87 @@ export async function downloadAndInstallZip(
     };
 
     // save requested stream to file
-    client.stream(requestOptions, ({statusCode, headers}) =>
-      createWriteStream(archiveFilePath).on("finish", () => {
-        const code = statusCode ?? 404;
+    client.stream(
+      requestOptions,
+      ({ statusCode, headers }) =>
+        createWriteStream(archiveFilePath).on("finish", () => {
+          const code = statusCode ?? 404;
 
-        if (code >= 400) {
-          //return reject(new Error(STATUS_CODES[code]));
-          Logger.log(
-            `Error while downloading ${logName}: ` + STATUS_CODES[code]
-          );
+          if (code >= 400) {
+            //return reject(new Error(STATUS_CODES[code]));
+            Logger.error(
+              LoggerSource.downloader,
+              `Downloading ${logName} failed: ` + STATUS_CODES[code]
+            );
 
-          return resolve(false);
-        }
+            return resolve(false);
+          }
 
-        // handle redirects
-        if (code > 300 && !!headers.location) {
-          return resolve(
-            downloadAndInstallZip(
-              url,
-              targetDirectory,
-              archiveFileName,
-              logName,
-              extraCallback,
-              headers.location.toString()
-            )
-          );
-        }
-        
-        // unpack the archive
-        if (artifactExt === "tar.xz" || artifactExt === "tar.gz") {
-          unxzFile(archiveFilePath, targetDirectory)
-            .then(success => {
-              // delete tmp file
-              rmSync(archiveFilePath, { recursive: true, force: true });
+          // handle redirects
+          if (code > 300 && !!headers.location) {
+            return resolve(
+              downloadAndInstallZip(
+                url,
+                targetDirectory,
+                archiveFileName,
+                logName,
+                extraCallback,
+                headers.location.toString()
+              )
+            );
+          }
 
-              if (extraCallback !== undefined) {
-                extraCallback();
-              }
+          // unpack the archive
+          if (artifactExt === "tar.xz" || artifactExt === "tar.gz") {
+            unxzFile(archiveFilePath, targetDirectory)
+              .then(success => {
+                // delete tmp file
+                rmSync(archiveFilePath, { recursive: true, force: true });
 
-              resolve(success);
-            })
-            .catch(() => {
-              rmSync(archiveFilePath, { recursive: true, force: true });
+                if (extraCallback !== undefined) {
+                  extraCallback();
+                }
+
+                resolve(success);
+              })
+              .catch(() => {
+                rmSync(archiveFilePath, { recursive: true, force: true });
+                rmSync(targetDirectory, { recursive: true, force: true });
+                resolve(false);
+              });
+          } else if (artifactExt === "zip") {
+            const success = unzipFile(archiveFilePath, targetDirectory);
+            // delete tmp file
+            rmSync(archiveFilePath, { recursive: true, force: true });
+
+            if (extraCallback !== undefined) {
+              extraCallback();
+            }
+
+            if (!success) {
               rmSync(targetDirectory, { recursive: true, force: true });
-              resolve(false);
-            });
-        } else if (artifactExt === "zip") {
-          const success = unzipFile(archiveFilePath, targetDirectory);
-          // delete tmp file
-          rmSync(archiveFilePath, { recursive: true, force: true });
-
-          if (extraCallback !== undefined) {
-            extraCallback();
-          }
-
-          if (!success) {
+            }
+            resolve(success);
+          } else {
+            rmSync(archiveFilePath, { recursive: true, force: true });
             rmSync(targetDirectory, { recursive: true, force: true });
+            Logger.error(
+              LoggerSource.downloader,
+              `Unknown archive extension: ${artifactExt}`
+            );
+            resolve(false);
           }
-          resolve(success);
-        } else {
-          rmSync(archiveFilePath, { recursive: true, force: true });
-          rmSync(targetDirectory, { recursive: true, force: true });
-          Logger.log(`Error: unknown archive extension: ${artifactExt}`);
-          resolve(false);
-        }
-      }), error => {
+        }),
+      error => {
         if (error) {
           // error - clean
           rmSync(archiveFilePath, { recursive: true, force: true });
           rmSync(targetDirectory, { recursive: true, force: true });
-          Logger.log(`Error while downloading ${logName}:` + error.message);
+          Logger.error(
+            LoggerSource.downloader,
+            `Downloading ${logName} failed:`,
+            error.message
+          );
 
           resolve(false);
         }
@@ -306,6 +316,15 @@ export async function downloadAndInstallZip(
   });
 }
 
+/**
+ * Downloads and installs the Pico SDK.
+ *
+ * @param version The version of the SDK to download
+ * @param repositoryUrl The URL of the repository to download the SDK from
+ * @param python3Path The path to a Python3 executable
+ * @returns A promise that resolves to true if the SDK was successfully
+ * downloaded and installed, false otherwise
+ */
 export async function downloadAndInstallSDK(
   version: string,
   repositoryUrl: string,
@@ -313,13 +332,13 @@ export async function downloadAndInstallSDK(
 ): Promise<boolean> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
-    Logger.log("Error: Settings not initialized.");
+    Logger.error(LoggerSource.downloader, "Settings not initialized.");
 
     return false;
   }
 
   // TODO: this does take about 2s - may be reduced
-  const requirementsCheck = await checkForInstallationRequirements(settings);
+  const requirementsCheck = await checkForGit(settings);
   if (!requirementsCheck) {
     return false;
   }
@@ -338,7 +357,10 @@ export async function downloadAndInstallSDK(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`SDK ${version} is already installed.`);
+    Logger.info(
+      LoggerSource.downloader,
+      `SDK ${version} is already installed.`
+    );
 
     return true;
   }
@@ -357,13 +379,14 @@ export async function downloadAndInstallSDK(
       python3Path ||
       settings
         .getString(SettingsKey.python3Path)
-        ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ||
+        ?.replace(HOME_VAR, homeDirectory.replaceAll("\\", "/")) ||
       (process.platform === "win32" ? "python" : "python3");
     const python3: string | null = await which(python3Exe, { nothrow: true });
 
     if (python3 === null) {
-      Logger.log(
-        "Error: Python3 is not installed and could not be downloaded."
+      Logger.error(
+        LoggerSource.downloader,
+        "Python3 is not installed and could not be downloaded."
       );
 
       void window.showErrorMessage("Python3 is not installed and in PATH.");
@@ -377,6 +400,21 @@ export async function downloadAndInstallSDK(
   return false;
 }
 
+/**
+ * Downloads and installs a GitHub release asset.
+ *
+ * @param version The version of the asset to download
+ * @param releaseVersion The release tag of the asset to download
+ * @param repo The repository to download the asset from
+ * @param targetDirectory The directory to install the asset to
+ * @param archiveFileName The name of the archive file to download
+ * @param assetName The name of the asset to download
+ * @param logName The name of the asset to log
+ * @param extraCallback An optional callback to execute after the asset is installed
+ * @param redirectURL An optional redirect URL to download the asset
+ * from (used to follow redirects recursively)
+ * @returns A promise that resolves to true if the asset was downloaded and installed successfully
+ */
 async function downloadAndInstallGithubAsset(
   version: string,
   releaseVersion: string,
@@ -389,13 +427,16 @@ async function downloadAndInstallGithubAsset(
 
   redirectURL?: string
 ): Promise<boolean> {
-  // Check if the asset is already installed
+  // Check if the asset has already been installed
   if (
     redirectURL === undefined &&
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`${logName} ${version} is already installed.`);
+    Logger.info(
+      LoggerSource.downloader,
+      `${logName} ${version} is already installed.`
+    );
 
     return true;
   }
@@ -416,8 +457,7 @@ async function downloadAndInstallGithubAsset(
         return false;
       }
 
-      // Find the asset
-      Logger.log(release.assetsUrl);
+      // Find the asset to download
       asset = release.assets.find(asset => asset.name === assetName);
     } else {
       asset = {
@@ -428,18 +468,19 @@ async function downloadAndInstallGithubAsset(
       };
     }
   } catch (error) {
-    Logger.log(
-      `Error fetching ${logName} release ${version}. ${
-        error instanceof Error ? error.message : (error as string)
-      }`
+    Logger.error(
+      LoggerSource.downloader,
+      "Fetching ${logName} release ${version} failed:",
+      unknownErrorToString(error)
     );
 
     return false;
   }
 
   if (!asset) {
-    Logger.log(
-      `Error release asset for ${logName} release ${version} not found.`
+    Logger.error(
+      LoggerSource.downloader,
+      `Release asset for ${logName} release ${version} not found.`
     );
 
     return false;
@@ -452,17 +493,20 @@ async function downloadAndInstallGithubAsset(
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
 
   if (redirectURL !== undefined) {
-    Logger.log(`Downloading after redirect: ${redirectURL}`);
+    Logger.debug(
+      LoggerSource.downloader,
+      `Downloading after redirect: ${redirectURL}`
+    );
   }
-  
-  if ((redirectURL === undefined) && (githubPAT && githubPAT.length > 0)) {
+
+  if (redirectURL === undefined && githubPAT && githubPAT.length > 0) {
     // Use GitHub API to download the asset (will return a redirect)
-    Logger.log(`Using GitHub API for download`);
+    Logger.debug(LoggerSource.downloader, "Using GitHub API for download");
     const assetID = asset.id;
 
     const headers: { [key: string]: string } = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      "X-GitHub-Api-Version": "2022-11-28",
+      "X-GitHub-Api-Version": GITHUB_API_VERSION,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       Accept: "application/octet-stream",
     };
@@ -492,21 +536,70 @@ async function downloadAndInstallGithubAsset(
       method: "GET",
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
+        "User-Agent": EXT_USER_AGENT,
       },
       maxRedirections: 0, // don't automatically follow redirects
     };
   }
+  // keep track of retries
+  let retries = 0;
 
   return new Promise(resolve => {
-    // Use client.stream to download the asset
-    client.stream(options, ({statusCode, headers}) =>
+    //, data: Dispatcher.StreamData)
+    const clientErrorCallback = (error: Error | null): void => {
+      if (error) {
+        Logger.error(
+          LoggerSource.downloader,
+          `Downloading ${logName} asset failed:` + error.message
+        );
+        resolve(false);
+      }
+    };
+
+    const clientFactoryCallback = ({
+      statusCode,
+      headers,
+    }: Dispatcher.StreamFactoryData): Writable =>
       createWriteStream(archiveFilePath).on("finish", () => {
         const code = statusCode ?? 404;
 
         if (code >= 400) {
+          if (code === HTTP_STATUS_UNAUTHORIZED) {
+            retries++;
+            if (retries > 2) {
+              Logger.error(
+                LoggerSource.downloader,
+                `Downloading ${logName} failed. Multiple ` + STATUS_CODES[code]
+              );
+              resolve(false);
+
+              return;
+            }
+            // githubApiUnauthorized will take care of removing the
+            // token so it isn't used in retry attpemt
+            githubApiUnauthorized()
+              .then(() => {
+                client.stream(
+                  options,
+                  clientFactoryCallback,
+                  clientErrorCallback
+                );
+              })
+              .catch(() => {
+                resolve(false);
+              });
+          } else if (code === HTTP_STATUS_FORBIDDEN) {
+            Logger.error(
+              LoggerSource.downloader,
+              `Downloading ${logName} failed: ` + STATUS_CODES[code]
+            );
+            resolve(false);
+          }
           //return reject(new Error(STATUS_CODES[code]));
-          Logger.log(`Error downloading ${logName}: ` + STATUS_CODES[code]);
+          Logger.error(
+            LoggerSource.downloader,
+            `Downloading ${logName} failed: ` + STATUS_CODES[code]
+          );
 
           return resolve(false);
         }
@@ -562,16 +655,16 @@ async function downloadAndInstallGithubAsset(
         } else {
           rmSync(archiveFilePath, { recursive: true, force: true });
           rmSync(targetDirectory, { recursive: true, force: true });
-          Logger.log(`Error: unknown archive extension: ${archiveFileName}`);
+          Logger.error(
+            LoggerSource.downloader,
+            `Unknown archive extension: ${archiveFileName}`
+          );
           resolve(false);
         }
-      }), error => {
-        if (error) {
-          Logger.log(`Error downloading ${logName} asset:` + error.message);
-          resolve(false);
-        }
-      }
-    );
+      });
+
+    // Use client.stream to download the asset
+    client.stream(options, clientFactoryCallback, clientErrorCallback);
   });
 }
 
@@ -580,7 +673,10 @@ export async function downloadAndInstallTools(
 ): Promise<boolean> {
   if (parseInt(version.split(".")[0]) < 2) {
     if (process.platform !== "win32") {
-      Logger.log(`Skipping tools install not on Windows for pre-2.0.0 SDK.`);
+      Logger.debug(
+        LoggerSource.downloader,
+        `Skipping tools install on non Windows system for pre-2.0.0 SDK.`
+      );
 
       return true;
     }
@@ -653,19 +749,23 @@ export async function downloadAndInstallToolchain(
   const archiveFileName = `${toolchain.version}.${artifactExt}`;
 
   return downloadAndInstallZip(
-    downloadUrl, targetDirectory, archiveFileName, "Toolchain"
+    downloadUrl,
+    targetDirectory,
+    archiveFileName,
+    "Toolchain"
   );
 }
 
+/**
+ * Download and install the Ninja build system.
+ *
+ * @param version The version of Ninja to download
+ * @returns A promise that resolves to true if Ninja was
+ * successfully downloaded and installed, false otherwise
+ */
 export async function downloadAndInstallNinja(
   version: string
 ): Promise<boolean> {
-  /*if (process.platform === "linux") {
-    Logger.log("Ninja installation on Linux is not supported.");
-
-    return false;
-  }*/
-
   const targetDirectory = buildNinjaPath(version);
   const archiveFileName = `ninja.zip`;
   const assetName = `ninja-${NINJA_PLATFORMS[process.platform]}${
@@ -719,7 +819,10 @@ export async function downloadAndInstallOpenOCD(
     (process.platform === "darwin" && process.arch === "x64") ||
     (process.platform === "linux" && !["arm64", "x64"].includes(process.arch))
   ) {
-    Logger.log("OpenOCD installation not supported on this platform.");
+    Logger.error(
+      LoggerSource.downloader,
+      "Installation of OpenOCD not supported on this platform."
+    );
 
     return false;
   }
@@ -761,7 +864,7 @@ export async function downloadAndInstallOpenOCD(
 }
 
 /**
- * Supports Windows and macOS amd64 and arm64.
+ * Supports Windows and macOS and Linux.
  *
  * @param version
  * @returns
@@ -769,12 +872,6 @@ export async function downloadAndInstallOpenOCD(
 export async function downloadAndInstallCmake(
   version: string
 ): Promise<boolean> {
-  /*if (process.platform === "linux") {
-    Logger.log("CMake installation on Linux is not supported.");
-
-    return false;
-  }*/
-
   const targetDirectory = buildCMakePath(version);
   const assetExt = process.platform === "win32" ? "zip" : "tar.gz";
   const archiveFileName = `cmake-${version}.${assetExt}`;
@@ -792,7 +889,7 @@ export async function downloadAndInstallCmake(
 
   const extraCallback = (): void => {
     // on macOS the download includes an app bundle
-    // create a symlink so it has the same paths as on other platforms
+    // create a symlink so it has the same path as on other platforms
     if (process.platform === "darwin") {
       symlinkSync(
         join(targetDirectory, "CMake.app", "Contents", "bin"),
@@ -817,7 +914,13 @@ export async function downloadAndInstallCmake(
 }
 
 /**
- * Only supported Windows amd64 and arm64.
+ * Downloads and installs Python3 Embed.
+ *
+ * Supports Windows x64.
+ *
+ * Even tough this function supports downloading python3 on
+ * macOS arm64 it doesn't work correctly therefore it's
+ * excluded here use pyenvInstallPython instead.
  *
  * @returns
  */
@@ -832,8 +935,9 @@ export async function downloadEmbedPython(
     process.platform !== "win32" ||
     (process.platform === "win32" && process.arch !== "x64")
   ) {
-    Logger.log(
-      "Embed Python installation on Windows x64 and macOS arm64 only."
+    Logger.error(
+      LoggerSource.downloader,
+      "Embed Python installation is only supported on Windows x64."
     );
 
     return;
@@ -849,7 +953,10 @@ export async function downloadEmbedPython(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.log(`Embed Python is already installed correctly.`);
+    Logger.info(
+      LoggerSource.downloader,
+      `Embed Python is already installed correctly.`
+    );
 
     return `${settingsTargetDirectory}/python.exe`;
   }
@@ -870,12 +977,12 @@ export async function downloadEmbedPython(
   return new Promise(resolve => {
     const client = new Client(downloadUrl.origin);
 
-    const requestOptions : Dispatcher.RequestOptions = {
+    const requestOptions: Dispatcher.RequestOptions = {
       path: downloadUrl.pathname + downloadUrl.search,
       method: "GET",
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": "VSCode-RaspberryPi-Pico-Extension",
+        "User-Agent": EXT_USER_AGENT,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         Accept: "*/*",
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -885,88 +992,100 @@ export async function downloadEmbedPython(
     };
 
     // save requested stream to file
-    client.stream(requestOptions, ({statusCode}) =>
-      createWriteStream(archiveFilePath).on("finish", () => {
-        const code = statusCode ?? 0;
+    client.stream(
+      requestOptions,
+      ({ statusCode }) =>
+        createWriteStream(archiveFilePath).on("finish", () => {
+          const code = statusCode ?? 404;
 
-        if (code >= 400) {
-          //return reject(new Error(STATUS_CODES[code]));
-          Logger.log("Error while downloading python: " + STATUS_CODES[code]);
+          if (code >= 400) {
+            //return reject(new Error(STATUS_CODES[code]));
+            Logger.error(
+              LoggerSource.downloader,
+              "Downloading embed Python3 failed:",
+              STATUS_CODES[code] ?? `Unknown status code '${code}'`
+            );
 
-          return resolve(undefined);
-        }
+            return resolve(undefined);
+          }
 
-        // any redirects should have been handled by undici
+          // any redirects should have been handled by undici
 
-        // doesn't work correctly therefore use pyenvInstallPython instead
-        // TODO: remove unused darwin code-path here
-        if (process.platform === "darwin") {
-          const pkgExtractor = new MacOSPythonPkgExtractor(
-            archiveFilePath,
-            targetDirectory
-          );
+          // doesn't work correctly therefore use pyenvInstallPython instead
+          // TODO: maybe remove unused darwin code-path here
+          if (process.platform === "darwin") {
+            const pkgExtractor = new MacOSPythonPkgExtractor(
+              archiveFilePath,
+              targetDirectory
+            );
 
-          pkgExtractor
-            .extractPkg()
-            .then(success => {
-              if (versionBundle.python.version.lastIndexOf(".") <= 2) {
-                Logger.log(
-                  "Error while extracting Python: " +
-                    "Python version has wrong format."
-                );
-                resolve(undefined);
-              }
-
-              if (success) {
-                try {
-                  // create symlink, so the same path can be used as on Windows
-                  const srcPath = joinPosix(
-                    settingsTargetDirectory,
-                    "/Versions/",
-                    versionBundle.python.version.substring(
-                      0,
-                      versionBundle.python.version.lastIndexOf(".")
-                    ),
-                    "bin",
-                    "python3"
+            pkgExtractor
+              .extractPkg()
+              .then(success => {
+                if (versionBundle.python.version.lastIndexOf(".") <= 2) {
+                  Logger.error(
+                    LoggerSource.downloader,
+                    "Extracting Embed Python3 failed - " +
+                      "Python version has wrong format."
                   );
-                  symlinkSync(
-                    srcPath,
-                    // use .exe as python is already used in the directory
-                    join(settingsTargetDirectory, "python.exe"),
-                    "file"
-                  );
-                  symlinkSync(
-                    srcPath,
-                    // use .exe as python is already used in the directory
-                    join(settingsTargetDirectory, "python3.exe"),
-                    "file"
-                  );
-                } catch {
                   resolve(undefined);
                 }
 
-                resolve(`${settingsTargetDirectory}/python.exe`);
-              } else {
+                if (success) {
+                  try {
+                    // create symlink, so the same path can be used as on Windows
+                    const srcPath = joinPosix(
+                      settingsTargetDirectory,
+                      "/Versions/",
+                      versionBundle.python.version.substring(
+                        0,
+                        versionBundle.python.version.lastIndexOf(".")
+                      ),
+                      "bin",
+                      "python3"
+                    );
+                    symlinkSync(
+                      srcPath,
+                      // use .exe as python is already used in the directory
+                      join(settingsTargetDirectory, "python.exe"),
+                      "file"
+                    );
+                    symlinkSync(
+                      srcPath,
+                      // use .exe as python is already used in the directory
+                      join(settingsTargetDirectory, "python3.exe"),
+                      "file"
+                    );
+                  } catch {
+                    resolve(undefined);
+                  }
+
+                  resolve(`${settingsTargetDirectory}/python.exe`);
+                } else {
+                  resolve(undefined);
+                }
+              })
+              .catch(() => {
                 resolve(undefined);
-              }
-            })
-            .catch(() => {
-              resolve(undefined);
-            });
-        } else {
-          // unpack the archive
-          const success = unzipFile(archiveFilePath, targetDirectory);
-          // delete tmp file
-          rmSync(archiveFilePath, { recursive: true, force: true });
-          resolve(
-            success ? `${settingsTargetDirectory}/python.exe` : undefined
-          );
-        }
-      }), (err) => {
+              });
+          } else {
+            // unpack the archive
+            const success = unzipFile(archiveFilePath, targetDirectory);
+            // delete tmp file
+            rmSync(archiveFilePath, { recursive: true, force: true });
+            resolve(
+              success ? `${settingsTargetDirectory}/python.exe` : undefined
+            );
+          }
+        }),
+      err => {
         if (err) {
-          Logger.log("Error while downloading Embed Python.");
-          
+          Logger.error(
+            LoggerSource.downloader,
+            "Downloading Embed Python failed:",
+            err.message
+          );
+
           return false;
         }
       }

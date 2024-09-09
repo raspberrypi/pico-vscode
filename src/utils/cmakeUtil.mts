@@ -11,9 +11,11 @@ import { rimraf, windows as rimrafWindows } from "rimraf";
 import { homedir } from "os";
 import which from "which";
 import { compareLtMajor } from "./semverUtil.mjs";
-import { picotoolVersion } from "../webview/newProjectPanel.mjs";
-import { CMAKE_DO_NOT_EDIT_HEADER_PREFIX } from "../extension.mjs";
 import { buildCMakeIncPath } from "./download.mjs";
+
+export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
+  // eslint-disable-next-line max-len
+  "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
 export async function getPythonPath(): Promise<string> {
   const settings = Settings.getInstance();
@@ -304,6 +306,7 @@ export async function cmakeUpdateSDK(
   folder: Uri,
   newSDKVersion: string,
   newToolchainVersion: string,
+  newPicotoolVersion: string,
   reconfigure: boolean = true
 ): Promise<boolean> {
   // TODO: support for scaning for seperate locations of the CMakeLists.txt file in the project
@@ -337,7 +340,7 @@ export async function cmakeUpdateSDK(
         "endif()\n" +
         `set(sdkVersion ${newSDKVersion})\n` +
         `set(toolchainVersion ${newToolchainVersion})\n` +
-        `set(picotoolVersion ${picotoolVersion})\n` +
+        `set(picotoolVersion ${newPicotoolVersion})\n` +
         `set(picoVscode ${buildCMakeIncPath(false)}/pico-vscode.cmake)\n` +
         "if (EXISTS ${picoVscode})\n" +
         "    include(${picoVscode})\n" +
@@ -402,7 +405,7 @@ export async function cmakeUpdateSDK(
  * Extracts the sdk and toolchain versions from the CMakeLists.txt file.
  *
  * @param cmakeFilePath The path to the CMakeLists.txt file.
- * @returns An tupple with the [sdk, toolchain] versions or null if the file could not
+ * @returns An tupple with the [sdk, toolchain, picotool] versions or null if the file could not
  * be read or the versions could not be extracted.
  */
 export async function cmakeGetSelectedToolchainAndSDKVersions(
@@ -440,10 +443,12 @@ export async function cmakeGetSelectedToolchainAndSDKVersions(
     }
 
     Logger.log("Updating extension lines in CMake file");
-    await cmakeUpdateSDK(folder, versionMatch[1], versionMatch2[1]);
+    await cmakeUpdateSDK(
+      folder, versionMatch[1], versionMatch2[1], versionMatch[1]
+    );
     Logger.log("Extension lines updated");
 
-    return [versionMatch[1], versionMatch2[1], picotoolVersion];
+    return [versionMatch[1], versionMatch2[1], versionMatch[1]];
   } else {
     return null;
   }

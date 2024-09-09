@@ -1,7 +1,7 @@
 // TODO: put defaults into json file, to prevent need for these disables
 import type { ExtensionContext, Memento } from "vscode";
 import type { GithubReleaseResponse, GithubRepository } from "./githubREST.mjs";
-import Logger from "../logger.mjs";
+import Logger, { LoggerSource } from "../logger.mjs";
 import { getDataRoot } from "./downloadHelpers.mjs";
 import { get } from "https";
 import {
@@ -10,6 +10,7 @@ import {
 } from "./downloadHelpers.mjs";
 import { join as joinPosix } from "path/posix";
 import { readFileSync } from "fs";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 /**
  * Tells if the stored data is a GithubReleaseResponse (data of a specific release)
@@ -47,12 +48,15 @@ function parseCacheJson(data: string): {
     };
 
     return cache;
-  } catch {
-    Logger.log("Failed to parse github-cache.json");
-
-    throw new Error(
-      "Error while downloading github cache. " + "Parsing Failed"
+  } catch (error) {
+    Logger.error(
+      LoggerSource.githubApiCache,
+      "Failed to parse github-cache.json:",
+      unknownErrorToString(error)
     );
+
+    // TODO: no rethrowing in catch block!
+    throw new Error("Parsing Failed");
   }
 }
 
@@ -116,8 +120,10 @@ export async function defaultCacheOfRepository(
       });
     });
 
-    // TODO: Logger.debug
-    Logger.log(`Successfully downloaded github cache from the internet.`);
+    Logger.debug(
+      LoggerSource.githubApiCache,
+      "Successfully downloaded github cache from the internet."
+    );
 
     ret.data =
       result[
@@ -127,9 +133,11 @@ export async function defaultCacheOfRepository(
 
     return ret;
   } catch (error) {
-    Logger.log(error instanceof Error ? error.message : (error as string));
-
-    Logger.log("Failed to load github-cache.json");
+    Logger.error(
+      LoggerSource.githubApiCache,
+      "Failed to download github-cache.json:",
+      unknownErrorToString(error)
+    );
 
     try {
       const cacheFile = readFileSync(
@@ -143,8 +151,12 @@ export async function defaultCacheOfRepository(
         ];
 
       return ret;
-    } catch {
-      Logger.log("Failed to load local github-cache.json");
+    } catch (error) {
+      Logger.error(
+        LoggerSource.githubApiCache,
+        "Failed to load local github-cache.json:",
+        unknownErrorToString(error)
+      );
 
       return undefined;
     }
@@ -207,8 +219,10 @@ export default class GithubApiCache {
     etag?: string
   ): Promise<void> {
     if (etag === undefined) {
-      // TODO: Logger.warn
-      Logger.log("GithubApiCache.saveResponse: response without etag.");
+      Logger.warn(
+        LoggerSource.githubApiCache,
+        "Can't save response without etag."
+      );
 
       return;
     }

@@ -126,10 +126,7 @@ export default class SwitchBoardCommand extends Command {
     }
 
     const armToolchain = versionBundle?.toolchain;
-    let riscvToolchain = versionBundle?.riscvToolchain;
-    if (process.platform === "linux" && process.arch === "arm64") {
-      riscvToolchain = "RISCV_RPI";
-    }
+    const riscvToolchain = versionBundle?.riscvToolchain;
 
     const chosenToolchainVersion = useRiscV ? riscvToolchain : armToolchain;
 
@@ -183,6 +180,7 @@ export default class SwitchBoardCommand extends Command {
               workspaceFolder.uri,
               versions[0],
               selectedToolchain.version,
+              versions[2],
               false
             );
             progress.report({

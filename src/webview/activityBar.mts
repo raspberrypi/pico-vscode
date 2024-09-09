@@ -23,6 +23,7 @@ import ConfigureCmakeCommand from "../commands/configureCmake.mjs";
 import ImportProjectCommand from "../commands/importProject.mjs";
 import NewExampleProjectCommand from "../commands/newExampleProject.mjs";
 import SwitchBoardCommand from "../commands/switchBoard.mjs";
+import FlashProjectSWDCommand from "../commands/flashProjectSwd.mjs";
 
 export class QuickAccessCommand extends TreeItem {
   constructor(
@@ -44,7 +45,8 @@ const EXAMPLE_PROJECT_LABEL = "New Project From Example";
 const SWITCH_SDK_LABEL = "Switch SDK";
 const SWITCH_BOARD_LABEL = "Switch Board";
 const COMPILE_PROJECT_LABEL = "Compile Project";
-const RUN_PROJECT_LABEL = "Run Project";
+const RUN_PROJECT_LABEL = "Run Project (USB)";
+const FLASH_PROJECT_LABEL = "Flash Project (SWD)";
 const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
 const DEBUG_PROJECT_LABEL = "Debug Project";
 const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
@@ -98,6 +100,9 @@ export class PicoProjectActivityBar
         break;
       case RUN_PROJECT_LABEL:
         element.iconPath = new ThemeIcon("run");
+        break;
+      case FLASH_PROJECT_LABEL:
+        element.iconPath = new ThemeIcon("desktop-download");
         break;
       case CONFIGURE_CMAKE_PROJECT_LABEL:
         // alt. "gather"
@@ -202,6 +207,14 @@ export class PicoProjectActivityBar
           {
             command: `${extensionName}.${RunProjectCommand.id}`,
             title: RUN_PROJECT_LABEL,
+          }
+        ),
+        new QuickAccessCommand(
+          FLASH_PROJECT_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${FlashProjectSWDCommand.id}`,
+            title: FLASH_PROJECT_LABEL,
           }
         ),
         new QuickAccessCommand(

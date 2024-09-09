@@ -34,12 +34,15 @@ class State {
 
   // special ui only state
   uiShowAdvancedOptions;
+  isImportProject;
+  forceFromExample;
+  manuallyFromExample;
 
   constructor() { }
 }
 
 function restoreState(state) {
-  console.debug("Restoring state from previous session");
+  console.debug("[raspbery-pi-pico - new project panel - state] Restoring state from previous session");
   // load state
   if (state.projectName) {
     document.getElementById('inp-project-name').value = state.projectName;
@@ -203,20 +206,72 @@ function restoreState(state) {
     document.getElementById('python-radio-path-executable').checked = state.pythonMode == 2;
   }
 
+  if (state.selRiscv !== undefined) {
+    const selRiscv = document.getElementById('sel-riscv');
+    if (selRiscv) {
+      selRiscv.checked = state.selRiscv;
+    }
+  }
+
   // ui state
   if (state.uiShowAdvancedOptions) {
     document.getElementById('btn-advanced-options').click();
+  }
+  if (!forceCreateFromExample && !doProjectImport && state.manuallyFromExample) {
+    console.debug("[raspbery-pi-pico - new project panel - state] Manually triggering create from example");
+
+    // will crash the webview to set it on disable and click create from example
+    /*const pni = document.getElementById('inp-project-name');
+    if (pni) {
+      // disable it for user input
+      //pni.disabled = true;
+    }*/
+    setTimeout(() => {
+      document.getElementById('btn-create-from-example').click();
+      // now reenter the name like a user so on keyup event is triggered at the end
+      const pni = document.getElementById('inp-project-name');
+      if (pni) {
+        //pni.disabled = false;
+        pni.value = state.projectName;
+        if (state.projectName.length > 0) {
+          const key = state.projectName[0];
+          const keyUpEvent = new KeyboardEvent('keyup', { key: key, code: `Key${key.toUpperCase()}`, bubbles: true });
+          pni.dispatchEvent(keyUpEvent);
+          // send enter key down event
+          const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter', code: 'Enter', bubbles: true });
+          pni.dispatchEvent(enterKeyEvent);
+        }
+      }
+    }, 1500);
   }
 }
 
 function setupStateSystem(vscode) {
   document.addEventListener('DOMContentLoaded', function () {
     const oldState = vscode.getState();
+    const oldStateIsImportProject = oldState && oldState.isImportProject;
+    const oldStateForceFromExample = oldState && oldState.forceFromExample;
     const state = oldState || new State();
+    state.isImportProject = doProjectImport;
+    state.forceFromExample = forceCreateFromExample;
 
     // restore state
     if (oldState !== null) {
       restoreState(state);
+    }
+
+    if (((state.forceFromExample || state.isImportProject) && oldState === null)
+      || (oldState !== null && oldStateIsImportProject !== state.isImportProject)
+      || (oldState !== null && oldStateForceFromExample !== state.forceFromExample)) {
+      // call set state
+      vscode.setState(state);
+    }
+
+    if (!state.forceFromExample && !state.isImportProject) {
+      document.getElementById("btn-create-from-example").addEventListener("click", function () {
+        state.manuallyFromExample = true;
+        vscode.setState(state);
+      });
     }
 
     // add on change event to all inputs to save state
@@ -409,7 +464,7 @@ function setupStateSystem(vscode) {
             state.pythonPath = file.files[0].name;
             break;
         }
-
+  
         vscode.setState(state);
       });
     });

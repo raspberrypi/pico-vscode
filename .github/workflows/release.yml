@@ -18,24 +18,39 @@ jobs:
       - name: Setup node v18
         uses: actions/setup-node@v4
         with: 
-          # the current node version use in vscode
+          # the current node version used included in VS Code
           node-version: '18'
           cache: 'yarn'
       - name: Install Dependencies
         run: |
           npm i -g @vscode/vsce ovsx
           yarn
-      - name: Package Extension
+      - name: Lint Extension
+        run: yarn lint
+      - name: Package Extension Debug Version
         run: |
-          yarn lint
           vsce package
+          for file in raspberry-pi-pico-*.vsix; do
+            mv "$file" "debug-${file%.vsix}.vsix"
+            # Exit the loop after the first detection
+            break
+          done
+        env:
+          BUILD_ENV: debug
+      - name: Package Extension Production Version
+        run: vsce package
+        env:
+          BUILD_ENV: production
       - name: Modify package.json for OVSX
         # ms-vscode extensions not available on OpenVSX registry, so remove dependencies
         run: |
           sed -i 's/"ms-vscode.*",//g' package.json
       - name: Package Extension for OVSX
         run: |
-          vsce package -o ovsx-raspberry-pi-pico.vsix
+          version=$(jq -r '.version' package.json)
+          vsce package -o ovsx-raspberry-pi-pico-${version}.vsix
+        env:
+          BUILD_ENV: production
       - name: Test PAT
         if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
         env:
@@ -46,20 +61,26 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
         run: |
           npx ovsx verify-pat -p ${{ secrets.OPEN_VSX_PAT }}
+      - name: Get Short Commit SHA
+        run: |
+          short_sha=$(git rev-parse --short "$GITHUB_SHA")
+          echo "SHORT_SHA=${short_sha}" >> $GITHUB_ENV
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: raspberry-pi-pico
+          name: raspberry-pi-pico-${{ env.SHORT_SHA }}
           path: |
+            debug-raspberry-pi-pico-*.vsix
             raspberry-pi-pico-*.vsix
-            ovsx-raspberry-pi-pico.vsix
+            ovsx-raspberry-pi-pico-*.vsix
       - name: Add Release Asset
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
+            debug-raspberry-pi-pico-*.vsix
             raspberry-pi-pico-*.vsix
-            ovsx-raspberry-pi-pico.vsix
+            ovsx-raspberry-pi-pico-*.vsix
       - name: Publish Extension
         if: startsWith(github.ref, 'refs/tags/')
         env:
@@ -69,4 +90,4 @@ jobs:
       - name: Publish Extension to OVSX
         if: startsWith(github.ref, 'refs/tags/')
         run: |
-          npx ovsx publish ovsx-raspberry-pi-pico.vsix -p ${{ secrets.OPEN_VSX_PAT }}
+          npx ovsx publish ovsx-raspberry-pi-pico-*.vsix -p ${{ secrets.OPEN_VSX_PAT }}

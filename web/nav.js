@@ -111,6 +111,9 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
   const defaultBoardTypeOption = document.getElementById('sel-default');
 
   if (isExampleMode && (forceOn === undefined || !forceOn) && (forceOff === undefined || forceOff)) {
+    // clear input to avoid crashing the webview
+    projectNameInput.value = '';
+
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'false');
       createFromExampleBtn.innerText = 'Example';
@@ -120,6 +123,11 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       projectNameDropdownButton.classList.add('hidden');
       // crashes the webview
       //projectNameInput.required = true;
+
+      // crashes the webview
+      /*if (window.removeExampleItems) {
+        window.removeExampleItems();
+      }*/
     }
 
     if (defaultBoardTypeOption) {
@@ -185,7 +193,18 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       }
 
       window.removeExampleItems = window.removeExampleItems || function () {
+        if (window.selectedSuggestion) {
+          window.selectedSuggestion.classList.remove('hovered');
+          window.selectedSuggestion.classList.remove('unhovered');
+          window.selectedSuggestion = null;
+        }
         if (examplesList !== null) {
+          projectNameInput.removeEventListener('keydown', window.suggestionsOnKeydownNav);
+          projectNameDropdownButton.removeEventListener('keydown', window.suggestionsOnKeyupNav);
+          projectNameInput.classList.replace('rounded-t-lg', 'rounded-lg');
+          projectNameDropdownButton.classList.replace("rounded-tr-lg", "rounded-r-lg");
+          examplesList.classList.remove('border');
+
           // clear ul
           examplesList.innerHTML = '';
         }
@@ -208,14 +227,119 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
 
       window.handleOutsideSuggestionsClick = window.handleOutsideSuggestionsClick || function (event) {
         // check if the clicked element is not inside the examplesList
-        if (!examplesList.contains(event.target) && event.target !== projectNameDropdownButton) {
+        if (!examplesList.contains(event.target) && event.target !== projectNameDropdownButton && event.target !== projectNameInput) {
           // click occurred outside the suggestions "popup" so remove the suggestions
           removeExampleItems();
           removeClickOutsideSuggestionsListener();
         }
       };
 
+      window.suggestionsOnKeydownNav = window.suggestionsOnKeydownNav || function (event, arg2) {
+        if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+          if (arg2) {
+            return true;
+          }
+          if (examplesList.childNodes.length === 0) {
+            return;
+          }
+          const selected = window.selectedSuggestion;
+          const suggestions = document.querySelectorAll('.examples-list-suggestion');
+          if (suggestions.length === 0) {
+            return;
+          }
+          event.preventDefault();
+          event.stopPropagation();
+          const index = selected ? Array.from(suggestions).indexOf(selected) : -1;
+
+          if (selected) {
+            selected.classList.remove('hovered');
+            selected.classList.add('unhovered');
+          }
+
+          if (event.key === 'ArrowDown') {
+            if (index === suggestions.length - 1) {
+              suggestions[0].classList.add('hovered');
+              suggestions[0].classList.remove('unhovered');
+              window.selectedSuggestion = suggestions[0];
+            } else {
+              suggestions[index + 1].classList.add('hovered');
+              suggestions[index + 1].classList.remove('unhovered');
+              window.selectedSuggestion = suggestions[index + 1];
+            }
+          } else {
+            if (index <= 0) {
+              suggestions[suggestions.length - 1].classList.add('hovered');
+              suggestions[suggestions.length - 1].classList.remove('unhovered');
+              window.selectedSuggestion = suggestions[suggestions.length - 1];
+            } else {
+              suggestions[index - 1].classList.add('hovered');
+              suggestions[index - 1].classList.remove('unhovered');
+              window.selectedSuggestion = suggestions[index - 1];
+            }
+          }
+          window.isElementInView = window.isElementInView || ((el, container) => {
+            const containerRect = container.getBoundingClientRect();
+            const elementRect = el.getBoundingClientRect();
+
+            // Check if the element is outside of the visible container bounds
+            const isAbove = elementRect.top < containerRect.top;
+            const isBelow = elementRect.bottom > containerRect.bottom;
+
+            return !isAbove && !isBelow;
+          });
+          // if not in view then set window.ignoreNextMouseOver to true
+          if (!isElementInView(window.selectedSuggestion, examplesList)) {
+            window.ignoreNextMouseOver = true;
+
+            // Scroll the selected suggestion into view
+            window.selectedSuggestion.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+          }
+        } else if (event.key === 'Enter') {
+          if (arg2) {
+            return true;
+          }
+          if (examplesList.childNodes.length === 0) {
+            return;
+          }
+          event.preventDefault();
+          event.stopPropagation();
+          if (window.selectedSuggestion) {
+            window.selectedSuggestion.click();
+          } else {
+            // check if one example is exactly the same as the input value and select it
+            const suggestions = document.querySelectorAll('.examples-list-suggestion');
+            const equalElement = Array.from(suggestions).find(suggestion => {
+              const innerHTML = suggestion.innerHTML.trim(); // Get innerHTML and trim whitespace
+              return innerHTML.startsWith('<b>') && innerHTML.endsWith('</b>');
+            });
+            if (equalElement) {
+              equalElement.click();
+            }
+          }
+        } else if (event.key === 'Escape') {
+          if (arg2) {
+            return true;
+          }
+          if (examplesList.childNodes.length === 0) {
+            return;
+          }
+          event.preventDefault();
+          event.stopPropagation();
+          removeExampleItems();
+        }
+
+        if (arg2) {
+          return false;
+        }
+      };
+
       window.projectNameInputOnKeyup = window.projectNameInputOnKeyup || function (e) {
+        // call to see if this is a key that is even relevant for the suggestions
+        if (window.suggestionsOnKeydownNav(e, true)) {
+          // return as true means the event was handled
+          return;
+        }
+
         removeExampleItems();
 
         if (!clickOutsideSuggestionsListenerAdded) {
@@ -229,6 +353,13 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
         for (let i of Object.keys(examples).sort()) {
           // startsWith was to strict for the examples name format we use
           if (isInputEmpty || i.toLowerCase().includes(projectNameInput.value.toLowerCase())) {
+            // TODO: check if not added multiple times
+            projectNameInput.addEventListener('keydown', suggestionsOnKeydownNav);
+            projectNameDropdownButton.addEventListener('keydown', suggestionsOnKeydownNav);
+            projectNameInput.classList.replace('rounded-lg', 'rounded-t-lg');
+            projectNameDropdownButton.classList.replace("rounded-r-lg", "rounded-tr-lg");
+            examplesList.classList.add('border');
+
             // create li element
             let listItem = document.createElement("li");
             // one common class name
@@ -240,6 +371,48 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
               event.stopPropagation();
               removeClickOutsideSuggestionsListener();
               examplesListSelect(i);
+            });
+            listItem.addEventListener('mouseover', () => {
+              if (window.ignoreNextMouseOver) {
+                // check if element is now in view if not then don't set ignoreMouseOver to false
+                if (window.isElementInView(window.selectedSuggestion, examplesList)) {
+                  window.ignoreNextMouseOver = false;
+                }
+
+                return;
+              }
+              if (window.selectedSuggestion) {
+                if (window.selectedSuggestion === listItem) {
+                  // so it can automatically lose the hover effect
+                  listItem.classList.remove('hovered');
+                  listItem.classList.remove('unhovered');
+                  return;
+                } else {
+                  window.selectedSuggestion.classList.remove('hovered');
+                  window.selectedSuggestion.classList.add('unhovered');
+                }
+              }
+              window.selectedSuggestion = listItem; // Set the hovered element as "selected"
+              listItem.classList.add('hovered');
+              listItem.classList.remove('unhovered');
+            });
+            listItem.addEventListener('mouseout', () => {
+              if (window.ignoreNextMouseOver) {
+                // check if element is now in view if not then don't set ignoreMouseOver to false
+                if (window.isElementInView(window.selectedSuggestion, examplesList)) {
+                  window.ignoreNextMouseOver = false;
+                }
+
+                return;
+              }
+              listItem.classList.remove('hovered');
+              listItem.classList.add('unhovered');
+              if (window.selectedSuggestion === listItem) {
+                window.selectedSuggestion = undefined;
+              } else {
+                window.selectedSuggestion.classList.remove('hovered');
+                window.selectedSuggestion.classList.add('unhovered');
+              }
             });
 
             // display matched part as bold text
@@ -322,7 +495,7 @@ window.onload = function () {
   }
 
   if (createFromExampleBtn) {
-    createFromExampleBtn.addEventListener('click', function () {
+    createFromExampleBtn.addEventListener('click', () => {
       toggleCreateFromExampleMode();
     });
   }
@@ -332,6 +505,7 @@ window.onload = function () {
       // display: none; example btn
       createFromExampleBtn.classList.add('hidden');
     }
+
     toggleCreateFromExampleMode(true);
   } else {
     // hide if not force from example
@@ -342,11 +516,11 @@ window.onload = function () {
     }
   }
 
-  // TODO: maybe can remove if sel-pico2 disable is moved into state restore
+  // TODO: maybe can remove if option-board-type-pico2 disable is moved into state restore
   const sdkSelector = document.getElementById('sel-pico-sdk');
   if (sdkSelector) {
     if (parseInt(sdkSelector.value.split(".")[0]) < 2) {
-      const selPico2 = document.getElementById('sel-pico2');
+      const selPico2 = document.getElementById('option-board-type-pico2');
       if (selPico2) {
         selPico2.disabled = true;
       }
