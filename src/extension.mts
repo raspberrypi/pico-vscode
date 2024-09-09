@@ -72,6 +72,7 @@ import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
+import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -105,6 +106,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetTargetCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
+    new FlashProjectSWDCommand(),
     new ClearGithubApiCacheCommand(),
     new ConditionalDebuggingCommand(),
     new DebugLayoutCommand(),

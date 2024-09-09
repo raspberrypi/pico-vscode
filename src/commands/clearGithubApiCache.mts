@@ -6,8 +6,10 @@ import { window } from "vscode";
 export default class ClearGithubApiCacheCommand extends Command {
   private _logger: Logger = new Logger("ClearGithubApiCacheCommand");
 
+  public static readonly id = "clearGithubApiCache";
+
   constructor() {
-    super("clearGithubApiCache");
+    super(ClearGithubApiCacheCommand.id);
   }
 
   async execute(): Promise<void> {

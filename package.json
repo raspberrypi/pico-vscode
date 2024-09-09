@@ -134,7 +134,7 @@
       },
       {
         "command": "raspberry-pi-pico.runProject",
-        "title": "Run Pico Project",
+        "title": "Run Pico Project (USB)",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
@@ -180,6 +180,12 @@
         "command": "raspberry-pi-pico.uninstallPicoSDK",
         "title": "Uninstall Pico SDK",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.flashProject",
+        "title": "Flash Pico Project (SWD)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
       }
     ],
     "configuration": {
