@@ -14,6 +14,7 @@ const CMD_NOT_CREATE_FROM_EXAMPLE = 'notCreateFromExample';
 
 var submitted = false;
 var isPicoWireless = false;
+var exampleSupportedBoards = [];
 
 (function () {
   const vscode = acquireVsCodeApi();
@@ -490,14 +491,18 @@ var isPicoWireless = false;
                 const option = boardTypeSelector.options[i];
 
                 // Check if the option is not hidden
-                if (option.style.display !== 'none' && option.hidden === false) {
+                if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
                   boardTypeSelector.selectedIndex = i;
+                  // Create a new change event
+                  const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: true } });
+                  // Dispatch the event to trigger the change handler
+                  boardTypeSelector.dispatchEvent(event);
                   break;
                 }
               }
             }
           } else {
-            if (optionBoardTypePico2) {
+            if (optionBoardTypePico2 && (exampleSupportedBoards.length === 0 || exampleSupportedBoards.includes("pico2"))) {
               optionBoardTypePico2.disabled = false;
             }
           }
@@ -534,6 +539,10 @@ var isPicoWireless = false;
 
           if (selectedIndex !== -1) {
             toolchainSelector.selectedIndex = selectedIndex;
+            // Create a new change event
+            const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: true } });
+            // Dispatch the event to trigger the change handler
+            toolchainSelector.dispatchEvent(event);
             console.debug("[raspberry-pi-pico] Updated selected toolchain with new default value", toolchainSelector.options[selectedIndex].value);
           } else {
             console.error("[raspberry-pi-pico] Could not find default toolchain version in versionBundle response!");
@@ -546,6 +555,10 @@ var isPicoWireless = false;
 
           if (selectedIndex !== -1) {
             picotoolSelector.selectedIndex = selectedIndex;
+            // Create a new change event
+            const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: true } });
+            // Dispatch the event to trigger the change handler
+            picotoolSelector.dispatchEvent(event);
             console.debug("[raspberry-pi-pico] Updated selected picotool with new default value", picotoolSelector.options[selectedIndex].value);
           } else {
             console.error("[raspberry-pi-pico] Could not find default picotool version in versionBundle response!");
@@ -653,34 +666,38 @@ var isPicoWireless = false;
 
         const createFromExampleBtn = document.getElementById('btn-create-from-example');
         const isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
-        console.log("isExampleMode", isExampleMode);
-        if (isExampleMode) {
-          return;
+
+        if (!isExampleMode) {
+          // hide pico wireless nav item
+          document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
+          // hide pico wireless section
+          document.getElementById('section-pico-wireless').hidden = !isPicoWireless;
+
+          // reset selection
+          if (!isPicoWireless) {
+            // Check the first radio button (none)
+            document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
+          }
         }
 
-        // hide pico wireless nav item
-        document.getElementById('nav-pico-wireless').classList.toggle('hidden', !isPicoWireless);
-        // hide pico wireless section
-        document.getElementById('section-pico-wireless').hidden = !isPicoWireless;
-
-        // reset selection
-        if (!isPicoWireless) {
-          // Check the first radio button (none)
-          document.querySelectorAll('input[name="pico-wireless-radio"]')[0].checked = true;
+        // leave event empty to not retrigger cmd version bundle available test
+        if (!event.detail || !event.detail.doNotFireEvents) {
+          const sdkVersion = document.getElementById('sel-pico-sdk').value;
+          // send message to extension
+          vscode.postMessage({
+            command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
+            value: sdkVersion.replace("v", "")
+          });
         }
-
-        const sdkVersion = document.getElementById('sel-pico-sdk').value;
-        // send message to extension
-        vscode.postMessage({
-          command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
-          value: sdkVersion.replace("v", "")
-        });
       } catch (error) {
         console.error("[raspberry-pi-pico - new pico project] Error while changing board type", error);
       }
     });
   }
-  document.getElementById('sel-pico-sdk').addEventListener('change', function () {
+  document.getElementById('sel-pico-sdk').addEventListener('change', function (event) {
+    if (event.detail && event.detail.doNotFireEvents) {
+      return;
+    }
     const sdkVersion = document.getElementById('sel-pico-sdk').value;
     // send message to extension
     vscode.postMessage({
@@ -712,7 +729,10 @@ var isPicoWireless = false;
     }
   });*/
 
-  document.getElementById('sel-riscv').addEventListener('change', function () {
+  document.getElementById('sel-riscv').addEventListener('change', function (event) {
+    if (event.detail && event.detail.doNotFireEvents) {
+      return;
+    }
     const sdkVersion = document.getElementById('sel-pico-sdk').value;
     // send message to extension
     vscode.postMessage({
@@ -730,24 +750,26 @@ var isPicoWireless = false;
       const projName = document.getElementById('inp-project-name').value;
 
       if (!(Object.keys(examples).includes(projName))) {
+        // TODO: maybe clear exampleSupportedBoards
         return;
       }
       console.debug("[raspberry-pi-pico - new pico project form example] Example selected:" + projName);
 
       // update available boards
       const example = examples[projName];
-      const boards = example.boards;
-      for (const board of boards) {
+      exampleSupportedBoards = example.boards;
+      const boardSels = document.querySelectorAll('[id^="option-board-type-"]');
+      boardSels.forEach(e => { e.disabled = true });
+      for (const board of exampleSupportedBoards) {
         console.debug(`[raspberry-pi-pico - new pico project from example] Example ${projName} supports ${board}`);
-      }
-      const board_sels = document.querySelectorAll('[id^="option-board-type-"]');
-      board_sels.forEach(e => { e.disabled = true });
-      for (const board of boards) {
-        document.getElementById(`option-board-type-${board}`).disabled = false;
+        const option = document.getElementById(`option-board-type-${board}`);
+        if (option) {
+          option.disabled = false;
+        }
       }
       const boardTypeSelector = document.getElementById('sel-board-type');
 
-      if (boardTypeSelector) {
+      if (boardTypeSelector && !exampleSupportedBoards.includes(boardTypeSelector.value)) {
         // first element could be hidden
         //document.getElementById('sel-board-type').selectedIndex = 0;
 
@@ -758,6 +780,10 @@ var isPicoWireless = false;
           // Check if the option is not hidden
           if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
             boardTypeSelector.selectedIndex = i;
+            // Create a new change event
+            const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: false } });
+            // Dispatch the event to trigger the change handler
+            boardTypeSelector.dispatchEvent(event);
             break;
           }
         }

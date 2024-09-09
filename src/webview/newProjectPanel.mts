@@ -1573,20 +1573,18 @@ export class NewProjectPanel {
                           <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                <option id="option-board-type-${
-                                  BoardType.pico
-                                }" value="${BoardType.pico}">Pico</option>
-                                <option id="option-board-type-${
-                                  BoardType.picoW
-                                }" value="${BoardType.picoW}">Pico W</option>
-                                <option id="option-board-type-${
-                                  BoardType.pico2
-                                }" value="${
-                          BoardType.pico2
-                        }" selected>Pico 2</option>
-                                <option id="option-board-type-${
-                                  BoardType.other
-                                }" value="${BoardType.other}">Other</option>
+                             <option id="option-board-type-${
+                               BoardType.pico2
+                             }" value="${BoardType.pico2}">Pico 2</option>    
+                              <option id="option-board-type-${
+                                BoardType.pico
+                              }" value="${BoardType.pico}">Pico</option>
+                              <option id="option-board-type-${
+                                BoardType.picoW
+                              }" value="${BoardType.picoW}">Pico W</option>
+                              <option id="option-board-type-${
+                                BoardType.other
+                              }" value="${BoardType.other}">Other</option>
                             </select>
                           </div>
                           <div class="use-riscv text-sm font-medium text-gray-900 dark:text-white" hidden>
