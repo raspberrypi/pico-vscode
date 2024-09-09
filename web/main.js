@@ -27,7 +27,10 @@ var exampleSupportedBoards = [];
 
   // returns true if project name input is valid
   function projectNameFormValidation(projectNameElement) {
-    if (typeof examples !== 'undefined') {
+    // TODO: put into helper function
+    const createFromExampleBtn = document.getElementById('btn-create-from-example');
+    const isExampleMode = createFromExampleBtn ? createFromExampleBtn.getAttribute('data-example-mode') === 'true' : true;
+    if (isExampleMode) {
       return true;
     }
 
