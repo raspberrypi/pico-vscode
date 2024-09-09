@@ -1253,6 +1253,39 @@ export class NewProjectPanel {
       Uri.joinPath(this._extensionUri, "web", "raspberrypi-nav-header-dark.svg")
     );
 
+    const riscvWhiteSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_White.svg"
+      )
+    );
+    const riscvWhiteYellowSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_White_Yellow.svg"
+      )
+    );
+    const riscvBlackSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_Black.svg"
+      )
+    );
+    const riscvColorSvgUri = webview.asWebviewUri(
+      Uri.joinPath(
+        this._extensionUri,
+        "web",
+        "riscv",
+        "RISC-V_Horizontal_Color.svg"
+      )
+    );
+
     this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
 
     // construct auxiliar html
@@ -1427,6 +1460,12 @@ export class NewProjectPanel {
           }
           var doProjectImport = ${this._isProjectImport};
           var forceCreateFromExample = ${forceCreateFromExample};
+
+          // riscv logos
+          const riscvWhiteSvgUri = "${riscvWhiteSvgUri.toString()}";
+          const riscvWhiteYellowSvgUri = "${riscvWhiteYellowSvgUri.toString()}";
+          const riscvBlackSvgUri = "${riscvBlackSvgUri.toString()}";
+          const riscvColorSvgUri = "${riscvColorSvgUri.toString()}";
         </script>
       </head>
       <body class="scroll-smooth w-screen">
@@ -1530,7 +1569,8 @@ export class NewProjectPanel {
                           </p>
                         </div>
                 
-                        <div>
+                        <div id="board-type-riscv-grid" class="grid gap-6 grid-cols-2">
+                          <div>
                             <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                 <option id="option-board-type-${
@@ -1548,6 +1588,14 @@ export class NewProjectPanel {
                                   BoardType.other
                                 }" value="${BoardType.other}">Other</option>
                             </select>
+                          </div>
+                          <div class="use-riscv text-sm font-medium text-gray-900 dark:text-white" hidden>
+                            <label for="riscvToggle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Architecture (Pico 2)</label>
+                            <div class="flex items-center justify-between p-2 bg-gray-100 rounded-lg dark:bg-gray-700">
+                              <input type="checkbox" id="sel-riscv" class="ms-2" />
+                              <img id="riscvIcon" src="${riscvColorSvgUri.toString()}" alt="RISC-V Logo" class="h-6 mx-auto w-28">
+                            </div>
+                          </div>
                         </div>
                       </div>`
                       : `<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
@@ -1630,10 +1678,7 @@ export class NewProjectPanel {
                             ${picoSDKsHtml}
                         </select>
                       </div>
-                      <div class="use-riscv text-sm font-medium text-gray-900 dark:text-white" hidden>
-                        <label for="sel-riscv">Use RISC-V</label>
-                        <input type="checkbox" id="sel-riscv">
-                      </div>
+                      
                       <div class="advanced-option" hidden>
                         <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM/RISCV Embeded Toolchain version</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">

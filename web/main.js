@@ -430,15 +430,35 @@ var isPicoWireless = false;
         break;
       case CMD_SET_THEME:
         console.log("[raspberry-pi-pico] Set theme mode to:", message.theme);
+
+        // get riscv image
+        const riscvIcon = document.getElementById('riscvIcon');
+
         // update UI
         if (message.theme == "dark") {
           // explicitly choose dark mode
           localStorage.theme = 'dark'
           document.body.classList.add('dark')
+          // riscv toggle button concept
+          /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+            riscvIcon.src = riscvWhiteSvgUri;
+          } else {
+            riscvIcon.src = riscvWhiteYellowSvgUri;
+          }*/
+          // set riscv icon variant to white
+          riscvIcon.src = riscvWhiteSvgUri;
         } else if (message.theme == "light") {
           document.body.classList.remove('dark')
           // explicitly choose light mode
           localStorage.theme = 'light'
+          // riscv toggle button concept
+          /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+            riscvIcon.src = riscvBlackSvgUri;
+          } else {
+            riscvIcon.src = riscvColorSvgUri;
+          }*/
+          // set riscv icon variant to black
+          riscvIcon.src = riscvBlackSvgUri;
         }
         break;
       case CMD_VERSION_BUNDLE_AVAILABLE_TEST:
@@ -483,18 +503,30 @@ var isPicoWireless = false;
           }
 
           if (!doProjectImport) {
-            const riscv = document.getElementById("sel-riscv").checked;
             const board = document.getElementById('sel-board-type').value;
+            const riscvSelected = document.getElementById('sel-riscv').checked;
 
             if (board !== "pico2") {
+              // ui update to account for hidden elements
+              const boardTypeRiscvGrid = document.getElementById("board-type-riscv-grid");
+              // remove grid-cols-2 class
+              boardTypeRiscvGrid.classList.remove("grid-cols-2");
+
+              // hide elements
               for (let i = 0; i < useRiscv.length; i++) {
                 useRiscv[i].hidden = true;
               }
             } else {
+              // ui update to account for next unhidden elements
+              const boardTypeRiscvGrid = document.getElementById("board-type-riscv-grid");
+              // add grid-cols-2 class
+              boardTypeRiscvGrid.classList.add("grid-cols-2");
+
+              // show elements again
               for (let i = 0; i < useRiscv.length; i++) {
                 useRiscv[i].hidden = false;
               }
-              if (riscv) {
+              if (riscvSelected) {
                 selectedIndex = getIndexByValue(toolchainSelector, result.riscvToolchainVersion);
               }
             }
@@ -656,6 +688,30 @@ var isPicoWireless = false;
       value: sdkVersion.replace("v", "")
     });
   });
+  // used for riscv toggle button concept, also requires changes in the setTheme command receiver
+  /*document.getElementById('riscvToggle').addEventListener('click', function () {
+    const riscvIcon = document.getElementById('riscvIcon');
+    const isSelected = riscvIcon.getAttribute('data-selected') === 'true';
+
+    if (isSelected) {
+      // Unselect (switch to black or white in dark mode)
+      if (localStorage.theme === "dark") {
+        riscvIcon.src = riscvWhiteSvgUri; // Dark mode
+      } else {
+        riscvIcon.src = riscvBlackSvgUri; // Light mode
+      }
+      riscvIcon.setAttribute('data-selected', 'false');
+    } else {
+      // Select (switch to color)
+      if (localStorage.theme === "dark") {
+        riscvIcon.src = riscvWhiteYellowSvgUri; // Dark mode
+      } else {
+        riscvIcon.src = riscvColorSvgUri; // Light mode
+      }
+      riscvIcon.setAttribute('data-selected', 'true');
+    }
+  });*/
+
   document.getElementById('sel-riscv').addEventListener('change', function () {
     const sdkVersion = document.getElementById('sel-pico-sdk').value;
     // send message to extension

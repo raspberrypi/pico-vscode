@@ -206,6 +206,13 @@ function restoreState(state) {
     document.getElementById('python-radio-path-executable').checked = state.pythonMode == 2;
   }
 
+  if (state.selRiscv !== undefined) {
+    const selRiscv = document.getElementById('sel-riscv');
+    if (selRiscv) {
+      selRiscv.checked = state.selRiscv;
+    }
+  }
+
   // ui state
   if (state.uiShowAdvancedOptions) {
     document.getElementById('btn-advanced-options').click();

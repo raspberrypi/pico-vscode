@@ -125,3 +125,7 @@ ul#examples-list {
   background-color: var(--vscode-inputOption-hoverBackground);
   /* background-color: var(--vscode-button-hoverBackground); */
 }
+
+image {
+  -webkit-user-drag: none;
+}
