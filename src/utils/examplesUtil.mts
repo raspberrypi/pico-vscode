@@ -174,7 +174,9 @@ export async function setupExample(
 
   if (existsSync(joinPosix(examplesRepoPath, ".git"))) {
     const ref = await execAsync(
-      `cd "${examplesRepoPath}" && ${
+      `cd ${
+        process.env.ComSpec?.endsWith("cmd.exe") ? "/d " : " "
+      }"${examplesRepoPath}" && ${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${gitPath}" rev-parse HEAD`
     );

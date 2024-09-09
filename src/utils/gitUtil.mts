@@ -55,8 +55,11 @@ export async function initSubmodules(
 ): Promise<boolean> {
   try {
     // Use the "git submodule update --init" command in the specified directory
+    // `cd` command need '/d' option on Windows. (Change drive "d:\" to "c:\")
     const command =
-      `cd "${sdkDirectory}" && ` +
+      `cd ${
+        process.env.ComSpec?.endsWith("cmd.exe") ? "/d " : " "
+      }"${sdkDirectory}" && ` +
       `${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${gitExecutable}" submodule update --init`;
@@ -123,7 +126,9 @@ export async function sparseCloneRepository(
   try {
     await execAsync(cloneCommand);
     await execAsync(
-      `cd "${targetDirectory}" && ${
+      `cd ${
+        process.env.ComSpec?.endsWith("cmd.exe") ? "/d " : " " 
+      }"${targetDirectory}" && ${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${gitExecutable}" sparse-checkout set --cone`
     );
@@ -165,7 +170,9 @@ export async function sparseCheckout(
 ): Promise<boolean> {
   try {
     await execAsync(
-      `cd "${repoDirectory}" && ${
+      `cd ${
+        process.env.ComSpec?.endsWith("cmd.exe") ? "/d " : " " 
+      } "${repoDirectory}" && ${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${gitExecutable}" sparse-checkout add ${checkoutPath}`
     );
