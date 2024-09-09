@@ -62,6 +62,22 @@ This extension provides the following settings:
 * `raspberry-pi-pico.gitPath`: Specify a custom path for Git.
 * `raspberry-pi-pico.cmakeAutoConfigure`: Provide a GitHub personal access token (classic) with the `public_repo` scope. This token is used to check for available versions of the Pico SDK and other tools. Without it, the extension uses the unauthenticated GitHub API, which has a lower rate limit and may lead to restricted functionality if the limit is exceeded. The unauthenticated rate limit is per public IP address, so a token is more necessary if your IP is shared with many users.
 
+## Using the CMake Tools extension
+By default, this extension only supports projects with a single executable who's name matches the project name, and the project name cannot be a variable. For more complex projects that require better CMake parsing (for example with multiple executables, or if the project name is set by a variable), this extension can integrate with the CMake Tools extension to perform that parsing. You can enable the CMake Tools extension by changing the following settings in your `settings.json` file:
+
+* `raspberry-pi-pico.cmakeAutoConfigure`: From `true` to `false`
+* `raspberry-pi-pico.useCmakeTools`: From `false` to `true`
+
+You may also wish to enable the following settings as well, as the default `settings.json` file disables a lot of the CMake Tools functionality:
+
+* `cmake.configureOnEdit`: true
+* `cmake.automaticReconfigure`: true
+* `cmake.configureOnOpen`: true
+
+When prompted to select a kit by the CMake Tools extension, you should pick the `Pico` kit. You can then use the CMake Tools extension to set your Build and Launch targets appropriately.
+
+Once the Launch target has been set correctly, this extension should continue to work seamlessly with debugging etc, it will just use CMake Tools for compilation rather than it's own backend. Do not use the CMake Tools debugging functionality, as that will not work with the Pico.
+
 ## VS Code Profiles
 
 If you work with multiple microcontroller toolchains, consider installing this extension into a [VS Code Profile](https://code.visualstudio.com/docs/editor/profiles) to avoid conflicts with other toolchains. Follow these steps:
