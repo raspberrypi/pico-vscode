@@ -440,26 +440,30 @@ var exampleSupportedBoards = [];
           // explicitly choose dark mode
           localStorage.theme = 'dark'
           document.body.classList.add('dark')
-          // riscv toggle button concept
-          /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+          if (riscvIcon) {
+            // riscv toggle button concept
+            /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+              riscvIcon.src = riscvWhiteSvgUri;
+            } else {
+              riscvIcon.src = riscvWhiteYellowSvgUri;
+            }*/
+            // set riscv icon variant to white
             riscvIcon.src = riscvWhiteSvgUri;
-          } else {
-            riscvIcon.src = riscvWhiteYellowSvgUri;
-          }*/
-          // set riscv icon variant to white
-          riscvIcon.src = riscvWhiteSvgUri;
+          }
         } else if (message.theme == "light") {
           document.body.classList.remove('dark')
           // explicitly choose light mode
           localStorage.theme = 'light'
-          // riscv toggle button concept
-          /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+          if (riscvIcon) {
+            // riscv toggle button concept
+            /*if (riscvIcon.getAttribute('data-selected') === 'false') {
+              riscvIcon.src = riscvBlackSvgUri;
+            } else {
+              riscvIcon.src = riscvColorSvgUri;
+            }*/
+            // set riscv icon variant to black
             riscvIcon.src = riscvBlackSvgUri;
-          } else {
-            riscvIcon.src = riscvColorSvgUri;
-          }*/
-          // set riscv icon variant to black
-          riscvIcon.src = riscvBlackSvgUri;
+          }
         }
         break;
       case CMD_VERSION_BUNDLE_AVAILABLE_TEST:
@@ -729,17 +733,20 @@ var exampleSupportedBoards = [];
     }
   });*/
 
-  document.getElementById('sel-riscv').addEventListener('change', function (event) {
-    if (event.detail && event.detail.doNotFireEvents) {
-      return;
-    }
-    const sdkVersion = document.getElementById('sel-pico-sdk').value;
-    // send message to extension
-    vscode.postMessage({
-      command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
-      value: sdkVersion.replace("v", "")
+  const selRiscV = document.getElementById('sel-riscv');
+  if (selRiscV) {
+    selRiscV.addEventListener('change', function (event) {
+      if (event.detail && event.detail.doNotFireEvents) {
+        return;
+      }
+      const sdkVersion = document.getElementById('sel-pico-sdk').value;
+      // send message to extension
+      vscode.postMessage({
+        command: CMD_VERSION_BUNDLE_AVAILABLE_TEST,
+        value: sdkVersion.replace("v", "")
+      });
     });
-  });
+  }
 
   const projectNameInput = document.getElementById('inp-project-name');
   if (projectNameInput) {
