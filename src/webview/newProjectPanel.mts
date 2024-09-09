@@ -677,6 +677,15 @@ export class NewProjectPanel {
                 return;
               }
 
+              if (data.projectName === undefined || data.projectName === "") {
+                void window.showWarningMessage("Project name cannot be empty.");
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
               // check if projectRoot/projectName folder already exists
               if (
                 existsSync(join(this._projectRoot.fsPath, data.projectName))
@@ -1528,7 +1537,6 @@ export class NewProjectPanel {
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
             <div id="section-basic" class="snap-start">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Settings</h3>
-                <form>
                   ${
                     !this._isProjectImport
                       ? `<div id="project-name-grid" class="grid gap-6 ${
@@ -1807,7 +1815,6 @@ export class NewProjectPanel {
                           : ""
                       }
                     </div>
-                </form>
             </div>
             ${
               !this._isProjectImport
