@@ -232,67 +232,88 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
 
   // install if needed
-  if (
-    !(await downloadAndInstallSDK(
-      selectedToolchainAndSDKVersions[0],
-      SDK_REPOSITORY_URL
-    )) ||
-    !(await downloadAndInstallTools(selectedToolchainAndSDKVersions[0])) ||
-    !(await downloadAndInstallPicotool(selectedToolchainAndSDKVersions[2]))
-  ) {
-    Logger.error(
-      LoggerSource.extension,
-      "Failed to install project SDK",
-      `version: ${selectedToolchainAndSDKVersions[0]}.`,
-      "Make sure all requirements are met."
-    );
+  await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title:
+        "Downloading and installing Pico SDK, Toolchain and " +
+        "tools as selected. " +
+        "This may take a while...",
+      cancellable: false,
+    },
+    async progress => {
+      // install if needed
+      if (
+        !(await downloadAndInstallSDK(
+          selectedToolchainAndSDKVersions[0],
+          SDK_REPOSITORY_URL
+        )) ||
+        !(await downloadAndInstallTools(selectedToolchainAndSDKVersions[0])) ||
+        !(await downloadAndInstallPicotool(selectedToolchainAndSDKVersions[2]))
+      ) {
+        Logger.error(
+          LoggerSource.extension,
+          "Failed to install project SDK",
+          `version: ${selectedToolchainAndSDKVersions[0]}.`,
+          "Make sure all requirements are met."
+        );
 
-    void window.showErrorMessage("Failed to install project SDK version.");
+        void window.showErrorMessage("Failed to install project SDK version.");
 
-    return;
-  } else {
-    Logger.info(
-      LoggerSource.extension,
-      "Found/installed project SDK",
-      `version: ${selectedToolchainAndSDKVersions[0]}`
-    );
+        return;
+      } else {
+        Logger.info(
+          LoggerSource.extension,
+          "Found/installed project SDK",
+          `version: ${selectedToolchainAndSDKVersions[0]}`
+        );
 
-    if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
-      Logger.error(
-        LoggerSource.extension,
-        "Failed to download and install openocd."
-      );
-    } else {
-      Logger.debug(
-        LoggerSource.extension,
-        "Successfully downloaded and installed openocd."
-      );
+        if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
+          Logger.error(
+            LoggerSource.extension,
+            "Failed to download and install openocd."
+          );
+        } else {
+          Logger.debug(
+            LoggerSource.extension,
+            "Successfully downloaded and installed openocd."
+          );
+        }
+      }
+
+      progress.report({
+        increment: 50,
+      });
+
+      // install if needed
+      if (
+        selectedToolchain === undefined ||
+        !(await downloadAndInstallToolchain(selectedToolchain))
+      ) {
+        Logger.error(
+          LoggerSource.extension,
+          "Failed to install project toolchain",
+          `version: ${selectedToolchainAndSDKVersions[1]}`
+        );
+
+        void window.showErrorMessage(
+          "Failed to install project toolchain version."
+        );
+
+        return;
+      } else {
+        Logger.info(
+          LoggerSource.extension,
+          "Found/installed project toolchain",
+          `version: ${selectedToolchainAndSDKVersions[1]}`
+        );
+      }
+
+      progress.report({
+        increment: 50,
+      });
     }
-  }
-
-  // install if needed
-  if (
-    selectedToolchain === undefined ||
-    !(await downloadAndInstallToolchain(selectedToolchain))
-  ) {
-    Logger.error(
-      LoggerSource.extension,
-      "Failed to install project toolchain",
-      `version: ${selectedToolchainAndSDKVersions[1]}`
-    );
-
-    void window.showErrorMessage(
-      "Failed to install project toolchain version."
-    );
-
-    return;
-  } else {
-    Logger.info(
-      LoggerSource.extension,
-      "Found/installed project toolchain",
-      `version: ${selectedToolchainAndSDKVersions[1]}`
-    );
-  }
+  );
 
   // TODO: move this ninja, cmake and python installs out of extension.mts
   const ninjaPath = settings.getString(SettingsKey.ninjaPath);
