@@ -1964,7 +1964,7 @@ export class NewProjectPanel {
                     </div>
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                         <input id="debugger-radio-swd" type="radio" value="1" name="debugger-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="debugger-radio-swd" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SWD (Pi host)</label>
+                        <label for="debugger-radio-swd" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SWD (Pi host, on Pi 5 it requires Linux Kernel >= 6.6.47)</label>
                     </div>
                 </div>
             </div>
