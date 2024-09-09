@@ -809,10 +809,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "overrideLaunchCommands": [
                 "monitor reset init",
                 "load \\"${{command:raspberry-pi-pico.launchTargetPath}}\\""
-            ]{''',
+            ]''' + (''',
             "openOCDLaunchCommands": [
                 "adapter speed 5000"
-            ]''' if debugger_supports_configurable_speed else ""}
+            ]''' if debugger_supports_configurable_speed else "") + f'''
         }},
         {{
             "name": "Pico Debug (Cortex-Debug with external OpenOCD)",
