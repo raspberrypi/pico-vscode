@@ -577,7 +577,10 @@ def GenerateCMake(folder, params):
                 f"set(sdkVersion {params['sdkVersion']})\n"
                 f"set(toolchainVersion {params['toolchainVersion']})\n"
                 f"set(picotoolVersion {params['picotoolVersion']})\n"
-                f"include({cmakeIncPath()})\n"
+                f"set(picoVscode {cmakeIncPath()})\n"
+                "if (EXISTS ${picoVscode})\n"
+                "    include(${picoVscode})\n"
+                "endif()\n"
                 "# ====================================================================================\n"
                 )
 
