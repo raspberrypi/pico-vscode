@@ -15,11 +15,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Enable corepack
         run: corepack enable
-      - name: Setup node v18
+      - name: Setup node v20
         uses: actions/setup-node@v4
         with: 
-          # the current node version used included in VS Code
-          node-version: '18'
+          # the current node version included in VS Code
+          node-version: '20'
           cache: 'yarn'
       - name: Install Dependencies
         run: |
