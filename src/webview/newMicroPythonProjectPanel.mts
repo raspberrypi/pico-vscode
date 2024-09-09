@@ -191,6 +191,20 @@ export class NewMicroPythonProjectPanel {
                 return;
               }
 
+              if (
+                data.projectName === undefined ||
+                data.projectName.length === 0
+              ) {
+                void window.showWarningMessage(
+                  "The project name is empty. Please enter a project name."
+                );
+                await this._panel.webview.postMessage({
+                  command: "submitDenied",
+                });
+
+                return;
+              }
+
               // check if projectRoot/projectName folder already exists
               if (
                 existsSync(join(this._projectRoot.fsPath, data.projectName))
