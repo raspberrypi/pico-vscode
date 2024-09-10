@@ -33,6 +33,7 @@ export type GlobalStateType = Memento & {
 };
 
 const LAST_PROJECT_ROOT_STATE_KEY = "lastProjectRoot";
+const ENTRY_POINT_NAMING_PREF = "entryPointNamingPref";
 
 export default class Settings {
   private static instance?: Settings;
@@ -139,5 +140,13 @@ export default class Settings {
     );
 
     return Uri.file(fsPath);
+  }
+
+  public async setEntryPointNamingPref(useProjectName: boolean): Promise<void> {
+    await this.globalState.update(ENTRY_POINT_NAMING_PREF, useProjectName);
+  }
+
+  public getEntryPointNamingPref(): boolean {
+    return this.globalState.get<boolean>(ENTRY_POINT_NAMING_PREF, true);
   }
 }

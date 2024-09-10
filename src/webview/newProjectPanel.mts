@@ -1070,6 +1070,11 @@ export class NewProjectPanel {
 
       if (example === undefined && !this._isProjectImport) {
         const theData = data as SubmitMessageValue;
+
+        await this._settings.setEntryPointNamingPref(
+          theData.entryPointProjectName
+        );
+
         const args: NewProjectOptions = {
           name: theData.projectName,
           projectRoot: projectPath,
@@ -1433,6 +1438,8 @@ export class NewProjectPanel {
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
     const isWindows = process.platform === "win32";
+    const useProjectNameAsEntryPointFileName =
+      this._settings.getEntryPointNamingPref();
 
     return `<!DOCTYPE html>
     <html lang="en">
@@ -1940,7 +1947,11 @@ export class NewProjectPanel {
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
-                            <input id="entry-project-name-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked>
+                            <input id="entry-project-name-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" ${
+                              useProjectNameAsEntryPointFileName
+                                ? "checked"
+                                : ""
+                            }>
                             <label for="entry-project-name-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Use project name as entry point file name</label>
                         </div>
                     </li>
