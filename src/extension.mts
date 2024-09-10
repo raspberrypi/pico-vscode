@@ -555,7 +555,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
         // File has changed, do something here
         // TODO: rerun configure project
         // TODO: maybe conflicts with cmake extension which also does this
-        console.log("File changed:", event.document.fileName);
+        Logger.debug(
+          LoggerSource.extension,
+          "File changed:",
+          event.document.fileName
+        );
       }
     });
   } else {

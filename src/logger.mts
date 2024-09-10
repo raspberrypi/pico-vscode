@@ -37,6 +37,7 @@ export enum LoggerSource {
   examples = "examplesUtil",
   githubApiCache = "githubApiCache",
   extension = "extension",
+  cmake = "cmakeUtil",
 }
 
 /**
