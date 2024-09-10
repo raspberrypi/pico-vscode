@@ -113,6 +113,7 @@ interface SubmitMessageValue extends ImportProjectMessageValue {
   // code generation options
   addExamples: boolean;
   runFromRAM: boolean;
+  entryPointProjectName: boolean;
   cpp: boolean;
   cppRtti: boolean;
   cppExceptions: boolean;
@@ -156,6 +157,7 @@ enum PicoWirelessOption {
 enum CodeOption {
   addExamples = "Add examples from Pico library",
   runFromRAM = "Run the program from RAM rather than flash",
+  entryPointProjectName = "Use project name as entry point file name",
   cpp = "Generate C++ code",
   cppRtti = "Enable C++ RTTI (Uses more memory)",
   cppExceptions = "Enable C++ exceptions (Uses more memory)",
@@ -235,6 +237,8 @@ function enumToParam(
       return "-x";
     case CodeOption.runFromRAM:
       return "-r";
+    case CodeOption.entryPointProjectName:
+      return "-e";
     case CodeOption.cpp:
       return "-cpp";
     case CodeOption.cppRtti:
@@ -1090,6 +1094,9 @@ export class NewProjectPanel {
           codeOptions: [
             theData.addExamples ? CodeOption.addExamples : null,
             theData.runFromRAM ? CodeOption.runFromRAM : null,
+            theData.entryPointProjectName
+              ? CodeOption.entryPointProjectName
+              : null,
             theData.cpp ? CodeOption.cpp : null,
             theData.cppRtti ? CodeOption.cppRtti : null,
             theData.cppExceptions ? CodeOption.cppExceptions : null,
@@ -1929,6 +1936,12 @@ export class NewProjectPanel {
                         <div class="flex items-center pl-3">
                             <input id="run-from-ram-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                             <label for="run-from-ram-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Run the program from RAM rather than flash</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="entry-project-name-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" checked>
+                            <label for="entry-project-name-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Use project name as entry point file name</label>
                         </div>
                     </li>
                 </ul>

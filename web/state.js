@@ -26,6 +26,7 @@ class State {
   picoWirelessSelection;
   addExamplesCodeGen;
   runFromRamCodeGen;
+  entryProjectNameCodeGen;
   cppCodeGen;
   cppRttiCodeGen;
   cppExceptionsCodeGen;
@@ -136,6 +137,10 @@ function restoreState(state) {
 
   if (state.runFromRamCodeGen !== undefined) {
     document.getElementById('run-from-ram-code-gen-cblist').checked = state.runFromRamCodeGen;
+  }
+
+  if (state.entryProjectNameCodeGen !== undefined) {
+    document.getElementById('entry-project-name-code-gen-cblist').checked = state.entryProjectNameCodeGen;
   }
 
   if (state.cppCodeGen !== undefined) {
@@ -431,6 +436,9 @@ function setupStateSystem(vscode) {
             break;
           case "run-from-ram-code-gen-cblist":
             state.runFromRamCodeGen = checkbox.checked;
+            break;
+          case "entry-project-name-code-gen-cblist":
+            state.entryProjectNameCodeGen = checkbox.checked;
             break;
           case "cpp-code-gen-cblist":
             state.cppCodeGen = checkbox.checked;

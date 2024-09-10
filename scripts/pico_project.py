@@ -448,6 +448,7 @@ def ParseCommandLine():
     parser.add_argument("-g", "--gui", action='store_true', help="Run a GUI version of the project generator")
     parser.add_argument("-p", "--project", action='append', help="Generate projects files for IDE. Options are: vscode")
     parser.add_argument("-r", "--runFromRAM", action='store_true', help="Run the program from RAM rather than flash")
+    parser.add_argument("-e", "--entryProjName", action='store_true', help="Use project name as entry point file name")
     parser.add_argument("-uart", "--uart", action='store_true', default=1, help="Console output to UART (default)")
     parser.add_argument("-nouart", "--nouart", action='store_true', default=0, help="Disable console output to UART")
     parser.add_argument("-usb", "--usb", action='store_true', help="Console output to USB (disables other USB functionality")
@@ -471,12 +472,13 @@ def ParseCommandLine():
     return parser.parse_args()
 
 
-def GenerateMain(folder, projectName, features, cpp):
+def GenerateMain(folder, projectName, features, cpp, wantEntryProjName):
 
+    executableName = projectName if wantEntryProjName else "main"
     if cpp:
-        filename = Path(folder) / (projectName + '.cpp')
+        filename = Path(folder) / (executableName + '.cpp')
     else:
-        filename = Path(folder) / (projectName + '.c')
+        filename = Path(folder) / (executableName + '.c')
 
     file = open(filename, 'w')
 
@@ -669,15 +671,14 @@ def GenerateCMake(folder, params):
             file.write(f'add_compile_definitions({c} = {v})\n')
         file.write('\n')
 
-    # No GUI/command line to set a different executable name at this stage
-    executableName = projectName
+    entry_point_file_name = projectName if params['wantEntryProjName'] else "main"
 
     if params['wantCPP']:
-        file.write(f'add_executable({projectName} {projectName}.cpp )\n\n')
+        file.write(f'add_executable({projectName} {entry_point_file_name}.cpp )\n\n')
     else:
-        file.write(f'add_executable({projectName} {projectName}.c )\n\n')
+        file.write(f'add_executable({projectName} {entry_point_file_name}.c )\n\n')
 
-    file.write(f'pico_set_program_name({projectName} "{executableName}")\n')
+    file.write(f'pico_set_program_name({projectName} "{projectName}")\n')
     file.write(f'pico_set_program_version({projectName} "0.1")\n\n')
 
     if params['wantRunFromRAM']:
@@ -1142,7 +1143,7 @@ def DoEverything(parent, params):
         features_and_examples = list(stdlib_examples_list.keys()) + features_and_examples
 
     if not (params['wantConvert']):
-        GenerateMain(projectPath, params['projectName'], features_and_examples, params['wantCPP'])
+        GenerateMain(projectPath, params['projectName'], features_and_examples, params['wantCPP'], params['wantEntryProjName'])
 
         # If we have any ancilliary files, copy them to our project folder
         # Currently only the picow with lwIP support needs an extra file, so just check that list
@@ -1323,6 +1324,7 @@ if __name__ == "__main__":
             'projects'      : args.project,
             'configs'       : (),
             'wantRunFromRAM': args.runFromRAM,
+            'wantEntryProjName': args.entryProjName,
             'wantExamples'  : args.examples,
             'wantUART'      : args.uart,
             'wantUSB'       : args.usb,
