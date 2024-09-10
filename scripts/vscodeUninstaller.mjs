@@ -4,10 +4,8 @@ import { rimraf } from "rimraf";
 
 const picoSdkRoot = join(homedir(), ".pico-sdk");
 
-rimraf(picoSdkRoot, (err) => {
-  if (err) {
-    console.error(err);
-  } else {
-    console.log(`Successfully uninstalled Pico SDK and it's dependencies from ${picoSdkRoot}.`);
-  }
-}, { glob: false });
+rimraf(picoSdkRoot, { glob: false }).then(() => {
+  console.log("Pico SDK has been uninstalled successfully.");
+}).catch((err) => {
+  console.error("Error occurred while uninstalling Pico SDK:", err);
+});

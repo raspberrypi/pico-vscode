@@ -17,6 +17,7 @@ For comprehensive setup instructions, refer to the [Getting Started guide](https
 - One-Click Compilation: Compile projects directly from the status bar with your selected SDK and tools.
 - Offline Documentation: Access Pico SDK documentation offline.
 - Quick Project Setup: Quickly create new Pico projects from the Explorer view when no workspace is open.
+- Includes an Uninstaller: Easily remove the extension along with all automatically installed tools and SDKs.
 
 ## Requirements by OS
 
