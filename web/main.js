@@ -334,6 +334,7 @@ var exampleSupportedBoards = [];
     const pioFeature = document.getElementById('pio-features-cblist').checked;
     const i2cFeature = document.getElementById('i2c-features-cblist').checked;
     const dmaFeature = document.getElementById('dma-features-cblist').checked;
+    const uartFeature = document.getElementById('uart-example-features-cblist').checked;
     const hwwatchdogFeature = document.getElementById('hwwatchdog-features-cblist').checked;
     const hwclocksFeature = document.getElementById('hwclocks-features-cblist').checked;
     const hwinterpolationFeature = document.getElementById('hwinterpolation-features-cblist').checked;
@@ -389,6 +390,7 @@ var exampleSupportedBoards = [];
         pioFeature: pioFeature,
         i2cFeature: i2cFeature,
         dmaFeature: dmaFeature,
+        addUartExample: uartFeature,
         hwwatchdogFeature: hwwatchdogFeature,
         hwclocksFeature: hwclocksFeature,
         hwinterpolationFeature: hwinterpolationFeature,

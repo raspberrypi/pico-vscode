@@ -109,6 +109,20 @@ code_fragments_per_feature = {
                 "// Set datasheet for more information on function select",
                 "gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART);",
                 "gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);",
+                "",
+                "// Use some the various UART functions to send out data",
+                "// In a default system, printf will also output via the default UART",
+                "",
+                # here should be following
+                # "// Send out a character without any conversions",
+                #"uart_putc_raw(UART_ID, 'A');",
+                #"",
+                #"// Send out a character but do CR/LF conversions",
+                #"uart_putc(UART_ID, 'B');",
+                # "",
+                "// Send out a string, with CR/LF conversions",
+                "uart_puts(UART_ID, \" Hello, UART!\\n\");",
+                "",
                 "// For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart"
               )
             ],
@@ -438,6 +452,7 @@ def ParseCommandLine():
     parser.add_argument("-t", "--tsv", help="Select an alternative pico_configs.tsv file", default=GetFilePath("pico_configs.tsv"))
     parser.add_argument("-o", "--output", help="Set an alternative CMakeList.txt filename", default="CMakeLists.txt")
     parser.add_argument("-x", "--examples", action='store_true', help="Add example code for the Pico standard library")
+    parser.add_argument("-ux", "--uartExample", action='store_true', help="Add example code for UART support with the Pico SDK")
     parser.add_argument("-l", "--list", action='store_true', help="List available features")
     parser.add_argument("-c", "--configs", action='store_true', help="List available project configuration items")
     parser.add_argument("-f", "--feature", action='append', help="Add feature to generated project")
@@ -1137,10 +1152,15 @@ def DoEverything(parent, params):
     if params['features']:
         features_and_examples = params['features'][:]
     else:
-        features_and_examples= []
+        features_and_examples = []
 
     if params['wantExamples']:
         features_and_examples = list(stdlib_examples_list.keys()) + features_and_examples
+
+    if params['wantUARTExample']:
+        # add uart to features_and_examples if not present
+        if "uart" not in features_and_examples:
+            features_and_examples.append("uart")
 
     if not (params['wantConvert']):
         GenerateMain(projectPath, params['projectName'], features_and_examples, params['wantCPP'], params['wantEntryProjName'])
@@ -1326,6 +1346,7 @@ if __name__ == "__main__":
             'wantRunFromRAM': args.runFromRAM,
             'wantEntryProjName': args.entryProjName,
             'wantExamples'  : args.examples,
+            'wantUARTExample': args.uartExample,
             'wantUART'      : args.uart,
             'wantUSB'       : args.usb,
             'wantCPP'       : args.cpp,
