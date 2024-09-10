@@ -360,7 +360,6 @@ var exampleSupportedBoards = [];
     }
 
     // code-gen options
-    const addExamplesCodeGen = document.getElementById('add-examples-code-gen-cblist').checked;
     const runFromRamCodeGen = document.getElementById('run-from-ram-code-gen-cblist').checked;
     const nameEntryPointProjectName = document.getElementById('entry-project-name-code-gen-cblist').checked;
     const cppCodeGen = document.getElementById('cpp-code-gen-cblist').checked;
@@ -402,7 +401,6 @@ var exampleSupportedBoards = [];
         picoWireless: picoWireless,
 
         // code-gen options
-        addExamples: addExamplesCodeGen,
         runFromRam: runFromRamCodeGen,
         entryPointProjectName: nameEntryPointProjectName,
         cpp: cppCodeGen,

@@ -24,7 +24,6 @@ class State {
   hwinterpolationFeature;
   hwtimerFeature;
   picoWirelessSelection;
-  addExamplesCodeGen;
   runFromRamCodeGen;
   entryProjectNameCodeGen;
   cppCodeGen;
@@ -129,10 +128,6 @@ function restoreState(state) {
 
   if (state.hwtimerFeature !== undefined) {
     document.getElementById('hwtimer-features-cblist').checked = state.hwtimerFeature;
-  }
-
-  if (state.addExamplesCodeGen !== undefined) {
-    document.getElementById('add-examples-code-gen-cblist').checked = state.addExamplesCodeGen;
   }
 
   if (state.runFromRamCodeGen !== undefined) {
@@ -430,9 +425,6 @@ function setupStateSystem(vscode) {
             break;
           case "usb-stdio-support-cblist":
             state.usbStdioSupport = checkbox.checked;
-            break;
-          case "add-examples-code-gen-cblist":
-            state.addExamplesCodeGen = checkbox.checked;
             break;
           case "run-from-ram-code-gen-cblist":
             state.runFromRamCodeGen = checkbox.checked;
