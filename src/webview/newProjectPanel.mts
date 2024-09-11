@@ -440,7 +440,9 @@ export class NewProjectPanel {
     this._isProjectImport = isProjectImport;
     // set local property as it's an indicator for initial projectRoot update
     // later during webview initialization
-    projectUri = projectUri ?? this._settings.getLastProjectRoot();
+    projectUri =
+      projectUri ??
+      (isProjectImport ? undefined : this._settings.getLastProjectRoot());
     this._projectRoot = projectUri;
     this._isCreateFromExampleOnly = createFromExample;
 
@@ -528,7 +530,9 @@ export class NewProjectPanel {
                 this._projectRoot.fsPath === ""
               ) {
                 void window.showErrorMessage(
-                  "No project root selected. Please select a project root."
+                  this._isProjectImport
+                    ? "No project to import selected. Please select a project folder."
+                    : "No project root selected. Please select a project root."
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -1670,10 +1674,10 @@ export class NewProjectPanel {
                                   !this._isProjectImport
                                     ? isWindows
                                       ? "C:\\MyProject"
-                                      : "/home/user/MyProject"
+                                      : "/home/user/myproject"
                                     : isWindows
                                     ? "C:\\Project\\To\\Import"
-                                    : "/home/user/Project/To/Import"
+                                    : "/project/to/import"
                                 }" disabled value="${
       // support folder names with backslashes on linux and macOS
       this._projectRoot !== undefined
