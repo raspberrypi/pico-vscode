@@ -8,6 +8,56 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.16.0] - 2024-09-11
+
+### Added
+- Gitignore file to generated projects (#56)
+- More examples (#61, #80)
+- New RISC-V toolchains and a picotool selection
+- New Project shortcut in empty explorer panel
+- Debug build of the extension with extra logging
+- Keyboard support for examples selection
+- Restore Webview functionality for "Import" and "From Example" wizards
+- ARM Toolchain 13.3 to the list of supported toolchains
+- `Flash (SWD)` command for flashing over SWD
+- Support for entry point file name defaulting to `main.c` (#60)
+- UART feature for the new project wizard
+- An uninstaller for SDKs and tools installed by the extension
+
+### Changed
+- Updated README.md with new instructions and presentation (#43, #40)
+- Updated dependencies
+- Improved downloading of SDKs and tools
+- Switch board command now includes a selector for RISC-V
+- Use extension dependencies rather than extension pack (#59)
+- Fix launch target path contains backslashes (#67)
+- Fix launch.json synatx
+- Fix minor webview presentation issues like loading of default project location or missing borders
+- Better logging
+- GitHub expired or invalid PAT handling and user feedback
+- Improved labeling of action artifacts
+- Fix python selection
+- Fix SDK selector gets disabled if an example is selected (#71)
+- Fix multiple issues where the webview would crash
+- Fix webview disposing before setting html which would crash the editor panel without proper error handling
+- Upgrade downloaded portable git on Windows x64 to 2.46.0
+- Fix webview bugs related to the different layout for the "Import" and "From Example" wizard (#80)
+- New style for the RISC-V selector in the new project wizard
+- Fix option disablement in the new project from example wizard
+- Fix a Git cloning issue on Windows (#73 thanks to @pxysource in #74)
+- Conditional import of the pico-vscode.cmake script (thanks to @Mr-Bossman in #65)
+- Fix missing OpenOCD adapter on Raspberry Pi OS and other Linux distributions (#62)
+- Update to pico-sdk-tools v2.0.0-3
+- Fix import webview null-pointer exceptions
+- Fixed some minor issues in the Github workflows
+- Fix project name validation for non example based projects
+- Disabled saving of the last project location for project imports
+
+### Removed
+- Legacy code
+- Legacy compiler check
+- Add examples code-gen option from the new project wizard
+
 ## [0.15.2] - 2024-08-23
 
 ### Added
