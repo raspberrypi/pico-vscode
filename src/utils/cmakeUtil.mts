@@ -147,7 +147,8 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
       }
 
       if (p1 !== p2) {
-        console.warn(
+        Logger.warn(
+          LoggerSource.cmake,
           `Build directory has been moved from ${p1} to ${p2}` +
             ` - Deleting CMakeCache.txt and regenerating.`
         );
@@ -207,9 +208,15 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
           },
           (error, stdout, stderr) => {
             if (error) {
-              console.error(error);
-              console.log(`stdout: ${stdout}`);
-              console.log(`stderr: ${stderr}`);
+              Logger.error(LoggerSource.cmake, error);
+              Logger.warn(
+                LoggerSource.cmake,
+                `Stdout of failed cmake: ${stdout}`
+              );
+              Logger.warn(
+                LoggerSource.cmake,
+                `Stderr of failed cmake: ${stderr}`
+              );
             }
 
             return;
@@ -217,7 +224,7 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
         );
 
         child.on("error", err => {
-          console.error(err);
+          Logger.error(LoggerSource.cmake, err);
         });
 
         //child.stdout?.on("data", data => {});
@@ -226,7 +233,10 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
         });
         child.on("exit", code => {
           if (code !== 0) {
-            console.error(`CMake exited with code ${code ?? "unknown"}`);
+            Logger.error(
+              LoggerSource.cmake,
+              `CMake exited with code ${code ?? "N/A"}`
+            );
           }
           progress.report({ increment: 100 });
         });
