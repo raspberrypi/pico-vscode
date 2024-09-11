@@ -382,6 +382,8 @@ export class NewProjectPanel {
 
     const settings = Settings.getInstance();
     if (settings === undefined) {
+      panel.dispose();
+
       // TODO: maybe add restart button
       void window.showErrorMessage(
         "Failed to load settings. Please restart VSCode."

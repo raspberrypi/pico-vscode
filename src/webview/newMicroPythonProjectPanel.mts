@@ -75,6 +75,8 @@ export class NewMicroPythonProjectPanel {
 
     const settings = Settings.getInstance();
     if (!settings) {
+      panel.dispose();
+
       // TODO: maybe add restart button
       void window.showErrorMessage(
         "Failed to load settings. Please restart VSCode."
