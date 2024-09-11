@@ -82,6 +82,7 @@ interface ImportProjectMessageValue {
 
   // debugger
   debugger: number;
+  useCmakeTools: boolean;
 }
 
 interface SubmitExampleMessageValue extends ImportProjectMessageValue {
@@ -268,6 +269,7 @@ interface ImportProjectOptions {
   ninjaExecutable: string;
   cmakeExecutable: string;
   debugger: Debugger;
+  useCmakeTools: boolean;
 }
 
 interface NewExampleBasedProjectOptions extends ImportProjectOptions {
@@ -1123,6 +1125,7 @@ export class NewProjectPanel {
           },
           ninjaExecutable,
           cmakeExecutable,
+          useCmakeTools: data.useCmakeTools,
         };
 
         await this._executePicoProjectGenerator(
@@ -1147,6 +1150,7 @@ export class NewProjectPanel {
           },
           ninjaExecutable,
           cmakeExecutable,
+          useCmakeTools: data.useCmakeTools,
         };
 
         await this._executePicoProjectGenerator(
@@ -1168,6 +1172,7 @@ export class NewProjectPanel {
           ninjaExecutable,
           cmakeExecutable,
           debugger: data.debugger === 1 ? Debugger.swd : Debugger.debugProbe,
+          useCmakeTools: data.useCmakeTools,
         };
 
         await this._executePicoProjectGenerator(
@@ -1987,17 +1992,29 @@ export class NewProjectPanel {
             </div>`
                 : ""
             }
-            <div id="section-debugger" class="snap-start mt-10">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Debugger</h3>
-                <div class="flex items-stretch space-x-4">
-                    <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input checked id="debugger-radio-debug-probe" type="radio" value="0" name="debugger-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="debugger-radio-debug-probe" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">DebugProbe (CMSIS-DAP) [Default]</label>
+            
+            <div class="grid gap-6 grid-cols-3 mt-10">
+                <div id="section-debugger" class="snap-start col-span-2">
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Debugger</h3>
+                    <div class="flex items-stretch space-x-4">
+                        <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                            <input checked id="debugger-radio-debug-probe" type="radio" value="0" name="debugger-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="debugger-radio-debug-probe" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">DebugProbe (CMSIS-DAP) [Default]</label>
+                        </div>
+                        <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                            <input id="debugger-radio-swd" type="radio" value="1" name="debugger-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                            <label for="debugger-radio-swd" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SWD (Pi host, on Pi 5 it requires Linux Kernel >= 6.6.47)</label>
+                        </div>
                     </div>
-                    <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input id="debugger-radio-swd" type="radio" value="1" name="debugger-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="debugger-radio-swd" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SWD (Pi host, on Pi 5 it requires Linux Kernel >= 6.6.47)</label>
-                    </div>
+                </div>
+                <div id="section-extension-integration" class="snap-end advanced-option" hidden>
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">CMake Tools</h3>
+                  <div class="flex items-stretch space-x-4">
+                      <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                          <input id="use-cmake-tools-cb" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                          <label for="use-cmake-tools-cb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Enable CMake-Tools extension integration</label>
+                      </div>
+                  </div>
                 </div>
             </div>
             <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
@@ -2192,6 +2209,7 @@ export class NewProjectPanel {
       `"${options.ninjaExecutable}"`,
       "--cmakePath",
       `"${options.cmakeExecutable}"`,
+      options.useCmakeTools ? "-ucmt" : "",
 
       // set custom python executable path used flag if python executable is not in PATH
       pythonExe.includes("/") ? "-cupy" : "",

@@ -31,6 +31,7 @@ class State {
   cppExceptionsCodeGen;
   selRiscv;
   debuggerSelection;
+  useCMakeTools;
 
   // special ui only state
   uiShowAdvancedOptions;
@@ -157,10 +158,14 @@ function restoreState(state) {
     document.getElementById('pico-wireless-radio-background').checked = state.picoWirelessSelection == 3;
   }
   // instead of setting debug-probe if selection is undefined or 0, 
-  // first check so the default can be controlled in the html 
+  // first check so the default can be controlled in the html
   if (state.debuggerSelection !== undefined) {
     document.getElementById('debugger-radio-debug-probe').checked = state.debuggerSelection == 0;
     document.getElementById('debugger-radio-swd').checked = state.debuggerSelection == 1;
+  }
+
+  if (state.useCMakeTools !== undefined) {
+    document.getElementById('use-cmake-tools-cb').checked = state.useCMakeTools;
   }
 
   // instead of setting ninja-radio-default-version if selection is undefined or 0, 
@@ -443,6 +448,9 @@ function setupStateSystem(vscode) {
             break;
           case "sel-riscv":
             state.selRiscv = checkbox.checked;
+            break;
+          case "use-cmake-tools-cb":
+            state.useCMakeTools = checkbox.checked;
             break;
         }
 

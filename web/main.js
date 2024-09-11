@@ -366,6 +366,7 @@ var exampleSupportedBoards = [];
     const cppCodeGen = document.getElementById('cpp-code-gen-cblist').checked;
     const cppRttiCodeGen = document.getElementById('cpp-rtti-code-gen-cblist').checked;
     const cppExceptionsCodeGen = document.getElementById('cpp-exceptions-code-gen-cblist').checked;
+    const useCmakeTools = document.getElementById('use-cmake-tools-cb').checked;
 
     //post all data values to the extension
     vscode.postMessage({
@@ -410,7 +411,8 @@ var exampleSupportedBoards = [];
         cppExceptions: cppExceptionsCodeGen,
 
         // debugger selection
-        debugger: debuggerSelection
+        debugger: debuggerSelection,
+        useCmakeTools
       }
     });
   }
