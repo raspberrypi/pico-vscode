@@ -122,7 +122,7 @@ var exampleSupportedBoards = [];
     let ninjaVersion = null;
     for (let i = 0; i < ninjaVersionRadio.length; i++) {
       if (ninjaVersionRadio[i].checked) {
-        ninjaMode = ninjaVersionRadio[i].value;
+        ninjaMode = Number(ninjaVersionRadio[i].value);
         break;
       }
     }
@@ -169,7 +169,7 @@ var exampleSupportedBoards = [];
     let cmakeVersion = null;
     for (let i = 0; i < cmakeVersionRadio.length; i++) {
       if (cmakeVersionRadio[i].checked) {
-        cmakeMode = cmakeVersionRadio[i].value;
+        cmakeMode = Number(cmakeVersionRadio[i].value);
         break;
       }
     }
@@ -216,7 +216,7 @@ var exampleSupportedBoards = [];
     let pythonPath = null;
     for (let i = 0; i < pythonVersionRadio.length; i++) {
       if (pythonVersionRadio[i].checked) {
-        pythonMode = pythonVersionRadio[i].value;
+        pythonMode = Number(pythonVersionRadio[i].value);
         break;
       }
     }
