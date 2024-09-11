@@ -21,6 +21,7 @@ For comprehensive setup instructions, refer to the [Getting Started guide](https
 - **Automatic CMake Configuration**: Automatically configures CMake when loading a project.
 - **Version Switching**: Seamlessly switch between different versions of the Pico SDK and tools.
 - **No Manual Setup Required**: Automatically handles environment variables, toolchain, SDK, and tool management.
+- **Includes an Uninstaller**: Easily remove the extension along with all automatically installed tools and SDKs.
 
 ### Build, Debug, and Documentation
 

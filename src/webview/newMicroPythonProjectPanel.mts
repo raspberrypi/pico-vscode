@@ -340,7 +340,7 @@ print("Finished.")\r\n`;
       return;
     }
 
-    commands.executeCommand("micropico.initialise", python3Path, projectFolder);
+    commands.executeCommand("micropico.initialise", projectFolder, python3Path);
     progress.report({
       message: "Project initialized",
       increment: 90,
