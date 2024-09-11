@@ -276,7 +276,9 @@ export class NewMicroPythonProjectPanel {
     let python3Path: string | undefined;
     if (process.platform === "darwin" || process.platform === "win32") {
       switch (data.pythonMode) {
-        // TODO: add a simpler option, maybe to select via python extension api
+        case 0:
+          python3Path = data.pythonPath;
+          break;
         case 1:
           python3Path = process.platform === "win32" ? "python" : "python3";
           break;

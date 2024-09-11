@@ -81,7 +81,7 @@ var submitted = false;
     let pythonPath = null;
     for (let i = 0; i < pythonVersionRadio.length; i++) {
       if (pythonVersionRadio[i].checked) {
-        pythonMode = pythonVersionRadio[i].value;
+        pythonMode = Number(pythonVersionRadio[i].value);
         break;
       }
     }
