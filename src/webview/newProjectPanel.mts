@@ -483,7 +483,9 @@ export class NewProjectPanel {
               if (newLoc && newLoc[0]) {
                 // overwrite preview folderUri
                 this._projectRoot = newLoc[0];
-                await this._settings.setLastProjectRoot(newLoc[0]);
+                if (!this._isProjectImport) {
+                  await this._settings.setLastProjectRoot(newLoc[0]);
+                }
 
                 // update webview
                 await this._panel.webview.postMessage({
