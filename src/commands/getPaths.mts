@@ -220,17 +220,28 @@ export class GetTargetCommand extends CommandWithResult<string> {
   }
 }
 
-export class GetPicotoolPathCommand extends CommandWithResult<string> {
+export class GetPicotoolPathCommand extends CommandWithResult<
+  string | undefined
+> {
+  private running: boolean = false;
+
   constructor() {
     super("getPicotoolPath");
   }
 
-  async execute(): Promise<string> {
+  async execute(): Promise<string | undefined> {
+    if (this.running) {
+      return undefined;
+    }
+    this.running = true;
+
     // get latest release
     const picotoolReleases = await getPicotoolReleases();
 
     if (picotoolReleases === null) {
-      return "";
+      this.running = false;
+
+      return undefined;
     }
 
     // it is sorted latest to oldest
@@ -240,8 +251,12 @@ export class GetPicotoolPathCommand extends CommandWithResult<string> {
     const result = await downloadAndInstallPicotool(picotoolVersion);
 
     if (result === null || !result) {
-      return "";
+      this.running = false;
+
+      return undefined;
     }
+
+    this.running = false;
 
     // TODO: maybe move "picotool" into buildPath or install it so the files
     // are in root of buildPath

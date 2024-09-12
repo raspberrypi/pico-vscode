@@ -92,6 +92,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const COMMANDS: Array<
     | Command
     | CommandWithResult<string>
+    | CommandWithResult<string | undefined>
     | CommandWithResult<boolean>
     | CommandWithArgs
   > = [
