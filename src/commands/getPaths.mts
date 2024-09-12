@@ -7,10 +7,15 @@ import {
   cmakeGetPicoVar,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
-import { buildToolchainPath } from "../utils/download.mjs";
+import {
+  buildPicotoolPath,
+  buildToolchainPath,
+  downloadAndInstallPicotool,
+} from "../utils/download.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 import which from "which";
 import { execSync } from "child_process";
+import { getPicotoolReleases } from "../utils/githubREST.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -66,9 +71,7 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
     const workspaceFolder = workspace.workspaceFolders?.[0];
 
     const selectedToolchainAndSDKVersions =
-    await cmakeGetSelectedToolchainAndSDKVersions(
-      workspaceFolder.uri
-    );
+      await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
     if (selectedToolchainAndSDKVersions === null) {
       return "";
     }
@@ -87,9 +90,9 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
       if (gdbPath !== null) {
         // Test if system gdb supports arm_any architecture - throws an error if it's not available
         try {
-          execSync(
-            `"${gdbPath}" --batch -ex "set arch arm_any"`, {stdio: 'pipe'}
-          );
+          execSync(`"${gdbPath}" --batch -ex "set arch arm_any"`, {
+            stdio: "pipe",
+          });
 
           return "gdb";
         } catch {
@@ -214,5 +217,38 @@ export class GetTargetCommand extends CommandWithResult<string> {
     } else {
       return "rp2040";
     }
+  }
+}
+
+export class GetPicotoolPathCommand extends CommandWithResult<string> {
+  constructor() {
+    super("getPicotoolPath");
+  }
+
+  async execute(): Promise<string> {
+    // get latest release
+    const picotoolReleases = await getPicotoolReleases();
+
+    if (picotoolReleases === null) {
+      return "";
+    }
+
+    // it is sorted latest to oldest
+    const picotoolVersion = picotoolReleases[0];
+
+    // check if it is installed if not install it
+    const result = await downloadAndInstallPicotool(picotoolVersion);
+
+    if (result === null || !result) {
+      return "";
+    }
+
+    // TODO: maybe move "picotool" into buildPath or install it so the files
+    // are in root of buildPath
+    return join(
+      buildPicotoolPath(picotoolVersion),
+      "picotool",
+      process.platform === "win32" ? "picotool.exe" : "picotool"
+    );
   }
 }

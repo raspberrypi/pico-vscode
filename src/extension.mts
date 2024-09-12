@@ -39,6 +39,7 @@ import {
   GetChipCommand,
   GetTargetCommand,
   GetChipUppercaseCommand,
+  GetPicotoolPathCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -104,6 +105,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetChipCommand(),
     new GetChipUppercaseCommand(),
     new GetTargetCommand(),
+    new GetPicotoolPathCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
     new FlashProjectSWDCommand(),
