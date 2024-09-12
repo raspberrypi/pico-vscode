@@ -433,7 +433,7 @@ async function downloadAndInstallGithubAsset(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
-    Logger.info(
+    Logger.debug(
       LoggerSource.downloader,
       `${logName} ${version} is already installed.`
     );
