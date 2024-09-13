@@ -127,7 +127,7 @@
         "enablement": "false"
       },
       {
-        "command": "raspbery-pi-pico.getPicotoolPath",
+        "command": "raspberry-pi-pico.getPicotoolPath",
         "title": "Get Picotool path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
