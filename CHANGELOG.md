@@ -8,6 +8,16 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.16.1] - 2024-09-13
+
+### Added
+- getPicotoolPath command to download picotool and return the path
+
+### Fixed
+- Python, Ninja and CMake mode selector
+- f-string expression contained a backslash, preventing project creation on Linux (#82)
+- Downloads on Raspberry Pi 4 - two download backends now available: Got on Linux Arm64, and Undici on other platforms
+
 ## [0.16.0] - 2024-09-11
 
 ### Added
