@@ -778,10 +778,8 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
         file.close()
 
     debugger = debugger_config_list[debugger]
-    debugger_supports_configurable_speed = True
 
     if debugger == "raspberrypi-swd.cfg":
-        debugger_supports_configurable_speed = False
         shutil.copyfile(sourcefolder + "/" +  "raspberrypi-swd.cfg", projectPath / "raspberrypi-swd.cfg")
 
     # Need to escape windows files paths backslashes
@@ -795,7 +793,6 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
     openocd_path = ""
     server_path = "\n            \"serverpath\"" # Because no \ in f-strings
-    extraDebugServerArgs = ' -c \\"adapter speed 5000\\"' if debugger_supports_configurable_speed else ""
     openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "openocd.exe")
     if os.path.exists(openocd_path_os):
         openocd_path = f'{codeOpenOCDPath(openOCDVersion)}/openocd.exe'
@@ -826,10 +823,10 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "overrideLaunchCommands": [
                 "monitor reset init",
                 "load \\"${{command:raspberry-pi-pico.launchTargetPath}}\\""
-            ]''' + (''',
+            ],
             "openOCDLaunchCommands": [
                 "adapter speed 5000"
-            ]''' if debugger_supports_configurable_speed else "") + f'''
+            ]
         }},
         {{
             "name": "Pico Debug (Cortex-Debug with external OpenOCD)",
@@ -859,7 +856,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "miDebuggerPath": "${{command:raspberry-pi-pico.getGDBPath}}",
             "miDebuggerServerAddress": "localhost:3333",
             "debugServerPath": "{openocd_path if openocd_path else "openocd"}",
-            "debugServerArgs": "-f {debugger} -f target/${{command:raspberry-pi-pico.getTarget}}.cfg{extraDebugServerArgs}",
+            "debugServerArgs": "-f {debugger} -f target/${{command:raspberry-pi-pico.getTarget}}.cfg -c \\"adapter speed 5000\\"",
             "serverStarted": "Listening on port .* for gdb connections",
             "filterStderr": true,
             "hardwareBreakpoints": {{
@@ -1039,7 +1036,7 @@ ${{env:PATH}}"
                 "-f",
                 "target/${{command:raspberry-pi-pico.getTarget}}.cfg",
                 "-c",
-                "{"adapter speed 5000; " if debugger_supports_configurable_speed else ""}program \\"${{command:raspberry-pi-pico.launchTargetPath}}\\" verify reset exit"
+                "adapter speed 5000; program \\"${{command:raspberry-pi-pico.launchTargetPath}}\\" verify reset exit"
             ],
             "problemMatcher": [],
             "windows": {{
