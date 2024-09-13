@@ -7,7 +7,7 @@ import {
   rmSync,
 } from "fs";
 import { mkdir } from "fs/promises";
-import { arch, homedir, tmpdir } from "os";
+import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger, { LoggerSource } from "../logger.mjs";
@@ -235,12 +235,24 @@ export async function downloadAndInstallArchive(
     let isSuccess = false;
 
     if (process.platform !== "linux" || process.arch !== "arm64") {
-      isSuccess = await downloadFileUndici(
+      const undiciRet = await downloadFileUndici(
         client,
         downloadUrl,
         archiveFilePath,
         logName
       );
+      if (typeof undiciRet === "string") {
+        return downloadAndInstallArchive(
+          url,
+          targetDirectory,
+          archiveFileName,
+          logName,
+          extraCallback,
+          undiciRet,
+          extraHeaders
+        )
+      }
+      isSuccess = undiciRet;
     } else {
       isSuccess = await downloadFileGot(
         downloadUrl,
@@ -292,8 +304,8 @@ async function downloadFileUndici(
   downloadUrl: URL,
   archiveFilePath: string,
   logName: string
-): Promise<boolean> {
-  return new Promise<boolean>((resolve, reject) => {
+): Promise<boolean | string> {
+  return new Promise<boolean | string>((resolve, reject) => {
     const requestOptions: Dispatcher.RequestOptions = {
       path: downloadUrl.pathname + downloadUrl.search,
       method: "GET",
@@ -329,7 +341,9 @@ async function downloadFileUndici(
             LoggerSource.downloader,
             `Redirecting to ${headers.location.toString()}`
           );
-          resolve(false); // Handle redirects in the calling function
+          resolve(
+            headers.location.toString()
+          ); // Handle redirects in the calling function
         }
 
         return writeStream; // Return the Writable stream where data is piped
