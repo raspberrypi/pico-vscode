@@ -7,7 +7,7 @@ import {
   rmSync,
 } from "fs";
 import { mkdir } from "fs/promises";
-import { homedir, tmpdir } from "os";
+import { arch, homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger, { LoggerSource } from "../logger.mjs";
@@ -41,6 +41,8 @@ import {
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
 import { unknownErrorToString } from "./errorHelper.mjs";
+import { got } from "got";
+import { pipeline as streamPipeline } from "node:stream/promises";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -173,13 +175,31 @@ export function buildPython3Path(version: string): string {
   );
 }
 
-export async function downloadAndInstallZip(
+/**
+ * Downloads and installs an archive from a URL.
+ *
+ * (Two different downloader backends are used:
+ * - got is used for Linux arm64
+ * - undici for all other platforms)
+ *
+ * @param url The URL of the archive to download
+ * @param targetDirectory The directory to install the archive to
+ * @param archiveFileName The name of the archive file in temporary storage.
+ * @param logName The name of the archive download process in the logs.
+ * @param extraCallback An optional callback to execute
+ * @param redirectURL An optional redirect URL to download the archive from (internal use only)
+ * @param extraHeaders An optional object containing additional headers to send with the request.
+ * Only used for requests on Linux arm64.
+ * @returns
+ */
+export async function downloadAndInstallArchive(
   url: string,
   targetDirectory: string,
   archiveFileName: string,
   logName: string,
   extraCallback?: () => void,
-  redirectURL?: string
+  redirectURL?: string,
+  extraHeaders?: { [key: string]: string }
 ): Promise<boolean> {
   // Check if the SDK is already installed
   if (
@@ -194,13 +214,13 @@ export async function downloadAndInstallZip(
   // Ensure the target directory exists
   await mkdir(targetDirectory, { recursive: true });
 
-  const basenameSplit = basename(url).split(".");
-  let artifactExt = basenameSplit.pop();
-  if (artifactExt === "xz" || artifactExt === "gz") {
-    artifactExt = basenameSplit.pop() + "." + artifactExt;
-  }
+  const archiveExtension = getArchiveExtension(url);
+  if (!archiveExtension) {
+    Logger.error(
+      LoggerSource.downloader,
+      `Could not determine archive extension for ${url}`
+    );
 
-  if (artifactExt === undefined) {
     return false;
   }
 
@@ -208,10 +228,72 @@ export async function downloadAndInstallZip(
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(tmpBasePath, archiveFileName);
 
-  return new Promise(resolve => {
-    const downloadUrl = new URL(redirectURL ?? url);
-    const client = new Client(downloadUrl.origin);
+  const downloadUrl = new URL(redirectURL ?? url);
+  const client = new Client(downloadUrl.origin);
 
+  try {
+    let isSuccess = false;
+
+    if (process.platform !== "linux" || process.arch !== "arm64") {
+      isSuccess = await downloadFileUndici(
+        client,
+        downloadUrl,
+        archiveFilePath,
+        logName
+      );
+    } else {
+      isSuccess = await downloadFileGot(
+        downloadUrl,
+        archiveFilePath,
+        extraHeaders
+      );
+    }
+
+    if (!isSuccess) {
+      return false;
+    }
+
+    const unpackResult = await unpackArchive(
+      archiveFilePath,
+      targetDirectory,
+      archiveExtension
+    );
+
+    if (unpackResult && extraCallback) {
+      extraCallback();
+    }
+
+    return unpackResult;
+  } catch (error) {
+    Logger.error(
+      LoggerSource.downloader,
+      `Downloading or extracting ${logName} failed: ${unknownErrorToString(
+        error
+      )}`
+    );
+    cleanupFiles(archiveFilePath, targetDirectory);
+
+    return false;
+  }
+}
+
+function getArchiveExtension(url: string): string | undefined {
+  const basenameSplit = basename(url).split(".");
+  let artifactExt = basenameSplit.pop();
+  if (artifactExt === "xz" || artifactExt === "gz") {
+    artifactExt = `${basenameSplit.pop()}.${artifactExt}`;
+  }
+
+  return artifactExt;
+}
+
+async function downloadFileUndici(
+  client: Client,
+  downloadUrl: URL,
+  archiveFilePath: string,
+  logName: string
+): Promise<boolean> {
+  return new Promise<boolean>((resolve, reject) => {
     const requestOptions: Dispatcher.RequestOptions = {
       path: downloadUrl.pathname + downloadUrl.search,
       method: "GET",
@@ -223,97 +305,114 @@ export async function downloadAndInstallZip(
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "Accept-Encoding": "gzip, deflate, br",
       },
-      maxRedirections: 0,
     };
 
-    // save requested stream to file
+    const writeStream = createWriteStream(archiveFilePath);
+    // No `body` in `streamData`, pipe data directly to `writeStream`
+    writeStream.on("close", () => resolve(true));
+    writeStream.on("error", error => reject(error));
+
     client.stream(
       requestOptions,
-      ({ statusCode, headers }) =>
-        createWriteStream(archiveFilePath).on("finish", () => {
-          const code = statusCode ?? 404;
-
-          if (code >= 400) {
-            //return reject(new Error(STATUS_CODES[code]));
-            Logger.error(
-              LoggerSource.downloader,
-              `Downloading ${logName} failed: ` + STATUS_CODES[code]
-            );
-
-            return resolve(false);
-          }
-
-          // handle redirects
-          if (code > 300 && !!headers.location) {
-            return resolve(
-              downloadAndInstallZip(
-                url,
-                targetDirectory,
-                archiveFileName,
-                logName,
-                extraCallback,
-                headers.location.toString()
-              )
-            );
-          }
-
-          // unpack the archive
-          if (artifactExt === "tar.xz" || artifactExt === "tar.gz") {
-            unxzFile(archiveFilePath, targetDirectory)
-              .then(success => {
-                // delete tmp file
-                rmSync(archiveFilePath, { recursive: true, force: true });
-
-                if (extraCallback !== undefined) {
-                  extraCallback();
-                }
-
-                resolve(success);
-              })
-              .catch(() => {
-                rmSync(archiveFilePath, { recursive: true, force: true });
-                rmSync(targetDirectory, { recursive: true, force: true });
-                resolve(false);
-              });
-          } else if (artifactExt === "zip") {
-            const success = unzipFile(archiveFilePath, targetDirectory);
-            // delete tmp file
-            rmSync(archiveFilePath, { recursive: true, force: true });
-
-            if (extraCallback !== undefined) {
-              extraCallback();
-            }
-
-            if (!success) {
-              rmSync(targetDirectory, { recursive: true, force: true });
-            }
-            resolve(success);
-          } else {
-            rmSync(archiveFilePath, { recursive: true, force: true });
-            rmSync(targetDirectory, { recursive: true, force: true });
-            Logger.error(
-              LoggerSource.downloader,
-              `Unknown archive extension: ${artifactExt}`
-            );
-            resolve(false);
-          }
-        }),
-      error => {
-        if (error) {
-          // error - clean
-          rmSync(archiveFilePath, { recursive: true, force: true });
-          rmSync(targetDirectory, { recursive: true, force: true });
+      ({ statusCode, headers }) => {
+        if (!statusCode || statusCode >= 400) {
           Logger.error(
             LoggerSource.downloader,
-            `Downloading ${logName} failed:`,
-            error.message
+            `Downloading ${logName} failed: ${statusCode}`
+          );
+          reject(new Error(`Download failed with status ${statusCode}`));
+        }
+
+        // Handle redirects
+        if (statusCode && statusCode > 300 && headers.location) {
+          Logger.info(
+            LoggerSource.downloader,
+            `Redirecting to ${headers.location.toString()}`
+          );
+          resolve(false); // Handle redirects in the calling function
+        }
+
+        return writeStream; // Return the Writable stream where data is piped
+      },
+      // unused: ,streamData
+      err => {
+        if (err) {
+          Logger.error(
+            LoggerSource.downloader,
+            `Error during download: ${err.message}`
           );
 
-          resolve(false);
+          return reject(err);
         }
       }
     );
   });
+}
+
+async function downloadFileGot(
+  url: URL,
+  archiveFilePath: string,
+  extraHeaders?: { [key: string]: string }
+): Promise<boolean> {
+  await streamPipeline(
+    got.stream(url.toString(), {
+      headers: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "User-Agent": EXT_USER_AGENT,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        Accept: "*/*",
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        "Accept-Encoding": "gzip, deflate, br",
+        ...extraHeaders,
+      },
+      followRedirect: true,
+      method: "GET",
+    }),
+    createWriteStream(archiveFilePath)
+  );
+
+  return true;
+}
+
+async function unpackArchive(
+  archiveFilePath: string,
+  targetDirectory: string,
+  archiveExt: string
+): Promise<boolean> {
+  try {
+    if (archiveExt === "tar.xz" || archiveExt === "tar.gz") {
+      const success = await unxzFile(archiveFilePath, targetDirectory);
+      cleanupFiles(archiveFilePath);
+
+      return success;
+    } else if (archiveExt === "zip") {
+      const success = unzipFile(archiveFilePath, targetDirectory);
+      cleanupFiles(archiveFilePath);
+
+      return success;
+    } else {
+      Logger.error(
+        LoggerSource.downloader,
+        `Unknown archive extension: ${archiveExt}`
+      );
+
+      return false;
+    }
+  } catch (error) {
+    cleanupFiles(archiveFilePath, targetDirectory);
+    Logger.error(
+      LoggerSource.downloader,
+      `Error unpacking archive: ${unknownErrorToString(error)}`
+    );
+
+    return false;
+  }
+}
+
+function cleanupFiles(...filePaths: string[]): void {
+  for (const path of filePaths) {
+    rmSync(path, { recursive: true, force: true });
+  }
 }
 
 /**
@@ -499,12 +598,14 @@ async function downloadAndInstallGithubAsset(
     );
   }
 
+  let headers: { [key: string]: string } = {};
+
   if (redirectURL === undefined && githubPAT && githubPAT.length > 0) {
     // Use GitHub API to download the asset (will return a redirect)
     Logger.debug(LoggerSource.downloader, "Using GitHub API for download");
     const assetID = asset.id;
 
-    const headers: { [key: string]: string } = {
+    headers = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "X-GitHub-Api-Version": GITHUB_API_VERSION,
       // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -541,131 +642,152 @@ async function downloadAndInstallGithubAsset(
       maxRedirections: 0, // don't automatically follow redirects
     };
   }
-  // keep track of retries
-  let retries = 0;
 
-  return new Promise(resolve => {
-    //, data: Dispatcher.StreamData)
-    const clientErrorCallback = (error: Error | null): void => {
-      if (error) {
-        Logger.error(
-          LoggerSource.downloader,
-          `Downloading ${logName} asset failed:` + error.message
-        );
-        resolve(false);
-      }
-    };
+  if (process.platform !== "linux" || process.arch !== "arm64") {
+    // keep track of retries
+    let retries = 0;
 
-    const clientFactoryCallback = ({
-      statusCode,
-      headers,
-    }: Dispatcher.StreamFactoryData): Writable =>
-      createWriteStream(archiveFilePath).on("finish", () => {
-        const code = statusCode ?? 404;
+    return new Promise(resolve => {
+      //, data: Dispatcher.StreamData)
+      const clientErrorCallback = (error: Error | null): void => {
+        if (error) {
+          Logger.error(
+            LoggerSource.downloader,
+            `Downloading ${logName} asset failed:` + error.message
+          );
+          resolve(false);
+        }
+      };
 
-        if (code >= 400) {
-          if (code === HTTP_STATUS_UNAUTHORIZED) {
-            retries++;
-            if (retries > 2) {
+      const clientFactoryCallback = ({
+        statusCode,
+        headers,
+      }: Dispatcher.StreamFactoryData): Writable =>
+        createWriteStream(archiveFilePath).on("finish", () => {
+          const code = statusCode ?? 404;
+
+          if (code >= 400) {
+            if (code === HTTP_STATUS_UNAUTHORIZED) {
+              retries++;
+              if (retries > 2) {
+                Logger.error(
+                  LoggerSource.downloader,
+                  `Downloading ${logName} failed. Multiple ` +
+                    STATUS_CODES[code]
+                );
+                resolve(false);
+
+                return;
+              }
+              // githubApiUnauthorized will take care of removing the
+              // token so it isn't used in retry attpemt
+              githubApiUnauthorized()
+                .then(() => {
+                  client.stream(
+                    options,
+                    clientFactoryCallback,
+                    clientErrorCallback
+                  );
+                })
+                .catch(() => {
+                  resolve(false);
+                });
+            } else if (code === HTTP_STATUS_FORBIDDEN) {
               Logger.error(
                 LoggerSource.downloader,
-                `Downloading ${logName} failed. Multiple ` + STATUS_CODES[code]
+                `Downloading ${logName} failed: ` + STATUS_CODES[code]
               );
               resolve(false);
-
-              return;
             }
-            // githubApiUnauthorized will take care of removing the
-            // token so it isn't used in retry attpemt
-            githubApiUnauthorized()
-              .then(() => {
-                client.stream(
-                  options,
-                  clientFactoryCallback,
-                  clientErrorCallback
-                );
-              })
-              .catch(() => {
-                resolve(false);
-              });
-          } else if (code === HTTP_STATUS_FORBIDDEN) {
+            //return reject(new Error(STATUS_CODES[code]));
             Logger.error(
               LoggerSource.downloader,
               `Downloading ${logName} failed: ` + STATUS_CODES[code]
             );
+
+            return resolve(false);
+          }
+
+          // handle redirects
+          if (code > 300 && !!headers.location) {
+            return resolve(
+              downloadAndInstallGithubAsset(
+                version,
+                releaseVersion,
+                repo,
+                targetDirectory,
+                archiveFileName,
+                assetName,
+                logName,
+                extraCallback,
+                headers.location.toString()
+              )
+            );
+          }
+
+          // unpack the archive
+          if (archiveFileName.endsWith("tar.gz")) {
+            unxzFile(archiveFilePath, targetDirectory)
+              .then(success => {
+                // delete tmp file
+                rmSync(archiveFilePath, { recursive: true, force: true });
+
+                if (extraCallback !== undefined) {
+                  extraCallback();
+                }
+
+                resolve(success);
+              })
+              .catch(() => {
+                rmSync(archiveFilePath, { recursive: true, force: true });
+                rmSync(targetDirectory, { recursive: true, force: true });
+                resolve(false);
+              });
+          } else if (archiveFileName.endsWith("zip")) {
+            const success = unzipFile(archiveFilePath, targetDirectory);
+            // delete tmp file
+            rmSync(archiveFilePath, { recursive: true, force: true });
+
+            if (extraCallback !== undefined) {
+              extraCallback();
+            }
+
+            if (!success) {
+              rmSync(targetDirectory, { recursive: true, force: true });
+            }
+            resolve(success);
+          } else {
+            rmSync(archiveFilePath, { recursive: true, force: true });
+            rmSync(targetDirectory, { recursive: true, force: true });
+            Logger.error(
+              LoggerSource.downloader,
+              `Unknown archive extension: ${archiveFileName}`
+            );
             resolve(false);
           }
-          //return reject(new Error(STATUS_CODES[code]));
-          Logger.error(
-            LoggerSource.downloader,
-            `Downloading ${logName} failed: ` + STATUS_CODES[code]
-          );
+        });
 
-          return resolve(false);
-        }
+      // Use client.stream to download the asset
+      client.stream(options, clientFactoryCallback, clientErrorCallback);
+    });
+  } else {
+    const urlObj = new URL(url);
 
-        // handle redirects
-        if (code > 300 && !!headers.location) {
-          return resolve(
-            downloadAndInstallGithubAsset(
-              version,
-              releaseVersion,
-              repo,
-              targetDirectory,
-              archiveFileName,
-              assetName,
-              logName,
-              extraCallback,
-              headers.location.toString()
-            )
-          );
-        }
-
-        // unpack the archive
-        if (archiveFileName.endsWith("tar.gz")) {
-          unxzFile(archiveFilePath, targetDirectory)
-            .then(success => {
-              // delete tmp file
-              rmSync(archiveFilePath, { recursive: true, force: true });
-
-              if (extraCallback !== undefined) {
-                extraCallback();
-              }
-
-              resolve(success);
-            })
-            .catch(() => {
-              rmSync(archiveFilePath, { recursive: true, force: true });
-              rmSync(targetDirectory, { recursive: true, force: true });
-              resolve(false);
-            });
-        } else if (archiveFileName.endsWith("zip")) {
-          const success = unzipFile(archiveFilePath, targetDirectory);
-          // delete tmp file
-          rmSync(archiveFilePath, { recursive: true, force: true });
-
-          if (extraCallback !== undefined) {
-            extraCallback();
-          }
-
-          if (!success) {
-            rmSync(targetDirectory, { recursive: true, force: true });
-          }
-          resolve(success);
-        } else {
-          rmSync(archiveFilePath, { recursive: true, force: true });
-          rmSync(targetDirectory, { recursive: true, force: true });
-          Logger.error(
-            LoggerSource.downloader,
-            `Unknown archive extension: ${archiveFileName}`
-          );
-          resolve(false);
-        }
-      });
-
-    // Use client.stream to download the asset
-    client.stream(options, clientFactoryCallback, clientErrorCallback);
-  });
+    // Linux arm64
+    return downloadAndInstallArchive(
+      urlObj.origin + urlObj.pathname + urlObj.search,
+      targetDirectory,
+      archiveFileName,
+      logName,
+      undefined,
+      undefined,
+      {
+        ...getAuthorizationHeaders(),
+        // github headers
+        ...headers,
+      }
+    );
+  }
 }
 
 export async function downloadAndInstallTools(
@@ -748,7 +870,7 @@ export async function downloadAndInstallToolchain(
 
   const archiveFileName = `${toolchain.version}.${artifactExt}`;
 
-  return downloadAndInstallZip(
+  return downloadAndInstallArchive(
     downloadUrl,
     targetDirectory,
     archiveFileName,

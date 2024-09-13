@@ -1,11 +1,12 @@
 import { readdirSync, renameSync, rmdirSync, statSync } from "fs";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
-import Logger from "../logger.mjs";
+import Logger, { LoggerSource } from "../logger.mjs";
 import { exec } from "child_process";
 import AdmZip from "adm-zip";
 import { request } from "https";
 import { fileURLToPath } from "url";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 export const CURRENT_DATA_VERSION = "0.16.0";
 
@@ -30,10 +31,10 @@ export function tryUnzipFiles(
       try {
         zip.extractEntryTo(zipEntry, targetDirectory, true, true, true);
       } catch (error) {
-        Logger.log(
-          `Error extracting archive file: ${
-            error instanceof Error ? error.message : (error as string)
-          }`
+        Logger.error(
+          LoggerSource.downloadHelper,
+          "Extracting archive file failed:",
+          unknownErrorToString(error)
         );
         success = false;
       }
@@ -81,10 +82,10 @@ export function unzipFile(
 
     return true;
   } catch (error) {
-    Logger.log(
-      `Error extracting archive file: ${
-        error instanceof Error ? error.message : (error as string)
-      }`
+    Logger.error(
+      LoggerSource.downloadHelper,
+      "Extracting archive file failed:",
+      unknownErrorToString(error)
     );
 
     return false;
@@ -121,7 +122,11 @@ export async function unxzFile(
       // Execute the 'tar' command in the shell
       exec(command, error => {
         if (error) {
-          Logger.log(`Error extracting archive file: ${error?.message}`);
+          Logger.debug(
+            LoggerSource.downloadHelper,
+            "Error extracting archive file:",
+            error?.message
+          );
           resolve(false);
         } else {
           const targetDirContents = readdirSync(targetDirectory);
@@ -146,7 +151,11 @@ export async function unxzFile(
             rmdirSync(subfolderPath);
           }
 
-          Logger.log(`Extracted archive file: ${xzFilePath}`);
+          Logger.debug(
+            LoggerSource.downloadHelper,
+            "Extracted archive file:",
+            xzFilePath
+          );
           resolve(true);
         }
       });
