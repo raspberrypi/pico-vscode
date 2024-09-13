@@ -795,6 +795,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
     openocd_path = ""
     server_path = "\n            \"serverpath\"" # Because no \ in f-strings
+    extraDebugServerArgs = ' -c \\"adapter speed 5000\\"' if debugger_supports_configurable_speed else ""
     openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "openocd.exe")
     if os.path.exists(openocd_path_os):
         openocd_path = f'{codeOpenOCDPath(openOCDVersion)}/openocd.exe'
@@ -858,7 +859,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "miDebuggerPath": "${{command:raspberry-pi-pico.getGDBPath}}",
             "miDebuggerServerAddress": "localhost:3333",
             "debugServerPath": "{openocd_path if openocd_path else "openocd"}",
-            "debugServerArgs": "-f {debugger} -f target/${{command:raspberry-pi-pico.getTarget}}.cfg{' -c \\"adapter speed 5000\\"' if debugger_supports_configurable_speed else ""}",
+            "debugServerArgs": "-f {debugger} -f target/${{command:raspberry-pi-pico.getTarget}}.cfg{extraDebugServerArgs}",
             "serverStarted": "Listening on port .* for gdb connections",
             "filterStderr": true,
             "hardwareBreakpoints": {{
