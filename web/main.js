@@ -11,6 +11,7 @@ const CMD_SUBMIT_EXAMPLE = 'submitExample';
 const CMD_IMPORT_PROJECT = 'importProject';
 const CMD_CREATE_FROM_EXAMPLE = 'createFromExample';
 const CMD_NOT_CREATE_FROM_EXAMPLE = 'notCreateFromExample';
+const CMD_ECHO = 'echo';
 
 var submitted = false;
 var isPicoWireless = false;
@@ -430,6 +431,15 @@ var exampleSupportedBoards = [];
     const message = event.data;
 
     switch (message.command) {
+      case CMD_ECHO:
+        console.assert(message.value !== undefined, "Unexpected echo message");
+        console.assert(message.echoCommnand !== undefined, "Unexpected echo message");
+        console.debug("[raspberry-pi-pico] Echo message received for command:", message.echoCommnand);
+        vscode.postMessage({
+          command: message.echoCommnand,
+          value: message.value
+        });
+        break;
       case CMD_CHANGE_LOCATION:
         // update UI
         document.getElementById('inp-project-location').value = message.value;

@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"module": "Node16",
+		"module": "Preserve",
 		"target": "ES2022",
 		"lib": [
 			"ES2023"
@@ -14,6 +14,7 @@
 		// "noUnusedParameters": true,  /* Report errors on unused parameters. */
 		"forceConsistentCasingInFileNames": true,
 		"esModuleInterop": false,
-		"moduleResolution": "Node16"
+		"moduleResolution": "Bundler",
+		"skipLibCheck": true
 	}
 }

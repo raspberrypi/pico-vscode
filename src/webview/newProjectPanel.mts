@@ -61,6 +61,7 @@ import {
   setupExample,
 } from "../utils/examplesUtil.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import * as EventEmitter from "events";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
@@ -84,7 +85,8 @@ interface ImportProjectMessageValue {
   debugger: number;
 }
 
-interface SubmitExampleMessageValue extends ImportProjectMessageValue {
+// export for testing
+export interface SubmitExampleMessageValue extends ImportProjectMessageValue {
   example: string;
   boardType: string;
 }
@@ -307,7 +309,7 @@ export function getProjectFolderDialogOptions(
   };
 }
 
-export class NewProjectPanel {
+export class NewProjectPanel extends EventEmitter {
   public static currentPanel: NewProjectPanel | undefined;
 
   public static readonly viewType = "newPicoProject";
@@ -325,6 +327,29 @@ export class NewProjectPanel {
   private _isProjectImport: boolean;
   private _examples: Example[] = [];
   private _isCreateFromExampleOnly: boolean = false;
+
+  /* For testing */
+  public static newFromExampleTitle = "New Example Pico Project";
+  public static newProjectTitle = "New Pico Project";
+  public static importProjectTitle = "Import Pico Project";
+  public static onProjectGeneratedEvent = "onProjectGenerated";
+  public static onProjectGenerationErrorEvent = "onProjectGenerationError";
+  public getTitle(): string {
+    return this._panel.title;
+  }
+  public getIsCreateFromExampleOnly(): boolean {
+    return this._isCreateFromExampleOnly;
+  }
+
+  public submitExample(location: Uri, value: SubmitExampleMessageValue): void {
+    this._projectRoot = location;
+    this._panel.webview.postMessage({
+      command: "echo",
+      echoCommand: "submitExample",
+      value: { ...value },
+    });
+  }
+  /* END for testing */
 
   public static createOrShow(
     extensionUri: Uri,
@@ -375,7 +400,11 @@ export class NewProjectPanel {
 
     const panel = window.createWebviewPanel(
       NewProjectPanel.viewType,
-      isProjectImport ? "Import Pico Project" : "New Pico Project",
+      isProjectImport
+        ? this.importProjectTitle
+        : createFromExample
+        ? this.newFromExampleTitle
+        : this.newProjectTitle,
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -434,6 +463,7 @@ export class NewProjectPanel {
     createFromExample: boolean = false,
     projectUri?: Uri
   ) {
+    super();
     this._panel = panel;
     this._extensionUri = extensionUri;
     this._settings = settings;
@@ -1188,10 +1218,10 @@ export class NewProjectPanel {
 
   private async _update(forceCreateFromExample: boolean): Promise<void> {
     this._panel.title = this._isProjectImport
-      ? "Import Pico Project"
+      ? NewProjectPanel.importProjectTitle
       : forceCreateFromExample
-      ? "New Example Pico Project"
-      : "New Pico Project";
+      ? NewProjectPanel.newFromExampleTitle
+      : NewProjectPanel.newProjectTitle;
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
       "web",
@@ -1463,10 +1493,10 @@ export class NewProjectPanel {
 
         <title>${
           this._isProjectImport
-            ? "Import Pico Project"
+            ? NewProjectPanel.importProjectTitle
             : forceCreateFromExample
-            ? "New Example Pico Project"
-            : "New Pico Project"
+            ? NewProjectPanel.newFromExampleTitle
+            : NewProjectPanel.newProjectTitle
         }</title>
 
         <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
@@ -2212,6 +2242,10 @@ export class NewProjectPanel {
       (process.platform === "linux" && generatorExitCode === null) ||
       generatorExitCode === 0
     ) {
+      // for testing
+      this.emit(NewProjectPanel.onProjectGeneratedEvent, projectName);
+      // END for testing
+
       void window.showInformationMessage(
         `Successfully generated new project: ${projectName}`
       );
@@ -2237,6 +2271,9 @@ export class NewProjectPanel {
         void commands.executeCommand("workbench.action.reloadWindow");
       }
     } else {
+      // for testing
+      this.emit(NewProjectPanel.onProjectGenerationErrorEvent, projectName);
+      // END for testing
       this._logger.error(
         `Generator Process exited with code: ${generatorExitCode ?? "null"}`
       );

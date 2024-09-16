@@ -1,4 +1,4 @@
-import { Command } from "./command.mjs";
+import { CommandWithArgs } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { window } from "vscode";
 import { rimraf } from "rimraf";
@@ -6,7 +6,7 @@ import { join } from "path";
 import { homedir } from "os";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 
-export default class UninstallPicoSDKCommand extends Command {
+export default class UninstallPicoSDKCommand extends CommandWithArgs {
   private _logger: Logger = new Logger("UninstallPicoSDKCommand");
 
   public static readonly id = "uninstallPicoSDK";
@@ -15,22 +15,25 @@ export default class UninstallPicoSDKCommand extends Command {
     super(UninstallPicoSDKCommand.id);
   }
 
-  async execute(): Promise<void> {
+  async execute(force = false): Promise<void> {
     // show modal warning that this will delete the Pico SDK and
     // all its automatically installed dependencies from the system
     // and ask for confirmation
 
-    const response = await window.showWarningMessage(
-      "Uninstalling Pico SDK - Are you sure you want to continue?",
-      {
-        modal: true,
-        detail:
-          "This will delete the Pico SDK and all its automatically installed " +
-          "dependencies from the system. This action cannot be undone.",
-      },
-      "Yes",
-      "No"
-    );
+    const response = force
+      ? "Yes"
+      : await window.showWarningMessage(
+          "Uninstalling Pico SDK - Are you sure you want to continue?",
+          {
+            modal: true,
+            detail:
+              "This will delete the Pico SDK and all its automatically " +
+              "installed dependencies from the system. " +
+              "This action cannot be undone.",
+          },
+          "Yes",
+          "No"
+        );
 
     if (response === "Yes") {
       // uninstall the Pico SDK and all its automatically installed dependencies

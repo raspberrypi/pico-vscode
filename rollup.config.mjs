@@ -24,6 +24,7 @@ export default {
         commonjs(),
         typescript({
             tsconfig: 'tsconfig.json',
+            exclude: ['src/test/**/*.mts']
         }),
     ],
 };

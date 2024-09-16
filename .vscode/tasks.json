@@ -16,6 +16,21 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "watch-test",
+			"type": "npm",
+			"script": "watch-test",
+			"problemMatcher": "$tsc-watch",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "never",
+				"group": "watchers"
+			},
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			}
 		}
 	]
 }
