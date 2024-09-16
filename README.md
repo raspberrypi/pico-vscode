@@ -21,9 +21,16 @@ For comprehensive setup instructions, refer to the [Getting Started guide](https
 
 ## Requirements by OS
 
-> Supported Platforms: Raspberry Pi OS (64-bit), Windows x64, macOS (Sonoma and newer), Linux x64 and arm64
+> Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11 (x86_64), macOS Sonoma (14.0) and newer, Linux x64 and arm64
 
 - Visual Studio Code v1.87.0 or later
+
+### Raspberry Pi OS
+As of March 2024, all new Raspberry Pi OS images come with the necessary tools pre-installed. For older images, you can install the required tools by running: 
+
+```bash
+sudo apt install openocd ninja-build
+```
 
 ### macOS
 To meet the requirements for macOS, run the following command in Terminal to install necessary tools:
@@ -33,21 +40,15 @@ xcode-select --install
 This command installs all of the necessary tools, including but not limited to:
 - Git 2.28 or later (ensure it's in your PATH)
 - Tar (ensure it's in your PATH)
-- Native C/C++ compiler (ensure it's in your PATH); supported compilers include `gcc` and `clang`
 
-### Raspberry Pi OS
-As of March 2024, all new Raspberry Pi OS images come with the necessary tools pre-installed. For older images, you can install the required tools by running: 
+### Windows
 
-```bash
-sudo apt install openocd ninja-build
-```
+No additional requirements are needed for Windows.
 
 ### Linux
 - Python 3.9 or later (ensure it’s in your PATH or set in settings)
 - Git 2.28 or later (ensure it’s in your PATH)
 - Tar (ensure it’s in your PATH)
-- Native C/C++ compiler (ensure it’s in your PATH); supported compilers include `gcc` and `clang`
-- \[Optional\] OpenOCD for debugging (Raspberry Pi OS only)
 - \[Optional\] gdb-multiarch for debugging (x86_64 only)
 - For \[Ubuntu 22.04\], install `libftdi1-2` and `libhidapi-hidraw0` packages to use OpenOCD
 
