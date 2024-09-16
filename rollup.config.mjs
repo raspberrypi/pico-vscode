@@ -5,7 +5,7 @@ import typescript from '@rollup/plugin-typescript';
 const isProduction = process.env.BUILD === 'production';
 
 export default {
-    input: 'src/extension.mts',
+    input: 'src/extension.ts',
     output: {
         //dir: 'dist',
         file: 'dist/extension.cjs',
@@ -24,7 +24,7 @@ export default {
         commonjs(),
         typescript({
             tsconfig: 'tsconfig.json',
-            exclude: ['src/test/**/*.mts']
+            exclude: ['src/test/**/*.ts']
         }),
     ],
 };

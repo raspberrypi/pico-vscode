@@ -22,11 +22,11 @@
 			"type": "extensionHost",
 			"request": "launch",
 			"args": [
-				"--extensionDevelopmentPath=${workspaceFolder}",
-				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index.mjs"
+				"--extensionDevelopmentPath=${workspaceFolder}/out",
+				"--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
 			],
 			"outFiles": [
-				"${workspaceFolder}/dist/test/**/*.mjs"
+				"${workspaceFolder}/out/**/*.js"
 			],
 			"preLaunchTask": "watch-test"
 		}

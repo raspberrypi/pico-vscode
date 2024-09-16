@@ -21,7 +21,7 @@
 			"label": "watch-test",
 			"type": "npm",
 			"script": "watch-test",
-			"problemMatcher": "$tsc-watch",
+			"problemMatcher": "$rollup-ts-watch",
 			"isBackground": true,
 			"presentation": {
 				"reveal": "never",

@@ -23,7 +23,7 @@ export default [
         tsconfigRootDir: import.meta.dirname
       }
     },
-    files: ["src/**/*.mts"],
+    files: ["src/**/*.ts"],
     rules: {
       "@typescript-eslint/naming-convention": "warn",
       "@typescript-eslint/no-unused-vars": "warn",
