@@ -8,6 +8,15 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.16.2] - 2024-09-17
+
+### Added
+- MicroPico integration, for creating MicroPython projects (#85)
+
+### Fixed
+- Pico Wireless Options passing to the project generator
+- Update to pico-sdk-tools v2.0.0-4 to remove requirement on libgpiod on non-arm64 Linux (#84)
+
 ## [0.16.1] - 2024-09-13
 
 ### Added
