@@ -77,10 +77,16 @@ export class NewMicroPythonProjectPanel {
     if (!settings) {
       panel.dispose();
 
-      // TODO: maybe add restart button
-      void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
-      );
+      void window
+        .showErrorMessage(
+          "Failed to load settings. Please restart VS Code or reload the window.",
+          "Reload Window"
+        )
+        .then(selected => {
+          if (selected === "Reload Window") {
+            commands.executeCommand("workbench.action.reloadWindow");
+          }
+        });
 
       return;
     }
@@ -354,11 +360,9 @@ print("Finished.")\r\n`;
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // open and call initialise
-    void commands.executeCommand(
-      "vscode.openFolder",
-      Uri.file(projectFolder),
-      (workspace.workspaceFolders?.length ?? 0) > 0
-    );
+    void commands.executeCommand("vscode.openFolder", Uri.file(projectFolder), {
+      forceNewWindow: (workspace.workspaceFolders?.length ?? 0) > 0,
+    });
   }
 
   private async _update(): Promise<void> {

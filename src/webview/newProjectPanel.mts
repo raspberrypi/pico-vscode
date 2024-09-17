@@ -384,10 +384,16 @@ export class NewProjectPanel {
     if (settings === undefined) {
       panel.dispose();
 
-      // TODO: maybe add restart button
-      void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
-      );
+      void window
+        .showErrorMessage(
+          "Failed to load settings. Please restart VS Code or reload the window.",
+          "Reload Window"
+        )
+        .then(selected => {
+          if (selected === "Reload Window") {
+            commands.executeCommand("workbench.action.reloadWindow");
+          }
+        });
 
       return;
     }
@@ -2230,7 +2236,9 @@ export class NewProjectPanel {
             ? options.projectRoot
             : join(options.projectRoot, projectName)
         ),
-        (workspace.workspaceFolders?.length ?? 0) > 0
+        {
+          forceNewWindow: (workspace.workspaceFolders?.length ?? 0) > 0,
+        }
       );
 
       // restart the extension if the folder was already open cause then vscode won't
