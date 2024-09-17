@@ -384,10 +384,16 @@ export class NewProjectPanel {
     if (settings === undefined) {
       panel.dispose();
 
-      // TODO: maybe add restart button
-      void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
-      );
+      void window
+        .showErrorMessage(
+          "Failed to load settings. Please restart VS Code or reload the window.",
+          "Reload Window"
+        )
+        .then(selected => {
+          if (selected === "Reload Window") {
+            commands.executeCommand("workbench.action.reloadWindow");
+          }
+        });
 
       return;
     }
@@ -1227,14 +1233,23 @@ export class NewProjectPanel {
   }
 
   private async _updateTheme(): Promise<void> {
-    await this._panel.webview.postMessage({
-      command: "setTheme",
-      theme:
-        window.activeColorTheme.kind === ColorThemeKind.Dark ||
-        window.activeColorTheme.kind === ColorThemeKind.HighContrast
-          ? "dark"
-          : "light",
-    });
+    try {
+      await this._panel.webview.postMessage({
+        command: "setTheme",
+        theme:
+          window.activeColorTheme.kind === ColorThemeKind.Dark ||
+          window.activeColorTheme.kind === ColorThemeKind.HighContrast
+            ? "dark"
+            : "light",
+      });
+    } catch (error) {
+      this._logger.error(
+        "Failed to update theme in webview. Webview might have been disposed. Error:",
+        unknownErrorToString(error)
+      );
+      // properly dispose panel
+      this.dispose();
+    }
   }
 
   public dispose(): void {
@@ -2230,7 +2245,9 @@ export class NewProjectPanel {
             ? options.projectRoot
             : join(options.projectRoot, projectName)
         ),
-        (workspace.workspaceFolders?.length ?? 0) > 0
+        {
+          forceNewWindow: (workspace.workspaceFolders?.length ?? 0) > 0,
+        }
       );
 
       // restart the extension if the folder was already open cause then vscode won't
