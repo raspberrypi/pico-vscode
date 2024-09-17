@@ -23,6 +23,7 @@ import which from "which";
 import { existsSync } from "fs";
 import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";
+import { unknownErrorToString } from "../utils/errorHelper.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -379,7 +380,18 @@ print("Finished.")\r\n`;
     const html = await this._getHtmlForWebview(this._panel.webview);
 
     if (html !== "") {
-      this._panel.webview.html = html;
+      try {
+        this._panel.webview.html = html;
+      } catch (error) {
+        this._logger.error(
+          "Failed to set webview html. Webview might have been disposed. Error: ",
+          unknownErrorToString(error)
+        );
+        // properly dispose panel
+        this.dispose();
+
+        return;
+      }
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
@@ -390,14 +402,23 @@ print("Finished.")\r\n`;
   }
 
   private async _updateTheme(): Promise<void> {
-    await this._panel.webview.postMessage({
-      command: "setTheme",
-      theme:
-        window.activeColorTheme.kind === ColorThemeKind.Dark ||
-        window.activeColorTheme.kind === ColorThemeKind.HighContrast
-          ? "dark"
-          : "light",
-    });
+    try {
+      await this._panel.webview.postMessage({
+        command: "setTheme",
+        theme:
+          window.activeColorTheme.kind === ColorThemeKind.Dark ||
+          window.activeColorTheme.kind === ColorThemeKind.HighContrast
+            ? "dark"
+            : "light",
+      });
+    } catch (error) {
+      this._logger.error(
+        "Failed to update theme in webview. Webview might have been disposed. Error:",
+        unknownErrorToString(error)
+      );
+      // properly dispose panel
+      this.dispose();
+    }
   }
 
   public dispose(): void {

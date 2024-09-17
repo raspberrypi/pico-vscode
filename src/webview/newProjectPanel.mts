@@ -1233,14 +1233,23 @@ export class NewProjectPanel {
   }
 
   private async _updateTheme(): Promise<void> {
-    await this._panel.webview.postMessage({
-      command: "setTheme",
-      theme:
-        window.activeColorTheme.kind === ColorThemeKind.Dark ||
-        window.activeColorTheme.kind === ColorThemeKind.HighContrast
-          ? "dark"
-          : "light",
-    });
+    try {
+      await this._panel.webview.postMessage({
+        command: "setTheme",
+        theme:
+          window.activeColorTheme.kind === ColorThemeKind.Dark ||
+          window.activeColorTheme.kind === ColorThemeKind.HighContrast
+            ? "dark"
+            : "light",
+      });
+    } catch (error) {
+      this._logger.error(
+        "Failed to update theme in webview. Webview might have been disposed. Error:",
+        unknownErrorToString(error)
+      );
+      // properly dispose panel
+      this.dispose();
+    }
   }
 
   public dispose(): void {
