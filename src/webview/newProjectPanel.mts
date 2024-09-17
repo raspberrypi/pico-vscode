@@ -1100,7 +1100,7 @@ export class NewProjectPanel {
             theData.hwtimerFeature ? Library.timer : null,
             theData.hwwatchdogFeature ? Library.watch : null,
             theData.hwclocksFeature ? Library.clocks : null,
-            theData.boardType === "pico-w"
+            theData.boardType === "pico_w"
               ? Object.values(PicoWirelessOption)[theData.picoWireless]
               : null,
           ].filter(option => option !== null) as Library[],

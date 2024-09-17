@@ -39,14 +39,11 @@ For comprehensive setup instructions, refer to the [Getting Started guide](https
 
 > **Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11 (x86_64), macOS Sonoma (14.0) and newer, Linux x64 and arm64**
 
-- Visual Studio Code v1.87.0 or later
+- Visual Studio Code v1.92.1 or later
 
-### Raspberry Pi OS
-As of March 2024, all new Raspberry Pi OS images come with the necessary tools pre-installed. For older images, you can install the required tools by running: 
+### Raspberry Pi OS and Windows
 
-```bash
-sudo apt install openocd ninja-build
-```
+No additional requirements are needed.
 
 ### macOS
 To meet the requirements for macOS, run the following command in Terminal to install necessary tools:
@@ -56,10 +53,6 @@ xcode-select --install
 This command installs all of the necessary tools, including but not limited to:
 - **Git 2.28 or later** (ensure it's in your PATH)
 - **Tar** (ensure it's in your PATH)
-
-### Windows
-
-No additional requirements are needed for Windows.
 
 ### Linux
 - **Python 3.9 or later** (ensure it’s in your PATH or set in settings)
