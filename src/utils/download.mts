@@ -63,19 +63,19 @@ const TOOLS_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "1.5.1": "v1.5.1-0",
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.0.0": "v2.0.0-3",
+  "2.0.0": "v2.0.0-4",
 };
 
 /// Release tags for picotool
 const PICOTOOL_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.0.0": "v2.0.0-3",
+  "2.0.0": "v2.0.0-4",
 };
 
 /// Release tags for openocd
 const OPENOCD_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "0.12.0+dev": "v2.0.0-3",
+  "0.12.0+dev": "v2.0.0-4",
 };
 
 /// Translate nodejs platform names to cmake platform names
