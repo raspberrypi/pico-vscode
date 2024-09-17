@@ -9,7 +9,7 @@ import {
 } from "vscode";
 import Logger from "../logger.mjs";
 import { extensionName } from "../commands/command.mjs";
-import NewProjectCommand from "../commands/newProject.mjs";
+import NewProjectCommand, { ProjectLang } from "../commands/newProject.mjs";
 import CompileProjectCommand from "../commands/compileProject.mjs";
 import RunProjectCommand from "../commands/runProject.mjs";
 import SwitchSDKCommand from "../commands/switchSDK.mjs";
@@ -39,7 +39,8 @@ const COMMON_COMMANDS_PARENT_LABEL = "General";
 const PROJECT_COMMANDS_PARENT_LABEL = "Project";
 const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
 
-const NEW_PROJECT_LABEL = "New Project";
+const NEW_C_CPP_PROJECT_LABEL = "New C/C++ Project";
+const NEW_MICROPYTHON_PROJECT_LABEL = "New MicroPython Project";
 const IMPORT_PROJECT_LABEL = "Import Project";
 const EXAMPLE_PROJECT_LABEL = "New Project From Example";
 const SWITCH_SDK_LABEL = "Switch SDK";
@@ -78,8 +79,11 @@ export class PicoProjectActivityBar
     element: QuickAccessCommand
   ): TreeItem | Thenable<TreeItem> {
     switch (element.label) {
-      case NEW_PROJECT_LABEL:
+      case NEW_C_CPP_PROJECT_LABEL:
         // alt. "new-folder"
+        element.iconPath = new ThemeIcon("file-directory-create");
+        break;
+      case NEW_MICROPYTHON_PROJECT_LABEL:
         element.iconPath = new ThemeIcon("file-directory-create");
         break;
       case IMPORT_PROJECT_LABEL:
@@ -158,11 +162,21 @@ export class PicoProjectActivityBar
     } else if (element.label === COMMON_COMMANDS_PARENT_LABEL) {
       return [
         new QuickAccessCommand(
-          NEW_PROJECT_LABEL,
+          NEW_C_CPP_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
             command: `${extensionName}.${NewProjectCommand.id}`,
-            title: NEW_PROJECT_LABEL,
+            title: NEW_C_CPP_PROJECT_LABEL,
+            arguments: [ProjectLang.cCpp],
+          }
+        ),
+        new QuickAccessCommand(
+          NEW_MICROPYTHON_PROJECT_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${NewProjectCommand.id}`,
+            title: NEW_MICROPYTHON_PROJECT_LABEL,
+            arguments: [ProjectLang.micropython],
           }
         ),
         new QuickAccessCommand(

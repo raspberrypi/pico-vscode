@@ -2,8 +2,10 @@
   "files.exclude": {
     // set them to true to hide them in vscode
     "out": false,
-    "dist": false,
-    "**/*.vsix": true
+    "dist": true,
+    "**/*.vsix": true,
+    ".yarn": true,
+    ".pnp.*": true
   },
   "search.exclude": {
     "out": true,

@@ -1,6 +1,6 @@
 # Raspberry Pi Pico Visual Studio Code extension
 
-> NOTE: The extension is currently under development.
+> **Note: The extension is currently under development.**
 
 This is the official Visual Studio Code extension for Raspberry Pi Pico development. This extension equips you with a suite of tools designed to streamline your Pico projects using Visual Studio Code and the official [Pico SDK](https://github.com/raspberrypi/pico-sdk).
 
@@ -10,18 +10,34 @@ For comprehensive setup instructions, refer to the [Getting Started guide](https
 
 ## Features
 
-- Project Generator: Easily create new projects targeting the Ninja build system.
-- Automatic CMake Configuration: Automatically configures CMake when loading a project.
-- Version Switching: Seamlessly switch between different versions of the Pico SDK and tools.
-- No Manual Setup Required: The extension handles environment variables, toolchain, SDK, and tool management for you.
-- One-Click Compilation: Compile projects directly from the status bar with your selected SDK and tools.
-- Offline Documentation: Access Pico SDK documentation offline.
-- Quick Project Setup: Quickly create new Pico projects from the Explorer view when no workspace is open.
-- Includes an Uninstaller: Easily remove the extension along with all automatically installed tools and SDKs.
+### Project Setup and Management
+
+- **Project Generator**: Easily create and configure new projects with support for advanced Pico features like I2C and PIO. The generator targets the Ninja build system and allows customization during project creation.
+- **Quick Project Setup**: Initiate new Pico projects directly from the Explorer view, when no workspace is open.
+- **MicroPython Support**: Create and develop MicroPython-based Pico projects with support provided through the [MicroPico](https://github.com/paulober/MicroPico) extension.
+
+### Configuration and Tool Management
+
+- **Automatic CMake Configuration**: Automatically configures CMake when loading a project.
+- **Version Switching**: Seamlessly switch between different versions of the Pico SDK and tools.
+- **No Manual Setup Required**: Automatically handles environment variables, toolchain, SDK, and tool management.
+- **Includes an Uninstaller**: Easily remove the extension along with all automatically installed tools and SDKs.
+
+### Build, Debug, and Documentation
+
+- **One-Click Compilation and Debugging**: Automatically configure OpenOCD, Ninja, and CMake, allowing you to compile and debug with a single click.
+- **Offline Documentation**: Conveniently access Pico SDK documentation directly within the editor, even when offline.
+
+- **Version Switching**: Seamlessly switch between different versions of the Pico SDK and tools.
+- **No Manual Setup Required**: The extension handles environment variables, toolchain, SDK, and tool management for you.
+- **One-Click Compilation**: Compile projects directly from the status bar with your selected SDK and tools.
+- **Offline Documentation**: Access Pico SDK documentation offline.
+- **Quick Project Setup**: Quickly create new Pico projects from the Explorer view when no workspace is open.
+- **MicroPython Support**: Create MicroPython-based Pico projects with support provided through the MicroPico extension.
 
 ## Requirements by OS
 
-> Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11 (x86_64), macOS Sonoma (14.0) and newer, Linux x64 and arm64
+> **Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11 (x86_64), macOS Sonoma (14.0) and newer, Linux x64 and arm64**
 
 - Visual Studio Code v1.87.0 or later
 
@@ -38,19 +54,19 @@ To meet the requirements for macOS, run the following command in Terminal to ins
 xcode-select --install
 ```
 This command installs all of the necessary tools, including but not limited to:
-- Git 2.28 or later (ensure it's in your PATH)
-- Tar (ensure it's in your PATH)
+- **Git 2.28 or later** (ensure it's in your PATH)
+- **Tar** (ensure it's in your PATH)
 
 ### Windows
 
 No additional requirements are needed for Windows.
 
 ### Linux
-- Python 3.9 or later (ensure it’s in your PATH or set in settings)
-- Git 2.28 or later (ensure it’s in your PATH)
-- Tar (ensure it’s in your PATH)
-- \[Optional\] gdb-multiarch for debugging (x86_64 only)
-- For \[Ubuntu 22.04\], install `libftdi1-2` and `libhidapi-hidraw0` packages to use OpenOCD
+- **Python 3.9 or later** (ensure it’s in your PATH or set in settings)
+- **Git 2.28 or later** (ensure it’s in your PATH)
+- **Tar** (ensure it’s in your PATH)
+- **\[Optional\]** gdb-multiarch for debugging (x86_64 only)
+- For **\[Ubuntu 22.04\]**, install `libftdi1-2` and `libhidapi-hidraw0` packages to use OpenOCD
 
 ## Extension Settings
 

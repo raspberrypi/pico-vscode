@@ -210,7 +210,7 @@ var exampleSupportedBoards = [];
       }
     }
 
-    // selected cmake version
+    // selected python version
     const pythonVersionRadio = document.getElementsByName('python-version-radio');
     let pythonMode = null;
     let pythonPath = null;
@@ -225,7 +225,7 @@ var exampleSupportedBoards = [];
       pythonMode = 1;
     }
 
-    // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
+    // if python version is null or not a number, smaller than 0 or bigger than 3, set it to 0
     if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
       // TODO: first check if defaul is supported
       pythonMode = 0;

@@ -16,8 +16,8 @@
     "url": "https://github.com/raspberrypi/pico-vscode/"
   },
   "engines": {
-    "vscode": "^1.87.0",
-    "node": ">=18.17.1"
+    "vscode": "^1.92.1",
+    "node": ">=20.14.0"
   },
   "os": [
     "win32",
@@ -46,11 +46,13 @@
     "ms-vscode.cpptools",
     "ms-vscode.cpptools-extension-pack",
     "ms-vscode.vscode-serial-monitor",
-    "marus25.cortex-debug"
+    "marus25.cortex-debug",
+    "paulober.pico-w-go",
+    "ms-python.python"
   ],
   "main": "./dist/extension.cjs",
   "markdown": "github",
-  "minimumNodeVersion": 18,
+  "minimumNodeVersion": 20,
   "capabilities": {
     "virtualWorkspaces": {
       "supported": false,
@@ -63,7 +65,8 @@
   },
   "activationEvents": [
     "workspaceContains:./pico_sdk_import.cmake",
-    "onWebviewPanel:newPicoProject"
+    "onWebviewPanel:newPicoProject",
+    "onWebviewPanel:newPicoMicroPythonProject"
   ],
   "contributes": {
     "commands": [
@@ -279,9 +282,9 @@
     "@rollup/plugin-typescript": "^11.1.6",
     "@types/adm-zip": "^0.5.5",
     "@types/ini": "^4.1.1",
-    "@types/node": "18.17.x",
+    "@types/node": "20.14.0",
     "@types/uuid": "^10.0.0",
-    "@types/vscode": "^1.87.0",
+    "@types/vscode": "^1.92.0",
     "@types/which": "^3.0.4",
     "eslint": "^9.9.0",
     "eslint-config-prettier": "^9.1.0",
@@ -292,6 +295,7 @@
     "typescript-eslint": "^8.1.0"
   },
   "dependencies": {
+    "@vscode/python-extension": "^1.0.5",
     "adm-zip": "^0.5.14 <0.5.15",
     "got": "^14.4.2",
     "ini": "^4.1.3",

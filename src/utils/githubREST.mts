@@ -61,15 +61,13 @@ export const PYENV_REPOSITORY_URL = "https://github.com/pyenv/pyenv.git";
 export function ownerOfRepository(repository: GithubRepository): string {
   switch (repository) {
     case GithubRepository.picoSDK:
+    case GithubRepository.tools:
+    case GithubRepository.picotool:
       return "raspberrypi";
     case GithubRepository.cmake:
       return "Kitware";
     case GithubRepository.ninja:
       return "ninja-build";
-    case GithubRepository.tools:
-      return "raspberrypi";
-    case GithubRepository.picotool:
-      return "raspberrypi";
   }
 }
 
