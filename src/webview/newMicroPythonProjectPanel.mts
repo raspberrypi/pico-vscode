@@ -354,9 +354,11 @@ print("Finished.")\r\n`;
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // open and call initialise
-    commands.executeCommand("vscode.openFolder", Uri.file(projectFolder), {
-      forceReuseWindow: true,
-    });
+    void commands.executeCommand(
+      "vscode.openFolder",
+      Uri.file(projectFolder),
+      (workspace.workspaceFolders?.length ?? 0) > 0
+    );
   }
 
   private async _update(): Promise<void> {
