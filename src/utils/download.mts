@@ -234,7 +234,7 @@ export async function downloadAndInstallArchive(
   try {
     let isSuccess = false;
 
-    if (process.platform !== "linux" || process.arch !== "arm64") {
+    if (process.platform !== "linux") {
       const undiciRet = await downloadFileUndici(
         client,
         downloadUrl,
@@ -250,7 +250,7 @@ export async function downloadAndInstallArchive(
           extraCallback,
           undiciRet,
           extraHeaders
-        )
+        );
       }
       isSuccess = undiciRet;
     } else {
@@ -341,9 +341,8 @@ async function downloadFileUndici(
             LoggerSource.downloader,
             `Redirecting to ${headers.location.toString()}`
           );
-          resolve(
-            headers.location.toString()
-          ); // Handle redirects in the calling function
+          // Handle redirects in the calling function
+          resolve(headers.location.toString());
         }
 
         return writeStream; // Return the Writable stream where data is piped
