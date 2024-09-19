@@ -33,6 +33,8 @@ import VersionBundlesLoader, {
 import { sep } from "path";
 import { join as posixJoin } from "path/posix";
 import { NINJA_AUTO_INSTALL_DISABLED } from "../webview/newProjectPanel.mjs";
+import Logger from "../logger.mjs";
+import type { Progress as GotProgress } from "got";
 
 export interface AdvancedSwitchSDKOptions {
   toolchainVersion: { label: string; toolchain: SupportedToolchainVersion };
@@ -47,6 +49,7 @@ interface SwitchSDKOptions {
 
 export default class SwitchSDKCommand extends Command {
   private _versionBundlesLoader: VersionBundlesLoader;
+  private _logger: Logger = new Logger("SwitchSDKCommand");
 
   public static readonly id = "switchSDK";
 
@@ -383,107 +386,305 @@ export default class SwitchSDKCommand extends Command {
           //options.advancedOptions is defined
           options.advancedOptions!.toolchainVersion;
 
-    // show progress bar while installing
-    const result = await window.withProgress(
+    // show individual progress bars while installing
+    let result = await window.withProgress(
       {
-        title:
-          `Installing SDK ${selectedSDK.label}, ` +
-          `toolchain ${selectedToolchain.label} ` +
-          "and tools...",
         location: ProgressLocation.Notification,
+        title: "Installing SDK...",
+        cancellable: false,
       },
       async progress => {
         // download and install selected SDK
-        if (
-          (await downloadAndInstallSDK(selectedSDK.sdk, SDK_REPOSITORY_URL)) &&
-          (await downloadAndInstallTools(selectedSDK.sdk))
-        ) {
+        // TODO: maybe parse python3 path
+        const result = await downloadAndInstallSDK(
+          selectedSDK.sdk,
+          SDK_REPOSITORY_URL
+        );
+
+        if (result) {
+          this._logger.debug("Successfully installed SDK.");
+
           progress.report({
-            increment: 40,
+            increment: 100,
+            // TODO: maybe only finished or sth like that
+            message: `Successfully installed SDK ${selectedSDK.label}.`,
           });
 
-          if (await downloadAndInstallToolchain(selectedToolchain.toolchain)) {
+          return true;
+        }
+
+        this._logger.error("Failed to install SDK.");
+
+        progress.report({
+          increment: 100,
+        });
+
+        void window.showErrorMessage(
+          `Failed to install SDK ${selectedSDK.label}. ` +
+            "Make sure all requirements are met."
+        );
+
+        return false;
+      }
+    );
+
+    if (!result) {
+      return;
+    }
+
+    let progressState = 0;
+    result = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Installing toolchain...",
+        cancellable: false,
+      },
+      async progress => {
+        // download and install selected toolchain
+        const result = await downloadAndInstallToolchain(
+          selectedToolchain.toolchain,
+          (prog: GotProgress) => {
+            const percent = prog.percent * 100;
             progress.report({
-              increment: 20,
+              increment: percent - progressState,
+            });
+            progressState = percent;
+          }
+        );
+
+        if (result) {
+          this._logger.debug("Successfully installed toolchain.");
+
+          progress.report({
+            increment: 100,
+            message:
+              "Successfully installed " +
+              `toolchain ${selectedToolchain.label}.`,
+          });
+
+          return true;
+        }
+
+        this._logger.error("Failed to install toolchain.");
+
+        progress.report({
+          increment: 100,
+        });
+
+        void window.showErrorMessage(
+          `Failed to install toolchain ${selectedToolchain.label}.`
+        );
+
+        return false;
+      }
+    );
+
+    if (!result) {
+      return;
+    }
+
+    progressState = 0;
+    result = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Installing tools...",
+        cancellable: false,
+      },
+      async progress => {
+        // download and install tools
+        const result = await downloadAndInstallTools(
+          selectedSDK.sdk,
+          (prog: GotProgress) => {
+            const percent = prog.percent * 100;
+            progress.report({
+              increment: percent - progressState,
+            });
+            progressState = percent;
+          }
+        );
+
+        if (result) {
+          this._logger.debug("Successfully installed tools.");
+
+          progress.report({
+            increment: 100,
+            message: "Successfully installed tools.",
+          });
+
+          return true;
+        }
+
+        this._logger.error("Failed to install tools.");
+
+        progress.report({
+          increment: 100,
+        });
+
+        void window.showErrorMessage("Failed to install tools.");
+
+        return false;
+      }
+    );
+
+    if (!result) {
+      return;
+    }
+
+    if (options.advancedOptions?.ninjaVersion !== undefined) {
+      progressState = 0;
+      result = await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing Ninja...",
+          cancellable: false,
+        },
+        async progress => {
+          const result = await downloadAndInstallNinja(
+            options.advancedOptions!.ninjaVersion!,
+            (prog: GotProgress) => {
+              const percent = prog.percent * 100;
+              progress.report({
+                increment: percent - progressState,
+              });
+              progressState = percent;
+            }
+          );
+
+          if (result) {
+            progress.report({
+              increment: 100,
+              message: "Successfully installed Ninja.",
             });
 
-            if (
-              options.advancedOptions?.ninjaVersion !== undefined &&
-              (await downloadAndInstallNinja(
-                options.advancedOptions.ninjaVersion
-              ))
-            ) {
-              progress.report({
-                increment: 10,
-              });
-            }
+            return true;
+          }
 
-            // install if cmakeVersion is not a path and not a command
-            if (
-              options.advancedOptions?.cmakeVersion !== undefined &&
+          progress.report({
+            increment: 100,
+          });
+
+          void window.showWarningMessage("Failed to install Ninja.");
+
+          return false;
+        }
+      );
+
+      if (!result) {
+        return;
+      }
+    } else {
+      // TODO: maybe show error
+      /*
+      this._logger.error("Advanced options are undefined.");
+
+        void window.showErrorMessage("Failed to get Ninja version.");
+
+        return;
+        */
+    }
+
+    // TODO: check if not version bundle check here would be better
+    /* compare with ninja checks
+    options.advancedOptions?.cmakeVersion !== undefined &&
               !options.advancedOptions.cmakeVersion.includes("/") &&
               options.advancedOptions.cmakeVersion !== "cmake" &&
               (await downloadAndInstallCmake(
                 options.advancedOptions.cmakeVersion
-              ))
-            ) {
+              ))*/
+    if (
+      options.advancedOptions?.cmakeVersion !== undefined &&
+      !options.advancedOptions.cmakeVersion.includes("/") &&
+      options.advancedOptions.cmakeVersion !== "cmake"
+    ) {
+      progressState = 0;
+      result = await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing CMake...",
+          cancellable: false,
+        },
+        async progress => {
+          const result = await downloadAndInstallCmake(
+            options.advancedOptions!.cmakeVersion,
+            (prog: GotProgress) => {
+              const percent = prog.percent * 100;
               progress.report({
-                increment: 10,
+                increment: percent - progressState,
               });
+              progressState = percent;
             }
+          );
 
-            await updateVSCodeStaticConfigs(
-              workspaceFolder.uri.fsPath,
-              selectedSDK.sdk,
-              selectedToolchain.toolchain.version,
-              options.advancedOptions?.ninjaVersion,
-              options.advancedOptions?.cmakeVersion
-            );
+          if (result) {
+            this._logger.debug("Successfully installed CMake.");
 
             progress.report({
-              increment: 10,
+              increment: 100,
             });
 
-            const cmakeUpdateResult = await cmakeUpdateSDK(
-              workspaceFolder.uri,
-              selectedSDK.sdk,
-              selectedToolchain.toolchain.version,
-              selectedPicotool ?? "2.0.0"
-            );
-
-            if (!cmakeUpdateResult) {
-              void window.showWarningMessage(
-                "Failed to update CMakeLists.txt for new SDK version."
-              );
-            }
-
-            progress.report({
-              // show sdk installed notification
-              message: `Successfully installed SDK ${selectedSDK.label}.`,
-              increment: 10,
-            });
+            void window.showInformationMessage("Successfully installed CMake.");
 
             return true;
-          } else {
-            progress.report({
-              message:
-                "Failed to install " + `toolchain ${selectedToolchain.label}.`,
-              increment: 60,
-            });
-
-            return false;
           }
+
+          this._logger.error("Failed to install CMake.");
+
+          progress.report({
+            increment: 100,
+          });
+
+          void window.showWarningMessage("Failed to install CMake.");
+
+          return false;
         }
+      );
+
+      if (!result) {
+        return;
+      }
+    }
+
+    result = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Updating project configuration...",
+        cancellable: false,
+      },
+      async progress => {
+        await updateVSCodeStaticConfigs(
+          workspaceFolder.uri.fsPath,
+          selectedSDK.sdk,
+          selectedToolchain.toolchain.version,
+          options.advancedOptions?.ninjaVersion,
+          options.advancedOptions?.cmakeVersion
+        );
 
         progress.report({
-          // show sdk install failed notification
-          message:
-            `Failed to install SDK ${selectedSDK.label}.` +
-            "Make sure all requirements are met.",
-          increment: 100,
+          increment: 50,
+          message: "Project configuration updated.",
         });
 
-        return false;
+        const cmakeUpdateResult = await cmakeUpdateSDK(
+          workspaceFolder.uri,
+          selectedSDK.sdk,
+          selectedToolchain.toolchain.version,
+          selectedPicotool ?? "2.0.0"
+        );
+
+        progress.report({
+          increment: 50,
+          message: "CMakeLists.txt updated.",
+        });
+
+        if (!cmakeUpdateResult) {
+          void window.showWarningMessage(
+            "Failed to update CMakeLists.txt for new SDK version."
+          );
+
+          return false;
+        }
+
+        return true;
       }
     );
 

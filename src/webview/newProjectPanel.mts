@@ -61,6 +61,7 @@ import {
   setupExample,
 } from "../utils/examplesUtil.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import type { Progress as GotProgress } from "got";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
@@ -794,7 +795,7 @@ export class NewProjectPanel {
           message: "Failed",
           increment: 100,
         });
-        await window.showErrorMessage("Failed to find selected SDK version.");
+        void window.showErrorMessage("Failed to find selected SDK version.");
 
         return;
       }
@@ -809,7 +810,7 @@ export class NewProjectPanel {
               {
                 location: ProgressLocation.Notification,
                 title:
-                  "Download and installing Python. This may take a while...",
+                  "Downloading and installing Python. This may take a while...",
                 cancellable: false,
               },
               async progress2 => {
@@ -837,7 +838,7 @@ export class NewProjectPanel {
                     "Automatic Python installation is only supported on Windows and macOS."
                   );
 
-                  await window.showErrorMessage(
+                  void window.showErrorMessage(
                     "Automatic Python installation is only supported on Windows and macOS."
                   );
                 }
@@ -861,7 +862,7 @@ export class NewProjectPanel {
             message: "Failed",
             increment: 100,
           });
-          await window.showErrorMessage("Failed to find python3 executable.");
+          void window.showErrorMessage("Failed to find python3 executable.");
 
           return;
         }
@@ -871,45 +872,34 @@ export class NewProjectPanel {
 
       // install selected sdk and toolchain if necessary
       // show user feedback as downloads can take a while
-      let installedSuccessfully = false;
+      let installedSuccessfully = true;
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading SDK and Toolchain",
+          title: "Downloading and installing SDK",
           cancellable: false,
         },
         async progress2 => {
-          // download both
-          if (
-            !(await downloadAndInstallSDK(
-              selectedSDK,
-              SDK_REPOSITORY_URL,
-              // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
-              python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
-            )) ||
-            !(await downloadAndInstallToolchain(selectedToolchain)) ||
-            !(await downloadAndInstallTools(selectedSDK)) ||
-            !(await downloadAndInstallPicotool(selectedPicotool))
-          ) {
-            this._logger.error(
-              `Failed to download and install toolchain and SDK.`
-            );
+          const result = await downloadAndInstallSDK(
+            selectedSDK,
+            SDK_REPOSITORY_URL,
+            // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
+            python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+          );
 
+          if (!result) {
+            this._logger.error(`Failed to download and install SDK.`);
+            installedSuccessfully = false;
             progress2.report({
               message: "Failed - Make sure all requirements are met.",
               increment: 100,
             });
 
-            installedSuccessfully = false;
-          } else {
-            installedSuccessfully = true;
-            if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
-              this._logger.error(`Failed to download and install openocd.`);
-            } else {
-              this._logger.info(
-                `Successfully downloaded and installed openocd.`
-              );
-            }
+            void window.showErrorMessage(
+              "Failed to download and install SDK. Make sure all requirements are met."
+            );
+
+            return;
           }
         }
       );
@@ -919,12 +909,177 @@ export class NewProjectPanel {
           message: "Failed",
           increment: 100,
         });
-        await window.showErrorMessage(
-          "Failed to download and install SDK and/or toolchain."
-        );
 
         return;
       }
+
+      let prog2LastState = 0;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing toolchain",
+          cancellable: false,
+        },
+        async progress2 => {
+          const result = await downloadAndInstallToolchain(
+            selectedToolchain,
+            (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress2.report({
+                increment: per - prog2LastState,
+              });
+              prog2LastState = per;
+            }
+          );
+
+          if (!result) {
+            this._logger.error(`Failed to download and install toolchain.`);
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            void window.showErrorMessage(
+              "Failed to download and install toolchain."
+            );
+
+            return;
+          }
+        }
+      );
+
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return;
+      }
+
+      prog2LastState = 0;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing tools",
+          cancellable: false,
+        },
+        async progress2 => {
+          const result = await downloadAndInstallTools(
+            selectedSDK,
+            (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress2.report({
+                increment: per - prog2LastState,
+              });
+              prog2LastState = per;
+            }
+          );
+
+          if (!result) {
+            this._logger.error(`Failed to download and install tools.`);
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            void window.showErrorMessage(
+              "Failed to download and install tools."
+            );
+
+            return;
+          }
+        }
+      );
+
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return;
+      }
+
+      prog2LastState = 0;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing picotool",
+          cancellable: false,
+        },
+        async progress2 => {
+          const result = await downloadAndInstallPicotool(
+            selectedPicotool,
+            (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress2.report({
+                increment: per - prog2LastState,
+              });
+              prog2LastState = per;
+            }
+          );
+
+          if (!result) {
+            this._logger.error(`Failed to download and install picotool.`);
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            void window.showErrorMessage(
+              "Failed to download and install picotool."
+            );
+
+            return;
+          }
+        }
+      );
+
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return;
+      }
+
+      prog2LastState = 0;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing OpenOCD",
+          cancellable: false,
+        },
+        async progress2 => {
+          const result = await downloadAndInstallOpenOCD(
+            openOCDVersion,
+            (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress2.report({
+                increment: per - prog2LastState,
+              });
+              prog2LastState = per;
+            }
+          );
+
+          if (!result) {
+            this._logger.error(`Failed to download and install OpenOCD.`);
+            // not required
+            //installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            return;
+          }
+        }
+      );
 
       let ninjaExecutable: string;
       let cmakeExecutable: string;
@@ -947,16 +1102,28 @@ export class NewProjectPanel {
         // eslint-disable-next-line no-fallthrough
         case 2:
           installedSuccessfully = false;
+          prog2LastState = 0;
           await window.withProgress(
             {
               location: ProgressLocation.Notification,
-              title: "Download and install ninja",
+              title: "Download and install Ninja",
               cancellable: false,
             },
             async progress2 => {
-              if (await downloadAndInstallNinja(data.ninjaVersion)) {
+              if (
+                await downloadAndInstallNinja(
+                  data.ninjaVersion,
+                  (prog: GotProgress) => {
+                    const per = prog.percent * 100;
+                    progress2.report({
+                      increment: per - prog2LastState,
+                    });
+                    prog2LastState = per;
+                  }
+                )
+              ) {
                 progress2.report({
-                  message: "Successfully downloaded and installed ninja.",
+                  message: "Successfully downloaded and installed Ninja.",
                   increment: 100,
                 });
 
@@ -976,7 +1143,7 @@ export class NewProjectPanel {
               message: "Failed",
               increment: 100,
             });
-            await window.showErrorMessage(
+            void window.showErrorMessage(
               "Failed to download and install ninja. Make sure all requirements are met."
             );
 
@@ -1005,7 +1172,7 @@ export class NewProjectPanel {
             message: "Failed",
             increment: 100,
           });
-          await window.showErrorMessage("Unknown ninja selection.");
+          void window.showErrorMessage("Unknown ninja selection.");
           this._logger.error("Unknown ninja selection.");
 
           return;
@@ -1019,16 +1186,29 @@ export class NewProjectPanel {
         // eslint-disable-next-line no-fallthrough
         case 2:
           installedSuccessfully = false;
+          prog2LastState = 0;
           await window.withProgress(
             {
               location: ProgressLocation.Notification,
-              title: "Download and install cmake",
+              title: "Download and install CMake",
               cancellable: false,
             },
             async progress2 => {
-              if (await downloadAndInstallCmake(data.cmakeVersion)) {
+              if (
+                await downloadAndInstallCmake(
+                  data.cmakeVersion,
+                  (prog: GotProgress) => {
+                    const per = prog.percent * 100;
+                    progress2.report({
+                      increment: per - prog2LastState,
+                    });
+                    prog2LastState = per;
+                  }
+                )
+              ) {
                 progress.report({
-                  message: "Successfully downloaded and installed cmake.",
+                  // TODO: maybe just finished or something like that
+                  message: "Successfully downloaded and installed CMake.",
                   increment: 100,
                 });
 
@@ -1048,8 +1228,9 @@ export class NewProjectPanel {
               message: "Failed",
               increment: 100,
             });
-            await window.showErrorMessage(
-              "Failed to download and install cmake. Make sure all requirements are met."
+            void window.showErrorMessage(
+              // TODO: maybe remove all requirements met part
+              "Failed to download and install CMake. Make sure all requirements are met."
             );
 
             return;
@@ -1076,7 +1257,7 @@ export class NewProjectPanel {
             message: "Failed",
             increment: 100,
           });
-          await window.showErrorMessage("Unknown cmake selection.");
+          void window.showErrorMessage("Unknown cmake selection.");
           this._logger.error("Unknown cmake selection.");
 
           return;
