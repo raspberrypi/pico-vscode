@@ -480,7 +480,6 @@ def ParseCommandLine():
     parser.add_argument("-picotoolVersion", "--picotoolVersion", help="Picotool version to use (required)")
     parser.add_argument("-np", "--ninjaPath", help="Ninja path")
     parser.add_argument("-cmp", "--cmakePath", help="CMake path")
-    parser.add_argument("-cupy", "--customPython", action='store_true', help="Custom python path used to execute the script.")
     parser.add_argument("-openOCDVersion", "--openOCDVersion", help="OpenOCD version to use - defaults to 0", default=0)
     parser.add_argument("-examLibs", "--exampleLibs", action='append', help="Include an examples library in the folder")
     parser.add_argument("-ucmt", "--useCmakeTools", action='store_true', help="Enable CMake Tools extension integration")
@@ -766,7 +765,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, picotoolVersion, ninjaPath, cmakePath, customPython, openOCDVersion, useCmakeTools):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, picotoolVersion, ninjaPath, cmakePath, openOCDVersion, useCmakeTools):
 
     oldCWD = os.getcwd()
 
@@ -896,8 +895,6 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 }}
 '''
 
-            pythonExe = sys.executable.replace("\\", "/").replace(user_home, "${HOME}") if use_home_var else sys.executable
-
             # kits
             kits = f'''[
     {{
@@ -970,10 +967,6 @@ ${{env:PATH}}"
     "raspberry-pi-pico.useCmakeTools": {"true" if useCmakeTools else "false"},
     "raspberry-pi-pico.cmakePath": "{cmakePath.replace(user_home, "${HOME}") if use_home_var else cmakePath}",
     "raspberry-pi-pico.ninjaPath": "{ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath}"'''
-
-            if customPython:
-                settings += f''',
-    "raspberry-pi-pico.python3Path": "{pythonExe}"'''
                 
             settings += '\n}\n'
 
@@ -1236,7 +1229,6 @@ def DoEverything(parent, params):
             params["picotoolVersion"], 
             params["ninjaPath"], 
             params["cmakePath"],
-            params["customPython"],
             params["openOCDVersion"],
             params['useCmakeTools'])
 
@@ -1360,7 +1352,6 @@ if __name__ == "__main__":
             'picotoolVersion': args.picotoolVersion,
             'ninjaPath'     : args.ninjaPath,
             'cmakePath'     : args.cmakePath,
-            'customPython'  : args.customPython,
             'openOCDVersion': args.openOCDVersion,
             'exampleLibs'   : args.exampleLibs if args.exampleLibs is not None else [],
             'useCmakeTools' : args.useCmakeTools

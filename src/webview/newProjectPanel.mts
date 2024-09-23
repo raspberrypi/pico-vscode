@@ -2277,6 +2277,7 @@ export class NewProjectPanel {
           );
 
     const command: string = [
+      // TODO: maybe use includes powershell instead of .exe and ===
       `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
       `"${joinPosix(getScriptsRoot(), "pico_project.py")}"`,
       ...basicNewProjectOptions,
@@ -2311,8 +2312,6 @@ export class NewProjectPanel {
       `"${options.cmakeExecutable}"`,
       options.useCmakeTools ? "-ucmt" : "",
 
-      // set custom python executable path used flag if python executable is not in PATH
-      pythonExe.includes("/") ? "-cupy" : "",
       `"${projectName}"`,
     ].join(" ");
 
