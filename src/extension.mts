@@ -445,10 +445,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
         return;
       } else {
-        Logger.debug(
-          LoggerSource.extension,
-          "Successfully downloaded and installed picotool."
-        );
+        Logger.debug(LoggerSource.extension, "Found/installed picotool.");
       }
     }
   );
@@ -489,12 +486,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
           "Failed to download and install OpenOCD."
         );
       } else {
-        Logger.debug(
-          LoggerSource.extension,
-          "Successfully downloaded and installed OpenOCD."
-        );
+        Logger.debug(LoggerSource.extension, "Found/installed OpenOCD.");
 
-        void window.showInformationMessage("OpenOCD installed successfully.");
+        void window.showInformationMessage(
+          "OpenOCD found/installed successfully."
+        );
       }
     }
   );
@@ -503,7 +499,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const ninjaPath = settings.getString(SettingsKey.ninjaPath);
   if (ninjaPath && ninjaPath.includes("/.pico-sdk/ninja")) {
     // check if ninja path exists
-    if (!existsSync(ninjaPath.replace(HOME_VAR, homedir()))) {
+    if (!existsSync(ensureExe(ninjaPath.replace(HOME_VAR, homedir())))) {
       Logger.debug(
         LoggerSource.extension,
         "Ninja path in settings does not exist.",
@@ -571,7 +567,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   const cmakePath = settings.getString(SettingsKey.cmakePath);
   if (cmakePath && cmakePath.includes("/.pico-sdk/cmake")) {
     // check if cmake path exists
-    if (!existsSync(cmakePath.replace(HOME_VAR, homedir()))) {
+    if (!existsSync(ensureExe(cmakePath.replace(HOME_VAR, homedir())))) {
       Logger.warn(
         LoggerSource.extension,
         "CMake path in settings does not exist.",
@@ -773,6 +769,20 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "or cmakeAutoConfigure disabled."
     );
   }
+}
+
+/**
+ * Make sure the executable has the .exe extension on Windows.
+ *
+ * @param inp - The input string.
+ * @returns The input string with .exe extension if on Windows.
+ */
+function ensureExe(inp: string): string {
+  return process.platform === "win32"
+    ? inp.endsWith(".exe")
+      ? inp
+      : `${inp}.exe`
+    : inp;
 }
 
 export function deactivate(): void {
