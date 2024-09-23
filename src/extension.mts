@@ -76,6 +76,7 @@ import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
+import type { Got, Progress as GotProgress } from "got";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -247,26 +248,30 @@ export async function activate(context: ExtensionContext): Promise<void> {
     toolchain => toolchain.version === selectedToolchainAndSDKVersions[1]
   );
 
+  // TODO: for failed installation message add option to change version
+  let installSuccess = true;
   // install if needed
   await window.withProgress(
     {
       location: ProgressLocation.Notification,
       title:
-        "Downloading and installing Pico SDK, Toolchain and " +
-        "tools as selected. " +
+        "Downloading and installing Pico SDK as selected. " +
         "This may take a while...",
       cancellable: false,
     },
     async progress => {
-      // install if needed
-      if (
-        !(await downloadAndInstallSDK(
-          selectedToolchainAndSDKVersions[0],
-          SDK_REPOSITORY_URL
-        )) ||
-        !(await downloadAndInstallTools(selectedToolchainAndSDKVersions[0])) ||
-        !(await downloadAndInstallPicotool(selectedToolchainAndSDKVersions[2]))
-      ) {
+      const result = await downloadAndInstallSDK(
+        selectedToolchainAndSDKVersions[0],
+        SDK_REPOSITORY_URL
+      );
+
+      progress.report({
+        increment: 100,
+      });
+
+      if (!result) {
+        installSuccess = false;
+
         Logger.error(
           LoggerSource.extension,
           "Failed to install project SDK",
@@ -283,29 +288,53 @@ export async function activate(context: ExtensionContext): Promise<void> {
           "Found/installed project SDK",
           `version: ${selectedToolchainAndSDKVersions[0]}`
         );
-
-        if (!(await downloadAndInstallOpenOCD(openOCDVersion))) {
-          Logger.error(
-            LoggerSource.extension,
-            "Failed to download and install openocd."
-          );
-        } else {
-          Logger.debug(
-            LoggerSource.extension,
-            "Successfully downloaded and installed openocd."
-          );
-        }
       }
+    }
+  );
+
+  if (!installSuccess) {
+    return;
+  }
+
+  if (selectedToolchain === undefined) {
+    Logger.error(
+      LoggerSource.extension,
+      "Failed to detect project toolchain version."
+    );
+
+    void window.showErrorMessage("Failed to detect project toolchain version.");
+
+    return;
+  }
+
+  let progressState = 0;
+  await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title:
+        "Downloading and installing toolchain as selected. " +
+        "This may take a while...",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallToolchain(
+        selectedToolchain,
+        (prog: GotProgress) => {
+          const percent = prog.percent * 100;
+          progress.report({
+            increment: percent - progressState,
+          });
+          progressState = percent;
+        }
+      );
 
       progress.report({
-        increment: 50,
+        increment: 100,
       });
 
-      // install if needed
-      if (
-        selectedToolchain === undefined ||
-        !(await downloadAndInstallToolchain(selectedToolchain))
-      ) {
+      if (!result) {
+        installSuccess = false;
+
         Logger.error(
           LoggerSource.extension,
           "Failed to install project toolchain",
@@ -324,10 +353,149 @@ export async function activate(context: ExtensionContext): Promise<void> {
           `version: ${selectedToolchainAndSDKVersions[1]}`
         );
       }
+    }
+  );
+
+  if (!installSuccess) {
+    return;
+  }
+
+  progressState = 0;
+  await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title:
+        "Downloading and installing tools as selected. " +
+        "This may take a while...",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallTools(
+        selectedToolchainAndSDKVersions[0],
+        (prog: GotProgress) => {
+          const percent = prog.percent * 100;
+          progress.report({
+            increment: percent - progressState,
+          });
+          progressState = percent;
+        }
+      );
 
       progress.report({
-        increment: 50,
+        increment: 100,
       });
+
+      if (!result) {
+        installSuccess = false;
+
+        Logger.error(
+          LoggerSource.extension,
+          "Failed to install project SDK",
+          `version: ${selectedToolchainAndSDKVersions[0]}.`,
+          "Make sure all requirements are met."
+        );
+
+        void window.showErrorMessage("Failed to install project SDK version.");
+
+        return;
+      } else {
+        Logger.info(
+          LoggerSource.extension,
+          "Found/installed project SDK",
+          `version: ${selectedToolchainAndSDKVersions[0]}`
+        );
+      }
+    }
+  );
+
+  if (!installSuccess) {
+    return;
+  }
+
+  progressState = 0;
+  await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title:
+        "Downloading and installing picotool as selected. " +
+        "This may take a while...",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallPicotool(
+        selectedToolchainAndSDKVersions[2],
+        (prog: GotProgress) => {
+          const percent = prog.percent * 100;
+          progress.report({
+            increment: percent - progressState,
+          });
+          progressState = percent;
+        }
+      );
+
+      progress.report({
+        increment: 100,
+      });
+
+      if (!result) {
+        installSuccess = false;
+        Logger.error(LoggerSource.extension, "Failed to install picotool.");
+
+        void window.showErrorMessage("Failed to install picotool.");
+
+        return;
+      } else {
+        Logger.debug(
+          LoggerSource.extension,
+          "Successfully downloaded and installed picotool."
+        );
+      }
+    }
+  );
+
+  if (!installSuccess) {
+    return;
+  }
+
+  progressState = 0;
+  await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing OpenOCD. This may take a while...",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallOpenOCD(
+        openOCDVersion,
+        (prog: GotProgress) => {
+          const percent = prog.percent * 100;
+          progress.report({
+            increment: percent - progressState,
+          });
+          progressState = percent;
+        }
+      );
+
+      progress.report({
+        increment: 100,
+      });
+
+      if (!result) {
+        Logger.error(
+          LoggerSource.extension,
+          "Failed to download and install OpenOCD."
+        );
+        void window.showWarningMessage(
+          "Failed to download and install OpenOCD."
+        );
+      } else {
+        Logger.debug(
+          LoggerSource.extension,
+          "Successfully downloaded and installed OpenOCD."
+        );
+
+        void window.showInformationMessage("OpenOCD installed successfully.");
+      }
     }
   );
 
@@ -359,6 +527,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       }
 
       let result = false;
+      progressState = 0;
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
@@ -366,7 +535,16 @@ export async function activate(context: ExtensionContext): Promise<void> {
           cancellable: false,
         },
         async progress => {
-          result = await downloadAndInstallNinja(ninjaVersion);
+          result = await downloadAndInstallNinja(
+            ninjaVersion,
+            (prog: GotProgress) => {
+              const percent = prog.percent * 100;
+              progress.report({
+                increment: percent - progressState,
+              });
+              progressState = percent;
+            }
+          );
           progress.report({
             increment: 100,
           });
@@ -418,6 +596,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       }
 
       let result = false;
+      progressState = 0;
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
@@ -425,7 +604,16 @@ export async function activate(context: ExtensionContext): Promise<void> {
           cancellable: false,
         },
         async progress => {
-          result = await downloadAndInstallCmake(cmakeVersion);
+          result = await downloadAndInstallCmake(
+            cmakeVersion,
+            (prog: GotProgress) => {
+              const percent = prog.percent * 100;
+              progress.report({
+                increment: percent - progressState,
+              });
+              progressState = percent;
+            }
+          );
           progress.report({
             increment: 100,
           });

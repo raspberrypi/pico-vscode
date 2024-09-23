@@ -41,7 +41,7 @@ import {
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { got } from "got";
+import { got, type Progress } from "got";
 import { pipeline as streamPipeline } from "node:stream/promises";
 
 /// Translate nodejs platform names to ninja platform names
@@ -199,7 +199,8 @@ export async function downloadAndInstallArchive(
   logName: string,
   extraCallback?: () => void,
   redirectURL?: string,
-  extraHeaders?: { [key: string]: string }
+  extraHeaders?: { [key: string]: string },
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   // Check if the SDK is already installed
   if (
@@ -234,7 +235,7 @@ export async function downloadAndInstallArchive(
   try {
     let isSuccess = false;
 
-    if (process.platform !== "linux") {
+    if (process.platform === "sunos") {
       const undiciRet = await downloadFileUndici(
         client,
         downloadUrl,
@@ -257,7 +258,8 @@ export async function downloadAndInstallArchive(
       isSuccess = await downloadFileGot(
         downloadUrl,
         archiveFilePath,
-        extraHeaders
+        extraHeaders,
+        progressCallback
       );
     }
 
@@ -365,24 +367,27 @@ async function downloadFileUndici(
 async function downloadFileGot(
   url: URL,
   archiveFilePath: string,
-  extraHeaders?: { [key: string]: string }
+  extraHeaders?: { [key: string]: string },
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
-  await streamPipeline(
-    got.stream(url.toString(), {
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": EXT_USER_AGENT,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Accept: "*/*",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "Accept-Encoding": "gzip, deflate, br",
-        ...extraHeaders,
-      },
-      followRedirect: true,
-      method: "GET",
-    }),
-    createWriteStream(archiveFilePath)
-  );
+  const request = got.stream(url.toString(), {
+    headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "User-Agent": EXT_USER_AGENT,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      Accept: "*/*",
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "Accept-Encoding": "gzip, deflate, br",
+      ...extraHeaders,
+    },
+    followRedirect: true,
+    method: "GET",
+  });
+  if (progressCallback) {
+    request.on("downloadProgress", progressCallback);
+  }
+
+  await streamPipeline(request, createWriteStream(archiveFilePath));
 
   return true;
 }
@@ -537,7 +542,8 @@ async function downloadAndInstallGithubAsset(
   logName: string,
   extraCallback?: () => void,
 
-  redirectURL?: string
+  redirectURL?: string,
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   // Check if the asset has already been installed
   if (
@@ -656,7 +662,7 @@ async function downloadAndInstallGithubAsset(
     };
   }
 
-  if (process.platform !== "linux" || process.arch !== "arm64") {
+  if (process.platform === "sunos") {
     // keep track of retries
     let retries = 0;
 
@@ -786,25 +792,26 @@ async function downloadAndInstallGithubAsset(
   } else {
     const urlObj = new URL(url);
 
-    // Linux arm64
     return downloadAndInstallArchive(
       urlObj.origin + urlObj.pathname + urlObj.search,
       targetDirectory,
       archiveFileName,
       logName,
-      undefined,
+      extraCallback,
       undefined,
       {
         ...getAuthorizationHeaders(),
         // github headers
         ...headers,
-      }
+      },
+      progressCallback
     );
   }
 }
 
 export async function downloadAndInstallTools(
-  version: string
+  version: string,
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   if (parseInt(version.split(".")[0]) < 2) {
     if (process.platform !== "win32") {
@@ -834,12 +841,16 @@ export async function downloadAndInstallTools(
     targetDirectory,
     archiveFileName,
     assetName,
-    "SDK Tools"
+    "SDK Tools",
+    undefined,
+    undefined,
+    progressCallback
   );
 }
 
 export async function downloadAndInstallPicotool(
-  version: string
+  version: string,
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   const assetExt: string = process.platform === "linux" ? "tar.gz" : "zip";
   const targetDirectory = buildPicotoolPath(version);
@@ -859,12 +870,16 @@ export async function downloadAndInstallPicotool(
     targetDirectory,
     archiveFileName,
     assetName,
-    "Picotool"
+    "Picotool",
+    undefined,
+    undefined,
+    progressCallback
   );
 }
 
 export async function downloadAndInstallToolchain(
-  toolchain: SupportedToolchainVersion
+  toolchain: SupportedToolchainVersion,
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   const targetDirectory = buildToolchainPath(toolchain.version);
 
@@ -887,7 +902,11 @@ export async function downloadAndInstallToolchain(
     downloadUrl,
     targetDirectory,
     archiveFileName,
-    "Toolchain"
+    "Toolchain",
+    undefined,
+    undefined,
+    undefined,
+    progressCallback
   );
 }
 
@@ -899,7 +918,8 @@ export async function downloadAndInstallToolchain(
  * successfully downloaded and installed, false otherwise
  */
 export async function downloadAndInstallNinja(
-  version: string
+  version: string,
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   const targetDirectory = buildNinjaPath(version);
   const archiveFileName = `ninja.zip`;
@@ -918,7 +938,10 @@ export async function downloadAndInstallNinja(
     targetDirectory,
     archiveFileName,
     assetName,
-    "ninja"
+    "ninja",
+    undefined,
+    undefined,
+    progressCallback
   );
 }
 
@@ -948,7 +971,8 @@ export async function downloadAndInstallNinja(
 // }
 
 export async function downloadAndInstallOpenOCD(
-  version: string
+  version: string,
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   if (
     (process.platform === "darwin" && process.arch === "x64") ||
@@ -994,7 +1018,9 @@ export async function downloadAndInstallOpenOCD(
     archiveFileName,
     assetName,
     "OpenOCD",
-    extraCallback
+    extraCallback,
+    undefined,
+    progressCallback
   );
 }
 
@@ -1005,7 +1031,8 @@ export async function downloadAndInstallOpenOCD(
  * @returns
  */
 export async function downloadAndInstallCmake(
-  version: string
+  version: string,
+  progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
   const targetDirectory = buildCMakePath(version);
   const assetExt = process.platform === "win32" ? "zip" : "tar.gz";
@@ -1044,7 +1071,9 @@ export async function downloadAndInstallCmake(
     archiveFileName,
     assetName,
     "CMake",
-    extraCallback
+    extraCallback,
+    undefined,
+    progressCallback
   );
 }
 
@@ -1109,6 +1138,7 @@ export async function downloadEmbedPython(
     `python-${versionBundle.python.version}.zip`
   );
 
+  // TODO: replace with got
   return new Promise(resolve => {
     const client = new Client(downloadUrl.origin);
 
