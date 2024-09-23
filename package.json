@@ -208,6 +208,7 @@
         "raspberry-pi-pico.python3Path": {
           "type": "string",
           "default": "",
+          "scope": "machine",
           "description": "Path to the Python executable [no spaces]"
         },
         "raspberry-pi-pico.ninjaPath": {

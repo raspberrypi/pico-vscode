@@ -6,6 +6,7 @@ import { exec } from "child_process";
 import { buildPython3Path } from "./download.mjs";
 import { HOME_VAR } from "../settings.mjs";
 import { existsSync, mkdirSync, symlinkSync } from "fs";
+import { CURRENT_PYTHON_VERSION } from "./sharedConstants.mjs";
 
 export function buildPyenvPath(): string {
   // TODO: maybe replace . with _
@@ -31,12 +32,10 @@ export async function setupPyenv(): Promise<boolean> {
   return true;
 }
 
-export async function pyenvInstallPython(
-  version: string
-): Promise<string | null> {
+export async function pyenvInstallPython(): Promise<string | undefined> {
   const targetDirectory = buildPyenvPath();
   const binDirectory = joinPosix(targetDirectory, "bin");
-  const command = `${binDirectory}/pyenv install -s ${version}`;
+  const command = `${binDirectory}/pyenv install -s ${CURRENT_PYTHON_VERSION}`;
 
   const customEnv = { ...process.env };
   customEnv["PYENV_ROOT"] = targetDirectory;
@@ -44,8 +43,9 @@ export async function pyenvInstallPython(
     process.platform === "win32" ? ";" : ":"
   }${customEnv[process.platform === "win32" ? "Path" : "PATH"]}`;
 
-  const settingsTarget = `${HOME_VAR}/.pico-sdk/python/${version}/python.exe`;
-  const pythonVersionPath = buildPython3Path(version);
+  const settingsTarget =
+    `${HOME_VAR}/.pico-sdk/python` + `/${CURRENT_PYTHON_VERSION}/python.exe`;
+  const pythonVersionPath = buildPython3Path(CURRENT_PYTHON_VERSION);
 
   if (existsSync(pythonVersionPath)) {
     return settingsTarget;
@@ -54,10 +54,14 @@ export async function pyenvInstallPython(
   return new Promise(resolve => {
     exec(command, { env: customEnv, cwd: binDirectory }, error => {
       if (error) {
-        resolve(null);
+        resolve(undefined);
       }
 
-      const versionFolder = joinPosix(targetDirectory, "versions", version);
+      const versionFolder = joinPosix(
+        targetDirectory,
+        "versions",
+        CURRENT_PYTHON_VERSION
+      );
       const pyBin = joinPosix(versionFolder, "bin");
       mkdirSync(pythonVersionPath, { recursive: true });
       symlinkSync(

@@ -11,8 +11,6 @@ class State {
   cmakeMode;
   // cmakePath; setting the path of a file input is not supported
   cmakeVersion;
-  pythonMode;
-  // pythonPath; setting the path of a file input is not supported
   uartStdioSupport;
   usbStdioSupport;
   spiFeature;
@@ -73,9 +71,6 @@ function restoreState(state) {
   if (state.cmakeVersion) {
     document.getElementById('sel-cmake').value = state.cmakeVersion;
   }
-  if (state.pythonVersion) {
-    document.getElementById('sel-python').value = state.pythonVersion;
-  }
 
   /* setting the path of a file input is not supported
   if (state.ninjaPath !== undefined) {
@@ -84,10 +79,6 @@ function restoreState(state) {
 
   if (state.cmakePath !== undefined) {
     document.getElementById('cmake-path-executable').value = state.cmakePath;
-  }
-
-  if (state.pythonPath !== undefined) {
-    document.getElementById('python-path-executable').value = state.pythonPath;
   }
   */
 
@@ -196,19 +187,6 @@ function restoreState(state) {
     }
     document.getElementById('cmake-radio-select-version').checked = state.cmakeMode == 2;
     document.getElementById('cmake-radio-path-executable').checked = state.cmakeMode == 3;
-  }
-
-  if (state.pythonMode !== undefined && document.getElementById('python-radio-path-executable') !== undefined) {
-    const pythonDefaultVersionRadio = document.getElementById('python-radio-default-version');
-    if (pythonDefaultVersionRadio) {
-      pythonDefaultVersionRadio.checked = state.pythonMode == 0;
-    }
-    const pythonSystemVersionRadio = document.getElementById('python-radio-system-version');
-    // not available in the DOM is system python is not available
-    if (pythonSystemVersionRadio) {
-      pythonSystemVersionRadio.checked = state.pythonMode == 1;
-    }
-    document.getElementById('python-radio-path-executable').checked = state.pythonMode == 2;
   }
 
   if (state.selRiscv !== undefined) {
@@ -354,19 +332,6 @@ function setupStateSystem(vscode) {
                 break;
             }
             break;
-          case "python-version-radio":
-            switch (radio.id) {
-              case "python-radio-default-version":
-                state.pythonMode = parseInt(radio.value);
-                break;
-              case "python-radio-system-version":
-                state.pythonMode = parseInt(radio.value);
-                break;
-              case "python-radio-path-executable":
-                state.pythonMode = parseInt(radio.value);
-                break;
-            }
-            break;
           case "pico-wireless-radio":
             switch (radio.id) {
               case "pico-wireless-radio-none":
@@ -467,9 +432,6 @@ function setupStateSystem(vscode) {
             break;
           case "cmake-path-executable":
             state.cmakePath = file.files[0].name;
-            break;
-          case "python-path-executable":
-            state.pythonPath = file.files[0].name;
             break;
         }
   

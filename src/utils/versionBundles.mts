@@ -1,11 +1,9 @@
 import { readFileSync } from "fs";
 import { Uri } from "vscode";
-import {
-  isInternetConnected,
-  CURRENT_DATA_VERSION,
-} from "./downloadHelpers.mjs";
+import { isInternetConnected } from "./downloadHelpers.mjs";
 import { get } from "https";
 import Logger from "../logger.mjs";
+import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
 
 const versionBundlesUrl =
   "https://raspberrypi.github.io/pico-vscode/" +

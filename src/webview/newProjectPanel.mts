@@ -43,7 +43,6 @@ import {
   downloadAndInstallToolchain,
   downloadAndInstallTools,
   downloadAndInstallPicotool,
-  downloadEmbedPython,
   getScriptsRoot,
 } from "../utils/download.mjs";
 import { compare } from "../utils/semverUtil.mjs";
@@ -53,7 +52,6 @@ import VersionBundlesLoader, {
 import which from "which";
 import { homedir } from "os";
 import { readFile } from "fs/promises";
-import { pyenvInstallPython, setupPyenv } from "../utils/pyenvUtil.mjs";
 import { existsSync, readdirSync } from "fs";
 import {
   type Example,
@@ -62,6 +60,7 @@ import {
 } from "../utils/examplesUtil.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
+import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
@@ -78,8 +77,6 @@ interface ImportProjectMessageValue {
   cmakeMode: number;
   cmakePath: string;
   cmakeVersion: string;
-  pythonMode: number;
-  pythonPath: string;
 
   // debugger
   debugger: number;
@@ -791,7 +788,7 @@ export class NewProjectPanel {
       if (
         this._versionBundle === undefined &&
         // if no versionBundle then all version options the could be dependent on it must be custom (=> independent of versionBundle)
-        (data.pythonMode === 0 || data.ninjaMode === 0 || data.cmakeMode === 0)
+        (data.ninjaMode === 0 || data.cmakeMode === 0)
       ) {
         progress.report({
           message: "Failed",
@@ -803,73 +800,16 @@ export class NewProjectPanel {
       }
 
       // install python (if necessary)
-      let python3Path: string | undefined;
-      if (process.platform === "darwin" || process.platform === "win32") {
-        switch (data.pythonMode) {
-          case 0: {
-            const versionBundle = this._versionBundle;
-            await window.withProgress(
-              {
-                location: ProgressLocation.Notification,
-                title:
-                  "Downloading and installing Python. This may take a while...",
-                cancellable: false,
-              },
-              async progress2 => {
-                if (process.platform === "win32") {
-                  // ! because data.pythonMode === 0 => versionBundle !== undefined
-                  python3Path = await downloadEmbedPython(versionBundle!);
-                } else if (process.platform === "darwin") {
-                  const result1 = await setupPyenv();
-                  if (!result1) {
-                    progress2.report({
-                      increment: 100,
-                    });
+      const python3Path = await findPython();
+      if (!python3Path) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+        this._logger.error("Failed to find Python3 executable.");
+        showPythonNotFoundError();
 
-                    return;
-                  }
-                  const result = await pyenvInstallPython(
-                    versionBundle!.python.version
-                  );
-
-                  if (result !== null) {
-                    python3Path = result;
-                  }
-                } else {
-                  this._logger.error(
-                    "Automatic Python installation is only supported on Windows and macOS."
-                  );
-
-                  void window.showErrorMessage(
-                    "Automatic Python installation is only supported on Windows and macOS."
-                  );
-                }
-                progress2.report({
-                  increment: 100,
-                });
-              }
-            );
-            break;
-          }
-          case 1:
-            python3Path = process.platform === "win32" ? "python" : "python3";
-            break;
-          case 2:
-            python3Path = data.pythonPath;
-            break;
-        }
-
-        if (python3Path === undefined) {
-          progress.report({
-            message: "Failed",
-            increment: 100,
-          });
-          void window.showErrorMessage("Failed to find python3 executable.");
-
-          return;
-        }
-      } else {
-        python3Path = "python3";
+        return;
       }
 
       // install selected sdk and toolchain if necessary
@@ -886,7 +826,7 @@ export class NewProjectPanel {
             selectedSDK,
             SDK_REPOSITORY_URL,
             // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
-            python3Path!.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+            python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
           );
 
           if (!result) {
@@ -1627,10 +1567,6 @@ export class NewProjectPanel {
       (await which("ninja", { nothrow: true })) !== null;
     const isCmakeSystemAvailable =
       (await which("cmake", { nothrow: true })) !== null;
-    // TODO: check python version, workaround, ownly allow python3 commands on unix
-    const isPythonSystemAvailable =
-      (await which("python3", { nothrow: true })) !== null ||
-      (await which("python", { nothrow: true })) !== null;
 
     if (!isNinjaSystemAvailable && NINJA_AUTO_INSTALL_DISABLED) {
       this.dispose();
@@ -2003,40 +1939,6 @@ export class NewProjectPanel {
                           <input type="file" id="cmake-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
                         </div>
                       </div>
-
-                      ${
-                        process.platform === "darwin" ||
-                        process.platform === "win32"
-                          ? `
-                          <div class="col-span-2">
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
-
-                            ${
-                              this._versionBundle !== undefined
-                                ? `<div class="flex items-center mb-2">
-                                    <input type="radio" id="python-radio-default-version" name="python-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
-                                    <label for="python-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
-                                  </div>`
-                                : ""
-                            }
-
-                            ${
-                              isPythonSystemAvailable
-                                ? `<div class="flex items-center mb-2" >
-                                    <input type="radio" id="python-radio-system-version" name="python-version-radio" value="1" class="mr-1 text-blue-500">
-                                    <label for="python-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
-                                  </div>`
-                                : ""
-                            }
-
-                            <div class="flex items-center mb-2">
-                              <input type="radio" id="python-radio-path-executable" name="python-version-radio" value="2" class="mr-1 text-blue-500">
-                              <label for="python-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
-                              <input type="file" id="python-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
-                            </div>
-                          </div>`
-                          : ""
-                      }
                     </div>
             </div>
             ${
