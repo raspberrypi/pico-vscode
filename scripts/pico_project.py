@@ -483,6 +483,7 @@ def ParseCommandLine():
     parser.add_argument("-cupy", "--customPython", action='store_true', help="Custom python path used to execute the script.")
     parser.add_argument("-openOCDVersion", "--openOCDVersion", help="OpenOCD version to use - defaults to 0", default=0)
     parser.add_argument("-examLibs", "--exampleLibs", action='append', help="Include an examples library in the folder")
+    parser.add_argument("-ucmt", "--useCmakeTools", action='store_true', help="Enable CMake Tools extension integration")
 
     return parser.parse_args()
 
@@ -765,7 +766,7 @@ def GenerateCMake(folder, params):
 
 
 # Generates the requested project files, if any
-def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, picotoolVersion, ninjaPath, cmakePath, customPython, openOCDVersion):
+def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, sdkVersion, toolchainVersion, picotoolVersion, ninjaPath, cmakePath, customPython, openOCDVersion, useCmakeTools):
 
     oldCWD = os.getcwd()
 
@@ -929,9 +930,9 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "statusBarVisibility": "hidden"
         }}
     }},
-    "cmake.configureOnEdit": false,
-    "cmake.automaticReconfigure": false,
-    "cmake.configureOnOpen": false,
+    "cmake.configureOnEdit": {"true" if useCmakeTools else "false"},
+    "cmake.automaticReconfigure": {"true" if useCmakeTools else "false"},
+    "cmake.configureOnOpen": {"true" if useCmakeTools else "false"},
     "cmake.generator": "Ninja",
     "cmake.cmakePath": "{cmakePath.replace(user_home, "${userHome}") if use_home_var else cmakePath}",
     "C_Cpp.debugShortcut": false,
@@ -965,8 +966,8 @@ ${{env:PATH}}"
 {os.path.dirname(ninjaPath.replace(user_home, "${env:HOME}") if use_home_var else ninjaPath)}:\
 ${{env:PATH}}"
     }},
-    "raspberry-pi-pico.cmakeAutoConfigure": true,
-    "raspberry-pi-pico.useCmakeTools": false,
+    "raspberry-pi-pico.cmakeAutoConfigure": {"false" if useCmakeTools else "true"},
+    "raspberry-pi-pico.useCmakeTools": {"true" if useCmakeTools else "false"},
     "raspberry-pi-pico.cmakePath": "{cmakePath.replace(user_home, "${HOME}") if use_home_var else cmakePath}",
     "raspberry-pi-pico.ninjaPath": "{ninjaPath.replace(user_home, "${HOME}") if use_home_var else ninjaPath}"'''
 
@@ -1236,7 +1237,8 @@ def DoEverything(parent, params):
             params["ninjaPath"], 
             params["cmakePath"],
             params["customPython"],
-            params["openOCDVersion"])
+            params["openOCDVersion"],
+            params['useCmakeTools'])
 
     if params['wantBuild']:
         os.system(makeCmd)
@@ -1360,7 +1362,8 @@ if __name__ == "__main__":
             'cmakePath'     : args.cmakePath,
             'customPython'  : args.customPython,
             'openOCDVersion': args.openOCDVersion,
-            'exampleLibs'   : args.exampleLibs if args.exampleLibs is not None else []
+            'exampleLibs'   : args.exampleLibs if args.exampleLibs is not None else [],
+            'useCmakeTools' : args.useCmakeTools
             }
 
         DoEverything(None, params)

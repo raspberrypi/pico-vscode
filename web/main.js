@@ -275,6 +275,7 @@ var exampleSupportedBoards = [];
       submitted = false;
       return;
     }
+    const useCmakeTools = document.getElementById('use-cmake-tools-cb').checked;
 
     if (doProjectImport) {
       vscode.postMessage({
@@ -293,7 +294,8 @@ var exampleSupportedBoards = [];
           pythonPath: pythonPath,
 
           // debugger selection
-          debugger: 0
+          debugger: 0,
+          useCmakeTools
         }
       });
       return;
@@ -319,7 +321,8 @@ var exampleSupportedBoards = [];
           pythonPath: pythonPath,
 
           // debugger selection
-          debugger: debuggerSelection
+          debugger: debuggerSelection,
+          useCmakeTools
         }
       });
       return;
@@ -410,7 +413,8 @@ var exampleSupportedBoards = [];
         cppExceptions: cppExceptionsCodeGen,
 
         // debugger selection
-        debugger: debuggerSelection
+        debugger: debuggerSelection,
+        useCmakeTools
       }
     });
   }

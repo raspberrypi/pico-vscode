@@ -71,6 +71,21 @@ This extension provides the following settings:
 * `raspberry-pi-pico.gitPath`: Specify a custom path for Git.
 * `raspberry-pi-pico.cmakeAutoConfigure`: Provide a GitHub personal access token (classic) with the `public_repo` scope. This token is used to check for available versions of the Pico SDK and other tools. Without it, the extension uses the unauthenticated GitHub API, which has a lower rate limit and may lead to restricted functionality if the limit is exceeded. The unauthenticated rate limit is per public IP address, so a token is more necessary if your IP is shared with many users.
 
+## CMake Tools Extension Integration
+
+For more complex projects, such as those with multiple executables or when the project name is defined as a variable, this extension can integrate with the CMake Tools extension to enhance CMake parsing. You can enable CMake Tools integration during project generation under the **Advanced Options**. Additionally, to manually enable it, adjust the following settings in your `settings.json`:
+
+- `raspberry-pi-pico.cmakeAutoConfigure`: Set from `true` to `false`.
+- `raspberry-pi-pico.useCmakeTools`: Set from `false` to `true`.
+
+For optimal functionality, consider enabling:
+
+- `cmake.configureOnEdit`: true
+- `cmake.automaticReconfigure`: true
+- `cmake.configureOnOpen`: true
+
+When prompted, select the `Pico` kit in CMake Tools, and set your build and launch targets accordingly. Use CMake Tools for compilation, but continue using this extension for debugging, as CMake Tools debugging is not compatible with Pico.
+
 ## VS Code Profiles
 
 If you work with multiple microcontroller toolchains, consider installing this extension into a [VS Code Profile](https://code.visualstudio.com/docs/editor/profiles) to avoid conflicts with other toolchains. Follow these steps:
