@@ -275,6 +275,7 @@ var exampleSupportedBoards = [];
       submitted = false;
       return;
     }
+    const useCmakeTools = document.getElementById('use-cmake-tools-cb').checked;
 
     if (doProjectImport) {
       vscode.postMessage({
@@ -293,7 +294,8 @@ var exampleSupportedBoards = [];
           pythonPath: pythonPath,
 
           // debugger selection
-          debugger: 0
+          debugger: 0,
+          useCmakeTools
         }
       });
       return;
@@ -319,7 +321,8 @@ var exampleSupportedBoards = [];
           pythonPath: pythonPath,
 
           // debugger selection
-          debugger: debuggerSelection
+          debugger: debuggerSelection,
+          useCmakeTools
         }
       });
       return;
@@ -366,7 +369,6 @@ var exampleSupportedBoards = [];
     const cppCodeGen = document.getElementById('cpp-code-gen-cblist').checked;
     const cppRttiCodeGen = document.getElementById('cpp-rtti-code-gen-cblist').checked;
     const cppExceptionsCodeGen = document.getElementById('cpp-exceptions-code-gen-cblist').checked;
-    const useCmakeTools = document.getElementById('use-cmake-tools-cb').checked;
 
     //post all data values to the extension
     vscode.postMessage({
