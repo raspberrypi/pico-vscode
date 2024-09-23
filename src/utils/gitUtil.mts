@@ -7,8 +7,28 @@ import { SettingsKey, HOME_VAR } from "../settings.mjs";
 import { homedir } from "os";
 import which from "which";
 import { window } from "vscode";
+import { compareGe } from "./semverUtil.mjs";
 
 export const execAsync = promisify(exec);
+
+export const MIN_GIT_VERSION="2.28.0";
+
+export async function checkGitVersion(gitExecutable: string):
+  Promise<[boolean, string]> 
+{
+  const versionCommand =
+    `${
+      process.env.ComSpec === "powershell.exe" ? "&" : ""
+    }"${gitExecutable}" version`;
+  const ret = await execAsync(versionCommand)
+  const stdout = ret.stdout.split(" ");
+  let gitVersion = stdout[stdout.length-1];
+  if (gitVersion.includes("windows")) {
+    gitVersion = gitVersion.split(".windows")[0];
+  }
+
+  return [compareGe(gitVersion, MIN_GIT_VERSION), gitVersion];
+}
 
 /**
  * Get installed version of git, and install it if it isn't already
@@ -19,6 +39,14 @@ export async function getGit(settings: Settings): Promise<string | undefined> {
       .getString(SettingsKey.gitPath)
       ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "git";
   let gitPath = await which(gitExecutable, { nothrow: true });
+  let gitVersion: string | undefined;
+  if (gitPath !== null) {
+    const versionRet = await checkGitVersion(gitPath);
+    if (!versionRet[0]) {
+      gitPath = null;
+    }
+    gitVersion = versionRet[1];
+  }
   if (gitPath === null) {
     // if git is not in path then checkForInstallationRequirements
     // maye downloaded it, so reload
@@ -27,12 +55,23 @@ export async function getGit(settings: Settings): Promise<string | undefined> {
       .getString(SettingsKey.gitPath)
       ?.replace(HOME_VAR, homedir().replaceAll("\\", "/"));
     if (gitExecutable === null || gitExecutable === undefined) {
-      Logger.log("Error: Git not found.");
+      if (gitVersion !== undefined) {
+        Logger.log(`Error: Found Git version ${gitVersion} - ` +
+          `requires ${MIN_GIT_VERSION}.`);
 
-      await window.showErrorMessage(
-        "Git not found. Please install and add to PATH or " +
-          "set the path to the git executable in global settings."
-      );
+        await window.showErrorMessage(
+          `Found Git version ${gitVersion}, but requires ${MIN_GIT_VERSION}. ` +
+          "Please install and add to PATH or " +
+            "set the path to the git executable in global settings."
+        );
+      } else {
+        Logger.log("Error: Git not found.");
+
+        await window.showErrorMessage(
+          "Git not found. Please install and add to PATH or " +
+            "set the path to the git executable in global settings."
+        );
+      }
 
       return undefined;
     } else {
