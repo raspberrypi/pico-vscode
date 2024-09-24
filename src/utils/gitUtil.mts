@@ -21,13 +21,15 @@ export async function checkGitVersion(gitExecutable: string):
       process.env.ComSpec === "powershell.exe" ? "&" : ""
     }"${gitExecutable}" version`;
   const ret = await execAsync(versionCommand)
-  const stdout = ret.stdout.split(" ");
-  let gitVersion = stdout[stdout.length-1];
-  if (gitVersion.includes("windows")) {
-    gitVersion = gitVersion.split(".windows")[0];
-  }
+  const regex = /git version (\d+\.\d+(\.\d+)*)/;
+  const match = regex.exec(ret.stdout);
+  if (match && match[1]) {
+    const gitVersion = match[1];
 
-  return [compareGe(gitVersion, MIN_GIT_VERSION), gitVersion];
+    return [compareGe(gitVersion, MIN_GIT_VERSION), gitVersion]; 
+  } else {
+    return [false, "unknown"];
+  }
 }
 
 /**
