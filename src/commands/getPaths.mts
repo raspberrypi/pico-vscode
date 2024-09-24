@@ -111,6 +111,44 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
   }
 }
 
+export class GetCompilerPathCommand extends CommandWithResult<string> {
+  constructor() {
+    super("getCompilerPath");
+  }
+
+  async execute(): Promise<string> {
+    if (
+      workspace.workspaceFolders === undefined ||
+      workspace.workspaceFolders.length === 0
+    ) {
+      return "";
+    }
+
+    const workspaceFolder = workspace.workspaceFolders?.[0];
+
+    const selectedToolchainAndSDKVersions =
+      await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
+    if (selectedToolchainAndSDKVersions === null) {
+      return "";
+    }
+    const toolchainVersion = selectedToolchainAndSDKVersions[1];
+
+    let triple = "arm-none-eabi";
+    if (toolchainVersion.includes("RISCV")) {
+      if (toolchainVersion.includes("COREV")) {
+        triple = "riscv32-corev-elf";
+      } else {
+        triple = "riscv32-unknown-elf";
+      }
+    }
+
+    return join(
+      buildToolchainPath(toolchainVersion), "bin",
+      triple + `-gcc${process.platform === "win32" ? ".exe" : ""}`
+    );
+  }
+}
+
 export class GetChipCommand extends CommandWithResult<string> {
   constructor() {
     super("getChip");

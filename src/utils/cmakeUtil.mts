@@ -119,15 +119,6 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
     return false;
   }
 
-  if (settings.getBoolean(SettingsKey.useCmakeTools)) {
-    await window.showErrorMessage(
-      "You must use the CMake Tools extension to configure your build. " +
-        "To use this extension instead, change the useCmakeTools setting."
-    );
-
-    return false;
-  }
-
   if (existsSync(join(folder.fsPath, "build", "CMakeCache.txt"))) {
     // check if the build directory has been moved
 
@@ -156,6 +147,16 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
         rmSync(join(buildDir, "CMakeCache.txt"));
       }
     }
+  }
+
+  if (settings.getBoolean(SettingsKey.useCmakeTools)) {
+    // CMake Tools integration is enabled - skip configuration
+    Logger.info(
+      LoggerSource.cmake,
+      "Skipping CMake configuration, as useCmakeTools is set."
+    );
+
+    return false;
   }
 
   try {

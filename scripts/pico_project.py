@@ -903,10 +903,9 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
     {{
         "name": "Pico",
         "compilers": {{
-            "C": "{cPath}",
-            "CXX": "{cPath}"
+            "C": "${{command:raspberry-pi-pico.getCompilerPath}}",
+            "CXX": "${{command:raspberry-pi-pico.getCompilerPath}}"
         }},
-        "toolchainFile": "{propertiesSdkPath(sdkVersion)}/cmake/preload/toolchains/{CMAKE_TOOLCHAIN_NAME}",
         "environmentVariables": {{
             "PATH": "${{command:raspberry-pi-pico.getEnvPath}};${{env:PATH}}"
         }},

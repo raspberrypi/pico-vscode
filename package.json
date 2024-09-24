@@ -112,6 +112,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getCompilerPath",
+        "title": "Get compiler path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.getChip",
         "title": "Get Chip",
         "category": "Raspberry Pi Pico",
