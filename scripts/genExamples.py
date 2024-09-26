@@ -35,7 +35,7 @@ examples = {
 
 examples.clear()
 
-CURRENT_DATA_VERSION = "0.16.0"
+CURRENT_DATA_VERSION = "0.17.0"
 
 try:
     shutil.rmtree("pico-examples")
