@@ -396,7 +396,12 @@ export async function downloadAndInstallRust(): Promise<string | undefined> {
 
   const index = await downloadAndReadFile(STABLE_INDEX_DOWNLOAD_URL);
   if (!index) {
-    // TODO: undo rust download
+    try {
+      rmSync(targetDirectory, { recursive: true, force: true });
+    } catch {
+      /* */
+    }
+
     return undefined;
   }
   Logger.debug(LoggerSource.rustUtil, "Downloaded Rust index file");
@@ -441,13 +446,25 @@ export async function downloadAndInstallRust(): Promise<string | undefined> {
       );
 
       if (!result) {
-        return undefined;
+        try {
+          rmSync(targetDirectory, { recursive: true, force: true });
+        } catch {
+          /* */
+        }
+
+        return;
       }
     } else {
       Logger.error(
         LoggerSource.rustUtil,
         "Error parsing Rust index file: std not available"
       );
+
+      try {
+        rmSync(targetDirectory, { recursive: true, force: true });
+      } catch {
+        /* */
+      }
 
       return;
     }
@@ -489,13 +506,25 @@ export async function downloadAndInstallRust(): Promise<string | undefined> {
       );
 
       if (!result) {
-        return undefined;
+        try {
+          rmSync(targetDirectory, { recursive: true, force: true });
+        } catch {
+          /* */
+        }
+
+        return;
       }
     } else {
       Logger.error(
         LoggerSource.rustUtil,
         "Error parsing Rust index file: analysis not available"
       );
+
+      try {
+        rmSync(targetDirectory, { recursive: true, force: true });
+      } catch {
+        /* */
+      }
 
       return;
     }
@@ -515,7 +544,13 @@ export async function downloadAndInstallRust(): Promise<string | undefined> {
       );
       // TODO: error handling
       if (!result) {
-        return undefined;
+        try {
+          rmSync(targetDirectory, { recursive: true, force: true });
+        } catch {
+          /* */
+        }
+
+        return;
       }
     }
 
@@ -533,32 +568,53 @@ export async function downloadAndInstallRust(): Promise<string | undefined> {
     }
     const hd = homedir().replaceAll("\\", "/");
     // TODO: install cmake
-    result = await cargoInstall(cargoExecutable, "probe-rs-tools", true, {
-      PATH: `${hd}/.pico-sdk/cmake/v3.28.6/bin;${hd}/.pico-sdk/rust/latest/bin;${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64/ucrt`,
+    result = await cargoInstall(
+      cargoExecutable,
+      "probe-rs-tools",
+      true,
+      // TODO: load cmake version dynamically and download if not present
+      process.platform === "win32"
+        ? {
+            PATH: `${hd}/.pico-sdk/cmake/v3.28.6/bin;${hd}/.pico-sdk/rust/latest/bin;${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64/ucrt`,
 
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      VSCMD_ARG_HOST_ARCH: "x64",
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      VSCMD_ARG_TGT_ARCH: "x64",
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      VCToolsVersion: "14.41.34120",
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      WindowsSDKVersion: "10.0.19041.0",
-      // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
-      VCToolsInstallDir: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/`,
-      // eslint-disable-next-line @typescript-eslint/naming-convention
-      WindowsSdkBinPath: `${hd}/.pico-sdk/msvc/latest/Windows Kits/10/bin/`,
-      // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
-      INCLUDE: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/include;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/ucrt;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/shared;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/um;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/winrt;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/cppwinrt`,
-      // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
-      LIB: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/lib/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/ucrt/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/um/x64`,
-    });
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            VSCMD_ARG_HOST_ARCH: "x64",
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            VSCMD_ARG_TGT_ARCH: "x64",
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            VCToolsVersion: "14.41.34120",
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            WindowsSDKVersion: "10.0.19041.0",
+            // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
+            VCToolsInstallDir: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/`,
+            // eslint-disable-next-line @typescript-eslint/naming-convention
+            WindowsSdkBinPath: `${hd}/.pico-sdk/msvc/latest/Windows Kits/10/bin/`,
+            // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
+            INCLUDE: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/include;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/ucrt;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/shared;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/um;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/winrt;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/cppwinrt`,
+            // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
+            LIB: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/lib/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/ucrt/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/um/x64`,
+          }
+        : // eslint-disable-next-line @typescript-eslint/naming-convention
+          { PATH: `${hd}/.pico-sdk/cmake/v3.28.6/bin` }
+    );
     if (!result) {
-      return undefined;
+      try {
+        rmSync(targetDirectory, { recursive: true, force: true });
+      } catch {
+        /* */
+      }
+
+      return;
     }
     result = await cargoInstall(cargoExecutable, "elf2uf2-rs", true, {});
     if (!result) {
-      return undefined;
+      try {
+        rmSync(targetDirectory, { recursive: true, force: true });
+      } catch {
+        /* */
+      }
+
+      return;
     }
 
     if (existingInstallation) {
@@ -581,6 +637,12 @@ export async function downloadAndInstallRust(): Promise<string | undefined> {
       unknownErrorToString(error)
     );
 
-    return undefined;
+    try {
+      rmSync(targetDirectory, { recursive: true, force: true });
+    } catch {
+      /* */
+    }
+
+    return;
   }
 }
