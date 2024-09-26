@@ -113,7 +113,7 @@ var exampleSupportedBoards = [];
     // selected picotool
     const selectedPicotool = document.getElementById('sel-picotool').value;
 
-    // TODO: maybe move these duplicate sections for ninja, cmake and python into a generic helper function
+    // TODO: maybe move these duplicate sections for ninja and cmake into a generic helper function
 
     // selected ninja version
     const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
@@ -210,51 +210,6 @@ var exampleSupportedBoards = [];
       }
     }
 
-    // selected python version
-    const pythonVersionRadio = document.getElementsByName('python-version-radio');
-    let pythonMode = null;
-    let pythonPath = null;
-    for (let i = 0; i < pythonVersionRadio.length; i++) {
-      if (pythonVersionRadio[i].checked) {
-        pythonMode = Number(pythonVersionRadio[i].value);
-        break;
-      }
-    }
-    if (pythonVersionRadio.length === 0) {
-      // default to python mode 1 == System version
-      pythonMode = 1;
-    }
-
-    // if python version is null or not a number, smaller than 0 or bigger than 3, set it to 0
-    if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
-      // TODO: first check if defaul is supported
-      pythonMode = 0;
-      console.debug('Invalid python version value: ' + pythonMode.toString());
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid python version."
-      });
-      submitted = false;
-
-      return;
-    }
-    if (pythonMode === 2) {
-      const files = document.getElementById('python-path-executable').files;
-
-      if (files.length === 1) {
-        pythonPath = files[0].name;
-      } else {
-        console.debug("Please select a valid python executable file");
-        vscode.postMessage({
-          command: CMD_ERROR,
-          value: "Please select a valid python executable file."
-        });
-        submitted = false;
-
-        return;
-      }
-    }
-
     // debugger selection
     const debuggerRadio = document.getElementsByName('debugger-radio');
     let debuggerSelection = null;
@@ -290,8 +245,6 @@ var exampleSupportedBoards = [];
           cmakeMode: Number(cmakeMode),
           cmakePath: cmakePath,
           cmakeVersion: cmakeVersion,
-          pythonMode: Number(pythonMode),
-          pythonPath: pythonPath,
 
           // debugger selection
           debugger: 0,
@@ -317,8 +270,6 @@ var exampleSupportedBoards = [];
           cmakeMode: Number(cmakeMode),
           cmakePath: cmakePath,
           cmakeVersion: cmakeVersion,
-          pythonMode: Number(pythonMode),
-          pythonPath: pythonPath,
 
           // debugger selection
           debugger: debuggerSelection,
@@ -385,8 +336,6 @@ var exampleSupportedBoards = [];
         cmakeMode: Number(cmakeMode),
         cmakePath: cmakePath,
         cmakeVersion: cmakeVersion,
-        pythonMode: Number(pythonMode),
-        pythonPath: pythonPath,
 
         // features
         spiFeature: spiFeature,
@@ -580,24 +529,8 @@ var exampleSupportedBoards = [];
 
         // get all radio buttons with the specified names and select the first non-disabled option for each if the currently selected option is disabled
         // TODO: move in a helper function
-        const pythonRadioButtons = document.querySelectorAll('input[name="python-version-radio"]');
         const ninjaRadioButtons = document.querySelectorAll('input[name="ninja-version-radio"]');
         const cmakeRadioButtons = document.querySelectorAll('input[name="cmake-version-radio"]');
-
-        // Don't check if no pythonRadioButtons, eg on Linux
-        if (pythonRadioButtons.length > 0) {
-          // Check if the first radio button is selected and disabled
-          if (pythonRadioButtons[0].checked && pythonRadioButtons[0].disabled) {
-            // Find the first non-disabled radio button
-            for (var i = 1; i < pythonRadioButtons.length; i++) {
-              if (!pythonRadioButtons[i].disabled) {
-                // Select the first non-disabled radio button
-                pythonRadioButtons[i].checked = true;
-                break;
-              }
-            }
-          }
-        }
 
         // Check if the first radio button is selected and disabled
         if (ninjaRadioButtons[0].checked && ninjaRadioButtons[0].disabled) {
@@ -811,10 +744,8 @@ var exampleSupportedBoards = [];
   if (ninjaVersionRadio.length > 0)
     ninjaVersionRadio[0].checked = true;
   const cmakeVersionRadio = document.getElementsByName('cmake-version-radio');
-  cmakeVersionRadio[0].checked = true;
-  const pythonVersionRadio = document.getElementsByName('python-version-radio');
-  if (pythonVersionRadio.length > 0)
-    pythonVersionRadio[0].checked = true;
+  if (cmakeVersionRadio.length > 0)
+    cmakeVersionRadio[0].checked = true;
 
   const sdkVersion = document.getElementById('sel-pico-sdk').value;
   // send message to extension

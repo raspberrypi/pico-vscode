@@ -39,6 +39,7 @@ export enum LoggerSource {
   extension = "extension",
   cmake = "cmakeUtil",
   downloadHelper = "downloadHelper",
+  pythonHelper = "pythonHelper",
 }
 
 /**

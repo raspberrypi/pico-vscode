@@ -7,8 +7,7 @@ import AdmZip from "adm-zip";
 import { request } from "https";
 import { fileURLToPath } from "url";
 import { unknownErrorToString } from "./errorHelper.mjs";
-
-export const CURRENT_DATA_VERSION = "0.16.0";
+import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
 
 export function getDataRoot(): string {
   return joinPosix(

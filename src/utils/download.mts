@@ -19,8 +19,6 @@ import { cloneRepository, initSubmodules, getGit } from "./gitUtil.mjs";
 import { checkForGit } from "./requirementsUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
-import type { VersionBundle } from "./versionBundles.mjs";
-import MacOSPythonPkgExtractor from "./macOSUtils.mjs";
 import which from "which";
 import { window } from "vscode";
 import { fileURLToPath } from "url";
@@ -43,6 +41,11 @@ import type { Writable } from "stream";
 import { unknownErrorToString } from "./errorHelper.mjs";
 import { got, type Progress } from "got";
 import { pipeline as streamPipeline } from "node:stream/promises";
+import {
+  CURRENT_PYTHON_VERSION,
+  WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
+  WINDOWS_X86_PYTHON_DOWNLOAD_URL,
+} from "./sharedConstants.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -1089,31 +1092,29 @@ export async function downloadAndInstallCmake(
  * @returns
  */
 export async function downloadEmbedPython(
-  versionBundle: VersionBundle,
-  redirectURL?: string
+  progressCallback?: (progress: Progress) => void
 ): Promise<string | undefined> {
   if (
     // even tough this function supports downloading python3 on macOS arm64
     // it doesn't work correctly therefore it's excluded here
     // use pyenvInstallPython instead
     process.platform !== "win32" ||
-    (process.platform === "win32" && process.arch !== "x64")
+    (process.arch !== "x64" && process.arch !== "arm64")
   ) {
     Logger.error(
       LoggerSource.downloader,
-      "Embed Python installation is only supported on Windows x64."
+      "Embed Python installation is only supported on X86 and ARM64 Windows."
     );
 
     return;
   }
 
-  const targetDirectory = buildPython3Path(versionBundle.python.version);
+  const targetDirectory = buildPython3Path(CURRENT_PYTHON_VERSION);
   const settingsTargetDirectory =
-    `${HOME_VAR}/.pico-sdk` + `/python/${versionBundle.python.version}`;
+    `${HOME_VAR}/.pico-sdk` + `/python/${CURRENT_PYTHON_VERSION}`;
 
   // Check if the Embed Python is already installed
   if (
-    redirectURL === undefined &&
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
@@ -1129,131 +1130,104 @@ export async function downloadEmbedPython(
   await mkdir(targetDirectory, { recursive: true });
 
   // select download url
-  const downloadUrl = new URL(versionBundle.python.windowsAmd64);
+  // process.platform === "darwin" ? versionBundle.python.macos : versionBundle.python.windowsAmd64;
+  const downloadUrl = new URL(
+    process.arch === "arm64"
+      ? WINDOWS_ARM64_PYTHON_DOWNLOAD_URL
+      : WINDOWS_X86_PYTHON_DOWNLOAD_URL
+  );
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(
     tmpBasePath,
-    `python-${versionBundle.python.version}.zip`
+    `python-${CURRENT_PYTHON_VERSION}.zip`
   );
 
-  // TODO: replace with got
-  return new Promise(resolve => {
-    const client = new Client(downloadUrl.origin);
+  const result = await downloadFileGot(
+    downloadUrl,
+    archiveFilePath,
+    undefined,
+    progressCallback
+  );
 
-    const requestOptions: Dispatcher.RequestOptions = {
-      path: downloadUrl.pathname + downloadUrl.search,
-      method: "GET",
-      headers: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "User-Agent": EXT_USER_AGENT,
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        Accept: "*/*",
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "Accept-Encoding": "gzip, deflate, br",
-      },
-      maxRedirections: 3,
-    };
+  if (!result) {
+    Logger.error(LoggerSource.downloader, `Downloading Embed Python failed.`);
 
-    // save requested stream to file
-    client.stream(
-      requestOptions,
-      ({ statusCode }) =>
-        createWriteStream(archiveFilePath).on("finish", () => {
-          const code = statusCode ?? 404;
+    return;
+  }
 
-          if (code >= 400) {
-            //return reject(new Error(STATUS_CODES[code]));
-            Logger.error(
-              LoggerSource.downloader,
-              "Downloading embed Python3 failed:",
-              STATUS_CODES[code] ?? `Unknown status code '${code}'`
-            );
+  // unpack the archive
+  /*if (process.platform === "darwin") {
+    const pkgExtractor = new MacOSPythonPkgExtractor(
+      archiveFilePath,
+      targetDirectory
+    );
 
-            return resolve(undefined);
-          }
-
-          // any redirects should have been handled by undici
-
-          // doesn't work correctly therefore use pyenvInstallPython instead
-          // TODO: maybe remove unused darwin code-path here
-          if (process.platform === "darwin") {
-            const pkgExtractor = new MacOSPythonPkgExtractor(
-              archiveFilePath,
-              targetDirectory
-            );
-
-            pkgExtractor
-              .extractPkg()
-              .then(success => {
-                if (versionBundle.python.version.lastIndexOf(".") <= 2) {
-                  Logger.error(
-                    LoggerSource.downloader,
-                    "Extracting Embed Python3 failed - " +
-                      "Python version has wrong format."
-                  );
-                  resolve(undefined);
-                }
-
-                if (success) {
-                  try {
-                    // create symlink, so the same path can be used as on Windows
-                    const srcPath = joinPosix(
-                      settingsTargetDirectory,
-                      "/Versions/",
-                      versionBundle.python.version.substring(
-                        0,
-                        versionBundle.python.version.lastIndexOf(".")
-                      ),
-                      "bin",
-                      "python3"
-                    );
-                    symlinkSync(
-                      srcPath,
-                      // use .exe as python is already used in the directory
-                      join(settingsTargetDirectory, "python.exe"),
-                      "file"
-                    );
-                    symlinkSync(
-                      srcPath,
-                      // use .exe as python is already used in the directory
-                      join(settingsTargetDirectory, "python3.exe"),
-                      "file"
-                    );
-                  } catch {
-                    resolve(undefined);
-                  }
-
-                  resolve(`${settingsTargetDirectory}/python.exe`);
-                } else {
-                  resolve(undefined);
-                }
-              })
-              .catch(() => {
-                resolve(undefined);
-              });
-          } else {
-            // unpack the archive
-            const success = unzipFile(archiveFilePath, targetDirectory);
-            // delete tmp file
-            rmSync(archiveFilePath, { recursive: true, force: true });
-            resolve(
-              success ? `${settingsTargetDirectory}/python.exe` : undefined
-            );
-          }
-        }),
-      err => {
-        if (err) {
+    pkgExtractor
+      .extractPkg()
+      .then(success => {
+        if (versionBundle.python.version.lastIndexOf(".") <= 2) {
           Logger.error(
             LoggerSource.downloader,
-            "Downloading Embed Python failed:",
-            err.message
+            "Extracting Embed Python3 failed - " +
+              "Python version has wrong format."
           );
-
-          return false;
+          resolve(undefined);
         }
-      }
+
+        if (success) {
+          try {
+            // create symlink, so the same path can be used as on Windows
+            const srcPath = joinPosix(
+              settingsTargetDirectory,
+              "/Versions/",
+              versionBundle.python.version.substring(
+                0,
+                versionBundle.python.version.lastIndexOf(".")
+              ),
+              "bin",
+              "python3"
+            );
+            symlinkSync(
+              srcPath,
+              // use .exe as python is already used in the directory
+              join(settingsTargetDirectory, "python.exe"),
+              "file"
+            );
+            symlinkSync(
+              srcPath,
+              // use .exe as python is already used in the directory
+              join(settingsTargetDirectory, "python3.exe"),
+              "file"
+            );
+          } catch {
+            resolve(undefined);
+          }
+
+          resolve(`${settingsTargetDirectory}/python.exe`);
+        } else {
+          resolve(undefined);
+        }
+      })
+      .catch(() => {
+        resolve(undefined);
+      });
+  }*/
+
+  try {
+    // unpack the archive
+    const success = unzipFile(archiveFilePath, targetDirectory);
+    // delete tmp file
+    rmSync(archiveFilePath, { recursive: true, force: true });
+
+    return success ? `${settingsTargetDirectory}/python.exe` : undefined;
+  } catch (errror) {
+    Logger.error(
+      LoggerSource.downloader,
+      `Extracting Embed Python failed: ${unknownErrorToString(errror)}`
     );
-  });
+
+    return;
+  }
 }

@@ -50,7 +50,6 @@ import {
   downloadAndInstallTools,
   downloadAndInstallPicotool,
   downloadAndInstallOpenOCD,
-  downloadEmbedPython,
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
@@ -69,15 +68,14 @@ import OpenSdkDocumentationCommand from "./commands/openSdkDocumentation.mjs";
 import ConfigureCmakeCommand from "./commands/configureCmake.mjs";
 import ImportProjectCommand from "./commands/importProject.mjs";
 import { homedir } from "os";
-import VersionBundlesLoader from "./utils/versionBundles.mjs";
-import { pyenvInstallPython, setupPyenv } from "./utils/pyenvUtil.mjs";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
-import type { Got, Progress as GotProgress } from "got";
+import type { Progress as GotProgress } from "got";
+import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -635,6 +633,20 @@ export async function activate(context: ExtensionContext): Promise<void> {
     }
   }
 
+  const pythonPath = await findPython();
+  if (!pythonPath) {
+    Logger.error(LoggerSource.extension, "Failed to find Python3 executable.");
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isPicoProject,
+      false
+    );
+    showPythonNotFoundError();
+
+    return;
+  }
+
+  /*
   const pythonPath = settings.getString(SettingsKey.python3Path);
   if (pythonPath && pythonPath.includes("/.pico-sdk/python")) {
     // check if python path exists
@@ -734,7 +746,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         return;
       }
     }
-  }
+  }*/
 
   ui.showStatusBarItems();
   ui.updateSDKVersion(selectedToolchainAndSDKVersions[0]);

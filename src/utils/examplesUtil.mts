@@ -12,12 +12,9 @@ import Settings from "../settings.mjs";
 import { checkForGit } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
 import { get } from "https";
-import {
-  isInternetConnected,
-  CURRENT_DATA_VERSION,
-  getDataRoot,
-} from "./downloadHelpers.mjs";
+import { isInternetConnected, getDataRoot } from "./downloadHelpers.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
+import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
 
 const EXAMPLES_REPOSITORY_URL =
   "https://github.com/raspberrypi/pico-examples.git";

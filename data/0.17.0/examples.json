@@ -1,0 +1,1318 @@
+{
+    "hello_usb": {
+        "path": "hello_world/usb",
+        "name": "hello_usb",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_serial": {
+        "path": "hello_world/serial",
+        "name": "hello_serial",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pwm_led_fade": {
+        "path": "pwm/led_fade",
+        "name": "pwm_led_fade",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_pwm": {
+        "path": "pwm/hello_pwm",
+        "name": "hello_pwm",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pwm_measure_duty_cycle": {
+        "path": "pwm/measure_duty_cycle",
+        "name": "pwm_measure_duty_cycle",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_48MHz": {
+        "path": "clocks/hello_48MHz",
+        "name": "hello_48MHz",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_resus": {
+        "path": "clocks/hello_resus",
+        "name": "hello_resus",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "clocks_detached_clk_peri": {
+        "path": "clocks/detached_clk_peri",
+        "name": "clocks_detached_clk_peri",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_gpout": {
+        "path": "clocks/hello_gpout",
+        "name": "hello_gpout",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "uart_advanced": {
+        "path": "uart/uart_advanced",
+        "name": "uart_advanced",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "lcd_uart": {
+        "path": "uart/lcd_uart",
+        "name": "lcd_uart",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_uart": {
+        "path": "uart/hello_uart",
+        "name": "hello_uart",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "dht": {
+        "path": "gpio/dht_sensor",
+        "name": "dht",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_7segment": {
+        "path": "gpio/hello_7segment",
+        "name": "hello_7segment",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_gpio_irq": {
+        "path": "gpio/hello_gpio_irq",
+        "name": "hello_gpio_irq",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "blink": {
+        "path": "blink",
+        "name": "blink",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "blink_simple": {
+        "path": "blink_simple",
+        "name": "blink_simple",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_watchdog": {
+        "path": "watchdog/hello_watchdog",
+        "name": "hello_watchdog",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_hub75": {
+        "path": "pio/hub75",
+        "name": "pio_hub75",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_pwm": {
+        "path": "pio/pwm",
+        "name": "pio_pwm",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_manchester_encoding": {
+        "path": "pio/manchester_encoding",
+        "name": "pio_manchester_encoding",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_differential_manchester": {
+        "path": "pio/differential_manchester",
+        "name": "pio_differential_manchester",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_addition": {
+        "path": "pio/addition",
+        "name": "pio_addition",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_onewire": {
+        "path": "pio/onewire",
+        "name": "pio_onewire",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_squarewave": {
+        "path": "pio/squarewave",
+        "name": "pio_squarewave",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_squarewave_div_sync": {
+        "path": "pio/squarewave",
+        "name": "pio_squarewave_div_sync",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_clocked_input": {
+        "path": "pio/clocked_input",
+        "name": "pio_clocked_input",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_blink": {
+        "path": "pio/pio_blink",
+        "name": "pio_blink",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_quadrature_encoder_substep": {
+        "path": "pio/quadrature_encoder_substep",
+        "name": "pio_quadrature_encoder_substep",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_quadrature_encoder": {
+        "path": "pio/quadrature_encoder",
+        "name": "pio_quadrature_encoder",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_ws2812": {
+        "path": "pio/ws2812",
+        "name": "pio_ws2812",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_uart_rx": {
+        "path": "pio/uart_rx",
+        "name": "pio_uart_rx",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_uart_rx_intr": {
+        "path": "pio/uart_rx",
+        "name": "pio_uart_rx_intr",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_logic_analyser": {
+        "path": "pio/logic_analyser",
+        "name": "pio_logic_analyser",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_ir_loopback": {
+        "path": "pio/ir_nec/ir_loopback",
+        "name": "pio_ir_loopback",
+        "libPaths": [
+            "pio/ir_nec/nec_receive_library",
+            "pio/ir_nec/nec_transmit_library"
+        ],
+        "libNames": [
+            "nec_receive_library",
+            "nec_transmit_library"
+        ],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_i2c_bus_scan": {
+        "path": "pio/i2c",
+        "name": "pio_i2c_bus_scan",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_spi_flash": {
+        "path": "pio/spi",
+        "name": "pio_spi_flash",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_spi_loopback": {
+        "path": "pio/spi",
+        "name": "pio_spi_loopback",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_apa102": {
+        "path": "pio/apa102",
+        "name": "pio_apa102",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_uart_tx": {
+        "path": "pio/uart_tx",
+        "name": "pio_uart_tx",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pio_st7789_lcd": {
+        "path": "pio/st7789_lcd",
+        "name": "pio_st7789_lcd",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_pio": {
+        "path": "pio/hello_pio",
+        "name": "hello_pio",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "picoboard_button": {
+        "path": "picoboard/button",
+        "name": "picoboard_button",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "picoboard_blinky": {
+        "path": "picoboard/blinky",
+        "name": "picoboard_blinky",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_divider": {
+        "path": "divider",
+        "name": "hello_divider",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "unique_board_id": {
+        "path": "system/unique_board_id",
+        "name": "unique_board_id",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "rand": {
+        "path": "system/rand",
+        "name": "rand",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_double_tap": {
+        "path": "system/hello_double_tap",
+        "name": "hello_double_tap",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "narrow_io_write": {
+        "path": "system/narrow_io_write",
+        "name": "narrow_io_write",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "flash_program": {
+        "path": "flash/program",
+        "name": "flash_program",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "flash_xip_stream": {
+        "path": "flash/xip_stream",
+        "name": "flash_xip_stream",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "flash_ssi_dma": {
+        "path": "flash/ssi_dma",
+        "name": "flash_ssi_dma",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "flash_nuke": {
+        "path": "flash/nuke",
+        "name": "flash_nuke",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "flash_cache_perfctr": {
+        "path": "flash/cache_perfctr",
+        "name": "flash_cache_perfctr",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "hello_timer": {
+        "path": "timer/hello_timer",
+        "name": "hello_timer",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "timer_lowlevel": {
+        "path": "timer/timer_lowlevel",
+        "name": "timer_lowlevel",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "periodic_sampler": {
+        "path": "timer/periodic_sampler",
+        "name": "periodic_sampler",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "dev_hid_composite": {
+        "path": "usb/device/dev_hid_composite",
+        "name": "dev_hid_composite",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "dev_lowlevel": {
+        "path": "usb/device/dev_lowlevel",
+        "name": "dev_lowlevel",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "host_cdc_msc_hid": {
+        "path": "usb/host/host_cdc_msc_hid",
+        "name": "host_cdc_msc_hid",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "rtc_alarm": {
+        "path": "rtc/rtc_alarm",
+        "name": "rtc_alarm",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "hello_rtc": {
+        "path": "rtc/hello_rtc",
+        "name": "hello_rtc",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "rtc_alarm_repeat": {
+        "path": "rtc/rtc_alarm_repeat",
+        "name": "rtc_alarm_repeat",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "multicore_fifo_irqs": {
+        "path": "multicore/multicore_fifo_irqs",
+        "name": "multicore_fifo_irqs",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "multicore_runner": {
+        "path": "multicore/multicore_runner",
+        "name": "multicore_runner",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "multicore_runner_queue": {
+        "path": "multicore/multicore_runner_queue",
+        "name": "multicore_runner_queue",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_multicore": {
+        "path": "multicore/hello_multicore",
+        "name": "hello_multicore",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_reset": {
+        "path": "reset/hello_reset",
+        "name": "hello_reset",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_interp": {
+        "path": "interp/hello_interp",
+        "name": "hello_interp",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "mpl3115a2_i2c": {
+        "path": "i2c/mpl3115a2_i2c",
+        "name": "mpl3115a2_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "mcp9808_i2c": {
+        "path": "i2c/mcp9808_i2c",
+        "name": "mcp9808_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "mpu6050_i2c": {
+        "path": "i2c/mpu6050_i2c",
+        "name": "mpu6050_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pa1010d_i2c": {
+        "path": "i2c/pa1010d_i2c",
+        "name": "pa1010d_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "lis3dh_i2c": {
+        "path": "i2c/lis3dh_i2c",
+        "name": "lis3dh_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "mma8451_i2c": {
+        "path": "i2c/mma8451_i2c",
+        "name": "mma8451_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "ht16k33_i2c": {
+        "path": "i2c/ht16k33_i2c",
+        "name": "ht16k33_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "i2c_bus_scan": {
+        "path": "i2c/bus_scan",
+        "name": "i2c_bus_scan",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "pcf8523_i2c": {
+        "path": "i2c/pcf8523_i2c",
+        "name": "pcf8523_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "lcd_1602_i2c": {
+        "path": "i2c/lcd_1602_i2c",
+        "name": "lcd_1602_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "bmp280_i2c": {
+        "path": "i2c/bmp280_i2c",
+        "name": "bmp280_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "slave_mem_i2c": {
+        "path": "i2c/slave_mem_i2c",
+        "name": "slave_mem_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "ssd1306_i2c": {
+        "path": "i2c/ssd1306_i2c",
+        "name": "ssd1306_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "adc_dma_capture": {
+        "path": "adc/dma_capture",
+        "name": "adc_dma_capture",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "joystick_display": {
+        "path": "adc/joystick_display",
+        "name": "joystick_display",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "onboard_temperature": {
+        "path": "adc/onboard_temperature",
+        "name": "onboard_temperature",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "microphone_adc": {
+        "path": "adc/microphone_adc",
+        "name": "microphone_adc",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "adc_console": {
+        "path": "adc/adc_console",
+        "name": "adc_console",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "read_vsys": {
+        "path": "adc/read_vsys",
+        "name": "read_vsys",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_adc": {
+        "path": "adc/hello_adc",
+        "name": "hello_adc",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "sniff_crc": {
+        "path": "dma/sniff_crc",
+        "name": "sniff_crc",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "dma_control_blocks": {
+        "path": "dma/control_blocks",
+        "name": "dma_control_blocks",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_dma": {
+        "path": "dma/hello_dma",
+        "name": "hello_dma",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "dma_channel_irq": {
+        "path": "dma/channel_irq",
+        "name": "dma_channel_irq",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "spi_dma": {
+        "path": "spi/spi_dma",
+        "name": "spi_dma",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "spi_flash": {
+        "path": "spi/spi_flash",
+        "name": "spi_flash",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "mpu9250_spi": {
+        "path": "spi/mpu9250_spi",
+        "name": "mpu9250_spi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "max7219_8x7seg_spi": {
+        "path": "spi/max7219_8x7seg_spi",
+        "name": "max7219_8x7seg_spi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "max7219_32x8_spi": {
+        "path": "spi/max7219_32x8_spi",
+        "name": "max7219_32x8_spi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "bme280_spi": {
+        "path": "spi/bme280_spi",
+        "name": "bme280_spi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "spi_master": {
+        "path": "spi/spi_master_slave/spi_master",
+        "name": "spi_master",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "spi_slave": {
+        "path": "spi/spi_master_slave/spi_slave",
+        "name": "spi_slave",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "picow_blink": {
+        "path": "pico_w/wifi/blink",
+        "name": "picow_blink",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "picow_blink_slow_clock": {
+        "path": "pico_w/wifi/blink",
+        "name": "picow_blink_slow_clock",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "picow_ble_temp_reader": {
+        "path": "pico_w/bt/standalone",
+        "name": "picow_ble_temp_reader",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "picow_ble_temp_sensor": {
+        "path": "pico_w/bt/standalone",
+        "name": "picow_ble_temp_sensor",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w"
+        ],
+        "supportRiscV": false
+    },
+    "hello_sha256": {
+        "path": "sha/sha256",
+        "name": "hello_sha256",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "mbedtls_sha256": {
+        "path": "sha/mbedtls_sha256",
+        "name": "mbedtls_sha256",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "boot_info": {
+        "path": "system/boot_info",
+        "name": "boot_info",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "runtime_flash_permissions": {
+        "path": "flash/runtime_flash_permissions",
+        "name": "runtime_flash_permissions",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "multicore_doorbell": {
+        "path": "multicore/multicore_doorbell",
+        "name": "multicore_doorbell",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2"
+        ],
+        "supportRiscV": true
+    },
+    "hello_dcp": {
+        "path": "dcp/hello_dcp",
+        "name": "hello_dcp",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2"
+        ],
+        "supportRiscV": false
+    },
+    "hello_otp": {
+        "path": "otp/hello_otp",
+        "name": "hello_otp",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2"
+        ],
+        "supportRiscV": true
+    }
+}
