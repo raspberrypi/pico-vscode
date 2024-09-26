@@ -522,7 +522,6 @@ print("Finished.")\r\n`;
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
           <div id="section-basic" class="snap-start">
             <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Settings</h3>
-            <form>
               <div id="project-name-grid" class="grid gap-6 md:grid-cols-2">
                 <div>
                   <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -654,7 +653,6 @@ print("Finished.")\r\n`;
                         </button>
                     </div>
                 </div>
-            </form>
           </div>
 
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
