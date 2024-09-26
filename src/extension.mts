@@ -254,7 +254,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
   await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
 
   if (isRustProject) {
-    const cargo = await downloadAndInstallRust();
+    const cargo = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Downloading and installing Rust. This may take a while...",
+        cancellable: false,
+      },
+      async () => downloadAndInstallRust()
+    );
     if (!cargo) {
       void window.showErrorMessage("Failed to install Rust.");
 
