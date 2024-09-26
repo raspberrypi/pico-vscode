@@ -10,29 +10,38 @@ enum StatusBarItemKey {
 }
 
 const STATUS_BAR_ITEMS: {
-  [key: string]: { text: string; command: string; tooltip: string };
+  [key: string]: {
+    text: string;
+    command: string;
+    tooltip: string;
+    rustSupport: boolean;
+  };
 } = {
   [StatusBarItemKey.compile]: {
     // alt. "$(gear) Compile"
     text: "$(file-binary) Compile",
     command: "raspberry-pi-pico.compileProject",
     tooltip: "Compile Project",
+    rustSupport: true,
   },
   [StatusBarItemKey.run]: {
     // alt. "$(gear) Compile"
     text: "$(run) Run",
     command: "raspberry-pi-pico.runProject",
     tooltip: "Run Project",
+    rustSupport: true,
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
     text: "Pico SDK: <version>",
     command: "raspberry-pi-pico.switchSDK",
     tooltip: "Select Pico SDK",
+    rustSupport: false,
   },
   [StatusBarItemKey.picoBoardQuickPick]: {
     text: "Board: <board>",
     command: "raspberry-pi-pico.switchBoard",
     tooltip: "Select Board",
+    rustSupport: false,
   },
 };
 
@@ -57,8 +66,10 @@ export default class UI {
     });
   }
 
-  public showStatusBarItems(): void {
-    Object.values(this._items).forEach(item => item.show());
+  public showStatusBarItems(isRustProject = false): void {
+    Object.values(this._items)
+      .filter(item => !isRustProject || STATUS_BAR_ITEMS[item.id].rustSupport)
+      .forEach(item => item.show());
   }
 
   public updateSDKVersion(version: string): void {

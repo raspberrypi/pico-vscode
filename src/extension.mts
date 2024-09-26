@@ -76,6 +76,8 @@ import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
+import { downloadAndInstallRust } from "./utils/rustUtil.mjs";
+import State from "./state.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -166,11 +168,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
 
   const workspaceFolder = workspace.workspaceFolders?.[0];
+  const isRustProject = workspaceFolder
+    ? existsSync(join(workspaceFolder.uri.fsPath, ".pico-rs"))
+    : false;
 
   // check if is a pico project
   if (
     workspaceFolder === undefined ||
-    !existsSync(join(workspaceFolder.uri.fsPath, "pico_sdk_import.cmake"))
+    (!existsSync(join(workspaceFolder.uri.fsPath, "pico_sdk_import.cmake")) &&
+      !isRustProject)
   ) {
     // finish activation
     Logger.warn(
@@ -186,54 +192,79 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return;
   }
 
-  const cmakeListsFilePath = join(workspaceFolder.uri.fsPath, "CMakeLists.txt");
-  if (!existsSync(cmakeListsFilePath)) {
-    Logger.warn(
-      LoggerSource.extension,
-      "No CMakeLists.txt in workspace folder has been found."
-    );
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
+  /*void commands.executeCommand(
+    "setContext",
+    ContextKeys.isRustProject,
+    isRustProject
+  );*/
+  State.getInstance().isRustProject = isRustProject;
 
-    return;
-  }
-
-  // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
-  if (
-    !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
-    !readFileSync(cmakeListsFilePath)
-      .toString("utf-8")
-      .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX)
-  ) {
-    Logger.warn(
-      LoggerSource.extension,
-      "No .vscode folder and/or cmake",
-      '"DO NOT EDIT"-header in CMakelists.txt found.'
+  if (!isRustProject) {
+    const cmakeListsFilePath = join(
+      workspaceFolder.uri.fsPath,
+      "CMakeLists.txt"
     );
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
-    const wantToImport = await window.showInformationMessage(
-      "Do you want to import this project as Raspberry Pi Pico project?",
-      "Yes",
-      "No"
-    );
-    if (wantToImport === "Yes") {
-      void commands.executeCommand(
-        `${extensionName}.${ImportProjectCommand.id}`,
-        workspaceFolder.uri
+    if (!existsSync(cmakeListsFilePath)) {
+      Logger.warn(
+        LoggerSource.extension,
+        "No CMakeLists.txt in workspace folder has been found."
       );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        false
+      );
+
+      return;
     }
 
-    return;
+    // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
+    if (
+      !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
+      !readFileSync(cmakeListsFilePath)
+        .toString("utf-8")
+        .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX)
+    ) {
+      Logger.warn(
+        LoggerSource.extension,
+        "No .vscode folder and/or cmake",
+        '"DO NOT EDIT"-header in CMakelists.txt found.'
+      );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        false
+      );
+      const wantToImport = await window.showInformationMessage(
+        "Do you want to import this project as Raspberry Pi Pico project?",
+        "Yes",
+        "No"
+      );
+      if (wantToImport === "Yes") {
+        void commands.executeCommand(
+          `${extensionName}.${ImportProjectCommand.id}`,
+          workspaceFolder.uri
+        );
+      }
+
+      return;
+    }
   }
 
   await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
+
+  if (isRustProject) {
+    const cargo = await downloadAndInstallRust();
+    if (!cargo) {
+      void window.showErrorMessage("Failed to install Rust.");
+
+      return;
+    }
+
+    ui.showStatusBarItems(isRustProject);
+
+    return;
+  }
 
   // get sdk selected in the project
   const selectedToolchainAndSDKVersions =

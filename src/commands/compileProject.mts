@@ -3,6 +3,8 @@ import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
+import { ContextKeys } from "../contextKeys.mjs";
+import State from "../state.mjs";
 
 export default class CompileProjectCommand extends CommandWithResult<boolean> {
   private _logger: Logger = new Logger("CompileProjectCommand");
@@ -18,9 +20,15 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
     const task = (await tasks.fetchTasks()).find(
       task => task.name === "Compile Project"
     );
+    /*const isRustProject = await commands.executeCommand(
+      "getContext",
+      ContextKeys.isRustProject
+    );*/
+    const isRustProject = State.getInstance().isRustProject;
 
     const settings = Settings.getInstance();
     if (
+      !isRustProject &&
       settings !== undefined &&
       settings.getBoolean(SettingsKey.useCmakeTools)
     ) {

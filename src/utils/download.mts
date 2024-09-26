@@ -35,6 +35,7 @@ import {
   HTTP_STATUS_UNAUTHORIZED,
   githubApiUnauthorized,
   HTTP_STATUS_FORBIDDEN,
+  HTTP_STATUS_OK,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
@@ -178,6 +179,30 @@ export function buildPython3Path(version: string): string {
   );
 }
 
+export async function downloadAndReadFile(
+  url: string
+): Promise<string | undefined> {
+  const response = await got(url, {
+    headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "User-Agent": EXT_USER_AGENT,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      Accept: "*/*",
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "Accept-Encoding": "gzip, deflate, br",
+    },
+    followRedirect: true,
+    method: "GET",
+    retry: {
+      limit: 3,
+      methods: ["GET"],
+    },
+    cache: false,
+  });
+
+  return response.statusCode === HTTP_STATUS_OK ? response.body : undefined;
+}
+
 /**
  * Downloads and installs an archive from a URL.
  *
@@ -203,7 +228,8 @@ export async function downloadAndInstallArchive(
   extraCallback?: () => void,
   redirectURL?: string,
   extraHeaders?: { [key: string]: string },
-  progressCallback?: (progress: Progress) => void
+  progressCallback?: (progress: Progress) => void,
+  xzSingleDirOption?: string
 ): Promise<boolean> {
   // Check if the SDK is already installed
   if (
@@ -273,7 +299,8 @@ export async function downloadAndInstallArchive(
     const unpackResult = await unpackArchive(
       archiveFilePath,
       targetDirectory,
-      archiveExtension
+      archiveExtension,
+      xzSingleDirOption
     );
 
     if (unpackResult && extraCallback) {
@@ -398,11 +425,16 @@ async function downloadFileGot(
 async function unpackArchive(
   archiveFilePath: string,
   targetDirectory: string,
-  archiveExt: string
+  archiveExt: string,
+  xzSingleDirOption?: string
 ): Promise<boolean> {
   try {
     if (archiveExt === "tar.xz" || archiveExt === "tar.gz") {
-      const success = await unxzFile(archiveFilePath, targetDirectory);
+      const success = await unxzFile(
+        archiveFilePath,
+        targetDirectory,
+        xzSingleDirOption
+      );
       cleanupFiles(archiveFilePath);
 
       return success;

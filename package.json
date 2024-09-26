@@ -65,6 +65,7 @@
   },
   "activationEvents": [
     "workspaceContains:./pico_sdk_import.cmake",
+    "workspaceContains:./.pico-rs",
     "onWebviewPanel:newPicoProject",
     "onWebviewPanel:newPicoMicroPythonProject"
   ],
@@ -79,13 +80,13 @@
         "command": "raspberry-pi-pico.switchSDK",
         "title": "Switch Pico SDK",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.switchBoard",
         "title": "Switch Board",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPath",
@@ -151,7 +152,7 @@
         "command": "raspberry-pi-pico.runProject",
         "title": "Run Pico Project (USB)",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.clearGithubApiCache",
@@ -162,7 +163,7 @@
         "command": "raspberry-pi-pico.conditionalDebugging",
         "title": "Conditional Debugging",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !inQuickOpen"
+        "enablement": "raspberry-pi-pico.isPicoProject && !inQuickOpen && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.debugLayout",
@@ -179,7 +180,7 @@
         "command": "raspberry-pi-pico.configureCmake",
         "title": "Configure CMake",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.importProject",
@@ -200,7 +201,7 @@
         "command": "raspberry-pi-pico.flashProject",
         "title": "Flash Pico Project (SWD)",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       }
     ],
     "configuration": {
@@ -307,6 +308,7 @@
     "got": "^14.4.2",
     "ini": "^4.1.3",
     "rimraf": "^5.0.7",
+    "toml": "^3.0.0",
     "undici": "^6.19.7",
     "uuid": "^10.0.0",
     "which": "^4.0.0"

@@ -86,6 +86,12 @@ For optimal functionality, consider enabling:
 
 When prompted, select the `Pico` kit in CMake Tools, and set your build and launch targets accordingly. Use CMake Tools for compilation, but continue using this extension for debugging, as CMake Tools debugging is not compatible with Pico.
 
+## Rust Prerequisites
+
+### Linux
+
+- **GCC** for the host architecture
+
 ## VS Code Profiles
 
 If you work with multiple microcontroller toolchains, consider installing this extension into a [VS Code Profile](https://code.visualstudio.com/docs/editor/profiles) to avoid conflicts with other toolchains. Follow these steps:
