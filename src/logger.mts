@@ -42,6 +42,7 @@ export enum LoggerSource {
   pythonHelper = "pythonHelper",
   gitUtil = "gitUtil",
   vscodeConfigUtil = "vscodeConfigUtil",
+  rustUtil = "rustUtil",
 }
 
 /**
