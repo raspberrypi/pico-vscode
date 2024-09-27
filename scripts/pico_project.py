@@ -745,7 +745,6 @@ def GenerateCMake(folder, params):
     file.write('# Add the standard include files to the build\n')
     file.write(f'target_include_directories({projectName} PRIVATE\n')
     file.write("  ${CMAKE_CURRENT_LIST_DIR}\n")
-    file.write("  ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required\n")
     file.write(')\n\n')
 
     # Selected libraries/features
@@ -840,10 +839,11 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
             "device": "${{command:raspberry-pi-pico.getChipUppercase}}",
             "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd",
             "runToEntryPoint": "main",
-            // Give restart the same functionality as runToEntryPoint - main
-            "postRestartCommands": [
-                "break main",
-                "continue"
+            // Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
+            // Also works fine for flash binaries
+            "overrideLaunchCommands": [
+                "monitor reset init",
+                "load \\"${{command:raspberry-pi-pico.launchTargetPath}}\\""
             ]
         }},
         {{
