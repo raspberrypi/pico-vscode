@@ -3,7 +3,6 @@ import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
-import { ContextKeys } from "../contextKeys.mjs";
 import State from "../state.mjs";
 
 export default class CompileProjectCommand extends CommandWithResult<boolean> {
