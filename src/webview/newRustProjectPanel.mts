@@ -22,8 +22,10 @@ import {
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
-import { downloadAndInstallRust } from "../utils/rustUtil.mjs";
-import { cloneRepository, getGit } from "../utils/gitUtil.mjs";
+import {
+  downloadAndInstallRust,
+  generateRustProject,
+} from "../utils/rustUtil.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -295,18 +297,13 @@ export class NewRustProjectPanel {
       increment: 10,
     });
 
-    const gitPath = await getGit(this._settings);
-
     try {
-      await workspace.fs.createDirectory(Uri.file(projectFolder));
-
-      // also create a blink.py in it with a import machine
-      // TODO: put into const and cache template
-      const result = await cloneRepository(
-        "https://github.com/rp-rs/rp2040-project-template.git",
-        "main",
+      //await workspace.fs.createDirectory(Uri.file(projectFolder));
+      // TODO: add flash method to ui
+      const result = await generateRustProject(
         projectFolder,
-        gitPath
+        data.projectName,
+        "probe-rs"
       );
       if (!result) {
         progress.report({
@@ -314,7 +311,7 @@ export class NewRustProjectPanel {
           increment: 100,
         });
         void window.showErrorMessage(
-          `Failed to clone project template to ${projectFolder}`
+          `Failed to create project folder ${projectFolder}`
         );
 
         return;
@@ -327,124 +324,58 @@ export class NewRustProjectPanel {
       await workspace.fs.writeFile(
         Uri.file(join(projectFolder, ".vscode", "extensions.json")),
         Buffer.from(
-          JSON.stringify({
-            recommendations: [
-              "rust-lang.rust-analyzer",
-              this._settings.getExtensionId(),
-            ],
-          }),
+          JSON.stringify(
+            {
+              recommendations: [
+                "rust-lang.rust-analyzer",
+                this._settings.getExtensionId(),
+              ],
+            },
+            undefined,
+            4
+          ),
           "utf-8"
         )
       );
       await workspace.fs.writeFile(
         Uri.file(join(projectFolder, ".vscode", "tasks.json")),
         Buffer.from(
-          JSON.stringify({
-            version: "2.0.0",
-            tasks: [
-              {
-                label: "Compile Project",
-                type: "process",
-                isBuildCommand: true,
-                command: "${userHome}/.pico-sdk/rust/latest/bin/cargo",
-                args: ["build"],
-                group: {
-                  kind: "build",
-                  isDefault: true,
-                },
-                presentation: {
-                  reveal: "always",
-                  panel: "dedicated",
-                },
-                problemMatcher: "$rustc",
-                windows: {
-                  command:
-                    "${env:USERPROFILE}/.pico-sdk/rust/latest/bin/cargo.exe",
+          JSON.stringify(
+            {
+              version: "2.0.0",
+              tasks: [
+                {
+                  label: "Compile Project",
+                  type: "process",
+                  isBuildCommand: true,
+                  command: "cargo",
                   args: ["build"],
-                  options: {
-                    env: {
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      PATH: "${env:PATH};${userHome}/.cargo/bin;${userHome}/.pico-sdk/rust/latest/bin;${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64/ucrt",
-
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VSCMD_ARG_HOST_ARCH: "x64",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VSCMD_ARG_TGT_ARCH: "x64",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VCToolsVersion: "14.41.34120",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      WindowsSDKVersion: "10.0.19041.0",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VCToolsInstallDir:
-                        "${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      WindowsSdkBinPath:
-                        "${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/bin/",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      INCLUDE:
-                        "${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/include;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/ucrt;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/shared;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/um;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/winrt;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/cppwinrt",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      LIB: "${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/lib/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/ucrt/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/um/x64",
-                    },
+                  group: {
+                    kind: "build",
+                    isDefault: true,
                   },
-                },
-                options: {
-                  env: {
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    PATH: "${env:PATH}:${userHome}/.cargo/bin:${userHome}/.pico-sdk/rust/latest/bin",
+                  presentation: {
+                    reveal: "always",
+                    panel: "dedicated",
                   },
+                  problemMatcher: "$rustc",
                 },
-              },
-              {
-                label: "Run",
-                type: "shell",
-                command: "${userHome}/.pico-sdk/rust/latest/bin/cargo.exe",
-                args: ["run", "--release"],
-                group: {
-                  kind: "test",
-                  isDefault: true,
-                },
-                problemMatcher: "$rustc",
-                windows: {
-                  command:
-                    "${env:USERPROFILE}/.pico-sdk/rust/latest/bin/cargo.exe",
+                {
+                  label: "Run Project",
+                  type: "shell",
+                  command: "cargo",
                   args: ["run", "--release"],
-                  options: {
-                    env: {
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      PATH: "${env:PATH};${userHome}/.cargo/bin;${userHome}/.pico-sdk/rust/latest/bin;${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/bin/Hostx64/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/bin/10.0.19041.0/x64/ucrt",
-
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VSCMD_ARG_HOST_ARCH: "x64",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VSCMD_ARG_TGT_ARCH: "x64",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VCToolsVersion: "14.41.34120",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      WindowsSDKVersion: "10.0.19041.0",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      VCToolsInstallDir:
-                        "${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      WindowsSdkBinPath:
-                        "${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/bin/",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      INCLUDE:
-                        "${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/include;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/ucrt;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/shared;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/um;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/winrt;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/cppwinrt",
-                      // eslint-disable-next-line @typescript-eslint/naming-convention
-                      LIB: "${userHome}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/lib/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/ucrt/x64;${userHome}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/um/x64",
-                    },
+                  group: {
+                    kind: "test",
+                    isDefault: true,
                   },
+                  problemMatcher: "$rustc",
                 },
-                options: {
-                  env: {
-                    // eslint-disable-next-line @typescript-eslint/naming-convention
-                    PATH: "${env:PATH}:${userHome}/.cargo/bin:${userHome}/.pico-sdk/rust/latest/bin",
-                  },
-                },
-              },
-            ],
-          }),
+              ],
+            },
+            undefined,
+            4
+          ),
           "utf-8"
         )
       );
