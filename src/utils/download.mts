@@ -244,7 +244,7 @@ export async function downloadAndInstallArchive(
   // Ensure the target directory exists
   await mkdir(targetDirectory, { recursive: true });
 
-  const archiveExtension = getArchiveExtension(url);
+  let archiveExtension = getArchiveExtension(url);
   if (!archiveExtension) {
     Logger.error(
       LoggerSource.downloader,
@@ -252,6 +252,19 @@ export async function downloadAndInstallArchive(
     );
 
     return false;
+  }
+
+  // TODO: find and eliminate issue why this is necesarry
+  if (archiveExtension.length > 6) {
+    archiveExtension = getArchiveExtension(archiveFileName);
+    if (!archiveExtension) {
+      Logger.error(
+        LoggerSource.downloader,
+        `Could not determine archive extension for ${archiveFileName}`
+      );
+
+      return false;
+    }
   }
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
@@ -566,8 +579,8 @@ export async function downloadAndInstallSDK(
  * @param redirectURL An optional redirect URL to download the asset
  * from (used to follow redirects recursively)
  * @returns A promise that resolves to true if the asset was downloaded and installed successfully
- */
-async function downloadAndInstallGithubAsset(
+ */ // TODO: do not export
+export async function downloadAndInstallGithubAsset(
   version: string,
   releaseVersion: string,
   repo: GithubRepository,

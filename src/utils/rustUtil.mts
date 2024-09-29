@@ -1,35 +1,20 @@
-import { homedir } from "os";
-import {
-  downloadAndInstallArchive,
-  downloadAndReadFile,
-  getScriptsRoot,
-} from "./download.mjs";
-import { getRustReleases } from "./githubREST.mjs";
-import { join as joinPosix } from "path/posix";
-import {
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  renameSync,
-  rmSync,
-  symlinkSync,
-} from "fs";
+import { homedir, tmpdir } from "os";
+import { downloadAndInstallGithubAsset } from "./download.mjs";
+import { getRustToolsReleases, GithubRepository } from "./githubREST.mjs";
+import { mkdirSync, renameSync } from "fs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { env, ProgressLocation, Uri, window } from "vscode";
-import type { Progress as GotProgress } from "got";
-import { parse as parseToml } from "toml";
+import { env, ProgressLocation, Uri, window, workspace } from "vscode";
 import { promisify } from "util";
-import { exec, execSync } from "child_process";
+import { exec } from "child_process";
 import { dirname, join } from "path";
-import { copyFile, mkdir, readdir, rm, stat } from "fs/promises";
-import findPython from "./pythonHelper.mjs";
 
-const STABLE_INDEX_DOWNLOAD_URL =
-  "https://static.rust-lang.org/dist/channel-rust-stable.toml";
+/*const STABLE_INDEX_DOWNLOAD_URL =
+  "https://static.rust-lang.org/dist/channel-rust-stable.toml";*/
 
 const execAsync = promisify(exec);
 
+/*
 interface IndexToml {
   pkg?: {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -89,7 +74,7 @@ function computeDownloadLink(release: string): string {
     "https://static.rust-lang.org/dist" +
     `/rust-${release}-${arch}-${platform}.tar.xz`
   );
-}
+}*/
 
 export async function cargoInstall(
   packageName: string,
@@ -97,6 +82,7 @@ export async function cargoInstall(
 ): Promise<boolean> {
   const command = process.platform === "win32" ? "cargo.exe" : "cargo";
   try {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { stdout, stderr } = await execAsync(
       `${command} install ${locked ? "--locked " : ""}${packageName}`,
       {
@@ -105,11 +91,14 @@ export async function cargoInstall(
     );
 
     if (stderr) {
+      // TODO: find better solution
       if (
         stderr.toLowerCase().includes("already exists") ||
-        stderr.toLowerCase().includes("to your path")
+        stderr.toLowerCase().includes("to your path") ||
+        stderr.toLowerCase().includes("is already installed") ||
+        stderr.toLowerCase().includes("yanked in registry")
       ) {
-        Logger.warn(
+        Logger.debug(
           LoggerSource.rustUtil,
           `Cargo package '${packageName}' is already installed ` +
             "or cargo bin not in PATH:",
@@ -132,7 +121,9 @@ export async function cargoInstall(
     const msg = unknownErrorToString(error);
     if (
       msg.toLowerCase().includes("already exists") ||
-      msg.toLowerCase().includes("to your path")
+      msg.toLowerCase().includes("to your path") ||
+      msg.toLowerCase().includes("is already installed") ||
+      msg.toLowerCase().includes("yanked in registry")
     ) {
       Logger.warn(
         LoggerSource.rustUtil,
@@ -314,7 +305,13 @@ export async function checkRustInstallation(): Promise<boolean> {
   }
 }
 
-export async function installEmbeddedRust(): Promise<boolean> {
+/**
+ * Installs all requirements for embedded Rust development.
+ * (if required)
+ *
+ * @returns {boolean} True if all requirements are met or have been installed, false otherwise.
+ */
+export async function downloadAndInstallRust(): Promise<boolean> {
   /*try {
     const rustup = process.platform === "win32" ? "rustup.exe" : "rustup";
     const cargo = process.platform === "win32" ? "cargo.exe" : "cargo";
@@ -378,8 +375,8 @@ export async function installEmbeddedRust(): Promise<boolean> {
   const result = await cargoInstall(flipLink, false);
   if (!result) {
     void window.showErrorMessage(
-      `Failed to install cargo package '${flipLink}'.`,
-      "Please check the logs."
+      `Failed to install cargo package '${flipLink}'.` +
+        "Please check the logs."
     );
 
     return false;
@@ -390,8 +387,8 @@ export async function installEmbeddedRust(): Promise<boolean> {
   const result2 = await cargoInstall(probeRsTools, true);
   if (!result2) {
     void window.showErrorMessage(
-      `Failed to install cargo package '${probeRsTools}'.`,
-      "Please check the logs."
+      `Failed to install cargo package '${probeRsTools}'.` +
+        "Please check the logs."
     );
 
     return false;
@@ -402,8 +399,18 @@ export async function installEmbeddedRust(): Promise<boolean> {
   const result3 = await cargoInstall(elf2uf2Rs, true);
   if (!result3) {
     void window.showErrorMessage(
-      `Failed to install cargo package '${elf2uf2Rs}'.`,
-      "Please check the logs."
+      `Failed to install cargo package '${elf2uf2Rs}'.` +
+        "Please check the logs."
+    );
+
+    return false;
+  }
+
+  // install cargo-generate binary
+  const result4 = await installCargoGenerate();
+  if (!result4) {
+    void window.showErrorMessage(
+      "Failed to install cargo-generate. Please check the logs."
     );
 
     return false;
@@ -412,4 +419,150 @@ export async function installEmbeddedRust(): Promise<boolean> {
   return true;
 }
 
-export 
+function platformToGithubMatrix(platform: string): string {
+  switch (platform) {
+    case "darwin":
+      return "macos-latest";
+    case "linux":
+      return "ubuntu-latest";
+    case "win32":
+      return "windows-latest";
+    default:
+      throw new Error(`Unsupported platform: ${platform}`);
+  }
+}
+
+function archToGithubMatrix(arch: string): string {
+  switch (arch) {
+    case "x64":
+      return "x86_64";
+    case "arm64":
+      return "aarch64";
+    default:
+      throw new Error(`Unsupported architecture: ${arch}`);
+  }
+}
+
+async function installCargoGenerate(): Promise<boolean> {
+  const release = await getRustToolsReleases();
+  if (!release) {
+    Logger.error(LoggerSource.rustUtil, "Failed to get Rust tools releases");
+
+    return false;
+  }
+
+  const assetName = `cargo-generate-${platformToGithubMatrix(
+    process.platform
+  )}-${archToGithubMatrix(process.arch)}.zip`;
+
+  const tmpLoc = join(tmpdir(), "pico-vscode-rs");
+
+  const result = await downloadAndInstallGithubAsset(
+    release[0],
+    release[0],
+    GithubRepository.rsTools,
+    tmpLoc,
+    "cargo-generate.zip",
+    assetName,
+    "cargo-generate"
+  );
+
+  if (!result) {
+    Logger.error(LoggerSource.rustUtil, "Failed to install cargo-generate");
+
+    return false;
+  }
+
+  const cargoBin = join(homedir(), ".cargo", "bin");
+
+  try {
+    mkdirSync(cargoBin, { recursive: true });
+    renameSync(
+      join(
+        tmpLoc,
+        "cargo-generate" + (process.platform === "win32" ? ".exe" : "")
+      ),
+      join(
+        cargoBin,
+        "cargo-generate" + (process.platform === "win32" ? ".exe" : "")
+      )
+    );
+
+    if (process.platform !== "win32") {
+      await execAsync(`chmod +x ${join(cargoBin, "cargo-generate")}`, {
+        windowsHide: true,
+      });
+    }
+  } catch (error) {
+    Logger.error(
+      LoggerSource.rustUtil,
+      `Failed to move cargo-generate to ~/.cargo/bin: ${unknownErrorToString(
+        error
+      )}`
+    );
+
+    return false;
+  }
+
+  return true;
+}
+
+export async function generateRustProject(
+  projectFolder: string,
+  name: string,
+  flashMethod: string
+): Promise<boolean> {
+  try {
+    const valuesFile = join(tmpdir(), "pico-vscode", "values.toml");
+    await workspace.fs.createDirectory(Uri.file(dirname(valuesFile)));
+    await workspace.fs.writeFile(
+      Uri.file(valuesFile),
+      // TODO: make selectable in UI
+      Buffer.from(`[values]\nflash_method="${flashMethod}"\n`, "utf-8")
+    );
+
+    // TODO: fix outside function (maybe)
+    let projectRoot = projectFolder;
+    if (projectFolder.endsWith(name)) {
+      projectRoot = projectFolder.slice(0, projectFolder.length - name.length);
+    }
+
+    // cache template and use --path
+    const command =
+      "cargo generate --git " +
+      "https://github.com/rp-rs/rp2040-project-template " +
+      ` --name ${name} --values-file "${valuesFile}" ` +
+      `--destination "${projectRoot}"`;
+
+    const customEnv = { ...process.env };
+    customEnv["PATH"] += `${process.platform === "win32" ? ";" : ":"}${join(
+      homedir(),
+      ".cargo",
+      "bin"
+    )}`;
+    // TODO: add timeout
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { stdout, stderr } = await execAsync(command, {
+      windowsHide: true,
+      env: customEnv,
+    });
+
+    if (stderr) {
+      Logger.error(
+        LoggerSource.rustUtil,
+        `Failed to generate Rust project: ${stderr}`
+      );
+
+      return false;
+    }
+  } catch (error) {
+    Logger.error(
+      LoggerSource.rustUtil,
+      `Failed to generate Rust project: ${unknownErrorToString(error)}`
+    );
+
+    return false;
+  }
+
+  return true;
+}
