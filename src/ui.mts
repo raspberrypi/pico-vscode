@@ -1,6 +1,7 @@
 import { window, type StatusBarItem, StatusBarAlignment } from "vscode";
 import Logger from "./logger.mjs";
 import type { PicoProjectActivityBar } from "./webview/activityBar.mjs";
+import State from "./state.mjs";
 
 enum StatusBarItemKey {
   compile = "raspberry-pi-pico.compileProject",
@@ -12,6 +13,7 @@ enum StatusBarItemKey {
 const STATUS_BAR_ITEMS: {
   [key: string]: {
     text: string;
+    rustText?: string;
     command: string;
     tooltip: string;
     rustSupport: boolean;
@@ -39,9 +41,10 @@ const STATUS_BAR_ITEMS: {
   },
   [StatusBarItemKey.picoBoardQuickPick]: {
     text: "Board: <board>",
+    rustText: "Chip: <chip>",
     command: "raspberry-pi-pico.switchBoard",
-    tooltip: "Select Board",
-    rustSupport: false,
+    tooltip: "Select Chip",
+    rustSupport: true,
   },
 };
 
@@ -80,10 +83,20 @@ export default class UI {
   }
 
   public updateBoard(board: string): void {
-    this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
-      StatusBarItemKey.picoBoardQuickPick
-    ].text.replace("<board>", board);
-    this._activityBarProvider.refreshBoard(board);
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (
+      isRustProject &&
+      STATUS_BAR_ITEMS[StatusBarItemKey.picoBoardQuickPick].rustSupport
+    ) {
+      this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
+        StatusBarItemKey.picoBoardQuickPick
+      ].rustText!.replace("<chip>", board);
+    } else {
+      this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
+        StatusBarItemKey.picoBoardQuickPick
+      ].text.replace("<board>", board);
+    }
   }
 
   public updateBuildType(buildType: string): void {

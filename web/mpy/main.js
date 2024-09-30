@@ -173,7 +173,6 @@ var submitted = false;
 
   document.getElementById('inp-project-name').addEventListener('input', function () {
     const projName = document.getElementById('inp-project-name').value;
-    console.log(`${projName} is now`);
     // TODO: future examples stuff (maybe)
   });
 
