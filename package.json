@@ -201,6 +201,12 @@
         "title": "Flash Pico Project (SWD)",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject"
+      },
+      {
+        "command": "raspberry-pi-pico.cleanCmake",
+        "title": "Clean CMake",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       }
     ],
     "configuration": {

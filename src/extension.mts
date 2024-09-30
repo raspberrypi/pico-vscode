@@ -65,7 +65,9 @@ import { PicoProjectActivityBar } from "./webview/activityBar.mjs";
 import ConditionalDebuggingCommand from "./commands/conditionalDebugging.mjs";
 import DebugLayoutCommand from "./commands/debugLayout.mjs";
 import OpenSdkDocumentationCommand from "./commands/openSdkDocumentation.mjs";
-import ConfigureCmakeCommand from "./commands/configureCmake.mjs";
+import ConfigureCmakeCommand, {
+  CleanCMakeCommand,
+} from "./commands/configureCmake.mjs";
 import ImportProjectCommand from "./commands/importProject.mjs";
 import { homedir } from "os";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
@@ -121,6 +123,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new ImportProjectCommand(context.extensionUri),
     new NewExampleProjectCommand(context.extensionUri),
     new UninstallPicoSDKCommand(),
+    new CleanCMakeCommand(),
   ];
 
   // register all command handlers
