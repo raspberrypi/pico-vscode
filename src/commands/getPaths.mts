@@ -8,14 +8,17 @@ import {
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
 import {
+  buildOpenOCDPath,
   buildPicotoolPath,
   buildToolchainPath,
+  downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
 } from "../utils/download.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 import which from "which";
 import { execSync } from "child_process";
 import { getPicotoolReleases } from "../utils/githubREST.mjs";
+import { openOCDVersion } from "../webview/newProjectPanel.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -143,7 +146,8 @@ export class GetCompilerPathCommand extends CommandWithResult<string> {
     }
 
     return join(
-      buildToolchainPath(toolchainVersion), "bin",
+      buildToolchainPath(toolchainVersion),
+      "bin",
       triple + `-gcc${process.platform === "win32" ? ".exe" : ""}`
     );
   }
@@ -301,8 +305,10 @@ export class GetPicotoolPathCommand extends CommandWithResult<
 > {
   private running: boolean = false;
 
+  public static readonly id = "getPicotoolPath";
+
   constructor() {
-    super("getPicotoolPath");
+    super(GetPicotoolPathCommand.id);
   }
 
   async execute(): Promise<string | undefined> {
@@ -341,5 +347,37 @@ export class GetPicotoolPathCommand extends CommandWithResult<
       "picotool",
       process.platform === "win32" ? "picotool.exe" : "picotool"
     );
+  }
+}
+
+export class GetOpenOCDRootCommand extends CommandWithResult<
+  string | undefined
+> {
+  private running: boolean = false;
+
+  public static readonly id = "getOpenOCDRoot";
+
+  constructor() {
+    super(GetOpenOCDRootCommand.id);
+  }
+
+  async execute(): Promise<string | undefined> {
+    if (this.running) {
+      return undefined;
+    }
+    this.running = true;
+
+    // check if it is installed if not install it
+    const result = await downloadAndInstallOpenOCD(openOCDVersion);
+
+    if (result === null || !result) {
+      this.running = false;
+
+      return undefined;
+    }
+
+    this.running = false;
+
+    return buildOpenOCDPath(openOCDVersion);
   }
 }

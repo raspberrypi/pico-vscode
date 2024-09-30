@@ -75,11 +75,33 @@ var submitted = false;
       return;
     }
 
+    // flash-method selection
+    const flashMethodRadio = document.getElementsByName('flash-method-radio');
+    let flashMethodSelection = null;
+    for (let i = 0; i < flashMethodRadio.length; i++) {
+      if (flashMethodRadio[i].checked) {
+        flashMethodSelection = parseInt(flashMethodRadio[i].value);
+        break;
+      }
+    }
+    // if flash-method selection is null or not a number, smaller than 0 or bigger than 2, set it to 0
+    if (flashMethodSelection === null || isNaN(flashMethodSelection) || flashMethodSelection < 0 || flashMethodSelection > 2) {
+      flashMethodSelection = 0;
+      console.debug('Invalid flash-method selection value: ' + flashMethodSelection);
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid flash-method."
+      });
+      submitted = false;
+      return;
+    }
+
     //post all data values to the extension
     vscode.postMessage({
       command: CMD_SUBMIT,
       value: {
-        projectName: projectName
+        projectName: projectName,
+        flashMethod: flashMethodSelection
       }
     });
   }
@@ -121,10 +143,4 @@ var submitted = false;
   document.getElementById('btn-change-project-location').addEventListener('click', changeLocation);
   document.getElementById('btn-cancel').addEventListener('click', cancelBtnClick);
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);
-
-  document.getElementById('inp-project-name').addEventListener('input', function () {
-    const projName = document.getElementById('inp-project-name').value;
-    console.log(`${projName} is now`);
-    // TODO: future examples stuff (maybe)
-  });
 }());

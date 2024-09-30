@@ -19,18 +19,18 @@ import {
   getProjectFolderDialogOptions,
   getWebviewOptions,
 } from "./newProjectPanel.mjs";
-import { existsSync, readFileSync } from "fs";
+import { existsSync } from "fs";
 import { join } from "path";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import { downloadAndInstallRust } from "../utils/rustUtil.mjs";
 import {
-  downloadAndInstallRust,
+  type FlashMethod,
   generateRustProject,
-} from "../utils/rustUtil.mjs";
+} from "../utils/projectGeneration/projectRust.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
-  pythonMode: number;
-  pythonPath: string;
+  flashMethod: FlashMethod;
 }
 
 export class NewRustProjectPanel {
@@ -234,7 +234,7 @@ export class NewRustProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Generating MicroPico project ${
+                  title: `Generating Rust Pico project ${
                     data.projectName ?? "undefined"
                   } in ${this._projectRoot?.fsPath}...`,
                 },
@@ -288,134 +288,19 @@ export class NewRustProjectPanel {
       return;
     }
 
-    // create the folder with project name in project root
-
-    // create the project folder
     const projectFolder = join(projectPath, data.projectName);
-    progress.report({
-      message: `Creating project folder ${projectFolder}`,
-      increment: 10,
-    });
 
-    try {
-      //await workspace.fs.createDirectory(Uri.file(projectFolder));
-      // TODO: add flash method to ui
-      const result = await generateRustProject(
-        projectFolder,
-        data.projectName,
-        "probe-rs"
-      );
-      if (!result) {
-        progress.report({
-          message: "Failed",
-          increment: 100,
-        });
-        void window.showErrorMessage(
-          `Failed to create project folder ${projectFolder}`
-        );
+    const result = await generateRustProject(
+      projectFolder,
+      data.projectName,
+      data.flashMethod
+    );
 
-        return;
-      }
+    if (!result) {
+      this._logger.error("Failed to generate Rust project.");
 
-      await workspace.fs.writeFile(
-        Uri.file(join(projectFolder, ".pico-rs")),
-        new Uint8Array()
-      );
-      await workspace.fs.writeFile(
-        Uri.file(join(projectFolder, ".vscode", "extensions.json")),
-        Buffer.from(
-          JSON.stringify(
-            {
-              recommendations: [
-                "rust-lang.rust-analyzer",
-                this._settings.getExtensionId(),
-              ],
-            },
-            undefined,
-            4
-          ),
-          "utf-8"
-        )
-      );
-      await workspace.fs.writeFile(
-        Uri.file(join(projectFolder, ".vscode", "tasks.json")),
-        Buffer.from(
-          JSON.stringify(
-            {
-              version: "2.0.0",
-              tasks: [
-                {
-                  label: "Compile Project",
-                  type: "process",
-                  isBuildCommand: true,
-                  command: "cargo",
-                  args: ["build"],
-                  group: {
-                    kind: "build",
-                    isDefault: true,
-                  },
-                  presentation: {
-                    reveal: "always",
-                    panel: "dedicated",
-                  },
-                  problemMatcher: "$rustc",
-                },
-                {
-                  label: "Run Project",
-                  type: "shell",
-                  command: "cargo",
-                  args: ["run", "--release"],
-                  group: {
-                    kind: "test",
-                    isDefault: true,
-                  },
-                  problemMatcher: "$rustc",
-                },
-              ],
-            },
-            undefined,
-            4
-          ),
-          "utf-8"
-        )
-      );
-
-      const settingsFile = join(projectFolder, ".vscode", "settings.json");
-      const settingsContent = existsSync(settingsFile)
-        ? (JSON.parse(readFileSync(settingsFile, "utf-8")) as
-            | {
-                [key: string]: unknown;
-              }
-            | undefined)
-        : {};
-      if (!settingsContent) {
-        progress.report({
-          message: "Failed",
-          increment: 100,
-        });
-        void window.showErrorMessage(
-          `Failed to read settings file ${settingsFile}`
-        );
-
-        return;
-      }
-
-      settingsContent["files.exclude"] = {
-        ...(settingsContent["files.exclude"] ?? {}),
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        ".pico-rs": true,
-      };
-      await workspace.fs.writeFile(
-        Uri.file(settingsFile),
-        Buffer.from(JSON.stringify(settingsContent, null, 4), "utf-8")
-      );
-    } catch {
-      progress.report({
-        message: "Failed",
-        increment: 100,
-      });
-      await window.showErrorMessage(
-        `Failed to create project folder ${projectFolder}`
+      void window.showErrorMessage(
+        "Failed to generate Rust project. Please try again and check your settings."
       );
 
       return;
@@ -658,6 +543,23 @@ export class NewRustProjectPanel {
               </div>
           </div>
 
+          <div id="section-flash-method">
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Flash Method</h3>
+              <div class="flex items-stretch space-x-4">
+                  <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                      <input checked id="flash-method-radio-debug-probe" type="radio" value="0" name="flash-method-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="flash-method-radio-debug-probe" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pico Probe [Default]</label>
+                  </div>
+                  <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                      <input id="flash-method-radio-elf2uf2" type="radio" value="1" name="flash-method-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="flash-method-radio-elf2uf2" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">ELF2UF2</label>
+                  </div>
+                  <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                      <input id="flash-method-radio-cargo-embed" type="radio" value="2" name="flash-method-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="flash-method-radio-cargo-embed" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cargo Embed</label>
+                  </div>
+              </div>
+          </div>
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
               <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
               <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">

@@ -3,11 +3,16 @@ import { CommandWithResult } from "./command.mjs";
 import { commands, window, workspace } from "vscode";
 import { join } from "path";
 import Settings, { SettingsKey } from "../settings.mjs";
+import State from "../state.mjs";
+import { parse as parseToml } from "toml";
+import { join as joinPosix } from "path/posix";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
+  public static readonly id = "launchTargetPath";
+
   constructor() {
-    super("launchTargetPath");
+    super(LaunchTargetPathCommand.id);
   }
 
   private async readProjectNameFromCMakeLists(
@@ -62,6 +67,33 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       return "";
     }
 
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (isRustProject) {
+      const cargoTomlPath = join(
+        workspace.workspaceFolders[0].uri.fsPath,
+        "Cargo.toml"
+      );
+      const contents = readFileSync(cargoTomlPath, "utf-8");
+      const cargoToml = (await parseToml(contents)) as
+        | {
+            package?: { name?: string };
+          }
+        | undefined;
+
+      if (cargoToml?.package?.name) {
+        return joinPosix(
+          workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
+          "target",
+          "thumbv6m-none-eabi",
+          "debug",
+          cargoToml.package.name
+        );
+      }
+
+      return "";
+    }
+
     const settings = Settings.getInstance();
     if (
       settings !== undefined &&
@@ -104,5 +136,51 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       "\\",
       "/"
     );
+  }
+}
+
+export class LaunchTargetPathReleaseCommand extends CommandWithResult<string> {
+  public static readonly id = "launchTargetPathRelease";
+
+  constructor() {
+    super(LaunchTargetPathReleaseCommand.id);
+  }
+
+  async execute(): Promise<string> {
+    if (
+      workspace.workspaceFolders === undefined ||
+      workspace.workspaceFolders.length === 0
+    ) {
+      return "";
+    }
+
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (!isRustProject) {
+      return "";
+    }
+
+    const cargoTomlPath = join(
+      workspace.workspaceFolders[0].uri.fsPath,
+      "Cargo.toml"
+    );
+    const contents = readFileSync(cargoTomlPath, "utf-8");
+    const cargoToml = (await parseToml(contents)) as
+      | {
+          package?: { name?: string };
+        }
+      | undefined;
+
+    if (cargoToml?.package?.name) {
+      return joinPosix(
+        workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
+        "target",
+        "thumbv6m-none-eabi",
+        "release",
+        cargoToml.package.name
+      );
+    }
+
+    return "";
   }
 }
