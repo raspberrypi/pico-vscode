@@ -41,6 +41,7 @@ export enum LoggerSource {
   downloadHelper = "downloadHelper",
   pythonHelper = "pythonHelper",
   rustUtil = "rustUtil",
+  projectRust = "projectRust",
 }
 
 /**

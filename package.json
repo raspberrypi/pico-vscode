@@ -95,6 +95,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.launchTargetPathRelease",
+        "title": "Get path of the project release executable (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.getPythonPath",
         "title": "Get python path",
         "category": "Raspberry Pi Pico",
@@ -149,6 +155,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getOpenOCDRoot",
+        "title": "Get OpenOCD root",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
@@ -158,7 +170,7 @@
         "command": "raspberry-pi-pico.runProject",
         "title": "Run Pico Project (USB)",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.clearGithubApiCache",
@@ -169,7 +181,7 @@
         "command": "raspberry-pi-pico.conditionalDebugging",
         "title": "Conditional Debugging",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !inQuickOpen && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !inQuickOpen"
       },
       {
         "command": "raspberry-pi-pico.debugLayout",
