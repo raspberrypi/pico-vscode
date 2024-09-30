@@ -8,11 +8,18 @@ import { env, ProgressLocation, Uri, window, workspace } from "vscode";
 import { promisify } from "util";
 import { exec } from "child_process";
 import { dirname, join } from "path";
+import { parse as parseToml } from "toml";
 
 /*const STABLE_INDEX_DOWNLOAD_URL =
   "https://static.rust-lang.org/dist/channel-rust-stable.toml";*/
 
 const execAsync = promisify(exec);
+
+export enum FlashMethod {
+  debugProbe = 0,
+  elf2Uf2 = 1,
+  cargoEmbed = 2,
+}
 
 /*
 interface IndexToml {
@@ -312,43 +319,10 @@ export async function checkRustInstallation(): Promise<boolean> {
  * @returns {boolean} True if all requirements are met or have been installed, false otherwise.
  */
 export async function downloadAndInstallRust(): Promise<boolean> {
-  /*try {
-    const rustup = process.platform === "win32" ? "rustup.exe" : "rustup";
-    const cargo = process.platform === "win32" ? "cargo.exe" : "cargo";
-    const commands = [
-      `${rustup} target add thumbv6m-none-eabi`,
-      `${cargo} install flip-link`,
-      `${cargo} install --locked probe-rs-tools`,
-      `${cargo} install --locked elf2uf2-rs`,
-    ];
-
-    return commands.every(command => {
-      try {
-        // TODO: test if throws on stderr
-        execSync(command, {
-          windowsHide: true,
-        });
-
-        return true;
-      } catch (error) {
-        Logger.error(
-          LoggerSource.rustUtil,
-          `Failed to execute command '${command}': ${unknownErrorToString(
-            error
-          )}`
-        );
-
-        return false;
-      }
-    });
-  } catch (error) {
-    Logger.error(
-      LoggerSource.rustUtil,
-      `Failed to install embedded Rust: ${unknownErrorToString(error)}`
-    );
-
+  let result = await checkRustInstallation();
+  if (!result) {
     return false;
-  }*/
+  }
 
   // install target
   const target = "thumbv6m-none-eabi";
@@ -372,7 +346,7 @@ export async function downloadAndInstallRust(): Promise<boolean> {
 
   // install flip-link
   const flipLink = "flip-link";
-  const result = await cargoInstall(flipLink, false);
+  result = await cargoInstall(flipLink, false);
   if (!result) {
     void window.showErrorMessage(
       `Failed to install cargo package '${flipLink}'.` +
@@ -384,8 +358,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
 
   // install probe-rs-tools
   const probeRsTools = "probe-rs-tools";
-  const result2 = await cargoInstall(probeRsTools, true);
-  if (!result2) {
+  result = await cargoInstall(probeRsTools, true);
+  if (!result) {
     void window.showErrorMessage(
       `Failed to install cargo package '${probeRsTools}'.` +
         "Please check the logs."
@@ -396,8 +370,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
 
   // install elf2uf2-rs
   const elf2uf2Rs = "elf2uf2-rs";
-  const result3 = await cargoInstall(elf2uf2Rs, true);
-  if (!result3) {
+  result = await cargoInstall(elf2uf2Rs, true);
+  if (!result) {
     void window.showErrorMessage(
       `Failed to install cargo package '${elf2uf2Rs}'.` +
         "Please check the logs."
@@ -407,8 +381,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   }
 
   // install cargo-generate binary
-  const result4 = await installCargoGenerate();
-  if (!result4) {
+  result = await installCargoGenerate();
+  if (!result) {
     void window.showErrorMessage(
       "Failed to install cargo-generate. Please check the logs."
     );
@@ -507,10 +481,20 @@ async function installCargoGenerate(): Promise<boolean> {
   return true;
 }
 
+function flashMethodToArg(fm: FlashMethod): string {
+  switch (fm) {
+    case FlashMethod.cargoEmbed:
+    case FlashMethod.debugProbe:
+      return "probe-rs";
+    case FlashMethod.elf2Uf2:
+      return "elf2uf2-rs";
+  }
+}
+
 export async function generateRustProject(
   projectFolder: string,
   name: string,
-  flashMethod: string
+  flashMethod: FlashMethod
 ): Promise<boolean> {
   try {
     const valuesFile = join(tmpdir(), "pico-vscode", "values.toml");
@@ -518,13 +502,16 @@ export async function generateRustProject(
     await workspace.fs.writeFile(
       Uri.file(valuesFile),
       // TODO: make selectable in UI
-      Buffer.from(`[values]\nflash_method="${flashMethod}"\n`, "utf-8")
+      Buffer.from(
+        `[values]\nflash_method="${flashMethodToArg(flashMethod)}"\n`,
+        "utf-8"
+      )
     );
 
     // TODO: fix outside function (maybe)
-    let projectRoot = projectFolder;
-    if (projectFolder.endsWith(name)) {
-      projectRoot = projectFolder.slice(0, projectFolder.length - name.length);
+    let projectRoot = projectFolder.replaceAll("\\", "/");
+    if (projectRoot.endsWith(name)) {
+      projectRoot = projectRoot.slice(0, projectRoot.length - name.length);
     }
 
     // cache template and use --path
@@ -565,4 +552,40 @@ export async function generateRustProject(
   }
 
   return true;
+}
+
+export async function chipFromCargoToml(): Promise<string | null> {
+  const workspaceFolder = workspace.workspaceFolders?.[0];
+
+  if (!workspaceFolder) {
+    Logger.error(LoggerSource.rustUtil, "No workspace folder found.");
+
+    return null;
+  }
+
+  try {
+    const cargoTomlPath = join(workspaceFolder.uri.fsPath, "Cargo.toml");
+    const contents = await workspace.fs.readFile(Uri.file(cargoTomlPath));
+
+    const cargoToml = (await parseToml(new TextDecoder().decode(contents))) as {
+      features?: { default?: string[] };
+    };
+
+    const features = cargoToml.features?.default ?? [];
+
+    if (features.includes("rp2040")) {
+      return "rp2040";
+    } else if (features.includes("rp2350")) {
+      return "rp2350";
+    } else if (features.includes("rp2350-riscv")) {
+      return "rp2350-RISCV";
+    }
+  } catch (error) {
+    Logger.error(
+      LoggerSource.rustUtil,
+      `Failed to read Cargo.toml: ${unknownErrorToString(error)}`
+    );
+  }
+
+  return null;
 }
