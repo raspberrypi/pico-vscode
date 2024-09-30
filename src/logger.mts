@@ -43,6 +43,7 @@ export enum LoggerSource {
   gitUtil = "gitUtil",
   vscodeConfigUtil = "vscodeConfigUtil",
   rustUtil = "rustUtil",
+  projectRust = "projectRust",
 }
 
 /**

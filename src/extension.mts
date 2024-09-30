@@ -33,7 +33,9 @@ import { existsSync, readFileSync } from "fs";
 import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
 import RunProjectCommand from "./commands/runProject.mjs";
-import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
+import LaunchTargetPathCommand, {
+  LaunchTargetPathReleaseCommand,
+} from "./commands/launchTargetPath.mjs";
 import {
   GetPythonPathCommand,
   GetEnvPathCommand,
@@ -44,6 +46,7 @@ import {
   GetTargetCommand,
   GetChipUppercaseCommand,
   GetPicotoolPathCommand,
+  GetOpenOCDRootCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -83,9 +86,13 @@ import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
-import { downloadAndInstallRust } from "./utils/rustUtil.mjs";
+import {
+  chipFromCargoToml,
+  downloadAndInstallRust,
+} from "./utils/rustUtil.mjs";
 import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
+import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -112,6 +119,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new SwitchSDKCommand(ui, context.extensionUri),
     new SwitchBoardCommand(ui, context.extensionUri),
     new LaunchTargetPathCommand(),
+    new LaunchTargetPathReleaseCommand(),
     new GetPythonPathCommand(),
     new GetEnvPathCommand(),
     new GetGDBPathCommand(),
@@ -121,6 +129,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetChipUppercaseCommand(),
     new GetTargetCommand(),
     new GetPicotoolPathCommand(),
+    new GetOpenOCDRootCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
     new FlashProjectSWDCommand(),
@@ -173,6 +182,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
 
   context.subscriptions.push(
+    window.registerWebviewPanelSerializer(NewRustProjectPanel.viewType, {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+        // Reset the webview options so we use latest uri for `localResourceRoots`.
+        webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+        NewRustProjectPanel.revive(webviewPanel, context.extensionUri);
+      },
+    })
+  );
+
+  context.subscriptions.push(
     window.registerTreeDataProvider(
       PicoProjectActivityBar.viewType,
       picoProjectActivityBarProvider
@@ -200,11 +220,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return;
   }
 
-  /*void commands.executeCommand(
+  void commands.executeCommand(
     "setContext",
     ContextKeys.isRustProject,
     isRustProject
-  );*/
+  );
   State.getInstance().isRustProject = isRustProject;
 
   if (!isRustProject) {
@@ -301,6 +321,13 @@ export async function activate(context: ExtensionContext): Promise<void> {
     }
 
     ui.showStatusBarItems(isRustProject);
+
+    const chip = await chipFromCargoToml();
+    if (chip !== null) {
+      ui.updateBoard(chip);
+    } else {
+      ui.updateBoard("N/A");
+    }
 
     return;
   }
