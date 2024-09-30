@@ -266,7 +266,8 @@
     "v2.0.0-1",
     "v2.0.0-2",
     "v2.0.0-3",
-    "v2.0.0-4"
+    "v2.0.0-4",
+    "v2.0.0-5"
   ],
   "githubApiCache-3-1-v1.5.1-0": {
     "assets": [
@@ -682,6 +683,96 @@
       }
     ],
     "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk-tools/releases/175505012/assets"
+  },
+  "githubApiCache-3-1-v2.0.0-5": {
+    "assets": [
+      {
+        "id": 195382918,
+        "name": "openocd-0.12.0+dev-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/openocd-0.12.0%2Bdev-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 195377190,
+        "name": "openocd-0.12.0+dev-arm64-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/openocd-0.12.0%2Bdev-arm64-mac.zip"
+      },
+      {
+        "id": 195372506,
+        "name": "openocd-0.12.0+dev-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/openocd-0.12.0%2Bdev-x64-win.zip"
+      },
+      {
+        "id": 195376538,
+        "name": "openocd-0.12.0+dev-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/openocd-0.12.0%2Bdev-x86_64-lin.tar.gz"
+      },
+      {
+        "id": 195382919,
+        "name": "pico-sdk-tools-2.0.0-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/pico-sdk-tools-2.0.0-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 195377173,
+        "name": "pico-sdk-tools-2.0.0-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/pico-sdk-tools-2.0.0-mac.zip"
+      },
+      {
+        "id": 195372508,
+        "name": "pico-sdk-tools-2.0.0-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/pico-sdk-tools-2.0.0-x64-win.zip"
+      },
+      {
+        "id": 195376540,
+        "name": "pico-sdk-tools-2.0.0-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/pico-sdk-tools-2.0.0-x86_64-lin.tar.gz"
+      },
+      {
+        "id": 195382917,
+        "name": "picotool-2.0.0-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/picotool-2.0.0-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 195377172,
+        "name": "picotool-2.0.0-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/picotool-2.0.0-mac.zip"
+      },
+      {
+        "id": 195372507,
+        "name": "picotool-2.0.0-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/picotool-2.0.0-x64-win.zip"
+      },
+      {
+        "id": 195376539,
+        "name": "picotool-2.0.0-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/picotool-2.0.0-x86_64-lin.tar.gz"
+      },
+      {
+        "id": 195382920,
+        "name": "riscv-toolchain-14-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/riscv-toolchain-14-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 195377191,
+        "name": "riscv-toolchain-14-arm64-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/riscv-toolchain-14-arm64-mac.zip"
+      },
+      {
+        "id": 195377189,
+        "name": "riscv-toolchain-14-x64-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/riscv-toolchain-14-x64-mac.zip"
+      },
+      {
+        "id": 195377188,
+        "name": "riscv-toolchain-14-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/riscv-toolchain-14-x64-win.zip"
+      },
+      {
+        "id": 195376542,
+        "name": "riscv-toolchain-14-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.0.0-5/riscv-toolchain-14-x86_64-lin.tar.gz"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk-tools/releases/177327402/assets"
   },
   "githubApiCache-4-0": [
     "2.0.0"
