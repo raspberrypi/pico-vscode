@@ -1,5 +1,5 @@
 import { CommandWithResult } from "./command.mjs";
-import { commands, workspace } from "vscode";
+import { commands, type Uri, window, workspace } from "vscode";
 import {
   getPythonPath,
   getPath,
@@ -7,9 +7,11 @@ import {
   cmakeGetPicoVar,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
+import { join as joinPosix } from "path/posix";
 import {
   buildOpenOCDPath,
   buildPicotoolPath,
+  buildSDKPath,
   buildToolchainPath,
   downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
@@ -19,6 +21,11 @@ import which from "which";
 import { execSync } from "child_process";
 import { getPicotoolReleases } from "../utils/githubREST.mjs";
 import { openOCDVersion } from "../webview/newProjectPanel.mjs";
+import State from "../state.mjs";
+import VersionBundlesLoader from "../utils/versionBundles.mjs";
+import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
+import Logger from "../logger.mjs";
+import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -59,7 +66,7 @@ export class GetEnvPathCommand extends CommandWithResult<string> {
 }
 
 export class GetGDBPathCommand extends CommandWithResult<string> {
-  constructor() {
+  constructor(private readonly _extensionUri: Uri) {
     super("getGDBPath");
   }
 
@@ -72,13 +79,48 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
+    const isRustProject = State.getInstance().isRustProject;
+    let toolchainVersion = "";
 
-    const selectedToolchainAndSDKVersions =
-      await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
-    if (selectedToolchainAndSDKVersions === null) {
-      return "";
+    if (isRustProject) {
+      // check if latest toolchain is installed
+      const vbl = new VersionBundlesLoader(this._extensionUri);
+      const latestVb = await vbl.getLatest();
+
+      if (!latestVb) {
+        void window.showErrorMessage("No version bundles found.");
+
+        return "";
+      }
+
+      const supportedToolchains = await getSupportedToolchains();
+      const latestSupportedToolchain = supportedToolchains.find(
+        t => t.version === latestVb.toolchain
+      );
+      if (!latestSupportedToolchain) {
+        void window.showErrorMessage(
+          "No supported toolchain found for the latest version."
+        );
+
+        return "";
+      }
+
+      const useRISCV = rustProjectGetSelectedChip(
+        workspaceFolder.uri.fsPath
+      )?.includes("riscv");
+
+      toolchainVersion = useRISCV
+        ? latestVb.riscvToolchain
+        : latestVb.toolchain;
+    } else {
+      const selectedToolchainAndSDKVersions =
+        await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
+      if (selectedToolchainAndSDKVersions === null) {
+        return "";
+      }
+
+      toolchainVersion = selectedToolchainAndSDKVersions[1];
     }
-    const toolchainVersion = selectedToolchainAndSDKVersions[1];
 
     let triple = "arm-none-eabi";
     if (toolchainVersion.includes("RISCV")) {
@@ -192,6 +234,8 @@ export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
 }
 
 export class GetChipCommand extends CommandWithResult<string> {
+  private readonly _logger = new Logger("GetChipCommand");
+
   constructor() {
     super("getChip");
   }
@@ -205,6 +249,19 @@ export class GetChipCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (isRustProject) {
+      // read .pico-rs
+      const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
+      if (chip === null) {
+        this._logger.error("Failed to read .pico-rs");
+
+        return "";
+      }
+
+      return chip;
+    }
 
     const settings = Settings.getInstance();
     let buildDir = join(workspaceFolder.uri.fsPath, "build");
@@ -265,6 +322,13 @@ export class GetTargetCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (isRustProject) {
+      const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
+
+      return chip === null ? "rp2040" : chip.toLowerCase();
+    }
 
     const settings = Settings.getInstance();
     let buildDir = join(workspaceFolder.uri.fsPath, "build");
@@ -379,5 +443,52 @@ export class GetOpenOCDRootCommand extends CommandWithResult<
     this.running = false;
 
     return buildOpenOCDPath(openOCDVersion);
+  }
+}
+
+/**
+ * Currently rust only!
+ */
+export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
+  public static readonly id = "getSVDPath";
+
+  constructor(private readonly _extensionUri: Uri) {
+    super(GetSVDPathCommand.id);
+  }
+
+  async execute(): Promise<string | undefined> {
+    if (
+      workspace.workspaceFolders === undefined ||
+      workspace.workspaceFolders.length === 0
+    ) {
+      return "";
+    }
+
+    const isRustProject = State.getInstance().isRustProject;
+    if (!isRustProject) {
+      return;
+    }
+
+    const vs = new VersionBundlesLoader(this._extensionUri);
+    const latestSDK = await vs.getLatestSDK();
+    if (!latestSDK) {
+      return;
+    }
+
+    const chip = rustProjectGetSelectedChip(
+      workspace.workspaceFolders[0].uri.fsPath
+    );
+
+    if (!chip) {
+      return;
+    }
+
+    return joinPosix(
+      buildSDKPath(latestSDK),
+      "src",
+      chip,
+      "hardware_regs",
+      `${chip.toUpperCase()}.svd`
+    );
   }
 }
