@@ -1,14 +1,11 @@
-import { homedir, tmpdir } from "os";
-import { downloadAndInstallGithubAsset } from "./download.mjs";
-import { getRustToolsReleases, GithubRepository } from "./githubREST.mjs";
-import { mkdirSync, renameSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { env, ProgressLocation, Uri, window, workspace } from "vscode";
+import { env, ProgressLocation, Uri, window } from "vscode";
 import { promisify } from "util";
 import { exec } from "child_process";
-import { dirname, join } from "path";
-import { parse as parseToml } from "toml";
+import { join } from "path";
+import { homedir } from "os";
 
 /*const STABLE_INDEX_DOWNLOAD_URL =
   "https://static.rust-lang.org/dist/channel-rust-stable.toml";*/
@@ -202,11 +199,18 @@ async function checkHostToolchainInstalled(): Promise<boolean> {
 
 export async function installHostToolchain(): Promise<boolean> {
   try {
+    // TODO: maybe listen for stderr
     // this will automatically take care of having the correct
-    // recommended host toolchain installed
-    await execAsync("rustup show", {
+    // recommended host toolchain installed except for snap rustup installs
+    const { stdout } = await execAsync("rustup show", {
       windowsHide: true,
     });
+
+    if (stdout.includes("no active toolchain")) {
+      await execAsync("rustup default stable", {
+        windowsHide: true,
+      });
+    }
 
     return true;
   } catch (error) {
@@ -324,24 +328,30 @@ export async function downloadAndInstallRust(): Promise<boolean> {
     return false;
   }
 
-  // install target
-  const target = "thumbv6m-none-eabi";
-  try {
-    const rustup = process.platform === "win32" ? "rustup.exe" : "rustup";
-    await execAsync(`${rustup} target add ${target}`, {
-      windowsHide: true,
-    });
-  } catch (error) {
-    Logger.error(
-      LoggerSource.rustUtil,
-      `Failed to install target '${target}': ${unknownErrorToString(error)}`
-    );
+  // install targets
+  const targets = [
+    "thumbv6m-none-eabi",
+    "thumbv8m.main-none-eabihf",
+    "riscv32imac-unknown-none-elf",
+  ];
+  for (const target of targets) {
+    try {
+      const rustup = process.platform === "win32" ? "rustup.exe" : "rustup";
+      await execAsync(`${rustup} target add ${target}`, {
+        windowsHide: true,
+      });
+    } catch (error) {
+      Logger.error(
+        LoggerSource.rustUtil,
+        `Failed to install target '${target}': ${unknownErrorToString(error)}`
+      );
 
-    void window.showErrorMessage(
-      `Failed to install target '${target}'. Please check the logs.`
-    );
+      void window.showErrorMessage(
+        `Failed to install target '${target}'. Please check the logs.`
+      );
 
-    return false;
+      return false;
+    }
   }
 
   // install flip-link
@@ -381,18 +391,19 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   }
 
   // install cargo-generate binary
-  result = await installCargoGenerate();
+  /*result = await installCargoGenerate();
   if (!result) {
     void window.showErrorMessage(
       "Failed to install cargo-generate. Please check the logs."
     );
 
     return false;
-  }
+  }*/
 
   return true;
 }
 
+/*
 function platformToGithubMatrix(platform: string): string {
   switch (platform) {
     case "darwin":
@@ -479,8 +490,9 @@ async function installCargoGenerate(): Promise<boolean> {
   }
 
   return true;
-}
+}*/
 
+/*
 function flashMethodToArg(fm: FlashMethod): string {
   switch (fm) {
     case FlashMethod.cargoEmbed:
@@ -490,6 +502,7 @@ function flashMethodToArg(fm: FlashMethod): string {
       return "elf2uf2-rs";
   }
 }
+
 
 export async function generateRustProject(
   projectFolder: string,
@@ -552,40 +565,39 @@ export async function generateRustProject(
   }
 
   return true;
-}
+}*/
 
-export async function chipFromCargoToml(): Promise<string | null> {
-  const workspaceFolder = workspace.workspaceFolders?.[0];
-
-  if (!workspaceFolder) {
-    Logger.error(LoggerSource.rustUtil, "No workspace folder found.");
-
-    return null;
-  }
+export function rustProjectGetSelectedChip(
+  workspaceFolder: string
+): "rp2040" | "rp2350" | "rp2350-riscv" | null {
+  const picors = join(workspaceFolder, ".pico-rs");
 
   try {
-    const cargoTomlPath = join(workspaceFolder.uri.fsPath, "Cargo.toml");
-    const contents = await workspace.fs.readFile(Uri.file(cargoTomlPath));
+    const contents = readFileSync(picors, "utf-8").trim();
 
-    const cargoToml = (await parseToml(new TextDecoder().decode(contents))) as {
-      features?: { default?: string[] };
-    };
+    if (
+      contents !== "rp2040" &&
+      contents !== "rp2350" &&
+      contents !== "rp2350-riscv"
+    ) {
+      Logger.error(
+        LoggerSource.rustUtil,
+        `Invalid chip in .pico-rs: ${contents}`
+      );
 
-    const features = cargoToml.features?.default ?? [];
+      // reset to rp2040
+      writeFileSync(picors, "rp2040", "utf-8");
 
-    if (features.includes("rp2040")) {
       return "rp2040";
-    } else if (features.includes("rp2350")) {
-      return "rp2350";
-    } else if (features.includes("rp2350-riscv")) {
-      return "rp2350-RISCV";
     }
+
+    return contents;
   } catch (error) {
     Logger.error(
       LoggerSource.rustUtil,
-      `Failed to read Cargo.toml: ${unknownErrorToString(error)}`
+      `Failed to read .pico-rs: ${unknownErrorToString(error)}`
     );
-  }
 
-  return null;
+    return null;
+  }
 }

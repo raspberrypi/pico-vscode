@@ -44,6 +44,7 @@ import {
   GetChipUppercaseCommand,
   GetPicotoolPathCommand,
   GetOpenOCDRootCommand,
+  GetSVDPathCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -53,6 +54,7 @@ import {
   downloadAndInstallTools,
   downloadAndInstallPicotool,
   downloadAndInstallOpenOCD,
+  installLatestRustRequirements,
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
@@ -80,8 +82,8 @@ import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
 import {
-  chipFromCargoToml,
   downloadAndInstallRust,
+  rustProjectGetSelectedChip,
 } from "./utils/rustUtil.mjs";
 import State from "./state.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
@@ -114,13 +116,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new LaunchTargetPathReleaseCommand(),
     new GetPythonPathCommand(),
     new GetEnvPathCommand(),
-    new GetGDBPathCommand(),
+    new GetGDBPathCommand(context.extensionUri),
     new GetCompilerPathCommand(),
     new GetChipCommand(),
     new GetChipUppercaseCommand(),
     new GetTargetCommand(),
     new GetPicotoolPathCommand(),
     new GetOpenOCDRootCommand(),
+    new GetSVDPathCommand(context.extensionUri),
     new CompileProjectCommand(),
     new RunProjectCommand(),
     new FlashProjectSWDCommand(),
@@ -288,11 +291,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
       return;
     }
 
+    const result = await installLatestRustRequirements(context.extensionUri);
+
+    if (!result) {
+      return;
+    }
+
     ui.showStatusBarItems(isRustProject);
 
-    const chip = await chipFromCargoToml();
+    const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
     if (chip !== null) {
-      ui.updateBoard(chip);
+      ui.updateBoard(chip.toUpperCase());
     } else {
       ui.updateBoard("N/A");
     }
