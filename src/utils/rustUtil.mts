@@ -1,14 +1,11 @@
-import { homedir, tmpdir } from "os";
-import { downloadAndInstallGithubAsset } from "./download.mjs";
-import { getRustToolsReleases, GithubRepository } from "./githubREST.mjs";
-import { mkdirSync, renameSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { env, ProgressLocation, Uri, window, workspace } from "vscode";
+import { env, ProgressLocation, Uri, window } from "vscode";
 import { promisify } from "util";
 import { exec } from "child_process";
-import { dirname, join } from "path";
-import { parse as parseToml } from "toml";
+import { join } from "path";
+import { homedir } from "os";
 
 /*const STABLE_INDEX_DOWNLOAD_URL =
   "https://static.rust-lang.org/dist/channel-rust-stable.toml";*/
@@ -308,29 +305,19 @@ async function installPortableMSVC(): Promise<boolean> {
   )}" --accept-license --msvc-version 14.41 --sdk-version 19041`;
 
   try {
-    const newBase = join(homedir(), ".pico-sdk", "msvc");
-    mkdirSync(newBase, { recursive: true });
-
-    const { stdout, stderr } = await execAsync(command, {
-      shell: process.platform === "win32" ? "powershell.exe" : undefined,
+    // TODO: maybe listen for stderr
+    // this will automatically take care of having the correct
+    // recommended host toolchain installed except for snap rustup installs
+    const { stdout } = await execAsync("rustup show", {
       windowsHide: true,
       cwd: join(homedir(), ".pico-sdk", "msvc"),
     });
 
-    if (stderr) {
-      Logger.error(
-        LoggerSource.rustUtil,
-        `Failed to install MSVC '${command}': ${stderr}`
-      );
-
-      return false;
+    if (stdout.includes("no active toolchain")) {
+      await execAsync("rustup default stable", {
+        windowsHide: true,
+      });
     }
-
-    const newPath = join(newBase, "14.41");
-    // move getScriptsRoot()/msvc to ~/.pico-sdk/msvc/14.41 and symlink to msvc/latest
-    renameSync(join(newBase, "msvc"), newPath);
-
-    symlinkSync(newPath, join(newBase, "latest"), "junction");
 
     return true;
   } catch (error) {
@@ -551,45 +538,31 @@ export async function downloadAndInstallRust(): Promise<boolean> {
     return false;
   }
 
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            VSCMD_ARG_HOST_ARCH: "x64",
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            VSCMD_ARG_TGT_ARCH: "x64",
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            VCToolsVersion: "14.41.34120",
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            WindowsSDKVersion: "10.0.19041.0",
-            // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
-            VCToolsInstallDir: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/`,
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            WindowsSdkBinPath: `${hd}/.pico-sdk/msvc/latest/Windows Kits/10/bin/`,
-            // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
-            INCLUDE: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/include;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/ucrt;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/shared;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/um;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/winrt;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Include/10.0.19041.0/cppwinrt`,
-            // eslint-disable-next-line @typescript-eslint/naming-convention, max-len
-            LIB: `${hd}/.pico-sdk/msvc/latest/VC/Tools/MSVC/14.41.34120/lib/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/ucrt/x64;${hd}/.pico-sdk/msvc/latest/Windows Kits/10/Lib/10.0.19041.0/um/x64`,
-          }
-        : // eslint-disable-next-line @typescript-eslint/naming-convention
-          { PATH: `${hd}/.pico-sdk/cmake/v3.28.6/bin` }
-    );
-    if (!result) {
-      try {
-        rmSync(targetDirectory, { recursive: true, force: true });
-      } catch {
-        /* */
-      }
+  // install targets
+  const targets = [
+    "thumbv6m-none-eabi",
+    "thumbv8m.main-none-eabihf",
+    "riscv32imac-unknown-none-elf",
+  ];
+  for (const target of targets) {
+    try {
+      const rustup = process.platform === "win32" ? "rustup.exe" : "rustup";
+      await execAsync(`${rustup} target add ${target}`, {
+        windowsHide: true,
+      });
+    } catch (error) {
+      Logger.error(
+        LoggerSource.rustUtil,
+        `Failed to install target '${target}': ${unknownErrorToString(error)}`
+      );
 
-      return;
-    }
-    result = await cargoInstall(cargoExecutable, "elf2uf2-rs", true, {});
-    if (!result) {
-      try {
-        rmSync(targetDirectory, { recursive: true, force: true });
-      } catch {
-        /* */
-      }
+      void window.showErrorMessage(
+        `Failed to install target '${target}'. Please check the logs.`
+      );
 
-      return;
+      return false;
     }
+  }
 
   // install flip-link
   const flipLink = "flip-link";
@@ -634,18 +607,19 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   }
 
   // install cargo-generate binary
-  result = await installCargoGenerate();
+  /*result = await installCargoGenerate();
   if (!result) {
     void window.showErrorMessage(
       "Failed to install cargo-generate. Please check the logs."
     );
 
     return false;
-  }
+  }*/
 
   return true;
 }
 
+/*
 function platformToGithubMatrix(platform: string): string {
   switch (platform) {
     case "darwin":
@@ -732,8 +706,9 @@ async function installCargoGenerate(): Promise<boolean> {
   }
 
   return true;
-}
+}*/
 
+/*
 function flashMethodToArg(fm: FlashMethod): string {
   switch (fm) {
     case FlashMethod.cargoEmbed:
@@ -743,6 +718,7 @@ function flashMethodToArg(fm: FlashMethod): string {
       return "elf2uf2-rs";
   }
 }
+
 
 export async function generateRustProject(
   projectFolder: string,
@@ -805,40 +781,39 @@ export async function generateRustProject(
   }
 
   return true;
-}
+}*/
 
-export async function chipFromCargoToml(): Promise<string | null> {
-  const workspaceFolder = workspace.workspaceFolders?.[0];
-
-  if (!workspaceFolder) {
-    Logger.error(LoggerSource.rustUtil, "No workspace folder found.");
-
-    return null;
-  }
+export function rustProjectGetSelectedChip(
+  workspaceFolder: string
+): "rp2040" | "rp2350" | "rp2350-riscv" | null {
+  const picors = join(workspaceFolder, ".pico-rs");
 
   try {
-    const cargoTomlPath = join(workspaceFolder.uri.fsPath, "Cargo.toml");
-    const contents = await workspace.fs.readFile(Uri.file(cargoTomlPath));
+    const contents = readFileSync(picors, "utf-8").trim();
 
-    const cargoToml = (await parseToml(new TextDecoder().decode(contents))) as {
-      features?: { default?: string[] };
-    };
+    if (
+      contents !== "rp2040" &&
+      contents !== "rp2350" &&
+      contents !== "rp2350-riscv"
+    ) {
+      Logger.error(
+        LoggerSource.rustUtil,
+        `Invalid chip in .pico-rs: ${contents}`
+      );
 
-    const features = cargoToml.features?.default ?? [];
+      // reset to rp2040
+      writeFileSync(picors, "rp2040", "utf-8");
 
-    if (features.includes("rp2040")) {
       return "rp2040";
-    } else if (features.includes("rp2350")) {
-      return "rp2350";
-    } else if (features.includes("rp2350-riscv")) {
-      return "rp2350-RISCV";
     }
+
+    return contents;
   } catch (error) {
     Logger.error(
       LoggerSource.rustUtil,
-      `Failed to read Cargo.toml: ${unknownErrorToString(error)}`
+      `Failed to read .pico-rs: ${unknownErrorToString(error)}`
     );
-  }
 
-  return null;
+    return null;
+  }
 }
