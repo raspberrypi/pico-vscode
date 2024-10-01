@@ -90,7 +90,7 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
           chip === "rp2040"
             ? "thumbv6m-none-eabi"
             : chip === "rp2350"
-            ? "thumbv8m.main-none-eabi"
+            ? "thumbv8m.main-none-eabihf"
             : "riscv32imac-unknown-none-elf";
 
         return joinPosix(
@@ -183,10 +183,20 @@ export class LaunchTargetPathReleaseCommand extends CommandWithResult<string> {
       | undefined;
 
     if (cargoToml?.package?.name) {
+      const chip = rustProjectGetSelectedChip(
+        workspace.workspaceFolders[0].uri.fsPath
+      );
+      const toolchain =
+        chip === "rp2040"
+          ? "thumbv6m-none-eabi"
+          : chip === "rp2350"
+          ? "thumbv8m.main-none-eabihf"
+          : "riscv32imac-unknown-none-elf";
+
       return joinPosix(
         workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
         "target",
-        "thumbv6m-none-eabi",
+        toolchain,
         "release",
         cargoToml.package.name
       );

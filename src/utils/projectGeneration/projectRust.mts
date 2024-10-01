@@ -147,13 +147,13 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
       },
       {
         label: "Run Project",
-        type: "process",
+        type: "shell",
         dependsOn: "Compile Project",
         command: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
         args: [
           "load",
           "-x",
-          "${command:raspberry-pi-pico.launchTargetPath}",
+          "${command:raspberry-pi-pico.launchTargetPathRelease}",
           "-t",
           "elf",
           "-f",
