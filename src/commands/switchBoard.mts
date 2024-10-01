@@ -194,7 +194,7 @@ export default class SwitchBoardCommand extends Command {
         board === "RP2040"
           ? "thumbv6m-none-eabi"
           : board === "RP2350"
-          ? "thumbv8m.main-none-eabi"
+          ? "thumbv8m.main-none-eabihf"
           : "riscv32imac-unknown-none-elf";
 
       await workspace
