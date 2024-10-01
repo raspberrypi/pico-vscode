@@ -14,12 +14,15 @@ import Logger, { LoggerSource } from "../logger.mjs";
 import { STATUS_CODES } from "http";
 import type { Dispatcher } from "undici";
 import { Client } from "undici";
-import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
+import {
+  getSupportedToolchains,
+  type SupportedToolchainVersion,
+} from "./toolchainUtil.mjs";
 import { cloneRepository, initSubmodules, ensureGit } from "./gitUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
-import { window } from "vscode";
+import { ProgressLocation, type Uri, window } from "vscode";
 import { fileURLToPath } from "url";
 import {
   type GithubReleaseAssetData,
@@ -47,6 +50,8 @@ import {
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
+import VersionBundlesLoader from "./versionBundles.mjs";
+import { openOCDVersion } from "../webview/newProjectPanel.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -1311,4 +1316,153 @@ export async function downloadEmbedPython(
 
     return;
   }
+}
+
+/**
+ * Downloads and installs the latest SDK and toolchains.
+ *
+ * + OpenOCD + picotool
+ * (includes UI feedback)
+ *
+ * @param extensionUri The URI of the extension
+ */
+export async function installLatestRustRequirements(
+  extensionUri: Uri
+): Promise<boolean> {
+  const vb = new VersionBundlesLoader(extensionUri);
+  const latest = await vb.getLatest();
+  if (latest === undefined) {
+    void window.showErrorMessage(
+      "Failed to get latest version bundles. " +
+        "Please try again and check your settings."
+    );
+
+    return false;
+  }
+
+  const supportedToolchains = await getSupportedToolchains();
+
+  let result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: `Downloading ARM Toolchain for debugging...`,
+    },
+    async progress => {
+      const toolchain = supportedToolchains.find(
+        t => t.version === latest.toolchain
+      );
+
+      if (toolchain === undefined) {
+        void window.showErrorMessage(
+          "Failed to get default toolchain. " +
+            "Please try again and check your internet connection."
+        );
+
+        return false;
+      }
+
+      let progressState = 0;
+
+      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download ARM Toolchain. " +
+        "Please try again and check your settings."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading RISC-V Toolchain for debugging...",
+    },
+    async progress => {
+      const toolchain = supportedToolchains.find(
+        t => t.version === latest.riscvToolchain
+      );
+
+      if (toolchain === undefined) {
+        void window.showErrorMessage(
+          "Failed to get default RISC-V toolchain. " +
+            "Please try again and check your internet connection."
+        );
+
+        return false;
+      }
+
+      let progressState = 0;
+
+      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download RISC-V Toolchain. " +
+        "Please try again and check your internet connection."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing OpenOCD...",
+    },
+    async progress => {
+      let progressState = 0;
+
+      return downloadAndInstallOpenOCD(openOCDVersion, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download OpenOCD. " +
+        "Please try again and check your internet connection."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing picotool...",
+    },
+    async progress => {
+      let progressState = 0;
+
+      return downloadAndInstallPicotool(latest.picotool, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download picotool. " +
+        "Please try again and check your internet connection."
+    );
+  }
+
+  return result;
 }

@@ -1,9 +1,7 @@
 import { assert } from "console";
 import { writeFile } from "fs/promises";
 
-// TODO: maybe not needed
-
-export class TomlInlineObject<T extends Record<string, any>> {
+export class TomlInlineObject<T extends Record<string, unknown>> {
   constructor(public values: T) {}
   public toString(): string {
     return `{ ${Object.entries(this.values)
@@ -18,6 +16,7 @@ export class TomlInlineObject<T extends Record<string, any>> {
           "TomlInlineObject Value must not be an object."
         );
 
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         return `${key} = ${typeof value === "string" ? `"${value}"` : value}`;
       })
       .join(", ")} }`;
@@ -39,7 +38,11 @@ function tomlObjectToString<T>(
       .filter(([, value]) => value !== null && value !== undefined)
       // sort entries by type of value (object type last)
       .sort(([, value1], [, value2]) =>
-        typeof value1 === "object" ? 1 : typeof value2 === "object" ? -1 : 0
+        typeof value1 === "object" && !(value1 instanceof Array)
+          ? 1
+          : typeof value2 === "object" && !(value2 instanceof Array)
+          ? -1
+          : 0
       )
       .reduce((acc, [key, value]) => {
         if (value instanceof TomlInlineObject) {
@@ -61,7 +64,9 @@ function tomlObjectToString<T>(
             return acc;
           }
 
-          acc += `${acc.length > 0 ? "\n" : ""}[${parent + key}]\n`;
+          acc += `${acc.split("\n")[0].split(".").length <= 1 ? "\n" : ""}[${
+            parent + key
+          }]\n`;
           acc += tomlObjectToString(value as object, parent + key + ".");
         } else {
           acc += `${key} = ${

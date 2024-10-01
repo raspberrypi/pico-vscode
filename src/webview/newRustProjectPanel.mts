@@ -27,6 +27,7 @@ import {
   type FlashMethod,
   generateRustProject,
 } from "../utils/projectGeneration/projectRust.mjs";
+import { installLatestRustRequirements } from "../utils/download.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -288,12 +289,18 @@ export class NewRustProjectPanel {
       return;
     }
 
+    let result = await installLatestRustRequirements(this._extensionUri);
+
+    if (!result) {
+      return;
+    }
+
     const projectFolder = join(projectPath, data.projectName);
 
-    const result = await generateRustProject(
+    result = await generateRustProject(
       projectFolder,
-      data.projectName,
-      data.flashMethod
+      data.projectName
+      //data.flashMethod
     );
 
     if (!result) {
@@ -317,7 +324,7 @@ export class NewRustProjectPanel {
 
   private async _update(): Promise<void> {
     this._panel.title = "New Rust Pico Project";
-
+    // TODO: setup latest SDK and Toolchain VB before creating the project
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
       "web",

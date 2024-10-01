@@ -10,18 +10,14 @@ import { exec } from "child_process";
 import {
   GetOpenOCDRootCommand,
   GetPicotoolPathCommand,
+  GetSVDPathCommand,
 } from "../../commands/getPaths.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, window } from "vscode";
-import { getSDKReleases, SDK_REPOSITORY_URL } from "../githubREST.mjs";
-import { downloadAndInstallSDK } from "../download.mjs";
 
 const execAsync = promisify(exec);
 
-async function generateVSCodeConfig(
-  projectRoot: string,
-  picoSDKVersion: string
-): Promise<boolean> {
+async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
   const vsc = join(projectRoot, ".vscode");
 
   // create extensions.json
@@ -29,7 +25,7 @@ async function generateVSCodeConfig(
     recommendations: [
       "marus25.cortex-debug",
       "rust-lang.rust-analyzer",
-      "probe-rs.probe-rs-debugger",
+      //"probe-rs.probe-rs-debugger",
       "raspberry-pi.raspberry-pi-pico",
     ],
   };
@@ -63,8 +59,8 @@ async function generateVSCodeConfig(
           "interface/cmsis-dap.cfg",
           "target/${command:raspberry-pi-pico.getTarget}.cfg",
         ],
-        svdFile: `\${userHome}/.pico-sdk/sdk/${picoSDKVersion}/src/\${command:raspberry-pi-pico.getChip}/hardware_regs/\${command:raspberry-pi-pico.getChipUppercase}.svd`,
-        runToEntryPoint: "main",
+        svdFile: `\${command:${extensionName}.${GetSVDPathCommand.id}}`,
+        runToEntryPoint: "Reset",
         // Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
         // Also works fine for flash binaries
         overrideLaunchCommands: [
@@ -72,12 +68,31 @@ async function generateVSCodeConfig(
           'load "${command:raspberry-pi-pico.launchTargetPath}"',
         ],
         openOCDLaunchCommands: ["adapter speed 5000"],
+        preLaunchTask: "Compile Project (debug)",
+        // TODO: does currently not work
+        rttConfig: {
+          enabled: true,
+          clearSearch: true,
+          address: "0x2003fbc0",
+          searchId: "SEGGER RTT",
+          searchSize: 48,
+          decoders: [
+            {
+              type: "console",
+              encoding: "unsigned",
+              inputmode: "disabled",
+              noprompt: true,
+              label: "RP2",
+              port: 0,
+            },
+          ],
+        },
       },
     ],
   };
 
   const settings = {
-    "rust-analyzer.cargo.target": "thumbv6m-none-eabi",
+    "rust-analyzer.cargo.target": "thumbv8m.main-none-eabihf",
     "rust-analyzer.checkOnSave.allTargets": false,
     "editor.formatOnSave": true,
     "files.exclude": {
@@ -97,6 +112,27 @@ async function generateVSCodeConfig(
         group: {
           kind: "build",
           isDefault: true,
+        },
+        presentation: {
+          reveal: "always",
+          panel: "dedicated",
+        },
+        problemMatcher: "$rustc",
+        options: {
+          env: {
+            PICOTOOL_PATH: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
+          },
+        },
+      },
+      {
+        label: "Compile Project (debug)",
+        type: "process",
+        isBuildCommand: true,
+        command: "cargo",
+        args: ["build"],
+        group: {
+          kind: "build",
+          isDefault: false,
         },
         presentation: {
           reveal: "always",
@@ -197,18 +233,18 @@ use defmt::*;
 use defmt_rtt as _;
 use embedded_hal::delay::DelayNs;
 use embedded_hal::digital::OutputPin;
-#[cfg(feature = "rp2350")]
+#[cfg(target_arch = "riscv32")]
 use panic_halt as _;
-#[cfg(feature = "rp2040")]
+#[cfg(target_arch = "arm")]
 use panic_probe as _;
 
 // Alias for our HAL crate
 use hal::entry;
 
-#[cfg(feature = "rp2350")]
+#[cfg(rp2350)]
 use rp235x_hal as hal;
 
-#[cfg(feature = "rp2040")]
+#[cfg(rp2040)]
 use rp2040_hal as hal;
 
 // use bsp::entry;
@@ -221,19 +257,18 @@ use rp2040_hal as hal;
 /// as the BSPs already perform this step.
 #[link_section = ".boot2"]
 #[used]
-#[cfg(feature = "rp2040")]
+#[cfg(rp2040)]
 pub static BOOT2: [u8; 256] = rp2040_boot2::BOOT_LOADER_GENERIC_03H;
 
-//\`target_abi\`, \`target_arch\`, \`target_endian\`, 
-//\`target_env\`, \`target_family\`, \`target_feature\`, 
-//\`target_has_atomic\`, \`target_has_atomic_equal_alignment\`, 
-//\`target_has_atomic_load_store\`, \`target_os\`, 
-//\`target_pointer_width\`, \`target_thread_local\`, 
-//\`target_vendor\`
+// \`target_abi\`, \`target_arch\`, \`target_endian\`, 
+// \`target_env\`, \`target_family\`, \`target_feature\`, 
+// \`target_has_atomic\`, \`target_has_atomic_equal_alignment\`, 
+// \`target_has_atomic_load_store\`, \`target_os\`, 
+// \`target_pointer_width\`, \`target_thread_local\`, \`target_vendor\`
 /// Tell the Boot ROM about our application
 #[link_section = ".start_block"]
 #[used]
-#[cfg(feature = "rp2350")]
+#[cfg(rp2350)]
 pub static IMAGE_DEF: hal::block::ImageDef = hal::block::ImageDef::secure_exe();
 
 /// External high-speed crystal on the Raspberry Pi Pico 2 board is 12 MHz.
@@ -268,10 +303,10 @@ fn main() -> ! {
     )
     .unwrap();
 
-    #[cfg(feature = "rp2040")]
+    #[cfg(rp2040)]
     let mut timer = hal::Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
-    #[cfg(feature = "rp2350")]
+    #[cfg(rp2350)]
     let mut timer = hal::Timer::new_timer0(pac.TIMER0, &mut pac.RESETS, &clocks);
 
     // The single-cycle I/O block controls our GPIO pins
@@ -348,6 +383,7 @@ interface CargoTomlDependencies {
     | string
     | TomlInlineObject<{
         optional?: boolean;
+        path?: string;
         version: string;
         features?: string[];
       }>;
@@ -361,6 +397,7 @@ interface CargoToml {
     license: string;
   };
 
+  "build-dependencies": CargoTomlDependencies;
   dependencies: CargoTomlDependencies;
 
   /*
@@ -379,13 +416,18 @@ interface CargoToml {
     "'cfg( target_arch = \"riscv32\" )'": {
       dependencies: CargoTomlDependencies;
     };
-  };
 
-  features: {
-    default?: string[];
-    rp2040: string[];
-    rp2350: string[];
-    "rp2350-riscv": string[];
+    "thumbv6m-none-eabi": {
+      dependencies: CargoTomlDependencies;
+    };
+
+    "riscv32imac-unknown-none-elf": {
+      dependencies: CargoTomlDependencies;
+    };
+
+    '"thumbv8m.main-none-eabihf"': {
+      dependencies: CargoTomlDependencies;
+    };
   };
 }
 
@@ -400,28 +442,15 @@ async function generateCargoToml(
       version: "0.1.0",
       license: "MIT or Apache-2.0",
     },
+    "build-dependencies": {
+      regex: "1.11.0",
+    },
     dependencies: {
       "cortex-m": "0.7",
       "cortex-m-rt": "0.7",
       "embedded-hal": "1.0.0",
       defmt: "0.3",
       "defmt-rtt": "0.4",
-      "rp235x-hal": new TomlInlineObject({
-        optional: true,
-        path: "./rp-hal/rp235x-hal",
-        version: "0.2.0",
-        features: ["rt", "critical-section-impl"],
-      }),
-      "rp2040-hal": new TomlInlineObject({
-        optional: true,
-        path: "./rp-hal/rp2040-hal",
-        version: "0.10",
-        features: ["rt", "critical-section-impl"],
-      }),
-      "rp2040-boot2": new TomlInlineObject({
-        optional: true,
-        version: "0.2",
-      }),
     },
     target: {
       "'cfg( target_arch = \"arm\" )'": {
@@ -439,13 +468,36 @@ async function generateCargoToml(
           }),
         },
       },
-    },
+      "thumbv6m-none-eabi": {
+        dependencies: {
+          "rp2040-hal": new TomlInlineObject({
+            path: "./rp-hal/rp2040-hal",
+            version: "0.10",
+            features: ["rt", "critical-section-impl"],
+          }),
+          "rp2040-boot2": "0.2",
+        },
+      },
 
-    features: {
-      default: ["rp2040"],
-      rp2040: ["rp2040-hal", "rp2040-boot2"],
-      rp2350: ["rp235x-hal"],
-      "rp2350-riscv": ["rp2350"],
+      "riscv32imac-unknown-none-elf": {
+        dependencies: {
+          "rp235x-hal": new TomlInlineObject({
+            path: "./rp-hal/rp235x-hal",
+            version: "0.2",
+            features: ["rt", "critical-section-impl"],
+          }),
+        },
+      },
+
+      '"thumbv8m.main-none-eabihf"': {
+        dependencies: {
+          "rp235x-hal": new TomlInlineObject({
+            path: "./rp-hal/rp235x-hal",
+            version: "0.2",
+            features: ["rt", "critical-section-impl"],
+          }),
+        },
+      },
     },
   };
 
@@ -900,33 +952,56 @@ details.");
 async function generateBuildRs(projectRoot: string): Promise<boolean> {
   const buildRs = `//! Set up linker scripts for the rp235x-hal examples
 
-use std::fs::File;
+use std::fs::{ File, read_to_string };
 use std::io::Write;
 use std::path::PathBuf;
 
-#[cfg(all(feature = "rp2040", feature = "rp2350"))]
-compile_error!(
-    "\\"rp2040\\" and \\"rp2350\\" cannot be enabled at the same time - you must choose which to use"
-);
-
-#[cfg(not(any(feature = "rp2040", feature = "rp2350")))]
-compile_error!("You must enable either \\"rp2040\\" or \\"rp2350\\"");
+use regex::Regex;
 
 fn main() {
+    println!("cargo::rustc-check-cfg=cfg(rp2040)");
+    println!("cargo::rustc-check-cfg=cfg(rp2350)");
+
     // Put the linker script somewhere the linker can find it
     let out = PathBuf::from(std::env::var_os("OUT_DIR").unwrap());
     println!("cargo:rustc-link-search={}", out.display());
 
+    println!("cargo:rerun-if-changed=.pico-rs");
+    let contents = read_to_string(".pico-rs")
+        .map(|s| s.trim().to_string().to_lowercase())
+        .unwrap_or_else(|e| {
+            eprintln!("Failed to read file: {}", e);
+            String::new()
+        });
+
     // The file \`memory.x\` is loaded by cortex-m-rt's \`link.x\` script, which
     // is what we specify in \`.cargo/config.toml\` for Arm builds
-    #[cfg(feature = "rp2040")]
-    let memory_x = include_bytes!("rp2040.x");
-    #[cfg(feature = "rp2350")]
-    let memory_x = include_bytes!("rp2350.x");
-    let mut f = File::create(out.join("memory.x")).unwrap();
-    f.write_all(memory_x).unwrap();
-    println!("cargo:rerun-if-changed=rp2040.x");
-    println!("cargo:rerun-if-changed=rp2350.x");
+    let target;
+    if contents == "rp2040" {
+        target = "thumbv6m-none-eabi";
+        let memory_x = include_bytes!("rp2040.x");
+        let mut f = File::create(out.join("memory.x")).unwrap();
+        f.write_all(memory_x).unwrap();
+        println!("cargo::rustc-cfg=rp2040");
+        println!("cargo:rerun-if-changed=rp2040.x");
+    } else {
+        if contents.contains("riscv") {
+            target = "thumbv8m.main-none-eabihf";
+        } else {
+            target = "riscv32imac-unknown-none-elf";
+        }
+        let memory_x = include_bytes!("rp2350.x");
+        let mut f = File::create(out.join("memory.x")).unwrap();
+        f.write_all(memory_x).unwrap();
+        println!("cargo::rustc-cfg=rp2350");
+        println!("cargo:rerun-if-changed=rp2350.x");
+    }
+
+    let re = Regex::new(r"target = .*").unwrap();
+    let config_toml = include_str!(".cargo/config.toml");
+    let result = re.replace(config_toml, format!("target = \\"{}\\"", target));
+    let mut f = File::create(".cargo/config.toml").unwrap();
+    f.write_all(result.as_bytes()).unwrap();
 
     // The file \`rp2350_riscv.x\` is what we specify in \`.cargo/config.toml\` for
     // RISC-V builds
@@ -936,7 +1011,8 @@ fn main() {
     println!("cargo:rerun-if-changed=rp2350_riscv.x");
 
     println!("cargo:rerun-if-changed=build.rs");
-}`;
+}
+`;
 
   try {
     await writeFile(join(projectRoot, "build.rs"), buildRs);
@@ -1098,9 +1174,10 @@ async function generateCargoConfig(projectRoot: string): Promise<boolean> {
 #
 
 [build]
+target = "thumbv8m.main-none-eabihf"
 # Set the default target to match the Cortex-M33 in the RP2350
 # target = "thumbv8m.main-none-eabihf"
-target = "thumbv6m-none-eabi"
+# target = "thumbv6m-none-eabi"
 # target = "riscv32imac-unknown-none-elf"
 
 # Target specific options
@@ -1208,8 +1285,7 @@ runner = "\${PICOTOOL_PATH} load -u -v -x -t elf"
  */
 export async function generateRustProject(
   projectFolder: string,
-  projectName: string,
-  flashMethod: FlashMethod
+  projectName: string
 ): Promise<boolean> {
   const picotoolPath: string | undefined = await commands.executeCommand(
     `${extensionName}.${GetPicotoolPathCommand.id}`
@@ -1284,31 +1360,7 @@ export async function generateRustProject(
     return false;
   }
 
-  const picoSDK = await getSDKReleases();
-  if (picoSDK.length === 0) {
-    Logger.error(LoggerSource.projectRust, "Failed to get SDK releases.");
-
-    void window.showErrorMessage(
-      "Failed to get SDK releases. Please try again and check your settings."
-    );
-
-    return false;
-  }
-  result = await downloadAndInstallSDK(picoSDK[0], SDK_REPOSITORY_URL);
-  if (!result) {
-    Logger.error(
-      LoggerSource.projectRust,
-      "Failed to download and install SDK."
-    );
-
-    void window.showErrorMessage(
-      "Failed to download and install SDK. Please try again and check your settings."
-    );
-
-    return false;
-  }
-
-  result = await generateVSCodeConfig(projectFolder, picoSDK[0]);
+  result = await generateVSCodeConfig(projectFolder);
   if (!result) {
     return false;
   }
@@ -1320,10 +1372,7 @@ export async function generateRustProject(
 
   // add .pico-rs file
   try {
-    await writeFile(
-      join(projectFolder, ".pico-rs"),
-      JSON.stringify({ flashMethod })
-    );
+    await writeFile(join(projectFolder, ".pico-rs"), "rp2350");
   } catch (error) {
     Logger.error(
       LoggerSource.projectRust,
