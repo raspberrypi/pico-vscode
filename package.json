@@ -161,6 +161,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getSVDPath",
+        "title": "Get SVD Path (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
