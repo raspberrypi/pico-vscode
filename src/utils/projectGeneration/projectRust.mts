@@ -986,9 +986,9 @@ fn main() {
         println!("cargo:rerun-if-changed=rp2040.x");
     } else {
         if contents.contains("riscv") {
-            target = "thumbv8m.main-none-eabihf";
-        } else {
             target = "riscv32imac-unknown-none-elf";
+        } else {
+            target = "thumbv8m.main-none-eabihf";
         }
         let memory_x = include_bytes!("rp2350.x");
         let mut f = File::create(out.join("memory.x")).unwrap();
