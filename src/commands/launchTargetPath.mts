@@ -7,6 +7,7 @@ import State from "../state.mjs";
 import { parse as parseToml } from "toml";
 import { join as joinPosix } from "path/posix";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
+import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
   public static readonly id = "launchTargetPath";
@@ -82,10 +83,20 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
         | undefined;
 
       if (cargoToml?.package?.name) {
+        const chip = rustProjectGetSelectedChip(
+          workspace.workspaceFolders[0].uri.fsPath
+        );
+        const toolchain =
+          chip === "rp2040"
+            ? "thumbv6m-none-eabi"
+            : chip === "rp2350"
+            ? "thumbv8m.main-none-eabi"
+            : "riscv32imac-unknown-none-elf";
+
         return joinPosix(
           workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
           "target",
-          "thumbv6m-none-eabi",
+          toolchain,
           "debug",
           cargoToml.package.name
         );

@@ -7,7 +7,7 @@ import {
   workspace,
   type Uri,
 } from "vscode";
-import { existsSync, readdirSync, readFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import {
   buildSDKPath,
   downloadAndInstallToolchain,
@@ -28,9 +28,6 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
 import State from "../state.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
-import { writeFile } from "fs/promises";
-import { parse as parseToml } from "toml";
-import { writeTomlFile } from "../utils/projectGeneration/tomlUtil.mjs";
 
 export default class SwitchBoardCommand extends Command {
   private _logger: Logger = new Logger("SwitchBoardCommand");
@@ -152,20 +149,20 @@ export default class SwitchBoardCommand extends Command {
     // check it has a CMakeLists.txt
     if (
       workspaceFolder === undefined ||
-      !existsSync(join(workspaceFolder.uri.fsPath, "CMakeLists.txt")) ||
-      isRustProject
+      (!existsSync(join(workspaceFolder.uri.fsPath, "CMakeLists.txt")) &&
+        !isRustProject)
     ) {
       return;
     }
 
     if (isRustProject) {
       const board = await window.showQuickPick(
-        ["rp2040", "rp2350", "rp2350-RISCV"],
+        ["RP2040", "RP2350", "RP2350-RISCV"],
         {
           placeHolder: "Select chip",
           canPickMany: false,
           ignoreFocusOut: false,
-          title: "Select chip",
+          title: "Switch project target chip",
         }
       );
 
@@ -173,86 +170,36 @@ export default class SwitchBoardCommand extends Command {
         return undefined;
       }
 
-      const target =
-        board === "rp2350-RISCV"
-          ? "riscv32imac-unknown-none-elf"
-          : board === "rp2350"
-          ? "thumbv8m.main-none-eabihf"
-          : "thumbv6m-none-eabi";
-
-      // check if .cargo/config.toml already contains a line starting with
-      // target = "${target}" and if no replace target = "..." with it with the new target
-
       try {
-        const cargoConfigPath = join(
-          workspaceFolder.uri.fsPath,
-          ".cargo",
-          "config.toml"
+        writeFileSync(
+          join(workspaceFolder.uri.fsPath, ".pico-rs"),
+          board.toLowerCase(),
+          "utf8"
         );
-
-        const contents = readFileSync(cargoConfigPath, "utf-8");
-
-        const newContents = contents.replace(
-          /target = ".*"/,
-          `target = "${target}"`
-        );
-
-        if (newContents === contents) {
-          return;
-        }
-
-        // write new contents to file
-        await writeFile(cargoConfigPath, newContents);
-
-        const cargoToml = (await parseToml(contents)) as {
-          features?: { default?: string[] };
-        };
-
-        let features = cargoToml.features?.default ?? [];
-
-        switch (board) {
-          case "rp2040":
-            features.push("rp2040");
-            // remove all other features rp2350 and rp2350-riscv
-            features = features.filter(
-              f => f !== "rp2350" && f !== "rp2350-riscv"
-            );
-            break;
-          case "rp2350":
-            features.push("rp2350");
-            // remove all other features rp2040 and rp2350-riscv
-            features = features.filter(
-              f => f !== "rp2040" && f !== "rp2350-riscv"
-            );
-            break;
-          case "rp2350-RISCV":
-            features.push("rp2350-riscv");
-            // remove all other features rp2040 and rp2350
-            features = features.filter(f => f !== "rp2040" && f !== "rp2350");
-            break;
-        }
-
-        if (cargoToml.features) {
-          cargoToml.features.default = features;
-        } else {
-          // not necessary becuase your project is broken at this point
-          cargoToml.features = { default: features };
-        }
-
-        await writeTomlFile(cargoConfigPath, cargoToml);
       } catch (error) {
         this._logger.error(
-          "Failed to update .cargo/config.toml",
-          unknownErrorToString(error)
+          `Failed to write .pico-rs file: ${unknownErrorToString(error)}`
         );
 
         void window.showErrorMessage(
-          "Failed to update Cargo.toml and " +
-            ".cargo/config.toml - cannot update chip"
+          "Failed to write .pico-rs file. " +
+            "Please check the logs for more information."
         );
 
         return;
       }
+
+      this._ui.updateBoard(board.toUpperCase());
+      const toolchain =
+        board === "RP2040"
+          ? "thumbv6m-none-eabi"
+          : board === "RP2350"
+          ? "thumbv8m.main-none-eabi"
+          : "riscv32imac-unknown-none-elf";
+
+      await workspace
+        .getConfiguration("rust-analyzer")
+        .update("cargo.target", toolchain, null);
 
       return;
     }
