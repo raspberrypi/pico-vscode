@@ -109,10 +109,14 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
   const projectNameGrid = document.getElementById('project-name-grid');
   const projectNameDropdownButton = document.getElementById('project-name-dropdown-button');
   const defaultBoardTypeOption = document.getElementById('sel-default');
+  const picoSDKSelector = document.getElementById('pico-sdk-selector');
 
   if (isExampleMode && (forceOn === undefined || !forceOn) && (forceOff === undefined || forceOff)) {
     // clear input to avoid crashing the webview
     projectNameInput.value = '';
+
+    picoSDKSelector.classList.remove('advanced-option');
+    picoSDKSelector.hidden = false;
 
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'false');
@@ -166,6 +170,9 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       hideCustomInputs(projectOptionsDivs, false);
     }
   } else if (forceOff === undefined || !forceOff) {
+    picoSDKSelector.classList.add('advanced-option');
+    picoSDKSelector.hidden = true;
+
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'true');
       createFromExampleBtn.innerText = 'Custom';
