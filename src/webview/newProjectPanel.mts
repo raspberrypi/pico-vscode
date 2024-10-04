@@ -13,6 +13,7 @@ import {
   ColorThemeKind,
   ProgressLocation,
   type Progress,
+  env,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
@@ -61,6 +62,7 @@ import {
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
+import checkSwiftRequirements from "../utils/swiftUtil.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
@@ -114,6 +116,7 @@ interface SubmitMessageValue extends ImportProjectMessageValue {
   runFromRAM: boolean;
   entryPointProjectName: boolean;
   cpp: boolean;
+  swift: boolean;
   cppRtti: boolean;
   cppExceptions: boolean;
 }
@@ -160,6 +163,7 @@ enum CodeOption {
   runFromRAM = "Run the program from RAM rather than flash",
   entryPointProjectName = "Use project name as entry point file name",
   cpp = "Generate C++ code",
+  swift = "Generate Swift code",
   cppRtti = "Enable C++ RTTI (Uses more memory)",
   cppExceptions = "Enable C++ exceptions (Uses more memory)",
 }
@@ -244,6 +248,8 @@ function enumToParam(
       return "-e";
     case CodeOption.cpp:
       return "-cpp";
+    case CodeOption.swift:
+      return "-swift";
     case CodeOption.cppRtti:
       return "-cpprtti";
     case CodeOption.cppExceptions:
@@ -1258,6 +1264,39 @@ export class NewProjectPanel {
       if (example === undefined && !this._isProjectImport) {
         const theData = data as SubmitMessageValue;
 
+        if (theData.swift) {
+          const swiftResult = await window.withProgress(
+            {
+              location: ProgressLocation.Notification,
+              title: "Checking Swift installation",
+              cancellable: false,
+            },
+            async () => checkSwiftRequirements()
+          );
+
+          if (!swiftResult) {
+            progress.report({
+              message: "Failed",
+              increment: 100,
+            });
+            void window
+              .showErrorMessage(
+                "Swift is required for Swift project generation. Please install Swift.",
+                "Install"
+              )
+              .then(selected => {
+                if (selected) {
+                  env.openExternal(
+                    // TODO: check url
+                    Uri.parse("https://swift.org/download/#releases")
+                  );
+                }
+              });
+
+            return;
+          }
+        }
+
         await this._settings.setEntryPointNamingPref(
           theData.entryPointProjectName
         );
@@ -1290,6 +1329,7 @@ export class NewProjectPanel {
               ? CodeOption.entryPointProjectName
               : null,
             theData.cpp ? CodeOption.cpp : null,
+            theData.swift ? CodeOption.swift : null,
             theData.cppRtti ? CodeOption.cppRtti : null,
             theData.cppExceptions ? CodeOption.cppExceptions : null,
           ].filter(option => option !== null),
@@ -2148,6 +2188,12 @@ export class NewProjectPanel {
                     <div class="flex items-center pl-3">
                       <input id="cpp-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                       <label for="cpp-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Generate C++ code</label>
+                    </div>
+                  </li>
+                  <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div class="flex items-center pl-3">
+                      <input id="swift-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                      <label for="swift-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Generate Swift code</label>
                     </div>
                   </li>
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">

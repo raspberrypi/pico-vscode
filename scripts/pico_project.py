@@ -393,6 +393,265 @@ code_fragments_per_feature = {
     ],
 }
 
+code_fragments_per_feature_swift = {
+    'uart' : [
+              (
+                "// UART defines",
+                "// By default the stdout UART is `uart0`, so we will use the second one",
+                "let UART_ID = \"uart1\"",
+                "let BAUD_RATE = 115200", "",
+                "// Use pins 4 and 5 for UART1",
+                "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
+                "let UART_TX_PIN = 4",
+                "let UART_RX_PIN = 5"
+              ),
+              (
+                "// Set up our UART",
+                "uart_init(UART_ID, BAUD_RATE)",
+                "// Set the TX and RX pins by using the function select on the GPIO",
+                "// Set datasheet for more information on function select",
+                "gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART)",
+                "gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART)",
+                "",
+                "// Use some the various UART functions to send out data",
+                "// In a default system, printf will also output via the default UART",
+                "",
+                # here should be following
+                # "// Send out a character without any conversions",
+                #"uart_putc_raw(UART_ID, 'A');",
+                #"",
+                #"// Send out a character but do CR/LF conversions",
+                #"uart_putc(UART_ID, 'B');",
+                # "",
+                "// Send out a string, with CR/LF conversions",
+                "uart_puts(UART_ID, \" Hello, UART!\\n\")",
+                "",
+                "// For more examples of UART use see https://github.com/raspberrypi/pico-examples/tree/master/uart"
+              )
+            ],
+    'spi' : [
+              (
+                "// SPI Constants",
+                "// We are going to use SPI 0, and allocate it to the following GPIO pins",
+                "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
+                "let SPI_PORT = \"spi0\"",
+                "let PIN_MISO = 16",
+                "let PIN_CS   = 17",
+                "let PIN_SCK  = 18",
+                "let PIN_MOSI = 19"
+              ),
+              (
+                "// SPI initialisation. This example will use SPI at 1MHz.",
+                "spi_init(SPI_PORT, 1000*1000)",
+                "gpio_set_function(PIN_MISO, GPIO_FUNC_SPI)",
+                "gpio_set_function(PIN_CS,   GPIO_FUNC_SIO)",
+                "gpio_set_function(PIN_SCK,  GPIO_FUNC_SPI)",
+                "gpio_set_function(PIN_MOSI, GPIO_FUNC_SPI)", "",
+                "// Chip select is active-low, so we'll initialise it to a driven-high state",
+                "gpio_set_dir(PIN_CS, GPIO_OUT)",
+                "gpio_put(PIN_CS, 1)",
+                "// For more examples of SPI use see https://github.com/raspberrypi/pico-examples/tree/master/spi"
+              )
+            ],
+    'i2c' : [
+              (
+                "// I2C defines",
+                "// This example will use I2C0 on GPIO8 (SDA) and GPIO9 (SCL) running at 400KHz.",
+                "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
+                "let I2C_PORT = \"i2c0\"",
+                "let I2C_SDA = 8",
+                "let I2C_SCL = 9",
+              ),
+              (
+                "// I2C Initialisation. Using it at 400Khz.",
+                "i2c_init(I2C_PORT, 400*1000)","",
+                "gpio_set_function(I2C_SDA, GPIO_FUNC_I2C)",
+                "gpio_set_function(I2C_SCL, GPIO_FUNC_I2C)",
+                "gpio_pull_up(I2C_SDA)",
+                "gpio_pull_up(I2C_SCL)",
+                "// For more examples of I2C use see https://github.com/raspberrypi/pico-examples/tree/master/i2c",
+              )
+            ],
+    "dma" : [
+              (
+                '// Data will be copied from src to dst',
+                'let src = "Hello, world! (from DMA)"',
+                'var dst = [UInt8](repeating: 0, count: src.count)',
+              ),
+              (
+                '// Get a free channel, panic() if there are none',
+                'let chan = dma_claim_unused_channel(true)',
+                '',
+                '// 8 bit transfers. Both read and write address increment after each',
+                '// transfer (each pointing to a location in src or dst respectively).',
+                '// No DREQ is selected, so the DMA transfers as fast as it can.',
+                '',
+                'let c = dma_channel_get_default_config(chan)',
+                'channel_config_set_transfer_data_size(&c, DMA_SIZE_8)',
+                'channel_config_set_read_increment(&c, true)',
+                'channel_config_set_write_increment(&c, true)',
+                '',
+                'dma_channel_configure(',
+                '    chan,          // Channel to be configured',
+                '    &c,            // The configuration we just created',
+                '    dst,           // The initial write address',
+                '    src,           // The initial read address',
+                '    count_of(src), // Number of transfers; in this case each is 1 byte.',
+                '    true           // Start immediately.',
+                ')',
+                '',
+                '// We could choose to go and do something else whilst the DMA is doing its',
+                '// thing. In this case the processor has nothing else to do, so we just',
+                '// wait for the DMA to finish.',
+                'dma_channel_wait_for_finish_blocking(chan)',
+                '',
+                '// The DMA has now copied our text from the transmit buffer (src) to the',
+                '// receive buffer (dst), so we can print it out from there.',
+                'puts(dst)',
+              )
+            ],
+
+    "pio" : [
+              (
+                '#include \"blink.pio.h\"',
+                'static func blink_pin_forever(pio: PIO, sm: uint, offset: uint, pin: uint, freq: uint) {',
+                '    blink_program_init(pio, sm, offset, pin)',
+                '    pio_sm_set_enabled(pio, sm, true)',
+                '',
+                '    printf("Blinking pin %d at %d Hz\\n", pin, freq)',
+                '',
+                '    // PIO counter program takes 3 more cycles in total than we pass as',
+                '    // input (wait for n + 1; mov; jmp)',
+                '    pio.txf[sm] = (125000000 / (2 * freq)) - 3',
+                '}',
+              ),
+              (
+                '// PIO Blinking example',
+                'let pio = pio0',
+                'let offset = pio_add_program(pio, &blink_program)',
+                'printf("Loaded program at %d\\n", offset)',
+                '',
+                '#ifdef PICO_DEFAULT_LED_PIN',
+                'blink_pin_forever(pio, 0, offset, PICO_DEFAULT_LED_PIN, 3)',
+                '#else',
+                'blink_pin_forever(pio, 0, offset, 6, 3)',
+                '#endif',
+                '// For more pio examples see https://github.com/raspberrypi/pico-examples/tree/master/pio',
+              )
+            ],
+
+    "clocks" :  [
+                  (),
+                  (
+                    'printf("System Clock Frequency is %d Hz\\n", clock_get_hz(clk_sys))',
+                    'printf("USB Clock Frequency is %d Hz\\n", clock_get_hz(clk_usb))',
+                    '// For more examples of clocks use see https://github.com/raspberrypi/pico-examples/tree/master/clocks',
+                  )
+                ],
+
+    "gpio" : [
+              (
+                "// GPIO constants",
+                "// Example uses GPIO 2",
+                "let GPIO = 2"
+              ),
+              (
+                "// GPIO initialisation.",
+                "// We will make this GPIO an input, and pull it up by default",
+                "gpio_init(GPIO)",
+                "gpio_set_dir(GPIO, GPIO_IN)",
+                "gpio_pull_up(GPIO)",
+                "// See https://github.com/raspberrypi/pico-examples/tree/master/gpio for other gpio examples, including using interrupts",
+              )
+            ],
+    "interp" :[
+               (),
+               (
+                "// Interpolator example code",
+                "interp_config cfg = interp_default_config()",
+                "// Now use the various interpolator library functions for your use case",
+                "// e.g. interp_config_clamp(&cfg, true)",
+                "//      interp_config_shift(&cfg, 2)",
+                "// Then set the config ",
+                "interp_set_config(interp0, 0, &cfg)",
+                "// For examples of interpolator use see https://github.com/raspberrypi/pico-examples/tree/master/interp"
+               )
+              ],
+
+    "timer"  : [
+                (
+                 "func alarm_callback(id: alarm_id_t, user_data: void): int64_t {",
+                 "    // Put your timeout handler code in here",
+                 "    return 0",
+                 "}"
+                ),
+                (
+                 "// Timer example code - This example fires off the callback after 2000ms",
+                 "add_alarm_in_ms(2000, alarm_callback, NULL, false)",
+                 "// For more examples of timer use see https://github.com/raspberrypi/pico-examples/tree/master/timer"
+                )
+              ],
+
+    "watchdog":[ (),
+                (
+                    "// Watchdog example code",
+                    "if watchdog_caused_reboot() {",
+                    "    printf(\"Rebooted by Watchdog!\\n\")",
+                    "    // Whatever action you may take if a watchdog caused a reboot",
+                    "}","",
+                    "// Enable the watchdog, requiring the watchdog to be updated every 100ms or the chip will reboot",
+                    "// second arg is pause on debug which means the watchdog will pause when stepping through code",
+                    "watchdog_enable(100, 1)","",
+                    "// You need to call this function at least more often than the 100ms in the enable call to prevent a reboot",
+                    "watchdog_update()",
+                )
+              ],
+
+    "div"    : [ (),
+                 (
+                    "// Example of using the HW divider. The pico_divider library provides a more user friendly set of APIs ",
+                    "// over the divider (and support for 64 bit divides), and of course by default regular C language integer",
+                    "// divisions are redirected thru that library, meaning you can just use C level `/` and `%` operators and",
+                    "// gain the benefits of the fast hardware divider.",
+                    "let dividend = 123456",
+                    "let divisor = -321",
+                    "// This is the recommended signed fast divider for general use.",
+                    "let result = hw_divider_divmod_s32(dividend, divisor)",
+                    "printf(\"%d/%d = %d remainder %d\\n\", dividend, divisor, to_quotient_s32(result), to_remainder_s32(result))",
+                    "// This is the recommended unsigned fast divider for general use.",
+                    "let udividend = 123456",
+                    "let udivisor = 321",
+                    "let uresult = hw_divider_divmod_u32(udividend, udivisor)",
+                    "printf(\"%d/%d = %d remainder %d\\n\", udividend, udivisor, to_quotient_u32(uresult), to_remainder_u32(uresult))",
+                    "// See https://github.com/raspberrypi/pico-examples/tree/master/divider for more complex use"
+                 )
+                ],
+
+    "picow_led":[ (),
+                  (
+                    "// Example to turn on the Pico W LED",
+                    "cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1)"
+                  )
+                ],
+
+    "picow_wifi":[ (),
+                  (
+                    '// Enable wifi station',
+                    'cyw43_arch_enable_sta_mode()\n',
+                    'printf("Connecting to Wi-Fi...\\n")',
+                    'if cyw43_arch_wifi_connect_timeout_ms("Your Wi-Fi SSID", "Your Wi-Fi Password", CYW43_AUTH_WPA2_AES_PSK, 30000) {',
+                    '    printf("failed to connect.\\n")',
+                    '    return 1',
+                    '} else {',
+                    '    printf("Connected.\\n")',
+                    '    // Read the ip address in a human readable way',
+                    '    let ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr)',
+                    '    printf("IP address %d.%d.%d.%d\\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3])',
+                    '}',
+                  )
+                ]
+}
+
 # Add wifi example for poll and background modes
 code_fragments_per_feature["picow_poll"] = code_fragments_per_feature["picow_wifi"]
 code_fragments_per_feature["picow_background"] = code_fragments_per_feature[
@@ -645,22 +904,35 @@ def ParseCommandLine():
         "--userHome",
         help="Full path to user's home directory",
     )
+    parser.add_argument("-swift", "--swift", action='store_true', help="Use Swift as the language for the project")
 
     return parser.parse_args()
 
 
-def GenerateMain(folder, projectName, features, cpp, wantEntryProjName):
+def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
 
     executableName = projectName if wantEntryProjName else "main"
     if cpp:
-        filename = Path(folder) / (executableName + ".cpp")
+        filename = Path(folder) / (executableName + '.cpp')
+    elif swift:
+        filename = Path(folder) / (executableName + '.swift')
     else:
         filename = Path(folder) / (executableName + ".c")
 
-    file = open(filename, "w")
+    file = open(filename, 'w')
+    bridging_file = None
 
-    main = "#include <stdio.h>\n" '#include "pico/stdlib.h"\n'
-    file.write(main)
+    if swift:
+        # write bridging header
+        bridging_file = open(Path(folder) / "BridgingHeader.h", 'w')
+        bridging_file.write("#pragma once\n\n")
+        bridging_file.write("#include <stdio.h>\n")
+        bridging_file.write("#include \"pico/stdlib.h\"\n")
+    else:
+        main = ('#include <stdio.h>\n'
+            '#include "pico/stdlib.h"\n'
+            )
+        file.write(main)
 
     if features:
 
@@ -670,64 +942,114 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName):
                 if len(features_list[feat][H_FILE]) == 0:
                     continue
                 o = f'#include "{features_list[feat][H_FILE]}"\n'
-                file.write(o)
-            if feat in stdlib_examples_list:
+                if swift:
+                    bridging_file.write(o)
+                else:
+                    file.write(o)
+            if (feat in stdlib_examples_list):
                 if len(stdlib_examples_list[feat][H_FILE]) == 0:
                     continue
                 o = f'#include "{stdlib_examples_list[feat][H_FILE]}"\n'
-                file.write(o)
-            if feat in picow_options_list:
+                if swift:
+                    bridging_file.write(o)
+                else:
+                    file.write(o)
+            if (feat in picow_options_list):
                 if len(picow_options_list[feat][H_FILE]) == 0:
                     continue
                 o = f'#include "{picow_options_list[feat][H_FILE]}"\n'
-                file.write(o)
+                if swift:
+                    bridging_file.write(o)
+                else:
+                    file.write(o)
 
         file.write("\n")
 
+        frags = (code_fragments_per_feature if not swift else code_fragments_per_feature_swift)
+
         # Add any defines
         for feat in features:
-            if feat in code_fragments_per_feature:
-                for s in code_fragments_per_feature[feat][DEFINES]:
+            if (feat in frags):
+                for s in frags[feat][DEFINES]:
+                    if swift and s.startswith("#include"):
+                        bridging_file.write(s)
+                        bridging_file.write('\n')
                     file.write(s)
                     file.write("\n")
                 file.write("\n")
 
-    main = "\n\n" "int main()\n" "{\n" "    stdio_init_all();\n\n"
+    main = None
+    if swift:
+        main = ('\n\n'
+            '@main\n'
+            'struct Main {\n'
+            '  \n'
+            '  static func main() {\n'
+            '    stdio_init_all();\n\n'
+            )
+    else: 
+        main = ('\n\n'
+            'int main()\n'
+            '{\n'
+            '    stdio_init_all();\n\n'
+            )
 
     if any([feat in picow_options_list and feat != "picow_none" for feat in features]):
-        main += (
-            "    // Initialise the Wi-Fi chip\n"
-            "    if (cyw43_arch_init()) {\n"
+        if swift:
+            main += (
+            '    // Initialise the Wi-Fi chip\n'
+            '    if cyw43_arch_init() {\n'
+            '        printf("Wi-Fi init failed\\n")\n'
+            '        return -1\n'
+            '    }\n\n')
+        else:
+            main += (
+            '    // Initialise the Wi-Fi chip\n'
+            '    if (cyw43_arch_init()) {\n'
             '        printf("Wi-Fi init failed\\n");\n'
             "        return -1;\n"
             "    }\n\n"
         )
 
     if features:
+        frags = (code_fragments_per_feature if not swift else code_fragments_per_feature_swift)
         # Add any initialisers
         indent = 4
         for feat in features:
-            if feat in code_fragments_per_feature:
-                for s in code_fragments_per_feature[feat][INITIALISERS]:
-                    main += " " * indent
+            if (feat in frags):
+                for s in frags[feat][INITIALISERS]:
+                    main += (" " * indent)
                     main += s
                     main += "\n"
                 main += "\n"
 
-    main += (
-        "    while (true) {\n"
-        '        printf("Hello, world!\\n");\n'
-        "        sleep_ms(1000);\n"
-        "    }\n"
-        "}\n"
-    )
-
+    if swift:
+        main += ('    while true {\n'
+             '        printf("Hello, world!\\n")\n'
+             '        sleep_ms(1000)\n'
+             '    }\n'
+             '  }\n'
+             '}\n'
+            )
+    else:
+        main += ('    while (true) {\n'
+             '        printf("Hello, world!\\n");\n'
+             '        sleep_ms(1000);\n'
+             '    }\n'
+             '}\n'
+            )
+        
     file.write(main)
 
+    bridging_file.close()
     file.close()
 
 
 def GenerateCMake(folder, params):
+    if (params["wantConvert"] or params['wantCPP']) and params["useSwift"]:
+        print("Invalid combination of options - Swift and C++ are not compatible and Swift can't be used when converting - exiting")
+        exit(20)
+
     filename = Path(folder) / CMAKELIST_FILENAME
     projectName = params["projectName"]
     board_type = params["boardtype"]
@@ -760,11 +1082,11 @@ def GenerateCMake(folder, params):
     )
 
     cmake_header2 = (
-        f'set(PICO_BOARD {board_type} CACHE STRING "Board type")\n\n'
-        "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
-        "include(pico_sdk_import.cmake)\n\n"
-        f"project({projectName} C CXX ASM)\n"
-    )
+                 f"set(PICO_BOARD {board_type} CACHE STRING \"Board type\")\n\n"
+                 "# Pull in Raspberry Pi Pico SDK (must be before project)\n"
+                 "include(pico_sdk_import.cmake)\n\n"
+                 f"project({projectName} {"" if params["useSwift"] else "C CXX ASM"})\n"
+                )
 
     cmake_header3 = (
         "\n# Initialise the Raspberry Pi Pico SDK\n"
@@ -861,6 +1183,28 @@ def GenerateCMake(folder, params):
 
     file.write(cmake_header3)
 
+    if params["useSwift"]:
+        cmake_if_apple = (
+            "if(APPLE)\n"
+            "    execute_process(COMMAND xcrun -f swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            "else()\n"
+            "    execute_process(COMMAND which swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            "endif()\n"
+        )
+        cmake_swift_target = (
+            "set(SWIFT_TARGET \"armv6m-none-none-eabi\") # RP2040\n\n"
+            "if(PICO_PLATFORM STREQUAL \"rp2350-arm-s\")\n"
+            "    message(STATUS \"PICO_PLATFORM is set to rp2350-arm-s, using armv7em\")\n"
+            "    set(SWIFT_TARGET \"armv7em-none-none-eabi\")\n"
+            "elseif(PICO_PLATFORM STREQUAL \"rp2350-riscv\")\n"
+            "    # Untested, gives PICO-SDK errors when building\n"
+            "    message(WARNING \"PICO_PLATFORM is set to rp2350-riscv, using riscv32 (untested). It is recommended to use rp2350-arm-s.\")\n"
+            "    set(SWIFT_TARGET \"riscv32-none-none-eabi\")\n"
+            "endif()\n"
+        )
+        file.write(cmake_if_apple)
+        file.write(cmake_swift_target)
+
     # add the preprocessor defines for overall configuration
     if params["configs"]:
         file.write("# Add any PICO_CONFIG entries specified in the Advanced settings\n")
@@ -874,8 +1218,32 @@ def GenerateCMake(folder, params):
 
     entry_point_file_name = projectName if params["wantEntryProjName"] else "main"
 
-    if params["wantCPP"]:
-        file.write(f"add_executable({projectName} {entry_point_file_name}.cpp )\n\n")
+    if params['wantCPP']:
+        file.write(f'add_executable({projectName} {entry_point_file_name}.cpp )\n\n')
+    elif params['useSwift']:
+        file.write(f'add_executable({projectName})\n\n')
+        
+        main_file_name = f"{entry_point_file_name}.swift"
+        cmake_custom_swift_command = (
+            "add_custom_command(\n"
+            "    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n"
+            "    COMMAND\n"
+            "        ${SWIFTC}\n"
+            "        -target ${SWIFT_TARGET} -Xcc -mfloat-abi=soft -Xcc -fshort-enums\n"
+            "        -Xfrontend -function-sections -enable-experimental-feature Embedded -wmo -parse-as-library\n"
+            "        $$\( echo '$<TARGET_PROPERTY:swift-blinky,INCLUDE_DIRECTORIES>' | tr '\;' '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
+            "        $$\( echo '${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}'             | tr ' '  '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
+            "        -import-bridging-header ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h\n"
+            f"        ${{CMAKE_CURRENT_LIST_DIR}}/{entry_point_file_name}.swift\n"
+            "        -c -o ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n"
+            "    DEPENDS\n"
+            "        ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h\n"
+            f"        ${{CMAKE_CURRENT_LIST_DIR}}/{entry_point_file_name}.swift\n"
+            ")\n"
+        )
+        file.write(cmake_custom_swift_command)
+
+        file.write(f"add_custom_target({projectName}-swiftcode DEPENDS ${{CMAKE_CURRENT_BINARY_DIR}}/_swiftcode.o)\n\n")
     else:
         file.write(f"add_executable({projectName} {entry_point_file_name}.c )\n\n")
 
@@ -927,13 +1295,18 @@ def GenerateCMake(folder, params):
     file.write("# Add the standard library to the build\n")
     file.write(f"target_link_libraries({projectName}\n")
     file.write("        " + STANDARD_LIBRARIES)
-    file.write(")\n\n")
+    if params["useSwift"]:
+        file.write("        ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n")
+    file.write(')\n\n')
 
     # Standard include directories
     file.write("# Add the standard include files to the build\n")
     file.write(f"target_include_directories({projectName} PRIVATE\n")
     file.write("        " + "${CMAKE_CURRENT_LIST_DIR}\n")
     file.write(")\n\n")
+
+    if params["useSwift"]:
+        file.write(f'add_dependencies({projectName} {projectName}-swiftcode)\n')
 
     # Selected libraries/features
     if params["features"]:
@@ -964,6 +1337,7 @@ def generateProjectFiles(
     cmakePath,
     openOCDVersion,
     useCmakeTools,
+    useSwift,
 ):
 
     oldCWD = os.getcwd()
@@ -974,7 +1348,7 @@ def generateProjectFiles(
     if not os.path.isfile(".gitignore"):
         file = open(".gitignore", "w")
         file.write("build\n")
-        file.write("!.vscode/*\n")
+        file.write(".DS_Store\n")
         file.close()
 
     debugger = debugger_config_list[debugger]
@@ -1191,6 +1565,9 @@ ${{env:PATH}}"
                 ]
             }
 
+            if useSwift:
+                extensions["recommendations"].append("sswg.swift-lang")
+
             tasks = f"""{{
     "version": "2.0.0",
     "tasks": [
@@ -1369,14 +1746,8 @@ def DoEverything(params):
         if "uart" not in features_and_examples:
             features_and_examples.append("uart")
 
-    if not (params["wantConvert"]):
-        GenerateMain(
-            projectPath,
-            params["projectName"],
-            features_and_examples,
-            params["wantCPP"],
-            params["wantEntryProjName"],
-        )
+    if not (params['wantConvert']):
+        GenerateMain(projectPath, params['projectName'], features_and_examples, params['wantCPP'], params['wantEntryProjName'], params['useSwift'])
 
         # If we have any ancillary files, copy them to our project folder
         # Currently only the picow with lwIP support needs an extra file, so just check that list
@@ -1430,8 +1801,8 @@ def DoEverything(params):
             params["ninjaPath"],
             params["cmakePath"],
             params["openOCDVersion"],
-            params["useCmakeTools"],
-        )
+            params['useCmakeTools'],
+            params['useSwift'])
 
     os.chdir(oldCWD)
 
@@ -1507,6 +1878,7 @@ if __name__ == "__main__":
         "openOCDVersion": args.openOCDVersion,
         "exampleLibs": args.exampleLibs if args.exampleLibs is not None else [],
         "useCmakeTools": args.useCmakeTools,
+        "useSwift": args.swift,
     }
 
     DoEverything(params)
