@@ -318,6 +318,7 @@ var exampleSupportedBoards = [];
     const runFromRAMCodeGen = document.getElementById('run-from-ram-code-gen-cblist').checked;
     const nameEntryPointProjectName = document.getElementById('entry-project-name-code-gen-cblist').checked;
     const cppCodeGen = document.getElementById('cpp-code-gen-cblist').checked;
+    const swiftCodeGen = document.getElementById('swift-code-gen-cblist').checked;
     const cppRttiCodeGen = document.getElementById('cpp-rtti-code-gen-cblist').checked;
     const cppExceptionsCodeGen = document.getElementById('cpp-exceptions-code-gen-cblist').checked;
 
@@ -358,6 +359,7 @@ var exampleSupportedBoards = [];
         runFromRAM: runFromRAMCodeGen,
         entryPointProjectName: nameEntryPointProjectName,
         cpp: cppCodeGen,
+        swift: swiftCodeGen,
         cppRtti: cppRttiCodeGen,
         cppExceptions: cppExceptionsCodeGen,
 
