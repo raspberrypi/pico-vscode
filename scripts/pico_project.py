@@ -1231,7 +1231,7 @@ def GenerateCMake(folder, params):
             "        ${SWIFTC}\n"
             "        -target ${SWIFT_TARGET} -Xcc -mfloat-abi=soft -Xcc -fshort-enums\n"
             "        -Xfrontend -function-sections -enable-experimental-feature Embedded -wmo -parse-as-library\n"
-            "        $$\( echo '$<TARGET_PROPERTY:swift-blinky,INCLUDE_DIRECTORIES>' | tr '\;' '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
+            f"        $$\( echo '$<TARGET_PROPERTY:{projectName},INCLUDE_DIRECTORIES>' | tr '\;' '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
             "        $$\( echo '${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}'             | tr ' '  '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
             "        -import-bridging-header ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h\n"
             f"        ${{CMAKE_CURRENT_LIST_DIR}}/{entry_point_file_name}.swift\n"
