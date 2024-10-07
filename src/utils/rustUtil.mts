@@ -117,34 +117,6 @@ export async function cargoInstall(
       }
     );
 
-    if (stderr) {
-      // TODO: find better solution
-      if (
-        stderr.toLowerCase().includes("already exists") ||
-        stderr.toLowerCase().includes("to your path") ||
-        stderr.toLowerCase().includes("is already installed") ||
-        stderr.toLowerCase().includes("yanked in registry")
-      ) {
-        Logger.debug(
-          LoggerSource.rustUtil,
-          `Cargo package '${packageName}' is already installed ` +
-            "or cargo bin not in PATH:",
-          stderr
-        );
-
-        return true;
-      }
-
-      Logger.error(
-        LoggerSource.rustUtil,
-        `Failed to install cargo command '${command}': ${stderr}`
-      );
-
-      return false;
-    }
-
-    Logger.debug(LoggerSource.rustUtil, `Cargo install output: ${stdout}`);
-
     return true;
   } catch (error) {
     const msg = unknownErrorToString(error);
