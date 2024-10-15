@@ -336,7 +336,8 @@ export async function cmakeUpdateSDK(
   const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
   // This regex requires multiline (m) and dotall (s) flags to work
   const updateSectionRegex = new RegExp(
-    `^# (${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}|${CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD}).*# =+$`,
+    `^# (${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}` +
+    `|${CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD}).*# =+$`,
     "ms"
   );
   const picoBoardRegex = /^set\(PICO_BOARD\s+([^)]+)\)$/m;
