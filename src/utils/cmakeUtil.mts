@@ -165,7 +165,7 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
       folder.with({ path: join(folder.fsPath, "CMakeLists.txt") })
     );
 
-    void window.withProgress(
+    await window.withProgress(
       {
         location: ProgressLocation.Notification,
         cancellable: true,
@@ -178,8 +178,6 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
             ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "cmake";
 
         // TODO: analyze command result
-        // TODO: option for the user to choose the generator
-        // TODO: maybe delete the build folder before running cmake so
         // all configuration files in build get updates
         const customEnv = process.env;
         /*customEnv["PYTHONHOME"] = pythonPath.includes("/")
@@ -201,49 +199,40 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
               : ""
           }` + `-G Ninja -B ./build "${folder.fsPath}"`;
 
-        const child = exec(
-          command,
-          {
-            env: customEnv,
-            cwd: folder.fsPath,
-          },
-          (error, stdout, stderr) => {
-            if (error) {
-              Logger.error(LoggerSource.cmake, error);
-              Logger.warn(
-                LoggerSource.cmake,
-                `Stdout of failed cmake: ${stdout}`
-              );
-              Logger.warn(
-                LoggerSource.cmake,
-                `Stderr of failed cmake: ${stderr}`
-              );
+        await new Promise<void>((resolve, reject) => {
+          // use exec to be able to cancel the process
+          const child = exec(
+            command,
+            {
+              env: customEnv,
+              cwd: folder.fsPath,
+            },
+            error => {
+              progress.report({ increment: 100 });
+              if (error) {
+                if (error.signal === "SIGTERM") {
+                  Logger.warn(
+                    LoggerSource.cmake,
+                    "CMake configuration process was canceled."
+                  );
+                } else {
+                  Logger.error(
+                    LoggerSource.cmake,
+                    `Failed to configure CMake:`,
+                    error
+                  );
+                }
+
+                reject(error);
+              }
+
+              resolve();
             }
+          );
 
-            return;
-          }
-        );
-
-        child.on("error", err => {
-          Logger.error(LoggerSource.cmake, err);
-        });
-
-        //child.stdout?.on("data", data => {});
-        child.on("close", () => {
-          progress.report({ increment: 100 });
-        });
-        child.on("exit", code => {
-          if (code !== 0) {
-            Logger.error(
-              LoggerSource.cmake,
-              `CMake exited with code ${code ?? "N/A"}`
-            );
-          }
-          progress.report({ increment: 100 });
-        });
-
-        token.onCancellationRequested(() => {
-          child.kill();
+          token.onCancellationRequested(() => {
+            child.kill();
+          });
         });
       }
     );

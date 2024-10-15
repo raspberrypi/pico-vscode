@@ -44,7 +44,7 @@ export default class ConfigureCmakeCommand extends Command {
     if (await configureCmakeNinja(workspaceFolder.uri)) {
       void window.showInformationMessage("CMake has configured your build.");
     } else {
-      void window.showWarningMessage("CMake has not configured your build.");
+      void window.showWarningMessage("CMake failed to configure your build.");
     }
   }
 }
