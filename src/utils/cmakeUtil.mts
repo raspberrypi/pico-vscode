@@ -17,7 +17,8 @@ export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
   "== DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==";
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD =
-  "== DO NEVER EDIT THE NEXT LINES for the Raspberry Pi Pico VS Code Extension to work ==";
+// eslint-disable-next-line max-len
+  "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
 export async function getPythonPath(): Promise<string> {
   const settings = Settings.getInstance();
