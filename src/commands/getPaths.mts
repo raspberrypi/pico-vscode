@@ -20,12 +20,12 @@ import Settings, { SettingsKey } from "../settings.mjs";
 import which from "which";
 import { execSync } from "child_process";
 import { getPicotoolReleases } from "../utils/githubREST.mjs";
-import { openOCDVersion } from "../webview/newProjectPanel.mjs";
 import State from "../state.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
 import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
+import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -432,7 +432,7 @@ export class GetOpenOCDRootCommand extends CommandWithResult<
     this.running = true;
 
     // check if it is installed if not install it
-    const result = await downloadAndInstallOpenOCD(openOCDVersion);
+    const result = await downloadAndInstallOpenOCD(OPENOCD_VERSION);
 
     if (result === null || !result) {
       this.running = false;
@@ -442,7 +442,7 @@ export class GetOpenOCDRootCommand extends CommandWithResult<
 
     this.running = false;
 
-    return buildOpenOCDPath(openOCDVersion);
+    return buildOpenOCDPath(OPENOCD_VERSION);
   }
 }
 
