@@ -64,7 +64,6 @@ import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import {
   NewProjectPanel,
   getWebviewOptions,
-  openOCDVersion,
 } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
 import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
@@ -95,6 +94,8 @@ import {
 import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
+import GetRTTDecoderPathCommand from "./commands/rttDecoder.mjs";
+import { OPENOCD_VERSION } from "./utils/sharedConstants.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -147,6 +148,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new UninstallPicoSDKCommand(),
     new CleanCMakeCommand(ui),
     new UpdateOpenOCDCommand(),
+    new GetRTTDecoderPathCommand(context.extensionUri),
   ];
 
   // register all command handlers
@@ -569,7 +571,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     },
     async progress => {
       const result = await downloadAndInstallOpenOCD(
-        openOCDVersion,
+        OPENOCD_VERSION,
         (prog: GotProgress) => {
           const percent = prog.percent * 100;
           progress.report({

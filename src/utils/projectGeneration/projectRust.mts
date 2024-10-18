@@ -70,7 +70,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         openOCDLaunchCommands: ["adapter speed 5000"],
         preLaunchTask: "Compile Project (debug)",
         // TODO: does currently not work
-        rttConfig: {
+        /*rttConfig: {
           enabled: true,
           clearSearch: true,
           address: "0x2003fbc0",
@@ -84,6 +84,23 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
               noprompt: true,
               label: "RP2",
               port: 0,
+            },
+          ],
+        },*/
+        rttConfig: {
+          enabled: true,
+          address: "auto",
+          decoders: [
+            {
+              label: "RPi Pico",
+              type: "advanced",
+              decoder: "${command:raspberry-pi-pico.getRTTDecoderPath}",
+              inputmode: "disabled",
+              noprompt: true,
+              ports: [0],
+              config: {
+                elfPath: "${command:raspberry-pi-pico.launchTargetPath}",
+              },
             },
           ],
         },

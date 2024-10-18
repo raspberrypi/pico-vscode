@@ -46,12 +46,12 @@ import { got, type Progress } from "got";
 import { pipeline as streamPipeline } from "node:stream/promises";
 import {
   CURRENT_PYTHON_VERSION,
+  OPENOCD_VERSION,
   WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
 import VersionBundlesLoader from "./versionBundles.mjs";
-import { openOCDVersion } from "../webview/newProjectPanel.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -1426,7 +1426,7 @@ export async function installLatestRustRequirements(
     async progress => {
       let progressState = 0;
 
-      return downloadAndInstallOpenOCD(openOCDVersion, (prog: Progress) => {
+      return downloadAndInstallOpenOCD(OPENOCD_VERSION, (prog: Progress) => {
         const percent = prog.percent * 100;
         progress.report({ increment: percent - progressState });
         progressState = percent;

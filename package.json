@@ -243,6 +243,12 @@
         "title": "Clean CMake",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+      },
+      {
+        "command": "raspberry-pi-pico.getRTTDecoderPath",
+        "title": "Get RTT Decoder module path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
       }
     ],
     "configuration": {

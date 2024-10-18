@@ -551,8 +551,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
       rmSync(latestPath, { recursive: true, force: true });
     }
 
-  // install probe-rs-tools
-  const probeRsTools = "probe-rs-tools";
+  // or install probe-rs-tools
+  const probeRsTools = "defmt-print";
   result = await cargoInstall(probeRsTools, true);
   if (!result) {
     void window.showErrorMessage(

@@ -5,3 +5,4 @@ export const WINDOWS_ARM64_PYTHON_DOWNLOAD_URL =
 export const CURRENT_PYTHON_VERSION = "3.12.6";
 
 export const CURRENT_DATA_VERSION = "0.18.0";
+export const OPENOCD_VERSION = "0.12.0+dev";
