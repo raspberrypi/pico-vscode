@@ -792,9 +792,9 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
 
     openocd_path = ""
     server_path = "\n            \"serverpath\"" # Because no \ in f-strings
-    openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "openocd.exe")
+    openocd_path_os = Path(user_home, relativeOpenOCDPath(openOCDVersion).replace("/", "", 1), "openocd" + (".exe" if isWindows else ""))
     if os.path.exists(openocd_path_os):
-        openocd_path = f'{codeOpenOCDPath(openOCDVersion)}/openocd.exe'
+        openocd_path = f'{codeOpenOCDPath(openOCDVersion)}/openocd' + (".exe" if isWindows else "")
 
     for p in projects :
         if p == 'vscode':
