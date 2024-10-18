@@ -8,6 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+### Fixed
+- Project generator will now use bundled openocd on non-windows platforms.
+
 ## [0.16.2] - 2024-09-17
 
 ### Added
