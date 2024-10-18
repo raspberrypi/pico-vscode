@@ -340,8 +340,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
     return false;
   }
 
-  // install probe-rs-tools
-  const probeRsTools = "probe-rs-tools";
+  // or install probe-rs-tools
+  const probeRsTools = "defmt-print";
   result = await cargoInstall(probeRsTools, true);
   if (!result) {
     void window.showErrorMessage(
