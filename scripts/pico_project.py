@@ -624,6 +624,9 @@ def GenerateCMake(folder, params):
             if not params['wantExample']:
                 # Prexisting CMake configuration - just adding cmake_header_us
                 file.write(cmake_header_us)
+                # If no PICO_BOARD, then add a line for that, defaulting to pico
+                if not any(["set(PICO_BOARD" in line for line in lines]):
+                    file.write(f"set(PICO_BOARD pico CACHE STRING \"Board type\")\n\n")
                 file.write(content)
             else:
                 if any(["pico_cyw43_arch_lwip_threadsafe_background" in line for line in lines]):
