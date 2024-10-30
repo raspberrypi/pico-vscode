@@ -901,7 +901,7 @@ def generateProjectFiles(projectPath, projectName, sdkPath, projects, debugger, 
         "name": "Pico",
         "compilers": {{
             "C": "${{command:raspberry-pi-pico.getCompilerPath}}",
-            "CXX": "${{command:raspberry-pi-pico.getCompilerPath}}"
+            "CXX": "${{command:raspberry-pi-pico.getCxxCompilerPath}}"
         }},
         "environmentVariables": {{
             "PATH": "${{command:raspberry-pi-pico.getEnvPath}};${{env:PATH}}"

@@ -118,6 +118,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getCxxCompilerPath",
+        "title": "Get C++ compiler path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.getChip",
         "title": "Get Chip",
         "category": "Raspberry Pi Pico",
