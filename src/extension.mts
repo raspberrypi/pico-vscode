@@ -16,6 +16,7 @@ import NewProjectCommand from "./commands/newProject.mjs";
 import Logger, { LoggerSource } from "./logger.mjs";
 import {
   CMAKE_DO_NOT_EDIT_HEADER_PREFIX,
+  CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD,
   cmakeGetSelectedBoard,
   cmakeGetSelectedToolchainAndSDKVersions,
   configureCmakeNinja,
@@ -210,6 +211,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
     !readFileSync(cmakeListsFilePath)
       .toString("utf-8")
       .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX)
+    !(
+      readFileSync(cmakeListsFilePath)
+        .toString("utf-8")
+        .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX) ||
+      readFileSync(cmakeListsFilePath)
+        .toString("utf-8")
+        .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD)
+    )
   ) {
     Logger.warn(
       LoggerSource.extension,
