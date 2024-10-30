@@ -208,9 +208,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
   if (
     !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
-    !readFileSync(cmakeListsFilePath)
-      .toString("utf-8")
-      .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX)
     !(
       readFileSync(cmakeListsFilePath)
         .toString("utf-8")
