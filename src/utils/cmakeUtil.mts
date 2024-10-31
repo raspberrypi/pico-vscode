@@ -15,6 +15,9 @@ import { buildCMakeIncPath } from "./download.mjs";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
+  "== DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==";
+export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD =
+// eslint-disable-next-line max-len
   "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
 export async function getPythonPath(): Promise<string> {
@@ -322,7 +325,8 @@ export async function cmakeUpdateSDK(
   const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
   // This regex requires multiline (m) and dotall (s) flags to work
   const updateSectionRegex = new RegExp(
-    `^# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}.*# =+$`,
+    `^# (${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}` +
+    `|${CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD}).*# =+$`,
     "ms"
   );
   const picoBoardRegex = /^set\(PICO_BOARD\s+([^)]+)\)$/m;
