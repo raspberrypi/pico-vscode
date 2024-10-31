@@ -8,6 +8,26 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.0] - 2024-10-31
+
+### Added
+- Add useCmakeTools advanced option when creating projects, to switch the extension to use the CMake Tools integration (#46, #91)
+- Detailed download progress (#92)
+- Check git version is >2.28 before using system Git (#93)
+- Machine scoped python handling, rather than per-project (#94)
+- CMake Clean command
+- Add PICO_BOARD line to imported projects if it's not already present to enable board switching (#46, #113, #115)
+
+### Changed
+- Pico SDK version selector is now an advanced option for examples, as they are only guaranteed to work with the latest SDK (#97)
+
+### Fixed
+- Use Got download backend for x86_64 Linux too, due to occasional bugs with Undici (#86)
+- Update to pico-sdk-tools v2.0.0-5 to statically link binaries (#90)
+- CMake Configure wasn't being awaited (#98)
+- Fix CMake Do Not Edit header grammar (#103)
+- Fix cmake-kits.json file when switching boards (#107)
+
 ## [0.16.2] - 2024-09-17
 
 ### Added
