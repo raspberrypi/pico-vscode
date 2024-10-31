@@ -46,9 +46,10 @@ export default async function findPython(): Promise<string | undefined> {
         // check if it actually exists and is a supported version
         if (existsSync(pythonPath)) {
           try {
-            const version = execSync(`&"${pythonPath}" -V`, {
+            const version = execSync(`${
+              process.env.ComSpec === "powershell.exe" ? "&" : ""
+            }"${pythonPath}" -V`, {
               encoding: "utf-8",
-              shell: process.platform === "win32" ? "powershell" : undefined,
               timeout: 1000,
               windowsHide: true,
               maxBuffer: 1024,
