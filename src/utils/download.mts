@@ -205,7 +205,7 @@ export async function downloadAndInstallArchive(
   extraHeaders?: { [key: string]: string },
   progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
-  // Check if the SDK is already installed
+  // Check if already installed
   if (
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
@@ -218,7 +218,7 @@ export async function downloadAndInstallArchive(
   // Ensure the target directory exists
   await mkdir(targetDirectory, { recursive: true });
 
-  const archiveExtension = getArchiveExtension(url);
+  const archiveExtension = getArchiveExtension(archiveFileName);
   if (!archiveExtension) {
     Logger.error(
       LoggerSource.downloader,
