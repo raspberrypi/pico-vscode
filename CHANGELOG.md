@@ -8,6 +8,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.1] - 2024-11-07
+
+### Fixed
+- Fixed tools download error when using a GitHub PAT (#117)
+
 ## [0.17.0] - 2024-10-31
 
 ### Added
