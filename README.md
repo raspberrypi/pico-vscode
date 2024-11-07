@@ -59,6 +59,7 @@ This command installs all of the necessary tools, including but not limited to:
 - **Git 2.28 or later** (ensure it’s in your PATH)
 - **Tar** (ensure it’s in your PATH)
 - **\[Optional\]** gdb-multiarch for debugging (x86_64 only)
+- **\[Optional\]** udev rules installed to use [OpenOCD](https://github.com/raspberrypi/openocd/blob/sdk-2.0.0/contrib/60-openocd.rules) and [picotool](https://github.com/raspberrypi/picotool/blob/master/udev/99-picotool.rules) without `sudo`, for debugging and loading
 - For **\[Ubuntu 22.04\]**, install `libftdi1-2` and `libhidapi-hidraw0` packages to use OpenOCD
 
 ## Extension Settings
