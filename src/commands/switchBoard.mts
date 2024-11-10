@@ -11,6 +11,7 @@ import {
   cmakeGetSelectedToolchainAndSDKVersions,
   cmakeUpdateBoard,
   cmakeUpdateSDK,
+  cmakeGetPicoVar,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
 import { compareLtMajor } from "../utils/semverUtil.mjs";
@@ -32,16 +33,51 @@ export default class SwitchBoardCommand extends Command {
   public static async askBoard(sdkVersion: string):
       Promise<[string, boolean] | undefined> {
     const quickPickItems: string[] = ["pico", "pico_w"];
+    const workspaceFolder = workspace.workspaceFolders?.[0];
 
     if (!compareLtMajor(sdkVersion, "2.0.0")) {
       quickPickItems.push("pico2");
     }
 
-    const sdkPath = buildSDKPath(sdkVersion);
+    const boardHeaderDirList = [];
 
-    readdirSync(join(sdkPath, "src", "boards", "include", "boards")).forEach(
-      file => {
-        quickPickItems.push(file.split(".")[0]);
+    if(workspaceFolder !== undefined) {
+      const ws = workspaceFolder.uri.fsPath;
+      const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+
+      const picoBoardHeaderDirs = cmakeGetPicoVar(
+        cMakeCachePath,
+        "PICO_BOARD_HEADER_DIRS");
+
+      if(picoBoardHeaderDirs){
+        boardHeaderDirList.push(picoBoardHeaderDirs);
+      }
+    }
+
+    const sdkPath = buildSDKPath(sdkVersion);
+    const systemBoardHeaderDir = 
+      join(sdkPath,"src", "boards", "include","boards");
+
+      boardHeaderDirList.push(systemBoardHeaderDir);
+
+    interface IBoardFile{
+      [key: string]: string;
+    };
+
+    const boardFiles:IBoardFile = {};
+
+    boardHeaderDirList.forEach(
+      path =>{
+        readdirSync(path).forEach(
+          file => {
+            const fullFilename = join(path, file);
+            if(fullFilename.endsWith(".h")) {
+              const boardName = file.split(".")[0];
+              boardFiles[boardName] = fullFilename;
+              quickPickItems.push(boardName);
+            }
+          }
+        )
       }
     );
 
@@ -54,11 +90,9 @@ export default class SwitchBoardCommand extends Command {
 
       return board;
     }
-
+    
     // Check that board doesn't have an RP2040 on it
-    const data = readFileSync(
-      join(sdkPath, "src", "boards", "include", "boards", `${board}.h`)
-    )
+    const data = readFileSync(boardFiles[board])
 
     if (data.includes("rp2040")) {
 

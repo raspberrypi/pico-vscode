@@ -3,6 +3,7 @@ import { CommandWithResult } from "./command.mjs";
 import { commands, window, workspace } from "vscode";
 import { join } from "path";
 import Settings, { SettingsKey } from "../settings.mjs";
+import { cmakeGetPicoVar } from "../utils/cmakeUtil.mjs";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -27,8 +28,8 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
 
     // Extract the project name from the matched result
     if (match && match[1]) {
-      const projectName = match[1].trim();
-
+      let projectName = match[1].trim();
+      
       if (matchBg && matchPoll) {
         // For examples with both background and poll, let user pick which to run
         const quickPickItems = ["Threadsafe Background", "Poll"];
@@ -44,6 +45,16 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
             return projectName + "_background";
           case quickPickItems[1]:
             return projectName + "_poll";
+        }
+      }else{
+        if(workspace.workspaceFolders !== undefined) {
+          let cmakeCacheFile = workspace.workspaceFolders[0].uri.fsPath;
+          cmakeCacheFile = join(cmakeCacheFile,"build","CMakeCache.txt");
+
+          const value = cmakeGetPicoVar(cmakeCacheFile,"CMAKE_PROJECT_NAME");
+          if(value !== null){
+            projectName = value;
+          }
         }
       }
 
