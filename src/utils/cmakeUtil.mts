@@ -247,6 +247,58 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
 }
 
 /**
+ * Reads CMakeLists.txt file for PICO_BOARD_HEADER_DIRS
+ *
+ * @param folder The root folder of the workspace to configure.
+ */
+export async function cmakeGetBoardHeaderDirs(
+  folder?: Uri,
+): Promise<string|null> {
+  if(folder === undefined)
+    {return null;}
+
+  // TODO: support for scaning for seperate locations of the CMakeLists.txt file in the project
+  const cmakeFilePath = join(folder.fsPath, "CMakeLists.txt");
+  const picoBoardRegex = /^set\(PICO_BOARD_HEADER_DIRS\s+([^)]+)\)$/m;
+  const cmakeCurrentListFileRegex = /^\${CMAKE_CURRENT_LIST_DIR}/m;
+
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.error(LoggerSource.cmake, "Settings not initialized.");
+
+    return null;
+  }
+
+  try {
+    // check if CMakeLists.txt exists in the root folder
+    await workspace.fs.stat(folder.with({ path: cmakeFilePath }));
+
+    const cmakeListsFile = await readFile(cmakeFilePath, "utf8");
+    const matches = cmakeListsFile.match(picoBoardRegex);
+
+    if(matches === null) {
+      return null;
+    }
+
+    if(matches.length>1) {
+      let dir = matches[1].replace(cmakeCurrentListFileRegex,folder.fsPath);
+      dir = dir.replaceAll("\\", "/");
+
+      return dir;
+    }
+
+    return null;
+  } catch {
+    Logger.error(
+      LoggerSource.cmake,
+      "Settings not initialized."
+    );
+
+    return null;
+  }
+}
+
+/**
  * Changes the board in the CMakeLists.txt file.
  *
  * @param folder The root folder of the workspace to configure.
