@@ -11,7 +11,7 @@ import {
   cmakeGetSelectedToolchainAndSDKVersions,
   cmakeUpdateBoard,
   cmakeUpdateSDK,
-  cmakeGetBoardHeaderDirs,
+  cmakeGetPicoVar,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
 import { compareLtMajor } from "../utils/semverUtil.mjs";
@@ -40,18 +40,25 @@ export default class SwitchBoardCommand extends Command {
     }
 
     const boardHeaderDirList = [];
+
+    if(workspaceFolder !== undefined) {
+      const ws = workspaceFolder.uri.fsPath;
+      const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+
+      const picoBoardHeaderDirs = cmakeGetPicoVar(
+        cMakeCachePath,
+        "PICO_BOARD_HEADER_DIRS");
+
+      if(picoBoardHeaderDirs){
+        boardHeaderDirList.push(picoBoardHeaderDirs);
+      }
+    }
+
     const sdkPath = buildSDKPath(sdkVersion);
     const systemBoardHeaderDir = 
       join(sdkPath,"src", "boards", "include","boards");
 
       boardHeaderDirList.push(systemBoardHeaderDir);
-
-      const picoBoardHeaderDirs = 
-        await cmakeGetBoardHeaderDirs(workspaceFolder?.uri);
-
-    if(picoBoardHeaderDirs){
-      boardHeaderDirList.push(picoBoardHeaderDirs);
-    }
 
     interface IBoardFile{
       [key: string]: string;
