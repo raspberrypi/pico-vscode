@@ -2361,7 +2361,9 @@ export class NewProjectPanel {
       );
 
       void window.showErrorMessage(
-        `Could not create new project: ${projectName}`
+        `Could not ${
+          this._isProjectImport ? "import" : "create"
+        } new project: ${projectName}`
       );
     }
   }
