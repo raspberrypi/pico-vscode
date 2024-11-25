@@ -524,6 +524,7 @@ export class NewProjectPanel {
                   result: versionBundle !== undefined,
                   toolchainVersion: versionBundle?.toolchain,
                   riscvToolchainVersion: riscvToolchain,
+                  picotoolVersion: versionBundle?.picotool,
                 },
               });
             }

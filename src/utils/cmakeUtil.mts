@@ -10,7 +10,7 @@ import { readFile, writeFile } from "fs/promises";
 import { rimraf, windows as rimrafWindows } from "rimraf";
 import { homedir } from "os";
 import which from "which";
-import { compareLtMajor } from "./semverUtil.mjs";
+import { compareLt } from "./semverUtil.mjs";
 import { buildCMakeIncPath } from "./download.mjs";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
@@ -369,11 +369,18 @@ export async function cmakeUpdateSDK(
     if (
       picoBoard !== null &&
       ((picoBoard[1].includes("pico2") &&
-      compareLtMajor(newSDKVersion, "2.0.0")) ||
+      compareLt(newSDKVersion, "2.0.0")) ||
       (picoBoard[1].includes('pico2_w') &&
-      compareLtMajor(newSDKVersion, "2.1.0")))
+      compareLt(newSDKVersion, "2.1.0")))
     ) {
-      const result = await window.showQuickPick(["pico", "pico_w"], {
+      const quickPickItems = ["pico", "pico_w"];
+      if (!compareLt(newSDKVersion, "2.0.0")) {
+        quickPickItems.push("pico2");
+      }
+      if (!compareLt(newSDKVersion, "2.1.0")) {
+        quickPickItems.push("pico2_w");
+      }
+      const result = await window.showQuickPick(quickPickItems, {
         placeHolder: "The new SDK version does not support your current board",
         canPickMany: false,
         ignoreFocusOut: true,
