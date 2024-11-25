@@ -37,6 +37,10 @@ export default class SwitchBoardCommand extends Command {
       quickPickItems.push("pico2");
     }
 
+    if (!compareLtMajor(sdkVersion, "2.1.0")) {
+      quickPickItems.push("pico2_w");
+    }
+
     const sdkPath = buildSDKPath(sdkVersion);
 
     readdirSync(join(sdkPath, "src", "boards", "include", "boards")).forEach(

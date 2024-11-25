@@ -127,6 +127,7 @@ enum BoardType {
   pico = "pico",
   picoW = "pico_w",
   pico2 = "pico2",
+  pico2W = "pico2_w",
   other = "other",
 }
 
@@ -177,6 +178,8 @@ async function enumToBoard(e: BoardType, sdkPath: string): Promise<string> {
       return "-board pico_w";
     case BoardType.pico2:
       return "-board pico2";
+    case BoardType.pico2W:
+      return "-board pico2_w";
     case BoardType.other:
       readdirSync(`${sdkPath}/src/boards/include/boards`).forEach(file => {
         quickPickItems.push(file.split(".")[0]);
@@ -1229,7 +1232,7 @@ export class NewProjectPanel {
             theData.hwtimerFeature ? Library.timer : null,
             theData.hwwatchdogFeature ? Library.watch : null,
             theData.hwclocksFeature ? Library.clocks : null,
-            theData.boardType === "pico_w"
+            ["pico_w", "pico2_w"].includes(theData.boardType)
               ? Object.values(PicoWirelessOption)[theData.picoWireless]
               : null,
           ].filter(option => option !== null) as Library[],
@@ -1749,6 +1752,9 @@ export class NewProjectPanel {
                               <option id="option-board-type-${
                                 BoardType.picoW
                               }" value="${BoardType.picoW}">Pico W</option>
+                              <option id="option-board-type-${
+                                BoardType.pico2W
+                              }" value="${BoardType.pico2W}">Pico 2 W</option>
                               <option id="option-board-type-${
                                 BoardType.other
                               }" value="${BoardType.other}">Other</option>
