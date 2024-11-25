@@ -10,13 +10,18 @@ from pico_project import GenerateCMake
 boards = [
     "pico",
     "pico_w",
-    "pico2"
+    "pico2",
+    "pico2_w"
 ]
 
 platforms = {
     "pico": ["rp2040"],
     "pico_w": ["rp2040"],
     "pico2": [
+        "rp2350-arm-s",
+        "rp2350-riscv"
+    ],
+    "pico2_w": [
         "rp2350-arm-s",
         "rp2350-riscv"
     ]
@@ -46,8 +51,8 @@ try:
         shutil.rmtree(path)
 except FileNotFoundError:
     pass
-os.system("git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-2.0.0")
-os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.0.0"
+os.system("git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-2.1.0")
+os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.1.0"
 
 for board in boards:
     for platform in platforms[board]:
@@ -55,9 +60,10 @@ for board in boards:
             shutil.rmtree("build")
         except FileNotFoundError:
             pass
-        toolchainVersion = "RISCV_COREV_MAY_24" if "riscv" in platform else "13_2_Rel1"
+        toolchainVersion = "RISCV_RPI_2_0_0_5" if "riscv" in platform else "13_3_Rel1"
         toolchainPath = f"~/.pico-sdk/toolchain/{toolchainVersion}"
-        os.system(f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath}")
+        picotoolDir = "~/.pico-sdk/picotool/2.1.0/picotool"
+        os.system(f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir}")
 
         os.system("cmake --build build --target help > targets.txt")
 
@@ -149,9 +155,9 @@ for board in boards:
                 'wantThreadsafeBackground'  : False,
                 'wantPoll'                  : False,
                 'boardtype'     : board,
-                'sdkVersion'    : "2.0.0",
+                'sdkVersion'    : "2.1.0",
                 'toolchainVersion': toolchainVersion,
-                'picotoolVersion': "2.0.0",
+                'picotoolVersion': "2.1.0",
                 'exampleLibs'   : v["libs"]
             }
             GenerateCMake("tmp", params)
