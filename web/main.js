@@ -437,10 +437,14 @@ var exampleSupportedBoards = [];
           const useRiscv = document.getElementsByClassName('use-riscv');
           let selectedIndex = getIndexByValue(toolchainSelector, result.toolchainVersion);
           const optionBoardTypePico2 = document.getElementById("option-board-type-pico2");
+          const optionBoardTypePico2W = document.getElementById("option-board-type-pico2_w");
 
           if (result.riscvToolchainVersion === "NONE") {
             if (optionBoardTypePico2) {
               optionBoardTypePico2.disabled = true
+            }
+            if (optionBoardTypePico2W) {
+              optionBoardTypePico2W.disabled = true
             }
             const boardTypeSelector = document.getElementById('sel-board-type');
 
@@ -467,13 +471,17 @@ var exampleSupportedBoards = [];
             if (optionBoardTypePico2 && (exampleSupportedBoards.length === 0 || exampleSupportedBoards.includes("pico2"))) {
               optionBoardTypePico2.disabled = false;
             }
+            if (optionBoardTypePico2W && (exampleSupportedBoards.length === 0 || exampleSupportedBoards.includes("pico2_w"))) {
+              optionBoardTypePico2W.disabled = false;
+            }
           }
 
           if (!doProjectImport) {
             const board = document.getElementById('sel-board-type').value;
             const riscvSelected = document.getElementById('sel-riscv').checked;
 
-            if (board !== "pico2") {
+            const riscvBoards = ["pico2", "pico2_w"]
+            if (!riscvBoards.includes(board)) {
               // ui update to account for hidden elements
               const boardTypeRiscvGrid = document.getElementById("board-type-riscv-grid");
               // remove grid-cols-2 class
