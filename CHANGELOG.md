@@ -8,6 +8,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.2] - 2024-11-25
+
+### Added
+- Added support for SDK 2.1.0 and Pico 2 W
+
+### Fixed
+- Keep extension recommendations when importing project (#121)
+
 ## [0.17.1] - 2024-11-07
 
 ### Fixed
