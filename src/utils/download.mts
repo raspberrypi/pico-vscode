@@ -46,6 +46,7 @@ import {
   WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
+import { compareGe } from "./semverUtil.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -485,8 +486,45 @@ export async function downloadAndInstallSDK(
       LoggerSource.downloader,
       `SDK ${version} is already installed.`
     );
-
-    return true;
+    // Constants taken from the SDK CMakeLists.txt files
+    const TINYUSB_TEST_PATH = joinPosix(
+      "lib/tinyusb", "src/portable/raspberrypi/rp2040"
+    );
+    const CYW43_DRIVER_TEST_FILE = joinPosix("lib/cyw43-driver", "src/cyw43.h");
+    const LWIP_TEST_PATH = joinPosix("lib/lwip", "src/Filelists.cmake");
+    const BTSTACK_TEST_PATH = joinPosix("lib/btstack", "src/bluetooth.h");
+    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c")
+    const submoduleChecks = [
+      TINYUSB_TEST_PATH
+    ]
+    if (compareGe(version, "1.4.0")) {
+      submoduleChecks.push(CYW43_DRIVER_TEST_FILE);
+      submoduleChecks.push(LWIP_TEST_PATH);
+    }
+    if (compareGe(version, "1.5.0")) {
+      submoduleChecks.push(BTSTACK_TEST_PATH);
+      submoduleChecks.push(MBEDTLS_TEST_PATH);
+    }
+    let submodulesPresent = true;
+    for (const testPath of submoduleChecks) {
+      if (!existsSync(joinPosix(targetDirectory, testPath))) {
+        submodulesPresent = false;
+      }
+    }
+    if (!submodulesPresent) {
+      Logger.info(
+        LoggerSource.downloader,
+        `SDK ${version} is missing submodules - installing them now.`
+      );
+      const gitPath = await getGit(settings);
+      if (gitPath !== undefined) {
+        return initSubmodules(targetDirectory, gitPath);
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
   }
 
   // Ensure the target directory exists
