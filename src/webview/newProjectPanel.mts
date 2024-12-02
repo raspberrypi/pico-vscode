@@ -2179,30 +2179,7 @@ export class NewProjectPanel {
     pythonExe: string,
     isExampleBased: boolean = false
   ): Promise<void> {
-    const customEnv: { [key: string]: string } = {
-      ...(process.env as { [key: string]: string }),
-      // set PICO_SDK_PATH
-      ["PICO_SDK_PATH"]: options.toolchainAndSDK.sdkPath,
-      // set PICO_TOOLCHAIN_PATH
-      ["PICO_TOOLCHAIN_PATH"]: options.toolchainAndSDK.toolchainPath,
-    };
-    // add compiler to PATH
     const isWindows = process.platform === "win32";
-    /*customEnv["PYTHONHOME"] = pythonExe.includes("/")
-      ? resolve(join(dirname(pythonExe), ".."))
-      : "";*/
-    customEnv[isWindows ? "Path" : "PATH"] = `${join(
-      options.toolchainAndSDK.toolchainPath,
-      "bin"
-    )}${
-      options.cmakeExecutable.includes("/")
-        ? `${isWindows ? ";" : ":"}${dirname(options.cmakeExecutable)}`
-        : ""
-    }${
-      options.ninjaExecutable.includes("/")
-        ? `${isWindows ? ";" : ":"}${dirname(options.ninjaExecutable)}`
-        : ""
-    }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
     // convert the selected board type to a vaild option
     // for the project generator
@@ -2305,6 +2282,8 @@ export class NewProjectPanel {
           ? options.projectRoot
           : options.projectRoot.replaceAll("\\", "\\\\")
       }"`,
+      "--userHome",
+      `"${homedir().replaceAll("\\", "/")}"`,
       "--sdkVersion",
       options.toolchainAndSDK.sdkVersion,
       "--toolchainVersion",
@@ -2328,7 +2307,6 @@ export class NewProjectPanel {
     // TODO: use exit codes to determine why the project generator failed (if it did)
     // to be able to show the user a more detailed error message
     const generatorExitCode = await this._runGenerator(command, {
-      env: customEnv,
       cwd: getScriptsRoot(),
       windowsHide: true,
     });
