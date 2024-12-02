@@ -1389,6 +1389,11 @@ def DoEverything(params):
     if os.path.exists(CMAKECACHE_FILENAME):
         os.remove(CMAKECACHE_FILENAME)
 
+    if not os.path.exists("compile_commands.json"):
+        # Create empty compile_commands.json to prevent intellisense warning
+        with open("compile_commands.json", "w") as f:
+            f.write("[]\n")
+
     if params["projects"]:
         generateProjectFiles(
             projectPath,
