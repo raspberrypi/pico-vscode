@@ -398,13 +398,13 @@ code_fragments_per_feature_swift = {
         (
             "// UART defines",
             "// By default the stdout UART is `uart0`, so we will use the second one",
-            'let UART_ID = "uart1"',
-            "let BAUD_RATE = 115200",
+            "let UART_ID = get_uart1()",
+            "let BAUD_RATE: UInt32 = 115200",
             "",
             "// Use pins 4 and 5 for UART1",
             "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
-            "let UART_TX_PIN = 4",
-            "let UART_RX_PIN = 5",
+            "let UART_TX_PIN: UInt32 = 4",
+            "let UART_RX_PIN: UInt32 = 5",
         ),
         (
             "// Set up our UART",
@@ -436,10 +436,10 @@ code_fragments_per_feature_swift = {
             "// We are going to use SPI 0, and allocate it to the following GPIO pins",
             "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
             'let SPI_PORT = "spi0"',
-            "let PIN_MISO = 16",
-            "let PIN_CS   = 17",
-            "let PIN_SCK  = 18",
-            "let PIN_MOSI = 19",
+            "let PIN_MISO: UInt32 = 16",
+            "let PIN_CS: UInt32   = 17",
+            "let PIN_SCK: UInt32  = 18",
+            "let PIN_MOSI: UInt32 = 19",
         ),
         (
             "// SPI initialisation. This example will use SPI at 1MHz.",
@@ -461,8 +461,8 @@ code_fragments_per_feature_swift = {
             "// This example will use I2C0 on GPIO8 (SDA) and GPIO9 (SCL) running at 400KHz.",
             "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
             'let I2C_PORT = "i2c0"',
-            "let I2C_SDA = 8",
-            "let I2C_SCL = 9",
+            "let I2C_SDA: UInt32 = 8",
+            "let I2C_SCL: UInt32 = 9",
         ),
         (
             "// I2C Initialisation. Using it at 400Khz.",
@@ -515,37 +515,47 @@ code_fragments_per_feature_swift = {
     ],
     "pio": [
         (
-            '#include "blink.pio.h"',
-            "static func blink_pin_forever(pio: PIO, sm: uint, offset: uint, pin: uint, freq: uint) {",
+            "func blink_pin_forever(_ pio: PIO, sm: UInt32, offset: UInt32, pin: UInt32, freq: UInt32) {",
             "    blink_program_init(pio, sm, offset, pin)",
             "    pio_sm_set_enabled(pio, sm, true)",
             "",
-            '    printf("Blinking pin %d at %d Hz\\n", pin, freq)',
+            '    print("Blinking pin \\(pin) at \\(freq) Hz")',
             "",
             "    // PIO counter program takes 3 more cycles in total than we pass as",
             "    // input (wait for n + 1; mov; jmp)",
-            "    pio.txf[sm] = (125000000 / (2 * freq)) - 3",
+            "    let value = (125000000 / (2 * freq)) - 3",
+            "    switch sm {",
+            "    case 0:",
+            "        pio.pointee.txf.0 = value",
+            "    case 1:",
+            "        pio.pointee.txf.1 = value",
+            "    case 2:",
+            "        pio.pointee.txf.2 = value",
+            "    case 3:",
+            "        pio.pointee.txf.3 = value",
+            "    default:",
+            "        // There are 4 state machines available",
+            '        fatalError("Invalid state machine index")',
+            "    }",
             "}",
         ),
         (
             "// PIO Blinking example",
-            "let pio = pio0",
+            "guard let pio = get_pio0() else {",
+            '    fatalError("PIO0 not available")',
+            "}",
             "let offset = pio_add_program(pio, &blink_program)",
-            'printf("Loaded program at %d\\n", offset)',
+            'print("Loaded program at \\(offset)")',
             "",
-            "#ifdef PICO_DEFAULT_LED_PIN",
-            "blink_pin_forever(pio, 0, offset, PICO_DEFAULT_LED_PIN, 3)",
-            "#else",
-            "blink_pin_forever(pio, 0, offset, 6, 3)",
-            "#endif",
+            "blink_pin_forever(pio, sm: 0, offset: UInt32(offset), pin: UInt32(PICO_DEFAULT_LED_PIN), freq: 3)",
             "// For more pio examples see https://github.com/raspberrypi/pico-examples/tree/master/pio",
         ),
     ],
     "clocks": [
         (),
         (
-            'printf("System Clock Frequency is %d Hz\\n", clock_get_hz(clk_sys))',
-            'printf("USB Clock Frequency is %d Hz\\n", clock_get_hz(clk_usb))',
+            'print("System Clock Frequency is \\(clock_get_hz(clk_sys)) Hz")',
+            'print("USB Clock Frequency is \\(clock_get_hz(clk_usb)) Hz")',
             "// For more examples of clocks use see https://github.com/raspberrypi/pico-examples/tree/master/clocks",
         ),
     ],
@@ -614,12 +624,12 @@ code_fragments_per_feature_swift = {
             "let divisor = -321",
             "// This is the recommended signed fast divider for general use.",
             "let result = hw_divider_divmod_s32(dividend, divisor)",
-            'printf("%d/%d = %d remainder %d\\n", dividend, divisor, to_quotient_s32(result), to_remainder_s32(result))',
+            'print("\\(dividend)/\\(divisor) = \\(to_quotient_s32(result)) remainder \\(to_remainder_s32(result))")',
             "// This is the recommended unsigned fast divider for general use.",
             "let udividend = 123456",
             "let udivisor = 321",
             "let uresult = hw_divider_divmod_u32(udividend, udivisor)",
-            'printf("%d/%d = %d remainder %d\\n", udividend, udivisor, to_quotient_u32(uresult), to_remainder_u32(uresult))',
+            'printf("\\(udividend)/\\(udivisor) = \\(to_quotient_u32(uresult)) remainder \\(to_remainder_u32(uresult))")',
             "// See https://github.com/raspberrypi/pico-examples/tree/master/divider for more complex use",
         ),
     ],
@@ -635,15 +645,15 @@ code_fragments_per_feature_swift = {
         (
             "// Enable wifi station",
             "cyw43_arch_enable_sta_mode()\n",
-            'printf("Connecting to Wi-Fi...\\n")',
+            'print("Connecting to Wi-Fi...")',
             'if cyw43_arch_wifi_connect_timeout_ms("Your Wi-Fi SSID", "Your Wi-Fi Password", CYW43_AUTH_WPA2_AES_PSK, 30000) {',
-            '    printf("failed to connect.\\n")',
+            '    print("failed to connect.")',
             "    return 1",
             "} else {",
-            '    printf("Connected.\\n")',
+            '    print("Connected.")',
             "    // Read the ip address in a human readable way",
             "    let ip_address = (uint8_t*)&(cyw43_state.netif[0].ip_addr.addr)",
-            '    printf("IP address %d.%d.%d.%d\\n", ip_address[0], ip_address[1], ip_address[2], ip_address[3])',
+            '    print("IP address \\(ip_address[0]).\\(ip_address[1]).\\(ip_address[2]).\\(ip_address[3])")',
             "}",
         ),
     ],
@@ -705,6 +715,9 @@ def propertiesPicotoolPath(
 
 def codeSdkPath(sdkVersion):
     return f"${{userHome}}{relativeSDKPath(sdkVersion)}"
+
+
+CODE_BASIC_TOOLCHAIN_PATH = "${userHome}/.pico-sdk/toolchain"
 
 
 def codeOpenOCDPath(openocdVersion):
@@ -942,7 +955,7 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
                 if len(features_list[feat][H_FILE]) == 0:
                     continue
                 o = f'#include "{features_list[feat][H_FILE]}"\n'
-                if swift:
+                if swift and bridging_file:
                     bridging_file.write(o)
                 else:
                     file.write(o)
@@ -950,7 +963,7 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
                 if len(stdlib_examples_list[feat][H_FILE]) == 0:
                     continue
                 o = f'#include "{stdlib_examples_list[feat][H_FILE]}"\n'
-                if swift:
+                if swift and bridging_file:
                     bridging_file.write(o)
                 else:
                     file.write(o)
@@ -958,7 +971,7 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
                 if len(picow_options_list[feat][H_FILE]) == 0:
                     continue
                 o = f'#include "{picow_options_list[feat][H_FILE]}"\n'
-                if swift:
+                if swift and bridging_file:
                     bridging_file.write(o)
                 else:
                     file.write(o)
@@ -975,7 +988,7 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
         for feat in features:
             if feat in frags:
                 for s in frags[feat][DEFINES]:
-                    if swift and s.startswith("#include"):
+                    if swift and bridging_file and s.startswith("#include"):
                         bridging_file.write(s)
                         bridging_file.write("\n")
                     file.write(s)
@@ -1050,7 +1063,10 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
 
     file.write(main)
 
-    bridging_file.close()
+    if bridging_file:
+        bridging_file.write("// always include last\n")
+        bridging_file.write("#include <bridge.h>\n\n")
+        bridging_file.close()
     file.close()
 
 
@@ -1234,9 +1250,17 @@ def GenerateCMake(folder, params):
     entry_point_file_name = projectName if params["wantEntryProjName"] else "main"
 
     if params["wantCPP"]:
-        file.write(f"add_executable({projectName} {entry_point_file_name}.cpp )\n\n")
+        file.write(f"add_executable({projectName} {entry_point_file_name}.cpp)\n\n")
     elif params["useSwift"]:
-        file.write(f"add_executable({projectName})\n\n")
+        file.write(
+            f"add_executable({projectName} ${{USERHOME}}/.pico-sdk/toolchain/bridge.c)\n\n"
+        )
+
+        # Standard libraries
+        file.write("# Add the standard library to the build\n")
+        file.write(f"target_link_libraries({projectName}\n")
+        file.write("        " + STANDARD_LIBRARIES)
+        file.write(")\n\n")
 
         main_file_name = f"{entry_point_file_name}.swift"
         cmake_custom_swift_command = (
@@ -1248,7 +1272,7 @@ def GenerateCMake(folder, params):
             "    get_property(visited_targets GLOBAL PROPERTY visited_targets)\n\n"
             "    # make sure we don't visit the same target twice\n"
             "    # and that we don't visit the special generator expressions\n"
-            '    if (${target} MATCHES "\\$<" OR ${target} MATCHES "::@" OR ${target} IN_LIST visited_targets)\n'
+            '    if (${target} MATCHES "\\\\$<" OR ${target} MATCHES "::@" OR ${target} IN_LIST visited_targets)\n'
             "        return()\n"
             "    endif()\n\n"
             "    # Append the target to visited_targets\n"
@@ -1286,11 +1310,11 @@ def GenerateCMake(folder, params):
             f"        $$\( echo '$<TARGET_PROPERTY:{projectName},INCLUDE_DIRECTORIES>' | tr '\;' '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
             "        $$\( echo '${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}'             | tr ' '  '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
             "        -import-bridging-header ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h\n"
-            f"        ${{CMAKE_CURRENT_LIST_DIR}}/{entry_point_file_name}.swift\n"
+            f"        ${{CMAKE_CURRENT_LIST_DIR}}/{main_file_name}\n"
             "        -c -o ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n"
             "    DEPENDS\n"
             "        ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h\n"
-            f"        ${{CMAKE_CURRENT_LIST_DIR}}/{entry_point_file_name}.swift\n"
+            f"        ${{CMAKE_CURRENT_LIST_DIR}}/{main_file_name}\n"
             ")\n"
         )
         file.write(cmake_custom_swift_command)
@@ -1345,18 +1369,26 @@ def GenerateCMake(folder, params):
                 file.write(f'WIFI_PASSWORD="${WIFI_PASSWORD}"')
             file.write(")\n\n")
 
-    # Standard libraries
-    file.write("# Add the standard library to the build\n")
-    file.write(f"target_link_libraries({projectName}\n")
-    file.write("        " + STANDARD_LIBRARIES)
-    if params["useSwift"]:
-        file.write("        ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n")
-    file.write(")\n\n")
+    if not params["useSwift"]:
+        # Standard libraries
+        file.write("# Add the standard library to the build\n")
+        file.write(f"target_link_libraries({projectName}\n")
+        file.write("        " + STANDARD_LIBRARIES)
+        file.write(")\n\n")
+    else:
+        file.write("# Add the swift artifact to the build\n")
+        file.write(f"target_link_libraries({projectName}\n")
+        file.write("    ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n")
+        file.write(")\n\n")
 
     # Standard include directories
     file.write("# Add the standard include files to the build\n")
     file.write(f"target_include_directories({projectName} PRIVATE\n")
-    file.write("        " + "${CMAKE_CURRENT_LIST_DIR}\n")
+    file.write("  ${CMAKE_CURRENT_LIST_DIR}\n")
+    if params["useSwift"]:
+        # bridge.h includes serveral helper functions
+        # for swift-c-pico-sdk interop
+        file.write("  ${USERHOME}/.pico-sdk/toolchain\n")
     file.write(")\n\n")
 
     if params["useSwift"]:
@@ -1517,7 +1549,8 @@ def generateProjectFiles(
             "name": "Pico",
             "includePath": [
                 "${{workspaceFolder}}/**",
-                "{codeSdkPath(sdkVersion)}/**"
+                "{codeSdkPath(sdkVersion)}/**"{f""",
+                "{CODE_BASIC_TOOLCHAIN_PATH}\"""" if useSwift else ""}
             ],
             "forcedInclude": [
                 "{codeSdkPath(sdkVersion)}/src/common/{base_headers_folder_name}/include/pico.h",
