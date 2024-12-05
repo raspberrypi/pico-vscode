@@ -1877,7 +1877,7 @@ export class NewProjectPanel {
                         </div>
                       </div>`
                       : `<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                            Warning: Project Import Wizard may not work for all projects, and will often require manual correction after the import
+                            Warning: Project Import Wizard may not work for all projects, and will often require manual correction after the import. Swift Projects aren't supported at the moment.
                         </h3>`
                   }
                     <div class="mt-6 mb-4">

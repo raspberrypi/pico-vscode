@@ -435,7 +435,7 @@ code_fragments_per_feature_swift = {
             "// SPI Constants",
             "// We are going to use SPI 0, and allocate it to the following GPIO pins",
             "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
-            'let SPI_PORT = "spi0"',
+            "let SPI_PORT = get_spi0()",
             "let PIN_MISO: UInt32 = 16",
             "let PIN_CS: UInt32   = 17",
             "let PIN_SCK: UInt32  = 18",
@@ -450,8 +450,8 @@ code_fragments_per_feature_swift = {
             "gpio_set_function(PIN_MOSI, GPIO_FUNC_SPI)",
             "",
             "// Chip select is active-low, so we'll initialise it to a driven-high state",
-            "gpio_set_dir(PIN_CS, GPIO_OUT)",
-            "gpio_put(PIN_CS, 1)",
+            "PicoGPIO.setDirection(pin: PIN_CS, direction: .output) // Use swift wrapper",
+            "gpio_put(PIN_CS, true)",
             "// For more examples of SPI use see https://github.com/raspberrypi/pico-examples/tree/master/spi",
         ),
     ],
@@ -460,7 +460,7 @@ code_fragments_per_feature_swift = {
             "// I2C defines",
             "// This example will use I2C0 on GPIO8 (SDA) and GPIO9 (SCL) running at 400KHz.",
             "// Pins can be changed, see the GPIO function select table in the datasheet for information on GPIO assignments",
-            'let I2C_PORT = "i2c0"',
+            "let I2C_PORT = get_i2c0()",
             "let I2C_SDA: UInt32 = 8",
             "let I2C_SCL: UInt32 = 9",
         ),
@@ -483,24 +483,24 @@ code_fragments_per_feature_swift = {
         ),
         (
             "// Get a free channel, panic() if there are none",
-            "let chan = dma_claim_unused_channel(true)",
+            "let chan = UInt32(dma_claim_unused_channel(true))",
             "",
             "// 8 bit transfers. Both read and write address increment after each",
             "// transfer (each pointing to a location in src or dst respectively).",
             "// No DREQ is selected, so the DMA transfers as fast as it can.",
             "",
-            "let c = dma_channel_get_default_config(chan)",
+            "var c = dma_channel_get_default_config(chan)",
             "channel_config_set_transfer_data_size(&c, DMA_SIZE_8)",
             "channel_config_set_read_increment(&c, true)",
             "channel_config_set_write_increment(&c, true)",
             "",
             "dma_channel_configure(",
-            "    chan,          // Channel to be configured",
-            "    &c,            // The configuration we just created",
-            "    dst,           // The initial write address",
-            "    src,           // The initial read address",
-            "    count_of(src), // Number of transfers; in this case each is 1 byte.",
-            "    true           // Start immediately.",
+            "    chan,                      // Channel to be configured",
+            "    &c,                        // The configuration we just created",
+            "    &dst,                      // The initial write address",
+            "    src,                       // The initial read address",
+            "    UInt32(src.utf8.count),    // Number of transfers; in this case each is 1 byte.",
+            "    true                       // Start immediately.",
             ")",
             "",
             "// We could choose to go and do something else whilst the DMA is doing its",
@@ -544,7 +544,7 @@ code_fragments_per_feature_swift = {
             "guard let pio = get_pio0() else {",
             '    fatalError("PIO0 not available")',
             "}",
-            "let offset = pio_add_program(pio, &blink_program)",
+            "let offset = pio_add_program(pio, [blink_program])",
             'print("Loaded program at \\(offset)")',
             "",
             "blink_pin_forever(pio, sm: 0, offset: UInt32(offset), pin: UInt32(PICO_DEFAULT_LED_PIN), freq: 3)",
@@ -592,7 +592,7 @@ code_fragments_per_feature_swift = {
         ),
         (
             "// Timer example code - This example fires off the callback after 2000ms",
-            "add_alarm_in_ms(2000, alarm_callback, NULL, false)",
+            "add_alarm_in_ms(2000, alarm_callback, nil, false)",
             "// For more examples of timer use see https://github.com/raspberrypi/pico-examples/tree/master/timer",
         ),
     ],
@@ -957,6 +957,8 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
                 o = f'#include "{features_list[feat][H_FILE]}"\n'
                 if swift and bridging_file:
                     bridging_file.write(o)
+                    if feat == "pio":
+                        bridging_file.write('#include "blink.pio.h"')
                 else:
                     file.write(o)
             if feat in stdlib_examples_list:
@@ -1003,7 +1005,7 @@ def GenerateMain(folder, projectName, features, cpp, wantEntryProjName, swift):
             "struct Main {\n"
             "  \n"
             "  static func main() {\n"
-            "    stdio_init_all();\n\n"
+            "    stdio_init_all()\n\n"
         )
     else:
         main = "\n\n" "int main()\n" "{\n" "    stdio_init_all();\n\n"
@@ -1200,6 +1202,20 @@ def GenerateCMake(folder, params):
 
     file.write(cmake_header1)
     file.write(cmake_header_us)
+    if params["useSwift"]:
+        cmake_if_apple = (
+            "if(APPLE)\n"
+            "    execute_process(COMMAND xcrun -f swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            "    execute_process(COMMAND dirname ${SWIFTC} OUTPUT_VARIABLE SWIFTC_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            "elseif(WIN32)\n"
+            "    execute_process(COMMAND where.exe swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            '    string(REGEX REPLACE "(.*)\\\\\\\\[^\\\\\\\\]*$" "\\\\1" SWIFTC_DIR "${SWIFTC}")\n'
+            "else()\n"
+            "    execute_process(COMMAND which swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            "    execute_process(COMMAND dirname ${SWIFTC} OUTPUT_VARIABLE SWIFTC_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            "endif()\n"
+        )
+        file.write(cmake_if_apple)
     file.write(cmake_header2)
 
     if params["exceptions"]:
@@ -1211,13 +1227,6 @@ def GenerateCMake(folder, params):
     file.write(cmake_header3)
 
     if params["useSwift"]:
-        cmake_if_apple = (
-            "if(APPLE)\n"
-            "    execute_process(COMMAND xcrun -f swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
-            "else()\n"
-            "    execute_process(COMMAND which swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
-            "endif()\n"
-        )
         cmake_swift_target = (
             'set(SWIFT_TARGET "armv6m-none-none-eabi") # RP2040\n\n'
             'if(PICO_PLATFORM STREQUAL "rp2350-arm-s")\n'
@@ -1232,8 +1241,12 @@ def GenerateCMake(folder, params):
             '    set(SWIFT_TARGET "riscv32-none-none-eabi")\n'
             '    list(APPEND CLANG_ARCH_ABI_FLAGS "-Xcc" "-march=rv32imac_zicsr_zifencei_zba_zbb_zbs_zbkb" "-Xcc" "-mabi=ilp32")\n'
             "endif()\n"
+            'set(SWIFT_EMBEDDED_UNICODE_LIB "${SWIFTC_DIR}/../lib/swift/embedded/${SWIFT_TARGET}/libswiftUnicodeDataTables.a")\n\n'
+            "# Link the Swift Unicode Data Tables library\n"
+            "if(NOT EXISTS ${SWIFT_EMBEDDED_UNICODE_LIB})\n"
+            '    message(FATAL_ERROR "Required Swift library not found: ${SWIFT_EMBEDDED_LIB}")\n'
+            "endif()\n\n"
         )
-        file.write(cmake_if_apple)
         file.write(cmake_swift_target)
 
     # add the preprocessor defines for overall configuration
@@ -1260,6 +1273,12 @@ def GenerateCMake(folder, params):
         file.write("# Add the standard library to the build\n")
         file.write(f"target_link_libraries({projectName}\n")
         file.write("        " + STANDARD_LIBRARIES)
+        if params["features"]:
+            for feat in params["features"]:
+                if feat in features_list:
+                    file.write("        " + features_list[feat][LIB_NAME] + "\n")
+                if feat in picow_options_list:
+                    file.write("        " + picow_options_list[feat][LIB_NAME] + "\n")
         file.write(")\n\n")
 
         main_file_name = f"{entry_point_file_name}.swift"
@@ -1296,6 +1315,22 @@ def GenerateCMake(folder, params):
             "endfunction()\n\n"
             f"gather_compile_definitions_recursive({projectName})\n"
             "get_property(COMPILE_DEFINITIONS GLOBAL PROPERTY compilerdefs_list)\n\n"
+            "# ==== BEGIN Generate compile definitions from linked libraries\n"
+            "# Gather libraries linked to project\n"
+            f"get_target_property({projectName}_LIBRARIES {projectName} INTERFACE_LINK_LIBRARIES)\n"
+            f"if(NOT {projectName}_LIBRARIES)\n"
+            f'    set({projectName}_LIBRARIES "") # Default to an empty list if none found\n'
+            "endif()\n\n"
+            'set(SWIFTC_LIB_DEFINITIONS "")\n'
+            f"foreach(LIBRARY IN LISTS {projectName}_LIBRARIES)\n"
+            "    # Convert it to uppercase\n"
+            "    string(TOUPPER ${LIBRARY} LIB_NAME_UPPER)\n"
+            '    list(APPEND SWIFTC_LIB_DEFINITIONS "-D" "${LIB_NAME_UPPER}")\n'
+            "endforeach()\n\n"
+            "# Convert the list to a string for the Swift command\n"
+            'string(REPLACE " " ";" SWIFTC_DEFINITIONS_STR "${SWIFTC_LIB_DEFINITIONS}")\n'
+            'message(STATUS "SWIFTC_LIB_DEFINITIONS: ${SWIFTC_DEFINITIONS_STR}")\n'
+            "# ==== END Generate compile definitions from linked libraries\n\n"
             "# Parse compiler definitions into a format that swiftc can understand\n"
             "list(REMOVE_DUPLICATES COMPILE_DEFINITIONS)\n"
             'list(PREPEND COMPILE_DEFINITIONS "")\n'
@@ -1307,13 +1342,16 @@ def GenerateCMake(folder, params):
             "        ${SWIFTC}\n"
             "        -target ${SWIFT_TARGET} -Xcc -mfloat-abi=soft -Xcc -fshort-enums\n"
             "        -Xfrontend -function-sections -enable-experimental-feature Embedded -wmo -parse-as-library\n"
+            "        ${SWIFTC_DEFINITIONS_STR}\n"
             f"        $$\( echo '$<TARGET_PROPERTY:{projectName},INCLUDE_DIRECTORIES>' | tr '\;' '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
             "        $$\( echo '${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}'             | tr ' '  '\\\\n' | sed -e 's/\\\\\(.*\\\\\)/-Xcc -I\\\\1/g' \)\n"
             "        -import-bridging-header ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h\n"
+            "        ${USERHOME}/.pico-sdk/sdk/PicoSDK.swift\n"
             f"        ${{CMAKE_CURRENT_LIST_DIR}}/{main_file_name}\n"
             "        -c -o ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n"
             "    DEPENDS\n"
             "        ${CMAKE_CURRENT_LIST_DIR}/BridgingHeader.h\n"
+            "        ${USERHOME}/.pico-sdk/sdk/PicoSDK.swift\n"
             f"        ${{CMAKE_CURRENT_LIST_DIR}}/{main_file_name}\n"
             ")\n"
         )
@@ -1376,6 +1414,13 @@ def GenerateCMake(folder, params):
         file.write("        " + STANDARD_LIBRARIES)
         file.write(")\n\n")
     else:
+        file.write("# Link Swift Unicode data tables to the build\n")
+        file.write(f"target_link_options({projectName} PRIVATE\n")
+        file.write(
+            "    -Wl,--whole-archive ${SWIFT_EMBEDDED_UNICODE_LIB} -Wl,--no-whole-archive\n"
+        )
+        file.write(")\n\n")
+
         file.write("# Add the swift artifact to the build\n")
         file.write(f"target_link_libraries({projectName}\n")
         file.write("    ${CMAKE_CURRENT_BINARY_DIR}/_swiftcode.o\n")
@@ -1395,7 +1440,7 @@ def GenerateCMake(folder, params):
         file.write(f"add_dependencies({projectName} {projectName}-swiftcode)\n")
 
     # Selected libraries/features
-    if params["features"]:
+    if params["features"] and not params["useSwift"]:
         file.write("# Add any user requested libraries\n")
         file.write(f"target_link_libraries({projectName} \n")
         for feat in params["features"]:

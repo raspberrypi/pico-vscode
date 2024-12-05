@@ -489,6 +489,14 @@ export async function downloadAndInstallSDK(
 
   const targetDirectory = buildSDKPath(version);
 
+  // Copy swift wrapper
+  const sdkRoot = dirname(targetDirectory);
+  await mkdir(sdkRoot, { recursive: true });
+  copyFileSync(
+    joinPosix(getScriptsRoot(), "PicoSDK.swift"),
+    joinPosix(sdkRoot, "PicoSDK.swift")
+  );
+
   // Check if the SDK is already installed
   if (
     existsSync(targetDirectory) &&
