@@ -97,7 +97,7 @@ const CMAKE_PLATFORMS: { [key: string]: string } = {
 const homeDirectory: string = homedir();
 
 export function buildBasicToolchainPath(absolute: boolean): string {
-  const relPath = joinPosix(homeDirectory, ".pico-sdk", "toolchain");
+  const relPath = joinPosix(".pico-sdk", "toolchain");
   if (absolute) {
     return joinPosix(homeDirectory.replaceAll("\\", "/"), relPath);
   } else {
