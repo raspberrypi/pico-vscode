@@ -13,6 +13,7 @@ For comprehensive setup instructions, refer to the [Getting Started guide](https
 ### Project Setup and Management
 
 - **Project Generator**: Easily create and configure new projects with support for advanced Pico features like I2C and PIO. The generator targets the Ninja build system and allows customization during project creation.
+- **Swift Language Support**: Develop Pico projects using the Swift programming language by leveraging the latest **experimental** Swift toolchain. Generate Swift-enabled projects directly from the extension.
 - **Quick Project Setup**: Initiate new Pico projects directly from the Explorer view, when no workspace is open.
 - **MicroPython Support**: Create and develop MicroPython-based Pico projects with support provided through the [MicroPico](https://github.com/paulober/MicroPico) extension.
 
@@ -88,6 +89,46 @@ For optimal functionality, consider enabling:
 - `cmake.configureOnOpen`: true
 
 When prompted, select the `Pico` kit in CMake Tools, and set your build and launch targets accordingly. Use CMake Tools for compilation, but continue using this extension for debugging, as CMake Tools debugging is not compatible with Pico.
+
+## Swift Support
+
+The Pico VS Code extension supports Swift, enabling you to develop Raspberry Pi Pico projects using the Swift programming language. To enable Swift support, follow these steps:
+
+### 1. Install the Swift Experimental Toolchain
+
+Download and install the latest Swift experimental toolchain for your platform:
+
+- **Linux**: [Install Swift for Linux](https://www.swift.org/install/linux/#platforms)
+- **macOS**: [Install Swift for macOS](https://www.swift.org/install/macos)
+
+> **Note:** Windows is not currently supported.
+
+### 2. Configure the Swift Toolchain
+
+#### **For Linux:**
+Ensure the `swiftc` executable is included in your system's `PATH`. Once added, restart VS Code for the changes to take effect.
+
+#### **For macOS:**
+If the build fails or the Swift toolchain isn’t detected, force the toolchain selection by adding the following line to your `~/.zprofile`:
+
+- **For system-wide installation:**
+  ```zsh
+  export TOOLCHAINS=$(plutil -extract CFBundleIdentifier raw /Library/Developer/Toolchains/swift-latest.xctoolchain/Info.plist)
+  ```
+
+- **For user-specific installation:**
+  ```zsh
+  export TOOLCHAINS=$(plutil -extract CFBundleIdentifier raw $HOME/Library/Developer/Toolchains/swift-latest.xctoolchain/Info.plist)
+  ```
+
+Then, restart your terminal and reopen VS Code.
+
+### 3. Create a New Pico Project with Swift
+
+1. Open VS Code.
+2. Use the **"Generate Swift Code"** option to create a new Pico project with Swift support enabled.
+> Note: At the moment, Swift support is only available for new projects based on Pico 2 and Pico SDK v2.1.0.
+3. Start building your Swift-powered Pico project!
 
 ## VS Code Profiles
 

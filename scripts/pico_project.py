@@ -565,7 +565,8 @@ code_fragments_per_feature_swift = {
             "// GPIO initialisation.",
             "// We will make this GPIO an input, and pull it up by default",
             "gpio_init(GPIO)",
-            "gpio_set_dir(GPIO, GPIO_IN)",
+            # "gpio_set_dir(GPIO, GPIO_IN)",
+            "PicoGPIO.setDirection(pin: GPIO, direction: .input)",
             "gpio_pull_up(GPIO)",
             "// See https://github.com/raspberrypi/pico-examples/tree/master/gpio for other gpio examples, including using interrupts",
         ),
@@ -574,18 +575,18 @@ code_fragments_per_feature_swift = {
         (),
         (
             "// Interpolator example code",
-            "interp_config cfg = interp_default_config()",
+            "var cfg = interp_default_config()",
             "// Now use the various interpolator library functions for your use case",
             "// e.g. interp_config_clamp(&cfg, true)",
             "//      interp_config_shift(&cfg, 2)",
             "// Then set the config ",
-            "interp_set_config(interp0, 0, &cfg)",
+            "interp_set_config(get_interp0(), 0, &cfg)",
             "// For examples of interpolator use see https://github.com/raspberrypi/pico-examples/tree/master/interp",
         ),
     ],
     "timer": [
         (
-            "func alarm_callback(id: alarm_id_t, user_data: void): int64_t {",
+            "func alarm_callback(id: alarm_id_t, user_data: UnsafeMutableRawPointer?) -> Int64 {",
             "    // Put your timeout handler code in here",
             "    return 0",
             "}",
@@ -601,13 +602,13 @@ code_fragments_per_feature_swift = {
         (
             "// Watchdog example code",
             "if watchdog_caused_reboot() {",
-            '    printf("Rebooted by Watchdog!\\n")',
+            '    print("Rebooted by Watchdog!")',
             "    // Whatever action you may take if a watchdog caused a reboot",
             "}",
             "",
             "// Enable the watchdog, requiring the watchdog to be updated every 100ms or the chip will reboot",
             "// second arg is pause on debug which means the watchdog will pause when stepping through code",
-            "watchdog_enable(100, 1)",
+            "watchdog_enable(100, true)",
             "",
             "// You need to call this function at least more often than the 100ms in the enable call to prevent a reboot",
             "watchdog_update()",
@@ -1205,11 +1206,10 @@ def GenerateCMake(folder, params):
     if params["useSwift"]:
         cmake_if_apple = (
             "if(APPLE)\n"
-            "    execute_process(COMMAND xcrun -f swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
+            "    execute_process(COMMAND xcrun --toolchain swift -f swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
             "    execute_process(COMMAND dirname ${SWIFTC} OUTPUT_VARIABLE SWIFTC_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
             "elseif(WIN32)\n"
-            "    execute_process(COMMAND where.exe swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
-            '    string(REGEX REPLACE "(.*)\\\\\\\\[^\\\\\\\\]*$" "\\\\1" SWIFTC_DIR "${SWIFTC}")\n'
+            '    message(FATAL_ERROR "Embedded Swift is currently not supported on Windows")\n'
             "else()\n"
             "    execute_process(COMMAND which swiftc OUTPUT_VARIABLE SWIFTC OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
             "    execute_process(COMMAND dirname ${SWIFTC} OUTPUT_VARIABLE SWIFTC_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)\n"
@@ -1960,6 +1960,9 @@ if __name__ == "__main__":
 
     if args.debugger > len(debugger_list) - 1:
         args.debugger = 0
+
+    if args.swift and args.cpp:
+        args.swift = False
 
     if "RISCV" in args.toolchainVersion:
         if "COREV" in args.toolchainVersion:

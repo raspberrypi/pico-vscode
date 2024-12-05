@@ -4,6 +4,20 @@
 #define PICO_DEFAULT_LED_PIN 6
 #endif
 
+#ifdef _HARDWARE_STRUCTS_INTERP_H
+#ifdef interp0
+interp_hw_t* get_interp0(void) {
+    return interp0;
+}
+#endif
+
+#ifdef interp1
+interp_hw_t* get_interp1(void) {
+    return interp1;
+}
+#endif
+#endif
+
 #ifdef _HARDWARE_STRUCTS_SPI_H
 #ifdef spi0
 spi_inst_t* get_spi0(void) {

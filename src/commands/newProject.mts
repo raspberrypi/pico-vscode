@@ -19,7 +19,7 @@ export default class NewProjectCommand extends CommandWithArgs {
   private readonly _logger: Logger = new Logger("NewProjectCommand");
   private readonly _extensionUri: Uri;
   private static readonly micropythonOption = "MicroPython";
-  private static readonly cCppOption = "C/C++";
+  private static readonly cCppOption = "C/C++/Swift";
 
   public static readonly id = "newProject";
 

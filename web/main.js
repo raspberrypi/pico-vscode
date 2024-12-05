@@ -750,6 +750,36 @@ var exampleSupportedBoards = [];
     });
   }
 
+  const swiftCodeGen = document.getElementById('swift-code-gen-cblist');
+  if (swiftCodeGen) {
+    swiftCodeGen.addEventListener('change', function (event) {
+      const checked = event.currentTarget.checked;
+      if (!checked) {
+        return;
+      }
+
+      const cppCodeGen = document.getElementById('cpp-code-gen-cblist');
+      if (cppCodeGen) {
+        cppCodeGen.checked = false;
+      }
+    });
+  }
+
+  const cppCodeGen = document.getElementById('cpp-code-gen-cblist');
+  if (cppCodeGen) {
+    cppCodeGen.addEventListener('change', function (event) {
+      const checked = event.currentTarget.checked;
+      if (!checked) {
+        return;
+      }
+
+      const swiftCodeGen = document.getElementById('swift-code-gen-cblist');
+      if (swiftCodeGen) {
+        swiftCodeGen.checked = false;
+      }
+    });
+  }
+
   const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
   if (ninjaVersionRadio.length > 0)
     ninjaVersionRadio[0].checked = true;
