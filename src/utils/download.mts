@@ -262,23 +262,10 @@ export async function downloadAndInstallArchive(
   if (!archiveExtension) {
     Logger.error(
       LoggerSource.downloader,
-      `Could not determine archive extension for ${url}`
+      `Could not determine archive extension for ${archiveFileName}`
     );
 
     return false;
-  }
-
-  // TODO: find and eliminate issue why this is necesarry
-  if (archiveExtension.length > 6) {
-    archiveExtension = getArchiveExtension(archiveFileName);
-    if (!archiveExtension) {
-      Logger.error(
-        LoggerSource.downloader,
-        `Could not determine archive extension for ${archiveFileName}`
-      );
-
-      return false;
-    }
   }
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
@@ -542,15 +529,14 @@ export async function downloadAndInstallSDK(
     );
     // Constants taken from the SDK CMakeLists.txt files
     const TINYUSB_TEST_PATH = joinPosix(
-      "lib/tinyusb", "src/portable/raspberrypi/rp2040"
+      "lib/tinyusb",
+      "src/portable/raspberrypi/rp2040"
     );
     const CYW43_DRIVER_TEST_FILE = joinPosix("lib/cyw43-driver", "src/cyw43.h");
     const LWIP_TEST_PATH = joinPosix("lib/lwip", "src/Filelists.cmake");
     const BTSTACK_TEST_PATH = joinPosix("lib/btstack", "src/bluetooth.h");
-    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c")
-    const submoduleChecks = [
-      TINYUSB_TEST_PATH
-    ]
+    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c");
+    const submoduleChecks = [TINYUSB_TEST_PATH];
     if (compareGe(version, "1.4.0")) {
       submoduleChecks.push(CYW43_DRIVER_TEST_FILE);
       submoduleChecks.push(LWIP_TEST_PATH);
