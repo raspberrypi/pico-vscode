@@ -14,13 +14,16 @@ import Logger, { LoggerSource } from "../logger.mjs";
 import { STATUS_CODES } from "http";
 import type { Dispatcher } from "undici";
 import { Client } from "undici";
-import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
+import {
+  getSupportedToolchains,
+  type SupportedToolchainVersion,
+} from "./toolchainUtil.mjs";
 import { cloneRepository, initSubmodules, getGit } from "./gitUtil.mjs";
 import { checkForGit } from "./requirementsUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
-import { window } from "vscode";
+import { ProgressLocation, type Uri, window } from "vscode";
 import { fileURLToPath } from "url";
 import {
   type GithubReleaseAssetData,
@@ -35,6 +38,7 @@ import {
   HTTP_STATUS_UNAUTHORIZED,
   githubApiUnauthorized,
   HTTP_STATUS_FORBIDDEN,
+  HTTP_STATUS_OK,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
@@ -43,10 +47,12 @@ import { got, type Progress } from "got";
 import { pipeline as streamPipeline } from "node:stream/promises";
 import {
   CURRENT_PYTHON_VERSION,
+  OPENOCD_VERSION,
   WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
+import VersionBundlesLoader from "./versionBundles.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -183,6 +189,30 @@ export function buildPython3Path(version: string): string {
   );
 }
 
+export async function downloadAndReadFile(
+  url: string
+): Promise<string | undefined> {
+  const response = await got(url, {
+    headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "User-Agent": EXT_USER_AGENT,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      Accept: "*/*",
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      "Accept-Encoding": "gzip, deflate, br",
+    },
+    followRedirect: true,
+    method: "GET",
+    retry: {
+      limit: 3,
+      methods: ["GET"],
+    },
+    cache: false,
+  });
+
+  return response.statusCode === HTTP_STATUS_OK ? response.body : undefined;
+}
+
 /**
  * Downloads and installs an archive from a URL.
  *
@@ -208,7 +238,8 @@ export async function downloadAndInstallArchive(
   extraCallback?: () => void,
   redirectURL?: string,
   extraHeaders?: { [key: string]: string },
-  progressCallback?: (progress: Progress) => void
+  progressCallback?: (progress: Progress) => void,
+  xzSingleDirOption?: string
 ): Promise<boolean> {
   // Check if already installed
   if (
@@ -227,7 +258,7 @@ export async function downloadAndInstallArchive(
   if (!archiveExtension) {
     Logger.error(
       LoggerSource.downloader,
-      `Could not determine archive extension for ${url}`
+      `Could not determine archive extension for ${archiveFileName}`
     );
 
     return false;
@@ -278,7 +309,8 @@ export async function downloadAndInstallArchive(
     const unpackResult = await unpackArchive(
       archiveFilePath,
       targetDirectory,
-      archiveExtension
+      archiveExtension,
+      xzSingleDirOption
     );
 
     if (unpackResult && extraCallback) {
@@ -403,11 +435,16 @@ async function downloadFileGot(
 async function unpackArchive(
   archiveFilePath: string,
   targetDirectory: string,
-  archiveExt: string
+  archiveExt: string,
+  xzSingleDirOption?: string
 ): Promise<boolean> {
   try {
     if (archiveExt === "tar.xz" || archiveExt === "tar.gz") {
-      const success = await unxzFile(archiveFilePath, targetDirectory);
+      const success = await unxzFile(
+        archiveFilePath,
+        targetDirectory,
+        xzSingleDirOption
+      );
       cleanupFiles(archiveFilePath);
 
       return success;
@@ -488,15 +525,14 @@ export async function downloadAndInstallSDK(
     );
     // Constants taken from the SDK CMakeLists.txt files
     const TINYUSB_TEST_PATH = joinPosix(
-      "lib/tinyusb", "src/portable/raspberrypi/rp2040"
+      "lib/tinyusb",
+      "src/portable/raspberrypi/rp2040"
     );
     const CYW43_DRIVER_TEST_FILE = joinPosix("lib/cyw43-driver", "src/cyw43.h");
     const LWIP_TEST_PATH = joinPosix("lib/lwip", "src/Filelists.cmake");
     const BTSTACK_TEST_PATH = joinPosix("lib/btstack", "src/bluetooth.h");
-    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c")
-    const submoduleChecks = [
-      TINYUSB_TEST_PATH
-    ]
+    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c");
+    const submoduleChecks = [TINYUSB_TEST_PATH];
     if (compareGe(version, "1.4.0")) {
       submoduleChecks.push(CYW43_DRIVER_TEST_FILE);
       submoduleChecks.push(LWIP_TEST_PATH);
@@ -576,8 +612,8 @@ export async function downloadAndInstallSDK(
  * @param redirectURL An optional redirect URL to download the asset
  * from (used to follow redirects recursively)
  * @returns A promise that resolves to true if the asset was downloaded and installed successfully
- */
-async function downloadAndInstallGithubAsset(
+ */ // TODO: do not export
+export async function downloadAndInstallGithubAsset(
   version: string,
   releaseVersion: string,
   repo: GithubRepository,
@@ -1272,4 +1308,153 @@ export async function downloadEmbedPython(
 
     return;
   }
+}
+
+/**
+ * Downloads and installs the latest SDK and toolchains.
+ *
+ * + OpenOCD + picotool
+ * (includes UI feedback)
+ *
+ * @param extensionUri The URI of the extension
+ */
+export async function installLatestRustRequirements(
+  extensionUri: Uri
+): Promise<boolean> {
+  const vb = new VersionBundlesLoader(extensionUri);
+  const latest = await vb.getLatest();
+  if (latest === undefined) {
+    void window.showErrorMessage(
+      "Failed to get latest version bundles. " +
+        "Please try again and check your settings."
+    );
+
+    return false;
+  }
+
+  const supportedToolchains = await getSupportedToolchains();
+
+  let result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: `Downloading ARM Toolchain for debugging...`,
+    },
+    async progress => {
+      const toolchain = supportedToolchains.find(
+        t => t.version === latest.toolchain
+      );
+
+      if (toolchain === undefined) {
+        void window.showErrorMessage(
+          "Failed to get default toolchain. " +
+            "Please try again and check your internet connection."
+        );
+
+        return false;
+      }
+
+      let progressState = 0;
+
+      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download ARM Toolchain. " +
+        "Please try again and check your settings."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading RISC-V Toolchain for debugging...",
+    },
+    async progress => {
+      const toolchain = supportedToolchains.find(
+        t => t.version === latest.riscvToolchain
+      );
+
+      if (toolchain === undefined) {
+        void window.showErrorMessage(
+          "Failed to get default RISC-V toolchain. " +
+            "Please try again and check your internet connection."
+        );
+
+        return false;
+      }
+
+      let progressState = 0;
+
+      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download RISC-V Toolchain. " +
+        "Please try again and check your internet connection."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing OpenOCD...",
+    },
+    async progress => {
+      let progressState = 0;
+
+      return downloadAndInstallOpenOCD(OPENOCD_VERSION, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download OpenOCD. " +
+        "Please try again and check your internet connection."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing picotool...",
+    },
+    async progress => {
+      let progressState = 0;
+
+      return downloadAndInstallPicotool(latest.picotool, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download picotool. " +
+        "Please try again and check your internet connection."
+    );
+  }
+
+  return result;
 }
