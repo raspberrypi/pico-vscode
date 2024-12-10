@@ -267,23 +267,10 @@ export async function downloadAndInstallArchive(
   if (!archiveExtension) {
     Logger.error(
       LoggerSource.downloader,
-      `Could not determine archive extension for ${url}`
+      `Could not determine archive extension for ${archiveFileName}`
     );
 
     return false;
-  }
-
-  // TODO: find and eliminate issue why this is necesarry
-  if (archiveExtension.length > 6) {
-    archiveExtension = getArchiveExtension(archiveFileName);
-    if (!archiveExtension) {
-      Logger.error(
-        LoggerSource.downloader,
-        `Could not determine archive extension for ${archiveFileName}`
-      );
-
-      return false;
-    }
   }
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");

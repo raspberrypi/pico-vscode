@@ -5,7 +5,6 @@ import { env, ProgressLocation, Uri, window } from "vscode";
 import { promisify } from "util";
 import { exec } from "child_process";
 import { join } from "path";
-import { homedir } from "os";
 
 /*const STABLE_INDEX_DOWNLOAD_URL =
   "https://static.rust-lang.org/dist/channel-rust-stable.toml";*/
@@ -81,33 +80,10 @@ function computeDownloadLink(release: string): string {
 }*/
 
 export async function cargoInstall(
-  cargoExecutable: string,
   packageName: string,
-  locked = false,
-  moreEnv: { [key: string]: string }
+  locked = false
 ): Promise<boolean> {
-  const prefix = process.platform === "win32" ? "&" : "";
-  const command = `${prefix}"${cargoExecutable}" install ${
-    locked ? "--locked " : ""
-  }${packageName}`;
-
-  let customEnv = process.env;
-  customEnv.PATH += `${process.platform === "win32" ? ";" : ":"}${dirname(
-    cargoExecutable
-  )}`;
-  if ("PATH" in moreEnv) {
-    customEnv.PATH += `${process.platform === "win32" ? ";" : ":"}${
-      moreEnv.PATH
-    }`;
-    delete moreEnv.PATH;
-  }
-  if (moreEnv) {
-    // TODO: what with duplicates?
-    customEnv = {
-      ...customEnv,
-      ...moreEnv,
-    };
-  }
+  const command = process.platform === "win32" ? "cargo.exe" : "cargo";
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { stdout, stderr } = await execAsync(
@@ -128,161 +104,79 @@ export async function cargoInstall(
     ) {
       Logger.warn(
         LoggerSource.rustUtil,
-        `Cargo command '${command}' failed but ignoring:`,
+        `Cargo package '${packageName}' is already installed ` +
+          "or cargo bin not in PATH:",
         msg
       );
 
       return true;
-    } else {
-      Logger.error(
-        LoggerSource.rustUtil,
-        `Failed to install cargo command '${command}': ${msg}`
-      );
-
-      return false;
     }
-  }
-}
-
-export function detectExistingRustInstallation(): boolean {
-  const dir = joinPosix(homedir(), ".pico-sdk", "rust");
-
-  try {
-    const contents = readdirSync(dir);
-
-    // Check if the directory contains a subdirectory if yes delete it
-    if (contents.length > 0) {
-      for (const itemToDelete of contents) {
-        const itemPath = joinPosix(dir, itemToDelete);
-        try {
-          rmSync(itemPath, { recursive: true, force: true });
-        } catch (error) {
-          Logger.debug(
-            LoggerSource.rustUtil,
-            "Error deleting existing Rust installation:",
-            unknownErrorToString(error)
-          );
-        }
-      }
-
-      return true;
-    } else {
-      return false;
-    }
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Merges multiple directories at the top level into a single directory structure.
- *
- * @param parentDir - The path to the parent directory containing the subdirectories to merge.
- */
-async function mergeDirectories(parentDir: string): Promise<void> {
-  // Get a list of all directories in the parent directory
-  const directories: string[] = (await readdir(parentDir)).filter(async dir => {
-    const stats = await stat(join(parentDir, dir));
-
-    return stats.isDirectory();
-  });
-
-  // Define the subdirectories we want to merge
-  const subDirs: string[] = ["bin", "etc", "lib", "libexec", "share"];
-
-  // Create the top-level directories if they do not exist
-  await Promise.all(
-    subDirs.map(async subDir => {
-      const destSubDir: string = join(parentDir, subDir);
-      try {
-        await mkdir(destSubDir, { recursive: true });
-      } catch {
-        // Ignore error if directory already exists
-      }
-    })
-  );
-
-  // Function to merge directories
-  const mergeSubDirectories = async (
-    srcDir: string,
-    destDir: string
-  ): Promise<void> => {
-    const items: string[] = await readdir(srcDir);
-
-    await Promise.all(
-      items.map(async item => {
-        const srcItemPath: string = join(srcDir, item);
-        const destItemPath: string = join(destDir, item);
-
-        const stats = await stat(srcItemPath);
-        if (stats.isDirectory()) {
-          // If the item is a directory, merge it recursively
-          await mkdir(destItemPath, { recursive: true });
-          await mergeSubDirectories(srcItemPath, destItemPath);
-        } else {
-          // If it's a file, copy it
-          await copyFile(srcItemPath, destItemPath);
-        }
-      })
+    Logger.error(
+      LoggerSource.rustUtil,
+      `Failed to install cargo package '${packageName}': ${unknownErrorToString(
+        error
+      )}`
     );
-  };
 
-  // Merge the contents of the subdirectories into the top-level structure
-  await Promise.all(
-    directories.map(async directory => {
-      const dirPath: string = join(parentDir, directory);
-
-      await Promise.all(
-        subDirs.map(async subDir => {
-          const sourcePath: string = join(dirPath, subDir);
-
-          try {
-            const stats = await stat(sourcePath);
-            if (stats.isDirectory()) {
-              await mergeSubDirectories(sourcePath, join(parentDir, subDir));
-            }
-          } catch {
-            // Ignore error if directory does not exist
-          }
-        })
-      );
-    })
-  );
-
-  // Remove the old directories after merging their contents
-  await Promise.all(
-    directories.map(async directory => {
-      await rm(join(parentDir, directory), {
-        recursive: true,
-        force: true,
-      });
-    })
-  );
+    return false;
+  }
 }
 
-// TODO: move task env setup for this into a command
-async function installPortableMSVC(): Promise<boolean> {
-  const python = await findPython();
-  if (!python) {
-    Logger.error(LoggerSource.rustUtil, "Could not find python");
+export function calculateRequiredHostTriple(): string {
+  const arch = process.arch;
+  const platform = process.platform;
+  let triple = "";
+  if (platform === "win32" && arch === "x64") {
+    triple = "x86_64-pc-windows-msvc";
+  } else if (platform === "darwin") {
+    if (arch === "x64") {
+      triple = "x86_64-apple-darwin";
+    } else {
+      triple = "aarch64-apple-darwin";
+    }
+  } else if (platform === "linux") {
+    if (arch === "x64") {
+      triple = "x86_64-unknown-linux-gnu";
+    } else if (arch === "arm64") {
+      triple = "aarch64-unknown-linux-gnu";
+    } else {
+      throw new Error(`Unsupported architecture: ${arch}`);
+    }
+  } else {
+    throw new Error(`Unsupported platform: ${platform}`);
+  }
+
+  return triple;
+}
+
+async function checkHostToolchainInstalled(): Promise<boolean> {
+  try {
+    const hostTriple = calculateRequiredHostTriple();
+    const rustup = process.platform === "win32" ? "rustup.exe" : "rustup";
+    const { stdout } = await execAsync(`${rustup} toolchain list`, {
+      windowsHide: true,
+    });
+
+    return stdout.includes(hostTriple);
+  } catch (error) {
+    Logger.error(
+      LoggerSource.rustUtil,
+      `Failed to check for host toolchain: ${unknownErrorToString(error)}`
+    );
 
     return false;
   }
 
-  const prefix = process.platform === "win32" ? "&" : "";
-  // TODO: ask for license
-  const command = `${prefix}"${python}" "${joinPosix(
-    getScriptsRoot(),
-    "portable-msvc.py"
-  )}" --accept-license --msvc-version 14.41 --sdk-version 19041`;
+  // or else check .rustup/toolchains/ for the host toolchain
+}
 
+export async function installHostToolchain(): Promise<boolean> {
   try {
     // TODO: maybe listen for stderr
     // this will automatically take care of having the correct
     // recommended host toolchain installed except for snap rustup installs
     const { stdout } = await execAsync("rustup show", {
       windowsHide: true,
-      cwd: join(homedir(), ".pico-sdk", "msvc"),
     });
 
     if (stdout.includes("no active toolchain")) {
@@ -295,8 +189,7 @@ async function installPortableMSVC(): Promise<boolean> {
   } catch (error) {
     Logger.error(
       LoggerSource.rustUtil,
-      "Failed to install MSVC:",
-      unknownErrorToString(error)
+      `Failed to install host toolchain: ${unknownErrorToString(error)}`
     );
 
     return false;
@@ -304,199 +197,97 @@ async function installPortableMSVC(): Promise<boolean> {
 }
 
 /**
- * Download and installs the latest version of Rust.
+ * Checks for all requirements except targets and cargo packages.
  *
- * @returns A promise that resolves to an object containing the
- * paths to the installed `rustc` and `cargo` executables,
- * or `undefined` if the installation failed.
+ * (Cares about UI feedback)
+ *
+ * @returns {boolean} True if all requirements are met, false otherwise.
  */
-export async function downloadAndInstallRust(): Promise<string | undefined> {
-  // TODO: use channel rust stable instead
-  const rustReleases = await getRustReleases();
-  const latestRelease = rustReleases[0];
-
-  const downloadLink = computeDownloadLink(latestRelease);
-  const targetDirectory = joinPosix(
-    homedir(),
-    ".pico-sdk",
-    "rust",
-    latestRelease
-  );
-
-  if (existsSync(targetDirectory)) {
-    Logger.debug(
-      LoggerSource.rustUtil,
-      `Latest Rust ${latestRelease} already installed, skipping installation`
-    );
-
-    return joinPosix(
-      targetDirectory,
-      "bin",
-      "cargo" + (process.platform === "win32" ? ".exe" : "")
-    );
-  }
-
-  const existingInstallation = detectExistingRustInstallation();
-
-  // Download and install Rust
-  let progressState = 0;
-  const result = await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading and installing Rust",
-      cancellable: false,
-    },
-    async progress =>
-      downloadAndInstallArchive(
-        downloadLink,
-        targetDirectory,
-        `rust-${latestRelease}.tar.xz`,
-        "Rust",
-        undefined,
-        undefined,
-        undefined,
-        (prog: GotProgress) => {
-          const percent = prog.percent * 100;
-          progress.report({ increment: percent - progressState });
-          progressState = percent;
-        }
-      )
-  );
-  if (!result) {
-    return undefined;
-  }
-
-  const index = await downloadAndReadFile(STABLE_INDEX_DOWNLOAD_URL);
-  if (!index) {
-    try {
-      rmSync(targetDirectory, { recursive: true, force: true });
-    } catch {
-      /* */
-    }
-
-    return undefined;
-  }
-  Logger.debug(LoggerSource.rustUtil, "Downloaded Rust index file");
-
+export async function checkRustInstallation(): Promise<boolean> {
+  let rustupOk = false;
+  let rustcOk = false;
+  let cargoOk = false;
   try {
-    const data: IndexToml = parseToml(index) as IndexToml;
+    const rustup = process.platform === "win32" ? "rustup.exe" : "rustup";
+    await execAsync(`${rustup} --version`, {
+      windowsHide: true,
+    });
+    rustupOk = true;
 
-    const targetTriple = "thumbv6m-none-eabi";
-    if (
-      data.pkg &&
-      data.pkg["rust-std"] &&
-      data.pkg["rust-std"].target &&
-      data.pkg["rust-std"].target[targetTriple] &&
-      data.pkg["rust-std"].target[targetTriple].available
-    ) {
-      const stdDownloadLink = data.pkg["rust-std"].target[targetTriple].xz_url;
-      progressState = 0;
-      const targetLabel = `rust-std-${targetTriple}`;
-      const newTargetDirectory = joinPosix(targetDirectory, targetLabel);
+    // check rustup toolchain
+    const result = await checkHostToolchainInstalled();
+    if (!result) {
+      Logger.error(LoggerSource.rustUtil, "Host toolchain not installed");
+
+      // TODO: make cancelable (Ctrl+C)
       const result = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing Pico Rust target stdlib",
-          cancellable: false,
+          title: "Installing Rust toolchain",
+          cancellable: true,
         },
-        async progress =>
-          downloadAndInstallArchive(
-            stdDownloadLink,
-            newTargetDirectory,
-            `rust-pico-${latestRelease}-std.tar.xz`,
-            "Rust Pico Standard Library",
-            undefined,
-            undefined,
-            undefined,
-            (prog: GotProgress) => {
-              const percent = prog.percent * 100;
-              progress.report({ increment: percent - progressState });
-              progressState = percent;
-            },
-            `rust-std-${latestRelease}-${targetTriple}/${targetLabel}`
-          )
+        async () => installHostToolchain()
       );
 
       if (!result) {
-        try {
-          rmSync(targetDirectory, { recursive: true, force: true });
-        } catch {
-          /* */
-        }
+        void window.showErrorMessage(
+          "Failed to install Rust toolchain. " +
+            "Please install it manually with `rustup show`."
+        );
 
-        return;
+        return false;
       }
-    } else {
-      Logger.error(
-        LoggerSource.rustUtil,
-        "Error parsing Rust index file: std not available"
-      );
-
-      try {
-        rmSync(targetDirectory, { recursive: true, force: true });
-      } catch {
-        /* */
-      }
-
-      return;
     }
 
-    if (
-      data.pkg &&
-      data.pkg["rust-analysis"] &&
-      data.pkg["rust-analysis"].target &&
-      data.pkg["rust-analysis"].target[targetTriple] &&
-      data.pkg["rust-analysis"].target[targetTriple].available
-    ) {
-      const stdDownloadLink =
-        data.pkg["rust-analysis"].target[targetTriple].xz_url;
-      progressState = 0;
-      const targetLabel = `rust-analysis-${targetTriple}`;
-      const newTargetDirectory = joinPosix(targetDirectory, targetLabel);
-      const result = await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Downloading and installing Pico Rust target analysis library",
-          cancellable: false,
-        },
-        async progress =>
-          downloadAndInstallArchive(
-            stdDownloadLink,
-            newTargetDirectory,
-            `rust-pico-${latestRelease}-analysis.tar.xz`,
-            "Rust Pico Analysis Library",
-            undefined,
-            undefined,
-            undefined,
-            (prog: GotProgress) => {
-              const percent = prog.percent * 100;
-              progress.report({ increment: percent - progressState });
-              progressState = percent;
-            },
-            `rust-analysis-${latestRelease}-${targetTriple}/${targetLabel}`
-          )
+    const rustc = process.platform === "win32" ? "rustc.exe" : "rustc";
+    await execAsync(`${rustc} --version`, {
+      windowsHide: true,
+    });
+    rustcOk = true;
+
+    const cargo = process.platform === "win32" ? "cargo.exe" : "cargo";
+    await execAsync(`${cargo} --version`, {
+      windowsHide: true,
+    });
+    cargoOk = true;
+
+    return true;
+  } catch (error) {
+    Logger.error(
+      LoggerSource.rustUtil,
+      `Rust installation check failed: ${unknownErrorToString(error)}`
+    );
+
+    if (!rustupOk) {
+      void window
+        .showErrorMessage(
+          "Rustup is not installed. Please install it manually.",
+          "Install"
+        )
+        .then(result => {
+          if (result) {
+            env.openExternal(
+              Uri.parse("https://www.rust-lang.org/tools/install", true)
+            );
+          }
+        });
+    } else if (!rustcOk) {
+      void window.showErrorMessage(
+        "Rustc is not installed. Please install it manually."
       );
-
-      if (!result) {
-        try {
-          rmSync(targetDirectory, { recursive: true, force: true });
-        } catch {
-          /* */
-        }
-
-        return;
-      }
+    } else if (!cargoOk) {
+      void window.showErrorMessage(
+        "Cargo is not installed. Please install it manually."
+      );
     } else {
-      Logger.error(
-        LoggerSource.rustUtil,
-        "Error parsing Rust index file: analysis not available"
+      void window.showErrorMessage(
+        "Failed to check Rust installation. Please check the logs."
       );
+    }
 
-      try {
-        rmSync(targetDirectory, { recursive: true, force: true });
-      } catch {
-        /* */
-      }
+    return false;
+  }
+}
 
 /**
  * Installs all requirements for embedded Rust development.
@@ -545,11 +336,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
         "Please check the logs."
     );
 
-    // symlink to latest
-    const latestPath = joinPosix(homedir(), ".pico-sdk", "rust", "latest");
-    if (existsSync(latestPath)) {
-      rmSync(latestPath, { recursive: true, force: true });
-    }
+    return false;
+  }
 
   // or install probe-rs-tools
   const probeRsTools = "defmt-print";
@@ -560,11 +348,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
         "Please check the logs."
     );
 
-    try {
-      rmSync(targetDirectory, { recursive: true, force: true });
-    } catch {
-      /* */
-    }
+    return false;
+  }
 
   // install elf2uf2-rs
   const elf2uf2Rs = "elf2uf2-rs";
