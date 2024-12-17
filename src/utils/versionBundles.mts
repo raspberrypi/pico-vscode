@@ -10,16 +10,12 @@ const versionBundlesUrl =
   `${CURRENT_DATA_VERSION}/versionBundles.json`;
 
 export interface VersionBundle {
-  python: {
-    version: string;
-    macos: string;
-    windowsAmd64: string;
-  };
   ninja: string;
   cmake: string;
   picotool: string;
   toolchain: string;
   riscvToolchain: string;
+  modifiers: { [triple: string] : {[tool: string]: string}};
 }
 
 export interface VersionBundles {
@@ -103,24 +99,22 @@ export default class VersionBundlesLoader {
       await this.loadBundles();
     }
 
-    return (this.bundles ?? {})[version];
-  }
+    const chosenBundle = (this.bundles ?? {})[version];
 
-  public async getPythonWindowsAmd64Url(
-    pythonVersion: string
-  ): Promise<VersionBundle | undefined> {
-    if (this.bundles === undefined) {
-      await this.loadBundles();
+    if (chosenBundle !== undefined) {
+      const modifiers = chosenBundle?.modifiers;
+      if (modifiers !== undefined) {
+        const platformDouble = `${process.platform}_${process.arch}`;
+        if (modifiers[platformDouble] !== undefined) {
+          chosenBundle.cmake =  modifiers[platformDouble]["cmake"] ?? chosenBundle.cmake
+          chosenBundle.ninja =  modifiers[platformDouble]["ninja"] ?? chosenBundle.ninja
+          chosenBundle.picotool =  modifiers[platformDouble]["picotool"] ?? chosenBundle.picotool
+          chosenBundle.toolchain =  modifiers[platformDouble]["toolchain"] ?? chosenBundle.toolchain
+          chosenBundle.riscvToolchain =  modifiers[platformDouble]["riscvToolchain"] ?? chosenBundle.riscvToolchain
+        }
+      }
     }
-    if (this.bundles === undefined) {
-      return undefined;
-    }
 
-    const bundle = Object.values(this.bundles).find(
-      bundle => bundle.python.version === pythonVersion
-    );
-
-    //return bundle?.python.windowsAmd64;
-    return bundle;
+    return chosenBundle;
   }
 }
