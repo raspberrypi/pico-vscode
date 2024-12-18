@@ -39,6 +39,12 @@ def GDB_NAME():
     return f"{COMPILER_TRIPLE}-gdb"
 
 
+# if you change the do not edit headline you need to change the check for it in cmakeUtil.mts
+CMAKE_DO_NOT_EDIT_HEADER_PREFIX = "== DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work =="
+CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD = (
+    "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work =="
+)
+
 VSCODE_LAUNCH_FILENAME = "launch.json"
 VSCODE_C_PROPERTIES_FILENAME = "c_cpp_properties.json"
 VSCODE_CMAKE_KITS_FILENAME = "cmake-kits.json"
@@ -736,9 +742,8 @@ def GenerateCMake(folder, params):
         "# (note this can come from environment, CMake cache etc)\n\n"
     )
 
-    # if you change the do not edit headline you need to change the check for it in extension.mts
     cmake_header_us = (
-        "# == DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==\n"
+        f"# {CMAKE_DO_NOT_EDIT_HEADER_PREFIX}\n"
         "if(WIN32)\n"
         "    set(USERHOME $ENV{USERPROFILE})\n"
         "else()\n"
@@ -774,11 +779,24 @@ def GenerateCMake(folder, params):
             lines = file.readlines()
             file.seek(0)
             if not params["wantExample"]:
-                # Prexisting CMake configuration - just adding cmake_header_us
-                file.write(cmake_header_us)
-                # If no PICO_BOARD, then add a line for that, defaulting to pico
-                if not any(["set(PICO_BOARD" in line for line in lines]):
-                    file.write(f'set(PICO_BOARD pico CACHE STRING "Board type")\n\n')
+                if CMAKE_DO_NOT_EDIT_HEADER_PREFIX in content:
+                    print(
+                        "Not adding duplicate header to existing Pico VS Code project"
+                    )
+                elif CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD in content:
+                    print("Replacing old header with new")
+                    content = content.replace(
+                        CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD,
+                        CMAKE_DO_NOT_EDIT_HEADER_PREFIX,
+                    )
+                else:
+                    # Prexisting CMake configuration - just adding cmake_header_us
+                    file.write(cmake_header_us)
+                    # If no PICO_BOARD, then add a line for that, defaulting to pico
+                    if not any(["set(PICO_BOARD" in line for line in lines]):
+                        file.write(
+                            f'set(PICO_BOARD pico CACHE STRING "Board type")\n\n'
+                        )
                 file.write(content)
             else:
                 if any(
