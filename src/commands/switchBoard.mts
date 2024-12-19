@@ -38,7 +38,6 @@ export default class SwitchBoardCommand extends Command {
     if (!compareLt(sdkVersion, "2.0.0")) {
       quickPickItems.push("pico2");
     }
-
     if (!compareLt(sdkVersion, "2.1.0")) {
       quickPickItems.push("pico2_w");
     }
@@ -94,7 +93,6 @@ export default class SwitchBoardCommand extends Command {
 
       return board;
     }
-    
     // Check that board doesn't have an RP2040 on it
     const data = readFileSync(boardFiles[board])
 
