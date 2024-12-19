@@ -78,7 +78,24 @@ export default async function findPython(): Promise<string | undefined> {
       }
 
       // Check python extension for any python environments with version >= 3.9
-      pythonPath = await findPythonInPythonExtension();
+      const awaitFind = findPythonInPythonExtension();
+      // Timeout after 30s, as it can stall if there is no python available
+      const onTimeout = new Promise<string>((resolve) => {
+        setTimeout(resolve, 30000, "timeout");
+      });
+
+      await Promise.race([awaitFind, onTimeout]).then((value) => {
+        if (value === "timeout") {
+          Logger.warn(
+            LoggerSource.pythonHelper,
+            "Python Extension search timed out - attempting download instead"
+          );
+          pythonPath = undefined;
+        } else {
+          pythonPath = value;
+        }
+      });
+
       if (pythonPath) {
         await Settings.getInstance()?.updateGlobal(
           SettingsKey.python3Path,
