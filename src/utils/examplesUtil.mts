@@ -21,8 +21,8 @@ const EXAMPLES_REPOSITORY_URL =
 const EXAMPLES_JSON_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/examples.json`;
-const EXAMPLES_GITREF = "7fe60d6b4027771e45d97f207532c41b1d8c5418";
-const EXAMPLES_TAG = "sdk-2.0.0";
+const EXAMPLES_GITREF = "b6ac07f1946271de2817f94d8ffc0425ecb7c2a9";
+const EXAMPLES_TAG = "sdk-2.1.0";
 
 export interface Example {
   path: string;

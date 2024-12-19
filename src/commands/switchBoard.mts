@@ -14,7 +14,7 @@ import {
   cmakeGetPicoVar,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
-import { compareLtMajor } from "../utils/semverUtil.mjs";
+import { compareLt } from "../utils/semverUtil.mjs";
 import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
 import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
@@ -35,8 +35,12 @@ export default class SwitchBoardCommand extends Command {
     const quickPickItems: string[] = ["pico", "pico_w"];
     const workspaceFolder = workspace.workspaceFolders?.[0];
 
-    if (!compareLtMajor(sdkVersion, "2.0.0")) {
+    if (!compareLt(sdkVersion, "2.0.0")) {
       quickPickItems.push("pico2");
+    }
+        
+    if (!compareLt(sdkVersion, "2.1.0")) {
+      quickPickItems.push("pico2_w");
     }
 
     const boardHeaderDirList = [];

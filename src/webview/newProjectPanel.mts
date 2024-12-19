@@ -127,6 +127,7 @@ enum BoardType {
   pico = "pico",
   picoW = "pico_w",
   pico2 = "pico2",
+  pico2W = "pico2_w",
   other = "other",
 }
 
@@ -177,6 +178,8 @@ async function enumToBoard(e: BoardType, sdkPath: string): Promise<string> {
       return "-board pico_w";
     case BoardType.pico2:
       return "-board pico2";
+    case BoardType.pico2W:
+      return "-board pico2_w";
     case BoardType.other:
       readdirSync(`${sdkPath}/src/boards/include/boards`).forEach(file => {
         quickPickItems.push(file.split(".")[0]);
@@ -521,6 +524,7 @@ export class NewProjectPanel {
                   result: versionBundle !== undefined,
                   toolchainVersion: versionBundle?.toolchain,
                   riscvToolchainVersion: riscvToolchain,
+                  picotoolVersion: versionBundle?.picotool,
                 },
               });
             }
@@ -1229,7 +1233,7 @@ export class NewProjectPanel {
             theData.hwtimerFeature ? Library.timer : null,
             theData.hwwatchdogFeature ? Library.watch : null,
             theData.hwclocksFeature ? Library.clocks : null,
-            theData.boardType === "pico_w"
+            ["pico_w", "pico2_w"].includes(theData.boardType)
               ? Object.values(PicoWirelessOption)[theData.picoWireless]
               : null,
           ].filter(option => option !== null) as Library[],
@@ -1750,6 +1754,9 @@ export class NewProjectPanel {
                                 BoardType.picoW
                               }" value="${BoardType.picoW}">Pico W</option>
                               <option id="option-board-type-${
+                                BoardType.pico2W
+                              }" value="${BoardType.pico2W}">Pico 2 W</option>
+                              <option id="option-board-type-${
                                 BoardType.other
                               }" value="${BoardType.other}">Other</option>
                             </select>
@@ -2172,30 +2179,7 @@ export class NewProjectPanel {
     pythonExe: string,
     isExampleBased: boolean = false
   ): Promise<void> {
-    const customEnv: { [key: string]: string } = {
-      ...(process.env as { [key: string]: string }),
-      // set PICO_SDK_PATH
-      ["PICO_SDK_PATH"]: options.toolchainAndSDK.sdkPath,
-      // set PICO_TOOLCHAIN_PATH
-      ["PICO_TOOLCHAIN_PATH"]: options.toolchainAndSDK.toolchainPath,
-    };
-    // add compiler to PATH
     const isWindows = process.platform === "win32";
-    /*customEnv["PYTHONHOME"] = pythonExe.includes("/")
-      ? resolve(join(dirname(pythonExe), ".."))
-      : "";*/
-    customEnv[isWindows ? "Path" : "PATH"] = `${join(
-      options.toolchainAndSDK.toolchainPath,
-      "bin"
-    )}${
-      options.cmakeExecutable.includes("/")
-        ? `${isWindows ? ";" : ":"}${dirname(options.cmakeExecutable)}`
-        : ""
-    }${
-      options.ninjaExecutable.includes("/")
-        ? `${isWindows ? ";" : ":"}${dirname(options.ninjaExecutable)}`
-        : ""
-    }${isWindows ? ";" : ":"}${customEnv[isWindows ? "Path" : "PATH"]}`;
 
     // convert the selected board type to a vaild option
     // for the project generator
@@ -2298,6 +2282,8 @@ export class NewProjectPanel {
           ? options.projectRoot
           : options.projectRoot.replaceAll("\\", "\\\\")
       }"`,
+      "--userHome",
+      `"${homedir().replaceAll("\\", "/")}"`,
       "--sdkVersion",
       options.toolchainAndSDK.sdkVersion,
       "--toolchainVersion",
@@ -2321,7 +2307,6 @@ export class NewProjectPanel {
     // TODO: use exit codes to determine why the project generator failed (if it did)
     // to be able to show the user a more detailed error message
     const generatorExitCode = await this._runGenerator(command, {
-      env: customEnv,
       cwd: getScriptsRoot(),
       windowsHide: true,
     });
