@@ -1,11 +1,16 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import {
-  commands, ProgressLocation, window, workspace, type Uri
+  commands,
+  ProgressLocation,
+  window,
+  workspace,
+  type Uri,
 } from "vscode";
-import { existsSync, readdirSync, readFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import {
-  buildSDKPath, downloadAndInstallToolchain
+  buildSDKPath,
+  downloadAndInstallToolchain,
 } from "../utils/download.mjs";
 import {
   cmakeGetSelectedToolchainAndSDKVersions,
@@ -18,8 +23,11 @@ import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
 import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
+import State from "../state.mjs";
+import { unknownErrorToString } from "../utils/errorHelper.mjs";
 
 export default class SwitchBoardCommand extends Command {
+  private _logger: Logger = new Logger("SwitchBoardCommand");
   private _versionBundlesLoader: VersionBundlesLoader;
   public static readonly id = "switchBoard";
 
@@ -29,8 +37,9 @@ export default class SwitchBoardCommand extends Command {
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
   }
 
-  public static async askBoard(sdkVersion: string):
-      Promise<[string, boolean] | undefined> {
+  public static async askBoard(
+    sdkVersion: string
+  ): Promise<[string, boolean] | undefined> {
     const quickPickItems: string[] = ["pico", "pico_w"];
 
     if (!compareLt(sdkVersion, "2.0.0")) {
@@ -55,17 +64,15 @@ export default class SwitchBoardCommand extends Command {
     });
 
     if (board === undefined) {
-
       return board;
     }
 
     // Check that board doesn't have an RP2040 on it
     const data = readFileSync(
       join(sdkPath, "src", "boards", "include", "boards", `${board}.h`)
-    )
+    );
 
     if (data.includes("rp2040")) {
-
       return [board, false];
     }
 
@@ -74,7 +81,6 @@ export default class SwitchBoardCommand extends Command {
     });
 
     if (useRiscV === undefined) {
-
       return undefined;
     }
 
@@ -83,12 +89,63 @@ export default class SwitchBoardCommand extends Command {
 
   async execute(): Promise<void> {
     const workspaceFolder = workspace.workspaceFolders?.[0];
+    const isRustProject = State.getInstance().isRustProject;
 
     // check it has a CMakeLists.txt
     if (
       workspaceFolder === undefined ||
-      !existsSync(join(workspaceFolder.uri.fsPath, "CMakeLists.txt"))
+      (!existsSync(join(workspaceFolder.uri.fsPath, "CMakeLists.txt")) &&
+        !isRustProject)
     ) {
+      return;
+    }
+
+    if (isRustProject) {
+      const board = await window.showQuickPick(
+        ["RP2040", "RP2350", "RP2350-RISCV"],
+        {
+          placeHolder: "Select chip",
+          canPickMany: false,
+          ignoreFocusOut: false,
+          title: "Switch project target chip",
+        }
+      );
+
+      if (board === undefined) {
+        return undefined;
+      }
+
+      try {
+        writeFileSync(
+          join(workspaceFolder.uri.fsPath, ".pico-rs"),
+          board.toLowerCase(),
+          "utf8"
+        );
+      } catch (error) {
+        this._logger.error(
+          `Failed to write .pico-rs file: ${unknownErrorToString(error)}`
+        );
+
+        void window.showErrorMessage(
+          "Failed to write .pico-rs file. " +
+            "Please check the logs for more information."
+        );
+
+        return;
+      }
+
+      this._ui.updateBoard(board.toUpperCase());
+      const toolchain =
+        board === "RP2040"
+          ? "thumbv6m-none-eabi"
+          : board === "RP2350"
+          ? "thumbv8m.main-none-eabihf"
+          : "riscv32imac-unknown-none-elf";
+
+      await workspace
+        .getConfiguration("rust-analyzer")
+        .update("cargo.target", toolchain, null);
+
       return;
     }
 
@@ -150,22 +207,19 @@ export default class SwitchBoardCommand extends Command {
 
       const selectedToolchain = supportedToolchainVersions.find(
         t => t.version === chosenToolchainVersion
-      )
+      );
 
       if (selectedToolchain === undefined) {
-        void window.showErrorMessage(
-          "Error switching to Risc-V toolchain"
-        );
+        void window.showErrorMessage("Error switching to Risc-V toolchain");
 
         return;
       }
 
       await window.withProgress(
-          {
-            title:
-              `Installing toolchain ${selectedToolchain.version} `,
-            location: ProgressLocation.Notification,
-          },
+        {
+          title: `Installing toolchain ${selectedToolchain.version} `,
+          location: ProgressLocation.Notification,
+        },
         async progress => {
           if (await downloadAndInstallToolchain(selectedToolchain)) {
             progress.report({
@@ -198,7 +252,7 @@ export default class SwitchBoardCommand extends Command {
             }
           }
         }
-      )
+      );
     }
 
     const success = await cmakeUpdateBoard(workspaceFolder.uri, board);

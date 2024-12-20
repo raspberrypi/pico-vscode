@@ -3,10 +3,16 @@ import { CommandWithResult } from "./command.mjs";
 import { commands, window, workspace } from "vscode";
 import { join } from "path";
 import Settings, { SettingsKey } from "../settings.mjs";
+import State from "../state.mjs";
+import { parse as parseToml } from "toml";
+import { join as joinPosix } from "path/posix";
+import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
+  public static readonly id = "launchTargetPath";
+
   constructor() {
-    super("launchTargetPath");
+    super(LaunchTargetPathCommand.id);
   }
 
   private async readProjectNameFromCMakeLists(
@@ -61,6 +67,43 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       return "";
     }
 
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (isRustProject) {
+      const cargoTomlPath = join(
+        workspace.workspaceFolders[0].uri.fsPath,
+        "Cargo.toml"
+      );
+      const contents = readFileSync(cargoTomlPath, "utf-8");
+      const cargoToml = (await parseToml(contents)) as
+        | {
+            package?: { name?: string };
+          }
+        | undefined;
+
+      if (cargoToml?.package?.name) {
+        const chip = rustProjectGetSelectedChip(
+          workspace.workspaceFolders[0].uri.fsPath
+        );
+        const toolchain =
+          chip === "rp2040"
+            ? "thumbv6m-none-eabi"
+            : chip === "rp2350"
+            ? "thumbv8m.main-none-eabihf"
+            : "riscv32imac-unknown-none-elf";
+
+        return joinPosix(
+          workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
+          "target",
+          toolchain,
+          "debug",
+          cargoToml.package.name
+        );
+      }
+
+      return "";
+    }
+
     const settings = Settings.getInstance();
     if (
       settings !== undefined &&
@@ -100,5 +143,61 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       "\\",
       "/"
     );
+  }
+}
+
+export class LaunchTargetPathReleaseCommand extends CommandWithResult<string> {
+  public static readonly id = "launchTargetPathRelease";
+
+  constructor() {
+    super(LaunchTargetPathReleaseCommand.id);
+  }
+
+  async execute(): Promise<string> {
+    if (
+      workspace.workspaceFolders === undefined ||
+      workspace.workspaceFolders.length === 0
+    ) {
+      return "";
+    }
+
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (!isRustProject) {
+      return "";
+    }
+
+    const cargoTomlPath = join(
+      workspace.workspaceFolders[0].uri.fsPath,
+      "Cargo.toml"
+    );
+    const contents = readFileSync(cargoTomlPath, "utf-8");
+    const cargoToml = (await parseToml(contents)) as
+      | {
+          package?: { name?: string };
+        }
+      | undefined;
+
+    if (cargoToml?.package?.name) {
+      const chip = rustProjectGetSelectedChip(
+        workspace.workspaceFolders[0].uri.fsPath
+      );
+      const toolchain =
+        chip === "rp2040"
+          ? "thumbv6m-none-eabi"
+          : chip === "rp2350"
+          ? "thumbv8m.main-none-eabihf"
+          : "riscv32imac-unknown-none-elf";
+
+      return joinPosix(
+        workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
+        "target",
+        toolchain,
+        "release",
+        cargoToml.package.name
+      );
+    }
+
+    return "";
   }
 }
