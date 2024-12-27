@@ -14,6 +14,8 @@ import {
   cmakeGetPicoVar,
 } from "../utils/cmakeUtil.mjs";
 import { join } from "path";
+import { resolve } from "path";
+import { normalize } from "path";
 import { compareLt } from "../utils/semverUtil.mjs";
 import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
@@ -49,12 +51,32 @@ export default class SwitchBoardCommand extends Command {
       const ws = workspaceFolder.uri.fsPath;
       const cMakeCachePath = join(ws, "build","CMakeCache.txt");
 
-      const picoBoardHeaderDirs = cmakeGetPicoVar(
+      let picoBoardHeaderDirs = cmakeGetPicoVar(
         cMakeCachePath,
         "PICO_BOARD_HEADER_DIRS");
 
       if(picoBoardHeaderDirs){
-        boardHeaderDirList.push(picoBoardHeaderDirs);
+        if(picoBoardHeaderDirs.startsWith("'")){
+          const substrLen = picoBoardHeaderDirs.length-1;
+          picoBoardHeaderDirs = picoBoardHeaderDirs.substring(1,substrLen);
+        }
+
+        const picoBoardHeaderDirList = picoBoardHeaderDirs.split(";");
+        picoBoardHeaderDirList.forEach(
+          item => {
+            let boardPath = resolve(item);
+            const normalized = normalize(item);
+
+            //If path is not absolute, join workspace path
+            if(boardPath !== normalized){
+              boardPath = join(ws,normalized);
+            }
+
+            if(existsSync(boardPath)){
+              boardHeaderDirList.push(boardPath);
+            }
+          }
+        );
       }
     }
 
@@ -93,6 +115,7 @@ export default class SwitchBoardCommand extends Command {
 
       return board;
     }
+
     // Check that board doesn't have an RP2040 on it
     const data = readFileSync(boardFiles[board])
 
