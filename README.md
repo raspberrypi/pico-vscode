@@ -70,7 +70,9 @@ This extension provides the following settings:
 * `raspberry-pi-pico.python3Path`: Specify a custom path for Python 3 _(machine scoped)_.
 * `raspberry-pi-pico.ninjaPath`: Specify a custom path for Ninja.
 * `raspberry-pi-pico.gitPath`: Specify a custom path for Git.
-* `raspberry-pi-pico.cmakeAutoConfigure`: Provide a GitHub personal access token (classic) with the `public_repo` scope. This token is used to check for available versions of the Pico SDK and other tools. Without it, the extension uses the unauthenticated GitHub API, which has a lower rate limit and may lead to restricted functionality if the limit is exceeded. The unauthenticated rate limit is per public IP address, so a token is more necessary if your IP is shared with many users.
+* `raspberry-pi-pico.cmakeAutoConfigure`: Enable/Disable automatic CMake configuration when project is opened
+* `raspberry-pi-pico.useCmakeTools`: Enable/Disable the CMake Tools Extension Integration (see below)
+* `raspberry-pi-pico.githubToken`: Provide a GitHub personal access token (classic) with the `public_repo` scope. This token is used to check for available versions of the Pico SDK and other tools. Without it, the extension uses the unauthenticated GitHub API, which has a lower rate limit and may lead to restricted functionality if the limit is exceeded. The unauthenticated rate limit is per public IP address, so a token is more necessary if your IP is shared with many users.
 
 ## CMake Tools Extension Integration
 
