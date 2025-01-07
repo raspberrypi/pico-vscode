@@ -25,6 +25,8 @@ export enum GithubRepository {
   ninja = 2,
   tools = 3,
   picotool = 4,
+  rust = 5,
+  rsTools = 6,
 }
 
 /**
@@ -68,6 +70,10 @@ export function ownerOfRepository(repository: GithubRepository): string {
       return "Kitware";
     case GithubRepository.ninja:
       return "ninja-build";
+    case GithubRepository.rust:
+      return "rust-lang";
+    case GithubRepository.rsTools:
+      return "paulober";
   }
 }
 
@@ -90,6 +96,10 @@ export function repoNameOfRepository(repository: GithubRepository): string {
       return "pico-sdk-tools";
     case GithubRepository.picotool:
       return "picotool";
+    case GithubRepository.rust:
+      return "rust";
+    case GithubRepository.rsTools:
+      return "pico-vscode-rs-tools";
   }
 }
 
@@ -305,6 +315,14 @@ export async function getNinjaReleases(): Promise<string[]> {
 
 export async function getCmakeReleases(): Promise<string[]> {
   return getReleases(GithubRepository.cmake);
+}
+
+export async function getRustReleases(): Promise<string[]> {
+  return getReleases(GithubRepository.rust);
+}
+
+export async function getRustToolsReleases(): Promise<string[]> {
+  return getReleases(GithubRepository.rsTools);
 }
 
 /**
