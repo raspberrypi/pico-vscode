@@ -648,12 +648,43 @@ export class NewProjectPanel {
               // close panel before generating project
               this.dispose();
 
-              const result = await setupExample(
-                example,
-                // required to support backslashes in macOS/Linux folder names
-                process.platform !== "win32"
-                  ? this._projectRoot.fsPath
-                  : this._projectRoot.fsPath.replaceAll("\\", "/")
+              // required to support backslashes in macOS/Linux folder names
+              const targetPath = process.platform !== "win32"
+                ? this._projectRoot.fsPath
+                : this._projectRoot.fsPath.replaceAll("\\", "/");
+
+              const result = await window.withProgress(
+                {
+                  location: ProgressLocation.Notification,
+                  title: `Downloading ${example.name} example...`,
+                  cancellable: false,
+                },
+                async progress => {
+                  // download and install selected example
+                  const result = await setupExample(
+                    example,
+                    targetPath
+                  );
+          
+                  if (result) {
+                    this._logger.debug(`Successfully downloaded ${example.name} example.`);
+          
+                    progress.report({
+                      increment: 100,
+                      message: `Successfully downloaded ${example.name} example.`,
+                    });
+          
+                    return true;
+                  }
+          
+                  this._logger.error(`Failed to download ${example.name} example.`);
+          
+                  progress.report({
+                    increment: 100,
+                  });
+          
+                  return false;
+                }
               );
 
               if (!result) {

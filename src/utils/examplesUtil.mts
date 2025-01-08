@@ -170,18 +170,29 @@ export async function setupExample(
   const gitPath = await getGit(settings);
 
   if (existsSync(joinPosix(examplesRepoPath, ".git"))) {
-    const ref = await execAsync(
-      `cd ${
-        process.env.ComSpec?.endsWith("cmd.exe") ? "/d " : " "
-      }"${examplesRepoPath}" && ${
-        process.env.ComSpec === "powershell.exe" ? "&" : ""
-      }"${gitPath}" rev-parse HEAD`
-    );
-    Logger.log(`Examples git ref is ${ref.stdout}\n`);
-    if (ref.stdout.trim() !== EXAMPLES_GITREF) {
-      Logger.log(`Removing old examples repo\n`);
+    try {
+      const ref = await execAsync(
+        `cd ${
+          process.env.ComSpec?.endsWith("cmd.exe") ? "/d " : " "
+        }"${examplesRepoPath}" && ${
+          process.env.ComSpec === "powershell.exe" ? "&" : ""
+        }"${gitPath}" rev-parse HEAD`
+      );
+      Logger.log(`Examples git ref is ${ref.stdout}\n`);
+      if (ref.stdout.trim() !== EXAMPLES_GITREF) {
+        Logger.log(`Removing old examples repo\n`);
+        rmSync(examplesRepoPath, { recursive: true, force: true });
+      }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      // Corrupted examples directory
+      Logger.log(`Removing corrupted examples repo\n`);
       rmSync(examplesRepoPath, { recursive: true, force: true });
     }
+  } else if (existsSync(examplesRepoPath)) {
+    // Examples path exists, but does not contain a git repository
+    Logger.log(`Removing empty examples repo\n`);
+    rmSync(examplesRepoPath, { recursive: true, force: true });
   }
 
   if (!existsSync(examplesRepoPath)) {
