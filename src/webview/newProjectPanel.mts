@@ -18,7 +18,7 @@ import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
-import { dirname, join } from "path";
+import { join } from "path";
 import { join as joinPosix } from "path/posix";
 import {
   type SupportedToolchainVersion,
