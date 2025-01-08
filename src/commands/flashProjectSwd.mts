@@ -1,6 +1,6 @@
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { tasks, window } from "vscode";
+import { tasks, window, l10n } from "vscode";
 import { EventEmitter } from "stream";
 
 export default class FlashProjectSWDCommand extends CommandWithResult<boolean> {
@@ -62,7 +62,7 @@ export default class FlashProjectSWDCommand extends CommandWithResult<boolean> {
     } else {
       // Task not found
       this._logger.error("Task 'Flash' not found.");
-      void window.showErrorMessage("Task 'Flash' not found.");
+      void window.showErrorMessage(l10n.t("Task {0} not found.", 'Flash'));
 
       return false;
     }

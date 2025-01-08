@@ -601,9 +601,9 @@ var exampleSupportedBoards = [];
     }
     let hidden = advancedOptions[0].hidden;
     if (hidden) {
-      document.getElementById('btn-advanced-options').innerText = "Show Advanced Options";
+      document.getElementById('btn-advanced-options').innerText = showAdvancedOptionsStr;
     } else {
-      document.getElementById('btn-advanced-options').innerText = "Hide Advanced Options";
+      document.getElementById('btn-advanced-options').innerText = hideAdvancedOptionsStr;
     }
   });
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);

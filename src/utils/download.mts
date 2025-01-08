@@ -20,7 +20,7 @@ import { checkForGit } from "./requirementsUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
-import { window } from "vscode";
+import { window, l10n } from "vscode";
 import { fileURLToPath } from "url";
 import {
   type GithubReleaseAssetData,
@@ -551,7 +551,7 @@ export async function downloadAndInstallSDK(
         "Python3 is not installed and could not be downloaded."
       );
 
-      void window.showErrorMessage("Python3 is not installed and in PATH.");
+      void window.showErrorMessage(l10n.t("Python3 is not installed and in PATH."));
 
       return false;
     }

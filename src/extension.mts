@@ -5,6 +5,7 @@ import {
   type WebviewPanel,
   commands,
   ProgressLocation,
+  l10n,
 } from "vscode";
 import {
   extensionName,
@@ -230,11 +231,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
       false
     );
     const wantToImport = await window.showInformationMessage(
-      "Do you want to import this project as Raspberry Pi Pico project?",
-      "Yes",
-      "No"
+      l10n.t("Do you want to import this project as Raspberry Pi Pico project?"),
+      l10n.t("Yes"),
+      l10n.t("No")
     );
-    if (wantToImport === "Yes") {
+    if (wantToImport === l10n.t("Yes")) {
       void commands.executeCommand(
         `${extensionName}.${ImportProjectCommand.id}`,
         workspaceFolder.uri
@@ -266,8 +267,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     {
       location: ProgressLocation.Notification,
       title:
-        "Downloading and installing Pico SDK as selected. " +
-        "This may take a while...",
+        l10n.t("Downloading and installing Pico SDK as selected.") + " " +
+        l10n.t("This may take a while..."),
       cancellable: false,
     },
     async progress => {
@@ -290,7 +291,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
           "Make sure all requirements are met."
         );
 
-        void window.showErrorMessage("Failed to install project SDK version.");
+        void window.showErrorMessage(l10n.t("Failed to install project SDK version."));
 
         return;
       } else {
@@ -313,7 +314,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "Failed to detect project toolchain version."
     );
 
-    void window.showErrorMessage("Failed to detect project toolchain version.");
+    void window.showErrorMessage(l10n.t("Failed to detect project toolchain version."));
 
     return;
   }
@@ -323,8 +324,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     {
       location: ProgressLocation.Notification,
       title:
-        "Downloading and installing toolchain as selected. " +
-        "This may take a while...",
+        l10n.t("Downloading and installing toolchain as selected.") + " " +
+        l10n.t("This may take a while..."),
       cancellable: false,
     },
     async progress => {
@@ -353,7 +354,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         );
 
         void window.showErrorMessage(
-          "Failed to install project toolchain version."
+          l10n.t("Failed to install project toolchain version.")
         );
 
         return;
@@ -376,8 +377,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     {
       location: ProgressLocation.Notification,
       title:
-        "Downloading and installing tools as selected. " +
-        "This may take a while...",
+        l10n.t("Downloading and installing tools as selected.") + " " +
+        l10n.t("This may take a while..."),
       cancellable: false,
     },
     async progress => {
@@ -406,7 +407,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
           "Make sure all requirements are met."
         );
 
-        void window.showErrorMessage("Failed to install project SDK version.");
+        void window.showErrorMessage(l10n.t("Failed to install project SDK version."));
 
         return;
       } else {
@@ -428,8 +429,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     {
       location: ProgressLocation.Notification,
       title:
-        "Downloading and installing picotool as selected. " +
-        "This may take a while...",
+        l10n.t("Downloading and installing picotool as selected.") + " " +
+        l10n.t("This may take a while..."),
       cancellable: false,
     },
     async progress => {
@@ -452,7 +453,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
         installSuccess = false;
         Logger.error(LoggerSource.extension, "Failed to install picotool.");
 
-        void window.showErrorMessage("Failed to install picotool.");
+        void window.showErrorMessage(l10n.t("Failed to install picotool."));
 
         return;
       } else {
@@ -469,7 +470,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
   await window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing OpenOCD. This may take a while...",
+      title:
+        l10n.t("Downloading and installing OpenOCD.") + " " +
+        l10n.t("This may take a while..."),
       cancellable: false,
     },
     async progress => {
@@ -494,13 +497,13 @@ export async function activate(context: ExtensionContext): Promise<void> {
           "Failed to download and install OpenOCD."
         );
         void window.showWarningMessage(
-          "Failed to download and install OpenOCD."
+          l10n.t("Failed to download and install OpenOCD.")
         );
       } else {
         Logger.debug(LoggerSource.extension, "Found/installed OpenOCD.");
 
         void window.showInformationMessage(
-          "OpenOCD found/installed successfully."
+          l10n.t("OpenOCD found/installed successfully.")
         );
       }
     }
@@ -538,7 +541,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing Ninja. This may take a while...",
+          title: l10n.t("Downloading and installing Ninja.") + " " +
+            l10n.t("This may take a while..."),
           cancellable: false,
         },
         async progress => {
@@ -607,7 +611,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing CMake. This may take a while...",
+          title: l10n.t("Downloading and installing CMake.") + " " +
+            l10n.t("This may take a while..."),
           cancellable: false,
         },
         async progress => {

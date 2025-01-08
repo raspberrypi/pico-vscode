@@ -6,7 +6,7 @@ import type Settings from "../settings.mjs";
 import { SettingsKey, HOME_VAR } from "../settings.mjs";
 import { homedir } from "os";
 import which from "which";
-import { window } from "vscode";
+import { window, l10n } from "vscode";
 import { compareGe } from "./semverUtil.mjs";
 
 export const execAsync = promisify(exec);
@@ -62,16 +62,15 @@ export async function getGit(settings: Settings): Promise<string | undefined> {
           `requires ${MIN_GIT_VERSION}.`);
 
         await window.showErrorMessage(
-          `Found Git version ${gitVersion}, but requires ${MIN_GIT_VERSION}. ` +
-          "Please install and add to PATH or " +
-            "set the path to the git executable in global settings."
+          l10n.t("Found Git version {0}, but requires {1}.", gitVersion, MIN_GIT_VERSION) + " " +
+          l10n.t("Please install and add to PATH or set the path to the git executable in global settings.")
         );
       } else {
         Logger.log("Error: Git not found.");
 
         await window.showErrorMessage(
-          "Git not found. Please install and add to PATH or " +
-            "set the path to the git executable in global settings."
+          l10n.t("Git not found.") + " " +
+          l10n.t("Please install and add to PATH or set the path to the git executable in global settings.")
         );
       }
 

@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { CommandWithResult } from "./command.mjs";
-import { commands, window, workspace } from "vscode";
+import { commands, window, workspace, l10n } from "vscode";
 import { join } from "path";
 import Settings, { SettingsKey } from "../settings.mjs";
 
@@ -31,9 +31,9 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
 
       if (matchBg && matchPoll) {
         // For examples with both background and poll, let user pick which to run
-        const quickPickItems = ["Threadsafe Background", "Poll"];
+        const quickPickItems = [l10n.t("Threadsafe Background"), l10n.t("Poll")];
         const backgroundOrPoll = await window.showQuickPick(quickPickItems, {
-          placeHolder: "Select PicoW Architecture",
+          placeHolder: l10n.t("Select PicoW Architecture"),
         });
         if (backgroundOrPoll === undefined) {
           return projectName;

@@ -7,6 +7,7 @@ import {
   window,
   Uri,
   type WebviewPanel,
+  l10n
 } from "vscode";
 import { readFileSync } from "fs";
 
@@ -18,10 +19,10 @@ export enum DocumentationId {
 }
 
 export const DOCUMENTATION_LABEL_BY_ID: string[] = [
-  "Hardware APIs",
-  "High Level APIs",
-  "Networking Libraries",
-  "Runtime Infrastructure",
+  l10n.t("Hardware APIs"),
+  l10n.t("High Level APIs"),
+  l10n.t("Networking Libraries"),
+  l10n.t("Runtime Infrastructure"),
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -65,7 +66,7 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
       );
 
       const result = await window.showQuickPick(options, {
-        placeHolder: "Select Category",
+        placeHolder: l10n.t("Select Category"),
         canPickMany: false,
         ignoreFocusOut: false,
       });
@@ -83,7 +84,7 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
       Logger.log("New panel");
       this._panel = window.createWebviewPanel(
         "pico-sdk-documentation",
-        "Pico SDK Documentation",
+        l10n.t("Pico SDK Documentation"),
         { viewColumn: ViewColumn.Two, preserveFocus: false },
         {
           enableScripts: true,

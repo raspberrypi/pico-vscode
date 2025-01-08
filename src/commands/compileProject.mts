@@ -1,4 +1,4 @@
-import { commands, tasks, window } from "vscode";
+import { commands, tasks, window, l10n } from "vscode";
 import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
@@ -72,7 +72,7 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
     } else {
       // Task not found
       this._logger.error("Task 'Compile Project' not found.");
-      void window.showErrorMessage("Task 'Compile Project' not found.");
+      void window.showErrorMessage(l10n.t("Task {0} not found.", 'Compile Project'));
 
       return false;
     }

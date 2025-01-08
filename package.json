@@ -51,6 +51,7 @@
     "ms-python.python"
   ],
   "main": "./dist/extension.cjs",
+  "l10n": "./l10n",
   "markdown": "github",
   "minimumNodeVersion": 20,
   "capabilities": {

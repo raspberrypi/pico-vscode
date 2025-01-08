@@ -1,4 +1,4 @@
-import { window, type StatusBarItem, StatusBarAlignment } from "vscode";
+import { window, type StatusBarItem, StatusBarAlignment, l10n } from "vscode";
 import Logger from "./logger.mjs";
 import type { PicoProjectActivityBar } from "./webview/activityBar.mjs";
 
@@ -14,25 +14,25 @@ const STATUS_BAR_ITEMS: {
 } = {
   [StatusBarItemKey.compile]: {
     // alt. "$(gear) Compile"
-    text: "$(file-binary) Compile",
+    text: l10n.t("$(file-binary) Compile"),
     command: "raspberry-pi-pico.compileProject",
-    tooltip: "Compile Project",
+    tooltip: l10n.t("Compile Project"),
   },
   [StatusBarItemKey.run]: {
     // alt. "$(gear) Compile"
-    text: "$(run) Run",
+    text: l10n.t("$(run) Run"),
     command: "raspberry-pi-pico.runProject",
-    tooltip: "Run Project",
+    tooltip: l10n.t("Run Project"),
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
-    text: "Pico SDK: <version>",
+    text: l10n.t("Pico SDK: <version>"),
     command: "raspberry-pi-pico.switchSDK",
-    tooltip: "Select Pico SDK",
+    tooltip: l10n.t("Select Pico SDK"),
   },
   [StatusBarItemKey.picoBoardQuickPick]: {
-    text: "Board: <board>",
+    text: l10n.t("Board: <board>"),
     command: "raspberry-pi-pico.switchBoard",
-    tooltip: "Select Board",
+    tooltip: l10n.t("Select Board"),
   },
 };
 
@@ -64,14 +64,14 @@ export default class UI {
   public updateSDKVersion(version: string): void {
     this._items[StatusBarItemKey.picoSDKQuickPick].text = STATUS_BAR_ITEMS[
       StatusBarItemKey.picoSDKQuickPick
-    ].text.replace("<version>", version);
+    ].text.replace(/<.*>/, version);
     this._activityBarProvider.refresh(version);
   }
 
   public updateBoard(board: string): void {
     this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
       StatusBarItemKey.picoBoardQuickPick
-    ].text.replace("<board>", board);
+    ].text.replace(/<.*>/, board);
   }
 
   /*

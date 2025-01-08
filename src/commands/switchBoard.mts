@@ -1,7 +1,7 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import {
-  commands, ProgressLocation, window, workspace, type Uri
+  commands, ProgressLocation, window, workspace, type Uri, l10n
 } from "vscode";
 import { existsSync, readdirSync, readFileSync } from "fs";
 import {
@@ -108,7 +108,7 @@ export default class SwitchBoardCommand extends Command {
 
     // show quick pick for board type
     const board = await window.showQuickPick(quickPickItems, {
-      placeHolder: "Select Board",
+      placeHolder: l10n.t("Select Board"),
     });
 
     if (board === undefined) {
@@ -124,8 +124,8 @@ export default class SwitchBoardCommand extends Command {
       return [board, false];
     }
 
-    const useRiscV = await window.showQuickPick(["No", "Yes"], {
-      placeHolder: "Use Risc-V?",
+    const useRiscV = await window.showQuickPick([l10n.t("No"), l10n.t("Yes")], {
+      placeHolder: l10n.t("Use Risc-V?"),
     });
 
     if (useRiscV === undefined) {
@@ -153,7 +153,7 @@ export default class SwitchBoardCommand extends Command {
 
     if (versions === null) {
       void window.showErrorMessage(
-        "Failed to get sdk version - cannot update board"
+        l10n.t("Failed to get sdk version - cannot update board")
       );
 
       return;
@@ -178,7 +178,9 @@ export default class SwitchBoardCommand extends Command {
 
     if (versionBundle === undefined) {
       void window.showErrorMessage(
-        `Cannot switch board automatically with SDK version ${versions[0]}`
+        l10n.t(
+          "Cannot switch board automatically with SDK version {0}", versions[0]
+        )
       );
 
       return;
@@ -196,8 +198,8 @@ export default class SwitchBoardCommand extends Command {
         // internet is not required if locally cached version bundles are available
         // but in this case a use shouldn't see this message
         void window.showErrorMessage(
-          "Failed to get supported toolchain versions. " +
-            "Make sure you are connected to the internet."
+          l10n.t("Failed to get supported toolchain versions.") + " " +
+          l10n.t("Make sure you are connected to the internet.")
         );
 
         return;
@@ -209,7 +211,7 @@ export default class SwitchBoardCommand extends Command {
 
       if (selectedToolchain === undefined) {
         void window.showErrorMessage(
-          "Error switching to Risc-V toolchain"
+          l10n.t("Error switching to Risc-V toolchain")
         );
 
         return;
@@ -218,7 +220,7 @@ export default class SwitchBoardCommand extends Command {
       await window.withProgress(
           {
             title:
-              `Installing toolchain ${selectedToolchain.version} `,
+              l10n.t("Installing toolchain {0}", selectedToolchain.version),
             location: ProgressLocation.Notification,
           },
         async progress => {
@@ -248,7 +250,9 @@ export default class SwitchBoardCommand extends Command {
 
             if (!cmakeUpdateResult) {
               void window.showWarningMessage(
-                "Failed to update CMakeLists.txt for new toolchain version."
+                l10n.t(
+                  "Failed to update CMakeLists.txt for new toolchain version."
+                )
               );
             }
           }
@@ -260,12 +264,13 @@ export default class SwitchBoardCommand extends Command {
     if (success) {
       this._ui.updateBoard(board);
 
-      const reloadWindowBtn = "Reload Window";
+      const reloadWindowBtn = l10n.t("Reload Window");
       // notify user that reloading the window is
       // recommended to update intellisense
       const reload = await window.showInformationMessage(
-        "It is recommended to reload the window to update intellisense " +
-          "with the new board.",
+        l10n.t(
+          "Reload the window to update intellisense with the new board."
+        ),
         reloadWindowBtn
       );
 

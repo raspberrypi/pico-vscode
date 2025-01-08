@@ -1,4 +1,4 @@
-import { window } from "vscode";
+import { window, l10n } from "vscode";
 import which from "which";
 import type Settings from "../settings.mjs";
 import { SettingsKey, HOME_VAR } from "../settings.mjs";
@@ -17,10 +17,10 @@ export async function showRequirementsNotMetErrorMessage(
   missing: string[]
 ): Promise<void> {
   await window.showErrorMessage(
-    "Development for the Pico requires " +
-      missing.join(", ") +
-      " to be installed and available in PATH. " +
-      "Please install and restart VS Code."
+    l10n.t(
+      "Development for the Pico requires {0} to be installed and available in PATH. Please install and restart VS Code.",
+      missing.join(", ")
+    )
   );
 }
 
@@ -58,10 +58,11 @@ export async function checkForGit(settings: Settings): Promise<boolean> {
         "Installed Git is too old and a new version could not be downloaded."
       );
       void window.showErrorMessage(
-        "The installation of the Pico SDK requires Git " +
-          `version ${MIN_GIT_VERSION} or higher ` +
-          "to be installed and available in the PATH - " +
-          `you have version ${gitVersion}.`
+        l10n.t(
+          "The installation of the Pico SDK requires Git version {0} or higher to be installed and available in the PATH - you have version {1}.",
+          MIN_GIT_VERSION,
+          gitVersion
+        )
       );
     } else {
       Logger.error(
@@ -69,11 +70,10 @@ export async function checkForGit(settings: Settings): Promise<boolean> {
         "Git is not installed and could not be downloaded."
       );
       void window.showErrorMessage(
-        "The installation of the Pico SDK requires Git " +
-          "to be installed and available in the PATH." +
-          (process.platform === "darwin"
-            ? " You can install it by running `xcode-select --install`" +
-              " in the terminal and restart your computer."
+        l10n.t(
+          "The installation of the Pico SDK requires Git to be installed and available in the PATH."
+        ) + (process.platform === "darwin"
+            ? l10n.t(" You can install it by running `xcode-select --install` in the terminal and restarting your computer.")
             : "")
       );
     }

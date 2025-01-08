@@ -1,5 +1,5 @@
 import { exec } from "child_process";
-import { workspace, type Uri, window, ProgressLocation } from "vscode";
+import { workspace, type Uri, window, ProgressLocation, l10n } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
 import { dirname, join, resolve } from "path";
 import Settings from "../settings.mjs";
@@ -104,12 +104,12 @@ export async function getPath(): Promise<string> {
 export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
   if (process.platform !== "win32" && folder.fsPath.includes("\\")) {
     const errorMsg =
-      "CMake currently does not support folder names with backslashes.";
+      l10n.t("CMake currently does not support folder names with backslashes.");
 
     Logger.error(LoggerSource.cmake, errorMsg);
 
     await window.showErrorMessage(
-      "Failed to configure cmake for the current project. " + errorMsg
+      l10n.t("Failed to configure cmake for the current project.") + " " + errorMsg
     );
 
     return false;
@@ -172,7 +172,7 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
       {
         location: ProgressLocation.Notification,
         cancellable: true,
-        title: "Configuring CMake...",
+        title: l10n.t("Configuring CMake..."),
       },
       async (progress, token) => {
         const cmake =
@@ -381,10 +381,10 @@ export async function cmakeUpdateSDK(
         quickPickItems.push("pico2_w");
       }
       const result = await window.showQuickPick(quickPickItems, {
-        placeHolder: "The new SDK version does not support your current board",
+        placeHolder: l10n.t("The new SDK version does not support your current board"),
         canPickMany: false,
         ignoreFocusOut: true,
-        title: "Please select a new board type",
+        title: l10n.t("Please select a new board type"),
       });
 
       if (result === undefined) {

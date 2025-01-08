@@ -1,6 +1,6 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { window, workspace } from "vscode";
+import { window, workspace, l10n } from "vscode";
 import { configureCmakeNinja } from "../utils/cmakeUtil.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 import { join } from "path";
@@ -22,7 +22,7 @@ export default class ConfigureCmakeCommand extends Command {
     // check if is a pico project
     if (workspaceFolder === undefined) {
       this._logger.warn("No workspace folder found.");
-      void window.showWarningMessage("No workspace folder found.");
+      void window.showWarningMessage(l10n.t("No workspace folder found."));
 
       return;
     }
@@ -34,17 +34,16 @@ export default class ConfigureCmakeCommand extends Command {
       settings.getBoolean(SettingsKey.useCmakeTools)
     ) {
       void window.showErrorMessage(
-        "You must use the CMake Tools extension to configure your build. " +
-          "To use this extension instead, change the useCmakeTools setting."
+        l10n.t("You must use the CMake Tools extension to configure your build. To use this extension instead, change the useCmakeTools setting.")
       );
 
       return;
     }
 
     if (await configureCmakeNinja(workspaceFolder.uri)) {
-      void window.showInformationMessage("CMake has configured your build.");
+      void window.showInformationMessage(l10n.t("CMake has configured your build."));
     } else {
-      void window.showWarningMessage("CMake failed to configure your build.");
+      void window.showWarningMessage(l10n.t("CMake failed to configure your build."));
     }
   }
 }
@@ -63,7 +62,7 @@ export class CleanCMakeCommand extends Command {
 
     if (workspaceFolder === undefined) {
       this._logger.warn("No workspace folder found.");
-      void window.showWarningMessage("No workspace folder found.");
+      void window.showWarningMessage(l10n.t("No workspace folder found."));
 
       return;
     }
@@ -75,8 +74,7 @@ export class CleanCMakeCommand extends Command {
       settings.getBoolean(SettingsKey.useCmakeTools)
     ) {
       void window.showErrorMessage(
-        "You must use the CMake Tools extension to clean your build. " +
-          "To use this extension instead, change the useCmakeTools setting."
+        l10n.t("You must use the CMake Tools extension to clean your build. To use this extension instead, change the useCmakeTools setting.")
       );
 
       return;
@@ -91,18 +89,18 @@ export class CleanCMakeCommand extends Command {
         "Error cleaning build directory.",
         unknownErrorToString(error)
       );
-      void window.showErrorMessage("Error cleaning build directory.");
+      void window.showErrorMessage(l10n.t("Error cleaning build directory."));
 
       return;
     }
 
     if (await configureCmakeNinja(workspaceFolder.uri)) {
       void window.showInformationMessage(
-        "CMake has been cleaned and reconfigured."
+        l10n.t("CMake has been cleaned and reconfigured.")
       );
     } else {
       void window.showWarningMessage(
-        "CMake could not be reconfigured. See log for details."
+        l10n.t("CMake could not be reconfigured. See log for details.")
       );
     }
   }

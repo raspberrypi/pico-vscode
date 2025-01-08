@@ -6,6 +6,7 @@ import {
   type Event,
   TreeItemCollapsibleState,
   ThemeIcon,
+  l10n
 } from "vscode";
 import Logger from "../logger.mjs";
 import { extensionName } from "../commands/command.mjs";
@@ -37,29 +38,29 @@ export class QuickAccessCommand extends TreeItem {
   }
 }
 
-const COMMON_COMMANDS_PARENT_LABEL = "General";
-const PROJECT_COMMANDS_PARENT_LABEL = "Project";
-const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
+const COMMON_COMMANDS_PARENT_LABEL = l10n.t("General");
+const PROJECT_COMMANDS_PARENT_LABEL = l10n.t("Project");
+const DOCUMENTATION_COMMANDS_PARENT_LABEL = l10n.t("Documentation");
 
-const NEW_C_CPP_PROJECT_LABEL = "New C/C++ Project";
-const NEW_MICROPYTHON_PROJECT_LABEL = "New MicroPython Project";
-const IMPORT_PROJECT_LABEL = "Import Project";
-const EXAMPLE_PROJECT_LABEL = "New Project From Example";
-const SWITCH_SDK_LABEL = "Switch SDK";
-const SWITCH_BOARD_LABEL = "Switch Board";
-const COMPILE_PROJECT_LABEL = "Compile Project";
-const RUN_PROJECT_LABEL = "Run Project (USB)";
-const FLASH_PROJECT_LABEL = "Flash Project (SWD)";
-const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
-const CLEAN_CMAKE_PROJECT_LABEL = "Clean CMake";
-const DEBUG_PROJECT_LABEL = "Debug Project";
-const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
+const NEW_C_CPP_PROJECT_LABEL = l10n.t("New C/C++ Project");
+const NEW_MICROPYTHON_PROJECT_LABEL = l10n.t("New MicroPython Project");
+const IMPORT_PROJECT_LABEL = l10n.t("Import Project");
+const EXAMPLE_PROJECT_LABEL = l10n.t("New Project From Example");
+const SWITCH_SDK_LABEL = l10n.t("Switch SDK");
+const SWITCH_BOARD_LABEL = l10n.t("Switch Board");
+const COMPILE_PROJECT_LABEL = l10n.t("Compile Project");
+const RUN_PROJECT_LABEL = l10n.t("Run Project (USB)");
+const FLASH_PROJECT_LABEL = l10n.t("Flash Project (SWD)");
+const CONFIGURE_CMAKE_PROJECT_LABEL = l10n.t("Configure CMake");
+const CLEAN_CMAKE_PROJECT_LABEL = l10n.t("Clean CMake");
+const DEBUG_PROJECT_LABEL = l10n.t("Debug Project");
+const DEBUG_LAYOUT_PROJECT_LABEL = l10n.t("Debug Layout");
 
 export class PicoProjectActivityBar
   implements TreeDataProvider<QuickAccessCommand>
 {
   public static readonly viewType = "raspberry-pi-pico-project-quick-access";
-  private _sdkVersion: string = "N/A";
+  private _sdkVersion: string = l10n.t("N/A");
 
   private _onDidChangeTreeData = new EventEmitter<
     QuickAccessCommand | undefined | void

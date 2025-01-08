@@ -1,6 +1,6 @@
 import { CommandWithArgs } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { window, type Uri } from "vscode";
+import { window, type Uri, l10n } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "../webview/newMicroPythonProjectPanel.mjs";
@@ -44,10 +44,10 @@ export default class NewProjectCommand extends CommandWithArgs {
       (await window.showQuickPick(
         [NewProjectCommand.cCppOption, NewProjectCommand.micropythonOption],
         {
-          placeHolder: "Select which language to use for your new project",
+          placeHolder: l10n.t("Select which language to use for your new project"),
           canPickMany: false,
           ignoreFocusOut: false,
-          title: "New Pico Project",
+          title: l10n.t("New Pico Project"),
         }
       ));
 
