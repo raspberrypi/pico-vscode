@@ -106,11 +106,21 @@ export default class VersionBundlesLoader {
       if (modifiers !== undefined) {
         const platformDouble = `${process.platform}_${process.arch}`;
         if (modifiers[platformDouble] !== undefined) {
-          chosenBundle.cmake =  modifiers[platformDouble]["cmake"] ?? chosenBundle.cmake
-          chosenBundle.ninja =  modifiers[platformDouble]["ninja"] ?? chosenBundle.ninja
-          chosenBundle.picotool =  modifiers[platformDouble]["picotool"] ?? chosenBundle.picotool
-          chosenBundle.toolchain =  modifiers[platformDouble]["toolchain"] ?? chosenBundle.toolchain
-          chosenBundle.riscvToolchain =  modifiers[platformDouble]["riscvToolchain"] ?? chosenBundle.riscvToolchain
+          chosenBundle.cmake =
+            modifiers[platformDouble]["cmake"] ?? chosenBundle.cmake
+
+          chosenBundle.ninja =
+            modifiers[platformDouble]["ninja"] ?? chosenBundle.ninja
+
+          chosenBundle.picotool =
+            modifiers[platformDouble]["picotool"] ?? chosenBundle.picotool
+
+          chosenBundle.toolchain =
+            modifiers[platformDouble]["toolchain"] ?? chosenBundle.toolchain
+
+          chosenBundle.riscvToolchain =
+            modifiers[platformDouble]["riscvToolchain"] ??
+              chosenBundle.riscvToolchain
         }
       }
     }
