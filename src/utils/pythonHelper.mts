@@ -121,7 +121,7 @@ export default async function findPython(): Promise<string | undefined> {
                 process.arch
               );
               void window.showErrorMessage(
-                l10n.t("Unsupported architecture for Windows: ") + process.arch
+                l10n.t("Unsupported architecture for Windows: {0}", process.arch)
               );
 
               return undefined;
