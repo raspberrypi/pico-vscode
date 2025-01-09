@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -173,10 +173,11 @@ Whilst <em>sleep_</em> functions are preferable to <em>busy_wait</em> functions 
 <div class="line">    } <span class="keywordflow">while</span> (!<a class="code hl_function" href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a>(timeout_time));</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">false</span>; <span class="comment">// timed out</span></div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__sleep_html_gaedc0ed51a5e908ddd660a5d279009abc"><div class="ttname"><a href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a></div><div class="ttdeci">bool best_effort_wfe_or_timeout(absolute_time_t timeout_timestamp)</div><div class="ttdoc">Helper method for blocking on a timeout.</div><div class="ttdef"><b>Definition:</b> time.c:435</div></div>
+<div class="ttc" id="agroup__sleep_html_gaedc0ed51a5e908ddd660a5d279009abc"><div class="ttname"><a href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a></div><div class="ttdeci">bool best_effort_wfe_or_timeout(absolute_time_t timeout_timestamp)</div><div class="ttdoc">Helper method for blocking on a timeout.</div><div class="ttdef"><b>Definition:</b> time.c:443</div></div>
 <div class="ttc" id="agroup__timestamp_html_ga70921b9073202a54eec3494b4d19ec84"><div class="ttname"><a href="group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84">make_timeout_time_us</a></div><div class="ttdeci">static absolute_time_t make_timeout_time_us(uint64_t us)</div><div class="ttdoc">Convenience method to get the timestamp a number of microseconds from the current time.</div><div class="ttdef"><b>Definition:</b> time.h:136</div></div>
 <div class="ttc" id="agroup__timestamp_html_ga8b7f3d602cc053f05bacceeacc257ed8"><div class="ttname"><a href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a></div><div class="ttdeci">uint64_t absolute_time_t</div><div class="ttdoc">An opaque 64 bit timestamp in microseconds.</div><div class="ttdef"><b>Definition:</b> types.h:43</div></div>
-</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+</div><!-- fragment --><p> NOTE: This method should always be used in a loop associated with checking another "event" variable, since processor events are a shared resource and can happen for a large number of reasons.</p>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">timeout_timestamp</td><td>the timeout time </td></tr>
   </table>

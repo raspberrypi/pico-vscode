@@ -6,6 +6,5 @@ var searchData=
   ['next_5ftime_3',['next_time',['../structasync__work__on__timeout.html#a695beb1e493cb6c2b15f0907e9a2cfb4',1,'async_work_on_timeout']]],
   ['nil_5ftime_4',['nil_time',['../group__timestamp.html#ga978d7972634296a1870c28b0727beefb',1,'time.h']]],
   ['nmi_5fexception_5',['NMI_EXCEPTION',['../group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7',1,'exception.h']]],
-  ['nprobes_6',['nprobes',['../struct__cyw43__wifi__scan__options__t.html#ab01d10da501050e7a66976fbddb5d5c8',1,'_cyw43_wifi_scan_options_t']]],
-  ['nvic_5fhw_5ft_7',['nvic_hw_t',['../structnvic__hw__t.html',1,'']]]
+  ['nvic_5fhw_5ft_6',['nvic_hw_t',['../structnvic__hw__t.html',1,'']]]
 ];

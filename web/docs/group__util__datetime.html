@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,7 +103,8 @@ $(document).ready(function(){initNavTree('group__util__datetime.html',''); initR
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Data Structures</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">datetime<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__util.html">pico_util</a></div></div></div>
 </div><!--header-->
 <div class="contents">
@@ -116,9 +117,71 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structdatetime__t.html">datetime_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure containing date and time information.  <a href="structdatetime__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga318f32cb4c8cb86ddb9b8db05b81ea9d"><td class="memItemLeft" align="right" valign="top">struct tm *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d">pico_localtime_r</a> (const time_t *time, struct tm *tm)</td></tr>
+<tr class="memdesc:ga318f32cb4c8cb86ddb9b8db05b81ea9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">localtime_r implementation for use by the pico_util datetime functions  <a href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d">More...</a><br /></td></tr>
+<tr class="separator:ga318f32cb4c8cb86ddb9b8db05b81ea9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga255a6ead98a3f641c09651a14a73f7bb"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">pico_mktime</a> (struct tm *tm)</td></tr>
+<tr class="memdesc:ga255a6ead98a3f641c09651a14a73f7bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">mktime implementation for use by the pico_util datetime functions  <a href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">More...</a><br /></td></tr>
+<tr class="separator:ga255a6ead98a3f641c09651a14a73f7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Date/Time formatting. </p>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga318f32cb4c8cb86ddb9b8db05b81ea9d" name="ga318f32cb4c8cb86ddb9b8db05b81ea9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga318f32cb4c8cb86ddb9b8db05b81ea9d">&#9670;&nbsp;</a></span>pico_localtime_r()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct tm * pico_localtime_r </td>
+          <td>(</td>
+          <td class="paramtype">const time_t *&#160;</td>
+          <td class="paramname"><em>time</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct tm *&#160;</td>
+          <td class="paramname"><em>tm</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>localtime_r implementation for use by the pico_util datetime functions </p>
+<p >This method calls localtime_r from the C library by default, but is declared as a weak implementation to allow user code to override it </p>
+
+</div>
+</div>
+<a id="ga255a6ead98a3f641c09651a14a73f7bb" name="ga255a6ead98a3f641c09651a14a73f7bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga255a6ead98a3f641c09651a14a73f7bb">&#9670;&nbsp;</a></span>pico_mktime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">time_t pico_mktime </td>
+          <td>(</td>
+          <td class="paramtype">struct tm *&#160;</td>
+          <td class="paramname"><em>tm</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>mktime implementation for use by the pico_util datetime functions </p>
+<p >This method calls mktime from the C library by default, but is declared as a weak implementation to allow user code to override it </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

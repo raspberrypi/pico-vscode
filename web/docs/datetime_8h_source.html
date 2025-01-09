@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -120,25 +120,36 @@ $(document).ready(function(){initNavTree('datetime_8h_source.html',''); initResi
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#if PICO_INCLUDE_RTC_DATETIME</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;time.h&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;time.h&gt;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;sys/time.h&gt;</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keywordtype">void</span> datetime_to_str(<span class="keywordtype">char</span> *buf, uint buf_size, <span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keywordtype">bool</span> time_to_datetime(time_t time, <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *dt);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keywordtype">bool</span> datetime_to_time(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *dt, time_t *time);</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#include &lt;sys/time.h&gt;</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>uint64_t timespec_to_ms(<span class="keyword">const</span> <span class="keyword">struct</span> timespec *ts);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>uint64_t timespec_to_us(<span class="keyword">const</span> <span class="keyword">struct</span> timespec *ts);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keywordtype">void</span> ms_to_timespec(uint64_t ms, <span class="keyword">struct</span> timespec *ts);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keywordtype">void</span> us_to_timespec(uint64_t ms, <span class="keyword">struct</span> timespec *ts);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#if PICO_INCLUDE_RTC_DATETIME</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keywordtype">void</span> datetime_to_str(<span class="keywordtype">char</span> *buf, uint buf_size, <span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keywordtype">bool</span> time_to_datetime(time_t time, <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *dt);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keywordtype">bool</span> datetime_to_time(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *dt, time_t *time);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keywordtype">void</span> datetime_to_tm(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *dt, <span class="keyword">struct</span> tm *tm);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keywordtype">void</span> tm_to_datetime(<span class="keyword">const</span> <span class="keyword">struct</span> tm *tm, <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *dt);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>uint64_t timespec_to_ms(<span class="keyword">const</span> <span class="keyword">struct</span> timespec *ts);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>uint64_t timespec_to_us(<span class="keyword">const</span> <span class="keyword">struct</span> timespec *ts);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="keywordtype">void</span> ms_to_timespec(uint64_t ms, <span class="keyword">struct</span> timespec *ts);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keywordtype">void</span> us_to_timespec(uint64_t ms, <span class="keyword">struct</span> timespec *ts);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keyword">struct </span>tm *<a class="code hl_function" href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d">pico_localtime_r</a>(<span class="keyword">const</span> time_t *time, <span class="keyword">struct</span> tm *tm);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>time_t <a class="code hl_function" href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">pico_mktime</a>(<span class="keyword">struct</span> tm *tm);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__util__datetime_html_ga255a6ead98a3f641c09651a14a73f7bb"><div class="ttname"><a href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">pico_mktime</a></div><div class="ttdeci">time_t pico_mktime(struct tm *tm)</div><div class="ttdoc">mktime implementation for use by the pico_util datetime functions</div><div class="ttdef"><b>Definition:</b> datetime.c:14</div></div>
+<div class="ttc" id="agroup__util__datetime_html_ga318f32cb4c8cb86ddb9b8db05b81ea9d"><div class="ttname"><a href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d">pico_localtime_r</a></div><div class="ttdeci">struct tm * pico_localtime_r(const time_t *time, struct tm *tm)</div><div class="ttdoc">localtime_r implementation for use by the pico_util datetime functions</div><div class="ttdef"><b>Definition:</b> datetime.c:10</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 <div class="ttc" id="astructdatetime__t_html"><div class="ttname"><a href="structdatetime__t.html">datetime_t</a></div><div class="ttdoc">Structure containing date and time information.</div><div class="ttdef"><b>Definition:</b> types.h:107</div></div>
 </div><!-- fragment --></div><!-- contents -->

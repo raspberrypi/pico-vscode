@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -131,7 +131,7 @@ $(document).ready(function(){initNavTree('rand_8h_source.html',''); initResizabl
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">// PICO_CONFIG: PICO_RAND_ENTROPY_SRC_TRNG, Enable/disable use of hardware TRNG as an entropy source, type=bool, default=1 if no hardware TRNG, group=pico_rand</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">// PICO_CONFIG: PICO_RAND_ENTROPY_SRC_TRNG, Enable/disable use of hardware TRNG as an entropy source, type=bool, default=1 if hardware TRNG is available, group=pico_rand</span></div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="preprocessor">#ifndef PICO_RAND_ENTROPY_SRC_TRNG</span></div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#if HAS_RP2350_TRNG</span></div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="preprocessor">#define PICO_RAND_ENTROPY_SRC_TRNG 1</span></div>
@@ -169,9 +169,9 @@ $(document).ready(function(){initNavTree('rand_8h_source.html',''); initResizabl
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="preprocessor">#define PICO_RAND_SEED_ENTROPY_SRC_TIME PICO_RAND_ENTROPY_SRC_TIME</span></div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">// PICO_CONFIG: PICO_RAND_SEED_ENTROPY_SRC_BUF_PERF_COUNTER, Enable/disable use of a bus performance counter as an entropy source for the random seed, type=bool, default=PICO_RAND_ENTROPY_SRC_BUS_PERF_COUNTER, group=pico_rand</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#ifndef PICO_RAND_SEED_ENTROPY_SRC_BUF_PERF_COUNTER</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#define PICO_RAND_SEED_ENTROPY_SRC_BUF_PERF_COUNTER PICO_RAND_ENTROPY_SRC_BUS_PERF_COUNTER</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">// PICO_CONFIG: PICO_RAND_SEED_ENTROPY_SRC_BUS_PERF_COUNTER, Enable/disable use of a bus performance counter as an entropy source for the random seed, type=bool, default=PICO_RAND_ENTROPY_SRC_BUS_PERF_COUNTER, group=pico_rand</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#ifndef PICO_RAND_SEED_ENTROPY_SRC_BUS_PERF_COUNTER</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#define PICO_RAND_SEED_ENTROPY_SRC_BUS_PERF_COUNTER PICO_RAND_ENTROPY_SRC_BUS_PERF_COUNTER</span></div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">// PICO_CONFIG: PICO_RAND_SEED_ENTROPY_SRC_BOOT_RANDOM, Enable/disable use of the per boot random number as an entropy source for the random seed, type=bool, default=0 on RP2040 which has none, group=pico_rand</span></div>

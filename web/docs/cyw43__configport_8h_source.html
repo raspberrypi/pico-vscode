@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -187,104 +187,136 @@ $(document).ready(function(){initNavTree('cyw43__configport_8h_source.html','');
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#define CYW43_EINVAL           (-PICO_ERROR_INVALID_ARG) </span><span class="comment">// Invalid argument</span></div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#define CYW43_ETIMEDOUT        (-PICO_ERROR_TIMEOUT) </span><span class="comment">// Connection timed out</span></div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#define CYW43_NUM_GPIOS        CYW43_WL_GPIO_COUNT</span></div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#define cyw43_hal_pin_obj_t uint</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#ifndef CYW43_WL_GPIO_COUNT</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#define CYW43_WL_GPIO_COUNT 3</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">// get the number of elements in a fixed-size array</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#define CYW43_ARRAY_SIZE(a) count_of(a)</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keyword">static</span> <span class="keyword">inline</span> uint32_t cyw43_hal_ticks_us(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">time_us_32</a>();</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#define CYW43_NUM_GPIOS        CYW43_WL_GPIO_COUNT</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#define cyw43_hal_pin_obj_t uint</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">// get the number of elements in a fixed-size array</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="preprocessor">#define CYW43_ARRAY_SIZE(a) count_of(a)</span></div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="keyword">static</span> <span class="keyword">inline</span> uint32_t cyw43_hal_ticks_ms(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a>(<a class="code hl_function" href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">get_absolute_time</a>());</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="keyword">static</span> <span class="keyword">inline</span> uint32_t cyw43_hal_ticks_us(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">time_us_32</a>();</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">int</span> cyw43_hal_pin_read(cyw43_hal_pin_obj_t pin) {</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__hardware__gpio.html#gaf38c0b39fba06d1a49d1be56ef548d73">gpio_get</a>(pin);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="keyword">static</span> <span class="keyword">inline</span> uint32_t cyw43_hal_ticks_ms(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a>(<a class="code hl_function" href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">get_absolute_time</a>());</div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>}</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> cyw43_hal_pin_low(cyw43_hal_pin_obj_t pin) {</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <a class="code hl_function" href="group__hardware__gpio.html#ga6aca495d644a6ae66050a99ef44defbe">gpio_clr_mask</a>(1 &lt;&lt; pin);</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> cyw43_hal_pin_high(cyw43_hal_pin_obj_t pin) {</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_function" href="group__hardware__gpio.html#gaf3aa12aa4543965e24f52cfa9b529904">gpio_set_mask</a>(1 &lt;&lt; pin);</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#define CYW43_HAL_PIN_MODE_INPUT           (GPIO_IN)</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="preprocessor">#define CYW43_HAL_PIN_MODE_OUTPUT          (GPIO_OUT)</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#define CYW43_HAL_PIN_PULL_NONE            (0)</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#define CYW43_HAL_PIN_PULL_UP              (1)</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#define CYW43_HAL_PIN_PULL_DOWN            (2)</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> cyw43_hal_pin_config(cyw43_hal_pin_obj_t pin, uint32_t mode, uint32_t pull, __unused uint32_t alt) {</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    assert((mode == CYW43_HAL_PIN_MODE_INPUT || mode == CYW43_HAL_PIN_MODE_OUTPUT) &amp;&amp; alt == 0);</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_function" href="group__hardware__gpio.html#ga6a40edf0d86f6b3f0dcb51a768cf4681">gpio_set_dir</a>(pin, mode);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <a class="code hl_function" href="group__hardware__gpio.html#gab6bf9552da32b3dd0a5d0db45d8374fc">gpio_set_pulls</a>(pin, pull == CYW43_HAL_PIN_PULL_UP, pull == CYW43_HAL_PIN_PULL_DOWN);</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>}</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="keywordtype">void</span> cyw43_hal_get_mac(<span class="keywordtype">int</span> idx, uint8_t buf[6]);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keywordtype">void</span> cyw43_hal_generate_laa_mac(<span class="keywordtype">int</span> idx, uint8_t buf[6]);</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="keywordtype">void</span> cyw43_thread_enter(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="keywordtype">void</span> cyw43_thread_exit(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#define CYW43_THREAD_ENTER cyw43_thread_enter();</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="preprocessor">#define CYW43_THREAD_EXIT cyw43_thread_exit();</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="keywordtype">void</span> cyw43_thread_lock_check(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="group__pico__cyw43__arch.html#ga2058ce9bf936fd1402f36e22335a6914">  138</a></span><span class="preprocessor">#define cyw43_arch_lwip_check() cyw43_thread_lock_check()</span></div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">#define CYW43_THREAD_LOCK_CHECK cyw43_arch_lwip_check();</span></div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="preprocessor">#define cyw43_arch_lwip_check() ((void)0)</span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="preprocessor">#define CYW43_THREAD_LOCK_CHECK</span></div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="keywordtype">void</span> cyw43_await_background_or_timeout_us(uint32_t timeout_us);</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment">// todo not 100% sure about the timeouts here; MP uses __WFI which will always wakeup periodically</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#define CYW43_SDPCM_SEND_COMMON_WAIT cyw43_await_background_or_timeout_us(1000);</span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#define CYW43_DO_IOCTL_WAIT cyw43_await_background_or_timeout_us(1000);</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">#if CYW43_PIN_WL_DYNAMIC</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="comment">// these are just an index into an array</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keyword">typedef</span> <span class="keyword">enum</span> cyw43_pin_index_t {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    CYW43_PIN_INDEX_WL_REG_ON,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    CYW43_PIN_INDEX_WL_DATA_OUT,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    CYW43_PIN_INDEX_WL_DATA_IN,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    CYW43_PIN_INDEX_WL_HOST_WAKE,</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    CYW43_PIN_INDEX_WL_CLOCK,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    CYW43_PIN_INDEX_WL_CS,</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    CYW43_PIN_INDEX_WL_COUNT <span class="comment">// last</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>} cyw43_pin_index_t;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#define CYW43_PIN_WL_REG_ON cyw43_get_pin_wl(CYW43_PIN_INDEX_WL_REG_ON)</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#define CYW43_PIN_WL_DATA_OUT cyw43_get_pin_wl(CYW43_PIN_INDEX_WL_DATA_OUT)</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#define CYW43_PIN_WL_DATA_IN cyw43_get_pin_wl(CYW43_PIN_INDEX_WL_DATA_IN)</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#define CYW43_PIN_WL_HOST_WAKE cyw43_get_pin_wl(CYW43_PIN_INDEX_WL_HOST_WAKE)</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="preprocessor">#define CYW43_PIN_WL_CLOCK cyw43_get_pin_wl(CYW43_PIN_INDEX_WL_CLOCK)</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#define CYW43_PIN_WL_CS cyw43_get_pin_wl(CYW43_PIN_INDEX_WL_CS)</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment">// Lookup the gpio value in an array</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>uint cyw43_get_pin_wl(cyw43_pin_index_t pin_id);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="comment">// Just return the gpio number configured at build time</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="preprocessor">#define CYW43_PIN_WL_REG_ON CYW43_DEFAULT_PIN_WL_REG_ON</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="preprocessor">#define CYW43_PIN_WL_DATA_OUT CYW43_DEFAULT_PIN_WL_DATA_OUT</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="preprocessor">#define CYW43_PIN_WL_DATA_IN CYW43_DEFAULT_PIN_WL_DATA_IN</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#define CYW43_PIN_WL_HOST_WAKE CYW43_DEFAULT_PIN_WL_HOST_WAKE</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#define CYW43_PIN_WL_CLOCK CYW43_DEFAULT_PIN_WL_CLOCK</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="preprocessor">#define CYW43_PIN_WL_CS CYW43_DEFAULT_PIN_WL_CS</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#endif </span><span class="comment">// !CYW43_PIN_WL_DYNAMIC</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">int</span> cyw43_hal_pin_read(cyw43_hal_pin_obj_t pin) {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__hardware__gpio.html#gaf38c0b39fba06d1a49d1be56ef548d73">gpio_get</a>(pin);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> cyw43_hal_pin_low(cyw43_hal_pin_obj_t pin) {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <a class="code hl_function" href="group__hardware__gpio.html#ga71d35b29e897b9bb4fc881b587b08cab">gpio_put</a>(pin, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>}</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> cyw43_hal_pin_high(cyw43_hal_pin_obj_t pin) {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <a class="code hl_function" href="group__hardware__gpio.html#ga71d35b29e897b9bb4fc881b587b08cab">gpio_put</a>(pin, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>}</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="preprocessor">#define CYW43_HAL_PIN_MODE_INPUT           (GPIO_IN)</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#define CYW43_HAL_PIN_MODE_OUTPUT          (GPIO_OUT)</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#define CYW43_HAL_PIN_PULL_NONE            (0)</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="preprocessor">#define CYW43_HAL_PIN_PULL_UP              (1)</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#define CYW43_HAL_PIN_PULL_DOWN            (2)</span></div>
 <div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keywordtype">void</span> cyw43_delay_ms(uint32_t ms);</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="keywordtype">void</span> cyw43_delay_us(uint32_t us);</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="keywordtype">void</span> cyw43_schedule_internal_poll_dispatch(<span class="keywordtype">void</span> (*func)(<span class="keywordtype">void</span>));</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> cyw43_hal_pin_config(cyw43_hal_pin_obj_t pin, uint32_t mode, uint32_t pull, __unused uint32_t alt) {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    assert((mode == CYW43_HAL_PIN_MODE_INPUT || mode == CYW43_HAL_PIN_MODE_OUTPUT) &amp;&amp; alt == 0);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <a class="code hl_function" href="group__hardware__gpio.html#ga6a40edf0d86f6b3f0dcb51a768cf4681">gpio_set_dir</a>(pin, mode);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <a class="code hl_function" href="group__hardware__gpio.html#gab6bf9552da32b3dd0a5d0db45d8374fc">gpio_set_pulls</a>(pin, pull == CYW43_HAL_PIN_PULL_UP, pull == CYW43_HAL_PIN_PULL_DOWN);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>}</div>
 <div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="keywordtype">void</span> cyw43_post_poll_hook(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="keywordtype">void</span> cyw43_hal_get_mac(<span class="keywordtype">int</span> idx, uint8_t buf[6]);</div>
 <div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#define CYW43_POST_POLL_HOOK cyw43_post_poll_hook();</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="keywordtype">void</span> cyw43_hal_generate_laa_mac(<span class="keywordtype">int</span> idx, uint8_t buf[6]);</div>
 <div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="comment">// Allow malloc and free to be changed</span></div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="preprocessor">#ifndef cyw43_malloc</span></div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="preprocessor">#define cyw43_malloc malloc</span></div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="preprocessor">#ifndef cyw43_free</span></div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="preprocessor">#define cyw43_free free</span></div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>}</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keywordtype">void</span> cyw43_thread_enter(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keywordtype">void</span> cyw43_thread_exit(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="preprocessor">#define CYW43_THREAD_ENTER cyw43_thread_enter();</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="preprocessor">#define CYW43_THREAD_EXIT cyw43_thread_exit();</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keywordtype">void</span> cyw43_thread_lock_check(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="group__pico__cyw43__arch.html#ga2058ce9bf936fd1402f36e22335a6914">  171</a></span><span class="preprocessor">#define cyw43_arch_lwip_check() cyw43_thread_lock_check()</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="preprocessor">#define CYW43_THREAD_LOCK_CHECK cyw43_arch_lwip_check();</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="preprocessor">#define cyw43_arch_lwip_check() ((void)0)</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="preprocessor">#define CYW43_THREAD_LOCK_CHECK</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="keywordtype">void</span> cyw43_await_background_or_timeout_us(uint32_t timeout_us);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="comment">// todo not 100% sure about the timeouts here; MP uses __WFI which will always wakeup periodically</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="preprocessor">#define CYW43_SDPCM_SEND_COMMON_WAIT cyw43_await_background_or_timeout_us(1000);</span></div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="preprocessor">#define CYW43_DO_IOCTL_WAIT cyw43_await_background_or_timeout_us(1000);</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="keywordtype">void</span> cyw43_delay_ms(uint32_t ms);</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="keywordtype">void</span> cyw43_delay_us(uint32_t us);</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="keywordtype">void</span> cyw43_schedule_internal_poll_dispatch(<span class="keywordtype">void</span> (*func)(<span class="keywordtype">void</span>));</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="keywordtype">void</span> cyw43_post_poll_hook(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="preprocessor">#define CYW43_POST_POLL_HOOK cyw43_post_poll_hook();</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="comment">// Allow malloc and free to be changed</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="preprocessor">#ifndef cyw43_malloc</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="preprocessor">#define cyw43_malloc malloc</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#ifndef cyw43_free</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="preprocessor">#define cyw43_free free</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>}</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="acommon_2pico__time_2include_2pico_2time_8h_html"><div class="ttname"><a href="common_2pico__time_2include_2pico_2time_8h.html">time.h</a></div></div>
 <div class="ttc" id="agpio_8h_html"><div class="ttname"><a href="gpio_8h.html">gpio.h</a></div></div>
 <div class="ttc" id="agroup__hardware__gpio_html_ga6a40edf0d86f6b3f0dcb51a768cf4681"><div class="ttname"><a href="group__hardware__gpio.html#ga6a40edf0d86f6b3f0dcb51a768cf4681">gpio_set_dir</a></div><div class="ttdeci">static void gpio_set_dir(uint gpio, bool out)</div><div class="ttdoc">Set a single GPIO direction.</div><div class="ttdef"><b>Definition:</b> gpio.h:1340</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_ga6aca495d644a6ae66050a99ef44defbe"><div class="ttname"><a href="group__hardware__gpio.html#ga6aca495d644a6ae66050a99ef44defbe">gpio_clr_mask</a></div><div class="ttdeci">static void gpio_clr_mask(uint32_t mask)</div><div class="ttdoc">Drive low every GPIO appearing in mask.</div><div class="ttdef"><b>Definition:</b> gpio.h:955</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_ga71d35b29e897b9bb4fc881b587b08cab"><div class="ttname"><a href="group__hardware__gpio.html#ga71d35b29e897b9bb4fc881b587b08cab">gpio_put</a></div><div class="ttdeci">static void gpio_put(uint gpio, bool value)</div><div class="ttdoc">Drive a single GPIO high/low.</div><div class="ttdef"><b>Definition:</b> gpio.h:1145</div></div>
 <div class="ttc" id="agroup__hardware__gpio_html_gab6bf9552da32b3dd0a5d0db45d8374fc"><div class="ttname"><a href="group__hardware__gpio.html#gab6bf9552da32b3dd0a5d0db45d8374fc">gpio_set_pulls</a></div><div class="ttdeci">void gpio_set_pulls(uint gpio, bool up, bool down)</div><div class="ttdoc">Select up and down pulls on specific GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.c:63</div></div>
 <div class="ttc" id="agroup__hardware__gpio_html_gaf38c0b39fba06d1a49d1be56ef548d73"><div class="ttname"><a href="group__hardware__gpio.html#gaf38c0b39fba06d1a49d1be56ef548d73">gpio_get</a></div><div class="ttdeci">static bool gpio_get(uint gpio)</div><div class="ttdoc">Get state of a single specified GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.h:859</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_gaf3aa12aa4543965e24f52cfa9b529904"><div class="ttname"><a href="group__hardware__gpio.html#gaf3aa12aa4543965e24f52cfa9b529904">gpio_set_mask</a></div><div class="ttdeci">static void gpio_set_mask(uint32_t mask)</div><div class="ttdoc">Drive high every GPIO appearing in mask.</div><div class="ttdef"><b>Definition:</b> gpio.h:908</div></div>
 <div class="ttc" id="agroup__hardware__timer_html_gabfffa28d8715f71834934f357e7dc091"><div class="ttname"><a href="group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091">time_us_32</a></div><div class="ttdeci">static uint32_t time_us_32(void)</div><div class="ttdoc">Return a 32 bit timestamp value in microseconds for the default timer instance.</div><div class="ttdef"><b>Definition:</b> timer.h:215</div></div>
 <div class="ttc" id="agroup__timestamp_html_ga6a1d4dfb43030b6594fa050f50feb47a"><div class="ttname"><a href="group__timestamp.html#ga6a1d4dfb43030b6594fa050f50feb47a">get_absolute_time</a></div><div class="ttdeci">static absolute_time_t get_absolute_time(void)</div><div class="ttdoc">Return a representation of the current time.</div><div class="ttdef"><b>Definition:</b> time.h:66</div></div>
 <div class="ttc" id="agroup__timestamp_html_gab12467c48bde27171b552ac4dc8c7d59"><div class="ttname"><a href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a></div><div class="ttdeci">static uint32_t to_ms_since_boot(absolute_time_t t)</div><div class="ttdoc">Convert a timestamp into a number of milliseconds since boot.</div><div class="ttdef"><b>Definition:</b> time.h:87</div></div>

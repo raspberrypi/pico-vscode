@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -106,6 +106,7 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 
 <h3><a id="index_s" name="index_s"></a>- s -</h3><ul>
 <li>save_and_disable_interrupts()&#160;:&#160;<a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8">sync.h</a></li>
+<li>SECUREFAULT_EXCEPTION&#160;:&#160;<a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa84622533de12afa37e825894aa605778">exception.h</a></li>
 <li>sem_acquire_block_until()&#160;:&#160;<a class="el" href="group__sem.html#ga4410f17fc2f35b91e5bcfaf18bcf26ae">sem.h</a></li>
 <li>sem_acquire_blocking()&#160;:&#160;<a class="el" href="group__sem.html#gaefa22667355703497ae883f68a87aacf">sem.h</a></li>
 <li>sem_acquire_timeout_ms()&#160;:&#160;<a class="el" href="group__sem.html#ga38275bfc4c00e5039028f58860709610">sem.h</a></li>
@@ -115,10 +116,10 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>sem_release()&#160;:&#160;<a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem.h</a></li>
 <li>sem_reset()&#160;:&#160;<a class="el" href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">sem.h</a></li>
 <li>sem_try_acquire()&#160;:&#160;<a class="el" href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">sem.h</a></li>
-<li>set_sys_clock_48mhz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga89efe34eab0b8b96954eb0e19a38c8be">clocks.h</a></li>
-<li>set_sys_clock_hz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga28d65a360d9c9423fe5549b216b79683">clocks.h</a></li>
-<li>set_sys_clock_khz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#gab3a273e837ba1947bb5fd8fc97cf47e5">clocks.h</a></li>
-<li>set_sys_clock_pll()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">clocks.h</a></li>
+<li>set_sys_clock_48mhz()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga89efe34eab0b8b96954eb0e19a38c8be">clocks.h</a></li>
+<li>set_sys_clock_hz()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga28d65a360d9c9423fe5549b216b79683">clocks.h</a></li>
+<li>set_sys_clock_khz()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#gab3a273e837ba1947bb5fd8fc97cf47e5">clocks.h</a></li>
+<li>set_sys_clock_pll()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga44d5e0845d4f75f3b0c97c733e39f4c8">clocks.h</a></li>
 <li>setup_default_uart()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#gacf31cd777510116d829aea040b034c4c">stdlib.h</a></li>
 <li>SHA256_BIG_ENDIAN&#160;:&#160;<a class="el" href="group__hardware__sha256.html#ggaaf3089af3667088256de5d352973d5e6a9ed40fa208beaabfc2fc5b8edbd652c1">sha256.h</a></li>
 <li>sha256_endianness&#160;:&#160;<a class="el" href="group__hardware__sha256.html#gaaf3089af3667088256de5d352973d5e6">sha256.h</a></li>
@@ -142,9 +143,10 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>sleep_until()&#160;:&#160;<a class="el" href="group__sleep.html#ga7abed28d3918fe2b15f8007ba6569172">time.h</a></li>
 <li>sleep_us()&#160;:&#160;<a class="el" href="group__sleep.html#gaeeaebd3a10e0a193022f15c8603772ba">time.h</a></li>
 <li>sm_config_set_clkdiv()&#160;:&#160;<a class="el" href="group__sm__config.html#gae8c09c7a4372da95ad777faae51c5a24">pio.h</a></li>
-<li>sm_config_set_clkdiv_int_frac()&#160;:&#160;<a class="el" href="group__sm__config.html#ga365abc6d25301810ca5ee11e5b36c763">pio.h</a></li>
+<li>sm_config_set_clkdiv_int_frac8()&#160;:&#160;<a class="el" href="group__sm__config.html#ga8b819db1095ffdf4477ab114f2f1b362">pio.h</a></li>
 <li>sm_config_set_fifo_join()&#160;:&#160;<a class="el" href="group__sm__config.html#gafea1a06362182514518ebd91b2d52fd5">pio.h</a></li>
 <li>sm_config_set_in_pin_base()&#160;:&#160;<a class="el" href="group__sm__config.html#gaaf804a05a2ebaa127d0d216b3d4e3e80">pio.h</a></li>
+<li>sm_config_set_in_pin_count()&#160;:&#160;<a class="el" href="group__sm__config.html#ga441e87022f2178c1c57d509da4aacb75">pio.h</a></li>
 <li>sm_config_set_in_pins()&#160;:&#160;<a class="el" href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">pio.h</a></li>
 <li>sm_config_set_in_shift()&#160;:&#160;<a class="el" href="group__sm__config.html#gaed7a6e7dc4f1979c7c62e4773df8c79b">pio.h</a></li>
 <li>sm_config_set_jmp_pin()&#160;:&#160;<a class="el" href="group__sm__config.html#gaf2bfc66d6427ff92519e38dcb611133b">pio.h</a></li>
@@ -153,7 +155,7 @@ $(document).ready(function(){initNavTree('globals_s.html',''); initResizable(); 
 <li>sm_config_set_out_pin_count()&#160;:&#160;<a class="el" href="group__sm__config.html#gade3d072e319fc7d10bec180a9692ea89">pio.h</a></li>
 <li>sm_config_set_out_pins()&#160;:&#160;<a class="el" href="group__sm__config.html#gaf3004bbd996443d0c841664ebc92905c">pio.h</a></li>
 <li>sm_config_set_out_shift()&#160;:&#160;<a class="el" href="group__sm__config.html#ga613bed03e10e569f1b7aede74d40a5b5">pio.h</a></li>
-<li>sm_config_set_out_special()&#160;:&#160;<a class="el" href="group__sm__config.html#ga8a9141ceadf9e735b1e96457865de3f6">pio.h</a></li>
+<li>sm_config_set_out_special()&#160;:&#160;<a class="el" href="group__sm__config.html#ga20366467e0cddab87a797459a53880e9">pio.h</a></li>
 <li>sm_config_set_set_pin_base()&#160;:&#160;<a class="el" href="group__sm__config.html#ga40d4807c0665d30ceab153b7444560eb">pio.h</a></li>
 <li>sm_config_set_set_pin_count()&#160;:&#160;<a class="el" href="group__sm__config.html#ga78e129fe383f2af0fc5e1448dea4c3d6">pio.h</a></li>
 <li>sm_config_set_set_pins()&#160;:&#160;<a class="el" href="group__sm__config.html#gada1dff2c00b7d3a1cf722880c8373424">pio.h</a></li>

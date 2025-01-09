@@ -14,12 +14,5 @@ var searchData=
   ['_5fbinary_5finfo_5fptr_5fint32_5fwith_5fname_11',['_binary_info_ptr_int32_with_name',['../struct__binary__info__ptr__int32__with__name.html',1,'']]],
   ['_5fbinary_5finfo_5fptr_5fstring_5fwith_5fname_12',['_binary_info_ptr_string_with_name',['../struct__binary__info__ptr__string__with__name.html',1,'']]],
   ['_5fbinary_5finfo_5fraw_5fdata_13',['_binary_info_raw_data',['../struct__binary__info__raw__data.html',1,'']]],
-  ['_5fbinary_5finfo_5fsized_5fdata_14',['_binary_info_sized_data',['../struct__binary__info__sized__data.html',1,'']]],
-  ['_5fcyw43_5fasync_5fevent_5ft_15',['_cyw43_async_event_t',['../struct__cyw43__async__event__t.html',1,'']]],
-  ['_5fcyw43_5fev_5fscan_5fresult_5ft_16',['_cyw43_ev_scan_result_t',['../struct__cyw43__ev__scan__result__t.html',1,'']]],
-  ['_5fcyw43_5fint_5ft_17',['_cyw43_int_t',['../struct__cyw43__int__t.html',1,'']]],
-  ['_5fcyw43_5fll_5ft_18',['_cyw43_ll_t',['../struct__cyw43__ll__t.html',1,'']]],
-  ['_5fcyw43_5fscan_5fresult_5finternal_5ft_19',['_cyw43_scan_result_internal_t',['../struct__cyw43__scan__result__internal__t.html',1,'']]],
-  ['_5fcyw43_5ft_20',['_cyw43_t',['../struct__cyw43__t.html',1,'']]],
-  ['_5fcyw43_5fwifi_5fscan_5foptions_5ft_21',['_cyw43_wifi_scan_options_t',['../struct__cyw43__wifi__scan__options__t.html',1,'']]]
+  ['_5fbinary_5finfo_5fsized_5fdata_14',['_binary_info_sized_data',['../struct__binary__info__sized__data.html',1,'']]]
 ];

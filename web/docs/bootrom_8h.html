@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,7 @@ $(document).ready(function(){initNavTree('bootrom_8h.html',''); initResizable();
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
@@ -113,43 +114,73 @@ $(document).ready(function(){initNavTree('bootrom_8h.html',''); initResizable();
 <code>#include &quot;pico/bootrom_constants.h&quot;</code><br />
 <code>#include &lt;string.h&gt;</code><br />
 <code>#include &quot;pico/bootrom/lock.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="pico__flash_2include_2pico_2flash_8h_source.html">pico/flash.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for bootrom.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="bootrom_8h__incl.png" border="0" usemap="#ainclude_2pico_2bootrom_8h" alt=""/></div>
 <map name="ainclude_2pico_2bootrom_8h" id="ainclude_2pico_2bootrom_8h">
-<area shape="rect" title=" " alt="" coords="462,5,633,32"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="331,229,393,256"/>
-<area shape="rect" href="bootrom__constants_8h_source.html" title=" " alt="" coords="593,155,784,181"/>
-<area shape="rect" title=" " alt="" coords="580,80,651,107"/>
-<area shape="rect" href="lock_8h_source.html" title=" " alt="" coords="405,80,556,107"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="630,453,731,480"/>
-<area shape="rect" title=" " alt="" coords="5,304,119,331"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="143,304,247,331"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="671,304,792,331"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="272,304,367,331"/>
-<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="477,528,583,555"/>
-<area shape="rect" title=" " alt="" coords="546,603,629,629"/>
-<area shape="rect" title=" " alt="" coords="683,528,753,555"/>
-<area shape="rect" title=" " alt="" coords="778,528,853,555"/>
-<area shape="rect" title=" " alt="" coords="113,379,277,405"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="1037,379,1218,405"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="1242,379,1421,405"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="442,379,602,405"/>
-<area shape="rect" title=" " alt="" coords="626,379,837,405"/>
-<area shape="rect" title=" " alt="" coords="861,379,1012,405"/>
-<area shape="rect" title=" " alt="" coords="1032,453,1223,480"/>
-<area shape="rect" href="boot__lock_8h_source.html" title=" " alt="" coords="399,155,562,181"/>
+<area shape="rect" title=" " alt="" coords="846,5,1017,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="974,229,1035,256"/>
+<area shape="rect" href="pico__bootrom_2include_2pico_2bootrom__constants_8h_source.html" title=" " alt="" coords="555,155,745,181"/>
+<area shape="rect" title=" " alt="" coords="896,80,967,107"/>
+<area shape="rect" href="lock_8h_source.html" title=" " alt="" coords="721,80,872,107"/>
+<area shape="rect" href="pico__flash_2include_2pico_2flash_8h.html" title=" " alt="" coords="957,155,1053,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="691,453,793,480"/>
+<area shape="rect" title=" " alt="" coords="815,304,928,331"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="953,304,1057,331"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="589,304,711,331"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="1081,304,1176,331"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="537,528,643,555"/>
+<area shape="rect" title=" " alt="" coords="606,603,689,629"/>
+<area shape="rect" title=" " alt="" coords="743,528,813,555"/>
+<area shape="rect" title=" " alt="" coords="838,528,913,555"/>
+<area shape="rect" title=" " alt="" coords="1012,379,1176,405"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="10,379,191,405"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="215,379,394,405"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="418,379,578,405"/>
+<area shape="rect" title=" " alt="" coords="602,379,813,405"/>
+<area shape="rect" title=" " alt="" coords="837,379,988,405"/>
+<area shape="rect" title=" " alt="" coords="5,453,196,480"/>
+<area shape="rect" href="boot__bootrom__headers_2include_2boot_2bootrom__constants_8h_source.html" title=" " alt="" coords="554,229,746,256"/>
+<area shape="rect" href="boot__lock_8h_source.html" title=" " alt="" coords="770,155,933,181"/>
 </map>
 </div>
 </div>
 <p><a href="bootrom_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrom__helper__flash__op__params__t.html">rom_helper_flash_op_params_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrom__helper__explicit__buy__params__t.html">rom_helper_explicit_buy_params_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboot__info__t.html">boot_info_t</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a7e3bd02fe3045994527f18c1326e4600"><td class="memItemLeft" align="right" valign="top"><a id="a7e3bd02fe3045994527f18c1326e4600" name="a7e3bd02fe3045994527f18c1326e4600"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>rom_hword_as_ptr</b>(rom_address)&#160;&#160;&#160;(void *)(uintptr_t)(*(uint16_t *)(uintptr_t)(rom_address))</td></tr>
 <tr class="separator:a7e3bd02fe3045994527f18c1326e4600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e81e5e2d9b0e0ad5f1df84d7ece0493"><td class="memItemLeft" align="right" valign="top"><a id="a1e81e5e2d9b0e0ad5f1df84d7ece0493" name="a1e81e5e2d9b0e0ad5f1df84d7ece0493"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BOOT_TYPE_NORMAL</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a1e81e5e2d9b0e0ad5f1df84d7ece0493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82e476c2814e0d0290930d5326cf6cb8"><td class="memItemLeft" align="right" valign="top"><a id="a82e476c2814e0d0290930d5326cf6cb8" name="a82e476c2814e0d0290930d5326cf6cb8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BOOT_TYPE_BOOTSEL</b>&#160;&#160;&#160;2</td></tr>
+<tr class="separator:a82e476c2814e0d0290930d5326cf6cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad772406af7a567b30bcef53939c3cc83"><td class="memItemLeft" align="right" valign="top"><a id="ad772406af7a567b30bcef53939c3cc83" name="ad772406af7a567b30bcef53939c3cc83"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BOOT_TYPE_RAM_IMAGE</b>&#160;&#160;&#160;3</td></tr>
+<tr class="separator:ad772406af7a567b30bcef53939c3cc83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f9355fbf10d7b05d5f010aa98892b5f"><td class="memItemLeft" align="right" valign="top"><a id="a3f9355fbf10d7b05d5f010aa98892b5f" name="a3f9355fbf10d7b05d5f010aa98892b5f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BOOT_TYPE_FLASH_UPDATE</b>&#160;&#160;&#160;4</td></tr>
+<tr class="separator:a3f9355fbf10d7b05d5f010aa98892b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8acf1a838404ca09352a485677988633"><td class="memItemLeft" align="right" valign="top"><a id="a8acf1a838404ca09352a485677988633" name="a8acf1a838404ca09352a485677988633"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BOOT_TYPE_PC_SP</b>&#160;&#160;&#160;0xd</td></tr>
+<tr class="separator:a8acf1a838404ca09352a485677988633"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d113ea578876bc8c3753053149f9050"><td class="memItemLeft" align="right" valign="top"><a id="a2d113ea578876bc8c3753053149f9050" name="a2d113ea578876bc8c3753053149f9050"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>BOOT_TYPE_CHAINED_FLAG</b>&#160;&#160;&#160;0x80</td></tr>
+<tr class="separator:a2d113ea578876bc8c3753053149f9050"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -231,24 +262,102 @@ Functions</h2></td></tr>
 <tr class="memitem:a5d51b6163ec30a147d3445cec8f33c7c"><td class="memItemLeft" align="right" valign="top"><a id="a5d51b6163ec30a147d3445cec8f33c7c" name="a5d51b6163ec30a147d3445cec8f33c7c"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>reset_usb_boot</b> (uint32_t usb_activity_gpio_pin_mask, uint32_t disable_interface_mask)</td></tr>
 <tr class="separator:a5d51b6163ec30a147d3445cec8f33c7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa089fab5e976fea3fd88fecb44863ffc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc">rom_connect_internal_flash</a> ()</td></tr>
-<tr class="memdesc:gaa089fab5e976fea3fd88fecb44863ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect the SSI/QMI to the QSPI pads.  <a href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc">More...</a><br /></td></tr>
-<tr class="separator:gaa089fab5e976fea3fd88fecb44863ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga472decf755ee1f64afdf14a90e6c8807"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807">rom_flash_exit_xip</a> ()</td></tr>
-<tr class="memdesc:ga472decf755ee1f64afdf14a90e6c8807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the QSPI device from its XIP state to a serial command state.  <a href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807">More...</a><br /></td></tr>
-<tr class="separator:ga472decf755ee1f64afdf14a90e6c8807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee">rom_reset_usb_boot_extra</a> (int usb_activity_gpio_pin, uint32_t disable_interface_mask, bool usb_activity_gpio_pin_active_low)</td></tr>
+<tr class="memdesc:gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot the device into BOOTSEL mode.  <a href="group__pico__bootrom.html#gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee">More...</a><br /></td></tr>
+<tr class="separator:gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ba1206778b333958c0dae5582d53bc3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga3ba1206778b333958c0dae5582d53bc3">rom_connect_internal_flash</a> (void)</td></tr>
+<tr class="memdesc:ga3ba1206778b333958c0dae5582d53bc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect the SSI/QMI to the QSPI pads.  <a href="group__pico__bootrom.html#ga3ba1206778b333958c0dae5582d53bc3">More...</a><br /></td></tr>
+<tr class="separator:ga3ba1206778b333958c0dae5582d53bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga41206eddaf67511768746b947b9c47f6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga41206eddaf67511768746b947b9c47f6">rom_flash_exit_xip</a> (void)</td></tr>
+<tr class="memdesc:ga41206eddaf67511768746b947b9c47f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the QSPI device from its XIP state to a serial command state.  <a href="group__pico__bootrom.html#ga41206eddaf67511768746b947b9c47f6">More...</a><br /></td></tr>
+<tr class="separator:ga41206eddaf67511768746b947b9c47f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad2a854a04f7007e9e5efa67fe8887cd7">rom_flash_range_erase</a> (uint32_t addr, size_t count, uint32_t block_size, uint8_t block_cmd)</td></tr>
 <tr class="memdesc:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase bytes in flash.  <a href="group__pico__bootrom.html#gad2a854a04f7007e9e5efa67fe8887cd7">More...</a><br /></td></tr>
 <tr class="separator:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga7fd2af8eea3dbd7bc76ed3306186ccef">rom_flash_range_program</a> (uint32_t addr, const uint8_t *data, size_t count)</td></tr>
 <tr class="memdesc:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Program bytes in flash.  <a href="group__pico__bootrom.html#ga7fd2af8eea3dbd7bc76ed3306186ccef">More...</a><br /></td></tr>
 <tr class="separator:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacd6b37e87ff97264edba6c6349e52f72"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72">rom_flash_flush_cache</a> ()</td></tr>
-<tr class="memdesc:gacd6b37e87ff97264edba6c6349e52f72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush the XIP cache.  <a href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72">More...</a><br /></td></tr>
-<tr class="separator:gacd6b37e87ff97264edba6c6349e52f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">rom_flash_enter_cmd_xip</a> ()</td></tr>
-<tr class="memdesc:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the SSI/QMI with a standard command.  <a href="group__pico__bootrom.html#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">More...</a><br /></td></tr>
-<tr class="separator:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga15e12479af4b4618e254065371779e1e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga15e12479af4b4618e254065371779e1e">rom_flash_flush_cache</a> (void)</td></tr>
+<tr class="memdesc:ga15e12479af4b4618e254065371779e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush the XIP cache.  <a href="group__pico__bootrom.html#ga15e12479af4b4618e254065371779e1e">More...</a><br /></td></tr>
+<tr class="separator:ga15e12479af4b4618e254065371779e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44ddf78266c92f7a486712b87a695b45"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga44ddf78266c92f7a486712b87a695b45">rom_flash_enter_cmd_xip</a> (void)</td></tr>
+<tr class="memdesc:ga44ddf78266c92f7a486712b87a695b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the SSI/QMI with a standard command.  <a href="group__pico__bootrom.html#ga44ddf78266c92f7a486712b87a695b45">More...</a><br /></td></tr>
+<tr class="separator:ga44ddf78266c92f7a486712b87a695b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadbb1f51a04fd0c27513468996d24f3ce"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gadbb1f51a04fd0c27513468996d24f3ce">rom_reboot</a> (uint32_t flags, uint32_t delay_ms, uint32_t p0, uint32_t p1)</td></tr>
+<tr class="memdesc:gadbb1f51a04fd0c27513468996d24f3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot using the watchdog.  <a href="group__pico__bootrom.html#gadbb1f51a04fd0c27513468996d24f3ce">More...</a><br /></td></tr>
+<tr class="separator:gadbb1f51a04fd0c27513468996d24f3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf0ac554145d66038fdc1906c0f7ebfb"><td class="memItemLeft" align="right" valign="top"><a id="abf0ac554145d66038fdc1906c0f7ebfb" name="abf0ac554145d66038fdc1906c0f7ebfb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>rom_get_boot_random</b> (uint32_t out[4])</td></tr>
+<tr class="separator:abf0ac554145d66038fdc1906c0f7ebfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5067c3bfdb2dc2a08b6e84b40281cabd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga5067c3bfdb2dc2a08b6e84b40281cabd">rom_bootrom_state_reset</a> (uint32_t flags)</td></tr>
+<tr class="memdesc:ga5067c3bfdb2dc2a08b6e84b40281cabd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset bootrom state.  <a href="group__pico__bootrom.html#ga5067c3bfdb2dc2a08b6e84b40281cabd">More...</a><br /></td></tr>
+<tr class="separator:ga5067c3bfdb2dc2a08b6e84b40281cabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6990622d9a728e7e35f34c9c76fc11aa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga6990622d9a728e7e35f34c9c76fc11aa">rom_flash_reset_address_trans</a> (void)</td></tr>
+<tr class="memdesc:ga6990622d9a728e7e35f34c9c76fc11aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset address translation.  <a href="group__pico__bootrom.html#ga6990622d9a728e7e35f34c9c76fc11aa">More...</a><br /></td></tr>
+<tr class="separator:ga6990622d9a728e7e35f34c9c76fc11aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab82d162f5e7bc5287d81ac4127e37541"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gab82d162f5e7bc5287d81ac4127e37541">rom_flash_select_xip_read_mode</a> (bootrom_xip_mode_t mode, uint8_t clkdiv)</td></tr>
+<tr class="memdesc:gab82d162f5e7bc5287d81ac4127e37541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure QMI in a XIP read mode.  <a href="group__pico__bootrom.html#gab82d162f5e7bc5287d81ac4127e37541">More...</a><br /></td></tr>
+<tr class="separator:gab82d162f5e7bc5287d81ac4127e37541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a046e797a4dd0d025ff22a4bb50034762"><td class="memItemLeft" align="right" valign="top"><a id="a046e797a4dd0d025ff22a4bb50034762" name="a046e797a4dd0d025ff22a4bb50034762"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>rom_helper_flash_op</b> (void *param)</td></tr>
+<tr class="separator:a046e797a4dd0d025ff22a4bb50034762"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c9a44afb63e2137b7d5bbdf7c7e75da"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga8c9a44afb63e2137b7d5bbdf7c7e75da">rom_flash_op</a> (<a class="el" href="structcflash__flags.html">cflash_flags_t</a> flags, uintptr_t addr, uint32_t size_bytes, uint8_t *buf)</td></tr>
+<tr class="memdesc:ga8c9a44afb63e2137b7d5bbdf7c7e75da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a flash read, erase, or program operation.  <a href="group__pico__bootrom.html#ga8c9a44afb63e2137b7d5bbdf7c7e75da">More...</a><br /></td></tr>
+<tr class="separator:ga8c9a44afb63e2137b7d5bbdf7c7e75da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8032648d0d33c7219a1f98bb4bc22c81"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga8032648d0d33c7219a1f98bb4bc22c81">rom_func_otp_access</a> (uint8_t *buf, uint32_t buf_len, <a class="el" href="structotp__cmd.html">otp_cmd_t</a> cmd)</td></tr>
+<tr class="memdesc:ga8032648d0d33c7219a1f98bb4bc22c81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes data from a buffer into OTP, or reads data from OTP into a buffer.  <a href="group__pico__bootrom.html#ga8032648d0d33c7219a1f98bb4bc22c81">More...</a><br /></td></tr>
+<tr class="separator:ga8032648d0d33c7219a1f98bb4bc22c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga307eb94ee1eecf5d7b089488420f7311"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga307eb94ee1eecf5d7b089488420f7311">rom_get_partition_table_info</a> (uint32_t *out_buffer, uint32_t out_buffer_word_size, uint32_t partition_and_flags)</td></tr>
+<tr class="memdesc:ga307eb94ee1eecf5d7b089488420f7311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills a buffer with information from the partition table.  <a href="group__pico__bootrom.html#ga307eb94ee1eecf5d7b089488420f7311">More...</a><br /></td></tr>
+<tr class="separator:ga307eb94ee1eecf5d7b089488420f7311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafc3ac79dba27ea676b281106b84bbfaf"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gafc3ac79dba27ea676b281106b84bbfaf">rom_load_partition_table</a> (uint8_t *workarea_base, uint32_t workarea_size, bool force_reload)</td></tr>
+<tr class="memdesc:gafc3ac79dba27ea676b281106b84bbfaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the current partition table from flash, if present.  <a href="group__pico__bootrom.html#gafc3ac79dba27ea676b281106b84bbfaf">More...</a><br /></td></tr>
+<tr class="separator:gafc3ac79dba27ea676b281106b84bbfaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1763ac821dcd10d0a6e65cf1cdffb4b5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga1763ac821dcd10d0a6e65cf1cdffb4b5">rom_pick_ab_partition</a> (uint8_t *workarea_base, uint32_t workarea_size, uint partition_a_num, uint32_t flash_update_boot_window_base)</td></tr>
+<tr class="memdesc:ga1763ac821dcd10d0a6e65cf1cdffb4b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pick a partition from an A/B pair.  <a href="group__pico__bootrom.html#ga1763ac821dcd10d0a6e65cf1cdffb4b5">More...</a><br /></td></tr>
+<tr class="separator:ga1763ac821dcd10d0a6e65cf1cdffb4b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa12306bf99c4bd77f8ad4416cf5afffa"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaa12306bf99c4bd77f8ad4416cf5afffa">rom_get_b_partition</a> (uint pi_a)</td></tr>
+<tr class="memdesc:gaa12306bf99c4bd77f8ad4416cf5afffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get B partition.  <a href="group__pico__bootrom.html#gaa12306bf99c4bd77f8ad4416cf5afffa">More...</a><br /></td></tr>
+<tr class="separator:gaa12306bf99c4bd77f8ad4416cf5afffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad19f4e80f36e015336ef33003d2f2982"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad19f4e80f36e015336ef33003d2f2982">rom_get_uf2_target_partition</a> (uint8_t *workarea_base, uint32_t workarea_size, uint32_t family_id, <a class="el" href="structresident__partition__t.html">resident_partition_t</a> *partition_out)</td></tr>
+<tr class="memdesc:gad19f4e80f36e015336ef33003d2f2982"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UF2 Target Partition.  <a href="group__pico__bootrom.html#gad19f4e80f36e015336ef33003d2f2982">More...</a><br /></td></tr>
+<tr class="separator:gad19f4e80f36e015336ef33003d2f2982"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6cd5c5ee439731dd80839d5f043c0c6d"><td class="memItemLeft" align="right" valign="top">static intptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga6cd5c5ee439731dd80839d5f043c0c6d">rom_flash_runtime_to_storage_addr</a> (uintptr_t flash_runtime_addr)</td></tr>
+<tr class="memdesc:ga6cd5c5ee439731dd80839d5f043c0c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Translate runtime to storage address.  <a href="group__pico__bootrom.html#ga6cd5c5ee439731dd80839d5f043c0c6d">More...</a><br /></td></tr>
+<tr class="separator:ga6cd5c5ee439731dd80839d5f043c0c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6ccde86cb9eaffb69667c36110ab318"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaf6ccde86cb9eaffb69667c36110ab318">rom_chain_image</a> (uint8_t *workarea_base, uint32_t workarea_size, uint32_t region_base, uint32_t region_size)</td></tr>
+<tr class="memdesc:gaf6ccde86cb9eaffb69667c36110ab318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chain into a launchable image.  <a href="group__pico__bootrom.html#gaf6ccde86cb9eaffb69667c36110ab318">More...</a><br /></td></tr>
+<tr class="separator:gaf6ccde86cb9eaffb69667c36110ab318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f8bea148de2997528677e1757a431c8"><td class="memItemLeft" align="right" valign="top"><a id="a0f8bea148de2997528677e1757a431c8" name="a0f8bea148de2997528677e1757a431c8"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>rom_helper_explicit_buy</b> (void *param)</td></tr>
+<tr class="separator:a0f8bea148de2997528677e1757a431c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3476920d3da9f3882e61eb9ba5ed83f5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga3476920d3da9f3882e61eb9ba5ed83f5">rom_explicit_buy</a> (uint8_t *buffer, uint32_t buffer_size)</td></tr>
+<tr class="memdesc:ga3476920d3da9f3882e61eb9ba5ed83f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buy an image.  <a href="group__pico__bootrom.html#ga3476920d3da9f3882e61eb9ba5ed83f5">More...</a><br /></td></tr>
+<tr class="separator:ga3476920d3da9f3882e61eb9ba5ed83f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef7eef3fc50ebb572864ce41b56f7ecf"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaef7eef3fc50ebb572864ce41b56f7ecf">rom_set_ns_api_permission</a> (uint ns_api_num, bool allowed)</td></tr>
+<tr class="memdesc:gaef7eef3fc50ebb572864ce41b56f7ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set NS API Permission.  <a href="group__pico__bootrom.html#gaef7eef3fc50ebb572864ce41b56f7ecf">More...</a><br /></td></tr>
+<tr class="separator:gaef7eef3fc50ebb572864ce41b56f7ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab36e9c2507be4131612c44c967a8a9a3"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gab36e9c2507be4131612c44c967a8a9a3">rom_validate_ns_buffer</a> (const void *addr, uint32_t size, uint32_t write, uint32_t *ok)</td></tr>
+<tr class="memdesc:gab36e9c2507be4131612c44c967a8a9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate NS Buffer.  <a href="group__pico__bootrom.html#gab36e9c2507be4131612c44c967a8a9a3">More...</a><br /></td></tr>
+<tr class="separator:gab36e9c2507be4131612c44c967a8a9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad23d5bfd10e8367b30b1cb6a5750ecc3"><td class="memItemLeft" align="right" valign="top">static intptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad23d5bfd10e8367b30b1cb6a5750ecc3">rom_set_rom_callback</a> (uint callback_num, bootrom_api_callback_generic_t funcptr)</td></tr>
+<tr class="memdesc:gad23d5bfd10e8367b30b1cb6a5750ecc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set ROM callback function.  <a href="group__pico__bootrom.html#gad23d5bfd10e8367b30b1cb6a5750ecc3">More...</a><br /></td></tr>
+<tr class="separator:gad23d5bfd10e8367b30b1cb6a5750ecc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga00081f79b6a1002993347c2c105a0c87"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga00081f79b6a1002993347c2c105a0c87">rom_get_sys_info</a> (uint32_t *out_buffer, uint32_t out_buffer_word_size, uint32_t flags)</td></tr>
+<tr class="memdesc:ga00081f79b6a1002993347c2c105a0c87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get system information.  <a href="group__pico__bootrom.html#ga00081f79b6a1002993347c2c105a0c87">More...</a><br /></td></tr>
+<tr class="separator:ga00081f79b6a1002993347c2c105a0c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ced711bcbf6dd4d7c705d85de227066"><td class="memItemLeft" align="right" valign="top"><a id="a1ced711bcbf6dd4d7c705d85de227066" name="a1ced711bcbf6dd4d7c705d85de227066"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>rom_get_boot_info</b> (<a class="el" href="structboot__info__t.html">boot_info_t</a> *info)</td></tr>
+<tr class="separator:a1ced711bcbf6dd4d7c705d85de227066"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac172762313d588a7cd822a4473f24103"><td class="memItemLeft" align="right" valign="top"><a id="ac172762313d588a7cd822a4473f24103" name="ac172762313d588a7cd822a4473f24103"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>rom_get_last_boot_type_with_chained_flag</b> (void)</td></tr>
+<tr class="separator:ac172762313d588a7cd822a4473f24103"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a57bf014215ebb8f887b8c5e33e656f"><td class="memItemLeft" align="right" valign="top"><a id="a1a57bf014215ebb8f887b8c5e33e656f" name="a1a57bf014215ebb8f887b8c5e33e656f"></a>
+static int&#160;</td><td class="memItemRight" valign="bottom"><b>rom_get_last_boot_type</b> (void)</td></tr>
+<tr class="separator:a1a57bf014215ebb8f887b8c5e33e656f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga17b99a409a7c1d595c202d0fa0d98c6e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga17b99a409a7c1d595c202d0fa0d98c6e">rom_add_flash_runtime_partition</a> (uint32_t start_offset, uint32_t size, uint32_t permissions)</td></tr>
+<tr class="memdesc:ga17b99a409a7c1d595c202d0fa0d98c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a runtime partition to the partition table to specify flash permissions.  <a href="group__pico__bootrom.html#ga17b99a409a7c1d595c202d0fa0d98c6e">More...</a><br /></td></tr>
+<tr class="separator:ga17b99a409a7c1d595c202d0fa0d98c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

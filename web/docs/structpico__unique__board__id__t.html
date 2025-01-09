@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -121,7 +121,9 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>id</b> [8]</td></t
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Unique board identifier. </p>
-<p >This struct is suitable for holding the unique identifier of a NOR flash device on an RP2040-based board. It contains an array of PICO_UNIQUE_BOARD_ID_SIZE_BYTES identifier bytes. </p>
+<p >This structure contains an array of PICO_UNIQUE_BOARD_ID_SIZE_BYTES identifier bytes suitable for holding the unique identifier for the device.</p>
+<p >On an RP2040-based board, the unique identifier is retrieved from the external NOR flash device at boot, or for PICO_NO_FLASH builds the unique identifier is set to all 0xEE. </p>
+<p >On an RP2350-based board, the unique identifier is retrieved from OTP memory at boot.  </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/<a class="el" href="unique__id_8h_source.html">unique_id.h</a></li>
 </ul>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -125,6 +125,11 @@ Enumerations</h2></td></tr>
 &#160;&#160;<b>MIN_EXCEPTION_NUM</b> = 2
 , <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7">NMI_EXCEPTION</a> = 2
 , <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aadf88404244d6cf50e5103848de3892e2">HARDFAULT_EXCEPTION</a> = 3
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa483741e2ae4c8b8cd015ec5450ec85ff">MEMMANAGE_EXCEPTION</a> = 4
+, <br />
+&#160;&#160;<a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aaed10630105b92101efc08e7dc299fc9c">BUSFAULT_EXCEPTION</a> = 5
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aaad905a090fb757b00a77727575219a18">USAGEFAULT_EXCEPTION</a> = 6
+, <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa84622533de12afa37e825894aa605778">SECUREFAULT_EXCEPTION</a> = 7
 , <a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586">SVCALL_EXCEPTION</a> = 11
 , <br />
 &#160;&#160;<a class="el" href="group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aae6e5980728dbb2ff717a7867bdb25a3a">PENDSV_EXCEPTION</a> = 14
@@ -197,14 +202,9 @@ Functions</h2></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">NMI_EXCEPTION   </td><td class="markdownTableBodyNone">2   </td><td class="markdownTableBodyNone">Non Maskable Interrupt    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">HARDFAULT_EXCEPTION   </td><td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">HardFault    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SVCALL_EXCEPTION   </td><td class="markdownTableBodyNone">11   </td><td class="markdownTableBodyNone">SV Call    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">PENDSV_EXCEPTION   </td><td class="markdownTableBodyNone">14   </td><td class="markdownTableBodyNone">Pend SV    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">SYSTICK_EXCEPTION   </td><td class="markdownTableBodyNone">15   </td><td class="markdownTableBodyNone">System Tick   </td></tr>
+<td class="markdownTableBodyNone">HARDFAULT_EXCEPTION   </td><td class="markdownTableBodyNone">3   </td><td class="markdownTableBodyNone">HardFault   </td></tr>
 </table>
+<p>MEMMANAGE_EXCEPTION | 4 | MemManage BUSFAULT_EXCEPTION | 5 | BusFault USAGEFAULT_EXCEPTION | 6 | UsageFault SECUREFAULT_EXCEPTION | 7 | SecureFault  SVCALL_EXCEPTION | 11 | SV Call PENDSV_EXCEPTION | 14 | Pend SV SYSTICK_EXCEPTION | 15 | System Tick</p>
 <p >On RISC-V these are exception cause numbers:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -236,6 +236,14 @@ Functions</h2></td></tr>
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7" name="gga504f1c3a5a6959d430665f5d72cf335aa6e8a4e796361d59517c80affc6e93cd7"></a>NMI_EXCEPTION&#160;</td><td class="fielddoc"><p >Non Maskable Interrupt. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aadf88404244d6cf50e5103848de3892e2" name="gga504f1c3a5a6959d430665f5d72cf335aadf88404244d6cf50e5103848de3892e2"></a>HARDFAULT_EXCEPTION&#160;</td><td class="fielddoc"><p >HardFault Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aa483741e2ae4c8b8cd015ec5450ec85ff" name="gga504f1c3a5a6959d430665f5d72cf335aa483741e2ae4c8b8cd015ec5450ec85ff"></a>MEMMANAGE_EXCEPTION&#160;</td><td class="fielddoc"><p >MemManage Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aaed10630105b92101efc08e7dc299fc9c" name="gga504f1c3a5a6959d430665f5d72cf335aaed10630105b92101efc08e7dc299fc9c"></a>BUSFAULT_EXCEPTION&#160;</td><td class="fielddoc"><p >BusFault Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aaad905a090fb757b00a77727575219a18" name="gga504f1c3a5a6959d430665f5d72cf335aaad905a090fb757b00a77727575219a18"></a>USAGEFAULT_EXCEPTION&#160;</td><td class="fielddoc"><p >UsageFault Interrupt. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aa84622533de12afa37e825894aa605778" name="gga504f1c3a5a6959d430665f5d72cf335aa84622533de12afa37e825894aa605778"></a>SECUREFAULT_EXCEPTION&#160;</td><td class="fielddoc"><p >SecureFault Interrupt. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586" name="gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586"></a>SVCALL_EXCEPTION&#160;</td><td class="fielddoc"><p >SV Call Interrupt. </p>
 </td></tr>

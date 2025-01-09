@@ -53,12 +53,12 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "btstack__hci__transport__cyw43_8h.html",
-"group__hardware__clocks.html#gga531be47022a78745db42ab7b29da20e0a5c1252a95489d26504d348a6f19e67b0",
-"group__hardware__exception.html#gabd73e0f58d5d1149a77a521c0dceb9cb",
-"group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a25729562658fcf2aa86e87e54617e7af",
-"group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a2ae7a8b115f9402f79b67e7cb10dc87d",
-"group__multicore__fifo.html#ga134933a693c53c4f94c9d3cd3cabfc79",
-"group__pico__sha256.html"
+"group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6ac1ad7b83e348265a82c8d234489d62ab",
+"group__hardware__gpio.html#ga6ff6c7a437acc5750c0a290c086347b5",
+"group__hardware__pio.html#ga53c3bbe939b3c58585d0e19ffe91e18e",
+"group__hardware__sha256.html#ga21bca5a93ccad014cc890e734c9436eb",
+"group__mutex.html#gae4b5ca3e872a6823f6580f1388b6585e",
+"group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

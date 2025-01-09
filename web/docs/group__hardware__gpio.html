@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -402,6 +402,8 @@ Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >General Purpose Input/Output (GPIO) API. </p>
 <p >RP-series microcontrollers have two banks of General Purpose Input / Output (GPIO) pins, which are assigned as follows:</p>
+<p >RP2040 has 30 user GPIO pins in bank 0, and 6 QSPI pins in the QSPI bank 1 (QSPI_SS, QSPI_SCLK and QSPI_SD0 to QSPI_SD3). The QSPI pins are used to execute code from an external flash device, leaving the User bank (GPIO0 to GPIO29) for the programmer to use. </p>
+<p >The number of GPIO pins available depends on the package. There are 30 user GPIOs in bank 0 in the QFN-60 package (RP2350A), or 48 user GPIOs in the QFN-80 package. Bank 1 contains the 6 QSPI pins and the USB DP/DM pins. </p>
 <p >All GPIOs support digital input and output, but a subset can also be used as inputs to the chip’s Analogue to Digital Converter (ADC). The allocation of GPIO pins to the ADC depends on the packaging.</p>
 <p >RP2040 and RP2350 QFN-60 GPIO, ADC pins are 26-29. RP2350 QFN-80, ADC pins are 40-47.</p>
 <p >Each GPIO can be controlled directly by software running on the processors, or by a number of other functional blocks.</p>
@@ -745,13 +747,13 @@ Function Select Table</h3>
 </ul>
 <p >The level interrupts are not latched. This means that if the pin is a logical 1 and the level high interrupt is active, it will become inactive as soon as the pin changes to a logical 0. The edge interrupts are stored in the INTR register and can be cleared by writing to the INTR register. </p>
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724fa1c66c5d8bd30302e7efb5aca467bb136" name="gga6347e27da3ab34f1ea65b5ae16ab724fa1c66c5d8bd30302e7efb5aca467bb136"></a>GPIO_IRQ_LEVEL_LOW&#160;</td><td class="fielddoc"><p >IRQ when the GPIO pin is a logical 1. </p>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724fa1c66c5d8bd30302e7efb5aca467bb136" name="gga6347e27da3ab34f1ea65b5ae16ab724fa1c66c5d8bd30302e7efb5aca467bb136"></a>GPIO_IRQ_LEVEL_LOW&#160;</td><td class="fielddoc"><p >IRQ when the GPIO pin is a logical 0. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724faee23912609cd5f804358476dec7511de" name="gga6347e27da3ab34f1ea65b5ae16ab724faee23912609cd5f804358476dec7511de"></a>GPIO_IRQ_LEVEL_HIGH&#160;</td><td class="fielddoc"><p >IRQ when the GPIO pin is a logical 0. </p>
+<tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724faee23912609cd5f804358476dec7511de" name="gga6347e27da3ab34f1ea65b5ae16ab724faee23912609cd5f804358476dec7511de"></a>GPIO_IRQ_LEVEL_HIGH&#160;</td><td class="fielddoc"><p >IRQ when the GPIO pin is a logical 1. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724fa1967e44a20619945c86b6fd73e3b0a59" name="gga6347e27da3ab34f1ea65b5ae16ab724fa1967e44a20619945c86b6fd73e3b0a59"></a>GPIO_IRQ_EDGE_FALL&#160;</td><td class="fielddoc"><p >IRQ when the GPIO has transitioned from a logical 0 to a logical 1. </p>
+<tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724fa1967e44a20619945c86b6fd73e3b0a59" name="gga6347e27da3ab34f1ea65b5ae16ab724fa1967e44a20619945c86b6fd73e3b0a59"></a>GPIO_IRQ_EDGE_FALL&#160;</td><td class="fielddoc"><p >IRQ when the GPIO has transitioned from a logical 1 to a logical 0. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724fa1341b53a6f9d3f6fb65f57f3d16d289e" name="gga6347e27da3ab34f1ea65b5ae16ab724fa1341b53a6f9d3f6fb65f57f3d16d289e"></a>GPIO_IRQ_EDGE_RISE&#160;</td><td class="fielddoc"><p >IRQ when the GPIO has transitioned from a logical 1 to a logical 0. </p>
+<tr><td class="fieldname"><a id="gga6347e27da3ab34f1ea65b5ae16ab724fa1341b53a6f9d3f6fb65f57f3d16d289e" name="gga6347e27da3ab34f1ea65b5ae16ab724fa1341b53a6f9d3f6fb65f57f3d16d289e"></a>GPIO_IRQ_EDGE_RISE&#160;</td><td class="fielddoc"><p >IRQ when the GPIO has transitioned from a logical 0 to a logical 1. </p>
 </td></tr>
 </table>
 
@@ -1514,7 +1516,7 @@ Function Select Table</h3>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>Which GPIO function is currently selected from list gpio_function </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>Which GPIO function is currently selected from list <a class="el" href="group__hardware__gpio.html#ga89b8e5e8a9c515260dea8d1fa96e72c9">gpio_function_t</a> </dd></dl>
 
 </div>
 </div>
@@ -2712,7 +2714,7 @@ Function Select Table</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio</td><td>GPIO number </td></tr>
-    <tr><td class="paramname">fn</td><td>Which GPIO function select to use from list gpio_function </td></tr>
+    <tr><td class="paramname">fn</td><td>Which GPIO function select to use from list <a class="el" href="group__hardware__gpio.html#ga89b8e5e8a9c515260dea8d1fa96e72c9">gpio_function_t</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -2750,7 +2752,7 @@ Function Select Table</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio_mask</td><td>Mask with 1 bit per GPIO number to set the function for </td></tr>
-    <tr><td class="paramname">fn</td><td>Which GPIO function select to use from list gpio_function </td></tr>
+    <tr><td class="paramname">fn</td><td>Which GPIO function select to use from list <a class="el" href="group__hardware__gpio.html#ga89b8e5e8a9c515260dea8d1fa96e72c9">gpio_function_t</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -2788,7 +2790,7 @@ Function Select Table</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio_mask</td><td>Mask with 1 bit per GPIO number to set the function for </td></tr>
-    <tr><td class="paramname">fn</td><td>Which GPIO function select to use from list gpio_function </td></tr>
+    <tr><td class="paramname">fn</td><td>Which GPIO function select to use from list <a class="el" href="group__hardware__gpio.html#ga89b8e5e8a9c515260dea8d1fa96e72c9">gpio_function_t</a> </td></tr>
   </table>
   </dd>
 </dl>

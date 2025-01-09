@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -226,7 +226,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
 </ul>
 </li>
 <li><p class="startli"><b>pico_cyw43_arch_lwip_threadsafe_background</b> - For using the RAW lwIP API (in <code>NO_SYS=1</code> mode) with multi-core/thread safety, and automatic servicing of the <code>cyw43_driver</code> and lwIP in background.</p>
-<p class="startli">Calls into the <code>cyw43_driver</code> high level API (<a class="el" href="cyw43_8h.html" title="CYW43 driver interface.">cyw43.h</a>) may be made from either core or from lwIP callbacks, however calls into lwIP (which is not thread-safe) other than those made from lwIP callbacks, must be bracketed with <a class="el" href="group__pico__cyw43__arch.html#ga6a1c4a2015fb4c2d47d6d05fc72d4cbe">cyw43_arch_lwip_begin</a> and <a class="el" href="group__pico__cyw43__arch.html#gae0c3d7dd9f5b41e3cf4c2ae970356df4">cyw43_arch_lwip_end</a>. It is fine to bracket calls made from within lwIP callbacks too; you just don't have to.</p>
+<p class="startli">Calls into the <code>cyw43_driver</code> high level API (cyw43.h) may be made from either core or from lwIP callbacks, however calls into lwIP (which is not thread-safe) other than those made from lwIP callbacks, must be bracketed with <a class="el" href="group__pico__cyw43__arch.html#ga6a1c4a2015fb4c2d47d6d05fc72d4cbe">cyw43_arch_lwip_begin</a> and <a class="el" href="group__pico__cyw43__arch.html#gae0c3d7dd9f5b41e3cf4c2ae970356df4">cyw43_arch_lwip_end</a>. It is fine to bracket calls made from within lwIP callbacks too; you just don't have to.</p>
 <dl class="section note"><dt>Note</dt><dd>lwIP callbacks happen in a (low priority) IRQ context (similar to an alarm callback), so care should be taken when interacting with other code.</dd></dl>
 <p>This wrapper library:</p><ul>
 <li>Sets <code>CYW43_LWIP=1</code> to enable lwIP support in <code>pico_cyw43_arch</code> and <code>cyw43_driver</code> </li>
@@ -243,7 +243,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
 <li>Adds the <code>pico_lwip</code> as a dependency to pull in lwIP.</li>
 <li>Adds the lwIP/FreeRTOS code from lwip-contrib (in the contrib directory of lwIP)</li>
 </ul>
-<p class="startli">Calls into the <code>cyw43_driver</code> high level API (<a class="el" href="cyw43_8h.html" title="CYW43 driver interface.">cyw43.h</a>) may be made from any task or from lwIP callbacks, but not from IRQs. Calls into the lwIP RAW API (which is not thread safe) must be bracketed with <a class="el" href="group__pico__cyw43__arch.html#ga6a1c4a2015fb4c2d47d6d05fc72d4cbe">cyw43_arch_lwip_begin</a> and <a class="el" href="group__pico__cyw43__arch.html#gae0c3d7dd9f5b41e3cf4c2ae970356df4">cyw43_arch_lwip_end</a>. It is fine to bracket calls made from within lwIP callbacks too; you just don't have to.</p>
+<p class="startli">Calls into the <code>cyw43_driver</code> high level API (cyw43.h) may be made from any task or from lwIP callbacks, but not from IRQs. Calls into the lwIP RAW API (which is not thread safe) must be bracketed with <a class="el" href="group__pico__cyw43__arch.html#ga6a1c4a2015fb4c2d47d6d05fc72d4cbe">cyw43_arch_lwip_begin</a> and <a class="el" href="group__pico__cyw43__arch.html#gae0c3d7dd9f5b41e3cf4c2ae970356df4">cyw43_arch_lwip_end</a>. It is fine to bracket calls made from within lwIP callbacks too; you just don't have to.</p>
 <dl class="section note"><dt>Note</dt><dd>this wrapper library requires you to link FreeRTOS functionality with your application yourself.</dd></dl>
 </li>
 <li><p class="startli"><b>pico_cyw43_arch_none</b> - If you do not need the TCP/IP stack but wish to use the on-board LED.</p>
@@ -365,7 +365,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
 </div><div class="memdoc">
 
 <p>Disables Wi-Fi STA (Station) mode. </p>
-<p >This disables the Wi-Fi in <em>Station</em> mode, disconnecting any active connection. You should subsequently check the status by calling <a class="el" href="group__cyw43__driver.html#ga71e656d02aabca214ae344f29ae1d033">cyw43_wifi_link_status</a>. </p>
+<p >This disables the Wi-Fi in <em>Station</em> mode, disconnecting any active connection. You should subsequently check the status by calling cyw43_wifi_link_status. </p>
 
 </div>
 </div>
@@ -406,7 +406,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
   <table class="params">
     <tr><td class="paramname">ssid</td><td>the name for the access point </td></tr>
     <tr><td class="paramname">password</td><td>the password to use or NULL for no password. </td></tr>
-    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are <a class="el" href="group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158">CYW43_AUTH_WPA_TKIP_PSK</a>, <a class="el" href="group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432">CYW43_AUTH_WPA2_AES_PSK</a>, or <a class="el" href="group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48">CYW43_AUTH_WPA2_MIXED_PSK</a> (see <a class="el" href="group__cyw43__ll.html#CYW43_AUTH_">CYW43_AUTH_</a>) </td></tr>
+    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are CYW43_AUTH_WPA_TKIP_PSK, CYW43_AUTH_WPA2_AES_PSK, or CYW43_AUTH_WPA2_MIXED_PSK (see CYW43_AUTH_) </td></tr>
   </table>
   </dd>
 </dl>
@@ -451,7 +451,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
 </div><div class="memdoc">
 
 <p>Return the country code used to initialize cyw43_arch. </p>
-<dl class="section return"><dt>Returns</dt><dd>the country code (see <a class="el" href="group__cyw43__driver.html#CYW43_COUNTRY_">CYW43_COUNTRY_</a>) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the country code (see CYW43_COUNTRY_) </dd></dl>
 
 </div>
 </div>
@@ -589,7 +589,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
 <p >By default this method initializes the cyw43_arch code's own <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> by calling <a class="el" href="group__pico__cyw43__arch.html#ga90add164a540ed61daa8aa8df13f36a3">cyw43_arch_init_default_async_context</a>, however the user can specify use of their own <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> by calling <a class="el" href="group__pico__cyw43__arch.html#ga546a36df25d7609b83bf6c4972440181">cyw43_arch_set_async_context()</a> before calling this method</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">country</td><td>the country code to use (see <a class="el" href="group__cyw43__driver.html#CYW43_COUNTRY_">CYW43_COUNTRY_</a>) </td></tr>
+    <tr><td class="paramname">country</td><td>the country code to use (see CYW43_COUNTRY_) </td></tr>
   </table>
   </dd>
 </dl>
@@ -830,12 +830,12 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
 </div><div class="memdoc">
 
 <p>Start attempting to connect to a wireless access point. </p>
-<p >This method tells the CYW43 driver to start connecting to an access point. You should subsequently check the status by calling <a class="el" href="group__cyw43__driver.html#ga71e656d02aabca214ae344f29ae1d033">cyw43_wifi_link_status</a>.</p>
+<p >This method tells the CYW43 driver to start connecting to an access point. You should subsequently check the status by calling cyw43_wifi_link_status.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ssid</td><td>the network name to connect to </td></tr>
     <tr><td class="paramname">pw</td><td>the network password or NULL if there is no password required </td></tr>
-    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are <a class="el" href="group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158">CYW43_AUTH_WPA_TKIP_PSK</a>, <a class="el" href="group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432">CYW43_AUTH_WPA2_AES_PSK</a>, or <a class="el" href="group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48">CYW43_AUTH_WPA2_MIXED_PSK</a> (see <a class="el" href="group__cyw43__ll.html#CYW43_AUTH_">CYW43_AUTH_</a>)</td></tr>
+    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are CYW43_AUTH_WPA_TKIP_PSK, CYW43_AUTH_WPA2_AES_PSK, or CYW43_AUTH_WPA2_MIXED_PSK (see CYW43_AUTH_)</td></tr>
   </table>
   </dd>
 </dl>
@@ -881,7 +881,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
   <table class="params">
     <tr><td class="paramname">ssid</td><td>the network name to connect to </td></tr>
     <tr><td class="paramname">pw</td><td>the network password or NULL if there is no password required </td></tr>
-    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are <a class="el" href="group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158">CYW43_AUTH_WPA_TKIP_PSK</a>, <a class="el" href="group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432">CYW43_AUTH_WPA2_AES_PSK</a>, or <a class="el" href="group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48">CYW43_AUTH_WPA2_MIXED_PSK</a> (see <a class="el" href="group__cyw43__ll.html#CYW43_AUTH_">CYW43_AUTH_</a>)</td></tr>
+    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are CYW43_AUTH_WPA_TKIP_PSK, CYW43_AUTH_WPA2_AES_PSK, or CYW43_AUTH_WPA2_MIXED_PSK (see CYW43_AUTH_)</td></tr>
   </table>
   </dd>
 </dl>
@@ -929,13 +929,13 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
 </div><div class="memdoc">
 
 <p>Start attempting to connect to a wireless access point specified by SSID and BSSID. </p>
-<p >This method tells the CYW43 driver to start connecting to an access point. You should subsequently check the status by calling <a class="el" href="group__cyw43__driver.html#ga71e656d02aabca214ae344f29ae1d033">cyw43_wifi_link_status</a>.</p>
+<p >This method tells the CYW43 driver to start connecting to an access point. You should subsequently check the status by calling cyw43_wifi_link_status.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">ssid</td><td>the network name to connect to </td></tr>
     <tr><td class="paramname">bssid</td><td>the network BSSID to connect to or NULL if ignored </td></tr>
     <tr><td class="paramname">pw</td><td>the network password or NULL if there is no password required </td></tr>
-    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are <a class="el" href="group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158">CYW43_AUTH_WPA_TKIP_PSK</a>, <a class="el" href="group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432">CYW43_AUTH_WPA2_AES_PSK</a>, or <a class="el" href="group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48">CYW43_AUTH_WPA2_MIXED_PSK</a> (see <a class="el" href="group__cyw43__ll.html#CYW43_AUTH_">CYW43_AUTH_</a>)</td></tr>
+    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are CYW43_AUTH_WPA_TKIP_PSK, CYW43_AUTH_WPA2_AES_PSK, or CYW43_AUTH_WPA2_MIXED_PSK (see CYW43_AUTH_)</td></tr>
   </table>
   </dd>
 </dl>
@@ -988,7 +988,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
     <tr><td class="paramname">ssid</td><td>the network name to connect to </td></tr>
     <tr><td class="paramname">bssid</td><td>the network BSSID to connect to or NULL if ignored </td></tr>
     <tr><td class="paramname">pw</td><td>the network password or NULL if there is no password required </td></tr>
-    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are <a class="el" href="group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158">CYW43_AUTH_WPA_TKIP_PSK</a>, <a class="el" href="group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432">CYW43_AUTH_WPA2_AES_PSK</a>, or <a class="el" href="group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48">CYW43_AUTH_WPA2_MIXED_PSK</a> (see <a class="el" href="group__cyw43__ll.html#CYW43_AUTH_">CYW43_AUTH_</a>)</td></tr>
+    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are CYW43_AUTH_WPA_TKIP_PSK, CYW43_AUTH_WPA2_AES_PSK, or CYW43_AUTH_WPA2_MIXED_PSK (see CYW43_AUTH_)</td></tr>
   </table>
   </dd>
 </dl>
@@ -1047,7 +1047,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
     <tr><td class="paramname">ssid</td><td>the network name to connect to </td></tr>
     <tr><td class="paramname">bssid</td><td>the network BSSID to connect to or NULL if ignored </td></tr>
     <tr><td class="paramname">pw</td><td>the network password or NULL if there is no password required </td></tr>
-    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are <a class="el" href="group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158">CYW43_AUTH_WPA_TKIP_PSK</a>, <a class="el" href="group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432">CYW43_AUTH_WPA2_AES_PSK</a>, or <a class="el" href="group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48">CYW43_AUTH_WPA2_MIXED_PSK</a> (see <a class="el" href="group__cyw43__ll.html#CYW43_AUTH_">CYW43_AUTH_</a>) </td></tr>
+    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are CYW43_AUTH_WPA_TKIP_PSK, CYW43_AUTH_WPA2_AES_PSK, or CYW43_AUTH_WPA2_MIXED_PSK (see CYW43_AUTH_) </td></tr>
     <tr><td class="paramname">timeout</td><td>how long to wait in milliseconds for a connection to succeed before giving up</td></tr>
   </table>
   </dd>
@@ -1100,7 +1100,7 @@ For examples of creating of your own <a class="el" href="structasync__context.ht
   <table class="params">
     <tr><td class="paramname">ssid</td><td>the network name to connect to </td></tr>
     <tr><td class="paramname">pw</td><td>the network password or NULL if there is no password required </td></tr>
-    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are <a class="el" href="group__cyw43__ll.html#ga3680993589cb0c98f3ea04f1b63b0158">CYW43_AUTH_WPA_TKIP_PSK</a>, <a class="el" href="group__cyw43__ll.html#ga2268ba0fac688f562463e1a57588a432">CYW43_AUTH_WPA2_AES_PSK</a>, or <a class="el" href="group__cyw43__ll.html#ga7ffceffaf66bb7a121dfdd8ee82c5b48">CYW43_AUTH_WPA2_MIXED_PSK</a> (see <a class="el" href="group__cyw43__ll.html#CYW43_AUTH_">CYW43_AUTH_</a>) </td></tr>
+    <tr><td class="paramname">auth</td><td>the authorization type to use when the password is enabled. Values are CYW43_AUTH_WPA_TKIP_PSK, CYW43_AUTH_WPA2_AES_PSK, or CYW43_AUTH_WPA2_MIXED_PSK (see CYW43_AUTH_) </td></tr>
     <tr><td class="paramname">timeout</td><td>how long to wait in milliseconds for a connection to succeed before giving up</td></tr>
   </table>
   </dd>

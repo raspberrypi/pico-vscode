@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -338,9 +338,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga46af88f03a0c5abe4d55d45c5b2ccfb7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga46af88f03a0c5abe4d55d45c5b2ccfb7">pio_sm_drain_tx_fifo</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm)</td></tr>
 <tr class="memdesc:ga46af88f03a0c5abe4d55d45c5b2ccfb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty out a state machine's TX FIFO.  <a href="group__hardware__pio.html#ga46af88f03a0c5abe4d55d45c5b2ccfb7">More...</a><br /></td></tr>
 <tr class="separator:ga46af88f03a0c5abe4d55d45c5b2ccfb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa9d1d18a7decd0068b8a2a9159c9fd34"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaa9d1d18a7decd0068b8a2a9159c9fd34">pio_sm_set_clkdiv_int_frac</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint16_t div_int, uint8_t div_frac)</td></tr>
-<tr class="memdesc:gaa9d1d18a7decd0068b8a2a9159c9fd34"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the current clock divider for a state machine using a 16:8 fraction  <a href="group__hardware__pio.html#gaa9d1d18a7decd0068b8a2a9159c9fd34">More...</a><br /></td></tr>
-<tr class="separator:gaa9d1d18a7decd0068b8a2a9159c9fd34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga14e41e953fe3a7f18e7433c57e898f92"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga14e41e953fe3a7f18e7433c57e898f92">pio_sm_set_clkdiv_int_frac8</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint32_t div_int, uint8_t div_frac8)</td></tr>
+<tr class="memdesc:ga14e41e953fe3a7f18e7433c57e898f92"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the current clock divider for a state machine using a 16:8 fraction  <a href="group__hardware__pio.html#ga14e41e953fe3a7f18e7433c57e898f92">More...</a><br /></td></tr>
+<tr class="separator:ga14e41e953fe3a7f18e7433c57e898f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga88df92ae6a4ef3320b6565117aca885b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga88df92ae6a4ef3320b6565117aca885b">pio_sm_set_clkdiv</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, float div)</td></tr>
 <tr class="memdesc:ga88df92ae6a4ef3320b6565117aca885b"><td class="mdescLeft">&#160;</td><td class="mdescRight">set the current clock divider for a state machine  <a href="group__hardware__pio.html#ga88df92ae6a4ef3320b6565117aca885b">More...</a><br /></td></tr>
 <tr class="separator:ga88df92ae6a4ef3320b6565117aca885b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -350,12 +350,21 @@ Functions</h2></td></tr>
 <tr class="memitem:ga1286f306263b413a8002c9db2b433d8b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga1286f306263b413a8002c9db2b433d8b">pio_sm_set_pins</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint32_t pin_values)</td></tr>
 <tr class="memdesc:ga1286f306263b413a8002c9db2b433d8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set a value on all pins for the PIO instance.  <a href="group__hardware__pio.html#ga1286f306263b413a8002c9db2b433d8b">More...</a><br /></td></tr>
 <tr class="separator:ga1286f306263b413a8002c9db2b433d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5eccc79bdddcebdf02371d0a68b420fd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga5eccc79bdddcebdf02371d0a68b420fd">pio_sm_set_pins64</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint64_t pin_values)</td></tr>
+<tr class="memdesc:ga5eccc79bdddcebdf02371d0a68b420fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set a value on all pins for the PIO instance.  <a href="group__hardware__pio.html#ga5eccc79bdddcebdf02371d0a68b420fd">More...</a><br /></td></tr>
+<tr class="separator:ga5eccc79bdddcebdf02371d0a68b420fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga963167ca42f67f79ec5de6b47d6027d5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga963167ca42f67f79ec5de6b47d6027d5">pio_sm_set_pins_with_mask</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint32_t pin_values, uint32_t pin_mask)</td></tr>
 <tr class="memdesc:ga963167ca42f67f79ec5de6b47d6027d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set a value on multiple pins for the PIO instance.  <a href="group__hardware__pio.html#ga963167ca42f67f79ec5de6b47d6027d5">More...</a><br /></td></tr>
 <tr class="separator:ga963167ca42f67f79ec5de6b47d6027d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga07c978498ed4a9fbc3683e48be90586e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga07c978498ed4a9fbc3683e48be90586e">pio_sm_set_pins_with_mask64</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint64_t pin_values, uint64_t pin_mask)</td></tr>
+<tr class="memdesc:ga07c978498ed4a9fbc3683e48be90586e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set a value on multiple pins for the PIO instance.  <a href="group__hardware__pio.html#ga07c978498ed4a9fbc3683e48be90586e">More...</a><br /></td></tr>
+<tr class="separator:ga07c978498ed4a9fbc3683e48be90586e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8269f1ef4cb1e4b3b957d5f1fa6fc623"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga8269f1ef4cb1e4b3b957d5f1fa6fc623">pio_sm_set_pindirs_with_mask</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint32_t pin_dirs, uint32_t pin_mask)</td></tr>
 <tr class="memdesc:ga8269f1ef4cb1e4b3b957d5f1fa6fc623"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set the pin directions for multiple pins for the PIO instance.  <a href="group__hardware__pio.html#ga8269f1ef4cb1e4b3b957d5f1fa6fc623">More...</a><br /></td></tr>
 <tr class="separator:ga8269f1ef4cb1e4b3b957d5f1fa6fc623"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4637bbb0cf6ce0d53fc45a9b017ea434"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#ga4637bbb0cf6ce0d53fc45a9b017ea434">pio_sm_set_pindirs_with_mask64</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint64_t pin_dirs, uint64_t pin_mask)</td></tr>
+<tr class="memdesc:ga4637bbb0cf6ce0d53fc45a9b017ea434"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set the pin directions for multiple pins for the PIO instance.  <a href="group__hardware__pio.html#ga4637bbb0cf6ce0d53fc45a9b017ea434">More...</a><br /></td></tr>
+<tr class="separator:ga4637bbb0cf6ce0d53fc45a9b017ea434"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf5c965ef1ca21684630c8be2cf3e52e7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pio.html#gaf5c965ef1ca21684630c8be2cf3e52e7">pio_sm_set_consecutive_pindirs</a> (<a class="el" href="structpio__hw__t.html">PIO</a> pio, uint sm, uint pins_base, uint pin_count, bool is_out)</td></tr>
 <tr class="memdesc:gaf5c965ef1ca21684630c8be2cf3e52e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a state machine to set the same pin direction for multiple consecutive pins for the PIO instance.  <a href="group__hardware__pio.html#gaf5c965ef1ca21684630c8be2cf3e52e7">More...</a><br /></td></tr>
 <tr class="separator:gaf5c965ef1ca21684630c8be2cf3e52e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -407,7 +416,16 @@ Functions</h2></td></tr>
 <li>DMA interface, sustained throughput up to 1 word per clock from system DMA</li>
 <li>IRQ flag set/clear/status</li>
 </ul>
-<p >Full details of the PIO can be found in the appropriate RP-series datasheet. Note that there are additional features in the RP2350 PIO implementation that mean care should be taken when writing PIO code that needs to run on both the RP2040 and the RP2350. </p>
+<p >Full details of the PIO can be found in the appropriate RP-series datasheet. Note that there are additional features in the RP2350 PIO implementation that mean care should be taken when writing PIO code that needs to run on both the RP2040 and the RP2350.</p>
+<p ><a class="anchor" id="pio_sm_pins"></a> On RP2040, pin numbers may always be specified from 0-31 </p>
+<p >On RP2350A, pin numbers may always be specified from 0-31.</p>
+<p >On RP2350B, there are 48 pins but each PIO instance can only address 32 pins (the PIO instance either addresses pins 0-31 or 16-47 based on <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>). The <code>pio_sm_</code> methods that directly affect the hardware always take <em>real</em> pin numbers in the full range, however:</p>
+<ul>
+<li>If <code>PICO_PIO_USE_GPIO_BASE != 1</code> then the 5th bit of the pin number is ignored. This is done so that programs compiled for boards with RP2350A do not incur the extra overhead of dealing with higher pins that don't exist. Effectively these functions behave exactly like RP2040 in this case. Note that <code>PICO_PIO_USE_GPIO_BASE</code> is defaulted to 0 if <code>PICO_RP2350A</code> is 1</li>
+<li>If <code>PICO_PIO_USE_GPIO_BASE == 1</code> then the passed pin numbers are adjusted internally by subtracting the GPIO base to give a pin number in the range 0-31 from the PIO's perspective</li>
+</ul>
+<p >You can set <code>PARAM_ASSERTIONS_ENABLED_HARDWARE_PIO = 1</code> to enable parameter checking to debug pin (or other) issues with hardware_pio methods.</p>
+<p >Note that pin masks follow the same rules as individual pins; bit N of a 32-bit or 64-bit mask always refers to pin N.  </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga916d05e71da7f2173cd22b46bbfa0a11" name="ga916d05e71da7f2173cd22b46bbfa0a11"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga916d05e71da7f2173cd22b46bbfa0a11">&#9670;&nbsp;</a></span>pio0</h2>
@@ -769,7 +787,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the program can be loaded; false if there is not suitable space in the instruction memory </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the program can be loaded; false if not, e.g. if there is not suitable space in the instruction memory </dd></dl>
 
 </div>
 </div>
@@ -814,7 +832,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the program can be loaded at that location; false if there is not space in the instruction memory </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the program can be loaded at that location; false if not, e.g. if there is not space in the instruction memory </dd></dl>
 
 </div>
 </div>
@@ -929,14 +947,14 @@ Functions</h2></td></tr>
 
 <p>Finds a PIO and statemachine and adds a program into PIO memory. </p>
 <p >This variation of <a class="el" href="group__hardware__pio.html#ga03abf744baa28e22a46fcf81452c47cf">pio_claim_free_sm_and_add_program</a> is useful on RP2350 QFN80 where the "GPIO Base" must be set per PIO instance to either address the 32 GPIOs (0-&gt;31) or the 32 GPIOS (16-47). No single PIO instance can interact with both pins 0-&gt;15 or 32-&gt;47 at the same time.</p>
-<p >This method takes additional information about the GPIO pins needed (via gpi_base and gpio_count), and optionally will set the GPIO base (</p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3" title="Set the base GPIO base for the PIO instance.">pio_set_gpio_base</a>) of an unused PIO instance if necessary</dd></dl>
+<p >This method takes additional information about the GPIO pins needed (via gpio_base and gpio_count), and optionally will set the GPIO base (</p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3" title="Set the base GPIO base for the PIO instance.">pio_set_gpio_base</a>) of an unused PIO instance if necessary</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">program</td><td>PIO program to add </td></tr>
     <tr><td class="paramname">pio</td><td>Returns the PIO hardware instance or NULL if no PIO is available </td></tr>
     <tr><td class="paramname">sm</td><td>Returns the index of the PIO state machine that was claimed </td></tr>
     <tr><td class="paramname">offset</td><td>Returns the instruction memory offset of the start of the program </td></tr>
-    <tr><td class="paramname">gpio_base</td><td>the lowest GPIO number required </td></tr>
+    <tr><td class="paramname">gpio_base</td><td>the lowest GPIO number required (0-47 on RP2350B, 0-31 otherwise) </td></tr>
     <tr><td class="paramname">gpio_count</td><td>the count of GPIOs required </td></tr>
     <tr><td class="paramname">set_gpio_base</td><td>if there is no free SM on a PIO instance with the right GPIO base, and there IS an unused PIO instance, then that PIO will be reconfigured so that this method can succeed</td></tr>
   </table>
@@ -1761,6 +1779,7 @@ Functions</h2></td></tr>
 
 <p>Set the base GPIO base for the PIO instance. </p>
 <p >Since an individual PIO accesses only 32 pins, to be able to access more pins, the PIO instance must specify a base GPIO where the instance's "pin 0" maps. For RP2350 the valid values are 0 and 16, indicating the PIO instance has access to pins 0-31, or 16-47 respectively.</p>
+<p >NOTE: This method simply changes the underlying PIO register, it does not detect or attempt to prevent any side effects this change will have on in use state machines on this PIO.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
@@ -3133,8 +3152,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gaa9d1d18a7decd0068b8a2a9159c9fd34" name="gaa9d1d18a7decd0068b8a2a9159c9fd34"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa9d1d18a7decd0068b8a2a9159c9fd34">&#9670;&nbsp;</a></span>pio_sm_set_clkdiv_int_frac()</h2>
+<a id="ga14e41e953fe3a7f18e7433c57e898f92" name="ga14e41e953fe3a7f18e7433c57e898f92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga14e41e953fe3a7f18e7433c57e898f92">&#9670;&nbsp;</a></span>pio_sm_set_clkdiv_int_frac8()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -3143,7 +3162,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void pio_sm_set_clkdiv_int_frac </td>
+          <td class="memname">static void pio_sm_set_clkdiv_int_frac8 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structpio__hw__t.html">PIO</a>&#160;</td>
           <td class="paramname"><em>pio</em>, </td>
@@ -3157,14 +3176,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>div_int</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>div_frac</em>&#160;</td>
+          <td class="paramname"><em>div_frac8</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -3185,7 +3204,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) </td></tr>
     <tr><td class="paramname">div_int</td><td>the integer part of the clock divider </td></tr>
-    <tr><td class="paramname">div_frac</td><td>the fractional part of the clock divider in 1/256s </td></tr>
+    <tr><td class="paramname">div_frac8</td><td>the fractional part of the clock divider in 1/256s </td></tr>
   </table>
   </dd>
 </dl>
@@ -3233,7 +3252,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Apply a state machine configuration to a state machine. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p >See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on why this method might fail on RP2350B  </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pio</td><td>Handle to PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) </td></tr>
@@ -3296,7 +3315,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) to use </td></tr>
-    <tr><td class="paramname">pins_base</td><td>the first pin to set a direction for </td></tr>
+    <tr><td class="paramname">pins_base</td><td>the first pin to set a direction for. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
     <tr><td class="paramname">pin_count</td><td>the count of consecutive pins to set the direction for </td></tr>
     <tr><td class="paramname">is_out</td><td>the direction to set; true = out, false = in </td></tr>
   </table>
@@ -3404,7 +3423,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) </td></tr>
-    <tr><td class="paramname">in_base</td><td>0-31 First pin to use as input </td></tr>
+    <tr><td class="paramname">in_base</td><td>First pin to use as input. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -3456,7 +3475,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) </td></tr>
-    <tr><td class="paramname">pin</td><td>The raw GPIO pin number to use as the source for a <code>jmp pin</code> instruction </td></tr>
+    <tr><td class="paramname">pin</td><td>The pin number to use as the source for a <code>jmp pin</code> instruction. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -3515,7 +3534,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) </td></tr>
-    <tr><td class="paramname">out_base</td><td>0-31 First pin to set as output </td></tr>
+    <tr><td class="paramname">out_base</td><td>First pin to set as output. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
     <tr><td class="paramname">out_count</td><td>0-32 Number of pins to set. </td></tr>
   </table>
   </dd>
@@ -3551,6 +3570,59 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>pin_mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use a state machine to set the pin directions for multiple pins for the PIO instance. </p>
+<p >This method repeatedly reconfigures the target state machine's pin configuration and executes 'set' instructions to set pin directions on up to 32 pins, before restoring the state machine's pin configuration to what it was.</p>
+<p >This method is provided as a convenience to set initial pin directions, and should not be used against a state machine that is enabled. Note: This method only works for pins &lt; 32. To use with pins &gt;= 32 call pio_sm_set_pindirs_with_mask64</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
+    <tr><td class="paramname">sm</td><td>State machine index (0..3) to use </td></tr>
+    <tr><td class="paramname">pin_dirs</td><td>the pin directions to set - 1 = out, 0 = in (if the corresponding bit in pin_mask is set) </td></tr>
+    <tr><td class="paramname">pin_mask</td><td>a bit for each pin to indicate whether the corresponding pin_value for that pin should be applied. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga4637bbb0cf6ce0d53fc45a9b017ea434" name="ga4637bbb0cf6ce0d53fc45a9b017ea434"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4637bbb0cf6ce0d53fc45a9b017ea434">&#9670;&nbsp;</a></span>pio_sm_set_pindirs_with_mask64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_sm_set_pindirs_with_mask64 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structpio__hw__t.html">PIO</a>&#160;</td>
+          <td class="paramname"><em>pio</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>sm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>pin_dirs</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
           <td class="paramname"><em>pin_mask</em>&#160;</td>
         </tr>
         <tr>
@@ -3610,12 +3682,58 @@ Functions</h2></td></tr>
 
 <p>Use a state machine to set a value on all pins for the PIO instance. </p>
 <p >This method repeatedly reconfigures the target state machine's pin configuration and executes 'set' instructions to set values on all 32 pins, before restoring the state machine's pin configuration to what it was.</p>
+<p >This method is provided as a convenience to set initial pin states, and should not be used against a state machine that is enabled. Note: This method only works for pins &lt; 32. To use with pins &gt;= 32 call pio_sm_set_pins64</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
+    <tr><td class="paramname">sm</td><td>State machine index (0..3) to use </td></tr>
+    <tr><td class="paramname">pin_values</td><td>the pin values to set. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga5eccc79bdddcebdf02371d0a68b420fd" name="ga5eccc79bdddcebdf02371d0a68b420fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5eccc79bdddcebdf02371d0a68b420fd">&#9670;&nbsp;</a></span>pio_sm_set_pins64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_sm_set_pins64 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structpio__hw__t.html">PIO</a>&#160;</td>
+          <td class="paramname"><em>pio</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>sm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>pin_values</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use a state machine to set a value on all pins for the PIO instance. </p>
+<p >This method repeatedly reconfigures the target state machine's pin configuration and executes 'set' instructions to set values on all 32 pins, before restoring the state machine's pin configuration to what it was.</p>
 <p >This method is provided as a convenience to set initial pin states, and should not be used against a state machine that is enabled.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) to use </td></tr>
-    <tr><td class="paramname">pin_values</td><td>the pin values to set </td></tr>
+    <tr><td class="paramname">pin_values</td><td>the pin values to set. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -3662,13 +3780,66 @@ Functions</h2></td></tr>
 
 <p>Use a state machine to set a value on multiple pins for the PIO instance. </p>
 <p >This method repeatedly reconfigures the target state machine's pin configuration and executes 'set' instructions to set values on up to 32 pins, before restoring the state machine's pin configuration to what it was.</p>
+<p >This method is provided as a convenience to set initial pin states, and should not be used against a state machine that is enabled. Note: This method only works for pins &lt; 32. To use with pins &gt;= 32 call pio_sm_set_pins_with_mask64</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
+    <tr><td class="paramname">sm</td><td>State machine index (0..3) to use </td></tr>
+    <tr><td class="paramname">pin_values</td><td>the pin values to set (if the corresponding bit in pin_mask is set) </td></tr>
+    <tr><td class="paramname">pin_mask</td><td>a bit for each pin to indicate whether the corresponding pin_value for that pin should be applied. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga07c978498ed4a9fbc3683e48be90586e" name="ga07c978498ed4a9fbc3683e48be90586e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga07c978498ed4a9fbc3683e48be90586e">&#9670;&nbsp;</a></span>pio_sm_set_pins_with_mask64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pio_sm_set_pins_with_mask64 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structpio__hw__t.html">PIO</a>&#160;</td>
+          <td class="paramname"><em>pio</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>sm</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>pin_values</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>pin_mask</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use a state machine to set a value on multiple pins for the PIO instance. </p>
+<p >This method repeatedly reconfigures the target state machine's pin configuration and executes 'set' instructions to set values on up to 32 pins, before restoring the state machine's pin configuration to what it was.</p>
 <p >This method is provided as a convenience to set initial pin states, and should not be used against a state machine that is enabled.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) to use </td></tr>
     <tr><td class="paramname">pin_values</td><td>the pin values to set (if the corresponding bit in pin_mask is set) </td></tr>
-    <tr><td class="paramname">pin_mask</td><td>a bit for each pin to indicate whether the corresponding pin_value for that pin should be applied. </td></tr>
+    <tr><td class="paramname">pin_mask</td><td>a bit for each pin to indicate whether the corresponding pin_value for that pin should be applied. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -3727,7 +3898,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) </td></tr>
-    <tr><td class="paramname">set_base</td><td>0-31 First pin to set as </td></tr>
+    <tr><td class="paramname">set_base</td><td>First pin to set as 'set'. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
     <tr><td class="paramname">set_count</td><td>0-5 Number of pins to set. </td></tr>
   </table>
   </dd>
@@ -3781,7 +3952,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">pio</td><td>The PIO instance; e.g. <a class="el" href="group__hardware__pio.html#ga916d05e71da7f2173cd22b46bbfa0a11">pio0</a> or <a class="el" href="group__hardware__pio.html#ga923a261ba19804c404900228e99c9522">pio1</a> </td></tr>
     <tr><td class="paramname">sm</td><td>State machine index (0..3) </td></tr>
-    <tr><td class="paramname">sideset_base</td><td>0-31 base pin for 'side set' </td></tr>
+    <tr><td class="paramname">sideset_base</td><td>Base pin for 'side set'. See <a class="el" href="group__hardware__pio.html#pio_sm_pins">pio_sm_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>

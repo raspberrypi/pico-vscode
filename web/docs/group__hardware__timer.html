@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -119,10 +119,10 @@ Macros</h2></td></tr>
 <tr class="memdesc:ga7087b84f4fb4ecce424000c90fce84e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the given timer instance.  <a href="group__hardware__timer.html#ga7087b84f4fb4ecce424000c90fce84e4">More...</a><br /></td></tr>
 <tr class="separator:ga7087b84f4fb4ecce424000c90fce84e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad96d6d69599253d1880356a4d71ecf19"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gad96d6d69599253d1880356a4d71ecf19">TIMER_ALARM_NUM_FROM_IRQ</a>(irq_num)</td></tr>
-<tr class="memdesc:gad96d6d69599253d1880356a4d71ecf19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the alarm number from an \irq_num_t. See TIMER_INSTANCE_NUM_FROM_IRQ to get the timer instance number.  <a href="group__hardware__timer.html#gad96d6d69599253d1880356a4d71ecf19">More...</a><br /></td></tr>
+<tr class="memdesc:gad96d6d69599253d1880356a4d71ecf19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the alarm number from an <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>. See TIMER_INSTANCE_NUM_FROM_IRQ to get the timer instance number.  <a href="group__hardware__timer.html#gad96d6d69599253d1880356a4d71ecf19">More...</a><br /></td></tr>
 <tr class="separator:gad96d6d69599253d1880356a4d71ecf19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab3d512da219783a171937d52f17c19d4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#gab3d512da219783a171937d52f17c19d4">TIMER_NUM_FROM_IRQ</a>(irq_num)</td></tr>
-<tr class="memdesc:gab3d512da219783a171937d52f17c19d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the alarm number from an \irq_num_t. See TIMER_INSTANCE_NUM_FROM_IRQ to get the alarm number.  <a href="group__hardware__timer.html#gab3d512da219783a171937d52f17c19d4">More...</a><br /></td></tr>
+<tr class="memdesc:gab3d512da219783a171937d52f17c19d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the alarm number from an <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>. See TIMER_INSTANCE_NUM_FROM_IRQ to get the alarm number.  <a href="group__hardware__timer.html#gab3d512da219783a171937d52f17c19d4">More...</a><br /></td></tr>
 <tr class="separator:gab3d512da219783a171937d52f17c19d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8ab54d1221d9318ac36daa9790660d8b"><td class="memItemLeft" align="right" valign="top"><a id="ga8ab54d1221d9318ac36daa9790660d8b" name="ga8ab54d1221d9318ac36daa9790660d8b"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DEFAULT_TIMER</b>&#160;&#160;&#160;0</td></tr>
@@ -229,12 +229,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga5182b9f67e7f878548460f6f57e22ec0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga5182b9f67e7f878548460f6f57e22ec0">hardware_alarm_force_irq</a> (uint alarm_num)</td></tr>
 <tr class="memdesc:ga5182b9f67e7f878548460f6f57e22ec0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Force and IRQ for a specific hardware alarm on the default timer instance.  <a href="group__hardware__timer.html#ga5182b9f67e7f878548460f6f57e22ec0">More...</a><br /></td></tr>
 <tr class="separator:ga5182b9f67e7f878548460f6f57e22ec0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3531b9148290b15a491cfb6e6aafa850"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga3531b9148290b15a491cfb6e6aafa850">timer_hardware_alarm_get_irq_num</a> (__unused <a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
-<tr class="memdesc:ga3531b9148290b15a491cfb6e6aafa850"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the given timer instance.  <a href="group__hardware__timer.html#ga3531b9148290b15a491cfb6e6aafa850">More...</a><br /></td></tr>
-<tr class="separator:ga3531b9148290b15a491cfb6e6aafa850"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4ab38331811cb4dd911385666b5f51a1"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga4ab38331811cb4dd911385666b5f51a1">hardware_alarm_get_irq_num</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
-<tr class="memdesc:ga4ab38331811cb4dd911385666b5f51a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the default timer instance.  <a href="group__hardware__timer.html#ga4ab38331811cb4dd911385666b5f51a1">More...</a><br /></td></tr>
-<tr class="separator:ga4ab38331811cb4dd911385666b5f51a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6465bf6a18ece735e61d378539cde0ec"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga6465bf6a18ece735e61d378539cde0ec">timer_hardware_alarm_get_irq_num</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer, uint alarm_num)</td></tr>
+<tr class="memdesc:ga6465bf6a18ece735e61d378539cde0ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the given timer instance.  <a href="group__hardware__timer.html#ga6465bf6a18ece735e61d378539cde0ec">More...</a><br /></td></tr>
+<tr class="separator:ga6465bf6a18ece735e61d378539cde0ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga463bb539bf789e6f15ed2d5872360182"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga463bb539bf789e6f15ed2d5872360182">hardware_alarm_get_irq_num</a> (uint alarm_num)</td></tr>
+<tr class="memdesc:ga463bb539bf789e6f15ed2d5872360182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the default timer instance.  <a href="group__hardware__timer.html#ga463bb539bf789e6f15ed2d5872360182">More...</a><br /></td></tr>
+<tr class="separator:ga463bb539bf789e6f15ed2d5872360182"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6e6a907da0b44a8fb2db2277ad05079c"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__timer.html#ga6e6a907da0b44a8fb2db2277ad05079c">timer_get_index</a> (<a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *timer)</td></tr>
 <tr class="memdesc:ga6e6a907da0b44a8fb2db2277ad05079c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the timer number for a timer instance.  <a href="group__hardware__timer.html#ga6e6a907da0b44a8fb2db2277ad05079c">More...</a><br /></td></tr>
 <tr class="separator:ga6e6a907da0b44a8fb2db2277ad05079c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,14 +266,14 @@ Example</h2>
 <div class="line"> </div>
 <div class="line"><span class="keyword">volatile</span> <span class="keywordtype">bool</span> timer_fired = <span class="keyword">false</span>;</div>
 <div class="line"> </div>
-<div class="line">int64_t alarm_callback(<a class="code hl_typedef" href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a> <span class="keywordtype">id</span>, <span class="keywordtype">void</span> *user_data) {</div>
+<div class="line">int64_t alarm_callback(<a class="code hl_typedef" href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a> <span class="keywordtype">id</span>, __unused <span class="keywordtype">void</span> *user_data) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Timer %d fired!\n&quot;</span>, (<span class="keywordtype">int</span>) <span class="keywordtype">id</span>);</div>
 <div class="line">    timer_fired = <span class="keyword">true</span>;</div>
 <div class="line">    <span class="comment">// Can return a value here in us to fire in the future</span></div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="line"> </div>
-<div class="line"><span class="keywordtype">bool</span> repeating_timer_callback(<span class="keyword">struct</span> <a class="code hl_struct" href="structrepeating__timer.html">repeating_timer</a> *t) {</div>
+<div class="line"><span class="keywordtype">bool</span> repeating_timer_callback(__unused <span class="keyword">struct</span> <a class="code hl_struct" href="structrepeating__timer.html">repeating_timer</a> *t) {</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Repeat at %lld\n&quot;</span>, <a class="code hl_function" href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3">time_us_64</a>());</div>
 <div class="line">    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
 <div class="line">}</div>
@@ -311,17 +311,17 @@ Example</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;Done\n&quot;</span>);</div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__alarm_html_ga8bb045ab597f773d7d5fdfea5db94f69"><div class="ttname"><a href="group__alarm.html#ga8bb045ab597f773d7d5fdfea5db94f69">add_alarm_in_ms</a></div><div class="ttdeci">static alarm_id_t add_alarm_in_ms(uint32_t ms, alarm_callback_t callback, void *user_data, bool fire_if_past)</div><div class="ttdoc">Add an alarm callback to be called after a delay specified in milliseconds.</div><div class="ttdef"><b>Definition:</b> time.h:671</div></div>
-<div class="ttc" id="agroup__alarm_html_gaa593548569c182a0d65d2e06a9c3493b"><div class="ttname"><a href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a></div><div class="ttdeci">int32_t alarm_id_t</div><div class="ttdoc">The identifier for an alarm.</div><div class="ttdef"><b>Definition:</b> time.h:365</div></div>
+<div class="ttc" id="agroup__alarm_html_ga8bb045ab597f773d7d5fdfea5db94f69"><div class="ttname"><a href="group__alarm.html#ga8bb045ab597f773d7d5fdfea5db94f69">add_alarm_in_ms</a></div><div class="ttdeci">static alarm_id_t add_alarm_in_ms(uint32_t ms, alarm_callback_t callback, void *user_data, bool fire_if_past)</div><div class="ttdoc">Add an alarm callback to be called after a delay specified in milliseconds.</div><div class="ttdef"><b>Definition:</b> time.h:673</div></div>
+<div class="ttc" id="agroup__alarm_html_gaa593548569c182a0d65d2e06a9c3493b"><div class="ttname"><a href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a></div><div class="ttdeci">int32_t alarm_id_t</div><div class="ttdoc">The identifier for an alarm.</div><div class="ttdef"><b>Definition:</b> time.h:367</div></div>
 <div class="ttc" id="agroup__hardware__timer_html_ga7bbcd996dbd3dd4adc03a80272fb2fc3"><div class="ttname"><a href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3">time_us_64</a></div><div class="ttdeci">uint64_t time_us_64(void)</div><div class="ttdoc">Return the current 64 bit timestamp value in microseconds for the default timer instance.</div><div class="ttdef"><b>Definition:</b> timer.c:125</div></div>
-<div class="ttc" id="agroup__pico__platform_html_gab0d1ba75ceb64131e19f613d7a5313c9"><div class="ttname"><a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a></div><div class="ttdeci">static __force_inline void tight_loop_contents(void)</div><div class="ttdoc">No-op function for the body of tight loops.</div><div class="ttdef"><b>Definition:</b> platform.h:67</div></div>
+<div class="ttc" id="agroup__pico__platform_html_gab0d1ba75ceb64131e19f613d7a5313c9"><div class="ttname"><a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a></div><div class="ttdeci">static __force_inline void tight_loop_contents(void)</div><div class="ttdoc">No-op function for the body of tight loops.</div><div class="ttdef"><b>Definition:</b> platform.h:80</div></div>
 <div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
-<div class="ttc" id="agroup__repeating__timer_html_ga02133dbe7083fcf3c7392a2cfb8243ba"><div class="ttname"><a href="group__repeating__timer.html#ga02133dbe7083fcf3c7392a2cfb8243ba">add_repeating_timer_ms</a></div><div class="ttdeci">static bool add_repeating_timer_ms(int32_t delay_ms, repeating_timer_callback_t callback, void *user_data, repeating_timer_t *out)</div><div class="ttdoc">Add a repeating timer that is called repeatedly at the specified interval in milliseconds.</div><div class="ttdef"><b>Definition:</b> time.h:824</div></div>
-<div class="ttc" id="agroup__repeating__timer_html_ga9ad5a07a3f2300cc9d46c1c847fae6f1"><div class="ttname"><a href="group__repeating__timer.html#ga9ad5a07a3f2300cc9d46c1c847fae6f1">cancel_repeating_timer</a></div><div class="ttdeci">bool cancel_repeating_timer(repeating_timer_t *timer)</div><div class="ttdoc">Cancel a repeating timer.</div><div class="ttdef"><b>Definition:</b> time.c:481</div></div>
-<div class="ttc" id="agroup__sleep_html_gae617a6842d4f3a192064c4354b88fcff"><div class="ttname"><a href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a></div><div class="ttdeci">void sleep_ms(uint32_t ms)</div><div class="ttdoc">Wait for the given number of milliseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:431</div></div>
+<div class="ttc" id="agroup__repeating__timer_html_ga02133dbe7083fcf3c7392a2cfb8243ba"><div class="ttname"><a href="group__repeating__timer.html#ga02133dbe7083fcf3c7392a2cfb8243ba">add_repeating_timer_ms</a></div><div class="ttdeci">static bool add_repeating_timer_ms(int32_t delay_ms, repeating_timer_callback_t callback, void *user_data, repeating_timer_t *out)</div><div class="ttdoc">Add a repeating timer that is called repeatedly at the specified interval in milliseconds.</div><div class="ttdef"><b>Definition:</b> time.h:826</div></div>
+<div class="ttc" id="agroup__repeating__timer_html_ga9ad5a07a3f2300cc9d46c1c847fae6f1"><div class="ttname"><a href="group__repeating__timer.html#ga9ad5a07a3f2300cc9d46c1c847fae6f1">cancel_repeating_timer</a></div><div class="ttdeci">bool cancel_repeating_timer(repeating_timer_t *timer)</div><div class="ttdoc">Cancel a repeating timer.</div><div class="ttdef"><b>Definition:</b> time.c:511</div></div>
+<div class="ttc" id="agroup__sleep_html_gae617a6842d4f3a192064c4354b88fcff"><div class="ttname"><a href="group__sleep.html#gae617a6842d4f3a192064c4354b88fcff">sleep_ms</a></div><div class="ttdeci">void sleep_ms(uint32_t ms)</div><div class="ttdoc">Wait for the given number of milliseconds before returning.</div><div class="ttdef"><b>Definition:</b> time.c:439</div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
-<div class="ttc" id="astructrepeating__timer_html"><div class="ttname"><a href="structrepeating__timer.html">repeating_timer</a></div><div class="ttdoc">Information about a repeating timer.</div><div class="ttdef"><b>Definition:</b> time.h:735</div></div>
+<div class="ttc" id="astructrepeating__timer_html"><div class="ttname"><a href="structrepeating__timer.html">repeating_timer</a></div><div class="ttdoc">Information about a repeating timer.</div><div class="ttdef"><b>Definition:</b> time.h:737</div></div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__time.html" title="API for accurate timestamps, sleeping, and time based callbacks.">pico_time</a> </dd></dl>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ga929d2a5b281a0f0321a4273f63ca9ce3" name="ga929d2a5b281a0f0321a4273f63ca9ce3"></a>
@@ -391,7 +391,7 @@ Example</h2>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the alarm number from an \irq_num_t. See TIMER_INSTANCE_NUM_FROM_IRQ to get the timer instance number. </p>
+<p>Returns the alarm number from an <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>. See TIMER_INSTANCE_NUM_FROM_IRQ to get the timer instance number. </p>
 <p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
 
 </div>
@@ -412,7 +412,7 @@ Example</h2>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the alarm number from an \irq_num_t. See TIMER_INSTANCE_NUM_FROM_IRQ to get the alarm number. </p>
+<p>Returns the alarm number from an <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a>. See TIMER_INSTANCE_NUM_FROM_IRQ to get the alarm number. </p>
 <p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
 
 </div>
@@ -666,8 +666,8 @@ hardware_claiming </dd></dl>
 
 </div>
 </div>
-<a id="ga4ab38331811cb4dd911385666b5f51a1" name="ga4ab38331811cb4dd911385666b5f51a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga4ab38331811cb4dd911385666b5f51a1">&#9670;&nbsp;</a></span>hardware_alarm_get_irq_num()</h2>
+<a id="ga463bb539bf789e6f15ed2d5872360182" name="ga463bb539bf789e6f15ed2d5872360182"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga463bb539bf789e6f15ed2d5872360182">&#9670;&nbsp;</a></span>hardware_alarm_get_irq_num()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -678,19 +678,9 @@ hardware_claiming </dd></dl>
         <tr>
           <td class="memname">static uint hardware_alarm_get_irq_num </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *&#160;</td>
-          <td class="paramname"><em>timer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">uint&#160;</td>
-          <td class="paramname"><em>alarm_num</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>alarm_num</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -703,7 +693,6 @@ hardware_claiming </dd></dl>
 <p>Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the alarm interrupt from the given alarm on the default timer instance. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">timer</td><td>the timer instance </td></tr>
     <tr><td class="paramname">alarm_num</td><td>the alarm number </td></tr>
   </table>
   </dd>
@@ -1328,8 +1317,8 @@ hardware_claiming </dd></dl>
 
 </div>
 </div>
-<a id="ga3531b9148290b15a491cfb6e6aafa850" name="ga3531b9148290b15a491cfb6e6aafa850"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga3531b9148290b15a491cfb6e6aafa850">&#9670;&nbsp;</a></span>timer_hardware_alarm_get_irq_num()</h2>
+<a id="ga6465bf6a18ece735e61d378539cde0ec" name="ga6465bf6a18ece735e61d378539cde0ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6465bf6a18ece735e61d378539cde0ec">&#9670;&nbsp;</a></span>timer_hardware_alarm_get_irq_num()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1340,7 +1329,7 @@ hardware_claiming </dd></dl>
         <tr>
           <td class="memname">static uint timer_hardware_alarm_get_irq_num </td>
           <td>(</td>
-          <td class="paramtype">__unused <a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="structtimer__hw__t.html">timer_hw_t</a> *&#160;</td>
           <td class="paramname"><em>timer</em>, </td>
         </tr>
         <tr>

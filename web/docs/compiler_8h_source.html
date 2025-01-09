@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -224,46 +224,48 @@ $(document).ready(function(){initNavTree('compiler_8h_source.html',''); initResi
 <div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="preprocessor">#define pico_default_asm(...) __asm (&quot;.syntax unified\n&quot;</span> __VA_ARGS__)</div>
 <div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="preprocessor">#define pico_default_asm_volatile(...) __asm volatile (&quot;.syntax unified\n&quot;</span> __VA_ARGS__)</div>
 <div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#define pico_default_asm_goto(...) __asm goto (&quot;.syntax unified\n&quot;</span> __VA_ARGS__)</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#define pico_default_asm(...) __asm (__VA_ARGS__)</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#define pico_default_asm_volatile(...) __asm volatile (__VA_ARGS__)</span></div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#define pico_default_asm_goto(...) __asm goto (__VA_ARGS__)</span></div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">  171</a></span><a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    pico_default_asm_volatile (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>}</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="group__pico__platform.html#ga2d0b8227d9981a22692d5ef6aa1a386f">  181</a></span><span class="preprocessor">#define __check_type_compatible(type_a, type_b) static_assert(__builtin_types_compatible_p(type_a, type_b), __STRING(type_a) &quot; is not compatible with &quot;</span> __STRING(type_b));</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="preprocessor">#define WRAPPER_FUNC(x) __wrap_ ## x</span></div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="preprocessor">#define REAL_FUNC(x) __real_ ## x</span></div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>}</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#else </span><span class="comment">// __ASSEMBLER__</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#define pico_default_asm_volatile_goto(...) __asm volatile goto (&quot;.syntax unified\n&quot;</span> __VA_ARGS__)</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="preprocessor">#define pico_default_asm(...) __asm (__VA_ARGS__)</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#define pico_default_asm_volatile(...) __asm volatile (__VA_ARGS__)</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="preprocessor">#define pico_default_asm_goto(...) __asm goto (__VA_ARGS__)</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#define pico_default_asm_volatile_goto(...) __asm volatile goto (__VA_ARGS__)</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">  173</a></span><a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    pico_default_asm_volatile (<span class="stringliteral">&quot;&quot;</span> : : : <span class="stringliteral">&quot;memory&quot;</span>);</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>}</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="group__pico__platform.html#ga2d0b8227d9981a22692d5ef6aa1a386f">  183</a></span><span class="preprocessor">#define __check_type_compatible(type_a, type_b) static_assert(__builtin_types_compatible_p(type_a, type_b), __STRING(type_a) &quot; is not compatible with &quot;</span> __STRING(type_b));</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span><span class="preprocessor">#define WRAPPER_FUNC(x) __wrap_ ## x</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">#define REAL_FUNC(x) __real_ ## x</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>}</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#if defined __GNUC__</span></div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="comment">// note LLVM defines __GNUC__</span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="preprocessor">#ifdef __clang__</span></div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="preprocessor">#define PICO_ASSEMBLER_IS_CLANG 1</span></div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#define PICO_ASSEMBLER_IS_GNU 1</span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="preprocessor">#elif defined __ICCARM__</span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#error Unsupported toolchain</span></div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="preprocessor">#define WRAPPER_FUNC_NAME(x) __wrap_##x</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="preprocessor">#else </span><span class="comment">// __ASSEMBLER__</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="preprocessor">#if defined __GNUC__</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="comment">// note LLVM defines __GNUC__</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="preprocessor">#ifdef __clang__</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#define PICO_ASSEMBLER_IS_CLANG 1</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="preprocessor">#define PICO_ASSEMBLER_IS_GNU 1</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#elif defined __ICCARM__</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span><span class="preprocessor">#error Unsupported toolchain</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="preprocessor">#endif </span><span class="comment">// !__ASSEMBLER__</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="preprocessor">#define WRAPPER_FUNC_NAME(x) __wrap_##x</span></div>
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="preprocessor">#endif </span><span class="comment">// !__ASSEMBLER__</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="agroup__pico__platform_html_ga23eadd8d1642fb8fe4600708c36e116a"><div class="ttname"><a href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a></div><div class="ttdeci">#define __force_inline</div><div class="ttdoc">Attribute to force inlining of a function regardless of optimization level.</div><div class="ttdef"><b>Definition:</b> compiler.h:125</div></div>
-<div class="ttc" id="agroup__pico__platform_html_gac01ec0ae597f7572f8e298fa4f48c8e6"><div class="ttname"><a href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a></div><div class="ttdeci">static __always_inline void __compiler_memory_barrier(void)</div><div class="ttdoc">Ensure that the compiler does not move memory access across this method call.</div><div class="ttdef"><b>Definition:</b> compiler.h:171</div></div>
+<div class="ttc" id="agroup__pico__platform_html_gac01ec0ae597f7572f8e298fa4f48c8e6"><div class="ttname"><a href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a></div><div class="ttdeci">static __always_inline void __compiler_memory_barrier(void)</div><div class="ttdoc">Ensure that the compiler does not move memory access across this method call.</div><div class="ttdef"><b>Definition:</b> compiler.h:173</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

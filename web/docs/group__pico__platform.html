@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -293,7 +293,7 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 <b>Value:</b><div class="fragment"><div class="line">    __builtin_choose_expr(__builtin_constant_p(b) &amp;&amp; !__builtin_constant_p(a), \</div>
 <div class="line">    (__builtin_popcount(b) &gt;= 2 ? <a class="code hl_function" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a>(a,b) : (a)*(b)), \</div>
 <div class="line">    (a)*(b))</div>
-<div class="ttc" id="agroup__pico__platform_html_gab68b1653c84bff361bff5dc2baf2e7ea"><div class="ttname"><a href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a></div><div class="ttdeci">static __force_inline int32_t __mul_instruction(int32_t a, int32_t b)</div><div class="ttdoc">Multiply two integers using an assembly MUL instruction.</div><div class="ttdef"><b>Definition:</b> platform.h:247</div></div>
+<div class="ttc" id="agroup__pico__platform_html_gab68b1653c84bff361bff5dc2baf2e7ea"><div class="ttname"><a href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a></div><div class="ttdeci">static __force_inline int32_t __mul_instruction(int32_t a, int32_t b)</div><div class="ttdoc">Multiply two integers using an assembly MUL instruction.</div><div class="ttdef"><b>Definition:</b> platform.h:258</div></div>
 </div><!-- fragment -->
 <p>multiply two integer values using the fastest method possible </p>
 <p >Efficiently multiplies value a by possibly constant value b.</p>
@@ -398,7 +398,7 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787" title="Indicates a function should not be stored in flash.">__no_inline_not_in_flash_func</a></dd></dl>
 <p>Indicates a function is time/latency critical and should not run from flash</p>
 <p >Decorates a function name, such that the function will execute from RAM (assuming it is not inlined into a flash function by the compiler) to avoid possible flash latency. Currently this macro is identical in implementation to <code>__not_in_flash_func</code>, however the semantics are distinct and a <code>__time_critical_func</code> may in the future be treated more specially to reduce the overhead when calling such function from a flash function.</p>
-<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __time_critical(my_func)(int some_arg) {
+<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __time_critical_func(my_func)(int some_arg) {
 </pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section</p>
 <dl class="section see"><dt>See also</dt><dd>__not_in_flash_func</dd></dl>
 <p>Indicate a function should not be stored in flash and should not be inlined</p>

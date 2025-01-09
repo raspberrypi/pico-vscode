@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -162,6 +162,9 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PWM_GPIO_SLICE_NUM</b>(gpio)</td></tr>
 <tr class="memdesc:gad7c4554b59132ddd4a9773cca4a27203"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the PWM slice number for a given GPIO number. <br /></td></tr>
 <tr class="separator:gad7c4554b59132ddd4a9773cca4a27203"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52b66aca2defd06f7b8382bf0ed815d7"><td class="memItemLeft" align="right" valign="top"><a id="a52b66aca2defd06f7b8382bf0ed815d7" name="a52b66aca2defd06f7b8382bf0ed815d7"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_PWM_CLKDIV_ROUND_NEAREST</b>&#160;&#160;&#160;PICO_CLKDIV_ROUND_NEAREST</td></tr>
+<tr class="separator:a52b66aca2defd06f7b8382bf0ed815d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga799affc57db362720ea5f4a5aef381f8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga799affc57db362720ea5f4a5aef381f8">PWM_DEFAULT_IRQ_NUM</a>()</td></tr>
 <tr class="memdesc:ga799affc57db362720ea5f4a5aef381f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for the default PWM IRQ.  <a href="group__hardware__pwm.html#ga799affc57db362720ea5f4a5aef381f8">More...</a><br /></td></tr>
 <tr class="separator:ga799affc57db362720ea5f4a5aef381f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -197,12 +200,15 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>check_slice_nu
 <tr class="memitem:ga679802450ac829eff368e8f109df387e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga679802450ac829eff368e8f109df387e">pwm_config_set_clkdiv</a> (<a class="el" href="structpwm__config.html">pwm_config</a> *c, float div)</td></tr>
 <tr class="memdesc:ga679802450ac829eff368e8f109df387e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider in a PWM configuration.  <a href="group__hardware__pwm.html#ga679802450ac829eff368e8f109df387e">More...</a><br /></td></tr>
 <tr class="separator:ga679802450ac829eff368e8f109df387e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga3b0d7a6e493b4dc9ded8f53fb9be474c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga3b0d7a6e493b4dc9ded8f53fb9be474c">pwm_config_set_clkdiv_int_frac</a> (<a class="el" href="structpwm__config.html">pwm_config</a> *c, uint8_t integer, uint8_t fract)</td></tr>
-<tr class="memdesc:ga3b0d7a6e493b4dc9ded8f53fb9be474c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider in a PWM configuration using an 8:4 fractional value.  <a href="group__hardware__pwm.html#ga3b0d7a6e493b4dc9ded8f53fb9be474c">More...</a><br /></td></tr>
-<tr class="separator:ga3b0d7a6e493b4dc9ded8f53fb9be474c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1d60d45df884a7abbde52e326586d55a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga1d60d45df884a7abbde52e326586d55a">pwm_config_set_clkdiv_int</a> (<a class="el" href="structpwm__config.html">pwm_config</a> *c, uint div)</td></tr>
-<tr class="memdesc:ga1d60d45df884a7abbde52e326586d55a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider in a PWM configuration.  <a href="group__hardware__pwm.html#ga1d60d45df884a7abbde52e326586d55a">More...</a><br /></td></tr>
-<tr class="separator:ga1d60d45df884a7abbde52e326586d55a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga87232650c2d7cc3a92bb6cf7a3d0756b"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga87232650c2d7cc3a92bb6cf7a3d0756b">pwm_config_set_clkdiv_int_frac4</a> (<a class="el" href="structpwm__config.html">pwm_config</a> *c, uint32_t div_int, uint8_t div_frac4)</td></tr>
+<tr class="memdesc:ga87232650c2d7cc3a92bb6cf7a3d0756b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider in a PWM configuration using an 8:4 fractional value.  <a href="group__hardware__pwm.html#ga87232650c2d7cc3a92bb6cf7a3d0756b">More...</a><br /></td></tr>
+<tr class="separator:ga87232650c2d7cc3a92bb6cf7a3d0756b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeaae1fe4154c037fb7e4606bd3b97ad"><td class="memItemLeft" align="right" valign="top"><a id="aaeaae1fe4154c037fb7e4606bd3b97ad" name="aaeaae1fe4154c037fb7e4606bd3b97ad"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>pwm_config_set_clkdiv_int_frac</b> (<a class="el" href="structpwm__config.html">pwm_config</a> *c, uint8_t div_int, uint8_t div_frac4)</td></tr>
+<tr class="separator:aaeaae1fe4154c037fb7e4606bd3b97ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga120a17d77d42bb3a0e9e9510677ed61a"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga120a17d77d42bb3a0e9e9510677ed61a">pwm_config_set_clkdiv_int</a> (<a class="el" href="structpwm__config.html">pwm_config</a> *c, uint32_t div_int)</td></tr>
+<tr class="memdesc:ga120a17d77d42bb3a0e9e9510677ed61a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider in a PWM configuration.  <a href="group__hardware__pwm.html#ga120a17d77d42bb3a0e9e9510677ed61a">More...</a><br /></td></tr>
+<tr class="separator:ga120a17d77d42bb3a0e9e9510677ed61a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga27a86a921b2ad2ebd811db1255d34d06"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga27a86a921b2ad2ebd811db1255d34d06">pwm_config_set_clkdiv_mode</a> (<a class="el" href="structpwm__config.html">pwm_config</a> *c, enum <a class="el" href="group__hardware__pwm.html#ga0a00197703c8606641488cfff3f660e6">pwm_clkdiv_mode</a> mode)</td></tr>
 <tr class="memdesc:ga27a86a921b2ad2ebd811db1255d34d06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM counting mode in a PWM configuration.  <a href="group__hardware__pwm.html#ga27a86a921b2ad2ebd811db1255d34d06">More...</a><br /></td></tr>
 <tr class="separator:ga27a86a921b2ad2ebd811db1255d34d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -242,9 +248,12 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>check_slice_nu
 <tr class="memitem:ga0dec65009d8c0738677818b680fd2ad9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga0dec65009d8c0738677818b680fd2ad9">pwm_retard_count</a> (uint slice_num)</td></tr>
 <tr class="memdesc:ga0dec65009d8c0738677818b680fd2ad9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retard PWM count.  <a href="group__hardware__pwm.html#ga0dec65009d8c0738677818b680fd2ad9">More...</a><br /></td></tr>
 <tr class="separator:ga0dec65009d8c0738677818b680fd2ad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0da8e86adb7de041a6b8607b36aee442"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga0da8e86adb7de041a6b8607b36aee442">pwm_set_clkdiv_int_frac</a> (uint slice_num, uint8_t integer, uint8_t fract)</td></tr>
-<tr class="memdesc:ga0da8e86adb7de041a6b8607b36aee442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider using an 8:4 fractional value.  <a href="group__hardware__pwm.html#ga0da8e86adb7de041a6b8607b36aee442">More...</a><br /></td></tr>
-<tr class="separator:ga0da8e86adb7de041a6b8607b36aee442"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a2f35d5e2e1ddfd84f2ecab43d765e2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga0a2f35d5e2e1ddfd84f2ecab43d765e2">pwm_set_clkdiv_int_frac4</a> (uint slice_num, uint8_t div_int, uint8_t div_frac4)</td></tr>
+<tr class="memdesc:ga0a2f35d5e2e1ddfd84f2ecab43d765e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider using an 8:4 fractional value.  <a href="group__hardware__pwm.html#ga0a2f35d5e2e1ddfd84f2ecab43d765e2">More...</a><br /></td></tr>
+<tr class="separator:ga0a2f35d5e2e1ddfd84f2ecab43d765e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70b3cdffa72a8985215a72b269b6a8b8"><td class="memItemLeft" align="right" valign="top"><a id="a70b3cdffa72a8985215a72b269b6a8b8" name="a70b3cdffa72a8985215a72b269b6a8b8"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>pwm_set_clkdiv_int_frac</b> (uint slice_num, uint8_t div_int, uint8_t div_frac4)</td></tr>
+<tr class="separator:a70b3cdffa72a8985215a72b269b6a8b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga94782fc53adb07a3594ae0939d9a2e3e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__pwm.html#ga94782fc53adb07a3594ae0939d9a2e3e">pwm_set_clkdiv</a> (uint slice_num, float divider)</td></tr>
 <tr class="memdesc:ga94782fc53adb07a3594ae0939d9a2e3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set PWM clock divider.  <a href="group__hardware__pwm.html#ga94782fc53adb07a3594ae0939d9a2e3e">More...</a><br /></td></tr>
 <tr class="separator:ga94782fc53adb07a3594ae0939d9a2e3e"><td class="memSeparator" colspan="2">&#160;</td></tr>

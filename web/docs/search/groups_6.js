@@ -32,6 +32,7 @@ var searchData=
   ['hardware_5fuart_29',['hardware_uart',['../group__hardware__uart.html',1,'']]],
   ['hardware_5fvreg_30',['hardware_vreg',['../group__hardware__vreg.html',1,'']]],
   ['hardware_5fwatchdog_31',['hardware_watchdog',['../group__hardware__watchdog.html',1,'']]],
-  ['hardware_5fxosc_32',['hardware_xosc',['../group__hardware__xosc.html',1,'']]],
-  ['high_20level_20apis_33',['High Level APIs',['../group__high__level.html',1,'']]]
+  ['hardware_5fxip_5fcache_32',['hardware_xip_cache',['../group__hardware__xip__cache.html',1,'']]],
+  ['hardware_5fxosc_33',['hardware_xosc',['../group__hardware__xosc.html',1,'']]],
+  ['high_20level_20apis_34',['High Level APIs',['../group__high__level.html',1,'']]]
 ];

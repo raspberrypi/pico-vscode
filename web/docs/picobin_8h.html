@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -200,6 +200,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a48f60da09180c8025d621f20495cc84b"><td class="memItemLeft" align="right" valign="top"><a id="a48f60da09180c8025d621f20495cc84b" name="a48f60da09180c8025d621f20495cc84b"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_BLOCK_ITEM_2BS_LAST</b>&#160;&#160;&#160;(_u(0x80) | _u(0x7f))</td></tr>
 <tr class="separator:a48f60da09180c8025d621f20495cc84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcd3ab723bb4e124385fb7eb3fd43a12"><td class="memItemLeft" align="right" valign="top"><a id="abcd3ab723bb4e124385fb7eb3fd43a12" name="abcd3ab723bb4e124385fb7eb3fd43a12"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_PICOBIN_INDEX_TO_BITS</b>(y,  x)&#160;&#160;&#160;(y ## x &lt;&lt; y ## _LSB)</td></tr>
+<tr class="separator:abcd3ab723bb4e124385fb7eb3fd43a12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35b3785e2f68456d518ef5803ad47592"><td class="memItemLeft" align="right" valign="top"><a id="a35b3785e2f68456d518ef5803ad47592" name="a35b3785e2f68456d518ef5803ad47592"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_INDEX_TO_BITS</b>(y,  x)&#160;&#160;&#160;(y ## _ ## x &lt;&lt; y ## _LSB)</td></tr>
 <tr class="separator:a35b3785e2f68456d518ef5803ad47592"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -219,7 +222,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_IMAGE_TYPE_DATA</b>&#160;&#160;&#160;_u(0x2)</td></tr>
 <tr class="separator:a87c949bffd2c5bb437c878e37b1fd695"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a41192735e5b950738799d7fc691820c2"><td class="memItemLeft" align="right" valign="top"><a id="a41192735e5b950738799d7fc691820c2" name="a41192735e5b950738799d7fc691820c2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_IMAGE_TYPE_AS_BITS</b>(x)&#160;&#160;&#160;PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_IMAGE_TYPE, x)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_IMAGE_TYPE_AS_BITS</b>(x)&#160;&#160;&#160;_PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_IMAGE_TYPE, _ ## x)</td></tr>
 <tr class="separator:a41192735e5b950738799d7fc691820c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4feff349ad987185ffcb650866872ad"><td class="memItemLeft" align="right" valign="top"><a id="ad4feff349ad987185ffcb650866872ad" name="ad4feff349ad987185ffcb650866872ad"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_SECURITY_LSB</b>&#160;&#160;&#160;_u(4)</td></tr>
@@ -237,7 +240,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_SECURITY_S</b>&#160;&#160;&#160;_u(0x2)</td></tr>
 <tr class="separator:a68dd3a5dd7322edeae017dfc3f5702dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a92ab21aff26e5449ee40449bd3f7d2"><td class="memItemLeft" align="right" valign="top"><a id="a5a92ab21aff26e5449ee40449bd3f7d2" name="a5a92ab21aff26e5449ee40449bd3f7d2"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_SECURITY_AS_BITS</b>(x)&#160;&#160;&#160;PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_EXE_SECURITY, x)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_SECURITY_AS_BITS</b>(x)&#160;&#160;&#160;_PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_EXE_SECURITY, _ ## x)</td></tr>
 <tr class="separator:a5a92ab21aff26e5449ee40449bd3f7d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9004f5172dff477ac7bf4cbf0c38a188"><td class="memItemLeft" align="right" valign="top"><a id="a9004f5172dff477ac7bf4cbf0c38a188" name="a9004f5172dff477ac7bf4cbf0c38a188"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CPU_LSB</b>&#160;&#160;&#160;_u(8)</td></tr>
@@ -255,7 +258,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CPU_VARMULET</b>&#160;&#160;&#160;_u(2)</td></tr>
 <tr class="separator:a16a64e5c39f1df124afddec7d042c3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad536e40b323203cff8aef582773c736e"><td class="memItemLeft" align="right" valign="top"><a id="ad536e40b323203cff8aef582773c736e" name="ad536e40b323203cff8aef582773c736e"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CPU_AS_BITS</b>(x)&#160;&#160;&#160;PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_EXE_CPU, x)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CPU_AS_BITS</b>(x)&#160;&#160;&#160;_PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_EXE_CPU, _ ## x)</td></tr>
 <tr class="separator:ad536e40b323203cff8aef582773c736e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2043bf993c564faca1959417f8ea8a15"><td class="memItemLeft" align="right" valign="top"><a id="a2043bf993c564faca1959417f8ea8a15" name="a2043bf993c564faca1959417f8ea8a15"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CHIP_LSB</b>&#160;&#160;&#160;_u(12)</td></tr>
@@ -270,7 +273,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CHIP_RP2350</b>&#160;&#160;&#160;_u(1)</td></tr>
 <tr class="separator:a0589a8f44f408a7b5577614c903cb973"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad414b1fb0b2f0294cdb1cc46e037731b"><td class="memItemLeft" align="right" valign="top"><a id="ad414b1fb0b2f0294cdb1cc46e037731b" name="ad414b1fb0b2f0294cdb1cc46e037731b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CHIP_AS_BITS</b>(x)&#160;&#160;&#160;PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_EXE_CHIP, x)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CHIP_AS_BITS</b>(x)&#160;&#160;&#160;_PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_EXE_CHIP, _ ## x)</td></tr>
 <tr class="separator:ad414b1fb0b2f0294cdb1cc46e037731b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1249c7781a60c19a8ccb5f97b27c450"><td class="memItemLeft" align="right" valign="top"><a id="ab1249c7781a60c19a8ccb5f97b27c450" name="ab1249c7781a60c19a8ccb5f97b27c450"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_TBYB_BITS</b>&#160;&#160;&#160;_u(0x8000)</td></tr>
@@ -381,7 +384,7 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_PARTITION_FLAGS_LINK_TYPE_OWNER_PARTITION</b>&#160;&#160;&#160;_u(2)</td></tr>
 <tr class="separator:a67fba2c18134e9fdb0c36a2d863ccb30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99386530689e72fc1119f8317c0047de"><td class="memItemLeft" align="right" valign="top"><a id="a99386530689e72fc1119f8317c0047de" name="a99386530689e72fc1119f8317c0047de"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_PARTITION_FLAGS_LINK_TYPE_AS_BITS</b>(x)&#160;&#160;&#160;PICOBIN_INDEX_TO_BITS(PICOBIN_PARTITION_FLAGS_LINK_TYPE, x)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_PARTITION_FLAGS_LINK_TYPE_AS_BITS</b>(x)&#160;&#160;&#160;_PICOBIN_INDEX_TO_BITS(PICOBIN_PARTITION_FLAGS_LINK_TYPE, _ ## x)</td></tr>
 <tr class="separator:a99386530689e72fc1119f8317c0047de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a381613075fe7bbd0f8b364f139566e35"><td class="memItemLeft" align="right" valign="top"><a id="a381613075fe7bbd0f8b364f139566e35" name="a381613075fe7bbd0f8b364f139566e35"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_HASH_SHA256</b>&#160;&#160;&#160;_u(0x01)</td></tr>

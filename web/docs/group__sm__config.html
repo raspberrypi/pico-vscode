@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -142,8 +142,11 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaaf804a05a2ebaa127d0d216b3d4e3e80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base of the 'in' pins in a state machine configuration.  <a href="group__sm__config.html#gaaf804a05a2ebaa127d0d216b3d4e3e80">More...</a><br /></td></tr>
 <tr class="separator:gaaf804a05a2ebaa127d0d216b3d4e3e80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac418400e30520ea3961d8977c180a4f9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">sm_config_set_in_pins</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint in_base)</td></tr>
-<tr class="memdesc:gac418400e30520ea3961d8977c180a4f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base fpr the 'in' pins in a state machine configuration.  <a href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">More...</a><br /></td></tr>
+<tr class="memdesc:gac418400e30520ea3961d8977c180a4f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base for the 'in' pins in a state machine configuration.  <a href="group__sm__config.html#gac418400e30520ea3961d8977c180a4f9">More...</a><br /></td></tr>
 <tr class="separator:gac418400e30520ea3961d8977c180a4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga441e87022f2178c1c57d509da4aacb75"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga441e87022f2178c1c57d509da4aacb75">sm_config_set_in_pin_count</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint in_count)</td></tr>
+<tr class="memdesc:ga441e87022f2178c1c57d509da4aacb75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the count of 'in' pins in a state machine configuration.  <a href="group__sm__config.html#ga441e87022f2178c1c57d509da4aacb75">More...</a><br /></td></tr>
+<tr class="separator:ga441e87022f2178c1c57d509da4aacb75"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7abfda1f60c62565d5b13536b0605af7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga7abfda1f60c62565d5b13536b0605af7">sm_config_set_sideset_pin_base</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint sideset_base)</td></tr>
 <tr class="memdesc:ga7abfda1f60c62565d5b13536b0605af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the base of the 'sideset' pins in a state machine configuration.  <a href="group__sm__config.html#ga7abfda1f60c62565d5b13536b0605af7">More...</a><br /></td></tr>
 <tr class="separator:ga7abfda1f60c62565d5b13536b0605af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -153,9 +156,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaf543422206a8dbdc2efea85818dd650e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gaf543422206a8dbdc2efea85818dd650e">sm_config_set_sideset</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint bit_count, bool optional, bool pindirs)</td></tr>
 <tr class="memdesc:gaf543422206a8dbdc2efea85818dd650e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the 'sideset' options in a state machine configuration.  <a href="group__sm__config.html#gaf543422206a8dbdc2efea85818dd650e">More...</a><br /></td></tr>
 <tr class="separator:gaf543422206a8dbdc2efea85818dd650e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga365abc6d25301810ca5ee11e5b36c763"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga365abc6d25301810ca5ee11e5b36c763">sm_config_set_clkdiv_int_frac</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint16_t div_int, uint8_t div_frac)</td></tr>
-<tr class="memdesc:ga365abc6d25301810ca5ee11e5b36c763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the state machine clock divider (from integer and fractional parts - 16:8) in a state machine configuration.  <a href="group__sm__config.html#ga365abc6d25301810ca5ee11e5b36c763">More...</a><br /></td></tr>
-<tr class="separator:ga365abc6d25301810ca5ee11e5b36c763"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b819db1095ffdf4477ab114f2f1b362"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga8b819db1095ffdf4477ab114f2f1b362">sm_config_set_clkdiv_int_frac8</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, uint32_t div_int, uint8_t div_frac8)</td></tr>
+<tr class="memdesc:ga8b819db1095ffdf4477ab114f2f1b362"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the state machine clock divider (from integer and fractional parts - 16:8) in a state machine configuration.  <a href="group__sm__config.html#ga8b819db1095ffdf4477ab114f2f1b362">More...</a><br /></td></tr>
+<tr class="separator:ga8b819db1095ffdf4477ab114f2f1b362"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae8c09c7a4372da95ad777faae51c5a24"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gae8c09c7a4372da95ad777faae51c5a24">sm_config_set_clkdiv</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, float div)</td></tr>
 <tr class="memdesc:gae8c09c7a4372da95ad777faae51c5a24"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the state machine clock divider (from a floating point value) in a state machine configuration.  <a href="group__sm__config.html#gae8c09c7a4372da95ad777faae51c5a24">More...</a><br /></td></tr>
 <tr class="separator:gae8c09c7a4372da95ad777faae51c5a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,9 +177,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gafea1a06362182514518ebd91b2d52fd5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gafea1a06362182514518ebd91b2d52fd5">sm_config_set_fifo_join</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, enum <a class="el" href="group__hardware__pio.html#ga7d415b966abbc1c25315d0775d093356">pio_fifo_join</a> join)</td></tr>
 <tr class="memdesc:gafea1a06362182514518ebd91b2d52fd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setup the FIFO joining in a state machine configuration.  <a href="group__sm__config.html#gafea1a06362182514518ebd91b2d52fd5">More...</a><br /></td></tr>
 <tr class="separator:gafea1a06362182514518ebd91b2d52fd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8a9141ceadf9e735b1e96457865de3f6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga8a9141ceadf9e735b1e96457865de3f6">sm_config_set_out_special</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, bool sticky, bool has_enable_pin, uint enable_pin_index)</td></tr>
-<tr class="memdesc:ga8a9141ceadf9e735b1e96457865de3f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set special 'out' operations in a state machine configuration.  <a href="group__sm__config.html#ga8a9141ceadf9e735b1e96457865de3f6">More...</a><br /></td></tr>
-<tr class="separator:ga8a9141ceadf9e735b1e96457865de3f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga20366467e0cddab87a797459a53880e9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#ga20366467e0cddab87a797459a53880e9">sm_config_set_out_special</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, bool sticky, bool has_enable_pin, uint enable_bit_index)</td></tr>
+<tr class="memdesc:ga20366467e0cddab87a797459a53880e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set special 'out' operations in a state machine configuration.  <a href="group__sm__config.html#ga20366467e0cddab87a797459a53880e9">More...</a><br /></td></tr>
+<tr class="separator:ga20366467e0cddab87a797459a53880e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacd24870944ce2f00f3f7847bb3e5d543"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sm__config.html#gacd24870944ce2f00f3f7847bb3e5d543">sm_config_set_mov_status</a> (<a class="el" href="structpio__sm__config.html">pio_sm_config</a> *c, enum <a class="el" href="group__hardware__pio.html#ga356b3f4974cd31fdc4a2de381aceea5e">pio_mov_status_type</a> status_sel, uint status_n)</td></tr>
 <tr class="memdesc:gacd24870944ce2f00f3f7847bb3e5d543"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set source for 'mov status' in a state machine configuration.  <a href="group__sm__config.html#gacd24870944ce2f00f3f7847bb3e5d543">More...</a><br /></td></tr>
 <tr class="separator:gacd24870944ce2f00f3f7847bb3e5d543"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -186,7 +189,18 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >PIO state machine configuration. </p>
-<p >A PIO block needs to be configured, these functions provide helpers to set up configuration structures. See <a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> </p>
+<p >A PIO block needs to be configured, these functions provide helpers to set up configuration structures. See <a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a></p>
+<p ><a class="anchor" id="sm_config_pins"></a> On RP2040, pin numbers may always be specified from 0-31 </p>
+<p >On RP2350A, pin numbers may always be specified from 0-31.</p>
+<p >On RP2350B, there are 48 pins but each PIO instance can only address 32 pins (the PIO instance either addresses pins 0-31 or 16-47 based on <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>). The <code>sm_config_</code> state machine configuration always take <em>real</em> pin numbers in the full range, however:</p>
+<ul>
+<li>If <code>PICO_PIO_USE_GPIO_BASE != 1</code> then the 5th bit of the pin number is ignored. This is done so that programs compiled for boards with RP2350A do not incur the extra overhead of dealing with higher pins that don't exist. Effectively these functions behave exactly like RP2040 in this case. Note that <code>PICO_PIO_USE_GPIO_BASE</code> is defaulted to 0 if <code>PICO_RP2350A</code> is 1</li>
+<li><p class="startli">If <code>PICO_PIO_USE_GPIO_BASE == 1</code> then the state machine configuration stores the actual pin numbers in the range 0-47. Of course in this scenario, it is possible to make an invalid configuration (one which uses pins in both the ranges 0-15 and 32-47).</p>
+<p class="startli"><a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> (or pio_sm_init which calls it) attempts to apply the configuration to a particular PIO's state machine, and will return PICO_ERROR_BAD_ALIGNMENT if the configuration cannot be applied due to the above problem, or if the PIO's GPIO base (see <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>) does not allow access to the required pins.</p>
+<p class="startli">To be clear, <a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> does not change the PIO's GPIO base for you; you must configre the PIO's GPIO base before calling the method, however you can use <a class="el" href="group__hardware__pio.html#ga53c3bbe939b3c58585d0e19ffe91e18e">pio_claim_free_sm_and_add_program_for_gpio_range</a> to find/configure a PIO instance suitable for a partiular GPIO range.</p>
+</li>
+</ul>
+<p >You can set <code>PARAM_ASSERTIONS_ENABLED_HARDWARE_PIO = 1</code> to enable parameter checking to debug pin (or other) issues with hardware_pio methods.  </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaf2d2a23b08ba74188160469b3fd09936" name="gaf2d2a23b08ba74188160469b3fd09936"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf2d2a23b08ba74188160469b3fd09936">&#9670;&nbsp;</a></span>pio_get_default_sm_config()</h2>
@@ -221,7 +235,7 @@ Functions</h2></td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Set Pins   </td><td class="markdownTableBodyNone">0 starting at 0    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">In Pins (base)   </td><td class="markdownTableBodyNone">0    </td></tr>
+<td class="markdownTableBodyNone">In Pins   </td><td class="markdownTableBodyNone">32 starting at 0    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Side Set Pins (base)   </td><td class="markdownTableBodyNone">0    </td></tr>
 <tr class="markdownTableRowOdd">
@@ -289,8 +303,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga365abc6d25301810ca5ee11e5b36c763" name="ga365abc6d25301810ca5ee11e5b36c763"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga365abc6d25301810ca5ee11e5b36c763">&#9670;&nbsp;</a></span>sm_config_set_clkdiv_int_frac()</h2>
+<a id="ga8b819db1095ffdf4477ab114f2f1b362" name="ga8b819db1095ffdf4477ab114f2f1b362"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b819db1095ffdf4477ab114f2f1b362">&#9670;&nbsp;</a></span>sm_config_set_clkdiv_int_frac8()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -299,7 +313,7 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void sm_config_set_clkdiv_int_frac </td>
+          <td class="memname">static void sm_config_set_clkdiv_int_frac8 </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="structpio__sm__config.html">pio_sm_config</a> *&#160;</td>
           <td class="paramname"><em>c</em>, </td>
@@ -307,14 +321,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>div_int</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>div_frac</em>&#160;</td>
+          <td class="paramname"><em>div_frac8</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -335,7 +349,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
     <tr><td class="paramname">div_int</td><td>Integer part of the divisor </td></tr>
-    <tr><td class="paramname">div_frac</td><td>Fractional part in 1/256ths </td></tr>
+    <tr><td class="paramname">div_frac8</td><td>Fractional part in 1/256ths </td></tr>
   </table>
   </dd>
 </dl>
@@ -428,7 +442,54 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">in_base</td><td>0-31 First pin to use as input </td></tr>
+    <tr><td class="paramname">in_base</td><td>First pin to use as input. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga441e87022f2178c1c57d509da4aacb75" name="ga441e87022f2178c1c57d509da4aacb75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga441e87022f2178c1c57d509da4aacb75">&#9670;&nbsp;</a></span>sm_config_set_in_pin_count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void sm_config_set_in_pin_count </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structpio__sm__config.html">pio_sm_config</a> *&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>in_count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the count of 'in' pins in a state machine configuration. </p>
+<p >When reading pins using the IN pin mapping, this many (low) bits will be read, with the rest taking the value zero.</p>
+<p >RP2040 does not have the ability to mask unused input pins, so the in_count must be 32 </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
+    <tr><td class="paramname">in_count</td><td>1-32 The number of pins to include when reading via the IN pin mapping </td></tr>
   </table>
   </dd>
 </dl>
@@ -469,12 +530,12 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Set the base fpr the 'in' pins in a state machine configuration. </p>
+<p>Set the base for the 'in' pins in a state machine configuration. </p>
 <p >'in' pins can overlap with the 'out', 'set' and 'sideset' pins</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">in_base</td><td>0-31 First pin to use as input </td></tr>
+    <tr><td class="paramname">in_base</td><td>First pin to use as input. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -578,7 +639,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">pin</td><td>The raw GPIO pin number to use as the source for a <code>jmp pin</code> instruction </td></tr>
+    <tr><td class="paramname">pin</td><td>The raw GPIO pin number to use as the source for a <code>jmp pin</code> instruction. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -682,7 +743,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">out_base</td><td>0-31 First pin to set as output </td></tr>
+    <tr><td class="paramname">out_base</td><td>First pin to set as output. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -780,7 +841,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">out_base</td><td>0-31 First pin to set as output </td></tr>
+    <tr><td class="paramname">out_base</td><td>First pin to set as output. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
     <tr><td class="paramname">out_count</td><td>0-32 Number of pins to set. </td></tr>
   </table>
   </dd>
@@ -847,8 +908,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga8a9141ceadf9e735b1e96457865de3f6" name="ga8a9141ceadf9e735b1e96457865de3f6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga8a9141ceadf9e735b1e96457865de3f6">&#9670;&nbsp;</a></span>sm_config_set_out_special()</h2>
+<a id="ga20366467e0cddab87a797459a53880e9" name="ga20366467e0cddab87a797459a53880e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga20366467e0cddab87a797459a53880e9">&#9670;&nbsp;</a></span>sm_config_set_out_special()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -878,7 +939,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint&#160;</td>
-          <td class="paramname"><em>enable_pin_index</em>&#160;</td>
+          <td class="paramname"><em>enable_bit_index</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -899,7 +960,7 @@ Functions</h2></td></tr>
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
     <tr><td class="paramname">sticky</td><td>to enable 'sticky' output (i.e. re-asserting most recent OUT/SET pin values on subsequent cycles) </td></tr>
     <tr><td class="paramname">has_enable_pin</td><td>true to enable auxiliary OUT enable pin </td></tr>
-    <tr><td class="paramname">enable_pin_index</td><td>pin index for auxiliary OUT enable </td></tr>
+    <tr><td class="paramname">enable_bit_index</td><td>Data bit index for auxiliary OUT enable. </td></tr>
   </table>
   </dd>
 </dl>
@@ -945,7 +1006,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">set_base</td><td>0-31 First pin to set as </td></tr>
+    <tr><td class="paramname">set_base</td><td>First pin to use as 'set'. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -1043,7 +1104,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">set_base</td><td>0-31 First pin to set as </td></tr>
+    <tr><td class="paramname">set_base</td><td>First pin to use as 'set'. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
     <tr><td class="paramname">set_count</td><td>0-5 Number of pins to set. </td></tr>
   </table>
   </dd>
@@ -1149,7 +1210,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">sideset_base</td><td>0-31 base pin for 'side set' </td></tr>
+    <tr><td class="paramname">sideset_base</td><td>First pin to use for 'side set'. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>
@@ -1196,7 +1257,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">sideset_base</td><td>0-31 base pin for 'side set' </td></tr>
+    <tr><td class="paramname">sideset_base</td><td>First pin to use for 'side set'. See <a class="el" href="group__sm__config.html#sm_config_pins">sm_config_ pins</a> for more detail on pin arguments </td></tr>
   </table>
   </dd>
 </dl>

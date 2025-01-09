@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -128,7 +128,7 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Low level flash programming and erase API. </p>
-<p >Note these functions are <em>unsafe</em> if you are using both cores, and the other is executing from flash concurrently with the operation. In this could be the case, you must perform your own synchronisation to make sure that no XIP accesses take place during flash programming. One option is to use the <a class="el" href="group__multicore__lockout.html">lockout</a> functions.</p>
+<p >Note these functions are <em>unsafe</em> if you are using both cores, and the other is executing from flash concurrently with the operation. In this case, you must perform your own synchronisation to make sure that no XIP accesses take place during flash programming. One option is to use the <a class="el" href="group__multicore__lockout.html">lockout</a> functions.</p>
 <p >Likewise they are <em>unsafe</em> if you have interrupt handlers or an interrupt vector table in flash, so you must disable interrupts before calling in this case.</p>
 <p >If PICO_NO_FLASH=1 is not defined (i.e. if the program is built to run from flash) then these functions will make a static copy of the second stage bootloader in SRAM, and use this to reenter execute-in-place mode after programming or erasing flash, so that they can safely be called from flash-resident code.</p>
 <h2><a class="anchor" id="flash_example"></a>
@@ -138,6 +138,7 @@ Example</h2>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="stdlib_8h.html">stdlib.h</a>&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="stdlib_8h.html">pico/stdlib.h</a>&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="pico__flash_2include_2pico_2flash_8h.html">pico/flash.h</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="hardware__flash_2include_2hardware_2flash_8h.html">hardware/flash.h</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// We&#39;re going to erase and reprogram a region 256k from the start of flash.</span></div>
@@ -156,10 +157,23 @@ Example</h2>
 <div class="line">    }</div>
 <div class="line">}</div>
 <div class="line"> </div>
+<div class="line"><span class="comment">// This function will be called when it&#39;s safe to call flash_range_erase</span></div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> call_flash_range_erase(<span class="keywordtype">void</span> *param) {</div>
+<div class="line">    uint32_t offset = (uint32_t)param;</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a>(offset, FLASH_SECTOR_SIZE);</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="comment">// This function will be called when it&#39;s safe to call flash_range_program</span></div>
+<div class="line"><span class="keyword">static</span> <span class="keywordtype">void</span> call_flash_range_program(<span class="keywordtype">void</span> *param) {</div>
+<div class="line">    uint32_t offset = ((uintptr_t*)param)[0];</div>
+<div class="line">    <span class="keyword">const</span> uint8_t *data = (<span class="keyword">const</span> uint8_t *)((uintptr_t*)param)[1];</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a>(offset, data, FLASH_PAGE_SIZE);</div>
+<div class="line">}</div>
+<div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code hl_function" href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a>();</div>
 <div class="line">    uint8_t random_data[FLASH_PAGE_SIZE];</div>
-<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; FLASH_PAGE_SIZE; ++i)</div>
+<div class="line">    <span class="keywordflow">for</span> (uint i = 0; i &lt; FLASH_PAGE_SIZE; ++i)</div>
 <div class="line">        random_data[i] = rand() &gt;&gt; 16;</div>
 <div class="line"> </div>
 <div class="line">    printf(<span class="stringliteral">&quot;Generated random data:\n&quot;</span>);</div>
@@ -167,17 +181,27 @@ Example</h2>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Note that a whole number of sectors must be erased at a time.</span></div>
 <div class="line">    printf(<span class="stringliteral">&quot;\nErasing target region...\n&quot;</span>);</div>
-<div class="line">    <a class="code hl_function" href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a>(FLASH_TARGET_OFFSET, FLASH_SECTOR_SIZE);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">// Flash is &quot;execute in place&quot; and so will be in use when any code that is stored in flash runs, e.g. an interrupt handler</span></div>
+<div class="line">    <span class="comment">// or code running on a different core.</span></div>
+<div class="line">    <span class="comment">// Calling flash_range_erase or flash_range_program at the same time as flash is running code would cause a crash.</span></div>
+<div class="line">    <span class="comment">// flash_safe_execute disables interrupts and tries to cooperate with the other core to ensure flash is not in use</span></div>
+<div class="line">    <span class="comment">// See the documentation for flash_safe_execute and its assumptions and limitations</span></div>
+<div class="line">    <span class="keywordtype">int</span> rc = <a class="code hl_function" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a>(call_flash_range_erase, (<span class="keywordtype">void</span>*)FLASH_TARGET_OFFSET, UINT32_MAX);</div>
+<div class="line">    hard_assert(rc == <a class="code hl_enumvalue" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd">PICO_OK</a>);</div>
+<div class="line"> </div>
 <div class="line">    printf(<span class="stringliteral">&quot;Done. Read back target region:\n&quot;</span>);</div>
 <div class="line">    print_buf(flash_target_contents, FLASH_PAGE_SIZE);</div>
 <div class="line"> </div>
 <div class="line">    printf(<span class="stringliteral">&quot;\nProgramming target region...\n&quot;</span>);</div>
-<div class="line">    <a class="code hl_function" href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a>(FLASH_TARGET_OFFSET, random_data, FLASH_PAGE_SIZE);</div>
+<div class="line">    uintptr_t params[] = { FLASH_TARGET_OFFSET, (uintptr_t)random_data};</div>
+<div class="line">    rc = <a class="code hl_function" href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a>(call_flash_range_program, params, UINT32_MAX);</div>
+<div class="line">    hard_assert(rc == <a class="code hl_enumvalue" href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd">PICO_OK</a>);</div>
 <div class="line">    printf(<span class="stringliteral">&quot;Done. Read back target region:\n&quot;</span>);</div>
 <div class="line">    print_buf(flash_target_contents, FLASH_PAGE_SIZE);</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordtype">bool</span> mismatch = <span class="keyword">false</span>;</div>
-<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; FLASH_PAGE_SIZE; ++i) {</div>
+<div class="line">    <span class="keywordflow">for</span> (uint i = 0; i &lt; FLASH_PAGE_SIZE; ++i) {</div>
 <div class="line">        <span class="keywordflow">if</span> (random_data[i] != flash_target_contents[i])</div>
 <div class="line">            mismatch = <span class="keyword">true</span>;</div>
 <div class="line">    }</div>
@@ -186,10 +210,13 @@ Example</h2>
 <div class="line">    <span class="keywordflow">else</span></div>
 <div class="line">        printf(<span class="stringliteral">&quot;Programming successful!\n&quot;</span>);</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__flash_html_ga345513fba0951661d012fa20a6441c5f"><div class="ttname"><a href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_program(uint32_t flash_offs, const uint8_t *data, size_t count)</div><div class="ttdoc">Program flash.</div><div class="ttdef"><b>Definition:</b> flash.c:103</div></div>
-<div class="ttc" id="agroup__hardware__flash_html_ga5b88461b126b1c226121146c87d5abe2"><div class="ttname"><a href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_erase(uint32_t flash_offs, size_t count)</div><div class="ttdoc">Erase areas of flash.</div><div class="ttdef"><b>Definition:</b> flash.c:75</div></div>
+<div class="ttc" id="agroup__hardware__flash_html_ga345513fba0951661d012fa20a6441c5f"><div class="ttname"><a href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_program(uint32_t flash_offs, const uint8_t *data, size_t count)</div><div class="ttdoc">Program flash.</div><div class="ttdef"><b>Definition:</b> flash.c:151</div></div>
+<div class="ttc" id="agroup__hardware__flash_html_ga5b88461b126b1c226121146c87d5abe2"><div class="ttname"><a href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_erase(uint32_t flash_offs, size_t count)</div><div class="ttdoc">Erase areas of flash.</div><div class="ttdef"><b>Definition:</b> flash.c:114</div></div>
+<div class="ttc" id="agroup__pico__base_html_ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd"><div class="ttname"><a href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd">PICO_OK</a></div><div class="ttdeci">@ PICO_OK</div><div class="ttdoc">No error; the operation succeeded.</div><div class="ttdef"><b>Definition:</b> error.h:23</div></div>
+<div class="ttc" id="agroup__pico__flash_html_ga679076dc10c5beb73d5f1abdb52d6735"><div class="ttname"><a href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a></div><div class="ttdeci">int flash_safe_execute(void(*func)(void *), void *param, uint32_t enter_exit_timeout_ms)</div><div class="ttdoc">Execute a function with IRQs disabled and with the other core also not executing/reading flash.</div><div class="ttdef"><b>Definition:</b> flash.c:75</div></div>
 <div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
 <div class="ttc" id="ahardware__flash_2include_2hardware_2flash_8h_html"><div class="ttname"><a href="hardware__flash_2include_2hardware_2flash_8h.html">flash.h</a></div></div>
+<div class="ttc" id="apico__flash_2include_2pico_2flash_8h_html"><div class="ttname"><a href="pico__flash_2include_2pico_2flash_8h.html">flash.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
 </div><!-- fragment --> <h2 class="groupheader">Function Documentation</h2>

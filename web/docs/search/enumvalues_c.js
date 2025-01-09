@@ -1,6 +1,23 @@
 var searchData=
 [
-  ['uart0_5firq_0',['UART0_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a504e54f28a2e2928bd6a1604ee0a24fb',1,'UART0_IRQ():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a504e54f28a2e2928bd6a1604ee0a24fb',1,'UART0_IRQ():&#160;intctrl_rp2040.h']]],
-  ['uart1_5firq_1',['UART1_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a1062848ec5bc51fcdd58a95d40fc266b',1,'UART1_IRQ():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a1062848ec5bc51fcdd58a95d40fc266b',1,'UART1_IRQ():&#160;intctrl_rp2040.h']]],
-  ['usbctrl_5firq_2',['USBCTRL_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a2cd42859a0101338a23d1687c6ff473c',1,'USBCTRL_IRQ():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a2cd42859a0101338a23d1687c6ff473c',1,'USBCTRL_IRQ():&#160;intctrl_rp2040.h']]]
+  ['securefault_5fexception_0',['SECUREFAULT_EXCEPTION',['../group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa84622533de12afa37e825894aa605778',1,'exception.h']]],
+  ['sha256_5fbig_5fendian_1',['SHA256_BIG_ENDIAN',['../group__hardware__sha256.html#ggaaf3089af3667088256de5d352973d5e6a9ed40fa208beaabfc2fc5b8edbd652c1',1,'sha256.h']]],
+  ['sha256_5flittle_5fendian_2',['SHA256_LITTLE_ENDIAN',['../group__hardware__sha256.html#ggaaf3089af3667088256de5d352973d5e6af7be52b37d04b7ffbd9ba69ba6cad8fd',1,'sha256.h']]],
+  ['sio_5firq_5fbell_3',['SIO_IRQ_BELL',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8abee4ee8eee7b960d0cf734578ffef811',1,'intctrl.h']]],
+  ['sio_5firq_5fbell_5fns_4',['SIO_IRQ_BELL_NS',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a72f9b9916df889c0a55731b3a51b8e05',1,'intctrl.h']]],
+  ['sio_5firq_5ffifo_5',['SIO_IRQ_FIFO',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8afe8f5a1a66b8b6c489a8fb3bb618815f',1,'intctrl.h']]],
+  ['sio_5firq_5ffifo_5fns_6',['SIO_IRQ_FIFO_NS',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a2bcf85572bb5a5f53ec4444798261541',1,'intctrl.h']]],
+  ['sio_5firq_5fmtimecmp_7',['SIO_IRQ_MTIMECMP',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a750e73e82e614dff437a37149bd59eb1',1,'intctrl.h']]],
+  ['sio_5firq_5fproc0_8',['SIO_IRQ_PROC0',['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a841acbddc6961252827d7645277452ec',1,'intctrl_rp2040.h']]],
+  ['sio_5firq_5fproc1_9',['SIO_IRQ_PROC1',['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae00819201c60acdf59448df5a08c11b5',1,'intctrl_rp2040.h']]],
+  ['spare_5firq_5f0_10',['SPARE_IRQ_0',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8aad3052d1d06b983df4551cd9ddd739ae',1,'intctrl.h']]],
+  ['spare_5firq_5f1_11',['SPARE_IRQ_1',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a1db065c3095a5f7f4c08becc89cc146e',1,'intctrl.h']]],
+  ['spare_5firq_5f2_12',['SPARE_IRQ_2',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8632f943b2645a064df4b4f32be6cfb4',1,'intctrl.h']]],
+  ['spare_5firq_5f3_13',['SPARE_IRQ_3',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a37d25d9bef6f9987f6f0acd1199fdd06',1,'intctrl.h']]],
+  ['spare_5firq_5f4_14',['SPARE_IRQ_4',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae1e37d639062c9f84055a9137fc29870',1,'intctrl.h']]],
+  ['spare_5firq_5f5_15',['SPARE_IRQ_5',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8af00c937dd1333d2fa5e52d906dd7529b',1,'intctrl.h']]],
+  ['spi0_5firq_16',['SPI0_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a10b2c78ee63a060db5d9f30b8f1daf8a',1,'SPI0_IRQ():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a10b2c78ee63a060db5d9f30b8f1daf8a',1,'SPI0_IRQ():&#160;intctrl_rp2040.h']]],
+  ['spi1_5firq_17',['SPI1_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a60f73b071388a649cac65d2026607540',1,'SPI1_IRQ():&#160;intctrl.h'],['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a60f73b071388a649cac65d2026607540',1,'SPI1_IRQ():&#160;intctrl_rp2040.h']]],
+  ['svcall_5fexception_18',['SVCALL_EXCEPTION',['../group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa1e7d691476a041fb59915e046e85d586',1,'exception.h']]],
+  ['systick_5fexception_19',['SYSTICK_EXCEPTION',['../group__hardware__exception.html#gga504f1c3a5a6959d430665f5d72cf335aa05ced3409f791060c7eab53bc557c333',1,'exception.h']]]
 ];

@@ -1,16 +1,16 @@
 var searchData=
 [
-  ['vreg_5fvoltage_5f0_5f85_0',['VREG_VOLTAGE_0_85',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad25c8cbedfbcae1606f0797b3e5218ad',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f0_5f90_1',['VREG_VOLTAGE_0_90',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afc913d0bf679706ae7b56f0614ea7137',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f0_5f95_2',['VREG_VOLTAGE_0_95',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ad3ff4dfdcebac6a770e74890cf76617a',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f00_3',['VREG_VOLTAGE_1_00',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a2f526307c3cb045145d0bf5e8952d29d',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f05_4',['VREG_VOLTAGE_1_05',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0ae051b5e73d436231166e9f685f232656',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f10_5',['VREG_VOLTAGE_1_10',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0afd72673cd3a8d426dcd1c9b70e310c9a',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f15_6',['VREG_VOLTAGE_1_15',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a47fdbcfd8de6435983cb701881b0a228',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f20_7',['VREG_VOLTAGE_1_20',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a853c98c808b59f224e81599d1944dc30',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f25_8',['VREG_VOLTAGE_1_25',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a6adcd712d2022993ed6ebfcfa4199c33',1,'vreg.h']]],
-  ['vreg_5fvoltage_5f1_5f30_9',['VREG_VOLTAGE_1_30',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a61684920a9b18f30d28c2c6ecfcb0d59',1,'vreg.h']]],
-  ['vreg_5fvoltage_5fdefault_10',['VREG_VOLTAGE_DEFAULT',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0a67b3c8176289c56896430a44599d9910',1,'vreg.h']]],
-  ['vreg_5fvoltage_5fmax_11',['VREG_VOLTAGE_MAX',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0addc0833fc1d69fbec46dff9db1fa129f',1,'vreg.h']]],
-  ['vreg_5fvoltage_5fmin_12',['VREG_VOLTAGE_MIN',['../vreg_8h.html#ab2019bc9d9ea4c0c02ba2a853ffcd0b0aaf7723eab97235298b913112c29c7e21',1,'vreg.h']]]
+  ['timer0_5firq_5f0_0',['TIMER0_IRQ_0',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8aefc9b5ce0307f2983c7cfe9cfcee0e',1,'intctrl.h']]],
+  ['timer0_5firq_5f1_1',['TIMER0_IRQ_1',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a5b912fdba3cd93427d74b8ef527d980f',1,'intctrl.h']]],
+  ['timer0_5firq_5f2_2',['TIMER0_IRQ_2',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a959d2d69aa10978b36fb4fbecc77a465',1,'intctrl.h']]],
+  ['timer0_5firq_5f3_3',['TIMER0_IRQ_3',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a021f4aa1758af47eb23298196e1f22c5',1,'intctrl.h']]],
+  ['timer1_5firq_5f0_4',['TIMER1_IRQ_0',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a4ba1f242076b28a4217181e0f65896ec',1,'intctrl.h']]],
+  ['timer1_5firq_5f1_5',['TIMER1_IRQ_1',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a757d218b48843638d3f8f45fa6fd48f9',1,'intctrl.h']]],
+  ['timer1_5firq_5f2_6',['TIMER1_IRQ_2',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a156a0e9cbc66e4ce56dfb52d09d86858',1,'intctrl.h']]],
+  ['timer1_5firq_5f3_7',['TIMER1_IRQ_3',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8af2fb391af7b873b5268e3824068d08c0',1,'intctrl.h']]],
+  ['timer_5firq_5f0_8',['TIMER_IRQ_0',['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a9adcee3ff00b51d885e399d87fd6c957',1,'intctrl_rp2040.h']]],
+  ['timer_5firq_5f1_9',['TIMER_IRQ_1',['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a4c240b6b48b410130cd2890ab04d560e',1,'intctrl_rp2040.h']]],
+  ['timer_5firq_5f2_10',['TIMER_IRQ_2',['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3aff3b80e5739147626d9386b2a3b2953c',1,'intctrl_rp2040.h']]],
+  ['timer_5firq_5f3_11',['TIMER_IRQ_3',['../group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3aa85dca1accc78d56c18c8a2c2e842b42',1,'intctrl_rp2040.h']]],
+  ['trng_5firq_12',['TRNG_IRQ',['../group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8aeef89f7a46f31d1ce96fd0f6328b78c8',1,'intctrl.h']]]
 ];

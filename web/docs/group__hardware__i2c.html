@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -162,9 +162,15 @@ Functions</h2></td></tr>
 <tr class="memitem:ga5149e9af84926fa19db6677691ab2900"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga5149e9af84926fa19db6677691ab2900">i2c_write_blocking</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, const uint8_t *src, size_t len, bool nostop)</td></tr>
 <tr class="memdesc:ga5149e9af84926fa19db6677691ab2900"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to write specified number of bytes to address, blocking.  <a href="group__hardware__i2c.html#ga5149e9af84926fa19db6677691ab2900">More...</a><br /></td></tr>
 <tr class="separator:ga5149e9af84926fa19db6677691ab2900"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga550d01d4619f702db34355b9e570b1b1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga550d01d4619f702db34355b9e570b1b1">i2c_write_burst_blocking</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, const uint8_t *src, size_t len)</td></tr>
+<tr class="memdesc:ga550d01d4619f702db34355b9e570b1b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to write specified number of bytes to address, blocking in burst mode.  <a href="group__hardware__i2c.html#ga550d01d4619f702db34355b9e570b1b1">More...</a><br /></td></tr>
+<tr class="separator:ga550d01d4619f702db34355b9e570b1b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaba4ea440285edec58eba507308c568c6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#gaba4ea440285edec58eba507308c568c6">i2c_read_blocking</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, uint8_t *dst, size_t len, bool nostop)</td></tr>
 <tr class="memdesc:gaba4ea440285edec58eba507308c568c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to read specified number of bytes from address, blocking.  <a href="group__hardware__i2c.html#gaba4ea440285edec58eba507308c568c6">More...</a><br /></td></tr>
 <tr class="separator:gaba4ea440285edec58eba507308c568c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafb20f515799c0a68ed597eed1ad9828a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#gafb20f515799c0a68ed597eed1ad9828a">i2c_read_burst_blocking</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c, uint8_t addr, uint8_t *dst, size_t len)</td></tr>
+<tr class="memdesc:gafb20f515799c0a68ed597eed1ad9828a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to read specified number of bytes from address, blocking in burst mode.  <a href="group__hardware__i2c.html#gafb20f515799c0a68ed597eed1ad9828a">More...</a><br /></td></tr>
+<tr class="separator:gafb20f515799c0a68ed597eed1ad9828a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga93f40022189e591521dd0ae5e29708ff"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__i2c.html#ga93f40022189e591521dd0ae5e29708ff">i2c_get_write_available</a> (<a class="el" href="structi2c__inst.html">i2c_inst_t</a> *i2c)</td></tr>
 <tr class="memdesc:ga93f40022189e591521dd0ae5e29708ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine non-blocking write space available.  <a href="group__hardware__i2c.html#ga93f40022189e591521dd0ae5e29708ff">More...</a><br /></td></tr>
 <tr class="separator:ga93f40022189e591521dd0ae5e29708ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -203,17 +209,16 @@ Example</h2>
 <div class="line"><span class="comment">// the I2C bus. Print out a table that looks like this:</span></div>
 <div class="line"><span class="comment">//</span></div>
 <div class="line"><span class="comment">// I2C Bus Scan</span></div>
-<div class="line"><span class="comment">//   0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F</span></div>
-<div class="line"><span class="comment">// 0</span></div>
-<div class="line"><span class="comment">// 1       @</span></div>
-<div class="line"><span class="comment">// 2</span></div>
-<div class="line"><span class="comment">// 3             @</span></div>
-<div class="line"><span class="comment">// 4</span></div>
-<div class="line"><span class="comment">// 5</span></div>
-<div class="line"><span class="comment">// 6</span></div>
-<div class="line"><span class="comment">// 7</span></div>
-<div class="line"><span class="comment">//</span></div>
-<div class="line"><span class="comment">// E.g. if slave addresses 0x12 and 0x34 were acknowledged.</span></div>
+<div class="line"><span class="comment">//    0 1 2 3 4 5 6 7 8 9 A B C D E F</span></div>
+<div class="line"><span class="comment">// 00 . . . . . . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// 10 . . @ . . . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// 20 . . . . . . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// 30 . . . . @ . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// 40 . . . . . . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// 50 . . . . . . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// 60 . . . . . . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// 70 . . . . . . . . . . . . . . . .</span></div>
+<div class="line"><span class="comment">// E.g. if addresses 0x12 and 0x34 were acknowledged.</span></div>
 <div class="line"> </div>
 <div class="line"><span class="preprocessor">#include &lt;<a class="code" href="stdio_8h.html">stdio.h</a>&gt;</span></div>
 <div class="line"><span class="preprocessor">#include &quot;<a class="code" href="stdlib_8h.html">pico/stdlib.h</a>&quot;</span></div>
@@ -274,7 +279,7 @@ Example</h2>
 <div class="ttc" id="agroup__hardware__gpio_html_ga22f6b90c4c7e0013b4b5341de0a44fc4"><div class="ttname"><a href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a></div><div class="ttdeci">void gpio_set_function(uint gpio, gpio_function_t fn)</div><div class="ttdoc">Select GPIO function.</div><div class="ttdef"><b>Definition:</b> gpio.c:38</div></div>
 <div class="ttc" id="agroup__hardware__gpio_html_ga30a6733240f3d2e25e6b579b6c3902da"><div class="ttname"><a href="group__hardware__gpio.html#ga30a6733240f3d2e25e6b579b6c3902da">gpio_pull_up</a></div><div class="ttdeci">static void gpio_pull_up(uint gpio)</div><div class="ttdoc">Set specified GPIO to be pulled up.</div><div class="ttdef"><b>Definition:</b> gpio.h:299</div></div>
 <div class="ttc" id="agroup__hardware__gpio_html_ggaf91b38a4d4e96c343bd16927c34936e0af5897687741f0ee34c88fd9823f1450a"><div class="ttname"><a href="group__hardware__gpio.html#ggaf91b38a4d4e96c343bd16927c34936e0af5897687741f0ee34c88fd9823f1450a">GPIO_FUNC_I2C</a></div><div class="ttdeci">@ GPIO_FUNC_I2C</div><div class="ttdoc">Select I2C as GPIO pin function.</div><div class="ttdef"><b>Definition:</b> io_bank0.h:34</div></div>
-<div class="ttc" id="agroup__hardware__i2c_html_gaba4ea440285edec58eba507308c568c6"><div class="ttname"><a href="group__hardware__i2c.html#gaba4ea440285edec58eba507308c568c6">i2c_read_blocking</a></div><div class="ttdeci">int i2c_read_blocking(i2c_inst_t *i2c, uint8_t addr, uint8_t *dst, size_t len, bool nostop)</div><div class="ttdoc">Attempt to read specified number of bytes from address, blocking.</div><div class="ttdef"><b>Definition:</b> i2c.c:329</div></div>
+<div class="ttc" id="agroup__hardware__i2c_html_gaba4ea440285edec58eba507308c568c6"><div class="ttname"><a href="group__hardware__i2c.html#gaba4ea440285edec58eba507308c568c6">i2c_read_blocking</a></div><div class="ttdeci">int i2c_read_blocking(i2c_inst_t *i2c, uint8_t addr, uint8_t *dst, size_t len, bool nostop)</div><div class="ttdoc">Attempt to read specified number of bytes from address, blocking.</div><div class="ttdef"><b>Definition:</b> i2c.c:338</div></div>
 <div class="ttc" id="agroup__hardware__i2c_html_gad31793849a130033e94fa5b8e98a30a8"><div class="ttname"><a href="group__hardware__i2c.html#gad31793849a130033e94fa5b8e98a30a8">i2c_init</a></div><div class="ttdeci">uint i2c_init(i2c_inst_t *i2c, uint baudrate)</div><div class="ttdoc">Initialise the I2C HW block.</div><div class="ttdef"><b>Definition:</b> i2c.c:32</div></div>
 <div class="ttc" id="agroup__pico__base_html_ggaddcb20bc9a61ceff479aa87369a862aaa3881c25df2261efbc82252df515240d0"><div class="ttname"><a href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa3881c25df2261efbc82252df515240d0">PICO_ERROR_GENERIC</a></div><div class="ttdeci">@ PICO_ERROR_GENERIC</div><div class="ttdoc">An unspecified error occurred.</div><div class="ttdef"><b>Definition:</b> error.h:25</div></div>
 <div class="ttc" id="agroup__pico__binary__info_html_ga758f119659f2491c89e8e2955d647e9a"><div class="ttname"><a href="group__pico__binary__info.html#ga758f119659f2491c89e8e2955d647e9a">bi_decl</a></div><div class="ttdeci">#define bi_decl(_decl)</div><div class="ttdoc">Declare some binary information that will be included if the contain source file/line is compiled int...</div><div class="ttdef"><b>Definition:</b> code.h:35</div></div>
@@ -769,6 +774,59 @@ Example</h2>
 
 </div>
 </div>
+<a id="gafb20f515799c0a68ed597eed1ad9828a" name="gafb20f515799c0a68ed597eed1ad9828a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafb20f515799c0a68ed597eed1ad9828a">&#9670;&nbsp;</a></span>i2c_read_burst_blocking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int i2c_read_burst_blocking </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structi2c__inst.html">i2c_inst_t</a> *&#160;</td>
+          <td class="paramname"><em>i2c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>dst</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempt to read specified number of bytes from address, blocking in burst mode. </p>
+<p >This version of the function will not issue a stop and will not restart on the next read. This allows you to read consecutive bytes of data without having to resend a stop bit and (for example) without having to send address byte(s) repeatedly</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i2c</td><td>Either <a class="el" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html#a46204d38a512926541fd8bac2b62c720">i2c0</a> or <a class="el" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html#a87659b485d9e76dfc3bcef208ac4b573">i2c1</a> </td></tr>
+    <tr><td class="paramname">addr</td><td>7-bit address of device to read from </td></tr>
+    <tr><td class="paramname">dst</td><td>Pointer to buffer to receive data </td></tr>
+    <tr><td class="paramname">len</td><td>Length of data in bytes to receive </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of bytes read, or PICO_ERROR_GENERIC if address not acknowledged or no device present. </dd></dl>
+
+</div>
+</div>
 <a id="gab37f59a13576235e8bed4fffc4bc4361" name="gab37f59a13576235e8bed4fffc4bc4361"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gab37f59a13576235e8bed4fffc4bc4361">&#9670;&nbsp;</a></span>i2c_read_byte_raw()</h2>
 
@@ -1137,6 +1195,59 @@ Example</h2>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Number of bytes written, or PICO_ERROR_GENERIC if address not acknowledged, no device present, or PICO_ERROR_TIMEOUT if a timeout occurred. </dd></dl>
+
+</div>
+</div>
+<a id="ga550d01d4619f702db34355b9e570b1b1" name="ga550d01d4619f702db34355b9e570b1b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga550d01d4619f702db34355b9e570b1b1">&#9670;&nbsp;</a></span>i2c_write_burst_blocking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int i2c_write_burst_blocking </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structi2c__inst.html">i2c_inst_t</a> *&#160;</td>
+          <td class="paramname"><em>i2c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Attempt to write specified number of bytes to address, blocking in burst mode. </p>
+<p >This version of the function will not issue a stop and will not restart on the next write. This allows you to write consecutive bytes of data without having to resend a stop bit and (for example) without having to send address byte(s) repeatedly</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i2c</td><td>Either <a class="el" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html#a46204d38a512926541fd8bac2b62c720">i2c0</a> or <a class="el" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html#a87659b485d9e76dfc3bcef208ac4b573">i2c1</a> </td></tr>
+    <tr><td class="paramname">addr</td><td>7-bit address of device to read from </td></tr>
+    <tr><td class="paramname">dst</td><td>Pointer to buffer to receive data </td></tr>
+    <tr><td class="paramname">len</td><td>Length of data in bytes to receive </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Number of bytes read, or PICO_ERROR_GENERIC if address not acknowledged or no device present. </dd></dl>
 
 </div>
 </div>

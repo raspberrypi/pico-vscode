@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('i2c__slave_8h_source.html',''); initRe
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="preprocessor">#endif </span><span class="comment">// _PICO_I2C_SLAVE_H_</span></div>
 <div class="ttc" id="agroup__pico__i2c__slave_html_ga2ecc43ff4a3c673a704d0c7bd7d91db4"><div class="ttname"><a href="group__pico__i2c__slave.html#ga2ecc43ff4a3c673a704d0c7bd7d91db4">i2c_slave_init</a></div><div class="ttdeci">void i2c_slave_init(i2c_inst_t *i2c, uint8_t address, i2c_slave_handler_t handler)</div><div class="ttdoc">Configure an I2C instance for slave mode.</div><div class="ttdef"><b>Definition:</b> i2c_slave.c:56</div></div>
 <div class="ttc" id="agroup__pico__i2c__slave_html_gad8b613f0d4e9d1b9511ca0b6d6ab7e8c"><div class="ttname"><a href="group__pico__i2c__slave.html#gad8b613f0d4e9d1b9511ca0b6d6ab7e8c">i2c_slave_event_t</a></div><div class="ttdeci">i2c_slave_event_t</div><div class="ttdoc">I2C slave event types.</div><div class="ttdef"><b>Definition:</b> i2c_slave.h:34</div></div>
-<div class="ttc" id="agroup__pico__i2c__slave_html_gaebbea8f5a707f23750ba3e0c8b5eb6ee"><div class="ttname"><a href="group__pico__i2c__slave.html#gaebbea8f5a707f23750ba3e0c8b5eb6ee">i2c_slave_deinit</a></div><div class="ttdeci">void i2c_slave_deinit(i2c_inst_t *i2c)</div><div class="ttdoc">Restore an I2C instance to master mode.</div><div class="ttdef"><b>Definition:</b> i2c_slave.c:81</div></div>
+<div class="ttc" id="agroup__pico__i2c__slave_html_gaebbea8f5a707f23750ba3e0c8b5eb6ee"><div class="ttname"><a href="group__pico__i2c__slave.html#gaebbea8f5a707f23750ba3e0c8b5eb6ee">i2c_slave_deinit</a></div><div class="ttdeci">void i2c_slave_deinit(i2c_inst_t *i2c)</div><div class="ttdoc">Restore an I2C instance to master mode.</div><div class="ttdef"><b>Definition:</b> i2c_slave.c:80</div></div>
 <div class="ttc" id="agroup__pico__i2c__slave_html_gaf1bb7bb1e79c309b290bf0e8ccd57dff"><div class="ttname"><a href="group__pico__i2c__slave.html#gaf1bb7bb1e79c309b290bf0e8ccd57dff">i2c_slave_handler_t</a></div><div class="ttdeci">void(* i2c_slave_handler_t)(i2c_inst_t *i2c, i2c_slave_event_t event)</div><div class="ttdoc">I2C slave event handler.</div><div class="ttdef"><b>Definition:</b> i2c_slave.h:52</div></div>
 <div class="ttc" id="agroup__pico__i2c__slave_html_ggad8b613f0d4e9d1b9511ca0b6d6ab7e8ca495a6f0ce75738519ac201349ac38c22"><div class="ttname"><a href="group__pico__i2c__slave.html#ggad8b613f0d4e9d1b9511ca0b6d6ab7e8ca495a6f0ce75738519ac201349ac38c22">I2C_SLAVE_REQUEST</a></div><div class="ttdeci">@ I2C_SLAVE_REQUEST</div><div class="ttdoc">Master is requesting data. Slave must write into Tx FIFO.</div><div class="ttdef"><b>Definition:</b> i2c_slave.h:36</div></div>
 <div class="ttc" id="agroup__pico__i2c__slave_html_ggad8b613f0d4e9d1b9511ca0b6d6ab7e8ca7bc1a9bb9db707479c140a49c4d62a51"><div class="ttname"><a href="group__pico__i2c__slave.html#ggad8b613f0d4e9d1b9511ca0b6d6ab7e8ca7bc1a9bb9db707479c140a49c4d62a51">I2C_SLAVE_RECEIVE</a></div><div class="ttdeci">@ I2C_SLAVE_RECEIVE</div><div class="ttdoc">Data from master is available for reading. Slave must read from Rx FIFO.</div><div class="ttdef"><b>Definition:</b> i2c_slave.h:35</div></div>

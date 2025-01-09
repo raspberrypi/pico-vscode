@@ -1,33 +1,29 @@
 <map id="include/hardware/timer.h" name="include/hardware/timer.h">
-<area shape="rect" id="node1" title=" " alt="" coords="1922,5,2106,32"/>
-<area shape="rect" id="node2" href="$common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="1842,80,1989,107"/>
-<area shape="rect" id="node31" href="$time__adapter_8h_source.html" title=" " alt="" coords="2013,80,2215,107"/>
-<area shape="rect" id="node3" href="$cyw43__configport_8h_source.html" title=" " alt="" coords="461,162,660,189"/>
-<area shape="rect" id="node9" href="$rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html" title=" " alt="" coords="1831,162,2000,189"/>
-<area shape="rect" id="node11" href="$async__context_8h.html" title=" " alt="" coords="1032,244,1175,285"/>
-<area shape="rect" id="node20" href="$lock__core_8h.html" title=" " alt="" coords="1627,162,1806,189"/>
-<area shape="rect" id="node27" href="$rp2__common_2pico__sha256_2include_2pico_2sha256_8h.html" title=" " alt="" coords="2025,162,2187,189"/>
-<area shape="rect" id="node28" href="$stdlib_8h.html" title=" " alt="" coords="2211,162,2363,189"/>
-<area shape="rect" id="node30" href="$timeout__helper_8h_source.html" title=" " alt="" coords="2387,155,2542,196"/>
-<area shape="rect" id="node4" href="$cyw43__config_8h_source.html" title=" " alt="" coords="23,251,146,278"/>
-<area shape="rect" id="node5" href="$cyw43_8h.html" title="CYW43 driver interface." alt="" coords="5,437,81,464"/>
-<area shape="rect" id="node7" href="$cyw43__ll_8h_source.html" title=" " alt="" coords="39,348,130,375"/>
-<area shape="rect" id="node6" href="$cyw43__arch_8h.html" title=" " alt="" coords="621,512,767,553"/>
-<area shape="rect" id="node8" href="$cyw43__btbus_8h.html" title="CYW43 Bluetooth BUS API." alt="" coords="105,437,224,464"/>
-<area shape="rect" id="node10" href="$i2c__slave_8h.html" title=" " alt="" coords="2111,251,2288,278"/>
-<area shape="rect" id="node12" href="$async__context__base_8h_source.html" title=" " alt="" coords="155,341,297,382"/>
-<area shape="rect" id="node13" href="$async__context__freertos_8h_source.html" title=" " alt="" coords="321,341,469,382"/>
-<area shape="rect" id="node14" href="$async__context__poll_8h_source.html" title=" " alt="" coords="1383,341,1525,382"/>
-<area shape="rect" id="node15" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="1550,333,1705,389"/>
-<area shape="rect" id="node16" href="$btstack__cyw43_8h.html" title=" " alt="" coords="494,341,646,382"/>
-<area shape="rect" id="node17" href="$btstack__run__loop__async__context_8h_source.html" title=" " alt="" coords="671,341,869,382"/>
-<area shape="rect" id="node18" href="$lwip__freertos_8h.html" title=" " alt="" coords="893,348,1095,375"/>
-<area shape="rect" id="node19" href="$lwip__nosys_8h.html" title=" " alt="" coords="1119,348,1307,375"/>
-<area shape="rect" id="node21" href="$critical__section_8h.html" title=" " alt="" coords="1732,244,1880,285"/>
-<area shape="rect" id="node24" href="$mutex_8h.html" title=" " alt="" coords="1549,251,1708,278"/>
-<area shape="rect" id="node25" href="$sem_8h.html" title=" " alt="" coords="1381,251,1525,278"/>
-<area shape="rect" id="node26" href="$queue_8h.html" title=" " alt="" coords="1905,251,2086,278"/>
-<area shape="rect" id="node22" href="$common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="1729,348,1875,375"/>
-<area shape="rect" id="node23" href="$multicore_8h.html" title=" " alt="" coords="1713,437,1891,464"/>
-<area shape="rect" id="node29" href="$SEGGER__RTT_8h_source.html" title=" " alt="" coords="2313,251,2515,278"/>
+<area shape="rect" id="node1" title=" " alt="" coords="786,5,970,32"/>
+<area shape="rect" id="node2" href="$common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="706,80,853,107"/>
+<area shape="rect" id="node27" href="$time__adapter_8h_source.html" title=" " alt="" coords="877,80,1079,107"/>
+<area shape="rect" id="node3" href="$cyw43__configport_8h_source.html" title=" " alt="" coords="147,162,345,189"/>
+<area shape="rect" id="node4" href="$rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html" title=" " alt="" coords="369,162,539,189"/>
+<area shape="rect" id="node6" href="$async__context_8h.html" title=" " alt="" coords="1021,244,1164,285"/>
+<area shape="rect" id="node16" href="$lock__core_8h.html" title=" " alt="" coords="563,162,742,189"/>
+<area shape="rect" id="node23" href="$rp2__common_2pico__sha256_2include_2pico_2sha256_8h.html" title=" " alt="" coords="817,162,979,189"/>
+<area shape="rect" id="node24" href="$stdlib_8h.html" title=" " alt="" coords="1003,162,1155,189"/>
+<area shape="rect" id="node26" href="$timeout__helper_8h_source.html" title=" " alt="" coords="1179,155,1334,196"/>
+<area shape="rect" id="node5" href="$i2c__slave_8h.html" title=" " alt="" coords="5,251,183,278"/>
+<area shape="rect" id="node7" href="$async__context__base_8h_source.html" title=" " alt="" coords="1825,341,1968,382"/>
+<area shape="rect" id="node8" href="$async__context__freertos_8h_source.html" title=" " alt="" coords="1992,341,2140,382"/>
+<area shape="rect" id="node9" href="$async__context__poll_8h_source.html" title=" " alt="" coords="649,341,792,382"/>
+<area shape="rect" id="node10" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="470,333,625,389"/>
+<area shape="rect" id="node11" href="$btstack__cyw43_8h.html" title=" " alt="" coords="817,341,969,382"/>
+<area shape="rect" id="node12" href="$btstack__run__loop__async__context_8h_source.html" title=" " alt="" coords="993,341,1192,382"/>
+<area shape="rect" id="node13" href="$cyw43__arch_8h.html" title=" " alt="" coords="1217,341,1363,382"/>
+<area shape="rect" id="node14" href="$lwip__freertos_8h.html" title=" " alt="" coords="1388,348,1589,375"/>
+<area shape="rect" id="node15" href="$lwip__nosys_8h.html" title=" " alt="" coords="1613,348,1801,375"/>
+<area shape="rect" id="node17" href="$critical__section_8h.html" title=" " alt="" coords="207,244,355,285"/>
+<area shape="rect" id="node20" href="$mutex_8h.html" title=" " alt="" coords="379,251,537,278"/>
+<area shape="rect" id="node21" href="$sem_8h.html" title=" " alt="" coords="767,251,911,278"/>
+<area shape="rect" id="node22" href="$queue_8h.html" title=" " alt="" coords="562,251,743,278"/>
+<area shape="rect" id="node18" href="$common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="299,348,446,375"/>
+<area shape="rect" id="node19" href="$multicore_8h.html" title=" " alt="" coords="283,437,462,464"/>
+<area shape="rect" id="node25" href="$SEGGER__RTT_8h_source.html" title=" " alt="" coords="1189,251,1391,278"/>
 </map>

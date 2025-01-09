@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -117,7 +117,7 @@ $(document).ready(function(){initNavTree('lock_8h_source.html',''); initResizabl
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;hardware/boot_lock.h&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;pico/bootrom_constants.h&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">// PICO_CONFIG: PICO_BOOTROM_LOCKING_ENABLED, Enable/disable locking for bootrom functions that use shared reqsources. If this flag is enabled bootrom lock checking is turned on and BOOT locks are taken around the relevant bootrom functions, type=bool, default=1, group=pico_bootrom</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">// PICO_CONFIG: PICO_BOOTROM_LOCKING_ENABLED, Enable/disable locking for bootrom functions that use shared resources. If this flag is enabled bootrom lock checking is turned on and BOOT locks are taken around the relevant bootrom functions, type=bool, default=1, group=pico_bootrom</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#ifndef PICO_BOOTROM_LOCKING_ENABLED</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#if NUM_BOOT_LOCKS &gt; 0</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#define PICO_BOOTROM_LOCKING_ENABLED 1</span></div>

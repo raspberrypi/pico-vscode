@@ -8,5 +8,7 @@ var group__util__datetime =
       [ "month", "structdatetime__t.html#a52b29dd0c5073256923e405a963a4196", null ],
       [ "sec", "structdatetime__t.html#ad2b37b732b0bb89b8488beb421597331", null ],
       [ "year", "structdatetime__t.html#a9d974362ac5b0c3981a376888cec7a5a", null ]
-    ] ]
+    ] ],
+    [ "pico_localtime_r", "group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d", null ],
+    [ "pico_mktime", "group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb", null ]
 ];

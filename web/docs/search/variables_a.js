@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['next_0',['next',['../structasync__work__on__timeout.html#a0d624915407b8a4c38d0bc8b2e097729',1,'async_work_on_timeout::next()'],['../structasync__when__pending__worker.html#a456024ab36675e4c603a3ed79168c686',1,'async_when_pending_worker::next()']]],
-  ['next_5ftime_1',['next_time',['../structasync__work__on__timeout.html#a695beb1e493cb6c2b15f0907e9a2cfb4',1,'async_work_on_timeout']]],
-  ['nil_5ftime_2',['nil_time',['../group__timestamp.html#ga978d7972634296a1870c28b0727beefb',1,'time.h']]],
-  ['nprobes_3',['nprobes',['../struct__cyw43__wifi__scan__options__t.html#ab01d10da501050e7a66976fbddb5d5c8',1,'_cyw43_wifi_scan_options_t']]]
+  ['task_5fpriority_0',['task_priority',['../structasync__context__freertos__config.html#ad4dbeaa1021be2f2256147120384c19a',1,'async_context_freertos_config']]],
+  ['task_5fstack_5fsize_1',['task_stack_size',['../structasync__context__freertos__config.html#aeeea63a88da44bcc2af6cb8c34fda1cb',1,'async_context_freertos_config']]]
 ];

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -129,9 +129,10 @@ Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Unique device ID access API. </p>
-<p >RP2040 does not have an on-board unique identifier (all instances of RP2040 silicon are identical and have no persistent state). However, RP2040 boots from serial NOR flash devices which have a 64-bit unique ID as a standard feature, and there is a 1:1 association between RP2040 and flash, so this is suitable for use as a unique identifier for an RP2040-based board.</p>
+<p >RP2040 does not have an on-board unique identifier (all instances of RP2040 silicon are identical and have no persistent state). However, RP2040 boots from serial NOR flash devices which have at least a 64-bit unique ID as a standard feature, and there is a 1:1 association between RP2040 and flash, so this is suitable for use as a unique identifier for an RP2040-based board.</p>
 <p >This library injects a call to the flash_get_unique_id function from the hardware_flash library, to run before main, and stores the result in a static location which can safely be accessed at any time via pico_get_unique_id().</p>
 <p >This avoids some pitfalls of the hardware_flash API, which requires any flash-resident interrupt routines to be disabled when called into. </p>
+<p >On boards using RP2350, the unique identifier is read from OTP memory on boot.  </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaf87ef8a55d8dc2520776e427a605b6fb" name="gaf87ef8a55d8dc2520776e427a605b6fb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf87ef8a55d8dc2520776e427a605b6fb">&#9670;&nbsp;</a></span>pico_get_unique_board_id()</h2>
@@ -150,8 +151,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get unique ID. </p>
-<p >Get the unique 64-bit device identifier which was retrieved from the external NOR flash device at boot.</p>
-<p >On PICO_NO_FLASH builds the unique identifier is set to all 0xEE.</p>
+<p >Get the unique 64-bit device identifier.</p>
+<p >On an RP2040-based board, the unique identifier is retrieved from the external NOR flash device at boot, or for PICO_NO_FLASH builds the unique identifier is set to all 0xEE. </p>
+<p >On an RP2350-based board, the unique identifier is retrieved from OTP memory at boot. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id_out</td><td>a pointer to a <a class="el" href="structpico__unique__board__id__t.html" title="Unique board identifier.">pico_unique_board_id_t</a> struct, to which the identifier will be written </td></tr>
@@ -188,8 +190,9 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get unique ID in string format. </p>
-<p >Get the unique 64-bit device identifier which was retrieved from the external NOR flash device at boot, formatted as an ASCII hex string. Will always 0-terminate.</p>
-<p >On PICO_NO_FLASH builds the unique identifier is set to all 0xEE.</p>
+<p >Get the unique 64-bit device identifier formatted as a 0-terminated ASCII hex string.</p>
+<p >On an RP2040-based board, the unique identifier is retrieved from the external NOR flash device at boot, or for PICO_NO_FLASH builds the unique identifier is set to all 0xEE. </p>
+<p >On an RP2350-based board, the unique identifier is retrieved from OTP memory at boot. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">id_out</td><td>a pointer to a char buffer of size len, to which the identifier will be written </td></tr>

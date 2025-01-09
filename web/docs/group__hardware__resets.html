@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -303,19 +303,25 @@ Example</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;Hello, reset!\n&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put the PWM block into reset</span></div>
-<div class="line">    reset_block(RESETS_RESET_PWM_BITS);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a>(<a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// And bring it out</span></div>
-<div class="line">    unreset_block_wait(RESETS_RESET_PWM_BITS);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a>(<a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>);</div>
 <div class="line"> </div>
-<div class="line">    <span class="comment">// Put the PWM and RTC block into reset</span></div>
-<div class="line">    reset_block(RESETS_RESET_PWM_BITS | RESETS_RESET_RTC_BITS);</div>
+<div class="line">    <span class="comment">// Put the PWM and ADC block into reset</span></div>
+<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a>((1u &lt;&lt; <a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>) | (1u &lt;&lt; <a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455ae878f20914c5790ef9bb04bec2a2ac59">RESET_ADC</a>));</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Wait for both to come out of reset</span></div>
-<div class="line">    unreset_block_wait(RESETS_RESET_PWM_BITS | RESETS_RESET_RTC_BITS);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a>((1u &lt;&lt; <a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>) | (1u &lt;&lt; <a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455ae878f20914c5790ef9bb04bec2a2ac59">RESET_ADC</a>));</div>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
+<div class="ttc" id="agroup__hardware__resets_html_gab4ade7bf4b70f31099fa113215d7d1b5"><div class="ttname"><a href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a></div><div class="ttdeci">static void reset_block_num(uint32_t block_num)</div><div class="ttdoc">Reset the specified HW block.</div><div class="ttdef"><b>Definition:</b> resets.h:139</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gab94a1dac99356f6b632be0b60d1acd63"><div class="ttname"><a href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a></div><div class="ttdeci">static __force_inline void reset_block_mask(uint32_t bits)</div><div class="ttdoc">Reset the specified HW blocks.</div><div class="ttdef"><b>Definition:</b> resets.h:92</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gae6cc36bc1b58ebcd68b5ba189fdceb9d"><div class="ttname"><a href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a></div><div class="ttdeci">static void unreset_block_num_wait_blocking(uint block_num)</div><div class="ttdoc">Bring specified HW block out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:158</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gaea9779624aa168697879f1f70d46b4cf"><div class="ttname"><a href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a></div><div class="ttdeci">static __force_inline void unreset_block_mask_wait_blocking(uint32_t bits)</div><div class="ttdoc">Bring specified HW blocks out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:110</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef"><div class="ttname"><a href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a></div><div class="ttdeci">@ RESET_PWM</div><div class="ttdoc">Select PWM to be reset.</div><div class="ttdef"><b>Definition:</b> resets.h:44</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gga75518d371584c608bc559b6b6b002455ae878f20914c5790ef9bb04bec2a2ac59"><div class="ttname"><a href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455ae878f20914c5790ef9bb04bec2a2ac59">RESET_ADC</a></div><div class="ttdeci">@ RESET_ADC</div><div class="ttdoc">Select ADC to be reset.</div><div class="ttdef"><b>Definition:</b> resets.h:30</div></div>
 <div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
 <div class="ttc" id="arp2__common_2hardware__resets_2include_2hardware_2resets_8h_html"><div class="ttname"><a href="rp2__common_2hardware__resets_2include_2hardware_2resets_8h.html">resets.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>

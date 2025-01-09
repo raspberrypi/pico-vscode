@@ -1,7 +1,7 @@
 var group__hardware__interp =
 [
     [ "interp_config", "group__interp__config.html", "group__interp__config" ],
-    [ "interp_add_accumulater", "group__hardware__interp.html#gae90bdfe6d73365cf3bed859ca288f928", null ],
+    [ "interp_add_accumulator", "group__hardware__interp.html#ga48d0551279652a9176cc16c60db1bdf2", null ],
     [ "interp_claim_lane", "group__hardware__interp.html#ga4bf868768cfc42e621211d9dea8cc9bf", null ],
     [ "interp_claim_lane_mask", "group__hardware__interp.html#ga7da3e2eec0075ae39bf648b6a3b6feb9", null ],
     [ "interp_get_accumulator", "group__hardware__interp.html#gaae77d8dbe417020c1d707b05b6a164ae", null ],

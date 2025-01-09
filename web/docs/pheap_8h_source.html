@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -143,142 +143,142 @@ $(document).ready(function(){initNavTree('pheap_8h_source.html',''); initResizab
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    pheap_node_id_t child, sibling, parent;</div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>} <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a>;</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="pheap_8h.html#a0656dff462e9c9b41b60b7c86ba39f09">   60</a></span><span class="keyword">typedef</span> bool (*<a class="code hl_typedef" href="pheap_8h.html#a0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a>)(<span class="keywordtype">void</span> *user_data, pheap_node_id_t a, pheap_node_id_t b);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structpheap.html">   62</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structpheap.html">pheap</a> {</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *nodes;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_typedef" href="pheap_8h.html#a0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">void</span> *user_data;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    pheap_node_id_t max_nodes;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    pheap_node_id_t root_id;</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="comment">// we remove from head and add to tail to stop reusing the same ids</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    pheap_node_id_t free_head_id;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    pheap_node_id_t free_tail_id;</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>} <a class="code hl_struct" href="structpheap.html">pheap_t</a>;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><a class="code hl_struct" href="structpheap.html">pheap_t</a> *<a class="code hl_function" href="pheap_8h.html#acde2f3fabd67330b56dbb8473387b272">ph_create</a>(uint max_nodes, <a class="code hl_typedef" href="pheap_8h.html#a0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, <span class="keywordtype">void</span> *user_data);</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keywordtype">void</span> <a class="code hl_function" href="pheap_8h.html#a1fe718acebd018d31cab37071a65c61b">ph_clear</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap);</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keywordtype">void</span> <a class="code hl_function" href="pheap_8h.html#a0ad42a7be2446ffcdbce6c9c3590eb8e">ph_destroy</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap);</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="comment">// internal method</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *ph_get_node(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    assert(<span class="keywordtype">id</span> &amp;&amp; id &lt;= heap-&gt;max_nodes);</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">return</span> heap-&gt;nodes + <span class="keywordtype">id</span> - 1;</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="comment">// internal method</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="keyword">static</span> <span class="keywordtype">void</span> ph_add_child_node(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t parent_id, pheap_node_id_t child_id) {</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *n = ph_get_node(heap, parent_id);</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    assert(parent_id);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    assert(child_id);</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    assert(parent_id != child_id);</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *c = ph_get_node(heap, child_id);</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    c-&gt;parent = parent_id;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">if</span> (!n-&gt;child) {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        n-&gt;child = child_id;</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        c-&gt;sibling = n-&gt;child;</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        n-&gt;child = child_id;</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    }</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment">// internal method</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">static</span> pheap_node_id_t ph_merge_nodes(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t a, pheap_node_id_t b) {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordflow">if</span> (!a) <span class="keywordflow">return</span> b;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordflow">if</span> (!b) <span class="keywordflow">return</span> a;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordflow">if</span> (heap-&gt;comparator(heap-&gt;user_data, a, b)) {</div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        ph_add_child_node(heap, a, b);</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">return</span> a;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        ph_add_child_node(heap, b, a);</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keywordflow">return</span> b;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    }</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>}</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="pheap_8h.html#af631622b2fe9dbd39f39d457eef502d0">  143</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="pheap_8h.html#af631622b2fe9dbd39f39d457eef502d0">ph_new_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap) {</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="keywordflow">if</span> (!heap-&gt;free_head_id) <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    pheap_node_id_t <span class="keywordtype">id</span> = heap-&gt;free_head_id;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *hn = ph_get_node(heap, <span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    heap-&gt;free_head_id = hn-&gt;sibling;</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">if</span> (!heap-&gt;free_head_id) heap-&gt;free_tail_id = 0;</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    hn-&gt;child = hn-&gt;sibling = hn-&gt;parent = 0;</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">return</span> id;</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="pheap_8h.html#ab68363a744cae76cf6cce07fc60f4a5c">  164</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="pheap_8h.html#ab68363a744cae76cf6cce07fc60f4a5c">ph_insert_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    assert(<span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *hn = ph_get_node(heap, <span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    hn-&gt;child = hn-&gt;sibling = hn-&gt;parent = 0;</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    heap-&gt;root_id = ph_merge_nodes(heap, heap-&gt;root_id, <span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="keywordflow">return</span> heap-&gt;root_id;</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>}</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="pheap_8h.html#a9723f40e88f36de3cd6cd955e3410600">  179</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="pheap_8h.html#a9723f40e88f36de3cd6cd955e3410600">ph_peek_head</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap) {</div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="keywordflow">return</span> heap-&gt;root_id;</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>}</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>pheap_node_id_t <a class="code hl_function" href="pheap_8h.html#a8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, <span class="keywordtype">bool</span> free);</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno"><a class="line" href="pheap_8h.html#aee7c4944ce644b92572b48b7d14fc65e">  212</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="pheap_8h.html#aee7c4944ce644b92572b48b7d14fc65e">ph_remove_and_free_head</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap) {</div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="pheap_8h.html#a8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a>(heap, <span class="keyword">true</span>);</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>}</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="keywordtype">bool</span> <a class="code hl_function" href="pheap_8h.html#a852301ee2d8d4c3985dd61c14eb820a8">ph_remove_and_free_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>);</div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="pheap_8h.html#a799a2b5a1db608401482816d371a02a5">  234</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="pheap_8h.html#a799a2b5a1db608401482816d371a02a5">ph_contains_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keywordflow">return</span> <span class="keywordtype">id</span> == heap-&gt;root_id || ph_get_node(heap, <span class="keywordtype">id</span>)-&gt;parent;</div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>}</div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span> </div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno"><a class="line" href="pheap_8h.html#a16d2f59279aad9419ebab05bf15d70b2">  245</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="pheap_8h.html#a16d2f59279aad9419ebab05bf15d70b2">ph_free_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    assert(<span class="keywordtype">id</span> &amp;&amp; !<a class="code hl_function" href="pheap_8h.html#a799a2b5a1db608401482816d371a02a5">ph_contains_node</a>(heap, <span class="keywordtype">id</span>));</div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordflow">if</span> (heap-&gt;free_tail_id) {</div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        ph_get_node(heap, heap-&gt;free_tail_id)-&gt;sibling = id;</div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    }</div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="keywordflow">if</span> (!heap-&gt;free_head_id) {</div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        assert(!heap-&gt;free_tail_id);</div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        heap-&gt;free_head_id = id;</div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    }</div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    heap-&gt;free_tail_id = id;</div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>}</div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span> </div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="pheap_8h.html#aaac9dd2a264364a16a5753ba08c268cf">  264</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="pheap_8h.html#aaac9dd2a264364a16a5753ba08c268cf">ph_dump</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, <span class="keywordtype">void</span> (*dump_key)(pheap_node_id_t <span class="keywordtype">id</span>, <span class="keywordtype">void</span> *user_data), <span class="keywordtype">void</span> *user_data);</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><span class="keywordtype">void</span> <a class="code hl_function" href="pheap_8h.html#a5f8a3b950288b90310216126750ae0ef">ph_post_alloc_init</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, uint max_nodes, <a class="code hl_typedef" href="pheap_8h.html#a0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, <span class="keywordtype">void</span> *user_data);</div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno"><a class="line" href="pheap_8h.html#a9b69785185d58a5f82204c9ee3c2a2d5">  281</a></span><span class="preprocessor">#define PHEAP_DEFINE_STATIC(name, _max_nodes) \</span></div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="preprocessor">    static_assert(_max_nodes &amp;&amp; _max_nodes &lt; (1u &lt;&lt; (8 * sizeof(pheap_node_id_t))), &quot;&quot;</span>); \</div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    static pheap_node_t name ## _nodes[_max_nodes]; \</div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    static pheap_t name = { \</div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>            .nodes = name ## _nodes, \</div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>            .max_nodes = _max_nodes \</div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    };</div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span> </div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>}</div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span> </div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="apheap_8h_html_a0656dff462e9c9b41b60b7c86ba39f09"><div class="ttname"><a href="pheap_8h.html#a0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a></div><div class="ttdeci">bool(* pheap_comparator)(void *user_data, pheap_node_id_t a, pheap_node_id_t b)</div><div class="ttdoc">A user comparator function for nodes in a pairing heap.</div><div class="ttdef"><b>Definition:</b> pheap.h:60</div></div>
-<div class="ttc" id="apheap_8h_html_a0ad42a7be2446ffcdbce6c9c3590eb8e"><div class="ttname"><a href="pheap_8h.html#a0ad42a7be2446ffcdbce6c9c3590eb8e">ph_destroy</a></div><div class="ttdeci">void ph_destroy(pheap_t *heap)</div><div class="ttdoc">De-allocates a pairing heap.</div><div class="ttdef"><b>Definition:</b> pheap.c:37</div></div>
-<div class="ttc" id="apheap_8h_html_a16d2f59279aad9419ebab05bf15d70b2"><div class="ttname"><a href="pheap_8h.html#a16d2f59279aad9419ebab05bf15d70b2">ph_free_node</a></div><div class="ttdeci">static void ph_free_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Free a node that is not currently in the heap, but has been allocated.</div><div class="ttdef"><b>Definition:</b> pheap.h:245</div></div>
-<div class="ttc" id="apheap_8h_html_a1fe718acebd018d31cab37071a65c61b"><div class="ttname"><a href="pheap_8h.html#a1fe718acebd018d31cab37071a65c61b">ph_clear</a></div><div class="ttdeci">void ph_clear(pheap_t *heap)</div><div class="ttdoc">Removes all nodes from the pairing heap.</div><div class="ttdef"><b>Definition:</b> pheap.c:27</div></div>
-<div class="ttc" id="apheap_8h_html_a5f8a3b950288b90310216126750ae0ef"><div class="ttname"><a href="pheap_8h.html#a5f8a3b950288b90310216126750ae0ef">ph_post_alloc_init</a></div><div class="ttdeci">void ph_post_alloc_init(pheap_t *heap, uint max_nodes, pheap_comparator comparator, void *user_data)</div><div class="ttdoc">Initialize a statically allocated heap (ph_create() using the C heap). The heap member nodes must be ...</div><div class="ttdef"><b>Definition:</b> pheap.c:19</div></div>
-<div class="ttc" id="apheap_8h_html_a799a2b5a1db608401482816d371a02a5"><div class="ttname"><a href="pheap_8h.html#a799a2b5a1db608401482816d371a02a5">ph_contains_node</a></div><div class="ttdeci">static bool ph_contains_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Determine if the heap contains a given node. Note containment refers to whether the node is inserted ...</div><div class="ttdef"><b>Definition:</b> pheap.h:234</div></div>
-<div class="ttc" id="apheap_8h_html_a852301ee2d8d4c3985dd61c14eb820a8"><div class="ttname"><a href="pheap_8h.html#a852301ee2d8d4c3985dd61c14eb820a8">ph_remove_and_free_node</a></div><div class="ttdeci">bool ph_remove_and_free_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Remove and free an arbitrary node from the pairing heap. This is a more costly operation than removin...</div><div class="ttdef"><b>Definition:</b> pheap.c:82</div></div>
-<div class="ttc" id="apheap_8h_html_a8ebc494b4ad703fe080bee5f18775fec"><div class="ttname"><a href="pheap_8h.html#a8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a></div><div class="ttdeci">pheap_node_id_t ph_remove_head(pheap_t *heap, bool free)</div><div class="ttdoc">Remove the head node from the pairing heap. This head node is the node which compares first in the lo...</div><div class="ttdef"><b>Definition:</b> pheap.c:76</div></div>
-<div class="ttc" id="apheap_8h_html_a9723f40e88f36de3cd6cd955e3410600"><div class="ttname"><a href="pheap_8h.html#a9723f40e88f36de3cd6cd955e3410600">ph_peek_head</a></div><div class="ttdeci">static pheap_node_id_t ph_peek_head(pheap_t *heap)</div><div class="ttdoc">Returns the head node in the heap, i.e. the node which compares first, but without removing it from t...</div><div class="ttdef"><b>Definition:</b> pheap.h:179</div></div>
-<div class="ttc" id="apheap_8h_html_aaac9dd2a264364a16a5753ba08c268cf"><div class="ttname"><a href="pheap_8h.html#aaac9dd2a264364a16a5753ba08c268cf">ph_dump</a></div><div class="ttdeci">void ph_dump(pheap_t *heap, void(*dump_key)(pheap_node_id_t id, void *user_data), void *user_data)</div><div class="ttdoc">Print a representation of the heap for debugging.</div></div>
-<div class="ttc" id="apheap_8h_html_ab68363a744cae76cf6cce07fc60f4a5c"><div class="ttname"><a href="pheap_8h.html#ab68363a744cae76cf6cce07fc60f4a5c">ph_insert_node</a></div><div class="ttdeci">static pheap_node_id_t ph_insert_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Inserts a node into the heap.</div><div class="ttdef"><b>Definition:</b> pheap.h:164</div></div>
-<div class="ttc" id="apheap_8h_html_acde2f3fabd67330b56dbb8473387b272"><div class="ttname"><a href="pheap_8h.html#acde2f3fabd67330b56dbb8473387b272">ph_create</a></div><div class="ttdeci">pheap_t * ph_create(uint max_nodes, pheap_comparator comparator, void *user_data)</div><div class="ttdoc">Create a pairing heap, which effectively maintains an efficient sorted ordering of nodes....</div><div class="ttdef"><b>Definition:</b> pheap.c:11</div></div>
-<div class="ttc" id="apheap_8h_html_aee7c4944ce644b92572b48b7d14fc65e"><div class="ttname"><a href="pheap_8h.html#aee7c4944ce644b92572b48b7d14fc65e">ph_remove_and_free_head</a></div><div class="ttdeci">static pheap_node_id_t ph_remove_and_free_head(pheap_t *heap)</div><div class="ttdoc">Remove the head node from the pairing heap. This head node is the node which compares first in the lo...</div><div class="ttdef"><b>Definition:</b> pheap.h:212</div></div>
-<div class="ttc" id="apheap_8h_html_af631622b2fe9dbd39f39d457eef502d0"><div class="ttname"><a href="pheap_8h.html#af631622b2fe9dbd39f39d457eef502d0">ph_new_node</a></div><div class="ttdeci">static pheap_node_id_t ph_new_node(pheap_t *heap)</div><div class="ttdoc">Allocate a new node from the unused space in the heap.</div><div class="ttdef"><b>Definition:</b> pheap.h:143</div></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">   61</a></span><span class="keyword">typedef</span> bool (*<a class="code hl_typedef" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a>)(<span class="keywordtype">void</span> *user_data, pheap_node_id_t a, pheap_node_id_t b);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structpheap.html">   63</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structpheap.html">pheap</a> {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *nodes;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_typedef" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">void</span> *user_data;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    pheap_node_id_t max_nodes;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    pheap_node_id_t root_id;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="comment">// we remove from head and add to tail to stop reusing the same ids</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    pheap_node_id_t free_head_id;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    pheap_node_id_t free_tail_id;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>} <a class="code hl_struct" href="structpheap.html">pheap_t</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><a class="code hl_struct" href="structpheap.html">pheap_t</a> *<a class="code hl_function" href="group__util__pheap.html#gacde2f3fabd67330b56dbb8473387b272">ph_create</a>(uint max_nodes, <a class="code hl_typedef" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, <span class="keywordtype">void</span> *user_data);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__util__pheap.html#ga1fe718acebd018d31cab37071a65c61b">ph_clear</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__util__pheap.html#ga0ad42a7be2446ffcdbce6c9c3590eb8e">ph_destroy</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">// internal method</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="keyword">static</span> <span class="keyword">inline</span> <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *ph_get_node(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    assert(<span class="keywordtype">id</span> &amp;&amp; id &lt;= heap-&gt;max_nodes);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">return</span> heap-&gt;nodes + <span class="keywordtype">id</span> - 1;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment">// internal method</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="keyword">static</span> <span class="keywordtype">void</span> ph_add_child_node(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t parent_id, pheap_node_id_t child_id) {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *n = ph_get_node(heap, parent_id);</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    assert(parent_id);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    assert(child_id);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    assert(parent_id != child_id);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *c = ph_get_node(heap, child_id);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    c-&gt;parent = parent_id;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">if</span> (!n-&gt;child) {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        n-&gt;child = child_id;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        c-&gt;sibling = n-&gt;child;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        n-&gt;child = child_id;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    }</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>}</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment">// internal method</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="keyword">static</span> pheap_node_id_t ph_merge_nodes(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t a, pheap_node_id_t b) {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">if</span> (!a) <span class="keywordflow">return</span> b;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">if</span> (!b) <span class="keywordflow">return</span> a;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">if</span> (heap-&gt;comparator(heap-&gt;user_data, a, b)) {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        ph_add_child_node(heap, a, b);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="keywordflow">return</span> a;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        ph_add_child_node(heap, b, a);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keywordflow">return</span> b;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>}</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="group__util__pheap.html#gaf631622b2fe9dbd39f39d457eef502d0">  148</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="group__util__pheap.html#gaf631622b2fe9dbd39f39d457eef502d0">ph_new_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">if</span> (!heap-&gt;free_head_id) <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    pheap_node_id_t <span class="keywordtype">id</span> = heap-&gt;free_head_id;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *hn = ph_get_node(heap, <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    heap-&gt;free_head_id = hn-&gt;sibling;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordflow">if</span> (!heap-&gt;free_head_id) heap-&gt;free_tail_id = 0;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    hn-&gt;child = hn-&gt;sibling = hn-&gt;parent = 0;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">return</span> id;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>}</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="group__util__pheap.html#gab68363a744cae76cf6cce07fc60f4a5c">  170</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="group__util__pheap.html#gab68363a744cae76cf6cce07fc60f4a5c">ph_insert_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    assert(<span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <a class="code hl_struct" href="structpheap__node.html">pheap_node_t</a> *hn = ph_get_node(heap, <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    hn-&gt;child = hn-&gt;sibling = hn-&gt;parent = 0;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    heap-&gt;root_id = ph_merge_nodes(heap, heap-&gt;root_id, <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">return</span> heap-&gt;root_id;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>}</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="group__util__pheap.html#ga9723f40e88f36de3cd6cd955e3410600">  186</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="group__util__pheap.html#ga9723f40e88f36de3cd6cd955e3410600">ph_peek_head</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap) {</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keywordflow">return</span> heap-&gt;root_id;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>}</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>pheap_node_id_t <a class="code hl_function" href="group__util__pheap.html#ga8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, <span class="keywordtype">bool</span> free);</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="group__util__pheap.html#gaee7c4944ce644b92572b48b7d14fc65e">  221</a></span><span class="keyword">static</span> <span class="keyword">inline</span> pheap_node_id_t <a class="code hl_function" href="group__util__pheap.html#gaee7c4944ce644b92572b48b7d14fc65e">ph_remove_and_free_head</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap) {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__util__pheap.html#ga8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a>(heap, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>}</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__util__pheap.html#ga852301ee2d8d4c3985dd61c14eb820a8">ph_remove_and_free_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno"><a class="line" href="group__util__pheap.html#ga799a2b5a1db608401482816d371a02a5">  245</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="group__util__pheap.html#ga799a2b5a1db608401482816d371a02a5">ph_contains_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordflow">return</span> <span class="keywordtype">id</span> == heap-&gt;root_id || ph_get_node(heap, <span class="keywordtype">id</span>)-&gt;parent;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>}</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="group__util__pheap.html#ga16d2f59279aad9419ebab05bf15d70b2">  257</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__util__pheap.html#ga16d2f59279aad9419ebab05bf15d70b2">ph_free_node</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t <span class="keywordtype">id</span>) {</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    assert(<span class="keywordtype">id</span> &amp;&amp; !<a class="code hl_function" href="group__util__pheap.html#ga799a2b5a1db608401482816d371a02a5">ph_contains_node</a>(heap, <span class="keywordtype">id</span>));</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    <span class="keywordflow">if</span> (heap-&gt;free_tail_id) {</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        ph_get_node(heap, heap-&gt;free_tail_id)-&gt;sibling = id;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    }</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    <span class="keywordflow">if</span> (!heap-&gt;free_head_id) {</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        assert(!heap-&gt;free_tail_id);</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        heap-&gt;free_head_id = id;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    }</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    heap-&gt;free_tail_id = id;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>}</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno"><a class="line" href="group__util__pheap.html#gaaac9dd2a264364a16a5753ba08c268cf">  277</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="group__util__pheap.html#gaaac9dd2a264364a16a5753ba08c268cf">ph_dump</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, <span class="keywordtype">void</span> (*dump_key)(pheap_node_id_t <span class="keywordtype">id</span>, <span class="keywordtype">void</span> *user_data), <span class="keywordtype">void</span> *user_data);</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__util__pheap.html#ga5f8a3b950288b90310216126750ae0ef">ph_post_alloc_init</a>(<a class="code hl_struct" href="structpheap.html">pheap_t</a> *heap, uint max_nodes, <a class="code hl_typedef" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, <span class="keywordtype">void</span> *user_data);</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno"><a class="line" href="group__util__pheap.html#ga9b69785185d58a5f82204c9ee3c2a2d5">  296</a></span><span class="preprocessor">#define PHEAP_DEFINE_STATIC(name, _max_nodes) \</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="preprocessor">    static_assert(_max_nodes &amp;&amp; _max_nodes &lt; (1u &lt;&lt; (8 * sizeof(pheap_node_id_t))), &quot;&quot;</span>); \</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    static pheap_node_t name ## _nodes[_max_nodes]; \</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    static pheap_t name = { \</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>            .nodes = name ## _nodes, \</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            .max_nodes = _max_nodes \</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    };</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>}</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span> </div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__util__pheap_html_ga0656dff462e9c9b41b60b7c86ba39f09"><div class="ttname"><a href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a></div><div class="ttdeci">bool(* pheap_comparator)(void *user_data, pheap_node_id_t a, pheap_node_id_t b)</div><div class="ttdoc">A user comparator function for nodes in a pairing heap.</div><div class="ttdef"><b>Definition:</b> pheap.h:61</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga0ad42a7be2446ffcdbce6c9c3590eb8e"><div class="ttname"><a href="group__util__pheap.html#ga0ad42a7be2446ffcdbce6c9c3590eb8e">ph_destroy</a></div><div class="ttdeci">void ph_destroy(pheap_t *heap)</div><div class="ttdoc">De-allocates a pairing heap.</div><div class="ttdef"><b>Definition:</b> pheap.c:37</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga16d2f59279aad9419ebab05bf15d70b2"><div class="ttname"><a href="group__util__pheap.html#ga16d2f59279aad9419ebab05bf15d70b2">ph_free_node</a></div><div class="ttdeci">static void ph_free_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Free a node that is not currently in the heap, but has been allocated.</div><div class="ttdef"><b>Definition:</b> pheap.h:257</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga1fe718acebd018d31cab37071a65c61b"><div class="ttname"><a href="group__util__pheap.html#ga1fe718acebd018d31cab37071a65c61b">ph_clear</a></div><div class="ttdeci">void ph_clear(pheap_t *heap)</div><div class="ttdoc">Removes all nodes from the pairing heap.</div><div class="ttdef"><b>Definition:</b> pheap.c:27</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga5f8a3b950288b90310216126750ae0ef"><div class="ttname"><a href="group__util__pheap.html#ga5f8a3b950288b90310216126750ae0ef">ph_post_alloc_init</a></div><div class="ttdeci">void ph_post_alloc_init(pheap_t *heap, uint max_nodes, pheap_comparator comparator, void *user_data)</div><div class="ttdoc">Initialize a statically allocated heap (ph_create() using the C heap). The heap member nodes must be ...</div><div class="ttdef"><b>Definition:</b> pheap.c:19</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga799a2b5a1db608401482816d371a02a5"><div class="ttname"><a href="group__util__pheap.html#ga799a2b5a1db608401482816d371a02a5">ph_contains_node</a></div><div class="ttdeci">static bool ph_contains_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Determine if the heap contains a given node. Note containment refers to whether the node is inserted ...</div><div class="ttdef"><b>Definition:</b> pheap.h:245</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga852301ee2d8d4c3985dd61c14eb820a8"><div class="ttname"><a href="group__util__pheap.html#ga852301ee2d8d4c3985dd61c14eb820a8">ph_remove_and_free_node</a></div><div class="ttdeci">bool ph_remove_and_free_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Remove and free an arbitrary node from the pairing heap. This is a more costly operation than removin...</div><div class="ttdef"><b>Definition:</b> pheap.c:82</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga8ebc494b4ad703fe080bee5f18775fec"><div class="ttname"><a href="group__util__pheap.html#ga8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a></div><div class="ttdeci">pheap_node_id_t ph_remove_head(pheap_t *heap, bool free)</div><div class="ttdoc">Remove the head node from the pairing heap. This head node is the node which compares first in the lo...</div><div class="ttdef"><b>Definition:</b> pheap.c:76</div></div>
+<div class="ttc" id="agroup__util__pheap_html_ga9723f40e88f36de3cd6cd955e3410600"><div class="ttname"><a href="group__util__pheap.html#ga9723f40e88f36de3cd6cd955e3410600">ph_peek_head</a></div><div class="ttdeci">static pheap_node_id_t ph_peek_head(pheap_t *heap)</div><div class="ttdoc">Returns the head node in the heap, i.e. the node which compares first, but without removing it from t...</div><div class="ttdef"><b>Definition:</b> pheap.h:186</div></div>
+<div class="ttc" id="agroup__util__pheap_html_gaaac9dd2a264364a16a5753ba08c268cf"><div class="ttname"><a href="group__util__pheap.html#gaaac9dd2a264364a16a5753ba08c268cf">ph_dump</a></div><div class="ttdeci">void ph_dump(pheap_t *heap, void(*dump_key)(pheap_node_id_t id, void *user_data), void *user_data)</div><div class="ttdoc">Print a representation of the heap for debugging.</div></div>
+<div class="ttc" id="agroup__util__pheap_html_gab68363a744cae76cf6cce07fc60f4a5c"><div class="ttname"><a href="group__util__pheap.html#gab68363a744cae76cf6cce07fc60f4a5c">ph_insert_node</a></div><div class="ttdeci">static pheap_node_id_t ph_insert_node(pheap_t *heap, pheap_node_id_t id)</div><div class="ttdoc">Inserts a node into the heap.</div><div class="ttdef"><b>Definition:</b> pheap.h:170</div></div>
+<div class="ttc" id="agroup__util__pheap_html_gacde2f3fabd67330b56dbb8473387b272"><div class="ttname"><a href="group__util__pheap.html#gacde2f3fabd67330b56dbb8473387b272">ph_create</a></div><div class="ttdeci">pheap_t * ph_create(uint max_nodes, pheap_comparator comparator, void *user_data)</div><div class="ttdoc">Create a pairing heap, which effectively maintains an efficient sorted ordering of nodes....</div><div class="ttdef"><b>Definition:</b> pheap.c:11</div></div>
+<div class="ttc" id="agroup__util__pheap_html_gaee7c4944ce644b92572b48b7d14fc65e"><div class="ttname"><a href="group__util__pheap.html#gaee7c4944ce644b92572b48b7d14fc65e">ph_remove_and_free_head</a></div><div class="ttdeci">static pheap_node_id_t ph_remove_and_free_head(pheap_t *heap)</div><div class="ttdoc">Remove the head node from the pairing heap. This head node is the node which compares first in the lo...</div><div class="ttdef"><b>Definition:</b> pheap.h:221</div></div>
+<div class="ttc" id="agroup__util__pheap_html_gaf631622b2fe9dbd39f39d457eef502d0"><div class="ttname"><a href="group__util__pheap.html#gaf631622b2fe9dbd39f39d457eef502d0">ph_new_node</a></div><div class="ttdeci">static pheap_node_id_t ph_new_node(pheap_t *heap)</div><div class="ttdoc">Allocate a new node from the unused space in the heap.</div><div class="ttdef"><b>Definition:</b> pheap.h:148</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 <div class="ttc" id="astructpheap__node_html"><div class="ttname"><a href="structpheap__node.html">pheap_node</a></div><div class="ttdef"><b>Definition:</b> pheap.h:51</div></div>
-<div class="ttc" id="astructpheap_html"><div class="ttname"><a href="structpheap.html">pheap</a></div><div class="ttdef"><b>Definition:</b> pheap.h:62</div></div>
+<div class="ttc" id="astructpheap_html"><div class="ttname"><a href="structpheap.html">pheap</a></div><div class="ttdef"><b>Definition:</b> pheap.h:63</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

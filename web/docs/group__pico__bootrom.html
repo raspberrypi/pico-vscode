@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -138,24 +138,84 @@ Functions</h2></td></tr>
 <tr class="memitem:ga1bbe1c1df02daaa7b68a0c95fb9dc545"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga1bbe1c1df02daaa7b68a0c95fb9dc545">rom_reset_usb_boot</a> (uint32_t usb_activity_gpio_pin_mask, uint32_t disable_interface_mask)</td></tr>
 <tr class="memdesc:ga1bbe1c1df02daaa7b68a0c95fb9dc545"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot the device into BOOTSEL mode.  <a href="group__pico__bootrom.html#ga1bbe1c1df02daaa7b68a0c95fb9dc545">More...</a><br /></td></tr>
 <tr class="separator:ga1bbe1c1df02daaa7b68a0c95fb9dc545"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa089fab5e976fea3fd88fecb44863ffc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc">rom_connect_internal_flash</a> ()</td></tr>
-<tr class="memdesc:gaa089fab5e976fea3fd88fecb44863ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect the SSI/QMI to the QSPI pads.  <a href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc">More...</a><br /></td></tr>
-<tr class="separator:gaa089fab5e976fea3fd88fecb44863ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga472decf755ee1f64afdf14a90e6c8807"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807">rom_flash_exit_xip</a> ()</td></tr>
-<tr class="memdesc:ga472decf755ee1f64afdf14a90e6c8807"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the QSPI device from its XIP state to a serial command state.  <a href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807">More...</a><br /></td></tr>
-<tr class="separator:ga472decf755ee1f64afdf14a90e6c8807"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee">rom_reset_usb_boot_extra</a> (int usb_activity_gpio_pin, uint32_t disable_interface_mask, bool usb_activity_gpio_pin_active_low)</td></tr>
+<tr class="memdesc:gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot the device into BOOTSEL mode.  <a href="group__pico__bootrom.html#gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee">More...</a><br /></td></tr>
+<tr class="separator:gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ba1206778b333958c0dae5582d53bc3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga3ba1206778b333958c0dae5582d53bc3">rom_connect_internal_flash</a> (void)</td></tr>
+<tr class="memdesc:ga3ba1206778b333958c0dae5582d53bc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect the SSI/QMI to the QSPI pads.  <a href="group__pico__bootrom.html#ga3ba1206778b333958c0dae5582d53bc3">More...</a><br /></td></tr>
+<tr class="separator:ga3ba1206778b333958c0dae5582d53bc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga41206eddaf67511768746b947b9c47f6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga41206eddaf67511768746b947b9c47f6">rom_flash_exit_xip</a> (void)</td></tr>
+<tr class="memdesc:ga41206eddaf67511768746b947b9c47f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the QSPI device from its XIP state to a serial command state.  <a href="group__pico__bootrom.html#ga41206eddaf67511768746b947b9c47f6">More...</a><br /></td></tr>
+<tr class="separator:ga41206eddaf67511768746b947b9c47f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad2a854a04f7007e9e5efa67fe8887cd7">rom_flash_range_erase</a> (uint32_t addr, size_t count, uint32_t block_size, uint8_t block_cmd)</td></tr>
 <tr class="memdesc:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase bytes in flash.  <a href="group__pico__bootrom.html#gad2a854a04f7007e9e5efa67fe8887cd7">More...</a><br /></td></tr>
 <tr class="separator:gad2a854a04f7007e9e5efa67fe8887cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga7fd2af8eea3dbd7bc76ed3306186ccef">rom_flash_range_program</a> (uint32_t addr, const uint8_t *data, size_t count)</td></tr>
 <tr class="memdesc:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Program bytes in flash.  <a href="group__pico__bootrom.html#ga7fd2af8eea3dbd7bc76ed3306186ccef">More...</a><br /></td></tr>
 <tr class="separator:ga7fd2af8eea3dbd7bc76ed3306186ccef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gacd6b37e87ff97264edba6c6349e52f72"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72">rom_flash_flush_cache</a> ()</td></tr>
-<tr class="memdesc:gacd6b37e87ff97264edba6c6349e52f72"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush the XIP cache.  <a href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72">More...</a><br /></td></tr>
-<tr class="separator:gacd6b37e87ff97264edba6c6349e52f72"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">rom_flash_enter_cmd_xip</a> ()</td></tr>
-<tr class="memdesc:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the SSI/QMI with a standard command.  <a href="group__pico__bootrom.html#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">More...</a><br /></td></tr>
-<tr class="separator:gae2af7b462bd0a7e9d0fc0a5fc1ce909e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga15e12479af4b4618e254065371779e1e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga15e12479af4b4618e254065371779e1e">rom_flash_flush_cache</a> (void)</td></tr>
+<tr class="memdesc:ga15e12479af4b4618e254065371779e1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush the XIP cache.  <a href="group__pico__bootrom.html#ga15e12479af4b4618e254065371779e1e">More...</a><br /></td></tr>
+<tr class="separator:ga15e12479af4b4618e254065371779e1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44ddf78266c92f7a486712b87a695b45"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga44ddf78266c92f7a486712b87a695b45">rom_flash_enter_cmd_xip</a> (void)</td></tr>
+<tr class="memdesc:ga44ddf78266c92f7a486712b87a695b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure the SSI/QMI with a standard command.  <a href="group__pico__bootrom.html#ga44ddf78266c92f7a486712b87a695b45">More...</a><br /></td></tr>
+<tr class="separator:ga44ddf78266c92f7a486712b87a695b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadbb1f51a04fd0c27513468996d24f3ce"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gadbb1f51a04fd0c27513468996d24f3ce">rom_reboot</a> (uint32_t flags, uint32_t delay_ms, uint32_t p0, uint32_t p1)</td></tr>
+<tr class="memdesc:gadbb1f51a04fd0c27513468996d24f3ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reboot using the watchdog.  <a href="group__pico__bootrom.html#gadbb1f51a04fd0c27513468996d24f3ce">More...</a><br /></td></tr>
+<tr class="separator:gadbb1f51a04fd0c27513468996d24f3ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5067c3bfdb2dc2a08b6e84b40281cabd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga5067c3bfdb2dc2a08b6e84b40281cabd">rom_bootrom_state_reset</a> (uint32_t flags)</td></tr>
+<tr class="memdesc:ga5067c3bfdb2dc2a08b6e84b40281cabd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset bootrom state.  <a href="group__pico__bootrom.html#ga5067c3bfdb2dc2a08b6e84b40281cabd">More...</a><br /></td></tr>
+<tr class="separator:ga5067c3bfdb2dc2a08b6e84b40281cabd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6990622d9a728e7e35f34c9c76fc11aa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga6990622d9a728e7e35f34c9c76fc11aa">rom_flash_reset_address_trans</a> (void)</td></tr>
+<tr class="memdesc:ga6990622d9a728e7e35f34c9c76fc11aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset address translation.  <a href="group__pico__bootrom.html#ga6990622d9a728e7e35f34c9c76fc11aa">More...</a><br /></td></tr>
+<tr class="separator:ga6990622d9a728e7e35f34c9c76fc11aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab82d162f5e7bc5287d81ac4127e37541"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gab82d162f5e7bc5287d81ac4127e37541">rom_flash_select_xip_read_mode</a> (bootrom_xip_mode_t mode, uint8_t clkdiv)</td></tr>
+<tr class="memdesc:gab82d162f5e7bc5287d81ac4127e37541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure QMI in a XIP read mode.  <a href="group__pico__bootrom.html#gab82d162f5e7bc5287d81ac4127e37541">More...</a><br /></td></tr>
+<tr class="separator:gab82d162f5e7bc5287d81ac4127e37541"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c9a44afb63e2137b7d5bbdf7c7e75da"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga8c9a44afb63e2137b7d5bbdf7c7e75da">rom_flash_op</a> (<a class="el" href="structcflash__flags.html">cflash_flags_t</a> flags, uintptr_t addr, uint32_t size_bytes, uint8_t *buf)</td></tr>
+<tr class="memdesc:ga8c9a44afb63e2137b7d5bbdf7c7e75da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a flash read, erase, or program operation.  <a href="group__pico__bootrom.html#ga8c9a44afb63e2137b7d5bbdf7c7e75da">More...</a><br /></td></tr>
+<tr class="separator:ga8c9a44afb63e2137b7d5bbdf7c7e75da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8032648d0d33c7219a1f98bb4bc22c81"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga8032648d0d33c7219a1f98bb4bc22c81">rom_func_otp_access</a> (uint8_t *buf, uint32_t buf_len, <a class="el" href="structotp__cmd.html">otp_cmd_t</a> cmd)</td></tr>
+<tr class="memdesc:ga8032648d0d33c7219a1f98bb4bc22c81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes data from a buffer into OTP, or reads data from OTP into a buffer.  <a href="group__pico__bootrom.html#ga8032648d0d33c7219a1f98bb4bc22c81">More...</a><br /></td></tr>
+<tr class="separator:ga8032648d0d33c7219a1f98bb4bc22c81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga307eb94ee1eecf5d7b089488420f7311"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga307eb94ee1eecf5d7b089488420f7311">rom_get_partition_table_info</a> (uint32_t *out_buffer, uint32_t out_buffer_word_size, uint32_t partition_and_flags)</td></tr>
+<tr class="memdesc:ga307eb94ee1eecf5d7b089488420f7311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills a buffer with information from the partition table.  <a href="group__pico__bootrom.html#ga307eb94ee1eecf5d7b089488420f7311">More...</a><br /></td></tr>
+<tr class="separator:ga307eb94ee1eecf5d7b089488420f7311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafc3ac79dba27ea676b281106b84bbfaf"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gafc3ac79dba27ea676b281106b84bbfaf">rom_load_partition_table</a> (uint8_t *workarea_base, uint32_t workarea_size, bool force_reload)</td></tr>
+<tr class="memdesc:gafc3ac79dba27ea676b281106b84bbfaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Loads the current partition table from flash, if present.  <a href="group__pico__bootrom.html#gafc3ac79dba27ea676b281106b84bbfaf">More...</a><br /></td></tr>
+<tr class="separator:gafc3ac79dba27ea676b281106b84bbfaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1763ac821dcd10d0a6e65cf1cdffb4b5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga1763ac821dcd10d0a6e65cf1cdffb4b5">rom_pick_ab_partition</a> (uint8_t *workarea_base, uint32_t workarea_size, uint partition_a_num, uint32_t flash_update_boot_window_base)</td></tr>
+<tr class="memdesc:ga1763ac821dcd10d0a6e65cf1cdffb4b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pick a partition from an A/B pair.  <a href="group__pico__bootrom.html#ga1763ac821dcd10d0a6e65cf1cdffb4b5">More...</a><br /></td></tr>
+<tr class="separator:ga1763ac821dcd10d0a6e65cf1cdffb4b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa12306bf99c4bd77f8ad4416cf5afffa"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaa12306bf99c4bd77f8ad4416cf5afffa">rom_get_b_partition</a> (uint pi_a)</td></tr>
+<tr class="memdesc:gaa12306bf99c4bd77f8ad4416cf5afffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get B partition.  <a href="group__pico__bootrom.html#gaa12306bf99c4bd77f8ad4416cf5afffa">More...</a><br /></td></tr>
+<tr class="separator:gaa12306bf99c4bd77f8ad4416cf5afffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad19f4e80f36e015336ef33003d2f2982"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad19f4e80f36e015336ef33003d2f2982">rom_get_uf2_target_partition</a> (uint8_t *workarea_base, uint32_t workarea_size, uint32_t family_id, <a class="el" href="structresident__partition__t.html">resident_partition_t</a> *partition_out)</td></tr>
+<tr class="memdesc:gad19f4e80f36e015336ef33003d2f2982"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get UF2 Target Partition.  <a href="group__pico__bootrom.html#gad19f4e80f36e015336ef33003d2f2982">More...</a><br /></td></tr>
+<tr class="separator:gad19f4e80f36e015336ef33003d2f2982"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6cd5c5ee439731dd80839d5f043c0c6d"><td class="memItemLeft" align="right" valign="top">static intptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga6cd5c5ee439731dd80839d5f043c0c6d">rom_flash_runtime_to_storage_addr</a> (uintptr_t flash_runtime_addr)</td></tr>
+<tr class="memdesc:ga6cd5c5ee439731dd80839d5f043c0c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Translate runtime to storage address.  <a href="group__pico__bootrom.html#ga6cd5c5ee439731dd80839d5f043c0c6d">More...</a><br /></td></tr>
+<tr class="separator:ga6cd5c5ee439731dd80839d5f043c0c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf6ccde86cb9eaffb69667c36110ab318"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaf6ccde86cb9eaffb69667c36110ab318">rom_chain_image</a> (uint8_t *workarea_base, uint32_t workarea_size, uint32_t region_base, uint32_t region_size)</td></tr>
+<tr class="memdesc:gaf6ccde86cb9eaffb69667c36110ab318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chain into a launchable image.  <a href="group__pico__bootrom.html#gaf6ccde86cb9eaffb69667c36110ab318">More...</a><br /></td></tr>
+<tr class="separator:gaf6ccde86cb9eaffb69667c36110ab318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3476920d3da9f3882e61eb9ba5ed83f5"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga3476920d3da9f3882e61eb9ba5ed83f5">rom_explicit_buy</a> (uint8_t *buffer, uint32_t buffer_size)</td></tr>
+<tr class="memdesc:ga3476920d3da9f3882e61eb9ba5ed83f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buy an image.  <a href="group__pico__bootrom.html#ga3476920d3da9f3882e61eb9ba5ed83f5">More...</a><br /></td></tr>
+<tr class="separator:ga3476920d3da9f3882e61eb9ba5ed83f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaef7eef3fc50ebb572864ce41b56f7ecf"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gaef7eef3fc50ebb572864ce41b56f7ecf">rom_set_ns_api_permission</a> (uint ns_api_num, bool allowed)</td></tr>
+<tr class="memdesc:gaef7eef3fc50ebb572864ce41b56f7ecf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set NS API Permission.  <a href="group__pico__bootrom.html#gaef7eef3fc50ebb572864ce41b56f7ecf">More...</a><br /></td></tr>
+<tr class="separator:gaef7eef3fc50ebb572864ce41b56f7ecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab36e9c2507be4131612c44c967a8a9a3"><td class="memItemLeft" align="right" valign="top">static void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gab36e9c2507be4131612c44c967a8a9a3">rom_validate_ns_buffer</a> (const void *addr, uint32_t size, uint32_t write, uint32_t *ok)</td></tr>
+<tr class="memdesc:gab36e9c2507be4131612c44c967a8a9a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validate NS Buffer.  <a href="group__pico__bootrom.html#gab36e9c2507be4131612c44c967a8a9a3">More...</a><br /></td></tr>
+<tr class="separator:gab36e9c2507be4131612c44c967a8a9a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad23d5bfd10e8367b30b1cb6a5750ecc3"><td class="memItemLeft" align="right" valign="top">static intptr_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#gad23d5bfd10e8367b30b1cb6a5750ecc3">rom_set_rom_callback</a> (uint callback_num, bootrom_api_callback_generic_t funcptr)</td></tr>
+<tr class="memdesc:gad23d5bfd10e8367b30b1cb6a5750ecc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set ROM callback function.  <a href="group__pico__bootrom.html#gad23d5bfd10e8367b30b1cb6a5750ecc3">More...</a><br /></td></tr>
+<tr class="separator:gad23d5bfd10e8367b30b1cb6a5750ecc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga00081f79b6a1002993347c2c105a0c87"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga00081f79b6a1002993347c2c105a0c87">rom_get_sys_info</a> (uint32_t *out_buffer, uint32_t out_buffer_word_size, uint32_t flags)</td></tr>
+<tr class="memdesc:ga00081f79b6a1002993347c2c105a0c87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get system information.  <a href="group__pico__bootrom.html#ga00081f79b6a1002993347c2c105a0c87">More...</a><br /></td></tr>
+<tr class="separator:ga00081f79b6a1002993347c2c105a0c87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga17b99a409a7c1d595c202d0fa0d98c6e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__bootrom.html#ga17b99a409a7c1d595c202d0fa0d98c6e">rom_add_flash_runtime_partition</a> (uint32_t start_offset, uint32_t size, uint32_t permissions)</td></tr>
+<tr class="memdesc:ga17b99a409a7c1d595c202d0fa0d98c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a runtime partition to the partition table to specify flash permissions.  <a href="group__pico__bootrom.html#ga17b99a409a7c1d595c202d0fa0d98c6e">More...</a><br /></td></tr>
+<tr class="separator:ga17b99a409a7c1d595c202d0fa0d98c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Access to functions and data in the bootrom. </p>
@@ -201,8 +261,159 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="gaa089fab5e976fea3fd88fecb44863ffc" name="gaa089fab5e976fea3fd88fecb44863ffc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa089fab5e976fea3fd88fecb44863ffc">&#9670;&nbsp;</a></span>rom_connect_internal_flash()</h2>
+<a id="ga17b99a409a7c1d595c202d0fa0d98c6e" name="ga17b99a409a7c1d595c202d0fa0d98c6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga17b99a409a7c1d595c202d0fa0d98c6e">&#9670;&nbsp;</a></span>rom_add_flash_runtime_partition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int rom_add_flash_runtime_partition </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>start_offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>permissions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Add a runtime partition to the partition table to specify flash permissions. </p>
+<p >Note that a partition is added to the runtime view of the partition table maintained by the bootrom if there is space to do so</p>
+<p >Note that these permissions cannot override the permissions for any pre-existing partitions, as permission matches are made on a first partition found basis.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start_offset</td><td>the start_offset into flash in bytes (must be a multiple of 4K) </td></tr>
+    <tr><td class="paramname">size</td><td>the size in byte (must be a multiple of 4K) </td></tr>
+    <tr><td class="paramname">permissions</td><td>the bitwise OR of permissions from PICOBIN_PARTITION_PERMISSION_ constants, e.g. PICOBIN_PARTITION_PERMISSION_S_R_BITS from <a class="el" href="picobin_8h.html">boot/picobin.h</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>&gt;= 0 the partition number added if PICO_ERROR_BAD_ALIGNMENT if the start_offset or size aren't multiples of 4K. PICO_ERROR_INVALID_ARG if the start_offset or size are out of range, or invalid permission bits are set. </dd></dl>
+
+</div>
+</div>
+<a id="ga5067c3bfdb2dc2a08b6e84b40281cabd" name="ga5067c3bfdb2dc2a08b6e84b40281cabd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5067c3bfdb2dc2a08b6e84b40281cabd">&#9670;&nbsp;</a></span>rom_bootrom_state_reset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_bootrom_state_reset </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flags</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reset bootrom state. </p>
+<p >Resets internal bootrom state, based on the following flags:</p>
+<p >STATE_RESET_CURRENT_CORE - Resets any internal bootrom state for the current core into a clean state. This method should be called prior to calling any other bootrom APIs on the current core, and is called automatically by the bootrom during normal boot of core 0 and launch of code on core 1.</p>
+<p >STATE_RESET_OTHER_CORE - Resets any internal bootrom state for the other core into a clean state. This is generally called by a debugger when resetting the state of one core via code running on the other.</p>
+<p >STATE_RESET_GLOBAL_STATE - Resets all non core-specific state, including: Disables access to bootrom APIs from ARM-NS Unlocks all BOOT spinlocks Clears any secure code callbacks</p>
+<p >Note: the sdk calls this method on runtime initialisation to put the bootrom into a known state. This allows the program to function correctly if it is entered (e.g. from a debugger) without taking the usual boot path (which resets the state appropriately itself).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flags</td><td>flags, as detailed above </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaf6ccde86cb9eaffb69667c36110ab318" name="gaf6ccde86cb9eaffb69667c36110ab318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6ccde86cb9eaffb69667c36110ab318">&#9670;&nbsp;</a></span>rom_chain_image()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_chain_image </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>workarea_base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>workarea_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>region_base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>region_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Chain into a launchable image. </p>
+<p >Searches a memory region for a launchable image, and executes it if possible.</p>
+<p >The region_base and region_size specify a word-aligned, word-multiple-sized area of RAM, XIP RAM or flash to search. The first 4 kiB of the region must contain the start of a Block Loop with an IMAGE_DEF. If the new image is launched, the call does not return otherwise an error is returned.</p>
+<p >The region_base is signed, as a negative value can be passed, which indicates that the (negated back to positive value) is both the region_base and the base of the "flash update" region.</p>
+<p >This method potentially requires similar complexity to the boot path in terms of picking amongst versions, checking signatures etc. As a result it requires a user provided memory buffer as a work area. The work area should be word aligned, and of sufficient size or BOOTROM_ERROR_INSUFFICIENT_RESOURCES will be returned. The work area size currently required is 3264, so 3.25K is a good choice.</p>
+<p >NOTE: This method is primarily expected to be used when implementing bootloaders.</p>
+<p >NOTE: When chaining into an image, the OTP_DATA_BOOT_FLAGS0_ROLLBACK_REQUIRED flag will not be set, to prevent invalidating a bootloader without a rollback version by booting a binary which has one.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">workarea_base</td><td>base address of work area </td></tr>
+    <tr><td class="paramname">workarea_size</td><td>size of work area </td></tr>
+    <tr><td class="paramname">region_base</td><td>base address of image </td></tr>
+    <tr><td class="paramname">region_size</td><td>size of window containing image </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga3ba1206778b333958c0dae5582d53bc3" name="ga3ba1206778b333958c0dae5582d53bc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3ba1206778b333958c0dae5582d53bc3">&#9670;&nbsp;</a></span>rom_connect_internal_flash()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -213,6 +424,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">static void rom_connect_internal_flash </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -257,8 +469,62 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gae2af7b462bd0a7e9d0fc0a5fc1ce909e" name="gae2af7b462bd0a7e9d0fc0a5fc1ce909e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae2af7b462bd0a7e9d0fc0a5fc1ce909e">&#9670;&nbsp;</a></span>rom_flash_enter_cmd_xip()</h2>
+<a id="ga3476920d3da9f3882e61eb9ba5ed83f5" name="ga3476920d3da9f3882e61eb9ba5ed83f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3476920d3da9f3882e61eb9ba5ed83f5">&#9670;&nbsp;</a></span>rom_explicit_buy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_explicit_buy </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>buffer_size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Buy an image. </p>
+<p >Perform an "explicit" buy of an executable launched via an IMAGE_DEF which was "explicit buy" flagged. A "flash update" boot of such an image is a way to have the image execute once, but only become the "current" image if it calls back into the bootrom via this call.</p>
+<p >This call may perform the following:</p>
+<ul>
+<li>Erase and rewrite the part of flash containing the "explicit buy" flag in order to clear said flag.</li>
+<li>Erase the first sector of the other partition in an A/B partition scenario, if this new IMAGE_DEF is a version downgrade (so this image will boot again when not doing a "flash update" boot)</li>
+<li>Update the rollback version in OTP if the chip is secure, and a rollback version is present in the image.</li>
+</ul>
+<p >NOTE: The device may reboot while updating the rollback version, if multiple rollback rows need to be written - this occurs when the version crosses a multiple of 24 (for example upgrading from version 23 to 25 requires a reboot, but 23 to 24 or 24 to 25 doesn't). The application should therefore be prepared to reboot when calling this function, if rollback versions are in use.</p>
+<p >Note that the first of the above requires 4 kiB of scratch space, so you should pass a word aligned buffer of at least 4 kiB to this method, or it will return BOOTROM_ERROR_INSUFFICIENT_RESOURCES if the "explicit buy" flag needs to be cleared.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer</td><td>base address of scratch space </td></tr>
+    <tr><td class="paramname">buffer_size</td><td>size of scratch space </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga44ddf78266c92f7a486712b87a695b45" name="ga44ddf78266c92f7a486712b87a695b45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga44ddf78266c92f7a486712b87a695b45">&#9670;&nbsp;</a></span>rom_flash_enter_cmd_xip()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -269,6 +535,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">static void rom_flash_enter_cmd_xip </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -286,8 +553,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga472decf755ee1f64afdf14a90e6c8807" name="ga472decf755ee1f64afdf14a90e6c8807"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga472decf755ee1f64afdf14a90e6c8807">&#9670;&nbsp;</a></span>rom_flash_exit_xip()</h2>
+<a id="ga41206eddaf67511768746b947b9c47f6" name="ga41206eddaf67511768746b947b9c47f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga41206eddaf67511768746b947b9c47f6">&#9670;&nbsp;</a></span>rom_flash_exit_xip()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -298,6 +565,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">static void rom_flash_exit_xip </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -318,8 +586,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gacd6b37e87ff97264edba6c6349e52f72" name="gacd6b37e87ff97264edba6c6349e52f72"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gacd6b37e87ff97264edba6c6349e52f72">&#9670;&nbsp;</a></span>rom_flash_flush_cache()</h2>
+<a id="ga15e12479af4b4618e254065371779e1e" name="ga15e12479af4b4618e254065371779e1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga15e12479af4b4618e254065371779e1e">&#9670;&nbsp;</a></span>rom_flash_flush_cache()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -330,6 +598,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">static void rom_flash_flush_cache </td>
           <td>(</td>
+          <td class="paramtype">void&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
@@ -346,6 +615,71 @@ Functions</h2></td></tr>
 <p >Flush the entire XIP cache, by issuing an invalidate by set/way maintenance operation to every cache line. This ensures that flash program/erase operations are visible to subsequent cached XIP reads.</p>
 <p >Note that this unpins pinned cache lines, which may interfere with cache-as-SRAM use of the XIP cache.</p>
 <p >No other operations are performed.  </p>
+
+</div>
+</div>
+<a id="ga8c9a44afb63e2137b7d5bbdf7c7e75da" name="ga8c9a44afb63e2137b7d5bbdf7c7e75da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8c9a44afb63e2137b7d5bbdf7c7e75da">&#9670;&nbsp;</a></span>rom_flash_op()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_flash_op </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structcflash__flags.html">cflash_flags_t</a>&#160;</td>
+          <td class="paramname"><em>flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>size_bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform a flash read, erase, or program operation. </p>
+<p >The flash operation is bounds-checked against the known flash devices specified by the runtime value of FLASH_DEVINFO, stored in bootram. This is initialised by the bootrom to the OTP value OTP_DATA_FLASH_DEVINFO, if OTP_DATA_BOOT_FLAGS0_FLASH_DEVINFO_ENABLE is set; otherwise it is initialised to 16 MiB for chip select 0 and 0 bytes for chip select 1. FLASH_DEVINFO can be updated at runtime by writing to its location in bootram, the pointer to which can be looked up in the ROM table.</p>
+<p >If a resident partition table is in effect, then the flash operation is also checked against the partition permissions. The Secure version of this function can specify the caller's effective security level (Secure, Non-secure, bootloader) using the CFLASH_SECLEVEL_BITS bitfield of the flags argument, whereas the Non-secure function is always checked against the Non-secure permissions for the partition. Flash operations which span two partitions are not allowed, and will fail address validation.</p>
+<p >If OTP_DATA_FLASH_DEVINFO_D8H_ERASE_SUPPORTED is set, erase operations will use a D8h 64 kiB block erase command where possible (without erasing outside the specified region), for faster erase time. Otherwise, only 20h 4 kiB sector erase commands are used.</p>
+<p >Optionally, this API can translate addr from flash runtime addresses to flash storage addresses, according to the translation currently configured by QMI address translation registers, QMI_ATRANS0 through QMI_ATRANS7. For example, an image stored at a +2 MiB offset in flash (but mapped at XIP address 0 at runtime), writing to an offset of +1 MiB into the image, will write to a physical flash storage address of 3 MiB. Translation is enabled by setting the CFLASH_ASPACE_BITS bitfield in the flags argument.</p>
+<p >When translation is enabled, flash operations which cross address holes in the XIP runtime address space (created by non-maximum ATRANSx_SIZE) will return an error response. This check may tear: the transfer may be partially performed before encountering an address hole and ultimately returning failure.</p>
+<p >When translation is enabled, flash operations are permitted to cross chip select boundaries, provided this does not span an ATRANS address hole. When translation is disabled, the entire operation must target a single flash chip select (as determined by bits 24 and upward of the address), else address validation will fail.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flags</td><td>controls the security level, address space, and flash operation </td></tr>
+    <tr><td class="paramname">addr</td><td>the address of the first flash byte to be accessed, ranging from XIP_BASE to XIP_BASE + 0x1ffffff </td></tr>
+    <tr><td class="paramname">size_bytes</td><td>size of buf, in bytes </td></tr>
+    <tr><td class="paramname">buf</td><td>contains data to be written to flash, for program operations, and data read back from flash, for read operations </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -399,7 +733,7 @@ Functions</h2></td></tr>
 <p >Erase count bytes, starting at addr (offset from start of flash). Optionally, pass a block erase command e.g. D8h block erase, and the size of the block erased by this command - this function will use the larger block erase where possible, for much higher erase speed. addr must be aligned to a 4096-byte sector, and count must be a multiple of 4096 bytes.</p>
 <p >This is a low-level flash API, and no validation of the arguments is performed.</p>
 <p >See rom_flash_op on RP2350 for a higher-level API which checks alignment, flash bounds and partition permissions, and can transparently apply a runtime-to-storage address translation.</p>
-<p >The QSPI device must be in a serial command state before calling this API, which can be achieved by calling <a class="el" href="group__pico__bootrom.html#gaa089fab5e976fea3fd88fecb44863ffc" title="Connect the SSI/QMI to the QSPI pads.">rom_connect_internal_flash()</a> followed by <a class="el" href="group__pico__bootrom.html#ga472decf755ee1f64afdf14a90e6c8807" title="Return the QSPI device from its XIP state to a serial command state.">rom_flash_exit_xip()</a>. After the erase, the flash cache should be flushed via <a class="el" href="group__pico__bootrom.html#gacd6b37e87ff97264edba6c6349e52f72" title="Flush the XIP cache.">rom_flash_flush_cache()</a> to ensure the modified flash data is visible to cached XIP accesses.</p>
+<p >The QSPI device must be in a serial command state before calling this API, which can be achieved by calling <a class="el" href="group__pico__bootrom.html#ga3ba1206778b333958c0dae5582d53bc3" title="Connect the SSI/QMI to the QSPI pads.">rom_connect_internal_flash()</a> followed by <a class="el" href="group__pico__bootrom.html#ga41206eddaf67511768746b947b9c47f6" title="Return the QSPI device from its XIP state to a serial command state.">rom_flash_exit_xip()</a>. After the erase, the flash cache should be flushed via <a class="el" href="group__pico__bootrom.html#ga15e12479af4b4618e254065371779e1e" title="Flush the XIP cache.">rom_flash_flush_cache()</a> to ensure the modified flash data is visible to cached XIP accesses.</p>
 <p >Finally, the original XIP mode should be restored by copying the saved XIP setup function from bootram into SRAM, and executing it: the bootrom provides a default function which restores the flash mode/clkdiv discovered during flash scanning, and user programs can override this with their own XIP setup function.</p>
 <p >For the duration of the erase operation, QMI is in direct mode and attempting to access XIP from DMA, the debugger or the other core will return a bus fault. XIP becomes accessible again once the function returns. </p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -470,6 +804,117 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga6990622d9a728e7e35f34c9c76fc11aa" name="ga6990622d9a728e7e35f34c9c76fc11aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6990622d9a728e7e35f34c9c76fc11aa">&#9670;&nbsp;</a></span>rom_flash_reset_address_trans()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_flash_reset_address_trans </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reset address translation. </p>
+<p >Restore the QMI address translation registers, QMI_ATRANS0 through QMI_ATRANS7, to their reset state. This makes the runtime-to-storage address map an identity map, i.e. the mapped and unmapped address are equal, and the entire space is fully mapped. </p>
+
+</div>
+</div>
+<a id="ga6cd5c5ee439731dd80839d5f043c0c6d" name="ga6cd5c5ee439731dd80839d5f043c0c6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6cd5c5ee439731dd80839d5f043c0c6d">&#9670;&nbsp;</a></span>rom_flash_runtime_to_storage_addr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static intptr_t rom_flash_runtime_to_storage_addr </td>
+          <td>(</td>
+          <td class="paramtype">uintptr_t&#160;</td>
+          <td class="paramname"><em>flash_runtime_addr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Translate runtime to storage address. </p>
+<p >Applies the address translation currently configured by QMI address translation registers.</p>
+<p >Translating an address outside of the XIP runtime address window, or beyond the bounds of an ATRANSx_SIZE field, returns BOOTROM_ERROR_INVALID_ADDRESS, which is not a valid flash storage address. Otherwise, return the storage address which QMI would access when presented with the runtime address addr. This is effectively a virtual-to-physical address translation for QMI.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flash_runtime_addr</td><td>the address to translate </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gab82d162f5e7bc5287d81ac4127e37541" name="gab82d162f5e7bc5287d81ac4127e37541"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab82d162f5e7bc5287d81ac4127e37541">&#9670;&nbsp;</a></span>rom_flash_select_xip_read_mode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void rom_flash_select_xip_read_mode </td>
+          <td>(</td>
+          <td class="paramtype">bootrom_xip_mode_t&#160;</td>
+          <td class="paramname"><em>mode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>clkdiv</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Configure QMI in a XIP read mode. </p>
+<p >Configure QMI for one of a small menu of XIP read modes supported by the bootrom. This mode is configured for both memory windows (both chip selects), and the clock divisor is also applied to direct mode.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>bootrom_xip_mode_t mode to use </td></tr>
+    <tr><td class="paramname">clkdiv</td><td>clock divider </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="gaaaf61234f389da6444b6479f29616d7d" name="gaaaf61234f389da6444b6479f29616d7d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaaaf61234f389da6444b6479f29616d7d">&#9670;&nbsp;</a></span>rom_func_lookup()</h2>
 
@@ -532,6 +977,67 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ga8032648d0d33c7219a1f98bb4bc22c81" name="ga8032648d0d33c7219a1f98bb4bc22c81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8032648d0d33c7219a1f98bb4bc22c81">&#9670;&nbsp;</a></span>rom_func_otp_access()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_func_otp_access </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>buf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>buf_len</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structotp__cmd.html">otp_cmd_t</a>&#160;</td>
+          <td class="paramname"><em>cmd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Writes data from a buffer into OTP, or reads data from OTP into a buffer. </p>
+<p >The buffer must be aligned to 2 bytes or 4 bytes according to the IS_ECC flag.</p>
+<p >This method will read and write rows until the first row it encounters that fails a key or permission check at which it will return BOOTROM_ERROR_NOT_PERMITTED.</p>
+<p >Writing will also stop at the first row where an attempt is made to set an OTP bit from a 1 to a 0, and BOOTROM_ERROR_UNSUPPORTED_MODIFICATION will be returned.</p>
+<p >If all rows are read/written successfully, then BOOTROM_OK will be returned.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buf</td><td>buffer to read to/write from </td></tr>
+    <tr><td class="paramname">buf_len</td><td>size of buf </td></tr>
+    <tr><td class="paramname">cmd</td><td>OTP command to execute<ul>
+<li>0x0000ffff - ROW_NUMBER: 16 low bits are row number (0-4095)</li>
+<li>0x00010000 - IS_WRITE: if set, do a write (not a read)</li>
+<li>0x00020000 - IS_ECC: if this bit is set, each value in the buffer is 2 bytes and ECC is used when read/writing from 24 bit value in OTP. If this bit is not set, each value in the buffer is 4 bytes, the low 24-bits of which are written to or read from OTP. </li>
+</ul>
+</td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga31965209f0ddaeaecaeb3c516abda04d" name="ga31965209f0ddaeaecaeb3c516abda04d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga31965209f0ddaeaecaeb3c516abda04d">&#9670;&nbsp;</a></span>rom_funcs_lookup()</h2>
 
@@ -568,6 +1074,407 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if all the codes were found, and converted to function pointers, false otherwise </dd></dl>
+
+</div>
+</div>
+<a id="gaa12306bf99c4bd77f8ad4416cf5afffa" name="gaa12306bf99c4bd77f8ad4416cf5afffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa12306bf99c4bd77f8ad4416cf5afffa">&#9670;&nbsp;</a></span>rom_get_b_partition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_get_b_partition </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>pi_a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get B partition. </p>
+<p >Returns the index of the B partition of partition A if a partition table is present and loaded, and there is a partition A with a B partition; otherwise returns BOOTROM_ERROR_NOT_FOUND.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pi_a</td><td>the A partition number </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga307eb94ee1eecf5d7b089488420f7311" name="ga307eb94ee1eecf5d7b089488420f7311"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga307eb94ee1eecf5d7b089488420f7311">&#9670;&nbsp;</a></span>rom_get_partition_table_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_get_partition_table_info </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>out_buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>out_buffer_word_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>partition_and_flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Fills a buffer with information from the partition table. </p>
+<p >Fills a buffer with information from the partition table. Note that this API is also used to return information over the picoboot interface.</p>
+<p >On success, the buffer is filled, and the number of words filled in the buffer is returned. If the partition table has not been loaded (e.g. from a watchdog or RAM boot), then this method will return BOOTROM_ERROR_NO_DATA, and you should load the partition table via load_partition_table() first.</p>
+<p >Note that not all data from the partition table is kept resident in memory by the bootrom due to size constraints. To protect against changes being made in flash after the bootrom has loaded the resident portion, the bootrom keeps a hash of the partition table as of the time it loaded it. If the hash has changed by the time this method is called, then it will return BOOTROM_ERROR_INVALID_STATE.</p>
+<p >The information returned is chosen by the partition_and_flags parameter; the first word in the returned buffer, is the (sub)set of those flags that the API supports. You should always check this value before interpreting the buffer.</p>
+<p >Following the first word, returns words of data for each present flag in order. With the exception of PT_INFO, all the flags select "per partition" information, so each field is returned in flag order for one partition after the next. The special SINGLE_PARTITION flag indicates that data for only a single partition is required.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out_buffer</td><td>buffer to write data to </td></tr>
+    <tr><td class="paramname">out_buffer_word_size</td><td>size of out_buffer, in words </td></tr>
+    <tr><td class="paramname">partition_and_flags</td><td>partition number and flags </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga00081f79b6a1002993347c2c105a0c87" name="ga00081f79b6a1002993347c2c105a0c87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga00081f79b6a1002993347c2c105a0c87">&#9670;&nbsp;</a></span>rom_get_sys_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_get_sys_info </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>out_buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>out_buffer_word_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get system information. </p>
+<p >Fills a buffer with various system information. Note that this API is also used to return information over the picoboot interface.</p>
+<p >On success, the buffer is filled, and the number of words filled in the buffer is returned.</p>
+<p >The information returned is chosen by the flags parameter; the first word in the returned buffer, is the (sub)set of those flags that the API supports. You should always check this value before interpreting the buffer.</p>
+<p >"Boot Diagnostic" information is intended to help identify the cause of a failed boot, or booting into an unexpected binary. This information can be retrieved via picoboot after a watchdog reboot, however it will not survive a reset via the RUN pin or POWMAN reset.</p>
+<p >There is only one word of diagnostic information. What it records is based on the pp selection above, which is itself set as a parameter when rebooting programmatically into a normal boot.</p>
+<p >To get diagnostic info, pp must refer to a slot or an "A" partition; image diagnostics are automatically selected on boot from OTP or RAM image, or when chain_image() is called.)</p>
+<p >The diagnostic word thus contains data for either slot 0 and slot 1, or the "A" partition (and its "B" partition if it has one). The low half word of the diagnostic word contains information from slot 0 or partition A; the high half word contains information from slot 1 or partition B.</p>
+<p >To get a full picture of a failed boot involving slots and multiple partitions, the device can be rebooted multiple times to gather the information.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out_buffer</td><td>buffer to write data to </td></tr>
+    <tr><td class="paramname">out_buffer_word_size</td><td>size of out_buffer, in words </td></tr>
+    <tr><td class="paramname">flags</td><td>flags </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gad19f4e80f36e015336ef33003d2f2982" name="gad19f4e80f36e015336ef33003d2f2982"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad19f4e80f36e015336ef33003d2f2982">&#9670;&nbsp;</a></span>rom_get_uf2_target_partition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_get_uf2_target_partition </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>workarea_base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>workarea_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>family_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structresident__partition__t.html">resident_partition_t</a> *&#160;</td>
+          <td class="paramname"><em>partition_out</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get UF2 Target Partition. </p>
+<p >This method performs the same operation to decide on a target partition for a UF2 family ID as when a UF2 is dragged onto the USB drive in BOOTSEL mode.</p>
+<p >This method potentially requires similar complexity to the boot path in terms of picking amongst versions, checking signatures etc. As a result it requires a user provided memory buffer as a work area. The work area should byte word-aligned and of sufficient size or <code>BOOTROM_ERROR_INSUFFICIENT_RESOURCES</code> will be returned. The work area size currently required is 3264, so 3.25K is a good choice.</p>
+<p >If the partition table has not been loaded (e.g. from a watchdog or RAM boot), then this method will return <code>BOOTROM_ERROR_PRECONDITION_NOT_MET</code>, and you should load the partition table via &lt;&lt;api-load_partition_table, load_partition_table()&gt;&gt; first.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">workarea_base</td><td>base address of work area </td></tr>
+    <tr><td class="paramname">workarea_size</td><td>size of work area </td></tr>
+    <tr><td class="paramname">family_id</td><td>the family ID to place </td></tr>
+    <tr><td class="paramname">partition_out</td><td>pointer to the <a class="el" href="structresident__partition__t.html">resident_partition_t</a> to fill with the partition data </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gafc3ac79dba27ea676b281106b84bbfaf" name="gafc3ac79dba27ea676b281106b84bbfaf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gafc3ac79dba27ea676b281106b84bbfaf">&#9670;&nbsp;</a></span>rom_load_partition_table()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_load_partition_table </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>workarea_base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>workarea_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force_reload</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Loads the current partition table from flash, if present. </p>
+<p >This method potentially requires similar complexity to the boot path in terms of picking amongst versions, checking signatures etc. As a result it requires a user provided memory buffer as a work area. The work area should byte word-aligned and of sufficient size or BOOTROM_ERROR_INSUFFICIENT_RESOURCES will be returned. The work area size currently required is 3264, so 3.25K is a good choice.</p>
+<p >If force_reload is false, then this method will return BOOTROM_OK immediately if the bootrom is loaded, otherwise it will reload the partition table if it has been loaded already, allowing for the partition table to be updated in a running program.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">workarea_base</td><td>base address of work area </td></tr>
+    <tr><td class="paramname">workarea_size</td><td>size of work area </td></tr>
+    <tr><td class="paramname">force_reload</td><td>force reloading of the partition table </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga1763ac821dcd10d0a6e65cf1cdffb4b5" name="ga1763ac821dcd10d0a6e65cf1cdffb4b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1763ac821dcd10d0a6e65cf1cdffb4b5">&#9670;&nbsp;</a></span>rom_pick_ab_partition()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_pick_ab_partition </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>workarea_base</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>workarea_size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>partition_a_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flash_update_boot_window_base</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Pick a partition from an A/B pair. </p>
+<p >Determines which of the partitions has the "better" IMAGE_DEF. In the case of executable images, this is the one that would be booted</p>
+<p >This method potentially requires similar complexity to the boot path in terms of picking amongst versions, checking signatures etc. As a result it requires a user provided memory buffer as a work area. The work area should bye word aligned, and of sufficient size or BOOTROM_ERROR_INSUFFICIENT_RESOURCES will be returned. The work area size currently required is 3264, so 3.25K is a good choice.</p>
+<p >The passed partition number can be any valid partition number other than the "B" partition of an A/B pair.</p>
+<p >This method returns a negative error code, or the partition number of the picked partition if (i.e. partition_a_num or the number of its "B" partition if any).</p>
+<p >NOTE: This method does not look at owner partitions, only the A partition passed and it's corresponding B partition.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">workarea_base</td><td>base address of work area </td></tr>
+    <tr><td class="paramname">workarea_size</td><td>size of work area </td></tr>
+    <tr><td class="paramname">partition_a_num</td><td>the A partition of the pair </td></tr>
+    <tr><td class="paramname">flash_update_boot_window_base</td><td>the flash update base, to pick that partition instead of the normally "better" partition </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gadbb1f51a04fd0c27513468996d24f3ce" name="gadbb1f51a04fd0c27513468996d24f3ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadbb1f51a04fd0c27513468996d24f3ce">&#9670;&nbsp;</a></span>rom_reboot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_reboot </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>flags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>delay_ms</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>p0</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>p1</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reboot using the watchdog. </p>
+<p >Resets the chip and uses the watchdog facility to restart.</p>
+<p >The delay_ms is the millisecond delay before the reboot occurs. Note: by default this method is asynchronous (unless NO_RETURN_ON_SUCCESS is set - see below), so the method will return and the reboot will happen this many milliseconds later.</p>
+<p >The flags field contains one of the following values:</p>
+<p >REBOOT_TYPE_NORMAL - reboot into the normal boot path.</p>
+<p >REBOOT_TYPE_BOOTSEL - reboot into BOOTSEL mode. p0 - the GPIO number to use as an activity indicator (enabled by flag in p1). p1 - a set of flags: 0x01 : DISABLE_MSD_INTERFACE - Disable the BOOTSEL USB drive (see &lt;&lt;section_bootrom_mass_storage&gt;&gt;) 0x02 : DISABLE_PICOBOOT_INTERFACE - Disable the {picoboot} interface (see &lt;&lt;section_bootrom_picoboot&gt;&gt;). 0x10 : GPIO_PIN_ACTIVE_LOW - The GPIO in p0 is active low. 0x20 : GPIO_PIN_ENABLED - Enable the activity indicator on the specified GPIO.</p>
+<p >REBOOT_TYPE_RAM_IMAGE - reboot into an image in RAM. The region of RAM or XIP RAM is searched for an image to run. This is the type of reboot used when a RAM UF2 is dragged onto the BOOTSEL USB drive. p0 - the region start address (word-aligned). p1 - the region size (word-aligned).</p>
+<p >REBOOT_TYPE_FLASH_UPDATE - variant of REBOOT_TYPE_NORMAL to use when flash has been updated. This is the type of reboot used after dragging a flash UF2 onto the BOOTSEL USB drive. p0 - the address of the start of the region of flash that was updated. If this address matches the start address of a partition or slot, then that partition or slot is treated preferentially during boot (when there is a choice). This type of boot facilitates TBYB and version downgrades.</p>
+<p >REBOOT_TYPE_PC_SP - reboot to a specific PC and SP. Note: this is not allowed in the ARM-NS variant. p0 - the initial program counter (PC) to start executing at. This must have the lowest bit set for Arm and clear for RISC-V p1 - the initial stack pointer (SP).</p>
+<p >All of the above, can have optional flags ORed in:</p>
+<p >REBOOT_TO_ARM - switch both cores to the Arm architecture (rather than leaving them as is). The call will fail with BOOTROM_ERROR_INVALID_STATE if the Arm architecture is not supported. REBOOT_TO_RISCV - switch both cores to the RISC-V architecture (rather than leaving them as is). The call will fail with BOOTROM_ERROR_INVALID_STATE if the RISC-V architecture is not supported. NO_RETURN_ON_SUCCESS - the watchdog h/w is asynchronous. Setting this bit forces this method not to return if the reboot is successfully initiated.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">flags</td><td>the reboot flags, as detailed above </td></tr>
+    <tr><td class="paramname">delay_ms</td><td>millisecond delay before the reboot occurs </td></tr>
+    <tr><td class="paramname">p0</td><td>parameter 0, depends on flags </td></tr>
+    <tr><td class="paramname">p1</td><td>parameter 1, depends on flags </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -610,6 +1517,154 @@ Facilities are provided to enable an "activity light" via GPIO attached LED for 
 <li>2 To disable the USB PICOBOOT Interface </li>
 </ul>
 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee" name="gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee">&#9670;&nbsp;</a></span>rom_reset_usb_boot_extra()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void rom_reset_usb_boot_extra </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>usb_activity_gpio_pin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>disable_interface_mask</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>usb_activity_gpio_pin_active_low</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reboot the device into BOOTSEL mode. </p>
+<p >This function reboots the device into the BOOTSEL mode ('usb boot").
+
+Facilities are provided to enable an "activity light" via GPIO attached LED for the USB Mass Storage Device, and to limit the USB interfaces exposed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">usb_activity_gpio_pin</td><td>GPIO pin to be used as an activitiy pin, or -1 for none from the host. </td></tr>
+    <tr><td class="paramname">disable_interface_mask</td><td>value to control exposed interfaces<ul>
+<li>0 To enable both interfaces (as per a cold boot)</li>
+<li>1 To disable the USB Mass Storage Interface</li>
+<li>2 To disable the USB PICOBOOT Interface </li>
+</ul>
+</td></tr>
+    <tr><td class="paramname">usb_activity_gpio_pin_active_low</td><td>Activity GPIO is active low (ignored on RP2040) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gaef7eef3fc50ebb572864ce41b56f7ecf" name="gaef7eef3fc50ebb572864ce41b56f7ecf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaef7eef3fc50ebb572864ce41b56f7ecf">&#9670;&nbsp;</a></span>rom_set_ns_api_permission()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static int rom_set_ns_api_permission </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>ns_api_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>allowed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set NS API Permission. </p>
+<p >Allow or disallow the specific NS API (note all NS APIs default to disabled).</p>
+<p >ns_api_num configures ARM-NS access to the given API. When an NS API is disabled, calling it will return BOOTROM_ERROR_NOT_PERMITTED.</p>
+<p >NOTE: All permissions default to disallowed after a reset.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ns_api_num</td><td>ns api number </td></tr>
+    <tr><td class="paramname">allowed</td><td>permission </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gad23d5bfd10e8367b30b1cb6a5750ecc3" name="gad23d5bfd10e8367b30b1cb6a5750ecc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad23d5bfd10e8367b30b1cb6a5750ecc3">&#9670;&nbsp;</a></span>rom_set_rom_callback()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static intptr_t rom_set_rom_callback </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>callback_num</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bootrom_api_callback_generic_t&#160;</td>
+          <td class="paramname"><em>funcptr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set ROM callback function. </p>
+<p >The only currently supported callback_number is 0 which sets the callback used for the secure_call API.</p>
+<p >A callback pointer of 0 deletes the callback function, a positive callback pointer (all valid function pointers are on RP2350) sets the callback function, but a negative callback pointer can be passed to get the old value without setting a new value.</p>
+<p >If successful, returns &gt;=0 (the existing value of the function pointer on entry to the function).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callback_num</td><td>the callback number to set - only 0 is supported on RP2350 </td></tr>
+    <tr><td class="paramname">funcptr</td><td>pointer to the callback function </td></tr>
   </table>
   </dd>
 </dl>
@@ -660,6 +1715,68 @@ Facilities are provided to enable an "activity light" via GPIO attached LED for 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the 'code' to use in <a class="el" href="group__pico__bootrom.html#gaaaf61234f389da6444b6479f29616d7d" title="Lookup a bootrom function by its code.">rom_func_lookup()</a> or <a class="el" href="group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c" title="Lookup a bootrom data address by its code.">rom_data_lookup()</a> </dd></dl>
+
+</div>
+</div>
+<a id="gab36e9c2507be4131612c44c967a8a9a3" name="gab36e9c2507be4131612c44c967a8a9a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab36e9c2507be4131612c44c967a8a9a3">&#9670;&nbsp;</a></span>rom_validate_ns_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void * rom_validate_ns_buffer </td>
+          <td>(</td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>addr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>write</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t *&#160;</td>
+          <td class="paramname"><em>ok</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Validate NS Buffer. </p>
+<p >Utility method that can be used by secure ARM code to validate a buffer passed to it from Non-secure code.</p>
+<p >Both the write parameter and the (out) result parameter ok are RCP booleans, so 0xa500a500 for true, and 0x00c300c3 for false. This enables hardening of this function, and indeed the write parameter must be one of these values or the RCP will hang the system.</p>
+<p >For success, the entire buffer must fit in range XIP_BASE -&gt; SRAM_END, and must be accessible by the Non-secure caller according to SAU + NS MPU (privileged or not based on current processor IPSR and NS CONTROL flag). Buffers in USB RAM are also allowed if access is granted to NS via ACCESSCTRL.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">addr</td><td>buffer address </td></tr>
+    <tr><td class="paramname">size</td><td>buffer size </td></tr>
+    <tr><td class="paramname">write</td><td>rcp boolean, true if writeable </td></tr>
+    <tr><td class="paramname">ok</td><td>rcp boolean result </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

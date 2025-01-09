@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,7 +109,7 @@ $(document).ready(function(){initNavTree('group__pico__float.html',''); initResi
 <p>Optimized single-precision floating point functions.  
 </p>
 <p >Optimized single-precision floating point functions. </p>
-<p >(Replacement) optimized implementations are provided of the following compiler built-ins and math library functions:</p>
+<p >(Replacement) optimized implementations are provided for the following compiler built-ins and math library functions on Arm:</p>
 <ul>
 <li>__aeabi_fadd, __aeabi_fdiv, __aeabi_fmul, __aeabi_frsub, __aeabi_fsub, __aeabi_cfcmpeq, __aeabi_cfrcmple, __aeabi_cfcmple, __aeabi_fcmpeq, __aeabi_fcmplt, __aeabi_fcmple, __aeabi_fcmpge, __aeabi_fcmpgt, __aeabi_fcmpun, __aeabi_i2f, __aeabi_l2f, __aeabi_ui2f, __aeabi_ul2f, __aeabi_f2iz, __aeabi_f2lz, __aeabi_f2uiz, __aeabi_f2ulz, __aeabi_f2d, sqrtf, cosf, sinf, tanf, atan2f, expf, logf</li>
 <li>ldexpf, copysignf, truncf, floorf, ceilf, roundf, asinf, acosf, atanf, sinhf, coshf, tanhf, asinhf, acoshf, atanhf, exp2f, log2f, exp10f, log10f, powf, hypotf, cbrtf, fmodf, dremf, remainderf, remquof, expm1f, log1pf, fmaf</li>
@@ -121,9 +121,13 @@ $(document).ready(function(){initNavTree('group__pico__float.html',''); initResi
 <li>float2fix, float2ufix, float2fix64, float2ufix64, float2int, float2uint, float2int64, float2uint64, float2int_z, float2int64_z, float2uint_z, float2uint64_z</li>
 <li>exp10f, sincosf, powintf</li>
 </ul>
-<p >On RP2350 the following additional functions are available; the _fast methods are faster but do not round correctly</p>
+<p >On RP2350 (Arm) the following additional functions are available; the _fast methods are faster but do not round correctly</p>
 <ul>
-<li>float2fix64_z, fdiv_fast, fsqrt_fast, </li>
+<li>float2fix64_z, fdiv_fast, fsqrt_fast,</li>
+</ul>
+<p >On RP2350 RISC-V, only a small number of compiler runtime functions are overridden with faster implementations:</p>
+<ul>
+<li>__addsf3, __subsf3, __mulsf3 </li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

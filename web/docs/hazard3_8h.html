@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -110,31 +110,35 @@ $(document).ready(function(){initNavTree('hazard3_8h.html',''); initResizable();
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="riscv_8h_source.html">hardware/riscv.h</a>&quot;</code><br />
 <code>#include &quot;hardware/regs/rvcsr.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="features_8h_source.html">hardware/hazard3/features.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="instructions_8h_source.html">hardware/hazard3/instructions.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for hazard3.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="hazard3_8h__incl.png" border="0" usemap="#ainclude_2hardware_2hazard3_8h" alt=""/></div>
 <map name="ainclude_2hardware_2hazard3_8h" id="ainclude_2hardware_2hazard3_8h">
-<area shape="rect" title=" " alt="" coords="409,5,611,32"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,155,473,181"/>
-<area shape="rect" href="riscv_8h.html" title=" " alt="" coords="445,80,575,107"/>
-<area shape="rect" title=" " alt="" coords="514,155,677,181"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,379,259,405"/>
-<area shape="rect" title=" " alt="" coords="252,229,365,256"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,229,494,256"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,229,717,256"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,229,836,256"/>
-<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,453,111,480"/>
-<area shape="rect" title=" " alt="" coords="74,528,157,555"/>
-<area shape="rect" title=" " alt="" coords="211,453,281,480"/>
-<area shape="rect" title=" " alt="" coords="306,453,381,480"/>
-<area shape="rect" title=" " alt="" coords="173,304,337,331"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,304,543,331"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,304,746,331"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,304,930,331"/>
-<area shape="rect" title=" " alt="" coords="954,304,1165,331"/>
-<area shape="rect" title=" " alt="" coords="1189,304,1340,331"/>
-<area shape="rect" title=" " alt="" coords="357,379,548,405"/>
+<area shape="rect" title=" " alt="" coords="331,5,534,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,229,473,256"/>
+<area shape="rect" href="riscv_8h.html" title=" " alt="" coords="265,80,395,107"/>
+<area shape="rect" title=" " alt="" coords="315,155,478,181"/>
+<area shape="rect" href="features_8h.html" title=" " alt="" coords="503,155,712,181"/>
+<area shape="rect" href="instructions_8h.html" title=" " alt="" coords="521,80,752,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,453,259,480"/>
+<area shape="rect" title=" " alt="" coords="252,304,365,331"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,304,494,331"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,304,717,331"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,304,836,331"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,528,111,555"/>
+<area shape="rect" title=" " alt="" coords="74,603,157,629"/>
+<area shape="rect" title=" " alt="" coords="211,528,281,555"/>
+<area shape="rect" title=" " alt="" coords="306,528,381,555"/>
+<area shape="rect" title=" " alt="" coords="173,379,337,405"/>
+<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,379,543,405"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,379,746,405"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,379,930,405"/>
+<area shape="rect" title=" " alt="" coords="954,379,1165,405"/>
+<area shape="rect" title=" " alt="" coords="1189,379,1340,405"/>
+<area shape="rect" title=" " alt="" coords="357,453,548,480"/>
 </map>
 </div>
 </div>
@@ -142,126 +146,19 @@ Include dependency graph for hazard3.h:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ae9895c66b2defc029b71a0e485267f11"><td class="memItemLeft" align="right" valign="top"><a id="ae9895c66b2defc029b71a0e485267f11" name="ae9895c66b2defc029b71a0e485267f11"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_extension_xh3power</b></td></tr>
-<tr class="separator:ae9895c66b2defc029b71a0e485267f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a011a21bf38d8fc9d17a28130cdf43847"><td class="memItemLeft" align="right" valign="top"><a id="a011a21bf38d8fc9d17a28130cdf43847" name="a011a21bf38d8fc9d17a28130cdf43847"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_extension_xh3bextm</b></td></tr>
-<tr class="separator:a011a21bf38d8fc9d17a28130cdf43847"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64dcdecbc4977425fca4fa9641c6e68f"><td class="memItemLeft" align="right" valign="top"><a id="a64dcdecbc4977425fca4fa9641c6e68f" name="a64dcdecbc4977425fca4fa9641c6e68f"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_extension_xh3irq</b></td></tr>
-<tr class="separator:a64dcdecbc4977425fca4fa9641c6e68f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abce417faa621efafd5d0b417744b8191"><td class="memItemLeft" align="right" valign="top"><a id="abce417faa621efafd5d0b417744b8191" name="abce417faa621efafd5d0b417744b8191"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_extension_xh3pmpm</b></td></tr>
-<tr class="separator:abce417faa621efafd5d0b417744b8191"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd761061485e7ebd4637d8317ed295e7"><td class="memItemLeft" align="right" valign="top"><a id="acd761061485e7ebd4637d8317ed295e7" name="acd761061485e7ebd4637d8317ed295e7"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_read</b>(csr,  index)&#160;&#160;&#160;(riscv_read_set_csr(csr, (index)) &gt;&gt; 16)</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_read</b>(csr,  index)&#160;&#160;&#160;static_assert(false, &quot;Not supported: Xh3irq extension&quot;)</td></tr>
 <tr class="separator:acd761061485e7ebd4637d8317ed295e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad89690e9061a1dd63a0b6b7072f1d56"><td class="memItemLeft" align="right" valign="top"><a id="aad89690e9061a1dd63a0b6b7072f1d56" name="aad89690e9061a1dd63a0b6b7072f1d56"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_write</b>(csr,  index,  data)&#160;&#160;&#160;(riscv_write_csr(csr, (index) | ((uint32_t)(data) &lt;&lt; 16)))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_write</b>(csr,  index,  data)&#160;&#160;&#160;static_assert(false, &quot;Not supported: Xh3irq extension&quot;)</td></tr>
 <tr class="separator:aad89690e9061a1dd63a0b6b7072f1d56"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d084dd6af165cf78ffef3c41ba237af"><td class="memItemLeft" align="right" valign="top"><a id="a5d084dd6af165cf78ffef3c41ba237af" name="a5d084dd6af165cf78ffef3c41ba237af"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_set</b>(csr,  index,  data)&#160;&#160;&#160;(riscv_set_csr(csr, (index) | ((uint32_t)(data) &lt;&lt; 16)))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_set</b>(csr,  index,  data)&#160;&#160;&#160;static_assert(false, &quot;Not supported: Xh3irq extension&quot;)</td></tr>
 <tr class="separator:a5d084dd6af165cf78ffef3c41ba237af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9424fec1ed71548aef9cefdc6eda62a0"><td class="memItemLeft" align="right" valign="top"><a id="a9424fec1ed71548aef9cefdc6eda62a0" name="a9424fec1ed71548aef9cefdc6eda62a0"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_clear</b>(csr,  index,  data)&#160;&#160;&#160;(riscv_clear_csr(csr, (index) | ((uint32_t)(data) &lt;&lt; 16)))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>hazard3_irqarray_clear</b>(csr,  index,  data)&#160;&#160;&#160;static_assert(false, &quot;Not supported: Xh3irq extension&quot;)</td></tr>
 <tr class="separator:a9424fec1ed71548aef9cefdc6eda62a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d8ac7d839588d3b7523fa782f803599"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hazard3_8h.html#a6d8ac7d839588d3b7523fa782f803599">__hazard3_bextm</a>(nbits,  rs1,  rs2)</td></tr>
-<tr class="separator:a6d8ac7d839588d3b7523fa782f803599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f03f11deee59c515b3f79856a65314f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="hazard3_8h.html#a7f03f11deee59c515b3f79856a65314f">__hazard3_bextmi</a>(nbits,  rs1,  shamt)</td></tr>
-<tr class="separator:a7f03f11deee59c515b3f79856a65314f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a176212b3202c09d8393033f92f75c30c"><td class="memItemLeft" align="right" valign="top"><a id="a176212b3202c09d8393033f92f75c30c" name="a176212b3202c09d8393033f92f75c30c"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_block</b>()&#160;&#160;&#160;asm volatile (&quot;slt x0, x0, x0&quot; : : : &quot;memory&quot;)</td></tr>
-<tr class="separator:a176212b3202c09d8393033f92f75c30c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab05ce2878e6de823c43cdac42d01d900"><td class="memItemLeft" align="right" valign="top"><a id="ab05ce2878e6de823c43cdac42d01d900" name="ab05ce2878e6de823c43cdac42d01d900"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_unblock</b>()&#160;&#160;&#160;asm volatile (&quot;slt x0, x0, x1&quot; : : : &quot;memory&quot;)</td></tr>
-<tr class="separator:ab05ce2878e6de823c43cdac42d01d900"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a6d8ac7d839588d3b7523fa782f803599" name="a6d8ac7d839588d3b7523fa782f803599"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6d8ac7d839588d3b7523fa782f803599">&#9670;&nbsp;</a></span>__hazard3_bextm</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define __hazard3_bextm</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">nbits, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">rs1, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">rs2&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    ({\</div>
-<div class="line">    uint32_t __h3_bextm_rd; \</div>
-<div class="line">    asm (<span class="stringliteral">&quot;.insn r 0x0b, 0, %3, %0, %1, %2&quot;</span>\</div>
-<div class="line">        : <span class="stringliteral">&quot;=r&quot;</span> (__h3_bextm_rd) \</div>
-<div class="line">        : <span class="stringliteral">&quot;r&quot;</span> (rs1), <span class="stringliteral">&quot;r&quot;</span> (rs2), <span class="stringliteral">&quot;i&quot;</span> ((((nbits) - 1) &amp; 0x7) &lt;&lt; 1)\</div>
-<div class="line">    ); \</div>
-<div class="line">    __h3_bextm_rd; \</div>
-<div class="line">})</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7f03f11deee59c515b3f79856a65314f" name="a7f03f11deee59c515b3f79856a65314f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f03f11deee59c515b3f79856a65314f">&#9670;&nbsp;</a></span>__hazard3_bextmi</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define __hazard3_bextmi</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">nbits, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">rs1, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">shamt&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    ({\</div>
-<div class="line">    uint32_t __h3_bextmi_rd; \</div>
-<div class="line">    asm (<span class="stringliteral">&quot;.insn i 0x0b, 0x4, %0, %1, %2&quot;</span>\</div>
-<div class="line">        : <span class="stringliteral">&quot;=r&quot;</span> (__h3_bextmi_rd) \</div>
-<div class="line">        : <span class="stringliteral">&quot;r&quot;</span> (rs1), <span class="stringliteral">&quot;i&quot;</span> ((((nbits) - 1) &amp; 0x7) &lt;&lt; 6 | ((shamt) &amp; 0x1f)) \</div>
-<div class="line">    ); \</div>
-<div class="line">    __h3_bextmi_rd; \</div>
-<div class="line">})</div>
-</div><!-- fragment -->
-</div>
-</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

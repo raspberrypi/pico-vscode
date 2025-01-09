@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -120,8 +120,8 @@ $(document).ready(function(){initNavTree('cyw43__arch_8h_source.html',''); initR
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;<a class="code" href="cyw43_8h.html">cyw43.h</a>&quot;</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="cyw43__country_8h.html">cyw43_country.h</a>&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;cyw43.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;cyw43_country.h&quot;</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="async__context_8h.html">pico/async_context.h</a>&quot;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#ifdef PICO_CYW43_ARCH_HEADER</span></div>
@@ -224,8 +224,6 @@ $(document).ready(function(){initNavTree('cyw43__arch_8h_source.html',''); initR
 <div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span> </div>
 <div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aasync__context_8h_html"><div class="ttname"><a href="async__context_8h.html">async_context.h</a></div></div>
-<div class="ttc" id="acyw43_8h_html"><div class="ttname"><a href="cyw43_8h.html">cyw43.h</a></div><div class="ttdoc">CYW43 driver interface.</div></div>
-<div class="ttc" id="acyw43__country_8h_html"><div class="ttname"><a href="cyw43__country_8h.html">cyw43_country.h</a></div><div class="ttdoc">CYW43 country codes.</div></div>
 <div class="ttc" id="agroup__pico__cyw43__arch_html_ga092b97e879be5b9aa9121abda23e1337"><div class="ttname"><a href="group__pico__cyw43__arch.html#ga092b97e879be5b9aa9121abda23e1337">cyw43_arch_async_context</a></div><div class="ttdeci">async_context_t * cyw43_arch_async_context(void)</div><div class="ttdoc">Return the current async_context currently in use by the cyw43_arch code.</div><div class="ttdef"><b>Definition:</b> cyw43_arch.c:177</div></div>
 <div class="ttc" id="agroup__pico__cyw43__arch_html_ga1c3d403f299743360ecab36108e4ca7b"><div class="ttname"><a href="group__pico__cyw43__arch.html#ga1c3d403f299743360ecab36108e4ca7b">cyw43_arch_enable_ap_mode</a></div><div class="ttdeci">void cyw43_arch_enable_ap_mode(const char *ssid, const char *password, uint32_t auth)</div><div class="ttdoc">Enables Wi-Fi AP (Access point) mode.</div><div class="ttdef"><b>Definition:</b> cyw43_arch.c:47</div></div>
 <div class="ttc" id="agroup__pico__cyw43__arch_html_ga263d31bcb5c8d387b37b4f9a578e1c27"><div class="ttname"><a href="group__pico__cyw43__arch.html#ga263d31bcb5c8d387b37b4f9a578e1c27">cyw43_arch_lwip_protect</a></div><div class="ttdeci">static int cyw43_arch_lwip_protect(int(*func)(void *param), void *param)</div><div class="ttdoc">sad Release any locks required for calling into lwIP</div><div class="ttdef"><b>Definition:</b> cyw43_arch.h:320</div></div>

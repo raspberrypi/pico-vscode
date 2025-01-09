@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -120,26 +120,26 @@ $(document).ready(function(){initNavTree('unique__id_8h_source.html',''); initRe
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define PICO_UNIQUE_BOARD_ID_SIZE_BYTES 8</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structpico__unique__board__id__t.html">   46</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    uint8_t <span class="keywordtype">id</span>[PICO_UNIQUE_BOARD_ID_SIZE_BYTES];</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>} <a class="code hl_struct" href="structpico__unique__board__id__t.html">pico_unique_board_id_t</a>;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__unique__id.html#gaf87ef8a55d8dc2520776e427a605b6fb">pico_get_unique_board_id</a>(<a class="code hl_struct" href="structpico__unique__board__id__t.html">pico_unique_board_id_t</a> *id_out);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__unique__id.html#ga14fc6ab3ef89570b7dddff13e1b49634">pico_get_unique_board_id_string</a>(<span class="keywordtype">char</span> *id_out, uint len);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>}</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__pico__unique__id_html_ga14fc6ab3ef89570b7dddff13e1b49634"><div class="ttname"><a href="group__pico__unique__id.html#ga14fc6ab3ef89570b7dddff13e1b49634">pico_get_unique_board_id_string</a></div><div class="ttdeci">void pico_get_unique_board_id_string(char *id_out, uint len)</div><div class="ttdoc">Get unique ID in string format.</div><div class="ttdef"><b>Definition:</b> unique_id.c:44</div></div>
-<div class="ttc" id="agroup__pico__unique__id_html_gaf87ef8a55d8dc2520776e427a605b6fb"><div class="ttname"><a href="group__pico__unique__id.html#gaf87ef8a55d8dc2520776e427a605b6fb">pico_get_unique_board_id</a></div><div class="ttdeci">void pico_get_unique_board_id(pico_unique_board_id_t *id_out)</div><div class="ttdoc">Get unique ID.</div><div class="ttdef"><b>Definition:</b> unique_id.c:40</div></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="preprocessor">#define PICO_UNIQUE_BOARD_ID_SIZE_BYTES 8</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structpico__unique__board__id__t.html">   61</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    uint8_t <span class="keywordtype">id</span>[PICO_UNIQUE_BOARD_ID_SIZE_BYTES];</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>} <a class="code hl_struct" href="structpico__unique__board__id__t.html">pico_unique_board_id_t</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__unique__id.html#gaf87ef8a55d8dc2520776e427a605b6fb">pico_get_unique_board_id</a>(<a class="code hl_struct" href="structpico__unique__board__id__t.html">pico_unique_board_id_t</a> *id_out);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__unique__id.html#ga14fc6ab3ef89570b7dddff13e1b49634">pico_get_unique_board_id_string</a>(<span class="keywordtype">char</span> *id_out, uint len);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__pico__unique__id_html_ga14fc6ab3ef89570b7dddff13e1b49634"><div class="ttname"><a href="group__pico__unique__id.html#ga14fc6ab3ef89570b7dddff13e1b49634">pico_get_unique_board_id_string</a></div><div class="ttdeci">void pico_get_unique_board_id_string(char *id_out, uint len)</div><div class="ttdoc">Get unique ID in string format.</div><div class="ttdef"><b>Definition:</b> unique_id.c:52</div></div>
+<div class="ttc" id="agroup__pico__unique__id_html_gaf87ef8a55d8dc2520776e427a605b6fb"><div class="ttname"><a href="group__pico__unique__id.html#gaf87ef8a55d8dc2520776e427a605b6fb">pico_get_unique_board_id</a></div><div class="ttdeci">void pico_get_unique_board_id(pico_unique_board_id_t *id_out)</div><div class="ttdoc">Get unique ID.</div><div class="ttdef"><b>Definition:</b> unique_id.c:48</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
-<div class="ttc" id="astructpico__unique__board__id__t_html"><div class="ttname"><a href="structpico__unique__board__id__t.html">pico_unique_board_id_t</a></div><div class="ttdoc">Unique board identifier.</div><div class="ttdef"><b>Definition:</b> unique_id.h:46</div></div>
+<div class="ttc" id="astructpico__unique__board__id__t_html"><div class="ttname"><a href="structpico__unique__board__id__t.html">pico_unique_board_id_t</a></div><div class="ttdoc">Unique board identifier.</div><div class="ttdef"><b>Definition:</b> unique_id.h:61</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

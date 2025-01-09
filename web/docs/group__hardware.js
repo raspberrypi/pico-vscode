@@ -31,5 +31,6 @@ var group__hardware =
     [ "hardware_uart", "group__hardware__uart.html", "group__hardware__uart" ],
     [ "hardware_vreg", "group__hardware__vreg.html", "group__hardware__vreg" ],
     [ "hardware_watchdog", "group__hardware__watchdog.html", "group__hardware__watchdog" ],
+    [ "hardware_xip_cache", "group__hardware__xip__cache.html", "group__hardware__xip__cache" ],
     [ "hardware_xosc", "group__hardware__xosc.html", "group__hardware__xosc" ]
 ];

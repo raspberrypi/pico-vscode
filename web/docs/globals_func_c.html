@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -119,15 +119,16 @@ $(document).ready(function(){initNavTree('globals_func_c.html',''); initResizabl
 <li>channel_config_set_sniff_enable()&#160;:&#160;<a class="el" href="group__channel__config.html#ga5eb02f42a33115052031d0b457fa2674">dma.h</a></li>
 <li>channel_config_set_transfer_data_size()&#160;:&#160;<a class="el" href="group__channel__config.html#gad1a02fcee90d21f133460006b025bac0">dma.h</a></li>
 <li>channel_config_set_write_increment()&#160;:&#160;<a class="el" href="group__channel__config.html#ga864c9d35a39c315f2972b7272f860e9e">dma.h</a></li>
-<li>check_sys_clock_hz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#gafa509e1c42d351a21ac87a790d7c37e0">clocks.h</a></li>
-<li>check_sys_clock_khz()&#160;:&#160;<a class="el" href="group__pico__stdlib.html#ga8553a9d91b581e0d3dbccd8d83b1a1b9">clocks.h</a></li>
+<li>check_sys_clock_hz()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#gafa509e1c42d351a21ac87a790d7c37e0">clocks.h</a></li>
+<li>check_sys_clock_khz()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga8553a9d91b581e0d3dbccd8d83b1a1b9">clocks.h</a></li>
 <li>clock_configure()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb">clocks.h</a></li>
 <li>clock_configure_gpin()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#gae15228c0d8298d19d883a453334a4d40">clocks.h</a></li>
 <li>clock_configure_int_divider()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga097a126a24cec137d4cc6c01a388f8a5">clocks.h</a></li>
 <li>clock_configure_undivided()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga6b3cc59b3628108d77b2b1b548ec8053">clocks.h</a></li>
 <li>clock_get_hz()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#gaa2e43d722ca3375f53cb65513275a625">clocks.h</a></li>
 <li>clock_gpio_init()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1">clocks.h</a></li>
-<li>clock_gpio_init_int_frac()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#gaec0218c0c355e0691b2005b34caecd3c">clocks.h</a></li>
+<li>clock_gpio_init_int_frac16()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#gab0a3891d48e37432740607ed66873c6d">clocks.h</a></li>
+<li>clock_gpio_init_int_frac8()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga253cf9165fa398d59512536a21459560">clocks.h</a></li>
 <li>clock_set_reported_hz()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga9a8d16dd4e2afa2dbb6fc3d884c2269c">clocks.h</a></li>
 <li>clock_stop()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga33862124558abcae451a0607df8d19bc">clocks.h</a></li>
 <li>clocks_enable_resus()&#160;:&#160;<a class="el" href="group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c">clocks.h</a></li>
@@ -162,39 +163,8 @@ $(document).ready(function(){initNavTree('globals_func_c.html',''); initResizabl
 <li>cyw43_arch_wifi_connect_bssid_blocking()&#160;:&#160;<a class="el" href="group__pico__cyw43__arch.html#gab2766c44297fb1fb7fe12dc67f044bdb">cyw43_arch.h</a></li>
 <li>cyw43_arch_wifi_connect_bssid_timeout_ms()&#160;:&#160;<a class="el" href="group__pico__cyw43__arch.html#gac1aa260ffa68c0ee5dcdbbbf9af80286">cyw43_arch.h</a></li>
 <li>cyw43_arch_wifi_connect_timeout_ms()&#160;:&#160;<a class="el" href="group__pico__cyw43__arch.html#gae1237b71f7793ba603a4b39da37c7a71">cyw43_arch.h</a></li>
-<li>cyw43_cb_tcpip_deinit()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga771ae6253e3c43f0882698e1bff10e00">cyw43.h</a></li>
-<li>cyw43_cb_tcpip_init()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga6313a46aea21d871448521e2d5226877">cyw43.h</a></li>
-<li>cyw43_cb_tcpip_set_link_down()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gaf36552c3981b1a908545b4a4df6cda8b">cyw43.h</a></li>
-<li>cyw43_cb_tcpip_set_link_up()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gaaf733b56534063feebc9ef79006cb605">cyw43.h</a></li>
-<li>cyw43_deinit()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga3cc2cc329198fb250fb39a553a450179">cyw43.h</a></li>
 <li>cyw43_driver_deinit()&#160;:&#160;<a class="el" href="group__pico__cyw43__driver.html#gaf7f9ad52479938f40ae6b1f8c9ef80c3">cyw43_driver.h</a></li>
 <li>cyw43_driver_init()&#160;:&#160;<a class="el" href="group__pico__cyw43__driver.html#ga24c12f6110969e420954356b104aaa07">cyw43_driver.h</a></li>
-<li>cyw43_init()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gac877922f1b00e5812ea5e400366fd736">cyw43.h</a></li>
-<li>cyw43_ioctl()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gabdb5c6e3ec03f9faa6120f2e8e188321">cyw43.h</a></li>
-<li>cyw43_is_initialized()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga944ae9415dec1c802d8d2a56b9bd37cd">cyw43.h</a></li>
-<li>cyw43_pm_value()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga14f51524ab21f29112a615aceddd3909">cyw43.h</a></li>
-<li>cyw43_send_ethernet()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga9ffc71d0f894a6bbff498fa1665da425">cyw43.h</a></li>
-<li>cyw43_tcpip_link_status()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gacb3d0aa29eb5b8985bb583151831bb04">cyw43.h</a></li>
-<li>cyw43_wifi_ap_get_auth()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gac9ecf2ad31b69d20f00e2d8315e00841">cyw43.h</a></li>
-<li>cyw43_wifi_ap_get_max_stas()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gad17b38ecb304595c897b4affec44c215">cyw43.h</a></li>
-<li>cyw43_wifi_ap_get_ssid()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga9d7f6074693aeb25471f08163b08cdbf">cyw43.h</a></li>
-<li>cyw43_wifi_ap_get_stas()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gab29499e8715d128111b70e3e0984e6ee">cyw43.h</a></li>
-<li>cyw43_wifi_ap_set_auth()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga7f21ebce7a017bda5df18f8c487383a0">cyw43.h</a></li>
-<li>cyw43_wifi_ap_set_channel()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga136a9d0d9a59d6d4fd7e02e89ad47065">cyw43.h</a></li>
-<li>cyw43_wifi_ap_set_password()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gabd56c40bc0cb76d85ca6b0f62ae967cf">cyw43.h</a></li>
-<li>cyw43_wifi_ap_set_ssid()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga85fdbfa7fedc03a5fa5b9773bad48640">cyw43.h</a></li>
-<li>cyw43_wifi_get_bssid()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga996bc1311c7e154e653417a91ec07c8a">cyw43.h</a></li>
-<li>cyw43_wifi_get_mac()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga6d8ce9294b54153f84561add7fae2c18">cyw43.h</a></li>
-<li>cyw43_wifi_get_pm()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gaaccc3aa20b519396ab845d9997565470">cyw43.h</a></li>
-<li>cyw43_wifi_get_rssi()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga8ca1a785bf13016d77d7b89507c8540a">cyw43.h</a></li>
-<li>cyw43_wifi_join()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga74a4e0598e897c198f7641a7b28cae66">cyw43.h</a></li>
-<li>cyw43_wifi_leave()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga84e0ae0efe92c62d553647ec96804f03">cyw43.h</a></li>
-<li>cyw43_wifi_link_status()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga71e656d02aabca214ae344f29ae1d033">cyw43.h</a></li>
-<li>cyw43_wifi_pm()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga808eabf2e62d713990ad2994596cb7d3">cyw43.h</a></li>
-<li>cyw43_wifi_scan()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga2031aa8f5deeda41c814c53e010a2179">cyw43.h</a></li>
-<li>cyw43_wifi_scan_active()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga1de9262a18ea6dfa6731a41c452b3937">cyw43.h</a></li>
-<li>cyw43_wifi_set_up()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#ga01d796a677d1abf56f663799c8f3bc12">cyw43.h</a></li>
-<li>cyw43_wifi_update_multicast_filter()&#160;:&#160;<a class="el" href="group__cyw43__driver.html#gab7e616117a114f78bcd5e7a423ac7bf4">cyw43.h</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

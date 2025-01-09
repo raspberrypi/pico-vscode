@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,6 +109,9 @@ $(document).ready(function(){initNavTree('group__hardware__hazard3.html',''); in
 <p>Accessors for Hazard3-specific RISC-V CSRs, and intrinsics for Hazard3 custom instructions.  
 </p>
 <p >Accessors for Hazard3-specific RISC-V CSRs, and intrinsics for Hazard3 custom instructions. </p>
+<p >Intrinsics and asm macros for Hazard3 custom instructions.</p>
+<p >Sets macros for supported Hazard3 custom extensions (features) based on PICO_PLATFORM macros.</p>
+<p >The implementation of these intrinsics depends on the feature macros defined in <a class="el" href="features_8h.html">hardware/hazard3/features.h</a>. When the relevant feature is not present, the intrinsics fall back on an RV32I equivalent if possible. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

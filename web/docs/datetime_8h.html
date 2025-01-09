@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,14 +108,16 @@ $(document).ready(function(){initNavTree('datetime_8h.html',''); initResizable()
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
+<code>#include &lt;time.h&gt;</code><br />
 <code>#include &lt;sys/time.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for datetime.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="datetime_8h__incl.png" border="0" usemap="#ainclude_2pico_2util_2datetime_8h" alt=""/></div>
 <map name="ainclude_2pico_2util_2datetime_8h" id="ainclude_2pico_2util_2datetime_8h">
-<area shape="rect" title=" " alt="" coords="631,5,831,32"/>
+<area shape="rect" title=" " alt="" coords="658,5,858,32"/>
 <area shape="rect" href="pico_8h.html" title=" " alt="" coords="558,80,619,107"/>
+<area shape="rect" title=" " alt="" coords="726,80,790,107"/>
 <area shape="rect" href="rp2__common_2pico__clib__interface_2include_2llvm__libc_2sys_2time_8h_source.html" title=" " alt="" coords="997,80,1087,107"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,319,259,345"/>
 <area shape="rect" title=" " alt="" coords="329,162,443,189"/>
@@ -164,6 +166,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>ms_to_timespec</b> (u
 <tr class="memitem:a3e0af50a31b6774da0e9fdbfd97a4bad"><td class="memItemLeft" align="right" valign="top"><a id="a3e0af50a31b6774da0e9fdbfd97a4bad" name="a3e0af50a31b6774da0e9fdbfd97a4bad"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>us_to_timespec</b> (uint64_t ms, struct timespec *ts)</td></tr>
 <tr class="separator:a3e0af50a31b6774da0e9fdbfd97a4bad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga318f32cb4c8cb86ddb9b8db05b81ea9d"><td class="memItemLeft" align="right" valign="top">struct tm *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d">pico_localtime_r</a> (const time_t *time, struct tm *tm)</td></tr>
+<tr class="memdesc:ga318f32cb4c8cb86ddb9b8db05b81ea9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">localtime_r implementation for use by the pico_util datetime functions  <a href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d">More...</a><br /></td></tr>
+<tr class="separator:ga318f32cb4c8cb86ddb9b8db05b81ea9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga255a6ead98a3f641c09651a14a73f7bb"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">pico_mktime</a> (struct tm *tm)</td></tr>
+<tr class="memdesc:ga255a6ead98a3f641c09651a14a73f7bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">mktime implementation for use by the pico_util datetime functions  <a href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">More...</a><br /></td></tr>
+<tr class="separator:ga255a6ead98a3f641c09651a14a73f7bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

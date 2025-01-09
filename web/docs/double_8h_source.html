@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.0.0
+				v2.1.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -149,7 +149,7 @@ $(document).ready(function(){initNavTree('double_8h_source.html',''); initResiza
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">void</span> sincos(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> *sinx, <span class="keywordtype">double</span> *cosx);</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="keywordtype">double</span> powint(<span class="keywordtype">double</span> x, <span class="keywordtype">int</span> y);</div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#if !PICO_RP2040</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#if !PICO_RP2040 || PICO_COMBINED_DOCS</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keywordtype">double</span> ddiv_fast(<span class="keywordtype">double</span> n, <span class="keywordtype">double</span> d);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keywordtype">double</span> sqrt_fast(<span class="keywordtype">double</span> d);</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">double</span> mla(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, <span class="keywordtype">double</span> z); <span class="comment">// note this is not fused</span></div>
