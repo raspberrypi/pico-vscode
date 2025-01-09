@@ -790,7 +790,7 @@ def GenerateCMake(folder, params):
                         CMAKE_DO_NOT_EDIT_HEADER_PREFIX,
                     )
                 else:
-                    # Prexisting CMake configuration - just adding cmake_header_us
+                    # Preexisting CMake configuration - just adding cmake_header_us
                     file.write(cmake_header_us)
                     # If no PICO_BOARD, then add a line for that, defaulting to pico
                     if not any(["set(PICO_BOARD" in line for line in lines]):
@@ -1372,7 +1372,7 @@ def DoEverything(params):
             params["wantEntryProjName"],
         )
 
-        # If we have any ancilliary files, copy them to our project folder
+        # If we have any ancillary files, copy them to our project folder
         # Currently only the picow with lwIP support needs an extra file, so just check that list
         for feat in features_and_examples:
             if feat in features_list:

@@ -432,7 +432,7 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
             word += isInputEmpty ? "" : "<b>" + i.substring(startIndex, startIndex + projectNameInput.value.length) + "</b>";
             word += i.substring(startIndex + projectNameInput.value.length);
 
-            // set value of li elemetn
+            // set value of li element
             listItem.innerHTML = word;
             examplesList.appendChild(listItem);
           }

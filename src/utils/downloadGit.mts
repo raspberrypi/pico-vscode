@@ -112,7 +112,7 @@ export async function downloadGit(
 
           if (success) {
             // remove include section from gitconfig included in MiniGit
-            // which hardcodes the a path in Programm Files to be used by this git executable
+            // which hardcodes the a path in Program Files to be used by this git executable
             exec(
               `${
                 process.env.ComSpec === "powershell.exe" ? "&" : ""
