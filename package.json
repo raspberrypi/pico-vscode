@@ -56,7 +56,7 @@
   "capabilities": {
     "virtualWorkspaces": {
       "supported": false,
-      "description": "Raspberry Pi Pico extension is intended to be used localy."
+      "description": "Raspberry Pi Pico extension is intended to be used locally."
     },
     "untrustedWorkspaces": {
       "supported": false,

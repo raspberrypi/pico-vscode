@@ -79,7 +79,7 @@ export async function downloadGit(
         Logger.error(
           LoggerSource.gitDownloader,
           "Downloading git failed:",
-          response.statusMessage ?? "{No status message vailable}."
+          response.statusMessage ?? "{No status message available}."
         );
 
         resolve(undefined);

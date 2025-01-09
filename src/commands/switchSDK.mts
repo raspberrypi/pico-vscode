@@ -208,7 +208,7 @@ export default class SwitchSDKCommand extends Command {
           toolchain: toolchain,
         })),
         {
-          placeHolder: "Select ARM/RISCV Embeded Toolchain version",
+          placeHolder: "Select ARM/RISCV Embedded Toolchain version",
         }
       );
     } catch {

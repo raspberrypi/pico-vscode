@@ -613,7 +613,7 @@ def ParseCommandLine():
     parser.add_argument(
         "-tcVersion",
         "--toolchainVersion",
-        help="ARM/RISCV Embeded Toolchain version to use (required)",
+        help="ARM/RISCV Embedded Toolchain version to use (required)",
     )
     parser.add_argument(
         "-picotoolVersion",
@@ -1454,7 +1454,7 @@ if __name__ == "__main__":
     CheckSystemType()
 
     if args.name == None:
-        print("No project name specfied\n")
+        print("No project name specified\n")
         sys.exit(-1)
 
     # Check if we were provided a compiler path, and override the default if so
@@ -1463,7 +1463,7 @@ if __name__ == "__main__":
             codeToolchainPath(args.toolchainVersion) + "/bin/" + COMPILER_NAME()
         )
     else:
-        print("No toolchain version specfied\n")
+        print("No toolchain version specified\n")
         sys.exit(-1)
 
     projectRoot = Path(os.getcwd()) if not args.projectRoot else Path(args.projectRoot)

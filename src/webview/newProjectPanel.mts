@@ -1493,7 +1493,7 @@ export class NewProjectPanel {
 
     this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
 
-    // construct auxiliar html
+    // construct auxiliary html
     // TODO: add offline handling - only load installed ones
     let toolchainsHtml = "";
     let picoSDKsHtml = "";
@@ -1883,7 +1883,7 @@ export class NewProjectPanel {
                       </div>
                       
                       <div class="advanced-option" hidden>
-                        <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM/RISCV Embeded Toolchain version</label>
+                        <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM/RISCV Embedded Toolchain version</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${toolchainsHtml}
                         </select>
@@ -2212,7 +2212,7 @@ export class NewProjectPanel {
   ): Promise<void> {
     const isWindows = process.platform === "win32";
 
-    // convert the selected board type to a vaild option
+    // convert the selected board type to a valid option
     // for the project generator
     let boardTypeFromEnum = "";
     if ("boardType" in options) {
