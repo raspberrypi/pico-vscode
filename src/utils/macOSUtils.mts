@@ -72,7 +72,8 @@ export default class MacOSPythonPkgExtractor {
     try {
       execSync(command);
     } catch (error) {
-      const message = error instanceof Error ? error.message : (error as string);
+      const message =
+        error instanceof Error ? error.message : (error as string);
       this._logger.error(
         `Error executing command: ${command} Error: ${message}`
       );
