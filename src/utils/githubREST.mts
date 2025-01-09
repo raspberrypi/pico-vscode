@@ -109,7 +109,7 @@ interface AuthorizationHeaders {
  */
 export function getAuthorizationHeaders(): AuthorizationHeaders {
   const headers: AuthorizationHeaders = {};
-  // takes some time to execute (noticable in UI)
+  // takes some time to execute (noticeable in UI)
   const githubPAT = Settings.getInstance()?.getString(SettingsKey.githubToken);
   if (githubPAT && githubPAT.length > 0) {
     Logger.info(
@@ -248,7 +248,7 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
       return getReleases(repository);
     } else if (response.status === HTTP_STATUS_FORBIDDEN) {
       // return the default response as without a PAT
-      // ther is no way a rerun will succeed in the near future
+      // there is no way a rerun will succeed in the near future
       throw new Error("GitHub API Code 403 Forbidden. Rate limit exceeded.");
     } else if (response.status !== 200) {
       throw new Error("Error http status code: " + response.status);
@@ -364,7 +364,7 @@ export async function getGithubReleaseByTag(
       return getGithubReleaseByTag(repository, tag);
     } else if (response.status === HTTP_STATUS_FORBIDDEN) {
       // return the default response as without a PAT
-      // ther is no way a rerun will succeed in the near future
+      // there is no way a rerun will succeed in the near future
       throw new Error("GitHub API Code 403 Forbidden. Rate limit exceeded.");
     } else if (response.status !== 200) {
       throw new Error("Error http status code: " + response.status);

@@ -613,7 +613,7 @@ def ParseCommandLine():
     parser.add_argument(
         "-tcVersion",
         "--toolchainVersion",
-        help="ARM/RISCV Embeded Toolchain version to use (required)",
+        help="ARM/RISCV Embedded Toolchain version to use (required)",
     )
     parser.add_argument(
         "-picotoolVersion",
@@ -790,7 +790,7 @@ def GenerateCMake(folder, params):
                         CMAKE_DO_NOT_EDIT_HEADER_PREFIX,
                     )
                 else:
-                    # Prexisting CMake configuration - just adding cmake_header_us
+                    # Preexisting CMake configuration - just adding cmake_header_us
                     file.write(cmake_header_us)
                     # If no PICO_BOARD, then add a line for that, defaulting to pico
                     if not any(["set(PICO_BOARD" in line for line in lines]):
@@ -1372,7 +1372,7 @@ def DoEverything(params):
             params["wantEntryProjName"],
         )
 
-        # If we have any ancilliary files, copy them to our project folder
+        # If we have any ancillary files, copy them to our project folder
         # Currently only the picow with lwIP support needs an extra file, so just check that list
         for feat in features_and_examples:
             if feat in features_list:
@@ -1454,7 +1454,7 @@ if __name__ == "__main__":
     CheckSystemType()
 
     if args.name == None:
-        print("No project name specfied\n")
+        print("No project name specified\n")
         sys.exit(-1)
 
     # Check if we were provided a compiler path, and override the default if so
@@ -1463,7 +1463,7 @@ if __name__ == "__main__":
             codeToolchainPath(args.toolchainVersion) + "/bin/" + COMPILER_NAME()
         )
     else:
-        print("No toolchain version specfied\n")
+        print("No toolchain version specified\n")
         sys.exit(-1)
 
     projectRoot = Path(os.getcwd()) if not args.projectRoot else Path(args.projectRoot)

@@ -994,7 +994,7 @@ export async function downloadAndInstallNinja(
 /// by reading /proc/cpuinfo and /etc/os-release
 // async function isRaspberryPi(): Promise<boolean> {
 //   try {
-//     // TODO: imporove detection speed
+//     // TODO: improve detection speed
 //     const cpuInfo = await readFile("/proc/cpuinfo", "utf8");
 //     const osRelease = await readFile("/etc/os-release", "utf8");
 //     const versionId = osRelease.match(/VERSION_ID="?(\d+)"?/)?.[1] ?? "0";
@@ -1046,7 +1046,7 @@ export async function downloadAndInstallOpenOCD(
   const extraCallback = (): void => {
     if (process.platform !== "win32") {
       // on darwin and linux platforms create windows compatible alias
-      // so confiuration works on all platforms
+      // so configuration works on all platforms
       symlinkSync(
         join(targetDirectory, "openocd"),
         join(targetDirectory, "openocd.exe"),
@@ -1264,10 +1264,10 @@ export async function downloadEmbedPython(
     rmSync(archiveFilePath, { recursive: true, force: true });
 
     return success ? `${settingsTargetDirectory}/python.exe` : undefined;
-  } catch (errror) {
+  } catch (error) {
     Logger.error(
       LoggerSource.downloader,
-      `Extracting Embed Python failed: ${unknownErrorToString(errror)}`
+      `Extracting Embed Python failed: ${unknownErrorToString(error)}`
     );
 
     return;

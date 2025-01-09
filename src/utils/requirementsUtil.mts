@@ -25,7 +25,7 @@ export async function showRequirementsNotMetErrorMessage(
 }
 
 /**
- * Checks if a git executable is avialable or try to install if possible.
+ * Checks if a git executable is available or try to install if possible.
  *
  * @returns True if git is available, false otherwise.
  */

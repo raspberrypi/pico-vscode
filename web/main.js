@@ -180,7 +180,7 @@ var exampleSupportedBoards = [];
 
     // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
     if (cmakeMode === null || isNaN(cmakeMode) || cmakeMode < 0 || cmakeMode > 4) {
-      // TODO: first check if defaul is supported
+      // TODO: first check if default is supported
       cmakeMode = 0;
       console.debug('Invalid cmake version value: ' + cmakeMode.toString());
       vscode.postMessage({

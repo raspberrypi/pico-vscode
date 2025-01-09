@@ -41,7 +41,7 @@ class State {
 }
 
 function restoreState(state) {
-  console.debug("[raspbery-pi-pico - new project panel - state] Restoring state from previous session");
+  console.debug("[raspberry-pi-pico - new project panel - state] Restoring state from previous session");
   // load state
   if (state.projectName) {
     document.getElementById('inp-project-name').value = state.projectName;
@@ -53,7 +53,7 @@ function restoreState(state) {
   // TODO: currently must be restorted before board type because otherwise 
   // the change of board type would trigger the change listener sending version bundle message
   // this would undisable the pico2 board type and it does not get disabled again in the loading
-  // So maybe restore the board type disable state after restoring the state to avaoid these conflicts
+  // So maybe restore the board type disable state after restoring the state to avoid these conflicts
   if (state.selectedSDK) {
     document.getElementById('sel-pico-sdk').value = state.selectedSDK;
   }
@@ -201,7 +201,7 @@ function restoreState(state) {
     document.getElementById('btn-advanced-options').click();
   }
   if (!forceCreateFromExample && !doProjectImport && state.manuallyFromExample) {
-    console.debug("[raspbery-pi-pico - new project panel - state] Manually triggering create from example");
+    console.debug("[raspberry-pi-pico - new project panel - state] Manually triggering create from example");
 
     // will crash the webview to set it on disable and click create from example
     /*const pni = document.getElementById('inp-project-name');
