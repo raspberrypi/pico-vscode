@@ -44,7 +44,13 @@ export default class ConfigureCmakeCommand extends Command {
     if (await configureCmakeNinja(workspaceFolder.uri)) {
       void window.showInformationMessage("CMake has configured your build.");
     } else {
-      void window.showWarningMessage("CMake failed to configure your build.");
+      void window.showWarningMessage(
+        "CMake failed to configure your build. " +
+        "See the developer console for details " +
+        "(Help -> Toggle Developer Tools). " +
+        "You can also use the CMake Tools Extension Integration " +
+        "to get more information about the error."
+      );
     }
   }
 }
@@ -102,7 +108,11 @@ export class CleanCMakeCommand extends Command {
       );
     } else {
       void window.showWarningMessage(
-        "CMake could not be reconfigured. See log for details."
+        "CMake could not be reconfigured. " +
+        "See the developer console for details " +
+        "(Help -> Toggle Developer Tools). " +
+        "You can also use the CMake Tools Extension Integration " +
+        "to get more information about the error."
       );
     }
   }
