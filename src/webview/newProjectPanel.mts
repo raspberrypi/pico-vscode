@@ -1991,7 +1991,8 @@ export class NewProjectPanel {
             ${
               !this._isProjectImport
                 ? `<div id="section-features" class="snap-start mt-10 project-options">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Features</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Features</h3>
+                <h4 class="text-sm text-gray-900 dark:text-white mb-8">Add example code snippets to demonstrate use of these features</h4>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
