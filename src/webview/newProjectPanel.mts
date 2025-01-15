@@ -1491,6 +1491,13 @@ export class NewProjectPanel {
       )
     );
 
+    const defaultTheme =
+      window.activeColorTheme.kind === ColorThemeKind.Dark ||
+      window.activeColorTheme.kind === ColorThemeKind.HighContrast
+        ? "dark"
+        : "light";
+    const riscvDefaultSvgUri = defaultTheme === "dark" ? riscvWhiteSvgUri : riscvBlackSvgUri;
+
     this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
 
     // construct auxiliary html
@@ -1664,6 +1671,8 @@ export class NewProjectPanel {
           var doProjectImport = ${this._isProjectImport};
           var forceCreateFromExample = ${forceCreateFromExample};
 
+          localStorage.theme = "${defaultTheme}";
+
           // riscv logos
           const riscvWhiteSvgUri = "${riscvWhiteSvgUri.toString()}";
           const riscvWhiteYellowSvgUri = "${riscvWhiteYellowSvgUri.toString()}";
@@ -1671,7 +1680,7 @@ export class NewProjectPanel {
           const riscvColorSvgUri = "${riscvColorSvgUri.toString()}";
         </script>
       </head>
-      <body class="scroll-smooth w-screen">
+      <body class="scroll-smooth w-screen${defaultTheme === "dark" ? " dark" : ""}">
         <div id="above-nav" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-0 z-10 pl-5 h-5">
         </div>
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
@@ -1796,7 +1805,7 @@ export class NewProjectPanel {
                             <label for="riscvToggle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Architecture (Pico 2)</label>
                             <div class="flex items-center justify-between p-2 bg-gray-100 rounded-lg dark:bg-gray-700">
                               <input type="checkbox" id="sel-riscv" class="ms-2" />
-                              <img id="riscvIcon" src="${riscvColorSvgUri.toString()}" alt="RISC-V Logo" class="h-6 mx-auto w-28">
+                              <img id="riscvIcon" src="${riscvDefaultSvgUri.toString()}" alt="RISC-V Logo" class="h-6 mx-auto w-28">
                             </div>
                           </div>
                         </div>

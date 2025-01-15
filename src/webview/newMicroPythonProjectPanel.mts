@@ -471,6 +471,12 @@ print("Finished.")\r\n`;
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
 
+    const defaultTheme =
+      window.activeColorTheme.kind === ColorThemeKind.Dark ||
+      window.activeColorTheme.kind === ColorThemeKind.HighContrast
+        ? "dark"
+        : "light";
+
     return `<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -492,9 +498,12 @@ print("Finished.")\r\n`;
           tailwind.config = {
             darkMode: 'class',
           };
+
+          localStorage.theme = "${defaultTheme}";
+
         </script>
       </head>
-      <body class="scroll-smooth w-screen">
+      <body class="scroll-smooth w-screen${defaultTheme === "dark" ? " dark" : ""}">
         <div id="above-nav" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-0 z-10 pl-5 h-5">
         </div>
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
