@@ -238,9 +238,7 @@
         "libNames": [],
         "boards": [
             "pico",
-            "pico_w",
-            "pico2",
-            "pico2_w"
+            "pico2"
         ],
         "supportRiscV": true
     },
