@@ -65,7 +65,11 @@ export default async function findPython(): Promise<string | undefined> {
                   "python path or it is not supported:",
                 version
               );
-              // TODO: clear python path from settings
+              // if version is not supported, clear the path
+              await Settings.getInstance()?.updateGlobal(
+                SettingsKey.python3Path,
+                undefined
+              );
             }
           } catch (error) {
             Logger.warn(
@@ -75,6 +79,17 @@ export default async function findPython(): Promise<string | undefined> {
             );
           }
         }
+        // if path does not exist, clear it
+        else {
+          Logger.warn(
+            LoggerSource.pythonHelper,
+            "Python path set in user settings does not exist:",
+            pythonPath
+          );
+          await Settings.getInstance()?.updateGlobal(
+            SettingsKey.python3Path,
+            undefined
+          );
       }
 
       // Check python extension for any python environments with version >= 3.9
