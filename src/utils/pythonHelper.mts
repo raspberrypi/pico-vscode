@@ -90,6 +90,7 @@ export default async function findPython(): Promise<string | undefined> {
             SettingsKey.python3Path,
             undefined
           );
+        }
       }
 
       // Check python extension for any python environments with version >= 3.9
