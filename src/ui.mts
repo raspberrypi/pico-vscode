@@ -65,13 +65,18 @@ export default class UI {
     this._items[StatusBarItemKey.picoSDKQuickPick].text = STATUS_BAR_ITEMS[
       StatusBarItemKey.picoSDKQuickPick
     ].text.replace("<version>", version);
-    this._activityBarProvider.refresh(version);
+    this._activityBarProvider.refreshSDK(version);
   }
 
   public updateBoard(board: string): void {
     this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
       StatusBarItemKey.picoBoardQuickPick
     ].text.replace("<board>", board);
+    this._activityBarProvider.refreshBoard(board);
+  }
+
+  public updateBuildType(buildType: string): void {
+    this._activityBarProvider.refreshBuildType(buildType);
   }
 
   /*

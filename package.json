@@ -188,6 +188,12 @@
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
+        "command": "raspberry-pi-pico.switchBuildType",
+        "title": "Switch Build Type",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject"
+      },
+      {
         "command": "raspberry-pi-pico.importProject",
         "title": "Import Pico Project",
         "category": "Raspberry Pi Pico"

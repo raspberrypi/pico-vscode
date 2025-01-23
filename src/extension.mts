@@ -17,6 +17,7 @@ import Logger, { LoggerSource } from "./logger.mjs";
 import {
   CMAKE_DO_NOT_EDIT_HEADER_PREFIX,
   CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD,
+  cmakeGetPicoVar,
   cmakeGetSelectedBoard,
   cmakeGetSelectedToolchainAndSDKVersions,
   configureCmakeNinja,
@@ -69,6 +70,7 @@ import DebugLayoutCommand from "./commands/debugLayout.mjs";
 import OpenSdkDocumentationCommand from "./commands/openSdkDocumentation.mjs";
 import ConfigureCmakeCommand, {
   CleanCMakeCommand,
+  SwitchBuildTypeCommand,
 } from "./commands/configureCmake.mjs";
 import ImportProjectCommand from "./commands/importProject.mjs";
 import { homedir } from "os";
@@ -123,10 +125,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new DebugLayoutCommand(),
     new OpenSdkDocumentationCommand(context.extensionUri),
     new ConfigureCmakeCommand(),
+    new SwitchBuildTypeCommand(ui),
     new ImportProjectCommand(context.extensionUri),
     new NewExampleProjectCommand(context.extensionUri),
     new UninstallPicoSDKCommand(),
-    new CleanCMakeCommand(),
+    new CleanCMakeCommand(ui),
   ];
 
   // register all command handlers
@@ -773,6 +776,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
   if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
     //run `cmake -G Ninja -B ./build ` in the root folder
     await configureCmakeNinja(workspaceFolder.uri);
+
+    const ws = workspaceFolder.uri.fsPath;
+    const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+    const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
+    ui.updateBuildType(newBuildType ?? "unknown");
 
     workspace.onDidChangeTextDocument(event => {
       // Check if the changed document is the file you are interested in

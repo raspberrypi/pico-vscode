@@ -101,7 +101,10 @@ export async function getPath(): Promise<string> {
   }`;
 }
 
-export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
+export async function configureCmakeNinja(
+  folder: Uri,
+  buildType?: string
+): Promise<boolean> {
   if (process.platform !== "win32" && folder.fsPath.includes("\\")) {
     const errorMsg =
       "CMake currently does not support folder names with backslashes.";
@@ -200,7 +203,8 @@ export async function configureCmakeNinja(folder: Uri): Promise<boolean> {
             pythonPath.includes("/")
               ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `
               : ""
-          }` + `-G Ninja -B ./build "${folder.fsPath}"`;
+          }` + `-G Ninja -B ./build "${folder.fsPath}"`
+          + (buildType ? ` -DCMAKE_BUILD_TYPE=${buildType}` : "");
 
         await new Promise<void>((resolve, reject) => {
           // use exec to be able to cancel the process

@@ -21,6 +21,7 @@ import OpenSdkDocumentationCommand, {
 } from "../commands/openSdkDocumentation.mjs";
 import ConfigureCmakeCommand, {
   CleanCMakeCommand,
+  SwitchBuildTypeCommand,
 } from "../commands/configureCmake.mjs";
 import ImportProjectCommand from "../commands/importProject.mjs";
 import NewExampleProjectCommand from "../commands/newExampleProject.mjs";
@@ -52,6 +53,7 @@ const RUN_PROJECT_LABEL = "Run Project (USB)";
 const FLASH_PROJECT_LABEL = "Flash Project (SWD)";
 const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
 const CLEAN_CMAKE_PROJECT_LABEL = "Clean CMake";
+const SWITCH_BUILD_TYPE_LABEL = "Switch Build Type";
 const DEBUG_PROJECT_LABEL = "Debug Project";
 const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
 
@@ -60,6 +62,8 @@ export class PicoProjectActivityBar
 {
   public static readonly viewType = "raspberry-pi-pico-project-quick-access";
   private _sdkVersion: string = "N/A";
+  private _board: string = "N/A";
+  private _buildType: string = "N/A";
 
   private _onDidChangeTreeData = new EventEmitter<
     QuickAccessCommand | undefined | void
@@ -71,9 +75,23 @@ export class PicoProjectActivityBar
 
   constructor() {}
 
-  public refresh(newPicoSDKVersion?: string): void {
+  public refreshSDK(newPicoSDKVersion?: string): void {
     if (newPicoSDKVersion) {
       this._sdkVersion = newPicoSDKVersion;
+    }
+    this._onDidChangeTreeData.fire();
+  }
+
+  public refreshBoard(newBoard?: string): void {
+    if (newBoard) {
+      this._board = newBoard;
+    }
+    this._onDidChangeTreeData.fire();
+  }
+
+  public refreshBuildType(newBuildType?: string): void {
+    if (newBuildType) {
+      this._buildType = newBuildType;
     }
     this._onDidChangeTreeData.fire();
   }
@@ -119,13 +137,18 @@ export class PicoProjectActivityBar
         // or "trash" or "sync"
         element.iconPath = new ThemeIcon("squirrel");
         break;
+      case SWITCH_BUILD_TYPE_LABEL:
+        element.iconPath = new ThemeIcon("gear");
+        element.description = `${this._buildType}`;
+        break;
       case SWITCH_SDK_LABEL:
         // repo-forked or extensions; alt. "replace-all"
         element.iconPath = new ThemeIcon("find-replace-all");
-        element.description = `Current: ${this._sdkVersion}`;
+        element.description = `${this._sdkVersion}`;
         break;
       case SWITCH_BOARD_LABEL:
         element.iconPath = new ThemeIcon("circuit-board");
+        element.description = `${this._board}`;
         break;
       case DEBUG_LAYOUT_PROJECT_LABEL:
         element.iconPath = new ThemeIcon("debug-console");
@@ -252,6 +275,14 @@ export class PicoProjectActivityBar
           {
             command: `${extensionName}.${CleanCMakeCommand.id}`,
             title: CLEAN_CMAKE_PROJECT_LABEL,
+          }
+        ),
+        new QuickAccessCommand(
+          SWITCH_BUILD_TYPE_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${SwitchBuildTypeCommand.id}`,
+            title: SWITCH_BUILD_TYPE_LABEL,
           }
         ),
         new QuickAccessCommand(
