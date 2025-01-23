@@ -11,6 +11,16 @@ import { existsSync } from "fs";
 import { homedir } from "os";
 import { extensionName } from "../commands/command.mjs";
 
+function checkUnsupportedPython(pythonPath: string): boolean {
+  // Problems seem to occur on some Windows systems when using the Windows Store Python
+  // so check for that and don't use it.
+  if (pythonPath.includes("AppData\\Local\\Microsoft\\WindowsApps")) {
+    return true;
+  }
+
+  return false;
+}
+
 /**
  * This function tries to find a python environment to use. It will possible download
  * a python environment if it is not found and a download is available. This will
@@ -44,7 +54,7 @@ export default async function findPython(): Promise<string | undefined> {
       );
       if (pythonPath) {
         // check if it actually exists and is a supported version
-        if (existsSync(pythonPath)) {
+        if (existsSync(pythonPath) && !checkUnsupportedPython(pythonPath)) {
           try {
             const version = execSync(`${
               process.env.ComSpec === "powershell.exe" ? "&" : ""
@@ -210,7 +220,10 @@ async function findPythonInPythonExtension(): Promise<string | undefined> {
     resolved?.version &&
     checkPythonVersion(resolved.version.major, resolved.version.minor)
   ) {
-    if (resolved.executable.uri) {
+    if (
+      resolved.executable.uri &&
+      !checkUnsupportedPython(resolved.executable.uri.fsPath)
+    ) {
       return resolved.executable.uri.fsPath;
     } else {
       Logger.debug(
@@ -231,7 +244,10 @@ async function findPythonInPythonExtension(): Promise<string | undefined> {
       resolved?.version &&
       checkPythonVersion(resolved.version.major, resolved.version.minor)
     ) {
-      if (resolved.executable.uri) {
+      if (
+        resolved.executable.uri &&
+        !checkUnsupportedPython(resolved.executable.uri.fsPath)
+      ) {
         return resolved.executable.uri.fsPath;
       } else {
         Logger.debug(
