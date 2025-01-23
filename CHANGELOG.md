@@ -8,6 +8,22 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.3] - 2025-01-23
+
+### Added
+- Create empty compile_commands.json, to prevent the intellisense warning when creating a new project
+- Added support for looking into PICO_BOARD_HEADER_DIRS when switching board (#123)
+- Added progress bar when downloading examples
+- Added note about what Features do on the project creation page (#151)
+
+### Fixed
+- Fixed Risc-V selection for Pico 2 W
+- Initialise submodules when they're missing from existing SDK download (eg a failed download)
+- Removed environment dependence from pico_project.py, now passing everything as arguments (#128)
+- Fixed run from RAM option
+- Fixed bug where project creation pages always start with a blip of light mode before switching to dark
+- Improve python path handling with invalid or unsupported python versions (#155, #156)
+
 ## [0.17.2] - 2024-11-25
 
 ### Added
