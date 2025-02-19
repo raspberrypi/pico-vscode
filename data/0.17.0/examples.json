@@ -1331,6 +1331,17 @@
         ],
         "supportRiscV": true
     },
+    "picow_wifi_scan": {
+        "path": "pico_w/wifi/wifi_scan",
+        "name": "picow_wifi_scan",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
     "picow_blink": {
         "path": "pico_w/wifi/blink",
         "name": "picow_blink",
@@ -1364,6 +1375,61 @@
         ],
         "supportRiscV": true
     },
+    "picow_ntp_client": {
+        "path": "pico_w/wifi/ntp_client",
+        "name": "picow_ntp_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_udp_beacon": {
+        "path": "pico_w/wifi/udp_beacon",
+        "name": "picow_udp_beacon",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_iperf_server": {
+        "path": "pico_w/wifi/iperf",
+        "name": "picow_iperf_server",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_tcpip_server": {
+        "path": "pico_w/wifi/tcp_server",
+        "name": "picow_tcpip_server",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_access_point": {
+        "path": "pico_w/wifi/access_point",
+        "name": "picow_access_point",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
     "picow_ble_temp_reader": {
         "path": "pico_w/bt/standalone",
         "name": "picow_ble_temp_reader",
@@ -1382,6 +1448,39 @@
         "libNames": [],
         "boards": [
             "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_ble_temp_sensor_with_wifi": {
+        "path": "pico_w/bt/standalone",
+        "name": "picow_ble_temp_sensor_with_wifi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "dvi_out_hstx_encoder": {
+        "path": "hstx/dvi_out_hstx_encoder",
+        "name": "dvi_out_hstx_encoder",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hstx_spi_lcd": {
+        "path": "hstx/spi_lcd",
+        "name": "hstx_spi_lcd",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
             "pico2_w"
         ],
         "supportRiscV": true

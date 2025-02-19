@@ -823,6 +823,11 @@ def GenerateCMake(folder, params):
                             cmake_header2 = cmake_header2.replace(
                                 projectName, newProjectName
                             )
+                    if "WIFI_SSID" in line and "WIFI_SSID" not in cmake_header2:
+                        cmake_header2 += (
+                            '\nset(WIFI_SSID "Your Wi-Fi SSID")\n'
+                            'set(WIFI_PASSWORD "Your Wi-Fi Password")\n'
+                        )
                 # Write all headers
                 file.write(cmake_header1)
                 file.write(cmake_header_us)

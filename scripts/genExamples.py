@@ -53,6 +53,8 @@ except FileNotFoundError:
     pass
 os.system("git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-2.1.0")
 os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.1.0"
+os.environ["WIFI_SSID"] = "Your Wi-Fi SSID"
+os.environ["WIFI_PASSWORD"] = "Your Wi-Fi Password"
 
 for board in boards:
     for platform in platforms[board]:
@@ -74,13 +76,17 @@ for board in boards:
                 target = line.strip('.').strip()
                 if (
                     "all" in target or
+                    "build_variant" in target or
                     target == "clean" or
                     target == "depend" or
                     target == "edit_cache" or
                     target == "rebuild_cache" or
-                    target.endswith("_pio_h")
+                    target.endswith("_pio_h") or
+                    target.endswith("_poll")
                 ):
                     continue
+                if target.endswith("_background"):
+                    target = target[:-len("_background")]
                 targets.append(target)
 
         walk_dir = "./pico-examples"
@@ -106,7 +112,10 @@ for board in boards:
                     if "add_executable" in f_content:
                         exes = []
                         for target in targets:
-                            if f"example_auto_set_url({target})" in f_content:
+                            if (
+                                f"pico_add_extra_outputs({target})" in f_content or
+                                f"pico_add_extra_outputs({target}_background)" in f_content
+                            ):
                                 exes.append(target)
                                 tmp = target_locs.get(target, {
                                     "locs": [],
@@ -161,6 +170,9 @@ for board in boards:
                 'exampleLibs'   : v["libs"]
             }
             GenerateCMake("tmp", params)
+            if params["wantThreadsafeBackground"] or params["wantPoll"]:
+                # Write lwipopts for examples
+                shutil.copy("lwipopts.h", "tmp/")
             shutil.copy("pico-examples/pico_sdk_import.cmake", "tmp/")
 
             retcmake = os.system("cmake -S tmp -B tmp-build -DCMAKE_COMPILE_WARNING_AS_ERROR=ON")
