@@ -8,6 +8,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.4] - 2025-02-19
+
+### Fixed
+- Prevent extension breaking when new SDK versions are released
+
+### Added
+- Added SwitchBuildType command to switch between CMake build types
+
 ## [0.17.3] - 2025-01-23
 
 ### Added
