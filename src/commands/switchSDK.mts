@@ -223,10 +223,23 @@ export default class SwitchSDKCommand extends Command {
     return selectedToolchainVersion;
   }
 
-  public static async askSDKVersion(): Promise<
+  public static async askSDKVersion(
+    versionBundlesLoader: VersionBundlesLoader
+  ): Promise<
     { label: string; sdk: string } | undefined
   > {
     const sdks = await getSDKReleases();
+
+    // Remove newer SDKs without version bundles
+    let versionBundle = await versionBundlesLoader.getModuleVersion(
+      sdks[0]
+    );
+    while (versionBundle === undefined && sdks.length > 1) {
+      sdks.shift();
+      versionBundle = await versionBundlesLoader.getModuleVersion(
+        sdks[0]
+      );
+    }
 
     if (sdks.length === 0) {
       void window.showErrorMessage(
@@ -317,7 +330,9 @@ export default class SwitchSDKCommand extends Command {
 
     const workspaceFolder = workspace.workspaceFolders[0];
 
-    const selectedSDK = await SwitchSDKCommand.askSDKVersion();
+    const selectedSDK = await SwitchSDKCommand.askSDKVersion(
+      this._versionBundlesLoader
+    );
 
     if (selectedSDK === undefined) {
       return;

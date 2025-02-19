@@ -1533,6 +1533,14 @@ export class NewProjectPanel {
         availableSDKs[0]
       );
 
+      // Remove newer SDKs without version bundles
+      while (this._versionBundle === undefined && availableSDKs.length > 1) {
+        availableSDKs.shift();
+        this._versionBundle = await this._versionBundlesLoader.getModuleVersion(
+          availableSDKs[0]
+        );
+      }
+
       availableSDKs
         .sort((a, b) => compare(b, a))
         .forEach(sdk => {
