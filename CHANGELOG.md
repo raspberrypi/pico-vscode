@@ -8,6 +8,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.5] - 2025-02-21
+
+### Added
+- Added support for SDK 2.1.1
+
 ## [0.17.4] - 2025-02-19
 
 ### Fixed
