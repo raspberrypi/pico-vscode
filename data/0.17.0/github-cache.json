@@ -2,7 +2,8 @@
   "githubApiCache-0-0": [
     "1.5.1",
     "2.0.0",
-    "2.1.0"
+    "2.1.0",
+    "2.1.1"
   ],
   "githubApiCache-0-1-1.5.1": {
     "assets": [
@@ -34,10 +35,21 @@
     ],
     "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk/releases/187177527/assets"
   },
+  "githubApiCache-0-1-2.1.1": {
+    "assets": [
+      {
+        "id": 230457232,
+        "name": "pico-sdk-2.1.1.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk/releases/download/2.1.1/pico-sdk-2.1.1.tar.gz"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk/releases/200593058/assets"
+  },
   "githubApiCache-1-0": [
     "v3.28.6",
     "v3.29.6",
-    "v3.29.9"
+    "v3.29.9",
+    "v3.31.5"
   ],
   "githubApiCache-1-1-v3.28.6": {
     "assets": [
@@ -339,6 +351,106 @@
     ],
     "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/186670936/assets"
   },
+  "githubApiCache-1-1-v3.31.5": {
+    "assets": [
+      {
+        "id": 222820042,
+        "name": "cmake-3.31.5-files-v1.json",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-files-v1.json"
+      },
+      {
+        "id": 222820049,
+        "name": "cmake-3.31.5-linux-aarch64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-linux-aarch64.sh"
+      },
+      {
+        "id": 222820076,
+        "name": "cmake-3.31.5-linux-aarch64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-linux-aarch64.tar.gz"
+      },
+      {
+        "id": 222820092,
+        "name": "cmake-3.31.5-linux-x86_64.sh",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-linux-x86_64.sh"
+      },
+      {
+        "id": 222820106,
+        "name": "cmake-3.31.5-linux-x86_64.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-linux-x86_64.tar.gz"
+      },
+      {
+        "id": 222820122,
+        "name": "cmake-3.31.5-macos-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-macos-universal.dmg"
+      },
+      {
+        "id": 222820145,
+        "name": "cmake-3.31.5-macos-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-macos-universal.tar.gz"
+      },
+      {
+        "id": 222820160,
+        "name": "cmake-3.31.5-macos10.10-universal.dmg",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-macos10.10-universal.dmg"
+      },
+      {
+        "id": 222820185,
+        "name": "cmake-3.31.5-macos10.10-universal.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-macos10.10-universal.tar.gz"
+      },
+      {
+        "id": 222820201,
+        "name": "cmake-3.31.5-SHA-256.txt",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-SHA-256.txt"
+      },
+      {
+        "id": 222820203,
+        "name": "cmake-3.31.5-SHA-256.txt.asc",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-SHA-256.txt.asc"
+      },
+      {
+        "id": 222820205,
+        "name": "cmake-3.31.5-windows-arm64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-windows-arm64.msi"
+      },
+      {
+        "id": 222820211,
+        "name": "cmake-3.31.5-windows-arm64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-windows-arm64.zip"
+      },
+      {
+        "id": 222820221,
+        "name": "cmake-3.31.5-windows-i386.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-windows-i386.msi"
+      },
+      {
+        "id": 222820232,
+        "name": "cmake-3.31.5-windows-i386.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-windows-i386.zip"
+      },
+      {
+        "id": 222820249,
+        "name": "cmake-3.31.5-windows-x86_64.msi",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-windows-x86_64.msi"
+      },
+      {
+        "id": 222820253,
+        "name": "cmake-3.31.5-windows-x86_64.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5-windows-x86_64.zip"
+      },
+      {
+        "id": 222820265,
+        "name": "cmake-3.31.5.tar.gz",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5.tar.gz"
+      },
+      {
+        "id": 222820271,
+        "name": "cmake-3.31.5.zip",
+        "browser_download_url": "https://github.com/Kitware/CMake/releases/download/v3.31.5/cmake-3.31.5.zip"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/Kitware/CMake/releases/196469010/assets"
+  },
   "githubApiCache-2-0": [
     "v1.12.1"
   ],
@@ -380,7 +492,8 @@
     "v2.0.0-3",
     "v2.0.0-4",
     "v2.0.0-5",
-    "v2.1.0-0"
+    "v2.1.0-0",
+    "v2.1.1-1"
   ],
   "githubApiCache-3-1-v1.5.1-0": {
     "assets": [
@@ -952,9 +1065,55 @@
     ],
     "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk-tools/releases/187251265/assets"
   },
+  "githubApiCache-3-1-v2.1.1-1": {
+    "assets": [
+      {
+        "id": 231307122,
+        "name": "pico-sdk-tools-2.1.1-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/pico-sdk-tools-2.1.1-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 231309318,
+        "name": "pico-sdk-tools-2.1.1-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/pico-sdk-tools-2.1.1-mac.zip"
+      },
+      {
+        "id": 231307374,
+        "name": "pico-sdk-tools-2.1.1-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/pico-sdk-tools-2.1.1-x64-win.zip"
+      },
+      {
+        "id": 231306961,
+        "name": "pico-sdk-tools-2.1.1-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/pico-sdk-tools-2.1.1-x86_64-lin.tar.gz"
+      },
+      {
+        "id": 231307121,
+        "name": "picotool-2.1.1-aarch64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/picotool-2.1.1-aarch64-lin.tar.gz"
+      },
+      {
+        "id": 231309317,
+        "name": "picotool-2.1.1-mac.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/picotool-2.1.1-mac.zip"
+      },
+      {
+        "id": 231307368,
+        "name": "picotool-2.1.1-x64-win.zip",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/picotool-2.1.1-x64-win.zip"
+      },
+      {
+        "id": 231306962,
+        "name": "picotool-2.1.1-x86_64-lin.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/pico-sdk-tools/releases/download/v2.1.1-1/picotool-2.1.1-x86_64-lin.tar.gz"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/pico-sdk-tools/releases/201683640/assets"
+  },
   "githubApiCache-4-0": [
     "2.0.0",
-    "2.1.0"
+    "2.1.0",
+    "2.1.1"
   ],
   "githubApiCache-4-1-2.0.0": {
     "assets": [
@@ -975,5 +1134,15 @@
       }
     ],
     "assetsUrl": "https://api.github.com/repos/raspberrypi/picotool/releases/187217595/assets"
+  },
+  "githubApiCache-4-1-2.1.1": {
+    "assets": [
+      {
+        "id": 230370451,
+        "name": "picotool-2.1.1.tar.gz",
+        "browser_download_url": "https://github.com/raspberrypi/picotool/releases/download/2.1.1/picotool-2.1.1.tar.gz"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/raspberrypi/picotool/releases/201010176/assets"
   }
 }

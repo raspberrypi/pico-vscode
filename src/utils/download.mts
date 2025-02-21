@@ -70,6 +70,7 @@ const TOOLS_RELEASES: { [key: string]: string } = {
   "2.0.0": "v2.0.0-5",
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "2.1.0": "v2.1.0-0",
+  "2.1.1": "v2.1.1-1",
 };
 
 /// Release tags for picotool
@@ -78,6 +79,7 @@ const PICOTOOL_RELEASES: { [key: string]: string } = {
   "2.0.0": "v2.0.0-5",
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "2.1.0": "v2.1.0-0",
+  "2.1.1": "v2.1.1-1",
 };
 
 /// Release tags for openocd

@@ -26,5 +26,12 @@
     "picotool": "2.1.0",
     "toolchain": "13_3_Rel1",
     "riscvToolchain": "RISCV_RPI_2_0_0_5"
+  },
+  "2.1.1": {
+    "ninja": "v1.12.1",
+    "cmake": "v3.31.5",
+    "picotool": "2.1.1",
+    "toolchain": "14_2_Rel1",
+    "riscvToolchain": "RISCV_RPI_2_0_0_5"
   }
 }

@@ -51,8 +51,8 @@ try:
         shutil.rmtree(path)
 except FileNotFoundError:
     pass
-os.system("git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-2.1.0")
-os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.1.0"
+os.system("git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-2.1.1")
+os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.1.1"
 os.environ["WIFI_SSID"] = "Your Wi-Fi SSID"
 os.environ["WIFI_PASSWORD"] = "Your Wi-Fi Password"
 
@@ -62,9 +62,9 @@ for board in boards:
             shutil.rmtree("build")
         except FileNotFoundError:
             pass
-        toolchainVersion = "RISCV_RPI_2_0_0_5" if "riscv" in platform else "13_3_Rel1"
+        toolchainVersion = "RISCV_RPI_2_0_0_5" if "riscv" in platform else "14_2_Rel1"
         toolchainPath = f"~/.pico-sdk/toolchain/{toolchainVersion}"
-        picotoolDir = "~/.pico-sdk/picotool/2.1.0/picotool"
+        picotoolDir = "~/.pico-sdk/picotool/2.1.1/picotool"
         os.system(f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir}")
 
         os.system("cmake --build build --target help > targets.txt")
@@ -164,9 +164,9 @@ for board in boards:
                 'wantThreadsafeBackground'  : False,
                 'wantPoll'                  : False,
                 'boardtype'     : board,
-                'sdkVersion'    : "2.1.0",
+                'sdkVersion'    : "2.1.1",
                 'toolchainVersion': toolchainVersion,
-                'picotoolVersion': "2.1.0",
+                'picotoolVersion': "2.1.1",
                 'exampleLibs'   : v["libs"]
             }
             GenerateCMake("tmp", params)
