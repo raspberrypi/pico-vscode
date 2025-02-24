@@ -882,10 +882,11 @@ export async function downloadAndInstallTools(
         : "-x86_64"
       : ""
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
+  const releaseVersion = TOOLS_RELEASES[version] ?? "v" + version + "-0";
 
   return downloadAndInstallGithubAsset(
     version,
-    TOOLS_RELEASES[version],
+    releaseVersion,
     GithubRepository.tools,
     targetDirectory,
     archiveFileName,
@@ -911,10 +912,11 @@ export async function downloadAndInstallPicotool(
         : "-x86_64"
       : ""
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
+  const releaseVersion = PICOTOOL_RELEASES[version] ?? "v" + version + "-0";
 
   return downloadAndInstallGithubAsset(
     version,
-    PICOTOOL_RELEASES[version],
+    releaseVersion,
     GithubRepository.tools,
     targetDirectory,
     archiveFileName,
