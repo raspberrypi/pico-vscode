@@ -974,6 +974,7 @@ def generateProjectFiles(
     if not os.path.isfile(".gitignore"):
         file = open(".gitignore", "w")
         file.write("build\n")
+        file.write("!.vscode/*\n")
         file.close()
 
     debugger = debugger_config_list[debugger]
