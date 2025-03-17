@@ -1,7 +1,6 @@
 import { Command } from "./command.mjs";
 import {
   ProgressLocation,
-  type Uri,
   window,
   workspace,
   commands,
@@ -53,10 +52,10 @@ export default class SwitchSDKCommand extends Command {
 
   public static readonly id = "switchSDK";
 
-  constructor(private readonly _ui: UI, extensionUri: Uri) {
+  constructor(private readonly _ui: UI) {
     super(SwitchSDKCommand.id);
 
-    this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
+    this._versionBundlesLoader = VersionBundlesLoader.getInstance();
   }
 
   // TODO: maybe move into UI helper file or something

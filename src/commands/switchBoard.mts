@@ -1,7 +1,7 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import {
-  commands, ProgressLocation, window, workspace, type Uri
+  commands, ProgressLocation, window, workspace
 } from "vscode";
 import { existsSync, readdirSync, readFileSync } from "fs";
 import {
@@ -26,10 +26,10 @@ export default class SwitchBoardCommand extends Command {
   private _versionBundlesLoader: VersionBundlesLoader;
   public static readonly id = "switchBoard";
 
-  constructor(private readonly _ui: UI, extensionUri: Uri) {
+  constructor(private readonly _ui: UI) {
     super(SwitchBoardCommand.id);
 
-    this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
+    this._versionBundlesLoader = VersionBundlesLoader.getInstance();
   }
 
   public static async askBoard(sdkVersion: string):

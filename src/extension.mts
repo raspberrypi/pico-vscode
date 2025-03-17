@@ -79,6 +79,7 @@ import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 import ReleaseTagsLoader from "./utils/releaseTags.mjs";
+import VersionBundlesLoader from "./utils/versionBundles.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import type { Progress as GotProgress } from "got";
@@ -94,6 +95,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
   GithubApiCache.createInstance(context);
   ReleaseTagsLoader.createInstance(context.extensionUri);
+  VersionBundlesLoader.createInstance(context.extensionUri);
 
   const picoProjectActivityBarProvider = new PicoProjectActivityBar();
   const ui = new UI(picoProjectActivityBarProvider);
@@ -107,8 +109,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     | CommandWithArgs
   > = [
     new NewProjectCommand(context.extensionUri),
-    new SwitchSDKCommand(ui, context.extensionUri),
-    new SwitchBoardCommand(ui, context.extensionUri),
+    new SwitchSDKCommand(ui),
+    new SwitchBoardCommand(ui),
     new LaunchTargetPathCommand(),
     new GetPythonPathCommand(),
     new GetEnvPathCommand(),

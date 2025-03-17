@@ -4,6 +4,7 @@ import { isInternetConnected } from "./downloadHelpers.mjs";
 import { get } from "https";
 import Logger from "../logger.mjs";
 import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 const releaseTagsUrl =
   "https://raspberrypi.github.io/pico-vscode/" +
@@ -68,9 +69,9 @@ export default class ReleaseTagsLoader {
             } catch (error) {
               reject(
                 new Error(
-                  `Failed to parse release tags JSON: ${
-                    error instanceof Error ? error.message : (error as string)
-                  }`
+                  `Failed to parse release tags JSON: ${unknownErrorToString(
+                    error
+                  )}`
                 )
               );
             }
@@ -87,7 +88,7 @@ export default class ReleaseTagsLoader {
     } catch (error) {
       Logger.log(
         "Failed to download release tags:",
-        error instanceof Error ? error.message : (error as string)
+        unknownErrorToString(error)
       );
 
       try {
@@ -104,7 +105,7 @@ export default class ReleaseTagsLoader {
       } catch (e) {
         Logger.log(
           "Failed to load release tags from local file:",
-          e instanceof Error ? e.message : (e as string)
+          unknownErrorToString(e)
         );
         this.tags = {
           tools: {},

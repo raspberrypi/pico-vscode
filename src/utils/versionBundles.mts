@@ -4,6 +4,7 @@ import { isInternetConnected } from "./downloadHelpers.mjs";
 import { get } from "https";
 import Logger from "../logger.mjs";
 import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import { unknownErrorToString } from "./errorHelper.mjs";
 
 const versionBundlesUrl =
   "https://raspberrypi.github.io/pico-vscode/" +
@@ -27,11 +28,27 @@ export interface VersionBundles {
 }
 
 export default class VersionBundlesLoader {
+  private static instance: VersionBundlesLoader | undefined;
   private bundles?: VersionBundles;
 
-  constructor(private readonly _extensionUri: Uri) {}
+  private constructor(private readonly _extensionUri: Uri) {}
 
-  // TODO: may add singleton pattern
+  public static createInstance(extensionUri: Uri): VersionBundlesLoader {
+    if (!VersionBundlesLoader.instance) {
+      VersionBundlesLoader.instance = new VersionBundlesLoader(extensionUri);
+    }
+
+    return VersionBundlesLoader.instance;
+  }
+
+  public static getInstance(): VersionBundlesLoader {
+    if (!VersionBundlesLoader.instance) {
+      throw new Error("VersionBundlesLoader not initialized");
+    }
+
+    return VersionBundlesLoader.instance;
+  }
+
   private async loadBundles(): Promise<void> {
     try {
       if (!(await isInternetConnected())) {
@@ -57,8 +74,18 @@ export default class VersionBundlesLoader {
 
           // Parse the JSON data when the download is complete
           response.on("end", () => {
-            // Resolve with the array of VersionBundles
-            resolve(JSON.parse(data) as VersionBundles);
+            try {
+              // Resolve with the array of VersionBundles
+              resolve(JSON.parse(data) as VersionBundles);
+            } catch (error) {
+              reject(
+                new Error(
+                  `Failed to parse version bundles JSON: ${unknownErrorToString(
+                    error
+                  )}`
+                )
+              );
+            }
           });
 
           // Handle errors
@@ -72,7 +99,7 @@ export default class VersionBundlesLoader {
     } catch (error) {
       Logger.log(
         "Failed to download version bundles:",
-        error instanceof Error ? error.message : (error as string)
+        unknownErrorToString(error)
       );
 
       try {
@@ -89,7 +116,7 @@ export default class VersionBundlesLoader {
       } catch (e) {
         Logger.log(
           "Failed to load version bundles from local file:",
-          e instanceof Error ? e.message : (e as string)
+          unknownErrorToString(e)
         );
         this.bundles = {};
       }
@@ -104,23 +131,5 @@ export default class VersionBundlesLoader {
     }
 
     return (this.bundles ?? {})[version];
-  }
-
-  public async getPythonWindowsAmd64Url(
-    pythonVersion: string
-  ): Promise<VersionBundle | undefined> {
-    if (this.bundles === undefined) {
-      await this.loadBundles();
-    }
-    if (this.bundles === undefined) {
-      return undefined;
-    }
-
-    const bundle = Object.values(this.bundles).find(
-      bundle => bundle.python.version === pythonVersion
-    );
-
-    //return bundle?.python.windowsAmd64;
-    return bundle;
   }
 }

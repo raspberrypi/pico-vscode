@@ -1513,7 +1513,7 @@ export class NewProjectPanel {
         : "light";
     const riscvDefaultSvgUri = defaultTheme === "dark" ? riscvWhiteSvgUri : riscvBlackSvgUri;
 
-    this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
+    this._versionBundlesLoader = VersionBundlesLoader.getInstance();
 
     // construct auxiliary html
     // TODO: add offline handling - only load installed ones
