@@ -76,7 +76,7 @@ This extension provides the following settings:
 
 ## CMake Tools Extension Integration
 
-For more complex projects, such as those with multiple executables or when the project name is defined as a variable, this extension can integrate with the CMake Tools extension to enhance CMake parsing. You can enable CMake Tools integration during project generation under the **Advanced Options**. Additionally, to manually enable it, adjust the following settings in your `settings.json`:
+For more complex projects, such as those with multiple executables or when the project name is defined as a variable, this extension can integrate with the CMake Tools extension to enhance CMake parsing. You can enable the CMake Tools Extension integration during project generation, using the checkbox at the bottom of the page. To enable it for an existing project, just re-import the project with the option selected. Alternatively, to manually enable it, adjust the following settings in your `settings.json`:
 
 - `raspberry-pi-pico.cmakeAutoConfigure`: Set from `true` to `false`.
 - `raspberry-pi-pico.useCmakeTools`: Set from `false` to `true`.
