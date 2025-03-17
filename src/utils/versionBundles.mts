@@ -55,9 +55,9 @@ export default class VersionBundlesLoader {
             data += chunk;
           });
 
-          // Parse the INI data when the download is complete
+          // Parse the JSON data when the download is complete
           response.on("end", () => {
-            // Resolve with the array of SupportedToolchainVersion
+            // Resolve with the array of VersionBundles
             resolve(JSON.parse(data) as VersionBundles);
           });
 
@@ -88,7 +88,7 @@ export default class VersionBundlesLoader {
         this.bundles = JSON.parse(bundles) as VersionBundles;
       } catch (e) {
         Logger.log(
-          "Faild to load version bundles from local file:",
+          "Failed to load version bundles from local file:",
           e instanceof Error ? e.message : (e as string)
         );
         this.bundles = {};

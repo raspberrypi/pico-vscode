@@ -47,6 +47,7 @@ import {
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
+import ReleaseTagsLoader from "./releaseTags.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -62,34 +63,6 @@ const TOOLS_PLATFORMS: { [key: string]: string } = {
   win32: "x64-win",
 };
 
-/// Release tags for the sdk tools
-const TOOLS_RELEASES: { [key: string]: string } = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "1.5.1": "v1.5.1-0",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.0.0": "v2.0.0-5",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.1.0": "v2.1.0-0",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.1.1": "v2.1.1-1",
-};
-
-/// Release tags for picotool
-const PICOTOOL_RELEASES: { [key: string]: string } = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.0.0": "v2.0.0-5",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.1.0": "v2.1.0-0",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.1.1": "v2.1.1-1",
-};
-
-/// Release tags for openocd
-const OPENOCD_RELEASES: { [key: string]: string } = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  "0.12.0+dev": "v2.0.0-5",
-};
-
 /// Translate nodejs platform names to cmake platform names
 const CMAKE_PLATFORMS: { [key: string]: string } = {
   darwin: "macos",
@@ -99,6 +72,26 @@ const CMAKE_PLATFORMS: { [key: string]: string } = {
 
 // Compute and cache the home directory
 const homeDirectory: string = homedir();
+
+// Cache for release tags loader
+let releaseTagsLoader: ReleaseTagsLoader | undefined;
+
+/**
+ * Get the release tag for a specific version of a component
+ * @param component The component to get the release tag for (tools, picotool, or openocd)
+ * @param version The version to get the release tag for
+ * @returns The release tag or undefined if not found
+ */
+async function getReleaseTag(
+  component: "tools" | "picotool" | "openocd",
+  version: string
+): Promise<string | undefined> {
+  if (!releaseTagsLoader) {
+    releaseTagsLoader = ReleaseTagsLoader.getInstance();
+  }
+
+  return releaseTagsLoader.getReleaseTag(component, version);
+}
 
 export function buildToolchainPath(version: string): string {
   return joinPosix(homeDirectory, ".pico-sdk", "toolchain", version);
@@ -882,11 +875,20 @@ export async function downloadAndInstallTools(
         : "-x86_64"
       : ""
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
-  const releaseVersion = TOOLS_RELEASES[version] ?? "v" + version + "-0";
+  
+  const releaseTag = await getReleaseTag("tools", version);
+  if (!releaseTag) {
+    Logger.error(
+      LoggerSource.downloader,
+      `Could not find release tag for SDK tools version ${version}`
+    );
+
+    return false;
+  }
 
   return downloadAndInstallGithubAsset(
     version,
-    releaseVersion,
+    releaseTag,
     GithubRepository.tools,
     targetDirectory,
     archiveFileName,
@@ -912,11 +914,20 @@ export async function downloadAndInstallPicotool(
         : "-x86_64"
       : ""
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
-  const releaseVersion = PICOTOOL_RELEASES[version] ?? "v" + version + "-0";
+  
+  const releaseTag = await getReleaseTag("picotool", version);
+  if (!releaseTag) {
+    Logger.error(
+      LoggerSource.downloader,
+      `Could not find release tag for picotool version ${version}`
+    );
+
+    return false;
+  }
 
   return downloadAndInstallGithubAsset(
     version,
-    releaseVersion,
+    releaseTag,
     GithubRepository.tools,
     targetDirectory,
     archiveFileName,
@@ -1061,9 +1072,19 @@ export async function downloadAndInstallOpenOCD(
     }
   };
 
+  const releaseTag = await getReleaseTag("openocd", version);
+  if (!releaseTag) {
+    Logger.error(
+      LoggerSource.downloader,
+      `Could not find release tag for OpenOCD version ${version}`
+    );
+
+    return false;
+  }
+
   return downloadAndInstallGithubAsset(
     version,
-    OPENOCD_RELEASES[version],
+    releaseTag,
     GithubRepository.tools,
     targetDirectory,
     archiveFileName,

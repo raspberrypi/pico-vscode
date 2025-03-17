@@ -78,6 +78,7 @@ import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
+import ReleaseTagsLoader from "./utils/releaseTags.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import type { Progress as GotProgress } from "got";
@@ -92,6 +93,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.extension.packageJSON as PackageJSON
   );
   GithubApiCache.createInstance(context);
+  ReleaseTagsLoader.createInstance(context.extensionUri);
 
   const picoProjectActivityBarProvider = new PicoProjectActivityBar();
   const ui = new UI(picoProjectActivityBarProvider);
