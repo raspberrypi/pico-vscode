@@ -34,6 +34,7 @@ export type GlobalStateType = Memento & {
 
 const LAST_PROJECT_ROOT_STATE_KEY = "lastProjectRoot";
 const ENTRY_POINT_NAMING_PREF = "entryPointNamingPref";
+const CMAKE_TOOLS_PREF = "cmakeToolsPref";
 
 export default class Settings {
   private static instance?: Settings;
@@ -148,5 +149,13 @@ export default class Settings {
 
   public getEntryPointNamingPref(): boolean {
     return this.globalState.get<boolean>(ENTRY_POINT_NAMING_PREF, true);
+  }
+
+  public async setCMakeToolsPref(useCMakeTools: boolean): Promise<void> {
+    await this.globalState.update(CMAKE_TOOLS_PREF, useCMakeTools);
+  }
+
+  public getCMakeToolsPref(): boolean {
+    return this.globalState.get<boolean>(CMAKE_TOOLS_PREF, false);
   }
 }

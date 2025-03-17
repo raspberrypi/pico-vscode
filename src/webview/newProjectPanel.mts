@@ -120,7 +120,8 @@ interface SubmitMessageValue extends ImportProjectMessageValue {
 
 export interface WebviewMessage {
   command: string;
-  value: object | string | SubmitMessageValue;
+  value: object | string | SubmitMessageValue | boolean;
+  key?: string;
 }
 
 enum BoardType {
@@ -766,6 +767,20 @@ export class NewProjectPanel {
                 async progress =>
                   this._generateProjectOperation(progress, data, message)
               );
+            }
+            break;
+          case 'updateSetting':
+            {
+              const key = message.key as string;
+              const value = message.value as boolean;
+              switch (key) {
+                case "cmakeTools":
+                  await this._settings.setCMakeToolsPref(value);
+                  break;
+                case "entryProjectName":
+                  await this._settings.setEntryPointNamingPref(value);
+                  break;
+              }
             }
             break;
         }
@@ -1633,8 +1648,11 @@ export class NewProjectPanel {
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
     const isWindows = process.platform === "win32";
+
+    // Get the default values from global state
     const useProjectNameAsEntryPointFileName =
       this._settings.getEntryPointNamingPref();
+    const defaultUseCmakeTools = this._settings.getCMakeToolsPref();
 
     return `<!DOCTYPE html>
     <html lang="en">
@@ -2163,11 +2181,15 @@ export class NewProjectPanel {
                         </div>
                     </div>
                 </div>
-                <div id="section-extension-integration" class="snap-end advanced-option" hidden>
+                <div id="section-extension-integration" class="snap-end">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">CMake Tools</h3>
                   <div class="flex items-stretch space-x-4">
                       <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                          <input id="use-cmake-tools-cb" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                          <input id="use-cmake-tools-cb" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600" ${
+                            defaultUseCmakeTools
+                              ? 'checked'
+                              : ''
+                            }>
                           <label for="use-cmake-tools-cb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Enable CMake-Tools extension integration</label>
                       </div>
                   </div>

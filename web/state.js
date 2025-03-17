@@ -401,6 +401,12 @@ function setupStateSystem(vscode) {
             break;
           case "entry-project-name-code-gen-cblist":
             state.entryProjectNameCodeGen = checkbox.checked;
+            // Send message to update the global preference
+            vscode.postMessage({
+              command: 'updateSetting',
+              key: 'entryProjectName',
+              value: checkbox.checked
+            });
             break;
           case "cpp-code-gen-cblist":
             state.cppCodeGen = checkbox.checked;
@@ -416,6 +422,12 @@ function setupStateSystem(vscode) {
             break;
           case "use-cmake-tools-cb":
             state.useCMakeTools = checkbox.checked;
+            // Send message to update the global preference
+            vscode.postMessage({
+              command: 'updateSetting',
+              key: 'cmakeTools',
+              value: checkbox.checked
+            });
             break;
         }
 
