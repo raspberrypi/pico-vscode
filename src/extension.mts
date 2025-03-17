@@ -176,15 +176,12 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   const workspaceFolder = workspace.workspaceFolders?.[0];
 
-  // check if is a pico project
-  if (
-    workspaceFolder === undefined ||
-    !existsSync(join(workspaceFolder.uri.fsPath, "pico_sdk_import.cmake"))
-  ) {
+  // check if there is a workspace folder
+  if (workspaceFolder === undefined) {
     // finish activation
     Logger.warn(
       LoggerSource.extension,
-      "No workspace folder or Pico project found."
+      "No workspace folder found."
     );
     await commands.executeCommand(
       "setContext",
@@ -200,6 +197,25 @@ export async function activate(context: ExtensionContext): Promise<void> {
     Logger.warn(
       LoggerSource.extension,
       "No CMakeLists.txt in workspace folder has been found."
+    );
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isPicoProject,
+      false
+    );
+
+    return;
+  }
+
+  // check for pico_sdk_init() in CMakeLists.txt
+  if (
+    !readFileSync(cmakeListsFilePath)
+      .toString("utf-8")
+      .includes("pico_sdk_init()")
+  ) {
+    Logger.warn(
+      LoggerSource.extension,
+      "No pico_sdk_init() in CMakeLists.txt found."
     );
     await commands.executeCommand(
       "setContext",
