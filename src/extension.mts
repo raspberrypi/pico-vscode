@@ -94,7 +94,6 @@ import {
 import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
-import GetRTTDecoderPathCommand from "./commands/rttDecoder.mjs";
 import { OPENOCD_VERSION } from "./utils/sharedConstants.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
@@ -275,11 +274,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
       !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
       !(
         readFileSync(cmakeListsFilePath)
-            .toString("utf-8")
-            .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX) ||
+          .toString("utf-8")
+          .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX) ||
         readFileSync(cmakeListsFilePath)
-            .toString("utf-8")
-            .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD)
+          .toString("utf-8")
+          .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD)
       )
     ) {
       Logger.warn(
@@ -872,7 +871,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     await configureCmakeNinja(workspaceFolder.uri);
 
     const ws = workspaceFolder.uri.fsPath;
-    const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+    const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
     const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
     ui.updateBuildType(newBuildType ?? "unknown");
 

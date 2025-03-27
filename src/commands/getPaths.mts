@@ -227,7 +227,8 @@ export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
     }
 
     return join(
-      buildToolchainPath(toolchainVersion), "bin",
+      buildToolchainPath(toolchainVersion),
+      "bin",
       triple + `-g++${process.platform === "win32" ? ".exe" : ""}`
     );
   }
@@ -236,8 +237,10 @@ export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
 export class GetChipCommand extends CommandWithResult<string> {
   private readonly _logger = new Logger("GetChipCommand");
 
+  public static readonly id = "getChip";
+
   constructor() {
-    super("getChip");
+    super(GetChipCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -260,7 +263,15 @@ export class GetChipCommand extends CommandWithResult<string> {
         return "";
       }
 
-      return chip;
+      switch (chip) {
+        case "rp2040":
+          return "rp2040";
+        case "rp2350":
+        case "rp2350-riscv":
+          return "rp235x";
+        default:
+          return "rp2040";
+      }
     }
 
     const settings = Settings.getInstance();
