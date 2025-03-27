@@ -1283,14 +1283,16 @@ export class NewProjectPanel {
             });
             void window
               .showErrorMessage(
-                "Swift is required for Swift project generation. Please install Swift.",
-                "Install"
+                "Swift dev snapshot is required for Swift project generation. Please install the latest downloadable 'main' Swift Development Snapshot from swift.org to use Embedded Swift.",
+                "Open instructions (section 1-2 only)"
               )
               .then(selected => {
                 if (selected) {
                   env.openExternal(
-                    // TODO: check url
-                    Uri.parse("https://swift.org/download/#releases")
+                    //Uri.parse("https://swift.org/download/#releases")
+                    Uri.parse(
+                      "https://apple.github.io/swift-matter-examples/tutorials/swiftmatterexamples/setup-macos/"
+                    )
                   );
                 }
               });
@@ -1691,6 +1693,7 @@ export class NewProjectPanel {
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
     const isWindows = process.platform === "win32";
+    const isMacOS = process.platform === "darwin";
 
     // Get the default values from global state
     const useProjectNameAsEntryPointFileName =
@@ -2196,7 +2199,7 @@ export class NewProjectPanel {
                     </div>
                   </li>
                   ${
-                    !isWindows
+                    isMacOS
                       ? `
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div class="flex items-center pl-3">

@@ -4,15 +4,15 @@ import { promisify } from "util";
 const execAsync = promisify(exec);
 
 export default async function checkSwiftRequirements(): Promise<boolean> {
-  return true;
-  // check if swift is installed
   try {
-    await execAsync("swift --version");
+    const result = await execAsync("swift --version");
 
-    // TODO: check swift version
+    if (!result.stdout.includes("-dev")) {
+      return false;
+    }
 
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 }
