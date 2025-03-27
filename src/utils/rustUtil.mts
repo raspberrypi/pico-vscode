@@ -540,6 +540,12 @@ export async function generateRustProject(
   return true;
 }*/
 
+/**
+ * Get the selected chip from the .pico-rs file in the workspace folder.
+ *
+ * @param workspaceFolder The workspace folder path.
+ * @returns Returns the selected chip or null if the file does not exist or is invalid.
+ */
 export function rustProjectGetSelectedChip(
   workspaceFolder: string
 ): "rp2040" | "rp2350" | "rp2350-riscv" | null {
