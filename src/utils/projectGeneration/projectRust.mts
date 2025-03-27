@@ -8,12 +8,14 @@ import { mkdir, writeFile } from "fs/promises";
 import { promisify } from "util";
 import { exec } from "child_process";
 import {
+  GetChipCommand,
   GetOpenOCDRootCommand,
   GetPicotoolPathCommand,
   GetSVDPathCommand,
 } from "../../commands/getPaths.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, window } from "vscode";
+import LaunchTargetPathCommand from "../../commands/launchTargetPath.mjs";
 
 const execAsync = promisify(exec);
 
@@ -25,7 +27,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
     recommendations: [
       "marus25.cortex-debug",
       "rust-lang.rust-analyzer",
-      //"probe-rs.probe-rs-debugger",
+      "probe-rs.probe-rs-debugger",
       "raspberry-pi.raspberry-pi-pico",
     ],
   };
@@ -46,64 +48,38 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
     version: "0.2.0",
     configurations: [
       {
-        name: "Pico Debug (Cortex-Debug)",
-        cwd: `\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/scripts`,
-        executable: "${command:raspberry-pi-pico.launchTargetPath}",
+        name: "Pico Debug (probe-rs)",
+        cwd: "${workspaceFolder}",
         request: "launch",
-        type: "cortex-debug",
-        servertype: "openocd",
-        serverpath: `\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/openocd.exe`,
-        gdbPath: "${command:raspberry-pi-pico.getGDBPath}",
-        device: "${command:raspberry-pi-pico.getChipUppercase}",
-        configFiles: [
-          "interface/cmsis-dap.cfg",
-          "target/${command:raspberry-pi-pico.getTarget}.cfg",
-        ],
-        svdFile: `\${command:${extensionName}.${GetSVDPathCommand.id}}`,
-        runToEntryPoint: "Reset",
-        // Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
-        // Also works fine for flash binaries
-        overrideLaunchCommands: [
-          "monitor reset init",
-          'load "${command:raspberry-pi-pico.launchTargetPath}"',
-        ],
-        openOCDLaunchCommands: ["adapter speed 5000"],
-        preLaunchTask: "Compile Project (debug)",
-        // TODO: does currently not work
-        /*rttConfig: {
-          enabled: true,
-          clearSearch: true,
-          address: "0x2003fbc0",
-          searchId: "SEGGER RTT",
-          searchSize: 48,
-          decoders: [
-            {
-              type: "console",
-              encoding: "unsigned",
-              inputmode: "disabled",
-              noprompt: true,
-              label: "RP2",
-              port: 0,
-            },
-          ],
-        },*/
-        rttConfig: {
-          enabled: true,
-          address: "auto",
-          decoders: [
-            {
-              label: "RPi Pico",
-              type: "advanced",
-              decoder: "${command:raspberry-pi-pico.getRTTDecoderPath}",
-              inputmode: "disabled",
-              noprompt: true,
-              ports: [0],
-              config: {
-                elfPath: "${command:raspberry-pi-pico.launchTargetPath}",
-              },
-            },
-          ],
+        type: "probe-rs-debug",
+        connectUnderReset: false,
+        speed: 5000,
+        runtimeExecutable: "probe-rs",
+        chip: `\${command:${extensionName}.${GetChipCommand.id}}`,
+        runtimeArgs: ["dap-server"],
+        flashingConfig: {
+          flashingEnabled: true,
+          haltAfterReset: false,
         },
+        coreConfigs: [
+          {
+            coreIndex: 0,
+            programBinary: `\${command:${extensionName}.${LaunchTargetPathCommand.id}}`,
+            rttEnabled: true,
+            svdFile: `\${command:${extensionName}.${GetSVDPathCommand.id}}`,
+            rttChannelFormats: [
+              {
+                channelNumber: 0,
+                dataFormat: "Defmt",
+                mode: "NoBlockSkip",
+                showTimestamps: true,
+              },
+            ],
+          },
+        ],
+        preLaunchTask: "Compile Project (debug)",
+        consoleLogLevel: "Debug",
+        wireProtocol: "Swd",
       },
     ],
   };
@@ -481,7 +457,7 @@ async function generateCargoToml(
       "'cfg( target_arch = \"riscv32\" )'": {
         dependencies: {
           "panic-halt": new TomlInlineObject({
-            version: "0.2",
+            version: "1.0.0",
           }),
         },
       },
@@ -489,10 +465,10 @@ async function generateCargoToml(
         dependencies: {
           "rp2040-hal": new TomlInlineObject({
             path: "./rp-hal/rp2040-hal",
-            version: "0.10",
+            version: "0.11",
             features: ["rt", "critical-section-impl"],
           }),
-          "rp2040-boot2": "0.2",
+          "rp2040-boot2": "0.3",
         },
       },
 
@@ -500,7 +476,7 @@ async function generateCargoToml(
         dependencies: {
           "rp235x-hal": new TomlInlineObject({
             path: "./rp-hal/rp235x-hal",
-            version: "0.2",
+            version: "0.3",
             features: ["rt", "critical-section-impl"],
           }),
         },
@@ -510,7 +486,7 @@ async function generateCargoToml(
         dependencies: {
           "rp235x-hal": new TomlInlineObject({
             path: "./rp-hal/rp235x-hal",
-            version: "0.2",
+            version: "0.3",
             features: ["rt", "critical-section-impl"],
           }),
         },
