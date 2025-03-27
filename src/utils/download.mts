@@ -508,15 +508,14 @@ export async function downloadAndInstallSDK(
     );
     // Constants taken from the SDK CMakeLists.txt files
     const TINYUSB_TEST_PATH = joinPosix(
-      "lib/tinyusb", "src/portable/raspberrypi/rp2040"
+      "lib/tinyusb",
+      "src/portable/raspberrypi/rp2040"
     );
     const CYW43_DRIVER_TEST_FILE = joinPosix("lib/cyw43-driver", "src/cyw43.h");
     const LWIP_TEST_PATH = joinPosix("lib/lwip", "src/Filelists.cmake");
     const BTSTACK_TEST_PATH = joinPosix("lib/btstack", "src/bluetooth.h");
-    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c")
-    const submoduleChecks = [
-      TINYUSB_TEST_PATH
-    ]
+    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c");
+    const submoduleChecks = [TINYUSB_TEST_PATH];
     if (compareGe(version, "1.4.0")) {
       submoduleChecks.push(CYW43_DRIVER_TEST_FILE);
       submoduleChecks.push(LWIP_TEST_PATH);
@@ -968,12 +967,12 @@ export async function downloadAndInstallToolchain(
   // includes helper stuff for swift code - pico-sdk c interop
   copyFileSync(
     joinPosix(getScriptsRoot(), "bridge.h"),
-    joinPosix(buildCMakeIncPath(true), "bridge.h")
+    joinPosix(buildBasicToolchainPath(true), "bridge.h")
   );
   // includes helper stuff for the swift compiler (workaround)
   copyFileSync(
     joinPosix(getScriptsRoot(), "bridge.c"),
-    joinPosix(buildCMakeIncPath(true), "bridge.c")
+    joinPosix(buildBasicToolchainPath(true), "bridge.c")
   );
 
   const archiveFileName = `${toolchain.version}.${artifactExt}`;
