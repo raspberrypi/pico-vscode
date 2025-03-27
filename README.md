@@ -98,15 +98,15 @@ The Pico VS Code extension supports Swift, enabling you to develop Raspberry Pi 
 
 Download and install the latest Swift experimental toolchain for your platform:
 
-- **Linux**: [Install Swift for Linux](https://www.swift.org/install/linux/#platforms)
+[//]: <> (- **Linux**: [Install Swift for Linux](https://www.swift.org/install/linux/#platforms))
 - **macOS**: [Install Swift for macOS](https://www.swift.org/install/macos)
 
-> **Note:** Windows is not currently supported.
+> **Note:** Windows and Linux are currently not supported.
 
 ### 2. Configure the Swift Toolchain
 
-#### **For Linux:**
-Ensure the `swiftc` executable is included in your system's `PATH`. Once added, restart VS Code for the changes to take effect.
+[//]: <> (#### **For Linux:**)
+[//]: <> (Ensure the `swiftc` executable is included in your system's `PATH`. Once added, restart VS Code for the changes to take effect.)
 
 #### **For macOS:**
 If the build fails or the Swift toolchain isn’t detected, force the toolchain selection by adding the following line to your `~/.zprofile`:
