@@ -1284,7 +1284,7 @@ export class NewProjectPanel {
             void window
               .showErrorMessage(
                 "Swift dev snapshot is required for Swift project generation. Please install the latest downloadable 'main' Swift Development Snapshot from swift.org to use Embedded Swift.",
-                "Open instructions (section 1-2 only)"
+                "Open instructions (section 1,2,4 only)"
               )
               .then(selected => {
                 if (selected) {
