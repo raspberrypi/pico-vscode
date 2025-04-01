@@ -114,6 +114,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         options: {
           env: {
             PICOTOOL_PATH: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
+            CHIP: `\${command:${extensionName}.${GetChipCommand.id}}`,
           },
         },
       },
@@ -135,6 +136,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         options: {
           env: {
             PICOTOOL_PATH: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
+            CHIP: `\${command:${extensionName}.${GetChipCommand.id}}`,
           },
         },
       },
@@ -1197,6 +1199,7 @@ rustflags = [
 #
 # Load an elf, skipping unchanged flash sectors, verify it, and execute it
 runner = "\${PICOTOOL_PATH} load -u -v -x -t elf"
+#runner = "probe-rs run --chip \${CHIP} --protocol swd"
 
 # This is the hard-float ABI for Arm mode.
 #
@@ -1224,6 +1227,7 @@ rustflags = [
 #
 # Load an elf, skipping unchanged flash sectors, verify it, and execute it
 runner = "\${PICOTOOL_PATH} load -u -v -x -t elf"
+#runner = "probe-rs run --chip \${CHIP} --protocol swd"
 
 # This is the soft-float ABI for RISC-V mode.
 #
@@ -1250,6 +1254,10 @@ rustflags = [
 #
 # Load an elf, skipping unchanged flash sectors, verify it, and execute it
 runner = "\${PICOTOOL_PATH} load -u -v -x -t elf"
+#runner = "probe-rs run --chip \${CHIP} --protocol swd"
+
+[env]
+DEFMT_LOG = "debug"
 `;
 
   try {
