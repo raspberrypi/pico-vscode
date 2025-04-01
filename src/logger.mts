@@ -40,6 +40,8 @@ export enum LoggerSource {
   cmake = "cmakeUtil",
   downloadHelper = "downloadHelper",
   pythonHelper = "pythonHelper",
+  rustUtil = "rustUtil",
+  projectRust = "projectRust",
 }
 
 /**

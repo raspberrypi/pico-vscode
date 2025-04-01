@@ -2512,6 +2512,7 @@ __metadata:
     ini: "npm:^5.0.0"
     rimraf: "npm:^6.0.1"
     rollup: "npm:^4.30.0"
+    toml: "npm:^3.0.0"
     tslib: "npm:^2.6.3"
     typescript: "npm:^5.5.4"
     typescript-eslint: "npm:^8.19.0"
@@ -2946,6 +2947,13 @@ __metadata:
   dependencies:
     is-number: "npm:^7.0.0"
   checksum: 10/10dda13571e1f5ad37546827e9b6d4252d2e0bc176c24a101252153ef435d83696e2557fe128c4678e4e78f5f01e83711c703eef9814eb12dab028580d45980a
+  languageName: node
+  linkType: hard
+
+"toml@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "toml@npm:3.0.0"
+  checksum: 10/cfef0966868d552bd02e741f30945a611f70841b7cddb07ea2b17441fe32543985bc0a7c0dcf7971af26fcaf8a17712a485d911f46bfe28644536e9a71a2bd09
   languageName: node
   linkType: hard
 
