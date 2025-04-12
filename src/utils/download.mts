@@ -15,8 +15,7 @@ import { STATUS_CODES } from "http";
 import type { Dispatcher } from "undici";
 import { Client } from "undici";
 import type { SupportedToolchainVersion } from "./toolchainUtil.mjs";
-import { cloneRepository, initSubmodules, getGit } from "./gitUtil.mjs";
-import { checkForGit } from "./requirementsUtil.mjs";
+import { cloneRepository, initSubmodules, ensureGit } from "./gitUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
@@ -467,8 +466,8 @@ export async function downloadAndInstallSDK(
   }
 
   // TODO: this does take about 2s - may be reduced
-  const requirementsCheck = await checkForGit(settings);
-  if (!requirementsCheck) {
+  const gitPath = await ensureGit(settings, { returnPath: true });
+  if (typeof gitPath !== "string" || gitPath.length === 0) {
     return false;
   }
 
@@ -492,15 +491,14 @@ export async function downloadAndInstallSDK(
     );
     // Constants taken from the SDK CMakeLists.txt files
     const TINYUSB_TEST_PATH = joinPosix(
-      "lib/tinyusb", "src/portable/raspberrypi/rp2040"
+      "lib/tinyusb",
+      "src/portable/raspberrypi/rp2040"
     );
     const CYW43_DRIVER_TEST_FILE = joinPosix("lib/cyw43-driver", "src/cyw43.h");
     const LWIP_TEST_PATH = joinPosix("lib/lwip", "src/Filelists.cmake");
     const BTSTACK_TEST_PATH = joinPosix("lib/btstack", "src/bluetooth.h");
-    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c")
-    const submoduleChecks = [
-      TINYUSB_TEST_PATH
-    ]
+    const MBEDTLS_TEST_PATH = joinPosix("lib/mbedtls", "library/aes.c");
+    const submoduleChecks = [TINYUSB_TEST_PATH];
     if (compareGe(version, "1.4.0")) {
       submoduleChecks.push(CYW43_DRIVER_TEST_FILE);
       submoduleChecks.push(LWIP_TEST_PATH);
@@ -520,20 +518,13 @@ export async function downloadAndInstallSDK(
         LoggerSource.downloader,
         `SDK ${version} is missing submodules - installing them now.`
       );
-      const gitPath = await getGit(settings);
-      if (gitPath !== undefined) {
-        return initSubmodules(targetDirectory, gitPath);
-      } else {
-        return false;
-      }
+
+      return initSubmodules(targetDirectory, gitPath);
     } else {
       return true;
     }
   }
 
-  // Ensure the target directory exists
-  //await mkdir(targetDirectory, { recursive: true });
-  const gitPath = await getGit(settings);
   // using deferred execution to avoid git clone if git is not available
   if (
     gitPath !== undefined &&

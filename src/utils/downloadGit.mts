@@ -17,7 +17,7 @@ const GIT_DOWNLOAD_URL_WIN_AMD64 =
 /**
  * Downloads and installs a portable version of Git.
  *
- * Supports Windows x64 and macOS x64 + amd64.
+ * Supports Windows x64 and macOS x64 + arm64.
  * But currently only execution on Windows x64 is enabled.
  *
  * @returns The path to the installed Git executable or undefined if the installation failed

@@ -3,13 +3,12 @@ import Logger, { LoggerSource } from "../logger.mjs";
 import { existsSync, readFileSync, rmSync } from "fs";
 import { homedir } from "os";
 import {
-  getGit,
+  ensureGit,
   sparseCheckout,
   sparseCloneRepository,
   execAsync,
 } from "./gitUtil.mjs";
 import Settings from "../settings.mjs";
-import { checkForGit } from "./requirementsUtil.mjs";
 import { cp } from "fs/promises";
 import { get } from "https";
 import { isInternetConnected, getDataRoot } from "./downloadHelpers.mjs";
@@ -162,12 +161,16 @@ export async function setupExample(
   }
 
   // TODO: this does take about 2s - may be reduced
-  const requirementsCheck = await checkForGit(settings);
-  if (!requirementsCheck) {
+  const gitPath = await ensureGit(settings, { returnPath: true });
+  if (
+    gitPath === undefined ||
+    typeof gitPath !== "string" ||
+    gitPath.length === 0
+  ) {
+    Logger.log("Error: Git not found.");
+
     return false;
   }
-
-  const gitPath = await getGit(settings);
 
   if (existsSync(joinPosix(examplesRepoPath, ".git"))) {
     try {
@@ -183,7 +186,7 @@ export async function setupExample(
         Logger.log(`Removing old examples repo\n`);
         rmSync(examplesRepoPath, { recursive: true, force: true });
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Corrupted examples directory
       Logger.log(`Removing corrupted examples repo\n`);
