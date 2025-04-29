@@ -82,7 +82,7 @@ import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
-
+import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
 
@@ -811,6 +811,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
         );
       }
     });
+  } else if (settings.getBoolean(SettingsKey.useCmakeTools)) {
+    // Ensure the Pico kit is selected
+    await cmakeToolsForcePicoKit();
   } else {
     Logger.info(
       LoggerSource.extension,
