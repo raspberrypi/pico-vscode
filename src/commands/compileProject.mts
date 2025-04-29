@@ -3,7 +3,7 @@ import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
-
+import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
 export default class CompileProjectCommand extends CommandWithResult<boolean> {
   private _logger: Logger = new Logger("CompileProjectCommand");
 
@@ -24,6 +24,9 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
       settings !== undefined &&
       settings.getBoolean(SettingsKey.useCmakeTools)
     ) {
+      // Ensure the Pico kit is selected
+      await cmakeToolsForcePicoKit();
+
       // Compile with CMake Tools
       await commands.executeCommand("cmake.launchTargetPath");
 

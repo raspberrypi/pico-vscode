@@ -3,6 +3,7 @@ import { CommandWithResult } from "./command.mjs";
 import { commands, window, workspace } from "vscode";
 import { join } from "path";
 import Settings, { SettingsKey } from "../settings.mjs";
+import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -66,6 +67,9 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       settings !== undefined &&
       settings.getBoolean(SettingsKey.useCmakeTools)
     ) {
+      // Ensure the Pico kit is selected
+      await cmakeToolsForcePicoKit();
+
       // Compile with CMake Tools
       const path: string = await commands.executeCommand(
         "cmake.launchTargetPath"

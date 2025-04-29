@@ -1126,6 +1126,7 @@ def generateProjectFiles(
 
             # settings
             settings = f'''{{
+    "cmake.showSystemKits": false,
     "cmake.options.statusBarVisibility": "hidden",
     "cmake.options.advanced": {{
         "build": {{
