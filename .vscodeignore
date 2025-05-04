@@ -1,6 +1,5 @@
 .vscode/**
 .vscode-test/**
-.yarn/**
 .github/**
 src/**
 out/**
@@ -14,7 +13,6 @@ out/**
 **/.eslintrc.json
 **/eslint.config.mjs
 **/*.ts
-.pnp*
 *.vsix
 *.zip
 *.tgz
@@ -25,6 +23,7 @@ out/**
 *.7z
 *.exe
 tmp.py
+node_modules/**
 
 # make sure scripts and data are always included
 !scripts/blink.pio

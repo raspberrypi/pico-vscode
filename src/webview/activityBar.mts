@@ -171,9 +171,7 @@ export class PicoProjectActivityBar
     return element;
   }
 
-  public getChildren(
-    element?: QuickAccessCommand
-  ): QuickAccessCommand[] {
+  public getChildren(element?: QuickAccessCommand): QuickAccessCommand[] {
     if (element === undefined) {
       return [
         new QuickAccessCommand(

@@ -276,7 +276,9 @@
         {
           "id": "raspberry-pi-pico-project-quick-access",
           "name": "Quick Access",
-          "type": "tree"
+          "type": "tree",
+          "icon": "images/24x24-RPi-Pico.svg",
+          "contextualTitle": "Raspberry Pi Pico Project"
         }
       ]
     },
@@ -289,45 +291,43 @@
     ]
   },
   "scripts": {
-    "postinstall": "yarn dlx @yarnpkg/sdks vscode",
     "vscode:uninstall": "node ./dist/vscodeUninstaller.mjs",
-    "vscode:prepublish": "yarn run package",
+    "vscode:prepublish": "npm run package",
     "compile-uninstaller": "rollup -c uninstall.rollup.config.mjs --environment BUILD:production",
     "compile": "rollup -c",
     "watch": "rollup -cw",
-    "package": "rimraf dist && node scripts/build.mjs && yarn run compile-uninstaller",
+    "package": "rimraf dist && node scripts/build.mjs && npm run compile-uninstaller",
     "lint": "eslint src",
-    "test": "yarn run lint"
+    "test": "npm run lint"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "@rollup/plugin-commonjs": "^26.0.1",
-    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@eslint/js": "^9.26.0",
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-typescript": "^12.1.2",
     "@types/adm-zip": "^0.5.7",
     "@types/ini": "^4.1.1",
-    "@types/node": "20.14.0",
+    "@types/node": "^20.14.2",
     "@types/uuid": "^10.0.0",
     "@types/vscode": "^1.92.0",
     "@types/which": "^3.0.4",
-    "eslint": "^9.17.0",
-    "eslint-config-prettier": "^9.1.0",
-    "globals": "^15.9.0",
-    "rollup": "^4.30.0",
-    "tslib": "^2.6.3",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^8.19.0"
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.2",
+    "globals": "^16.0.0",
+    "rollup": "^4.40.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.1"
   },
   "dependencies": {
     "@vscode/python-extension": "^1.0.5",
     "adm-zip": "^0.5.16",
-    "got": "^14.4.5",
+    "got": "^14.4.7",
     "ini": "^5.0.0",
     "rimraf": "^6.0.1",
     "undici": "^6.21.0",
-    "uuid": "^11.0.4",
+    "uuid": "^11.1.0",
     "which": "^5.0.0"
-  },
-  "packageManager": "yarn@4.9.1"
+  }
 }

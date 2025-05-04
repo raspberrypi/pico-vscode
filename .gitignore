@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/node,macos,python,webstorm,visualstudiocode,yarn
-# Edit at https://www.toptal.com/developers/gitignore?templates=node,macos,python,webstorm,visualstudiocode,yarn
+# Created by https://www.toptal.com/developers/gitignore/api/node,macos,python,webstorm,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=node,macos,python,webstorm,visualstudiocode
 
 ### macOS ###
 # General
@@ -475,24 +475,7 @@ fabric.properties
 # https://plugins.jetbrains.com/plugin/8053-azure-toolkit-for-intellij
 .idea/**/azureSettings.xml
 
-### yarn ###
-# https://yarnpkg.com/getting-started/qa#which-files-should-be-gitignored
-
-.yarn/*
-!.yarn/releases
-!.yarn/patches
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
-
-# if you are NOT using Zero-installs, then:
-# comment the following lines
-!.yarn/cache
-
-# and uncomment the following lines
-# .pnp.*
-
-# End of https://www.toptal.com/developers/gitignore/api/node,macos,python,webstorm,visualstudiocode,yarn
+# End of https://www.toptal.com/developers/gitignore/api/node,macos,python,webstorm,visualstudiocode
 
 *.zip
 

@@ -13,20 +13,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Enable corepack
-        run: corepack enable
       - name: Setup node v20
         uses: actions/setup-node@v4
-        with: 
-          # the current node version included in VS Code
+        with:
           node-version: '20'
-          cache: 'yarn'
+          cache: 'npm'
       - name: Install Dependencies
         run: |
           npm i -g @vscode/vsce ovsx
-          yarn
+          npm ci
       - name: Lint Extension
-        run: yarn lint
+        run: npm run lint
       - name: Package Extension Debug Version
         run: |
           vsce package
