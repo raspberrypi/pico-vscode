@@ -103,7 +103,10 @@ export async function ensureGit(
     if (downloadedGitPath) {
       await settings.updateGlobal(SettingsKey.gitPath, downloadedGitPath);
       isGitInstalled = true;
-      gitPath = downloadedGitPath;
+      gitPath = downloadedGitPath.replace(
+        HOME_VAR,
+        homedir().replaceAll("\\", "/")
+      );
     } else if (gitVersion) {
       Logger.error(
         LoggerSource.gitUtil,

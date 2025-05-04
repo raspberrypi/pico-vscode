@@ -17,7 +17,7 @@ export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
   "== DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==";
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD =
-// eslint-disable-next-line max-len
+  // eslint-disable-next-line max-len
   "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
 export async function getPythonPath(): Promise<string> {
@@ -111,7 +111,7 @@ export async function configureCmakeNinja(
 
     Logger.error(LoggerSource.cmake, errorMsg);
 
-    await window.showErrorMessage(
+    void window.showErrorMessage(
       "Failed to configure cmake for the current project. " + errorMsg
     );
 
@@ -127,7 +127,6 @@ export async function configureCmakeNinja(
 
   if (existsSync(join(folder.fsPath, "build", "CMakeCache.txt"))) {
     // check if the build directory has been moved
-
     const buildDir = join(folder.fsPath, "build");
 
     const cacheBuildDir = cmakeGetPicoVar(
@@ -203,8 +202,9 @@ export async function configureCmakeNinja(
             pythonPath.includes("/")
               ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `
               : ""
-          }` + `-G Ninja -B ./build "${folder.fsPath}"`
-          + (buildType ? ` -DCMAKE_BUILD_TYPE=${buildType}` : "");
+          }` +
+          `-G Ninja -B ./build "${folder.fsPath}"` +
+          (buildType ? ` -DCMAKE_BUILD_TYPE=${buildType}` : "");
 
         await new Promise<void>((resolve, reject) => {
           // use exec to be able to cancel the process
@@ -330,7 +330,7 @@ export async function cmakeUpdateSDK(
   // This regex requires multiline (m) and dotall (s) flags to work
   const updateSectionRegex = new RegExp(
     `^# (${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}` +
-    `|${CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD}).*# =+$`,
+      `|${CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD}).*# =+$`,
     "ms"
   );
   const picoBoardRegex = /^set\(PICO_BOARD\s+([^)]+)\)$/m;
@@ -372,10 +372,8 @@ export async function cmakeUpdateSDK(
     // version is less than 2.0.0, or pico2_w and new version <2.1.0
     if (
       picoBoard !== null &&
-      ((picoBoard[1].includes("pico2") &&
-      compareLt(newSDKVersion, "2.0.0")) ||
-      (picoBoard[1].includes('pico2_w') &&
-      compareLt(newSDKVersion, "2.1.0")))
+      ((picoBoard[1].includes("pico2") && compareLt(newSDKVersion, "2.0.0")) ||
+        (picoBoard[1].includes("pico2_w") && compareLt(newSDKVersion, "2.1.0")))
     ) {
       const quickPickItems = ["pico", "pico_w"];
       if (!compareLt(newSDKVersion, "2.0.0")) {
