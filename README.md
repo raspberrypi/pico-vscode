@@ -111,9 +111,9 @@ If you encounter issues retrieving available Pico SDK versions, it may be due to
 For advanced users who want to build the extension `.vsix` file, follow these steps:
 
 1. Install nodejs ([Instructions Windows](https://learn.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-windows))
-2. Install Yarn globally: `npm install -g yarn`
+2. Update npm: `npm install -g npm`
 3. Install VSCE globally: `npm install -g @vscode/vsce`
-4. Run `yarn` in the project directory to install dependencies.
-5. Build the extension with: `vsce package`.
+4. Run `npm ci` in the project directory to install dependencies.
+5. Build the extension with: `vsce package`
 
 This will generate a `.vsix` file, which you can install in VS Code using `code --install-extension path-to.vsix` or via the GUI: `Extensions > three dots > Install from VSIX`.
