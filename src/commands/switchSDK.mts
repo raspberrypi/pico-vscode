@@ -21,7 +21,10 @@ import {
   downloadAndInstallToolchain,
   downloadAndInstallTools,
 } from "../utils/download.mjs";
-import { cmakeUpdateSDK } from "../utils/cmakeUtil.mjs";
+import {
+  cmakeGetSelectedToolchainAndSDKVersions,
+  cmakeUpdateSDK,
+} from "../utils/cmakeUtil.mjs";
 import {
   type SupportedToolchainVersion,
   getSupportedToolchains,
@@ -225,20 +228,14 @@ export default class SwitchSDKCommand extends Command {
 
   public static async askSDKVersion(
     versionBundlesLoader: VersionBundlesLoader
-  ): Promise<
-    { label: string; sdk: string } | undefined
-  > {
+  ): Promise<{ label: string; sdk: string } | undefined> {
     const sdks = await getSDKReleases();
 
     // Remove newer SDKs without version bundles
-    let versionBundle = await versionBundlesLoader.getModuleVersion(
-      sdks[0]
-    );
+    let versionBundle = await versionBundlesLoader.getModuleVersion(sdks[0]);
     while (versionBundle === undefined && sdks.length > 1) {
       sdks.shift();
-      versionBundle = await versionBundlesLoader.getModuleVersion(
-        sdks[0]
-      );
+      versionBundle = await versionBundlesLoader.getModuleVersion(sdks[0]);
     }
 
     if (sdks.length === 0) {
@@ -318,6 +315,76 @@ export default class SwitchSDKCommand extends Command {
     } as AdvancedSwitchSDKOptions;
   }
 
+  /**
+   * Get the new toolchain version based on whats available.
+   * Prioritize the current selected version, the version bundle
+   * default version of the selected SDK and if thats also not
+   * available fallback to the first supported toolchain.
+   *
+   * @param versionBundle The version bundle of the selected SDK version.
+   * @param supportedToolchains All supported toolchain versions.
+   * @param workspaceFolder The URI of the current workspace folder.
+   * @returns
+   */
+  private async querySelectedToolchain(
+    versionBundle: VersionBundle | undefined,
+    supportedToolchains: SupportedToolchainVersion[],
+    workspaceFolder: Uri
+  ): Promise<{ label: string; toolchain: SupportedToolchainVersion }> {
+    const versionsFromCmake = await cmakeGetSelectedToolchainAndSDKVersions(
+      workspaceFolder
+    );
+    if (versionsFromCmake === null) {
+      this._logger.error(
+        "Failed to get current toolchain version from CMakeLists.txt."
+      );
+    }
+
+    if (versionsFromCmake !== null) {
+      const selectedToolchain = supportedToolchains.find(
+        t => t.version === versionsFromCmake[1]
+      );
+      if (selectedToolchain !== undefined) {
+        return {
+          label: selectedToolchain.version.replaceAll("_", "."),
+          toolchain: selectedToolchain,
+        };
+      } else {
+        this._logger.error("Selected toolchain version is not supported.");
+      }
+    }
+
+    if (versionBundle?.toolchain !== undefined) {
+      const selectedToolchain = supportedToolchains.find(
+        t => t.version === versionBundle?.toolchain
+      );
+
+      if (selectedToolchain !== undefined) {
+        // Notify user that the selected toolchain has changed
+        // because the previous one isn't available anymore
+        void window.showInformationMessage(
+          `The selected toolchain version ${
+            versionsFromCmake === null ? "N/A" : versionsFromCmake[1]
+          } ` +
+            "is not available anymore. The default version of the " +
+            `selected SDK (${versionBundle.toolchain}) will be used instead.`
+        );
+
+        return {
+          label: selectedToolchain.version.replaceAll("_", "."),
+          toolchain: selectedToolchain,
+        };
+      } else {
+        this._logger.error("VersionBundle toolchain version is not supported.");
+      }
+    }
+
+    return {
+      label: supportedToolchains[0].version.replaceAll("_", "."),
+      toolchain: supportedToolchains[0],
+    };
+  }
+
   async execute(): Promise<void> {
     if (
       workspace.workspaceFolders === undefined ||
@@ -381,25 +448,19 @@ export default class SwitchSDKCommand extends Command {
       options.advancedOptions = advancedOptions;
     }
 
+    // if configureAdvancedOptions is not "No" then
+    // options.advancedOptions is defined
+    console.assert(
+      configureAdvancedOptions !== "No" || options.advancedOptions
+    );
     const selectedToolchain =
       configureAdvancedOptions === "No"
-        ? versionBundle?.toolchain !== undefined &&
-          supportedToolchainVersions.find(
-            t => t.version === versionBundle?.toolchain
-          ) !== undefined
-          ? {
-              label: versionBundle?.toolchain.replaceAll("_", "."),
-              toolchain: supportedToolchainVersions.find(
-                t => t.version === versionBundle?.toolchain
-              )!,
-            }
-          : {
-              label: supportedToolchainVersions[0].version.replaceAll("_", "."),
-              toolchain: supportedToolchainVersions[0],
-            }
-        : // if configureAdvancedOptions is not "No" then
-          //options.advancedOptions is defined
-          options.advancedOptions!.toolchainVersion;
+        ? await this.querySelectedToolchain(
+            versionBundle,
+            supportedToolchainVersions,
+            workspaceFolder.uri
+          )
+        : options.advancedOptions!.toolchainVersion;
 
     // show individual progress bars while installing
     let result = await window.withProgress(

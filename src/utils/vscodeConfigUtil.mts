@@ -1,10 +1,11 @@
 import { readFile, writeFile } from "fs/promises";
-import Logger from "../logger.mjs";
+import Logger, { LoggerSource } from "../logger.mjs";
 import { join } from "path";
 import { SettingsKey } from "../settings.mjs";
 import { type WorkspaceConfiguration, workspace } from "vscode";
 import { dirname } from "path/posix";
 import { compareGe } from "./semverUtil.mjs";
+import { extensionName } from "../commands/command.mjs";
 
 interface Configuration {
   includePath: string[];
@@ -144,7 +145,7 @@ async function updateSettingsFile(
     const oldPath = currentValue[
       key.includes("windows") ? "Path" : "PATH"
     ].replaceAll("${env:", "${env_");
-    Logger.log(`Oldpath ${oldPath}`);
+    Logger.debug(LoggerSource.vscodeConfigUtil, `Oldpath: ${oldPath}`);
     const pathList = oldPath.split(key.includes("windows") ? ";" : ":");
     let toolchainIdx = -1;
     let cmakeIdx = -1;
@@ -152,7 +153,7 @@ async function updateSettingsFile(
 
     for (let i = 0; i < pathList.length; i++) {
       pathList[i] = pathList[i].replaceAll("${env_", "${env:");
-      Logger.log(pathList[i]);
+      //Logger.log(pathList[i]);
       const item = pathList[i];
       if (item.includes(".pico-sdk/toolchain")) {
         toolchainIdx = i;
@@ -165,7 +166,10 @@ async function updateSettingsFile(
       }
     }
 
-    Logger.log(`PathList ${pathList.join(" - ")}`);
+    Logger.debug(
+      LoggerSource.vscodeConfigUtil,
+      `PathList ${pathList.join(" - ")}`
+    );
 
     pathList[toolchainIdx] = currentValue["PICO_TOOLCHAIN_PATH"] + "/bin";
 
@@ -209,7 +213,7 @@ async function updateSettingsFile(
 
   if (newNinjaVersion) {
     await config.update(
-      "raspberry-pi-pico." + SettingsKey.ninjaPath,
+      extensionName + "." + SettingsKey.ninjaPath,
       buildNinjaHomePath(newNinjaVersion),
       null
     );
