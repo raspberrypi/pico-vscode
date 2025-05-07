@@ -14,6 +14,7 @@ import { get } from "https";
 import { isInternetConnected, getDataRoot } from "./downloadHelpers.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
 import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import { window } from "vscode";
 
 const EXAMPLES_REPOSITORY_URL =
   "https://github.com/raspberrypi/pico-examples.git";
@@ -181,21 +182,40 @@ export async function setupExample(
           process.env.ComSpec === "powershell.exe" ? "&" : ""
         }"${gitPath}" rev-parse HEAD`
       );
-      Logger.log(`Examples git ref is ${ref.stdout}\n`);
+      Logger.debug(
+        LoggerSource.examples,
+        `Examples git ref is ${ref.stdout}\n`
+      );
       if (ref.stdout.trim() !== EXAMPLES_GITREF) {
-        Logger.log(`Removing old examples repo\n`);
+        Logger.debug(LoggerSource.examples, `Removing old examples repo\n`);
         rmSync(examplesRepoPath, { recursive: true, force: true });
       }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Corrupted examples directory
-      Logger.log(`Removing corrupted examples repo\n`);
-      rmSync(examplesRepoPath, { recursive: true, force: true });
+      Logger.debug(LoggerSource.examples, `Removing corrupted examples repo\n`);
+      try {
+        rmSync(examplesRepoPath, { recursive: true, force: true });
+      } catch (error) {
+        Logger.warn(
+          LoggerSource.examples,
+          "Failed to remove corrupted examples repo.",
+          unknownErrorToString(error)
+        );
+      }
     }
   } else if (existsSync(examplesRepoPath)) {
     // Examples path exists, but does not contain a git repository
-    Logger.log(`Removing empty examples repo\n`);
-    rmSync(examplesRepoPath, { recursive: true, force: true });
+    Logger.debug(LoggerSource.examples, `Removing empty examples repo\n`);
+    try {
+      rmSync(examplesRepoPath, { recursive: true, force: true });
+    } catch (error) {
+      Logger.warn(
+        LoggerSource.examples,
+        "Failed to remove empty examples repo.",
+        unknownErrorToString(error)
+      );
+    }
   }
 
   if (!existsSync(examplesRepoPath)) {
@@ -211,43 +231,115 @@ export async function setupExample(
     }
   }
 
-  Logger.log(`Sparse-checkout selected example: ${example.name}`);
+  Logger.debug(
+    LoggerSource.examples,
+    `Sparse-checkout selected example: ${example.name}`
+  );
   const result = await sparseCheckout(examplesRepoPath, example.path, gitPath);
   if (!result) {
+    Logger.error(
+      LoggerSource.examples,
+      `Failed to checkout example '${example.name}':`,
+      unknownErrorToString(result)
+    );
+    void window.showErrorMessage(
+      `Failed to checkout example: ${example.name}. ` +
+        "Please check the output window for more details."
+    );
+
     return result;
   }
 
   for (const libPath of example.libPaths) {
-    Logger.log(`Sparse-checkout selected example required path: ${libPath}`);
+    Logger.debug(
+      LoggerSource.examples,
+      `Sparse-checkout selected example required path: ${libPath}`
+    );
     const result = await sparseCheckout(examplesRepoPath, libPath, gitPath);
     if (!result) {
+      Logger.error(
+        LoggerSource.examples,
+        `Failed to checkout example required path '${libPath}':`,
+        unknownErrorToString(result)
+      );
+      void window.showErrorMessage(
+        `Failed to checkout example required path '${libPath}'. ` +
+          "Please check the output window for more details."
+      );
+
       return result;
     }
   }
 
-  Logger.log(`Copying example from ${absoluteExamplePath} to ${targetPath}`);
+  Logger.debug(
+    LoggerSource.examples,
+    `Copying example from ${absoluteExamplePath} to ${targetPath}`
+  );
   // TODO: use example.name or example.search key for project folder name?
-  await cp(absoluteExamplePath, joinPosix(targetPath, example.searchKey), {
-    recursive: true,
-  });
+  try {
+    await cp(absoluteExamplePath, joinPosix(targetPath, example.searchKey), {
+      recursive: true,
+    });
+  } catch (error) {
+    const msg = unknownErrorToString(error);
+    if (
+      msg.includes("EACCESS") ||
+      msg.includes("EPERM") ||
+      msg.includes("access denied")
+    ) {
+      Logger.error(
+        LoggerSource.examples,
+        "Failed to copy example. " +
+          "Please check if the target path is writable.",
+        msg
+      );
+      void window.showErrorMessage(
+        "Failed to copy example. " +
+          "Please check if the target path is writable."
+      );
+    } else {
+      Logger.error(LoggerSource.examples, "Failed to copy example.", msg);
+      void window.showErrorMessage(
+        "Failed to copy example. " +
+          "Please check the output window for more details."
+      );
+    }
+
+    return false;
+  }
 
   for (let i = 0; i < example.libPaths.length; i++) {
     const libPath = example.libPaths[i];
     const libName = example.libNames[i];
     const absoluteLibPath = joinPosix(examplesRepoPath, libPath);
-    Logger.log(
+    Logger.debug(
+      LoggerSource.examples,
       `Copying example required path from ${absoluteLibPath} ` +
         `to ${targetPath}/${example.searchKey}/${libName}`
     );
     // TODO: use example.name or example.search key for project folder name?
-    await cp(
-      absoluteLibPath,
-      joinPosix(targetPath, example.searchKey, libName),
-      { recursive: true }
-    );
+    try {
+      await cp(
+        absoluteLibPath,
+        joinPosix(targetPath, example.searchKey, libName),
+        { recursive: true }
+      );
+    } catch (error) {
+      Logger.error(
+        LoggerSource.examples,
+        `Failed to copy example requirement '${libName}':`,
+        unknownErrorToString(error)
+      );
+      void window.showErrorMessage(
+        `Failed to copy example requirement '${libName}'. ` +
+          "Please check the output window for more details."
+      );
+
+      return false;
+    }
   }
 
-  Logger.log("Done copying example.");
+  Logger.info(LoggerSource.examples, "Done copying example.");
 
   return result;
 }

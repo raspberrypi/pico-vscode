@@ -650,9 +650,10 @@ export class NewProjectPanel {
               this.dispose();
 
               // required to support backslashes in macOS/Linux folder names
-              const targetPath = process.platform !== "win32"
-                ? this._projectRoot.fsPath
-                : this._projectRoot.fsPath.replaceAll("\\", "/");
+              const targetPath =
+                process.platform !== "win32"
+                  ? this._projectRoot.fsPath
+                  : this._projectRoot.fsPath.replaceAll("\\", "/");
 
               const result = await window.withProgress(
                 {
@@ -662,34 +663,38 @@ export class NewProjectPanel {
                 },
                 async progress => {
                   // download and install selected example
-                  const result = await setupExample(
-                    example,
-                    targetPath
-                  );
-          
+                  const result = await setupExample(example, targetPath);
+
                   if (result) {
-                    this._logger.debug(`Successfully downloaded ${example.name} example.`);
-          
+                    this._logger.debug(
+                      `Successfully downloaded ${example.name} example.`
+                    );
+
                     progress.report({
                       increment: 100,
                       message: `Successfully downloaded ${example.name} example.`,
                     });
-          
+
                     return true;
                   }
-          
-                  this._logger.error(`Failed to download ${example.name} example.`);
-          
+
+                  this._logger.error(
+                    `Failed to download ${example.name} example.`
+                  );
+
                   progress.report({
                     increment: 100,
                   });
-          
+
                   return false;
                 }
               );
 
               if (!result) {
-                await window.showErrorMessage("Failed to setup example.");
+                void window.setStatusBarMessage(
+                  `Failed to setup example ${example.name}. Please check the output window for more details.`,
+                  5000
+                );
 
                 return;
               }
@@ -769,7 +774,7 @@ export class NewProjectPanel {
               );
             }
             break;
-          case 'updateSetting':
+          case "updateSetting":
             {
               const key = message.key as string;
               const value = message.value as boolean;
@@ -1511,7 +1516,8 @@ export class NewProjectPanel {
       window.activeColorTheme.kind === ColorThemeKind.HighContrast
         ? "dark"
         : "light";
-    const riscvDefaultSvgUri = defaultTheme === "dark" ? riscvWhiteSvgUri : riscvBlackSvgUri;
+    const riscvDefaultSvgUri =
+      defaultTheme === "dark" ? riscvWhiteSvgUri : riscvBlackSvgUri;
 
     this._versionBundlesLoader = new VersionBundlesLoader(this._extensionUri);
 
@@ -1706,7 +1712,9 @@ export class NewProjectPanel {
           const riscvColorSvgUri = "${riscvColorSvgUri.toString()}";
         </script>
       </head>
-      <body class="scroll-smooth w-screen${defaultTheme === "dark" ? " dark" : ""}">
+      <body class="scroll-smooth w-screen${
+        defaultTheme === "dark" ? " dark" : ""
+      }">
         <div id="above-nav" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-0 z-10 pl-5 h-5">
         </div>
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
@@ -2186,10 +2194,8 @@ export class NewProjectPanel {
                   <div class="flex items-stretch space-x-4">
                       <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                           <input id="use-cmake-tools-cb" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600" ${
-                            defaultUseCmakeTools
-                              ? 'checked'
-                              : ''
-                            }>
+                            defaultUseCmakeTools ? "checked" : ""
+                          }>
                           <label for="use-cmake-tools-cb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Enable CMake-Tools extension integration</label>
                       </div>
                   </div>
