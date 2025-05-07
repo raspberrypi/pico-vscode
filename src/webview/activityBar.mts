@@ -42,7 +42,7 @@ const COMMON_COMMANDS_PARENT_LABEL = "General";
 const PROJECT_COMMANDS_PARENT_LABEL = "Project";
 const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
 
-const NEW_C_CPP_PROJECT_LABEL = "New C/C++ Project";
+const NEW_C_CPP_PROJECT_LABEL = "New Pico Project";
 const NEW_MICROPYTHON_PROJECT_LABEL = "New MicroPython Project";
 const IMPORT_PROJECT_LABEL = "Import Project";
 const EXAMPLE_PROJECT_LABEL = "New Project From Example";

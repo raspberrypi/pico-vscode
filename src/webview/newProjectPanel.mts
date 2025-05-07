@@ -13,6 +13,7 @@ import {
   ColorThemeKind,
   ProgressLocation,
   type Progress,
+  env,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
@@ -61,6 +62,7 @@ import {
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
+import checkSwiftRequirements from "../utils/swiftUtil.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
@@ -114,6 +116,7 @@ interface SubmitMessageValue extends ImportProjectMessageValue {
   runFromRAM: boolean;
   entryPointProjectName: boolean;
   cpp: boolean;
+  swift: boolean;
   cppRtti: boolean;
   cppExceptions: boolean;
 }
@@ -160,6 +163,7 @@ enum CodeOption {
   runFromRAM = "Run the program from RAM rather than flash",
   entryPointProjectName = "Use project name as entry point file name",
   cpp = "Generate C++ code",
+  swift = "Generate Swift code",
   cppRtti = "Enable C++ RTTI (Uses more memory)",
   cppExceptions = "Enable C++ exceptions (Uses more memory)",
 }
@@ -244,6 +248,8 @@ function enumToParam(
       return "-e";
     case CodeOption.cpp:
       return "-cpp";
+    case CodeOption.swift:
+      return "-swift";
     case CodeOption.cppRtti:
       return "-cpprtti";
     case CodeOption.cppExceptions:
@@ -1263,6 +1269,41 @@ export class NewProjectPanel {
       if (example === undefined && !this._isProjectImport) {
         const theData = data as SubmitMessageValue;
 
+        if (theData.swift) {
+          const swiftResult = await window.withProgress(
+            {
+              location: ProgressLocation.Notification,
+              title: "Checking Swift installation",
+              cancellable: false,
+            },
+            async () => checkSwiftRequirements()
+          );
+
+          if (!swiftResult) {
+            progress.report({
+              message: "Failed",
+              increment: 100,
+            });
+            void window
+              .showErrorMessage(
+                "Swift dev snapshot is required for Swift project generation. Please install the latest downloadable 'main' Swift Development Snapshot from swift.org to use Embedded Swift.",
+                "Open instructions (section 1,2,4 only)"
+              )
+              .then(selected => {
+                if (selected) {
+                  env.openExternal(
+                    //Uri.parse("https://swift.org/download/#releases")
+                    Uri.parse(
+                      "https://apple.github.io/swift-matter-examples/tutorials/swiftmatterexamples/setup-macos/"
+                    )
+                  );
+                }
+              });
+
+            return;
+          }
+        }
+
         await this._settings.setEntryPointNamingPref(
           theData.entryPointProjectName
         );
@@ -1295,6 +1336,7 @@ export class NewProjectPanel {
               ? CodeOption.entryPointProjectName
               : null,
             theData.cpp ? CodeOption.cpp : null,
+            theData.swift ? CodeOption.swift : null,
             theData.cppRtti ? CodeOption.cppRtti : null,
             theData.cppExceptions ? CodeOption.cppExceptions : null,
           ].filter(option => option !== null),
@@ -1654,6 +1696,7 @@ export class NewProjectPanel {
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
     const isWindows = process.platform === "win32";
+    const isMacOS = process.platform === "darwin";
 
     // Get the default values from global state
     const useProjectNameAsEntryPointFileName =
@@ -1845,7 +1888,7 @@ export class NewProjectPanel {
                         </div>
                       </div>`
                       : `<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                            Warning: Project Import Wizard may not work for all projects, and will often require manual correction after the import
+                            Warning: Project Import Wizard may not work for all projects, and will often require manual correction after the import. Only C/C++ projects are supported at the moment.
                         </h3>`
                   }
                     <div class="mt-6 mb-4">
@@ -2158,6 +2201,17 @@ export class NewProjectPanel {
                       <label for="cpp-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Generate C++ code</label>
                     </div>
                   </li>
+                  ${
+                    isMacOS
+                      ? `
+                  <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                    <div class="flex items-center pl-3">
+                      <input id="swift-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                      <label for="swift-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Generate Swift code</label>
+                    </div>
+                  </li>`
+                      : ""
+                  }
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div class="flex items-center pl-3">
                       <input id="cpp-rtti-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
