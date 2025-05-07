@@ -210,7 +210,7 @@
         "command": "raspberry-pi-pico.switchBuildType",
         "title": "Switch Build Type",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.importProject",

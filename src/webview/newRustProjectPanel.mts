@@ -306,8 +306,9 @@ export class NewRustProjectPanel {
     if (!result) {
       this._logger.error("Failed to generate Rust project.");
 
-      void window.showErrorMessage(
-        "Failed to generate Rust project. Please try again and check your settings."
+      void window.setStatusBarMessage(
+        "Failed to generate Rust project. See the output panel for more details.",
+        7000
       );
 
       return;
