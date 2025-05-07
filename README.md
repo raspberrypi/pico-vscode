@@ -91,9 +91,12 @@ When prompted, select the `Pico` kit in CMake Tools, and set your build and laun
 
 ## Rust Prerequisites
 
-### Linux
+* **rustup** – Installs and manages Rust. Get it from [rustup.rs](https://rustup.rs).
+* A C compiler for your system:
 
-- **GCC** for the host architecture
+  * **Linux**: `gcc`
+  * **macOS**: `clang`
+  * **Windows**: `MSVC`
 
 ## VS Code Profiles
 
