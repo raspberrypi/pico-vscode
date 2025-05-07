@@ -5,8 +5,6 @@ import { TomlInlineObject, writeTomlFile } from "./tomlUtil.mjs";
 import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
 import { mkdir, writeFile } from "fs/promises";
-import { promisify } from "util";
-import { exec } from "child_process";
 import {
   GetChipCommand,
   GetOpenOCDRootCommand,
@@ -16,8 +14,6 @@ import {
 import { extensionName } from "../../commands/command.mjs";
 import { commands, window } from "vscode";
 import LaunchTargetPathCommand from "../../commands/launchTargetPath.mjs";
-
-const execAsync = promisify(exec);
 
 async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
   const vsc = join(projectRoot, ".vscode");
@@ -151,7 +147,6 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
           "${command:raspberry-pi-pico.launchTargetPathRelease}",
           "-t",
           "elf",
-          "-f",
         ],
         presentation: {
           reveal: "always",
@@ -177,34 +172,6 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
     Logger.error(
       LoggerSource.projectRust,
       "Failed to write extensions.json file",
-      unknownErrorToString(error)
-    );
-
-    return false;
-  }
-}
-
-async function initGit(projectRoot: string): Promise<boolean> {
-  try {
-    // TODO: timeouts
-    await execAsync("git init", {
-      cwd: projectRoot,
-    });
-    await execAsync(
-      "git submodule add https://github.com/rp-rs/rp-hal.git rp-hal",
-      {
-        cwd: projectRoot,
-      }
-    );
-    await execAsync("git submodule update --init --recursive", {
-      cwd: projectRoot,
-    });
-
-    return true;
-  } catch (error) {
-    Logger.error(
-      LoggerSource.projectRust,
-      "Failed to initialize git",
       unknownErrorToString(error)
     );
 
@@ -466,7 +433,6 @@ async function generateCargoToml(
       "thumbv6m-none-eabi": {
         dependencies: {
           "rp2040-hal": new TomlInlineObject({
-            path: "./rp-hal/rp2040-hal",
             version: "0.11",
             features: ["rt", "critical-section-impl"],
           }),
@@ -477,7 +443,6 @@ async function generateCargoToml(
       "riscv32imac-unknown-none-elf": {
         dependencies: {
           "rp235x-hal": new TomlInlineObject({
-            path: "./rp-hal/rp235x-hal",
             version: "0.3",
             features: ["rt", "critical-section-impl"],
           }),
@@ -487,7 +452,6 @@ async function generateCargoToml(
       '"thumbv8m.main-none-eabihf"': {
         dependencies: {
           "rp235x-hal": new TomlInlineObject({
-            path: "./rp-hal/rp235x-hal",
             version: "0.3",
             features: ["rt", "critical-section-impl"],
           }),
@@ -1321,11 +1285,32 @@ export async function generateRustProject(
   try {
     await mkdir(projectFolder, { recursive: true });
   } catch (error) {
-    Logger.error(
-      LoggerSource.projectRust,
-      "Failed to create project folder",
-      unknownErrorToString(error)
-    );
+    const msg = unknownErrorToString(error);
+    if (
+      msg.includes("EPERM") ||
+      msg.includes("EACCES") ||
+      msg.includes("access denied")
+    ) {
+      Logger.error(
+        LoggerSource.projectRust,
+        "Failed to create project folder",
+        "Permission denied. Please check your permissions."
+      );
+
+      void window.showErrorMessage(
+        "Failed to create project folder. Permission denied - Please check your permissions."
+      );
+    } else {
+      Logger.error(
+        LoggerSource.projectRust,
+        "Failed to create project folder",
+        unknownErrorToString(error)
+      );
+
+      void window.showErrorMessage(
+        "Failed to create project folder. See the output panel for more details."
+      );
+    }
 
     return false;
   }
@@ -1333,46 +1318,68 @@ export async function generateRustProject(
   // TODO: do all in parallel
   let result = await generateCargoToml(projectFolder, projectName);
   if (!result) {
+    Logger.debug(
+      LoggerSource.projectRust,
+      "Failed to generate Cargo.toml file"
+    );
+
     return false;
   }
 
   result = await generateMemoryLayouts(projectFolder);
   if (!result) {
+    Logger.debug(LoggerSource.projectRust, "Failed to generate memory.x files");
+
     return false;
   }
 
   result = await generateBuildRs(projectFolder);
   if (!result) {
+    Logger.debug(LoggerSource.projectRust, "Failed to generate build.rs file");
+
     return false;
   }
 
   result = await generateGitIgnore(projectFolder);
   if (!result) {
+    Logger.debug(
+      LoggerSource.projectRust,
+      "Failed to generate .gitignore file"
+    );
+
     return false;
   }
 
   result = await generateCargoConfig(projectFolder);
   if (!result) {
+    Logger.debug(
+      LoggerSource.projectRust,
+      "Failed to generate .cargo/config.toml file"
+    );
+
     return false;
   }
 
   result = await generateMainRs(projectFolder);
   if (!result) {
+    Logger.debug(LoggerSource.projectRust, "Failed to generate main.rs file");
+
     return false;
   }
 
   result = await generateVSCodeConfig(projectFolder);
   if (!result) {
-    return false;
-  }
+    Logger.debug(
+      LoggerSource.projectRust,
+      "Failed to generate .vscode configuration files."
+    );
 
-  result = await initGit(projectFolder);
-  if (!result) {
     return false;
   }
 
   // add .pico-rs file
   try {
+    // TODO: dynamic selection of RP2040 or RP2350 (risc-v or arm)
     await writeFile(join(projectFolder, ".pico-rs"), "rp2350");
   } catch (error) {
     Logger.error(

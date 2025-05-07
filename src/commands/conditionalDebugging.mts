@@ -30,7 +30,7 @@ export default class ConditionalDebuggingCommand extends Command {
       }
 
       void commands.executeCommand(`${extensionName}.${DebugLayoutCommand.id}`);
-      void debug.startDebugging(wsFolder, "rp2040-project");
+      void debug.startDebugging(wsFolder, "Pico Debug (probe-rs)");
 
       return;
     }
