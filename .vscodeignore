@@ -32,7 +32,6 @@ node_modules/**
 !scripts/btstack_config.h
 !scripts/pico_configs.tsv
 !scripts/pico_project.py
-!scripts/portable-msvc.py
 !scripts/pico-vscode.cmake
 !scripts/Pico.code-profile
 !scripts/raspberrypi-swd.cfg
