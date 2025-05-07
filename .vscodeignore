@@ -36,8 +36,6 @@ node_modules/**
 !scripts/Pico.code-profile
 !scripts/raspberrypi-swd.cfg
 !data/**
-!scripts/rttDecoder.mjs
-!scripts/rttDecoder.js
 scripts/*.ps1
 scripts/fix_windows_reg.py
 scripts/vscodeUninstaller.mjs
