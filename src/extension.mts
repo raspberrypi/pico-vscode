@@ -50,6 +50,7 @@ import {
   GetPicotoolPathCommand,
   GetOpenOCDRootCommand,
   GetSVDPathCommand,
+  SetupVenvCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -136,6 +137,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetPicotoolPathCommand(),
     new GetOpenOCDRootCommand(),
     new GetSVDPathCommand(context.extensionUri),
+    new SetupVenvCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
     new FlashProjectSWDCommand(),

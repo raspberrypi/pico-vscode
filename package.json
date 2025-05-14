@@ -261,6 +261,11 @@
         "title": "Get path of the project release SBOM (rust only)",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.setupVenv",
+        "title": "Setup Venv",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {

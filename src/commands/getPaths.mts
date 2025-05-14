@@ -1,5 +1,8 @@
 import { CommandWithResult } from "./command.mjs";
 import { commands, type Uri, window, workspace } from "vscode";
+import { type ExecOptions, exec } from "child_process";
+import { join as joinPosix } from "path/posix";
+import { homedir } from "os";
 import {
   getPythonPath,
   getPath,
@@ -15,8 +18,9 @@ import {
   buildToolchainPath,
   downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
+  buildSDKPath,
 } from "../utils/download.mjs";
-import Settings, { SettingsKey } from "../settings.mjs";
+import Settings, { SettingsKey, HOME_VAR } from "../settings.mjs";
 import which from "which";
 import { execSync } from "child_process";
 import { getPicotoolReleases } from "../utils/githubREST.mjs";
@@ -26,6 +30,7 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
+import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -503,5 +508,83 @@ export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
       "hardware_regs",
       `${theChip.toUpperCase()}.svd`
     );
+  }
+}
+
+export class SetupVenvCommand extends CommandWithResult<string | undefined> {
+  private running: boolean = false;
+
+  public static readonly id = "setupVenv";
+
+  constructor() {
+    super(SetupVenvCommand.id);
+  }
+
+  private readonly _logger: Logger = new Logger("SetupVenv");
+
+  private _runSetupVenv(
+    command: string,
+    options: ExecOptions
+  ): Promise<number | null> {
+    return new Promise<number | null>(resolve => {
+      const generatorProcess = exec(
+        command,
+        options,
+        (error, stdout, stderr) => {
+          this._logger.debug(stdout);
+          this._logger.info(stderr);
+          if (error) {
+            this._logger.error(`Setup venv error: ${error.message}`);
+            resolve(null); // indicate error
+          }
+        }
+      );
+
+      generatorProcess.on("exit", code => {
+        // Resolve with exit code or -1 if code is undefined
+        resolve(code);
+      });
+    });
+  }
+
+  async execute(): Promise<string | undefined> {
+    if (this.running) {
+      return undefined;
+    }
+    this.running = true;
+
+    window.showInformationMessage("Setup Venv Command Running");
+
+    const python3Path = await findPython();
+    if (!python3Path) {
+      this._logger.error("Failed to find Python3 executable.");
+      showPythonNotFoundError();
+
+      return;
+    }
+
+    const pythonExe = python3Path.replace(
+      HOME_VAR,
+      homedir().replaceAll("\\", "/")
+    );
+
+    const command: string = [
+      `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
+      "-m venv venv",
+    ].join(" ");
+
+    const homeDirectory: string = homedir();
+    const sdkDir: string = joinPosix(homeDirectory, ".pico-sdk");
+
+    const result = await this._runSetupVenv(command, {
+      cwd: sdkDir,
+      windowsHide: true,
+    });
+
+    this._logger.info(`${result}`);
+
+    this.running = false;
+
+    return "";
   }
 }
