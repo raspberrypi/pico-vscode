@@ -640,6 +640,36 @@ manifest:
       Buffer.from(zephyrManifestContent)
     );
 
+    const westInitCommand: string = [
+      `${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${venvPythonExe}"`,
+      "-m west init -l .",
+    ].join(" ");
+
+    result = await this._runSetupVenv(westInitCommand, {
+      cwd: zephyrWorkspaceDirectory,
+      windowsHide: true,
+    });
+
+    this._logger.info(`${result}`);
+
+    const westUpdateCommand: string = [
+      `${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${venvPythonExe}"`,
+      "-m west update",
+    ].join(" ");
+
+    result = await this._runSetupVenv(westUpdateCommand, {
+      cwd: zephyrWorkspaceDirectory,
+      windowsHide: true,
+    });
+
+    this._logger.info(`${result}`);
+
+    this._logger.info("Complete");
+
     this.running = false;
 
     return "";
