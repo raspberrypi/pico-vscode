@@ -594,16 +594,15 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
     this._logger.info(`${result}`);
 
     const venvPythonExe: string = joinPosix(
+      process.env.ComSpec === "powershell.exe" ? "&" : "",
       zephyrWorkspaceDirectory,
       "venv",
-      "Scripts",
-      "python.exe"
+      process.platform === "win32" ? "Scripts" : "bin",
+      process.platform === "win32" ? "python.exe" : "python"
     );
 
     const command2: string = [
-      `${
-        process.env.ComSpec === "powershell.exe" ? "&" : ""
-      }"${venvPythonExe}"`,
+      venvPythonExe,
       "-m pip install west pyelftools",
     ].join(" ");
 
@@ -612,6 +611,14 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
     });
+
+    const westExe: string = joinPosix(
+      process.env.ComSpec === "powershell.exe" ? "&" : "",
+      zephyrWorkspaceDirectory,
+      "venv",
+      process.platform === "win32" ? "Scripts" : "bin",
+      process.platform === "win32" ? "west.exe" : "west"
+    );
 
     const zephyrManifestDir: string = joinPosix(
       zephyrWorkspaceDirectory,
@@ -647,27 +654,26 @@ manifest:
       Buffer.from(zephyrManifestContent)
     );
 
-    const westInitCommand: string = [
-      `${
-        process.env.ComSpec === "powershell.exe" ? "&" : ""
-      }"${venvPythonExe}"`,
-      "-m west init -l manifest",
-    ].join(" ");
+    const zephyrWorkspaceFiles = await workspace.fs.readDirectory(
+      Uri.file(zephyrWorkspaceDirectory)
+    );
 
-    this._logger.info("Initialising West workspace");
-    result = await this._runCommand(westInitCommand, {
-      cwd: zephyrWorkspaceDirectory,
-      windowsHide: true,
-    });
+    const westAlreadyExists = zephyrWorkspaceFiles.find(x => x[0] === ".west");
+    if (westAlreadyExists) {
+      this._logger.info("West workspace already initialised.");
+    } else {
+      this._logger.info("No West workspace found. Initialising...");
 
-    this._logger.info(`${result}`);
+      const westInitCommand: string = [westExe, "init -l manifest"].join(" ");
+      result = await this._runCommand(westInitCommand, {
+        cwd: zephyrWorkspaceDirectory,
+        windowsHide: true,
+      });
 
-    const westUpdateCommand: string = [
-      `${
-        process.env.ComSpec === "powershell.exe" ? "&" : ""
-      }"${venvPythonExe}"`,
-      "-m west update",
-    ].join(" ");
+      this._logger.info(`${result}`);
+    }
+
+    const westUpdateCommand: string = [westExe, "update"].join(" ");
 
     this._logger.info("Updating West workspace");
     result = await this._runCommand(westUpdateCommand, {
@@ -678,10 +684,8 @@ manifest:
     this._logger.info(`${result}`);
 
     const westPipPackagesCommand: string = [
-      `${
-        process.env.ComSpec === "powershell.exe" ? "&" : ""
-      }"${venvPythonExe}"`,
-      "-m west packages pip --install",
+      westExe,
+      "packages pip --install",
     ].join(" ");
 
     this._logger.info("Installing West Python packages");
@@ -693,10 +697,8 @@ manifest:
     this._logger.info(`${result}`);
 
     const westBlobsFetchCommand: string = [
-      `${
-        process.env.ComSpec === "powershell.exe" ? "&" : ""
-      }"${venvPythonExe}"`,
-      "-m west blobs fetch hal_infineon",
+      westExe,
+      "blobs fetch hal_infineon",
     ].join(" ");
 
     this._logger.info("Fetching binary blobs for Zephyr");
@@ -708,10 +710,8 @@ manifest:
     this._logger.info(`${result}`);
 
     const westInstallSDKCommand: string = [
-      `${
-        process.env.ComSpec === "powershell.exe" ? "&" : ""
-      }"${venvPythonExe}"`,
-      "-m west sdk install -t arm-zephyr-eabi",
+      westExe,
+      "sdk install -t arm-zephyr-eabi",
       `-b ${zephyrWorkspaceDirectory}`,
     ].join(" ");
 
