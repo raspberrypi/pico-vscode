@@ -723,6 +723,10 @@ manifest:
 
     this._logger.info(`${result}`);
 
+    this._logger.info("Installing OpenOCD");
+    const openocdResult = await downloadAndInstallOpenOCD(openOCDVersion);
+    this._logger.info(`${openocdResult}`);
+
     this._logger.info("Complete");
 
     this.running = false;
