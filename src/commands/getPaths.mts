@@ -602,6 +602,44 @@ export class SetupVenvCommand extends CommandWithResult<string | undefined> {
       windowsHide: true,
     });
 
+    // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
+    const zephyrWorkspaceDirectory: string = joinPosix(
+      homeDirectory,
+      ".pico-sdk",
+      "zephyr_workspace"
+    );
+    const zephyrManifestFile: string = joinPosix(
+      zephyrWorkspaceDirectory,
+      "west.yml"
+    );
+
+    const zephyrManifestContent: string = `
+manifest:
+  self:
+    west-commands: scripts/west-commands.yml
+
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: main
+      import:
+        # By using name-allowlist we can clone only the modules that are
+        # strictly needed by the application.
+        name-allowlist:
+          - cmsis      # required by the ARM port
+          - hal_rpi_pico # required for Pico board support
+          - hal_infineon
+`;
+
+    workspace.fs.writeFile(
+      Uri.file(zephyrManifestFile),
+      Buffer.from(zephyrManifestContent)
+    );
+
     this.running = false;
 
     return "";

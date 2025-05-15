@@ -15,6 +15,7 @@ export enum ProjectLang {
   cCpp = 1,
   micropython = 2,
   rust = 3,
+  zephyr = 5,
 }
 
 export default class NewProjectCommand extends CommandWithArgs {
