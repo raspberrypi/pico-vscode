@@ -263,8 +263,8 @@
         "enablement": "false"
       },
       {
-        "command": "raspberry-pi-pico.setupVenv",
-        "title": "Setup Venv",
+        "command": "raspberry-pi-pico.setupZephyr",
+        "title": "Setup Zephyr Toolchain",
         "category": "Raspberry Pi Pico"
       }
     ],
