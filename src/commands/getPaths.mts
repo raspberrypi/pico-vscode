@@ -573,19 +573,26 @@ export class SetupVenvCommand extends CommandWithResult<string | undefined> {
     ].join(" ");
 
     const homeDirectory: string = homedir();
-    const sdkDir: string = joinPosix(homeDirectory, ".pico-sdk");
+
+    // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
+    const zephyrWorkspaceDirectory: string = joinPosix(
+      homeDirectory,
+      ".pico-sdk",
+      "zephyr_workspace"
+    );
+
+    workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
 
     this._logger.info("Setting up virtual environment for Zephyr");
     let result = await this._runSetupVenv(command, {
-      cwd: sdkDir,
+      cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
     });
 
     this._logger.info(`${result}`);
 
     const venvPythonExe: string = joinPosix(
-      homeDirectory,
-      ".pico-sdk",
+      zephyrWorkspaceDirectory,
       "venv",
       "Scripts",
       "python.exe"
@@ -600,16 +607,9 @@ export class SetupVenvCommand extends CommandWithResult<string | undefined> {
 
     this._logger.info("Installing Python dependencies for Zephyr");
     result = await this._runSetupVenv(command2, {
-      cwd: sdkDir,
+      cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
     });
-
-    // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
-    const zephyrWorkspaceDirectory: string = joinPosix(
-      homeDirectory,
-      ".pico-sdk",
-      "zephyr_workspace"
-    );
 
     const zephyrManifestDir: string = joinPosix(
       zephyrWorkspaceDirectory,
