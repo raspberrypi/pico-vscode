@@ -668,6 +668,48 @@ manifest:
 
     this._logger.info(`${result}`);
 
+    const westPipPackagesCommand: string = [
+      `${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${venvPythonExe}"`,
+      "-m west packages pip --install",
+    ].join(" ");
+
+    result = await this._runSetupVenv(westPipPackagesCommand, {
+      cwd: zephyrWorkspaceDirectory,
+      windowsHide: true,
+    });
+
+    this._logger.info(`${result}`);
+
+    const westBlobsFetchCommand: string = [
+      `${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${venvPythonExe}"`,
+      "-m west blobs fetch hal_infineon",
+    ].join(" ");
+
+    result = await this._runSetupVenv(westBlobsFetchCommand, {
+      cwd: zephyrWorkspaceDirectory,
+      windowsHide: true,
+    });
+
+    this._logger.info(`${result}`);
+
+    const westInstallSDKCommand: string = [
+      `${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${venvPythonExe}"`,
+      "-m west sdk install -t arm-zephyr-eabi",
+    ].join(" ");
+
+    result = await this._runSetupVenv(westInstallSDKCommand, {
+      cwd: zephyrWorkspaceDirectory,
+      windowsHide: true,
+    });
+
+    this._logger.info(`${result}`);
+
     this._logger.info("Complete");
 
     this.running = false;
