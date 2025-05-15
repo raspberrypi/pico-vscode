@@ -224,6 +224,17 @@ export async function downloadAndReadFile(
   return response.statusCode === HTTP_STATUS_OK ? response.body : undefined;
 }
 
+export function buildWestPath(): string {
+  return joinPosix(
+    homeDirectory.replaceAll("\\", "/"),
+    ".pico-sdk",
+    "zephyr_workspace",
+    "venv",
+    process.platform === "win32" ? "Scripts" : "bin",
+    process.platform === "win32" ? "west.exe" : "west"
+  );
+}
+
 /**
  * Downloads and installs an archive from a URL.
  *

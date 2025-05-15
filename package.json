@@ -167,6 +167,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getWestPath",
+        "title": "Get West path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
