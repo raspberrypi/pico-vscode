@@ -608,10 +608,13 @@ export class SetupVenvCommand extends CommandWithResult<string | undefined> {
       ".pico-sdk",
       "zephyr_workspace"
     );
-    const zephyrManifestFile: string = joinPosix(
+
+    const zephyrManifestDir: string = joinPosix(
       zephyrWorkspaceDirectory,
-      "west.yml"
+      "manifest"
     );
+
+    const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
 
     const zephyrManifestContent: string = `
 manifest:
@@ -630,9 +633,9 @@ manifest:
         # By using name-allowlist we can clone only the modules that are
         # strictly needed by the application.
         name-allowlist:
-          - cmsis      # required by the ARM port
+          - cmsis_6      # required by the ARM Cortex-M port
           - hal_rpi_pico # required for Pico board support
-          - hal_infineon
+          - hal_infineon # required for Wifi chip support
 `;
 
     workspace.fs.writeFile(
@@ -644,7 +647,7 @@ manifest:
       `${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${venvPythonExe}"`,
-      "-m west init -l .",
+      "-m west init -l manifest",
     ].join(" ");
 
     result = await this._runSetupVenv(westInitCommand, {
@@ -701,6 +704,7 @@ manifest:
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${venvPythonExe}"`,
       "-m west sdk install -t arm-zephyr-eabi",
+      `-b ${zephyrWorkspaceDirectory}`,
     ].join(" ");
 
     result = await this._runSetupVenv(westInstallSDKCommand, {
