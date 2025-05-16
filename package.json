@@ -278,6 +278,11 @@
         "command": "raspberry-pi-pico.setupZephyr",
         "title": "Setup Zephyr Toolchain",
         "category": "Raspberry Pi Pico"
+      },
+      {
+        "command": "raspberry-pi-pico.newZephyrProject",
+        "title": "New Zephyr Project",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {
