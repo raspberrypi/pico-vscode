@@ -618,6 +618,42 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
 
     window.showInformationMessage("Setup Venv Command Running");
 
+    const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
+
+    const zephyrManifestDir: string = joinPosix(
+      zephyrWorkspaceDirectory,
+      "manifest"
+    );
+
+    const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
+
+    const zephyrManifestContent: string = `
+manifest:
+  self:
+    west-commands: scripts/west-commands.yml
+
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: main
+      import:
+        # By using name-allowlist we can clone only the modules that are
+        # strictly needed by the application.
+        name-allowlist:
+          - cmsis_6      # required by the ARM Cortex-M port
+          - hal_rpi_pico # required for Pico board support
+          - hal_infineon # required for Wifi chip support
+`;
+
+    workspace.fs.writeFile(
+      Uri.file(zephyrManifestFile),
+      Buffer.from(zephyrManifestContent)
+    );
+
     const python3Path = await findPython();
     if (!python3Path) {
       this._logger.error("Failed to find Python3 executable.");
@@ -636,15 +672,7 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
       "-m venv venv",
     ].join(" ");
 
-    const homeDirectory: string = homedir();
-
     // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
-    const zephyrWorkspaceDirectory: string = joinPosix(
-      homeDirectory,
-      ".pico-sdk",
-      "zephyr_workspace"
-    );
-
     workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
 
     this._logger.info("Setting up virtual environment for Zephyr");
@@ -680,40 +708,6 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
       "venv",
       process.platform === "win32" ? "Scripts" : "bin",
       process.platform === "win32" ? "west.exe" : "west"
-    );
-
-    const zephyrManifestDir: string = joinPosix(
-      zephyrWorkspaceDirectory,
-      "manifest"
-    );
-
-    const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
-
-    const zephyrManifestContent: string = `
-manifest:
-  self:
-    west-commands: scripts/west-commands.yml
-
-  remotes:
-    - name: zephyrproject-rtos
-      url-base: https://github.com/zephyrproject-rtos
-
-  projects:
-    - name: zephyr
-      remote: zephyrproject-rtos
-      revision: main
-      import:
-        # By using name-allowlist we can clone only the modules that are
-        # strictly needed by the application.
-        name-allowlist:
-          - cmsis_6      # required by the ARM Cortex-M port
-          - hal_rpi_pico # required for Pico board support
-          - hal_infineon # required for Wifi chip support
-`;
-
-    workspace.fs.writeFile(
-      Uri.file(zephyrManifestFile),
-      Buffer.from(zephyrManifestContent)
     );
 
     const zephyrWorkspaceFiles = await workspace.fs.readDirectory(
