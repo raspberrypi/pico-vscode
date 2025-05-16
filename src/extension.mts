@@ -259,21 +259,39 @@ export async function activate(context: ExtensionContext): Promise<void> {
       return;
     }
 
-    // check for pico_sdk_init() in CMakeLists.txt
-    if (
-      !readFileSync(cmakeListsFilePath)
-        .toString("utf-8")
-        .includes("pico_sdk_init()")
-    ) {
-      Logger.warn(
-        LoggerSource.extension,
-        "No pico_sdk_init() in CMakeLists.txt found."
-      );
-      await commands.executeCommand(
-        "setContext",
-        ContextKeys.isPicoProject,
-        false
-      );
+  // Set Pico Zephyr Project false by default
+  await commands.executeCommand(
+    "setContext",
+    ContextKeys.isPicoZephyrProject,
+    false
+  );
+
+  // Check for pico_zephyr in CMakeLists.txt
+  if (
+    readFileSync(cmakeListsFilePath).toString("utf-8").includes("pico_zephyr")
+  ) {
+    Logger.info(LoggerSource.extension, "Pico Zephyr Project");
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isPicoZephyrProject,
+      true
+    );
+  }
+  // check for pico_sdk_init() in CMakeLists.txt
+  else if (
+    !readFileSync(cmakeListsFilePath)
+      .toString("utf-8")
+      .includes("pico_sdk_init()")
+  ) {
+    Logger.warn(
+      LoggerSource.extension,
+      "No pico_sdk_init() in CMakeLists.txt found."
+    );
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isPicoProject,
+      false
+    );
 
       return;
     }

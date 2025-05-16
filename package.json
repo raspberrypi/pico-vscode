@@ -80,7 +80,7 @@
         "command": "raspberry-pi-pico.switchSDK",
         "title": "Switch Pico SDK",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.switchBoard",
@@ -188,7 +188,7 @@
         "command": "raspberry-pi-pico.runProject",
         "title": "Run Pico Project (USB)",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isPicoZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.clearGithubApiCache",
@@ -216,13 +216,13 @@
         "command": "raspberry-pi-pico.configureCmake",
         "title": "Configure CMake",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.switchBuildType",
         "title": "Switch Build Type",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.importProject",
@@ -254,7 +254,7 @@
         "command": "raspberry-pi-pico.cleanCmake",
         "title": "Clean CMake",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.getRTTDecoderPath",
