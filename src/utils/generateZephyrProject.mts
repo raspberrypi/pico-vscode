@@ -46,42 +46,6 @@ export class NewZephyrProjectCommand extends CommandWithResult<
       overwrite: true,
     });
 
-    // Copy the VSCode tasks and launch files into the new workspace folder
-    const newProjectVSCodeDir = joinPosix(newProjectDir, ".vscode");
-    await workspace.fs.createDirectory(Uri.file(newProjectVSCodeDir));
-
-    const newProjectTasksFile = joinPosix(newProjectVSCodeDir, "tasks.json");
-    const newProjectLaunchFile = joinPosix(newProjectVSCodeDir, "launch.json");
-
-    const zephyrTasksFile = joinPosix(
-      buildZephyrWorkspacePath(),
-      "pico-zephyr",
-      ".vscode",
-      "tasks.json"
-    );
-    const zephyrLaunchFile = joinPosix(
-      buildZephyrWorkspacePath(),
-      "pico-zephyr",
-      ".vscode",
-      "launch.json"
-    );
-
-    await workspace.fs.copy(
-      Uri.file(zephyrTasksFile),
-      Uri.file(newProjectTasksFile),
-      {
-        overwrite: true,
-      }
-    );
-
-    await workspace.fs.copy(
-      Uri.file(zephyrLaunchFile),
-      Uri.file(newProjectLaunchFile),
-      {
-        overwrite: true,
-      }
-    );
-
     const result = true;
 
     if (result === null || !result) {
