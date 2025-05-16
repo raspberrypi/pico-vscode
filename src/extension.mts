@@ -53,7 +53,6 @@ import {
   SetupZephyrCommand,
   GetWestPathCommand,
   GetZephyrWorkspacePathCommand,
-  NewZephyrProjectCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -65,6 +64,7 @@ import {
   downloadAndInstallOpenOCD,
   installLatestRustRequirements,
 } from "./utils/download.mjs";
+import { NewZephyrProjectCommand } from "./utils/generateZephyrProject.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import {
