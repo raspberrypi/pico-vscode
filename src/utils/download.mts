@@ -235,6 +235,14 @@ export function buildWestPath(): string {
   );
 }
 
+export function buildZephyrWorkspacePath(): string {
+  return joinPosix(
+    homeDirectory.replaceAll("\\", "/"),
+    ".pico-sdk",
+    "zephyr_workspace"
+  );
+}
+
 /**
  * Downloads and installs an archive from a URL.
  *

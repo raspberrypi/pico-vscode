@@ -159,7 +159,7 @@
         "title": "Get OpenOCD root",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
-      },
+      },      
       {
         "command": "raspberry-pi-pico.getSVDPath",
         "title": "Get SVD Path (rust only)",
@@ -169,6 +169,12 @@
       {
         "command": "raspberry-pi-pico.getWestPath",
         "title": "Get West path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getZephyrWorkspacePath",
+        "title": "Get Zephyr workspace path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
       },

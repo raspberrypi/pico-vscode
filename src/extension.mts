@@ -52,6 +52,7 @@ import {
   GetSVDPathCommand,
   SetupZephyrCommand,
   GetWestPathCommand,
+  GetZephyrWorkspacePathCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -139,6 +140,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetOpenOCDRootCommand(),
     new GetSVDPathCommand(context.extensionUri),
     new GetWestPathCommand(),
+    new GetZephyrWorkspacePathCommand(),
     new SetupZephyrCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
