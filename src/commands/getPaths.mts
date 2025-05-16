@@ -649,7 +649,7 @@ manifest:
           - hal_infineon # required for Wifi chip support
 `;
 
-    workspace.fs.writeFile(
+    await workspace.fs.writeFile(
       Uri.file(zephyrManifestFile),
       Buffer.from(zephyrManifestContent)
     );
