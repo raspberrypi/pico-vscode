@@ -669,7 +669,7 @@ manifest:
 
     const command: string = [
       `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-      "-m venv venv",
+      "-m virtualenv venv",
     ].join(" ");
 
     // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
