@@ -95,7 +95,7 @@ export async function getPath(): Promise<string> {
     cmakePath.includes("/")
       ? `${isWindows ? ";" : ":"}${dirname(cmakePath)}`
       : ""
-  }${
+  }${isWindows ? ";" : ":"}${
     pythonPath.includes("/")
       ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
       : ""

@@ -18,6 +18,8 @@ import {
   buildToolchainPath,
   buildWestPath,
   buildZephyrWorkspacePath,
+  downloadAndInstallCmake,
+  downloadAndInstallNinja,
   downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
 } from "../utils/download.mjs";
@@ -32,6 +34,7 @@ import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
+import { ensureGit } from "../utils/gitUtil.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -616,7 +619,40 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
     }
     this.running = true;
 
-    window.showInformationMessage("Setup Venv Command Running");
+    window.showInformationMessage("Setup Zephyr Command Running");
+
+    const settings = Settings.getInstance();
+    if (settings === undefined) {
+      this._logger.error("Settings not initialized.");
+
+      return;
+    }
+
+    // TODO: this does take about 2s - may be reduced
+    const gitPath = await ensureGit(settings, { returnPath: true });
+    if (typeof gitPath !== "string" || gitPath.length === 0) {
+      return;
+    }
+
+    this._logger.info("Installing CMake");
+    const cmakeResult = await downloadAndInstallCmake("v3.31.5");
+    this._logger.info(`${cmakeResult}`);
+
+    this._logger.info("Installing Ninja");
+    const ninjaResult = await downloadAndInstallNinja("v1.12.1");
+    this._logger.info(`${ninjaResult}`);
+
+    const customEnv = process.env;
+    const isWindows = process.platform === "win32";
+    const customPath = await getPath();
+    if (!customPath) {
+      return;
+    }
+    this._logger.info(`Before: ${customPath}`);
+    customPath.replaceAll("/", "\\");
+    this._logger.info(`After: ${customPath}`);
+    customEnv[isWindows ? "Path" : "PATH"] =
+      customPath + customEnv[isWindows ? "Path" : "PATH"];
 
     const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
 
@@ -775,6 +811,7 @@ manifest:
     result = await this._runCommand(westInstallSDKCommand, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     this._logger.info(`${result}`);
