@@ -648,9 +648,7 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
     if (!customPath) {
       return;
     }
-    this._logger.info(`Before: ${customPath}`);
     customPath.replaceAll("/", "\\");
-    this._logger.info(`After: ${customPath}`);
     customEnv[isWindows ? "Path" : "PATH"] =
       customPath + customEnv[isWindows ? "Path" : "PATH"];
 
@@ -774,6 +772,13 @@ manifest:
     });
 
     this._logger.info(`${result}`);
+
+    const zephyrExportCommand: string = [westExe, "zephyr-export"].join(" ");
+    this._logger.info("Exporting Zephyr CMake Files");
+    result = await this._runCommand(zephyrExportCommand, {
+      cwd: zephyrWorkspaceDirectory,
+      windowsHide: true,
+    });
 
     const westPipPackagesCommand: string = [
       westExe,
