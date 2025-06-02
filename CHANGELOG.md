@@ -8,6 +8,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.6] - 2025-06-02
+
+### Added
+- Forced selection of correct CMake Kit when using CMake Tools
+- Explicitly don't ignore .vscode folder in .gitignore
+
+### Changed
+- Make CMake Tools option more visible
+- Project detection now based on pico_sdk_init() in the CMakeLists.txt, rather than pico_sdk_import.cmake file
+- Switch extension build to NPM
+
 ## [0.17.5] - 2025-02-21
 
 ### Added
