@@ -99,6 +99,15 @@ const CMAKE_PLATFORMS: { [key: string]: string } = {
 // Compute and cache the home directory
 const homeDirectory: string = homedir();
 
+export function buildBasicToolchainPath(absolute: boolean): string {
+  const relPath = joinPosix(".pico-sdk", "toolchain");
+  if (absolute) {
+    return joinPosix(homeDirectory.replaceAll("\\", "/"), relPath);
+  } else {
+    return joinPosix("${USERHOME}", relPath);
+  }
+}
+
 export function buildToolchainPath(version: string): string {
   return joinPosix(homeDirectory, ".pico-sdk", "toolchain", version);
 }
@@ -114,7 +123,6 @@ export function buildSDKPath(version: string): string {
 }
 
 export function buildCMakeIncPath(absolute: boolean): string {
-  // TODO: maybe replace . with _
   const relPath = joinPosix(".pico-sdk", "cmake");
   if (absolute) {
     return joinPosix(homeDirectory.replaceAll("\\", "/"), relPath);
@@ -479,6 +487,14 @@ export async function downloadAndInstallSDK(
   );
 
   const targetDirectory = buildSDKPath(version);
+
+  // Copy swift wrapper
+  const sdkRoot = dirname(targetDirectory);
+  await mkdir(sdkRoot, { recursive: true });
+  copyFileSync(
+    joinPosix(getScriptsRoot(), "PicoSDK.swift"),
+    joinPosix(sdkRoot, "PicoSDK.swift")
+  );
 
   // Check if the SDK is already installed
   if (
@@ -937,6 +953,19 @@ export async function downloadAndInstallToolchain(
   if (artifactExt === undefined) {
     return false;
   }
+
+  // Install bridge.h and bridge.c files - overwrite if already there
+  await mkdir(buildBasicToolchainPath(true), { recursive: true });
+  // includes helper stuff for swift code - pico-sdk c interop
+  copyFileSync(
+    joinPosix(getScriptsRoot(), "bridge.h"),
+    joinPosix(buildBasicToolchainPath(true), "bridge.h")
+  );
+  // includes helper stuff for the swift compiler (workaround)
+  copyFileSync(
+    joinPosix(getScriptsRoot(), "bridge.c"),
+    joinPosix(buildBasicToolchainPath(true), "bridge.c")
+  );
 
   const archiveFileName = `${toolchain.version}.${artifactExt}`;
 
