@@ -6,6 +6,8 @@ This is the official Visual Studio Code extension for Raspberry Pi Pico developm
 
 For comprehensive setup instructions, refer to the [Getting Started guide](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf) PDF.
 
+If you have any issues while installing, please check out the [Troubleshooting](#troubleshooting) section.
+
 [Download latest Beta 📀](https://github.com/raspberrypi/pico-vscode/releases)
 
 ## Features
@@ -97,6 +99,17 @@ If you work with multiple microcontroller toolchains, consider installing this e
 2. Open Command Palette with `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) and select `Profiles: Import Profile`.
 3. Import the downloaded file to install the extension in a dedicated Pico profile.
 4. This setup helps isolate the Pico extension from other extensions, reducing the risk of conflicts.
+
+## Troubleshooting
+
+If you're having issues with installation, this is usually due to a download failure. To retry downloading everything, you can:
+- Clear all setting for the extension (`Ctrl+Shift+P` -> `Preferences: Open Settings (UI)` -> Search for `raspberry-pi-pico` and reset everything to default)
+- Uninstall the SDK (`Ctrl+Shift+P` -> `Raspberry Pi Pico: Uninstall Pico SDK`)
+- Uninstall the extension, close & reopen VS Code, then reinstall the extension
+
+Also make sure you've deleted any previous SDK installations (eg Pico setup for Windows, or a manual installation you've done), as those can conflict with this extension.
+
+If you're still unable to get it working, then [file a bug report](https://github.com/raspberrypi/pico-vscode/issues/new?template=bug_report.md) and **fill out all the fields** so we can figure out the problem.
 
 ## Known Issues
 
