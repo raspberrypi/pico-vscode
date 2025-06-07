@@ -11,6 +11,8 @@ import {
   ProgressLocation,
   commands,
 } from "vscode";
+import { homedir } from "os";
+import { join as joinPosix } from "path/posix";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
 import type { WebviewMessage } from "./newProjectPanel.mjs";
@@ -24,6 +26,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import { buildZephyrWorkspacePath } from "../utils/download.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -233,7 +236,7 @@ export class NewZephyrProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Generating MicroPico project ${
+                  title: `Generating Zephyr project ${
                     data.projectName ?? "undefined"
                   } in ${this._projectRoot?.fsPath}...`,
                 },
@@ -277,91 +280,39 @@ export class NewZephyrProjectPanel {
       return;
     }
 
-    // install python (if necessary)
-    let python3Path: string | undefined;
-    if (process.platform === "darwin" || process.platform === "win32") {
-      switch (data.pythonMode) {
-        case 0:
-          python3Path = data.pythonPath;
-          break;
-        case 1:
-          python3Path = process.platform === "win32" ? "python" : "python3";
-          break;
-        case 2:
-          python3Path = data.pythonPath;
-          break;
-      }
+    this._logger.info("Generating new Zephyr Project");
 
-      if (python3Path === undefined) {
-        progress.report({
-          message: "Failed",
-          increment: 100,
-        });
-        await window.showErrorMessage("Failed to find python3 executable.");
+    // Create a new directory to put the project in
+    const homeDirectory: string = homedir();
+    const newProjectDir = joinPosix(
+      homeDirectory,
+      "zephyr_test",
+      "zephyr_project"
+    );
+    await workspace.fs.createDirectory(Uri.file(newProjectDir));
 
-        return;
-      }
-    } else {
-      python3Path = "python3";
+    // Copy the Zephyr App into the new directory
+    const zephyrAppDir = joinPosix(
+      buildZephyrWorkspacePath(),
+      "pico-zephyr",
+      "app"
+    );
+    await workspace.fs.copy(Uri.file(zephyrAppDir), Uri.file(newProjectDir), {
+      overwrite: true,
+    });
+
+    const result = true;
+
+    if (result === null || !result) {
+      return undefined;
     }
 
-    // create the folder with project name in project root
-    // open the folder in vscode and call micropico.initialise
+    this._logger.info(`Zephyr Project generated at ${newProjectDir}`);
 
-    // create the project folder
-    const projectFolder = join(projectPath, data.projectName);
-    progress.report({
-      message: `Creating project folder ${projectFolder}`,
-      increment: 10,
-    });
+    // Open the folder
+    commands.executeCommand(`vscode.openFolder`, Uri.file(newProjectDir));
 
-    try {
-      await workspace.fs.createDirectory(Uri.file(projectFolder));
-      // also create a blink.py in it with a import machine
-      const blinkPyCode = `from machine import Pin
-from utime import sleep
-
-pin = Pin("LED", Pin.OUT)
-
-print("LED starts flashing...")
-while True:
-    try:
-        pin.toggle()
-        sleep(1) # sleep 1sec
-    except KeyboardInterrupt:
-        break
-pin.off()
-print("Finished.")\r\n`;
-      const filePath = join(projectFolder, "blink.py");
-      await workspace.fs.writeFile(
-        Uri.file(filePath),
-        new TextEncoder().encode(blinkPyCode)
-      );
-    } catch {
-      progress.report({
-        message: "Failed",
-        increment: 100,
-      });
-      await window.showErrorMessage(
-        `Failed to create project folder ${projectFolder}`
-      );
-
-      return;
-    }
-
-    commands.executeCommand("micropico.initialise", projectFolder, python3Path);
-    progress.report({
-      message: "Project initialized",
-      increment: 90,
-    });
-
-    // wait 2 seconds to give user option to read notifications
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    // open and call initialise
-    void commands.executeCommand("vscode.openFolder", Uri.file(projectFolder), {
-      forceNewWindow: (workspace.workspaceFolders?.length ?? 0) > 0,
-    });
+    return;
   }
 
   private async _update(): Promise<void> {
