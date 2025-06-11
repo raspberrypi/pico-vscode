@@ -10,6 +10,8 @@ import {
   workspace,
   ProgressLocation,
   commands,
+  tasks,
+  ConfigurationTarget,
 } from "vscode";
 import { homedir } from "os";
 import { join as joinPosix } from "path/posix";
@@ -32,6 +34,7 @@ interface SubmitMessageValue {
   projectName: string;
   pythonMode: number;
   pythonPath: string;
+  console: string;
 }
 
 export class NewZephyrProjectPanel {
@@ -260,6 +263,23 @@ export class NewZephyrProjectPanel {
     }
   }
 
+  private generateZephyrBuildArgs(usbSerialPort: boolean): string[] {
+    return [
+      "build",
+      "-p",
+      "auto",
+      "-b",
+      "rpi_pico",
+      "-d",
+      '"${workspaceFolder}"/build',
+      '"${workspaceFolder}"',
+      usbSerialPort ? "-S usb_serial_port" : "",
+      "--",
+      "-DOPENOCD=${command:raspberry-pi-pico.getOpenOCDRoot}/openocd.exe",
+      "-DOPENOCD_DEFAULT_PATH=${command:raspberry-pi-pico.getOpenOCDRoot}/scripts",
+    ];
+  }
+
   private async _generateProjectOperation(
     progress: Progress<{ message?: string; increment?: number }>,
     data: SubmitMessageValue,
@@ -287,8 +307,9 @@ export class NewZephyrProjectPanel {
     const newProjectDir = joinPosix(
       homeDirectory,
       "zephyr_test",
-      "zephyr_project"
+      data.projectName
     );
+
     await workspace.fs.createDirectory(Uri.file(newProjectDir));
 
     // Copy the Zephyr App into the new directory
@@ -306,6 +327,29 @@ export class NewZephyrProjectPanel {
     if (result === null || !result) {
       return undefined;
     }
+
+    this._logger.info(`Console: ${data.console}`);
+    const usbSerialPort = data.console === "USB";
+
+    const buildArgs = this.generateZephyrBuildArgs(usbSerialPort);
+
+    const taskJsonFile = joinPosix(newProjectDir, ".vscode", "tasks.json");
+
+    const jsonString = (
+      await workspace.fs.readFile(Uri.file(taskJsonFile))
+    ).toString();
+    const tasksJson: any = JSON.parse(jsonString);
+    this._logger.error(`${tasksJson}`);
+
+    // Modify task.json
+    tasksJson.tasks[0].args = buildArgs;
+
+    // Write modified tasks.json to folder
+    const newTasksJsonString = JSON.stringify(tasksJson, null, 4);
+    await workspace.fs.writeFile(
+      Uri.file(taskJsonFile),
+      Buffer.from(newTasksJsonString)
+    );
 
     this._logger.info(`Zephyr Project generated at ${newProjectDir}`);
 
@@ -386,7 +430,7 @@ export class NewZephyrProjectPanel {
 
   private async _getHtmlForWebview(webview: Webview): Promise<string> {
     const mainScriptUri = webview.asWebviewUri(
-      Uri.joinPath(this._extensionUri, "web", "mpy", "main.js")
+      Uri.joinPath(this._extensionUri, "web", "zephyr", "main.js")
     );
 
     const mainStyleUri = webview.asWebviewUri(
@@ -613,6 +657,22 @@ export class NewZephyrProjectPanel {
                         </button>
                     </div>
                 </div>
+          </div>
+
+          <div class="grid gap-6 mt-10">
+            <div id="section-console" class="snap-start col-span-2">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Serial Port Over:</h3>
+                <div class="flex items-stretch space-x-4">
+                    <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                        <input checked id="console-radio-uart" type="radio" value="UART" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="console-radio-uart" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">UART</label>
+                    </div>
+                    <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                        <input id="console-radio-usb" type="radio" value="USB" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="console-radio-usb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">USB</label>
+                    </div>
+                </div>
+            </div>
           </div>
 
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
