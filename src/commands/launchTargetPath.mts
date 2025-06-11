@@ -4,6 +4,7 @@ import { commands, window, workspace } from "vscode";
 import { join } from "path";
 import Settings, { SettingsKey } from "../settings.mjs";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
+import { rimraf } from "rimraf";
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -63,6 +64,30 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
     }
 
     const settings = Settings.getInstance();
+    const fsPathFolder = workspace.workspaceFolders[0].uri.fsPath;
+
+    const cmakeListsPath = join(fsPathFolder, "CMakeLists.txt");
+    const fileContent = readFileSync(cmakeListsPath, "utf-8");
+    if (fileContent.includes("set(PICO_CXX_ENABLE_EXCEPTIONS 1)")) {
+      // TODO: figure out why this workaround is needed
+      if (
+        settings !== undefined &&
+        settings.getBoolean(SettingsKey.useCmakeTools)
+      ) {
+        try {
+          // delete build dir if present
+          const buildDir = join(fsPathFolder, "build");
+          await rimraf(buildDir, { maxRetries: 2 });
+        } catch {
+          throw new Error(
+            "Failed to clean build directory."
+          );
+        }
+      } else {
+        await commands.executeCommand("raspberry-pi-pico.cleanCmake");
+      }
+    }
+
     if (
       settings !== undefined &&
       settings.getBoolean(SettingsKey.useCmakeTools)
@@ -79,10 +104,8 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       }
     }
 
-    const fsPathFolder = workspace.workspaceFolders[0].uri.fsPath;
-
     const projectName = await this.readProjectNameFromCMakeLists(
-      join(fsPathFolder, "CMakeLists.txt")
+      cmakeListsPath
     );
 
     if (projectName === null) {
