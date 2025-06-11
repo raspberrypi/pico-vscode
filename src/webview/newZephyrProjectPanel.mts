@@ -30,11 +30,20 @@ import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
 
+enum BoardType {
+  pico = "pico",
+  picoW = "pico_w",
+  pico2 = "pico2",
+  pico2W = "pico2_w",
+  other = "other",
+}
+
 interface SubmitMessageValue {
   projectName: string;
   pythonMode: number;
   pythonPath: string;
   console: string;
+  boardType: BoardType;
 }
 
 export class NewZephyrProjectPanel {
@@ -263,13 +272,32 @@ export class NewZephyrProjectPanel {
     }
   }
 
-  private generateZephyrBuildArgs(usbSerialPort: boolean): string[] {
+  private enumToBoard(e: BoardType): string {
+    switch (e) {
+      case BoardType.pico:
+        return "rpi_pico";
+      case BoardType.picoW:
+        return "rpi_pico/rp2040/w";
+      case BoardType.pico2:
+        return "rpi_pico2/rp2350a/m33";
+      case BoardType.pico2W:
+        return "rpi_pico2/rp2350a/m33/w";
+      default:
+        // TODO: maybe just return an empty string
+        throw new Error(`Unknown Board Type: ${e as string}`);
+    }
+  }
+
+  private generateZephyrBuildArgs(
+    boardType: BoardType,
+    usbSerialPort: boolean
+  ): string[] {
     return [
       "build",
       "-p",
       "auto",
       "-b",
-      "rpi_pico",
+      this.enumToBoard(boardType),
       "-d",
       '"${workspaceFolder}"/build',
       '"${workspaceFolder}"',
@@ -331,7 +359,10 @@ export class NewZephyrProjectPanel {
     this._logger.info(`Console: ${data.console}`);
     const usbSerialPort = data.console === "USB";
 
-    const buildArgs = this.generateZephyrBuildArgs(usbSerialPort);
+    const buildArgs = this.generateZephyrBuildArgs(
+      data.boardType,
+      usbSerialPort
+    );
 
     const taskJsonFile = joinPosix(newProjectDir, ".vscode", "tasks.json");
 
@@ -591,7 +622,27 @@ export class NewZephyrProjectPanel {
                     }
                   </div>
                 </div>
+              </div>
 
+              <div>
+                  <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
+                  <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option id="option-board-type-${BoardType.pico}" value="${
+      BoardType.pico
+    }">Pico</option>
+                    <option id="option-board-type-${BoardType.pico2}" value="${
+      BoardType.pico2
+    }">Pico 2</option>   
+                    <option id="option-board-type-${BoardType.picoW}" value="${
+      BoardType.picoW
+    }">Pico W</option>
+                    <option id="option-board-type-${BoardType.pico2W}" value="${
+      BoardType.pico2W
+    }">Pico 2 W</option>
+                  </select>
+              </div>
+              
+              <div>
                 <div class="mt-6 mb-4 col-span-2">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
                     <div class="flex">

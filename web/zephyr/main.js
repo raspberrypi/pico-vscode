@@ -169,6 +169,7 @@ var submitted = false;
         pythonMode: Number(pythonMode),
         pythonPath: pythonPath,
         console: consoleSelection,
+        boardType: document.getElementById("sel-board-type").value,
       },
     });
   };
