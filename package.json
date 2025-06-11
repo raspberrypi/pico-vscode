@@ -89,6 +89,12 @@
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
+        "command": "raspberry-pi-pico.switchBoardZephyr",
+        "title": "Switch Board for Zephyr",
+        "category": "Raspberry Pi Pico",
+        "enablement": "raspberry-pi-pico.isPicoProject && raspberry-pi-pico.isPicoZephyrProject"
+      },
+      {
         "command": "raspberry-pi-pico.launchTargetPath",
         "title": "Get path of the project executable",
         "category": "Raspberry Pi Pico",
