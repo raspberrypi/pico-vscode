@@ -1,4 +1,4 @@
-import { Command } from "./command.mjs";
+import { extensionName, Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import {
   commands,
@@ -28,6 +28,7 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
 import State from "../state.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import SwitchZephyrBoardCommand from "./switchBoardZephyr.mjs";
 
 export default class SwitchBoardCommand extends Command {
   private _logger: Logger = new Logger("SwitchBoardCommand");
@@ -56,49 +57,53 @@ export default class SwitchBoardCommand extends Command {
     const sdkPath = buildSDKPath(sdkVersion);
     const boardHeaderDirList = [];
 
-    if(workspaceFolder !== undefined) {
+    if (workspaceFolder !== undefined) {
       const ws = workspaceFolder.uri.fsPath;
-      const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+      const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
 
       let picoBoardHeaderDirs = cmakeGetPicoVar(
         cMakeCachePath,
-        "PICO_BOARD_HEADER_DIRS");
+        "PICO_BOARD_HEADER_DIRS"
+      );
 
-      if(picoBoardHeaderDirs){
-        if(picoBoardHeaderDirs.startsWith("'")){
-          const substrLen = picoBoardHeaderDirs.length-1;
-          picoBoardHeaderDirs = picoBoardHeaderDirs.substring(1,substrLen);
+      if (picoBoardHeaderDirs) {
+        if (picoBoardHeaderDirs.startsWith("'")) {
+          const substrLen = picoBoardHeaderDirs.length - 1;
+          picoBoardHeaderDirs = picoBoardHeaderDirs.substring(1, substrLen);
         }
 
         const picoBoardHeaderDirList = picoBoardHeaderDirs.split(";");
-        picoBoardHeaderDirList.forEach(
-          item => {
-            let boardPath = resolve(item);
-            const normalized = normalize(item);
+        picoBoardHeaderDirList.forEach(item => {
+          let boardPath = resolve(item);
+          const normalized = normalize(item);
 
-            //If path is not absolute, join workspace path
-            if(boardPath !== normalized){
-              boardPath = join(ws,normalized);
-            }
-
-            if(existsSync(boardPath)){
-              boardHeaderDirList.push(boardPath);
-            }
+          //If path is not absolute, join workspace path
+          if (boardPath !== normalized) {
+            boardPath = join(ws, normalized);
           }
-        );
+
+          if (existsSync(boardPath)) {
+            boardHeaderDirList.push(boardPath);
+          }
+        });
       }
     }
 
-    const systemBoardHeaderDir = 
-      join(sdkPath,"src", "boards", "include","boards");
+    const systemBoardHeaderDir = join(
+      sdkPath,
+      "src",
+      "boards",
+      "include",
+      "boards"
+    );
 
-      boardHeaderDirList.push(systemBoardHeaderDir);
+    boardHeaderDirList.push(systemBoardHeaderDir);
 
-    interface IBoardFile{
+    interface IBoardFile {
       [key: string]: string;
-    };
+    }
 
-    const boardFiles:IBoardFile = {};
+    const boardFiles: IBoardFile = {};
 
     boardHeaderDirList.forEach(
       path =>{
@@ -125,7 +130,7 @@ export default class SwitchBoardCommand extends Command {
     }
 
     // Check that board doesn't have an RP2040 on it
-    const data = readFileSync(boardFiles[board])
+    const data = readFileSync(boardFiles[board]);
 
     if (data.includes("rp2040")) {
       return [board, false];
@@ -200,6 +205,19 @@ export default class SwitchBoardCommand extends Command {
       await workspace
         .getConfiguration("rust-analyzer")
         .update("cargo.target", toolchain, null);
+
+      return;
+    }
+
+    // Check if Pico Zephyr project and execute switchBoardZephyr
+    if (
+      readFileSync(join(workspaceFolder.uri.fsPath, "CMakeLists.txt"))
+        .toString("utf-8")
+        .includes("pico_zephyr")
+    ) {
+      commands.executeCommand(
+        `${extensionName}.${SwitchZephyrBoardCommand.id}`
+      );
 
       return;
     }

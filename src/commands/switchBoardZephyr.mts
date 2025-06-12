@@ -1,9 +1,10 @@
-import { existsSync, readdirSync, readFileSync } from "fs";
+import { existsSync, PathOrFileDescriptor, readFileSync } from "fs";
 import { join } from "path";
 import { join as joinPosix } from "path/posix";
-import { commands, ProgressLocation, window, workspace, Uri } from "vscode";
+import { window, workspace, Uri } from "vscode";
 
 import { Command } from "./command.mjs";
+import type UI from "../ui.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
 
 enum BoardNames {
@@ -12,10 +13,72 @@ enum BoardNames {
   pico2 = "Pico 2",
   pico2W = "Pico 2W",
 }
+
+export function findZephyrBoardInTasksJson(
+  tasksJsonFilePath: PathOrFileDescriptor
+): string | undefined {
+  const tasksJson: any = JSON.parse(
+    readFileSync(tasksJsonFilePath).toString("utf-8")
+  );
+
+  // Check it has a tasks object with
+  if (tasksJson.tasks === undefined || !Array.isArray(tasksJson.tasks)) {
+    window.showErrorMessage(
+      "Could not find task to modify board on.\
+          Please see the Pico Zephyr examples for a reference."
+    );
+
+    return;
+  }
+
+  // Find the index of the task called "Compile Project"
+  const compileIndex = tasksJson.tasks.findIndex(
+    element =>
+      element.label !== undefined && element.label === "Compile Project"
+  );
+
+  if (compileIndex < 0) {
+    window.showErrorMessage(
+      "Could not find Compile Project task to modify board on.\
+          Please see the Pico Zephyr examples for a reference."
+    );
+
+    return;
+  }
+
+  const args: string[] = tasksJson.tasks[compileIndex].args;
+
+  if (args === undefined || !Array.isArray(args)) {
+    window.showErrorMessage(
+      "Could not find args within Compile Project task to modify board on.\
+          Please see the Pico Zephyr examples for a reference."
+    );
+
+    return;
+  }
+
+  // Get the args array
+  const buildIndex = args.findIndex(element => element === "-b");
+  let board;
+  if (buildIndex >= 0 && buildIndex < args.length - 1) {
+    // Update UI with board description
+    board = args[buildIndex + 1];
+  } else {
+    window.showErrorMessage(
+      "Could not find board arg within Compile Project task to modify board\
+           on. Please see the Pico Zephyr examples for a reference."
+    );
+
+    return;
+  }
+
+  return board;
+}
+
 export default class SwitchZephyrBoardCommand extends Command {
   public static readonly id = "switchBoardZephyr";
 
-  constructor() {
+  constructor(private readonly _ui: UI) {
     super(SwitchZephyrBoardCommand.id);
   }
 
@@ -85,11 +148,11 @@ export default class SwitchZephyrBoardCommand extends Command {
         BoardNames.pico2W,
       ];
 
-      const board = await window.showQuickPick(quickPickItems, {
+      const selectedBoard = await window.showQuickPick(quickPickItems, {
         placeHolder: "Select Board",
       });
 
-      if (board === undefined) {
+      if (selectedBoard === undefined) {
         window.showErrorMessage(
           "Error getting board definition from quck pick.\
           Please try again."
@@ -98,7 +161,7 @@ export default class SwitchZephyrBoardCommand extends Command {
         return;
       }
 
-      const boardArg = this.stringToBoard(board);
+      const boardArg = this.stringToBoard(selectedBoard);
 
       // Now that we know there is a tasks.json file, we can read it
       // and set the board in the "Compile Project" task
@@ -163,7 +226,9 @@ export default class SwitchZephyrBoardCommand extends Command {
         Buffer.from(newTasksJsonString)
       );
 
-      window.showInformationMessage(`Board Updated to ${board}`);
+      this._ui.updateBoard(selectedBoard);
+
+      window.showInformationMessage(`Board Updated to ${selectedBoard}`);
     }
   }
 }

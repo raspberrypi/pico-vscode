@@ -92,7 +92,7 @@
         "command": "raspberry-pi-pico.switchBoardZephyr",
         "title": "Switch Board for Zephyr",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && raspberry-pi-pico.isPicoZephyrProject"
+        "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPath",
