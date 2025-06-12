@@ -117,24 +117,43 @@ export default class SwitchZephyrBoardCommand extends Command {
         return;
       }
 
-      let i;
-      for (i = 0; i < (tasksJson.tasks as any[]).length; i++) {
-        if (
-          tasksJson.tasks[i].label !== undefined &&
-          tasksJson.tasks[i].label === "Compile Project"
-        ) {
-          window.showErrorMessage("Compile Project task found");
+      // Find the index of the task called "Compile Project"
+      const compileIndex = tasksJson.tasks.findIndex(
+        element =>
+          element.label !== undefined && element.label === "Compile Project"
+      );
 
-          let args: string[] = tasksJson.tasks[i].args;
+      if (compileIndex < 0) {
+        window.showErrorMessage(
+          "Could not find Compile Project task to modify board on.\
+          Please see the Pico Zephyr examples for a reference."
+        );
 
-          // Get the args array
-          if (args !== undefined && Array.isArray(args)) {
-            const buildIndex = args.findIndex(element => element === "-b");
-            if (buildIndex >= 0 && buildIndex < args.length - 1) {
-              args[buildIndex + 1] = boardArg;
-            }
-          }
-        }
+        return;
+      }
+
+      let args: string[] = tasksJson.tasks[compileIndex].args;
+
+      if (args === undefined || !Array.isArray(args)) {
+        window.showErrorMessage(
+          "Could not find args within Compile Project task to modify board on.\
+          Please see the Pico Zephyr examples for a reference."
+        );
+
+        return;
+      }
+
+      // Get the args array
+      const buildIndex = args.findIndex(element => element === "-b");
+      if (buildIndex >= 0 && buildIndex < args.length - 1) {
+        args[buildIndex + 1] = boardArg;
+      } else {
+        window.showErrorMessage(
+          "Could not find board arg within Compile Project task to modify board\
+           on. Please see the Pico Zephyr examples for a reference."
+        );
+
+        return;
       }
 
       // Write JSON back into file
@@ -144,7 +163,7 @@ export default class SwitchZephyrBoardCommand extends Command {
         Buffer.from(newTasksJsonString)
       );
 
-      window.showInformationMessage("Board Updated");
+      window.showInformationMessage(`Board Updated to ${board}`);
     }
   }
 }
