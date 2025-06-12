@@ -161,6 +161,17 @@ var submitted = false;
       return;
     }
 
+    const spiFeature = document.getElementById("spi-features-cblist").checked;
+    const i2cFeature = document.getElementById("i2c-features-cblist").checked;
+    const gpioFeature = document.getElementById("gpio-features-cblist").checked;
+    const wifiFeature = document.getElementById("wifi-features-cblist").checked;
+    const sensorFeature = document.getElementById(
+      "sensor-features-cblist"
+    ).checked;
+    const shellFeature = document.getElementById(
+      "shell-features-cblist"
+    ).checked;
+
     //post all data values to the extension
     vscode.postMessage({
       command: CMD_SUBMIT,
@@ -170,6 +181,12 @@ var submitted = false;
         pythonPath: pythonPath,
         console: consoleSelection,
         boardType: document.getElementById("sel-board-type").value,
+        spiFeature: spiFeature,
+        i2cFeature: i2cFeature,
+        gpioFeature: gpioFeature,
+        wifiFeature: wifiFeature,
+        sensorFeature: sensorFeature,
+        shellFeature: shellFeature,
       },
     });
   };

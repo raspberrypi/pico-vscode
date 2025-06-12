@@ -43,7 +43,79 @@ interface SubmitMessageValue {
   pythonPath: string;
   console: string;
   boardType: BoardType;
+  spiFeature: boolean;
+  i2cFeature: boolean;
+  gpioFeature: boolean;
+  wifiFeature: boolean;
+  sensorFeature: boolean;
+  shellFeature: boolean;
 }
+
+// Kconfig snippets
+const spiKconfig: string = "CONFIG_SPI=y";
+const i2cKconfig: string = "CONFIG_I2C=y";
+const gpioKconfig: string = "CONFIG_GPIO=y";
+const sensorKconfig: string = "CONFIG_GPIO=y";
+const shellKconfig: string = "CONFIG_SHELL=y";
+const wifiKconfig: string = `CONFIG_NETWORKING=y
+CONFIG_TEST_RANDOM_GENERATOR=y
+
+CONFIG_MAIN_STACK_SIZE=5200
+CONFIG_SHELL_STACK_SIZE=5200
+CONFIG_NET_TX_STACK_SIZE=2048
+CONFIG_NET_RX_STACK_SIZE=2048
+CONFIG_LOG_BUFFER_SIZE=4096
+
+CONFIG_NET_PKT_RX_COUNT=10
+CONFIG_NET_PKT_TX_COUNT=10
+CONFIG_NET_BUF_RX_COUNT=20
+CONFIG_NET_BUF_TX_COUNT=20
+CONFIG_NET_MAX_CONN=10
+CONFIG_NET_MAX_CONTEXTS=10
+CONFIG_NET_DHCPV4=y
+
+CONFIG_NET_IPV4=y
+CONFIG_NET_IPV6=n
+
+CONFIG_NET_TCP=y
+CONFIG_NET_SOCKETS=y
+
+CONFIG_DNS_RESOLVER=y
+CONFIG_DNS_SERVER_IP_ADDRESSES=y
+CONFIG_DNS_SERVER1="192.0.2.2"
+CONFIG_DNS_RESOLVER_AI_MAX_ENTRIES=10
+
+# Network address config
+CONFIG_NET_CONFIG_AUTO_INIT=n
+CONFIG_NET_CONFIG_SETTINGS=y
+CONFIG_NET_CONFIG_NEED_IPV4=y
+CONFIG_NET_CONFIG_MY_IPV4_ADDR="192.0.2.1"
+CONFIG_NET_CONFIG_PEER_IPV4_ADDR="192.0.2.2"
+CONFIG_NET_CONFIG_MY_IPV4_GW="192.0.2.2"
+
+CONFIG_NET_LOG=y
+CONFIG_INIT_STACKS=y
+
+CONFIG_NET_STATISTICS=y
+CONFIG_NET_STATISTICS_PERIODIC_OUTPUT=n
+
+CONFIG_HTTP_CLIENT=y
+
+CONFIG_WIFI=y
+CONFIG_WIFI_LOG_LEVEL_ERR=y
+# printing of scan results puts pressure on queues in new locking
+# design in net_mgmt. So, use a higher timeout for a crowded
+# environment.
+CONFIG_NET_MGMT_EVENT_QUEUE_TIMEOUT=5000
+CONFIG_NET_MGMT_EVENT_QUEUE_SIZE=16`;
+
+// Shell Kconfig values
+const shellSpiKconfig: string = "CONFIG_SPI_SHELL=y";
+const shellI2CKconfig: string = "CONFIG_I2C_SHELL=y";
+const shellGPIOKconfig: string = "CONFIG_GPIO_SHELL=y";
+const shellSensorKconfig: string = "CONFIG_SENSOR_SHELL=y";
+const shellWifiKconfig: string = `CONFIG_WIFI_LOG_LEVEL_ERR=y
+CONFIG_NET_L2_WIFI_SHELL=y`;
 
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;
@@ -381,6 +453,38 @@ export class NewZephyrProjectPanel {
       Buffer.from(newTasksJsonString)
     );
 
+    // Enable modules with Kconfig
+    const kconfigFile = joinPosix(newProjectDir, "prj.conf");
+    const kconfigString = (
+      await workspace.fs.readFile(Uri.file(kconfigFile))
+    ).toString();
+
+    const newKconfigString = kconfigString.concat(
+      "\r\n",
+      "\r\n",
+      "# Enable Modules:",
+      "\r\n",
+      data.gpioFeature ? gpioKconfig + "\r\n" : "",
+      data.i2cFeature ? i2cKconfig + "\r\n" : "",
+      data.spiFeature ? spiKconfig + "\r\n" : "",
+      data.sensorFeature ? sensorKconfig + "\r\n" : "",
+      data.wifiFeature ? wifiKconfig + "\r\n" : "",
+      data.shellFeature ? "\r\n" + "# Enabling shells:" + "\r\n" : "",
+      data.shellFeature ? shellKconfig + "\r\n" : "",
+      data.shellFeature && data.gpioFeature ? shellGPIOKconfig + "\r\n" : "",
+      data.shellFeature && data.i2cFeature ? shellI2CKconfig + "\r\n" : "",
+      data.shellFeature && data.spiFeature ? shellSpiKconfig + "\r\n" : "",
+      data.shellFeature && data.sensorFeature
+        ? shellSensorKconfig + "\r\n"
+        : "",
+      data.shellFeature && data.wifiFeature ? shellWifiKconfig + "\r\n" : ""
+    );
+
+    await workspace.fs.writeFile(
+      Uri.file(kconfigFile),
+      Buffer.from(newKconfigString)
+    );
+
     this._logger.info(`Zephyr Project generated at ${newProjectDir}`);
 
     // Open the folder
@@ -639,6 +743,51 @@ export class NewZephyrProjectPanel {
       BoardType.pico2W
     }">Pico 2 W</option>
                   </select>
+              </div>
+
+              <div id="section-features" class="snap-start mt-10 project-options">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Modules</h3>
+                <h4 class="text-sm text-gray-900 dark:text-white mb-8">Kconfig options to enable the below modules</h4>
+                <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="spi-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="spi-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SPI</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="i2c-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="i2c-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I2C interface</label>
+                        </div>
+                    </li>
+                    <li class="w-full dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="gpio-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="gpio-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">GPIO</label>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="wifi-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="wifi-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Wifi</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="sensor-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="sensor-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sensor interface</label>
+                        </div>
+                    </li>
+                    <li class="w-full dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="shell-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="shell-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Shell</label>
+                        </div>
+                    </li>
+                </ul>
               </div>
 
               <div>
