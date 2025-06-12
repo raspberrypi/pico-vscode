@@ -668,12 +668,12 @@ manifest:
 
   remotes:
     - name: zephyrproject-rtos
-      url-base: https://github.com/zephyrproject-rtos
+      url-base: https://github.com/magpieembedded
 
   projects:
     - name: zephyr
       remote: zephyrproject-rtos
-      revision: main
+      revision: pico2w
       import:
         # By using name-allowlist we can clone only the modules that are
         # strictly needed by the application.
