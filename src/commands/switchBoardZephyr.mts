@@ -6,11 +6,31 @@ import { commands, ProgressLocation, window, workspace, Uri } from "vscode";
 import { Command } from "./command.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
 
+enum BoardNames {
+  pico = "Pico",
+  picoW = "Pico W",
+  pico2 = "Pico 2",
+  pico2W = "Pico 2W",
+}
 export default class SwitchZephyrBoardCommand extends Command {
   public static readonly id = "switchBoardZephyr";
 
   constructor() {
     super(SwitchZephyrBoardCommand.id);
+  }
+
+  private stringToBoard(e: string): string {
+    if (e === (BoardNames.pico as string)) {
+      return "rpi_pico";
+    } else if (e === (BoardNames.picoW as string)) {
+      return "rpi_pico/rp2040/w";
+    } else if (e === (BoardNames.pico2 as string)) {
+      return "rpi_pico2/rp2350a/m33";
+    } else if (e === (BoardNames.pico2W as string)) {
+      return "rpi_pico2/rp2350a/m33/w";
+    } else {
+      throw new Error(`Unknown Board Type: ${e}`);
+    }
   }
 
   async execute(): Promise<void> {
@@ -57,6 +77,29 @@ export default class SwitchZephyrBoardCommand extends Command {
         );
       }
 
+      // Get the board name
+      const quickPickItems = [
+        BoardNames.pico,
+        BoardNames.picoW,
+        BoardNames.pico2,
+        BoardNames.pico2W,
+      ];
+
+      const board = await window.showQuickPick(quickPickItems, {
+        placeHolder: "Select Board",
+      });
+
+      if (board === undefined) {
+        window.showErrorMessage(
+          "Error getting board definition from quck pick.\
+          Please try again."
+        );
+
+        return;
+      }
+
+      const boardArg = this.stringToBoard(board);
+
       // Now that we know there is a tasks.json file, we can read it
       // and set the board in the "Compile Project" task
       const jsonString = (
@@ -88,7 +131,7 @@ export default class SwitchZephyrBoardCommand extends Command {
           if (args !== undefined && Array.isArray(args)) {
             const buildIndex = args.findIndex(element => element === "-b");
             if (buildIndex >= 0 && buildIndex < args.length - 1) {
-              args[buildIndex + 1] = "New Board!!!";
+              args[buildIndex + 1] = boardArg;
             }
           }
         }

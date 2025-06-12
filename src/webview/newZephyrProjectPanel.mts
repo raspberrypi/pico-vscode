@@ -35,7 +35,6 @@ enum BoardType {
   picoW = "pico_w",
   pico2 = "pico2",
   pico2W = "pico2_w",
-  other = "other",
 }
 
 interface SubmitMessageValue {
@@ -641,7 +640,7 @@ export class NewZephyrProjectPanel {
     }">Pico 2 W</option>
                   </select>
               </div>
-              
+
               <div>
                 <div class="mt-6 mb-4 col-span-2">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
