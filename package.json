@@ -194,7 +194,7 @@
         "command": "raspberry-pi-pico.runProject",
         "title": "Run Pico Project (USB)",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isPicoZephyrProject"
+        "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.clearGithubApiCache",
