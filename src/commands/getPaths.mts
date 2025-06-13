@@ -1,3 +1,4 @@
+import { rmSync } from "fs";
 import { CommandWithResult } from "./command.mjs";
 import { commands, type Uri, window, workspace } from "vscode";
 import { type ExecOptions, exec } from "child_process";
@@ -717,23 +718,43 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
       );
 
       if (!szipResult) {
-        window.showErrorMessage("Could not install 7zip. Exiting Zephyr Setup");
+        window.showErrorMessage(
+          "Could not download 7zip. Exiting Zephyr Setup"
+        );
 
         return;
       }
 
-      const szipCommand: string = "7zip-x64.msi";
+      const szipCommand: string = "7zip-x64.exe";
       const szipInstallResult = await this._runCommand(szipCommand, {
         cwd: joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk"),
       });
 
-      if (!szipInstallResult) {
-        window.showErrorMessage("Could not install 7zip. Exiting Zephyr Setup");
+      if (szipInstallResult !== 0) {
+        window.showErrorMessage(
+          "Could not install 7zip. Please ensure 7-Zip is installed." +
+            "Exiting Zephyr Setup"
+        );
 
         return;
       }
 
+      // Clean up
+      rmSync(
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "7zip-x64.exe")
+      );
+
       window.showInformationMessage("7zip installed.");
+    }
+
+    this._logger.info("Installing OpenOCD");
+    const openocdResult = await downloadAndInstallOpenOCD(openOCDVersion);
+    if (!openocdResult) {
+      window.showErrorMessage(
+        "Could not install OpenOCD. Exiting Zephyr Setup"
+      );
+
+      return;
     }
 
     const pythonExe = python3Path.replace(
@@ -748,7 +769,50 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
     //   return;
     // }
 
-    const customPath = ``;
+    const customPath =
+      `${joinPosix(
+        homedir().replaceAll("\\", "/"),
+        ".pico-sdk",
+        "cmake",
+        "v3.31.5",
+        "bin"
+      )};` +
+      `${joinPosix(
+        homedir().replaceAll("\\", "/"),
+        ".pico-sdk",
+        "dtc",
+        "bin"
+      )};` +
+      `${joinPosix(
+        homedir().replaceAll("\\", "/"),
+        ".pico-sdk",
+        "git",
+        "cmd"
+      )};` +
+      `${joinPosix(
+        homedir().replaceAll("\\", "/"),
+        ".pico-sdk",
+        "gperf",
+        "bin"
+      )};` +
+      `${joinPosix(
+        homedir().replaceAll("\\", "/"),
+        ".pico-sdk",
+        "ninja",
+        "v1.12.1"
+      )};` +
+      `${joinPosix(
+        homedir().replaceAll("\\", "/"),
+        ".pico-sdk",
+        "python",
+        "3.12.6"
+      )};` +
+      `${joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget")};` +
+      `${joinPosix("C:\\Program Files".replaceAll("\\", "/"), "7-Zip")};` +
+      gitPath +
+      ";";
+
+    this._logger.info(`New path: ${customPath}`);
 
     customPath.replaceAll("/", "\\");
     customEnv[isWindows ? "Path" : "PATH"] =
@@ -802,6 +866,7 @@ manifest:
     let result = await this._runCommand(command, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     this._logger.info(`${result}`);
@@ -823,6 +888,7 @@ manifest:
     result = await this._runCommand(command2, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     const westExe: string = joinPosix(
@@ -847,6 +913,7 @@ manifest:
       result = await this._runCommand(westInitCommand, {
         cwd: zephyrWorkspaceDirectory,
         windowsHide: true,
+        env: customEnv,
       });
 
       this._logger.info(`${result}`);
@@ -858,6 +925,7 @@ manifest:
     result = await this._runCommand(westUpdateCommand, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     this._logger.info(`${result}`);
@@ -867,6 +935,7 @@ manifest:
     result = await this._runCommand(zephyrExportCommand, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     const westPipPackagesCommand: string = [
@@ -878,6 +947,7 @@ manifest:
     result = await this._runCommand(westPipPackagesCommand, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     this._logger.info(`${result}`);
@@ -891,6 +961,7 @@ manifest:
     result = await this._runCommand(westBlobsFetchCommand, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     this._logger.info(`${result}`);
@@ -905,13 +976,10 @@ manifest:
     result = await this._runCommand(westInstallSDKCommand, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
+      env: customEnv,
     });
 
     this._logger.info(`${result}`);
-
-    this._logger.info("Installing OpenOCD");
-    const openocdResult = await downloadAndInstallOpenOCD(openOCDVersion);
-    this._logger.info(`${openocdResult}`);
 
     this._logger.info("Complete");
 
