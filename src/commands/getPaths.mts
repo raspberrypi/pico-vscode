@@ -1,7 +1,7 @@
 import { rmSync } from "fs";
 import { CommandWithResult } from "./command.mjs";
 import { commands, type Uri, window, workspace } from "vscode";
-import { type ExecOptions, exec } from "child_process";
+import { type ExecOptions, exec, spawnSync } from "child_process";
 import { join as joinPosix } from "path/posix";
 import { homedir } from "os";
 import {
@@ -778,6 +778,7 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
         "bin"
       ),
       joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc", "bin"),
+      joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "git", "cmd"),
       joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf", "bin"),
       joinPosix(
         homedir().replaceAll("\\", "/"),
@@ -793,7 +794,7 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
       ),
       joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
       joinPosix("C:\\Program Files".replaceAll("\\", "/"), "7-Zip"),
-      gitPath,
+      "", // Need this to add separator to end
     ].join(process.platform === "win32" ? ";" : ":");
 
     this._logger.info(`New path: ${customPath}`);
@@ -956,12 +957,27 @@ manifest:
       `-b ${zephyrWorkspaceDirectory}`,
     ].join(" ");
 
+    // This has to be a spawn due to the way the underlying SDK command calls
+    // subprocess and needs to inherit the Path variables set in customEnv
     this._logger.info("Installing Zephyr SDK");
-    result = await this._runCommand(westInstallSDKCommand, {
+    const child = spawnSync(westInstallSDKCommand, {
+      shell: true,
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
       env: customEnv,
     });
+    this._logger.info("stdout: ", child.stdout.toString());
+    this._logger.info("stderr: ", child.stderr.toString());
+    if (child.status) {
+      this._logger.info("exit code: ", child.status);
+      if (child.status !== 0) {
+        window.showErrorMessage(
+          "Error installing Zephyr SDK." + "Exiting Zephyr Setup."
+        );
+      }
+
+      return;
+    }
 
     this._logger.info(`${result}`);
 
