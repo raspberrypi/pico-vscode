@@ -769,48 +769,32 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
     //   return;
     // }
 
-    const customPath =
-      `${joinPosix(
+    const customPath = [
+      joinPosix(
         homedir().replaceAll("\\", "/"),
         ".pico-sdk",
         "cmake",
         "v3.31.5",
         "bin"
-      )};` +
-      `${joinPosix(
-        homedir().replaceAll("\\", "/"),
-        ".pico-sdk",
-        "dtc",
-        "bin"
-      )};` +
-      `${joinPosix(
-        homedir().replaceAll("\\", "/"),
-        ".pico-sdk",
-        "git",
-        "cmd"
-      )};` +
-      `${joinPosix(
-        homedir().replaceAll("\\", "/"),
-        ".pico-sdk",
-        "gperf",
-        "bin"
-      )};` +
-      `${joinPosix(
+      ),
+      joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc", "bin"),
+      joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf", "bin"),
+      joinPosix(
         homedir().replaceAll("\\", "/"),
         ".pico-sdk",
         "ninja",
         "v1.12.1"
-      )};` +
-      `${joinPosix(
+      ),
+      joinPosix(
         homedir().replaceAll("\\", "/"),
         ".pico-sdk",
         "python",
         "3.12.6"
-      )};` +
-      `${joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget")};` +
-      `${joinPosix("C:\\Program Files".replaceAll("\\", "/"), "7-Zip")};` +
-      gitPath +
-      ";";
+      ),
+      joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
+      joinPosix("C:\\Program Files".replaceAll("\\", "/"), "7-Zip"),
+      gitPath,
+    ].join(process.platform === "win32" ? ";" : ":");
 
     this._logger.info(`New path: ${customPath}`);
 
@@ -856,7 +840,7 @@ manifest:
 
     const command: string = [
       `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-      "-m virtualenv venv",
+      "-m " + (process.platform === "win32" ? "virtualenv" : "venv") + " venv",
     ].join(" ");
 
     // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
