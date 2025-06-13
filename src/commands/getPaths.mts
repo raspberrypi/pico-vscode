@@ -636,15 +636,35 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
 
     this._logger.info("Installing CMake");
     const cmakeResult = await downloadAndInstallCmake("v3.31.5");
-    this._logger.info(`${cmakeResult}`);
+    if (!cmakeResult) {
+      window.showErrorMessage("Could not install CMake. Exiting Zephyr Setup");
+    }
+    window.showInformationMessage("CMake installed.");
 
     this._logger.info("Installing Ninja");
     const ninjaResult = await downloadAndInstallNinja("v1.12.1");
-    this._logger.info(`${ninjaResult}`);
+    if (!ninjaResult) {
+      window.showErrorMessage("Could not install Ninja. Exiting Zephyr Setup");
+    }
+    window.showInformationMessage("Ninja installed.");
+
+    const python3Path = await findPython();
+    if (!python3Path) {
+      this._logger.error("Failed to find Python3 executable.");
+      showPythonNotFoundError();
+
+      return;
+    }
+
+    const pythonExe = python3Path.replace(
+      HOME_VAR,
+      homedir().replaceAll("\\", "/")
+    );
 
     const customEnv = process.env;
     const isWindows = process.platform === "win32";
     const customPath = await getPath();
+    this._logger.info(`Path: ${customPath}`);
     if (!customPath) {
       return;
     }
@@ -686,19 +706,6 @@ manifest:
     await workspace.fs.writeFile(
       Uri.file(zephyrManifestFile),
       Buffer.from(zephyrManifestContent)
-    );
-
-    const python3Path = await findPython();
-    if (!python3Path) {
-      this._logger.error("Failed to find Python3 executable.");
-      showPythonNotFoundError();
-
-      return;
-    }
-
-    const pythonExe = python3Path.replace(
-      HOME_VAR,
-      homedir().replaceAll("\\", "/")
     );
 
     const command: string = [
