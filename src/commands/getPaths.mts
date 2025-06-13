@@ -18,6 +18,7 @@ import {
   buildToolchainPath,
   buildWestPath,
   buildZephyrWorkspacePath,
+  downloadAndInstallArchive,
   downloadAndInstallCmake,
   downloadAndInstallNinja,
   downloadAndInstallOpenOCD,
@@ -656,13 +657,58 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
       return;
     }
 
+    const isWindows = process.platform === "win32";
+
+    if (isWindows) {
+      // Setup other Zephyr dependencies
+      this._logger.info("Installing dtc");
+      const dtcResult = await downloadAndInstallArchive(
+        "https://github.com/oss-winget/oss-winget-storage/raw/" +
+          "96ea1b934342f45628a488d3b50d0c37cf06012c/packages/dtc/" +
+          "1.6.1/dtc-msys2-1.6.1-x86_64.zip",
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc"),
+        "dtc-msys2-1.6.1-x86_64.zip",
+        "dtc"
+      );
+      if (!dtcResult) {
+        window.showErrorMessage("Could not install DTC. Exiting Zephyr Setup");
+      }
+      window.showInformationMessage("DTC installed.");
+
+      this._logger.info("Installing gperf");
+      const gperfResult = await downloadAndInstallArchive(
+        "https://sourceforge.net/projects/gnuwin32/files/gperf/3.0.1/" +
+          "gperf-3.0.1-bin.zip/download",
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf"),
+        "gperf-3.0.1-bin.zip",
+        "gperf"
+      );
+      if (!gperfResult) {
+        window.showErrorMessage(
+          "Could not install gperf. Exiting Zephyr Setup"
+        );
+      }
+      window.showInformationMessage("gperf installed.");
+
+      this._logger.info("Installing wget");
+      const wgetResult = await downloadAndInstallArchive(
+        "https:///eternallybored.org/misc/wget/releases/wget-1.21.4-win64.zip",
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
+        "wget-1.21.4-win64.zip",
+        "wget"
+      );
+      if (!wgetResult) {
+        window.showErrorMessage("Could not install wget. Exiting Zephyr Setup");
+      }
+      window.showInformationMessage("wget installed.");
+    }
+
     const pythonExe = python3Path.replace(
       HOME_VAR,
       homedir().replaceAll("\\", "/")
     );
 
     const customEnv = process.env;
-    const isWindows = process.platform === "win32";
     const customPath = await getPath();
     this._logger.info(`Path: ${customPath}`);
     if (!customPath) {
