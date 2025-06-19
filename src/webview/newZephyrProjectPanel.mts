@@ -55,7 +55,7 @@ interface SubmitMessageValue {
 const spiKconfig: string = "CONFIG_SPI=y";
 const i2cKconfig: string = "CONFIG_I2C=y";
 const gpioKconfig: string = "CONFIG_GPIO=y";
-const sensorKconfig: string = "CONFIG_GPIO=y";
+const sensorKconfig: string = "CONFIG_SENSOR=y";
 const shellKconfig: string = "CONFIG_SHELL=y";
 const wifiKconfig: string = `CONFIG_NETWORKING=y
 CONFIG_TEST_RANDOM_GENERATOR=y
