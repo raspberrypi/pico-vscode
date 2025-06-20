@@ -1,4 +1,4 @@
-import { rmSync } from "fs";
+import { existsSync, readdirSync, rmSync } from "fs";
 import { CommandWithResult } from "./command.mjs";
 import { commands, type Uri, window, workspace } from "vscode";
 import { type ExecOptions, exec, spawnSync } from "child_process";
@@ -718,40 +718,56 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
       window.showInformationMessage("wget installed.");
 
       this._logger.info("Installing 7zip");
-      const szipURL = new URL("https://7-zip.org/a/7z2409-x64.exe");
-      const szipResult = await downloadFileGot(
-        szipURL,
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "7zip-x64.exe")
-      );
-
-      if (!szipResult) {
-        window.showErrorMessage(
-          "Could not download 7zip. Exiting Zephyr Setup"
+      const szipTargetDirectory = joinPosix("C:\\Program Files\\7-Zip");
+      if (
+        existsSync(szipTargetDirectory) &&
+        readdirSync(szipTargetDirectory).length !== 0
+      ) {
+        this._logger.info("7-Zip is already installed.");
+      } else {
+        const szipURL = new URL("https://7-zip.org/a/7z2409-x64.exe");
+        const szipResult = await downloadFileGot(
+          szipURL,
+          joinPosix(
+            homedir().replaceAll("\\", "/"),
+            ".pico-sdk",
+            "7zip-x64.exe"
+          )
         );
 
-        return;
-      }
+        if (!szipResult) {
+          window.showErrorMessage(
+            "Could not download 7-Zip. Exiting Zephyr Setup"
+          );
 
-      const szipCommand: string = "7zip-x64.exe";
-      const szipInstallResult = await this._runCommand(szipCommand, {
-        cwd: joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk"),
-      });
+          return;
+        }
 
-      if (szipInstallResult !== 0) {
-        window.showErrorMessage(
-          "Could not install 7zip. Please ensure 7-Zip is installed." +
-            "Exiting Zephyr Setup"
+        const szipCommand: string = "7zip-x64.exe";
+        const szipInstallResult = await this._runCommand(szipCommand, {
+          cwd: joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk"),
+        });
+
+        if (szipInstallResult !== 0) {
+          window.showErrorMessage(
+            "Could not install 7-Zip. Please ensure 7-Zip is installed." +
+              "Exiting Zephyr Setup"
+          );
+
+          return;
+        }
+
+        // Clean up
+        rmSync(
+          joinPosix(
+            homedir().replaceAll("\\", "/"),
+            ".pico-sdk",
+            "7zip-x64.exe"
+          )
         );
 
-        return;
+        window.showInformationMessage("7-Zip installed.");
       }
-
-      // Clean up
-      rmSync(
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "7zip-x64.exe")
-      );
-
-      window.showInformationMessage("7zip installed.");
     }
 
     this._logger.info("Installing OpenOCD");
@@ -846,24 +862,62 @@ manifest:
       Buffer.from(zephyrManifestContent)
     );
 
-    const command: string = [
+    const createVenvCommandVenv: string = [
       `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-      "-m " + (process.platform === "win32" ? "virtualenv" : "venv") + " venv",
+      "-m venv venv",
+    ].join(" ");
+    const createVenvCommandVirtualenv: string = [
+      `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
+      "-m virtualenv venv",
     ].join(" ");
 
     // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
     workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
 
+    // Generic result to get value from runCommand calls
+    let result: number | null;
+
     this._logger.info("Setting up virtual environment for Zephyr");
-    let result = await this._runCommand(command, {
-      cwd: zephyrWorkspaceDirectory,
-      windowsHide: true,
-      env: customEnv,
-    });
+    const venvPython: string = joinPosix(
+      zephyrWorkspaceDirectory,
+      "venv",
+      process.platform === "win32" ? "Scripts" : "bin",
+      process.platform === "win32" ? "python.exe" : "python"
+    );
+    if (existsSync(venvPython)) {
+      this._logger.info("Existing Python venv found.");
+    } else {
+      result = await this._runCommand(createVenvCommandVenv, {
+        cwd: zephyrWorkspaceDirectory,
+        windowsHide: true,
+        env: customEnv,
+      });
+      if (result !== 0) {
+        this._logger.warn(
+          "Could not create virtual environment with venv," +
+            "trying with virtualenv..."
+        );
 
-    this._logger.info(`${result}`);
+        result = await this._runCommand(createVenvCommandVirtualenv, {
+          cwd: zephyrWorkspaceDirectory,
+          windowsHide: true,
+          env: customEnv,
+        });
 
-    const venvPythonExe: string = joinPosix(
+        if (result !== 0) {
+          this._logger.error("Could not create virtual environment. Exiting.");
+          window.showErrorMessage(
+            "Could not install venv. Exiting Zephyr Setup"
+          );
+
+          return;
+        }
+      }
+
+      this._logger.info("Venv created.");
+    }
+
+    const venvPythonCommand: string = joinPosix(
       process.env.ComSpec === "powershell.exe" ? "&" : "",
       zephyrWorkspaceDirectory,
       "venv",
@@ -871,13 +925,13 @@ manifest:
       process.platform === "win32" ? "python.exe" : "python"
     );
 
-    const command2: string = [
-      venvPythonExe,
+    const installWestCommand: string = [
+      venvPythonCommand,
       "-m pip install west pyelftools",
     ].join(" ");
 
     this._logger.info("Installing Python dependencies for Zephyr");
-    result = await this._runCommand(command2, {
+    result = await this._runCommand(installWestCommand, {
       cwd: zephyrWorkspaceDirectory,
       windowsHide: true,
       env: customEnv,
