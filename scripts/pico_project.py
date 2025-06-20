@@ -572,6 +572,12 @@ def ParseCommandLine():
         help="Console output to USB (disables other USB functionality",
     )
     parser.add_argument(
+        "-semihosting",
+        "--semihosting",
+        action="store_true",
+        help="Console output to semihosting",
+    )
+    parser.add_argument(
         "-cpp", "--cpp", action="store_true", default=0, help="Generate C++ code"
     )
     parser.add_argument(
@@ -905,6 +911,11 @@ def GenerateCMake(folder, params):
     else:
         file.write(f"pico_enable_stdio_usb({projectName} 0)\n\n")
 
+    if params["wantSemiHosting"]:
+        file.write(f"pico_enable_stdio_semihosting({projectName} 1)\n\n")
+    else:
+        file.write(f"pico_enable_stdio_semihosting({projectName} 0)\n\n")
+
     # If we need wireless, check for SSID and password
     # removed for the moment as these settings are currently only needed for the pico-examples
     # but may be required in here at a later date.
@@ -1030,7 +1041,10 @@ def generateProjectFiles(
             "overrideLaunchCommands": [
                 "monitor reset init",
                 "load \\"${{command:raspberry-pi-pico.launchTargetPath}}\\""
-            ],
+            ],{f"""
+            "postLaunchCommands": [
+                "monitor arm semihosting enable"
+            ],""" if params["wantSemiHosting"] else ""}
             "openOCDLaunchCommands": [
                 "adapter speed 5000"
             ]
@@ -1518,6 +1532,7 @@ if __name__ == "__main__":
         "wantUARTExample": args.uartExample,
         "wantUART": args.uart,
         "wantUSB": args.usb,
+        "wantSemiHosting": args.semihosting,
         "wantCPP": args.cpp,
         "debugger": args.debugger,
         "exceptions": args.cppexceptions,
