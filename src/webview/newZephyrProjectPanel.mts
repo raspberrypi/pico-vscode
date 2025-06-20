@@ -29,6 +29,7 @@ import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
+import { setupZephyr } from "../utils/setupZephyr.mjs";
 
 enum BoardType {
   pico = "pico",
@@ -398,6 +399,9 @@ export class NewZephyrProjectPanel {
 
       return;
     }
+
+    // Setup Zephyr before doing anything else
+    await setupZephyr();
 
     this._logger.info("Generating new Zephyr Project");
 
