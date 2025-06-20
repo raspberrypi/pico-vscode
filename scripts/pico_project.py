@@ -1054,26 +1054,6 @@ def generateProjectFiles(
                 "load \\"${{command:raspberry-pi-pico.launchTargetPath}}\\""
             ]
         }},
-        {{
-            "name": "Pico Debug (C++ Debugger)",
-            "type": "cppdbg",
-            "request": "launch",
-            "cwd": "${{workspaceRoot}}",
-            "program": "${{command:raspberry-pi-pico.launchTargetPath}}",
-            "MIMode": "gdb",
-            "miDebuggerPath": "${{command:raspberry-pi-pico.getGDBPath}}",
-            "miDebuggerServerAddress": "localhost:3333",
-            "debugServerPath": "{openocd_path if openocd_path else "openocd"}",
-            "debugServerArgs": "-f {debugger} -f target/${{command:raspberry-pi-pico.getTarget}}.cfg -c \\"adapter speed 5000\\"",
-            "serverStarted": "Listening on port .* for gdb connections",
-            "filterStderr": true,
-            "hardwareBreakpoints": {{
-                "require": true,
-                "limit": 4
-            }},
-            "preLaunchTask": "Flash",
-            "svdPath": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd"
-        }},
     ]
 }}
 """
@@ -1242,6 +1222,50 @@ ${{env:PATH}}"
                 "target/${{command:raspberry-pi-pico.getTarget}}.cfg",
                 "-c",
                 "adapter speed 5000; program \\"${{command:raspberry-pi-pico.launchTargetPath}}\\" verify reset exit"
+            ],
+            "problemMatcher": [],
+            "windows": {{
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+            }}
+        }},
+        {{
+            "label": "Rescue Reset",
+            "type": "process",
+            "command": "{openocd_path if openocd_path else "openocd"}",
+            "args": [
+                "-s",
+                "{codeOpenOCDPath(openOCDVersion)}/scripts",
+                "-f",
+                "{debugger}",
+                "-f",
+                "target/${{command:raspberry-pi-pico.getChip}}-rescue.cfg",
+                "-c",
+                "adapter speed 5000; reset halt; exit"
+            ],
+            "problemMatcher": [],
+            "windows": {{
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+            }}
+        }},
+        {{
+            "label": "Risc-V Reset (RP2350)",
+            "type": "process",
+            "command": "{openocd_path if openocd_path else "openocd"}",
+            "args": [
+                "-s",
+                "{codeOpenOCDPath(openOCDVersion)}/scripts",
+                "-c",
+                "set USE_CORE {{ rv0 rv1 cm0 cm1 }}",
+                "-f",
+                "{debugger}",
+                "-f",
+                "target/rp2350.cfg",
+                "-c",
+                "adapter speed 5000; init;",
+                "-c",
+                "write_memory 0x40120158 8 {{ 0x3 }}; echo [format \\"Info : ARCHSEL 0x%02x\\" [read_memory 0x40120158 8 1]];",
+                "-c",
+                "reset halt; targets rp2350.rv0; echo [format \\"Info : ARCHSEL_STATUS 0x%02x\\" [read_memory 0x4012015C 8 1]]; exit"
             ],
             "problemMatcher": [],
             "windows": {{
