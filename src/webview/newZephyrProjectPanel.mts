@@ -10,8 +10,6 @@ import {
   workspace,
   ProgressLocation,
   commands,
-  tasks,
-  ConfigurationTarget,
 } from "vscode";
 import { homedir } from "os";
 import { join as joinPosix } from "path/posix";
@@ -679,57 +677,6 @@ export class NewZephyrProjectPanel {
                       <span class="font-medium">Error</span> Please enter a valid project name.
                   </p>
                 </div>
-
-                <div class="ms-6">
-                  <div class="col-span-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
-
-                    ${
-                      knownEnvironments && knownEnvironments.length > 0
-                        ? `
-                      <div class="flex items-center mb-2">
-                        <input type="radio" id="python-radio-known" name="python-version-radio" value="0" class="mr-1 text-blue-500">
-                        <label for="python-radio-known" class="text-gray-900 dark:text-white">From Python extension</label>
-                        <!-- show a select dropdown with python environments -->
-                        <select id="sel-pyenv-known" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          ${knownEnvironments
-                            .map(
-                              env =>
-                                `<option value="${env.path}" ${
-                                  (activeEnv?.id ?? "") === env.id
-                                    ? "selected"
-                                    : ""
-                                }>${env.path}</option>`
-                            )
-                            .join("")}
-                        </select>
-                      </div>
-                    `
-                        : ""
-                    }
-
-                    ${
-                      process.platform === "darwin" ||
-                      process.platform === "win32"
-                        ? `
-                    ${
-                      isPythonSystemAvailable
-                        ? `<div class="flex items-center mb-2" >
-                            <input type="radio" id="python-radio-system-version" name="python-version-radio" value="1" class="mr-1 text-blue-500">
-                            <label for="python-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
-                          </div>`
-                        : ""
-                    }
-
-                    <div class="flex items-center mb-2">
-                      <input type="radio" id="python-radio-path-executable" name="python-version-radio" value="2" class="mr-1 text-blue-500">
-                      <label for="python-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
-                      <input type="file" id="python-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
-                    </div>`
-                        : ""
-                    }
-                  </div>
-                </div>
               </div>
 
               <div>
@@ -738,12 +685,12 @@ export class NewZephyrProjectPanel {
                     <option id="option-board-type-${BoardType.pico}" value="${
       BoardType.pico
     }">Pico</option>
-                    <option id="option-board-type-${BoardType.pico2}" value="${
-      BoardType.pico2
-    }">Pico 2</option>   
                     <option id="option-board-type-${BoardType.picoW}" value="${
       BoardType.picoW
     }">Pico W</option>
+                    <option id="option-board-type-${BoardType.pico2}" value="${
+      BoardType.pico2
+    }">Pico 2</option>   
                     <option id="option-board-type-${BoardType.pico2W}" value="${
       BoardType.pico2W
     }">Pico 2 W</option>
@@ -892,3 +839,55 @@ export class NewZephyrProjectPanel {
     </html>`;
   }
 }
+
+// Python path option for later
+// <div class="ms-6">
+//                   <div class="col-span-2">
+//                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
+
+//                     ${
+//                       knownEnvironments && knownEnvironments.length > 0
+//                         ? `
+//                       <div class="flex items-center mb-2">
+//                         <input type="radio" id="python-radio-known" name="python-version-radio" value="0" class="mr-1 text-blue-500">
+//                         <label for="python-radio-known" class="text-gray-900 dark:text-white">From Python extension</label>
+//                         <!-- show a select dropdown with python environments -->
+//                         <select id="sel-pyenv-known" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+//                           ${knownEnvironments
+//                             .map(
+//                               env =>
+//                                 `<option value="${env.path}" ${
+//                                   (activeEnv?.id ?? "") === env.id
+//                                     ? "selected"
+//                                     : ""
+//                                 }>${env.path}</option>`
+//                             )
+//                             .join("")}
+//                         </select>
+//                       </div>
+//                     `
+//                         : ""
+//                     }
+
+//                     ${
+//                       process.platform === "darwin" ||
+//                       process.platform === "win32"
+//                         ? `
+//                     ${
+//                       isPythonSystemAvailable
+//                         ? `<div class="flex items-center mb-2" >
+//                             <input type="radio" id="python-radio-system-version" name="python-version-radio" value="1" class="mr-1 text-blue-500">
+//                             <label for="python-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+//                           </div>`
+//                         : ""
+//                     }
+
+//                     <div class="flex items-center mb-2">
+//                       <input type="radio" id="python-radio-path-executable" name="python-version-radio" value="2" class="mr-1 text-blue-500">
+//                       <label for="python-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+//                       <input type="file" id="python-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+//                     </div>`
+//                         : ""
+//                     }
+//                   </div>
+//                 </div>

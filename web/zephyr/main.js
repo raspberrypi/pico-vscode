@@ -116,25 +116,26 @@ var submitted = false;
 
       return;
     }
-    if (pythonMode === 0) {
-      const pyenvKnownSel = document.getElementById("sel-pyenv-known");
-      pythonPath = pyenvKnownSel.value;
-    } else if (pythonMode === 2) {
-      const files = document.getElementById("python-path-executable").files;
 
-      if (files.length == 1) {
-        pythonPath = files[0].name;
-      } else {
-        console.debug("Please select a valid python executable file");
-        vscode.postMessage({
-          command: CMD_ERROR,
-          value: "Please select a valid python executable file.",
-        });
-        submitted = false;
+    // if (pythonMode === 0) {
+    //   const pyenvKnownSel = document.getElementById("sel-pyenv-known");
+    //   pythonPath = pyenvKnownSel.value;
+    // } else if (pythonMode === 2) {
+    //   const files = document.getElementById("python-path-executable").files;
 
-        return;
-      }
-    }
+    //   if (files.length == 1) {
+    //     pythonPath = files[0].name;
+    //   } else {
+    //     console.debug("Please select a valid python executable file");
+    //     vscode.postMessage({
+    //       command: CMD_ERROR,
+    //       value: "Please select a valid python executable file.",
+    //     });
+    //     submitted = false;
+
+    //     return;
+    //   }
+    // }
 
     // Get console mode
     const consoleRadio = document.getElementsByName("console-radio");
