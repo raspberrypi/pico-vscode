@@ -651,6 +651,13 @@ export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
     }
     window.showInformationMessage("Ninja installed.");
 
+    this._logger.info("Installing Picotool");
+    const picotoolResult = await downloadAndInstallPicotool("2.1.1");
+    if (!picotoolResult) {
+      window.showErrorMessage("Could not install Ninja. Exiting Zephyr Setup");
+    }
+    window.showInformationMessage("Picotool installed.");
+
     const python3Path = await findPython();
     if (!python3Path) {
       this._logger.error("Failed to find Python3 executable.");
