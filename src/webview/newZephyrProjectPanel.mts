@@ -116,7 +116,8 @@ const shellI2CKconfig: string = "CONFIG_I2C_SHELL=y";
 const shellGPIOKconfig: string = "CONFIG_GPIO_SHELL=y";
 const shellSensorKconfig: string = "CONFIG_SENSOR_SHELL=y";
 const shellWifiKconfig: string = `CONFIG_WIFI_LOG_LEVEL_ERR=y
-CONFIG_NET_L2_WIFI_SHELL=y`;
+CONFIG_NET_L2_WIFI_SHELL=y
+CONFIG_NET_SHELL=y`;
 
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;
