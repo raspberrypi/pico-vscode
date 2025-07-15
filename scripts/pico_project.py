@@ -810,19 +810,7 @@ def GenerateCMake(folder, params):
                 if any(["pico_cyw43_arch_lwip_poll" in line for line in lines]):
                     print("Poll")
                     params["wantPoll"] = True
-                # Get project name
                 for line in lines:
-                    if "add_executable" in line:
-                        if params["wantThreadsafeBackground"] or params["wantPoll"]:
-                            newProjectName = (
-                                line.split("(")[1].split()[0].strip().strip("()")
-                            )
-                            newProjectName = newProjectName.replace("_background", "")
-                            newProjectName = newProjectName.replace("_poll", "")
-                            print("New project name", newProjectName)
-                            cmake_header2 = cmake_header2.replace(
-                                projectName, newProjectName
-                            )
                     if "WIFI_SSID" in line and "WIFI_SSID" not in cmake_header2:
                         cmake_header2 += (
                             '\nset(WIFI_SSID "Your Wi-Fi SSID")\n'
