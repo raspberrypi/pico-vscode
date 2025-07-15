@@ -77,6 +77,7 @@ import { homedir } from "os";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
+import UpdateOpenOCDCommand from "./commands/updateOpenOCD.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
@@ -130,6 +131,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new NewExampleProjectCommand(context.extensionUri),
     new UninstallPicoSDKCommand(),
     new CleanCMakeCommand(ui),
+    new UpdateOpenOCDCommand(),
   ];
 
   // register all command handlers

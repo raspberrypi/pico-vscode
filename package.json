@@ -209,6 +209,11 @@
         "category": "Raspberry Pi Pico"
       },
       {
+        "command": "raspberry-pi-pico.updateOpenOCD",
+        "title": "Update OpenOCD",
+        "category": "Raspberry Pi Pico"
+      },
+      {
         "command": "raspberry-pi-pico.flashProject",
         "title": "Flash Pico Project (SWD)",
         "category": "Raspberry Pi Pico",
