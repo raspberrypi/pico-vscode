@@ -20,7 +20,7 @@ with open("dist/extension.cjs", "r") as f:
             keep = False
         elif "const CURRENT_DATA_VERSION =" in line:
             keep = True
-        
+
         if keep:
             txt += line
 
@@ -50,14 +50,25 @@ versions = [
     ["1.5.1", "2.0.0", "2.1.0", "2.1.1"],
     ["v3.28.6", "v3.29.6", "v3.29.9", "v3.31.5"],
     ["v1.12.1"],
-    ["v1.5.1-0", "v2.0.0-0", "v2.0.0-1", "v2.0.0-2", "v2.0.0-3", "v2.0.0-4", "v2.0.0-5", "v2.1.0-0", "v2.1.1-1"],
-    ["2.0.0", "2.1.0", "2.1.1"]
+    [
+        "v1.5.1-0",
+        "v2.0.0-0",
+        "v2.0.0-1",
+        "v2.0.0-2",
+        "v2.0.0-3",
+        "v2.0.0-4",
+        "v2.0.0-5",
+        "v2.1.0-0",
+        "v2.1.1-1",
+        "v2.1.1-2",
+    ],
+    ["2.0.0", "2.1.0", "2.1.1"],
 ]
 
 headers = {
     "X-GitHub-Api-Version": "2022-11-28",
     "User-Agent": stuff.EXT_USER_AGENT,
-    "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}"
+    "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
 }
 
 ret = {}
@@ -69,26 +80,25 @@ for repo in range(num_repos):
         name = stuff.repoNameOfRepository(repo)
         x = requests.get(
             f"{stuff.GITHUB_API_BASE_URL}/repos/{owner}/{name}/releases/tags/{version}",
-            headers=headers
+            headers=headers,
         )
         data = json.loads(x.content)
         assets = []
         for asset in data["assets"]:
-            assets.append({
-                "id": asset["id"],
-                "name": asset["name"],
-                "browser_download_url": asset["browser_download_url"]
-            })
-        data = {
-            "assets": assets,
-            "assetsUrl": data["assets_url"]
-        }
+            assets.append(
+                {
+                    "id": asset["id"],
+                    "name": asset["name"],
+                    "browser_download_url": asset["browser_download_url"],
+                }
+            )
+        data = {"assets": assets, "assetsUrl": data["assets_url"]}
 
         ret[f"githubApiCache-{repo}-1-{version}"] = data
-        
+
 
 for k, v in ret.items():
-    idx = int(k.split('-')[1])
+    idx = int(k.split("-")[1])
     print(f"{k} is {stuff.GithubRepository[idx]}")
     if isinstance(v, list):
         print(v)
