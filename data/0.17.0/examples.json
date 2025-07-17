@@ -756,6 +756,19 @@
         ],
         "supportRiscV": true
     },
+    "dev_multi_cdc": {
+        "path": "usb/device/dev_multi_cdc",
+        "name": "dev_multi_cdc",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
     "dev_hid_composite": {
         "path": "usb/device/dev_hid_composite",
         "name": "dev_hid_composite",

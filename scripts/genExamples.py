@@ -4,6 +4,7 @@ import os
 import glob
 import shutil
 import json
+import multiprocessing
 
 from pico_project import GenerateCMake
 
@@ -48,6 +49,10 @@ os.system(
 os.environ["PICO_SDK_PATH"] = f"~/.pico-sdk/sdk/{SDK_VERSION}"
 os.environ["WIFI_SSID"] = "Your Wi-Fi SSID"
 os.environ["WIFI_PASSWORD"] = "Your Wi-Fi Password"
+os.environ["CFLAGS"] = "-Werror=cpp"
+os.environ["CXXFLAGS"] = "-Werror=cpp"
+
+ordered_targets = []
 
 for board in boards:
     for platform in platforms[board]:
@@ -55,7 +60,9 @@ for board in boards:
             shutil.rmtree("build")
         except FileNotFoundError:
             pass
-        toolchainVersion = "RISCV_RPI_2_1_1_3" if "riscv" in platform else "14_2_Rel1"
+        toolchainVersion = (
+            "RISCV_ZCB_RPI_2_1_1_3" if "riscv" in platform else "14_2_Rel1"
+        )
         toolchainPath = f"~/.pico-sdk/toolchain/{toolchainVersion}"
         picotoolDir = f"~/.pico-sdk/picotool/{SDK_VERSION}/picotool"
         os.system(
@@ -131,21 +138,25 @@ for board in boards:
             lib_locs[k]["loc"] = v["locs"][0]
 
         # Test build them all
-        try:
-            shutil.rmtree("tmp")
-            shutil.rmtree("tmp-build")
-        except FileNotFoundError:
-            pass
-        for target, v in target_locs.items():
-            os.mkdir("tmp-build")
+
+        # Test build function
+        def test_build(target, v):
+            dir = f"tmp-{target}"
+            try:
+                shutil.rmtree(dir)
+                shutil.rmtree(f"{dir}-build")
+            except FileNotFoundError:
+                pass
+
+            os.mkdir(f"{dir}-build")
             loc = v["loc"]
             loc = loc.replace("/CMakeLists.txt", "")
-            shutil.copytree(loc, "tmp")
+            shutil.copytree(loc, dir)
             if len(v["libs"]):
                 for lib in v["libs"]:
                     shutil.copytree(
                         lib_locs[lib]["loc"].replace("/CMakeLists.txt", ""),
-                        f"tmp/{lib}",
+                        f"{dir}/{lib}",
                     )
             params = {
                 "projectName": target,
@@ -160,22 +171,39 @@ for board in boards:
                 "picotoolVersion": SDK_VERSION,
                 "exampleLibs": v["libs"],
             }
-            GenerateCMake("tmp", params)
+            GenerateCMake(dir, params)
             if params["wantThreadsafeBackground"] or params["wantPoll"]:
                 # Write lwipopts for examples
-                shutil.copy("lwipopts.h", "tmp/")
-            shutil.copy("pico-examples/pico_sdk_import.cmake", "tmp/")
+                shutil.copy(
+                    f"{os.path.dirname(os.path.realpath(__file__))}/lwipopts.h",
+                    f"{dir}/",
+                )
+            shutil.copy("pico-examples/pico_sdk_import.cmake", f"{dir}/")
 
-            retcmake = os.system(
-                "cmake -S tmp -B tmp-build -DCMAKE_COMPILE_WARNING_AS_ERROR=ON"
-            )
-            retbuild = os.system("cmake --build tmp-build --parallel 22")
+            retcmake = os.system(f"cmake -S {dir} -B {dir}-build -GNinja")
+            retbuild = os.system(f"cmake --build {dir}-build")
+            ret = None
             if retcmake or retbuild:
                 print(
                     f"Error occurred with {target} {v} - cmake {retcmake}, build {retbuild}"
                 )
-                shutil.copytree("tmp", f"errors-{board}-{platform}/{target}")
+                shutil.copytree(dir, f"errors-{board}-{platform}/{target}")
             else:
+                ret = (target, v, loc)
+
+            shutil.rmtree(dir)
+            shutil.rmtree(f"{dir}-build")
+            return ret
+
+        ordered_targets.extend(target_locs.keys())
+
+        with multiprocessing.Pool(processes=22) as pool:
+            ret = pool.starmap(
+                test_build,
+                [(target, v) for target, v in target_locs.items()],
+            )
+            ret = filter(lambda x: x != None, ret)
+            for target, v, loc in ret:
                 if examples.get(target) != None:
                     example = examples[target]
                     assert example["path"] == loc.replace(f"{walk_dir}/", "")
@@ -204,12 +232,12 @@ for board in boards:
                         "boards": [board],
                         "supportRiscV": "riscv" in platform,
                     }
-
-            shutil.rmtree("tmp")
-            shutil.rmtree("tmp-build")
-
-with open(
-    f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
-    "w",
-) as f:
-    json.dump(examples, f, indent=4)
+        # Write out after each platform
+        with open(
+            f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+            "w",
+        ) as f:
+            sorted_examples = dict(
+                sorted(examples.items(), key=lambda x: ordered_targets.index(x[0]))
+            )
+            json.dump(sorted_examples, f, indent=4)
