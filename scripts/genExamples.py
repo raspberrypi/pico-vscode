@@ -7,24 +7,13 @@ import json
 
 from pico_project import GenerateCMake
 
-boards = [
-    "pico",
-    "pico_w",
-    "pico2",
-    "pico2_w"
-]
+boards = ["pico", "pico_w", "pico2", "pico2_w"]
 
 platforms = {
     "pico": ["rp2040"],
     "pico_w": ["rp2040"],
-    "pico2": [
-        "rp2350-arm-s",
-        "rp2350-riscv"
-    ],
-    "pico2_w": [
-        "rp2350-arm-s",
-        "rp2350-riscv"
-    ]
+    "pico2": ["rp2350-arm-s", "rp2350-riscv"],
+    "pico2_w": ["rp2350-arm-s", "rp2350-riscv"],
 }
 
 examples = {
@@ -34,13 +23,15 @@ examples = {
         "libPaths": [],
         "libNames": [],
         "boards": [],
-        "supportRiscV": False
+        "supportRiscV": False,
     }
 }
 
 examples.clear()
 
 CURRENT_DATA_VERSION = "0.17.0"
+
+SDK_VERSION = "2.1.1"
 
 try:
     shutil.rmtree("pico-examples")
@@ -51,8 +42,10 @@ try:
         shutil.rmtree(path)
 except FileNotFoundError:
     pass
-os.system("git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-2.1.1")
-os.environ["PICO_SDK_PATH"] = "~/.pico-sdk/sdk/2.1.1"
+os.system(
+    f"git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-{SDK_VERSION}"
+)
+os.environ["PICO_SDK_PATH"] = f"~/.pico-sdk/sdk/{SDK_VERSION}"
 os.environ["WIFI_SSID"] = "Your Wi-Fi SSID"
 os.environ["WIFI_PASSWORD"] = "Your Wi-Fi Password"
 
@@ -62,10 +55,12 @@ for board in boards:
             shutil.rmtree("build")
         except FileNotFoundError:
             pass
-        toolchainVersion = "RISCV_RPI_2_0_0_5" if "riscv" in platform else "14_2_Rel1"
+        toolchainVersion = "RISCV_RPI_2_1_1_3" if "riscv" in platform else "14_2_Rel1"
         toolchainPath = f"~/.pico-sdk/toolchain/{toolchainVersion}"
-        picotoolDir = "~/.pico-sdk/picotool/2.1.1/picotool"
-        os.system(f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir}")
+        picotoolDir = f"~/.pico-sdk/picotool/{SDK_VERSION}/picotool"
+        os.system(
+            f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir}"
+        )
 
         os.system("cmake --build build --target help > targets.txt")
 
@@ -73,20 +68,20 @@ for board in boards:
 
         with open("targets.txt", "r") as f:
             for line in f.readlines():
-                target = line.strip('.').strip()
+                target = line.strip(".").strip()
                 if (
-                    "all" in target or
-                    "build_variant" in target or
-                    target == "clean" or
-                    target == "depend" or
-                    target == "edit_cache" or
-                    target == "rebuild_cache" or
-                    target.endswith("_pio_h") or
-                    target.endswith("_poll")
+                    "all" in target
+                    or "build_variant" in target
+                    or target == "clean"
+                    or target == "depend"
+                    or target == "edit_cache"
+                    or target == "rebuild_cache"
+                    or target.endswith("_pio_h")
+                    or target.endswith("_poll")
                 ):
                     continue
                 if target.endswith("_background"):
-                    target = target[:-len("_background")]
+                    target = target[: -len("_background")]
                 targets.append(target)
 
         walk_dir = "./pico-examples"
@@ -99,28 +94,24 @@ for board in boards:
                     continue
                 file_path = os.path.join(root, filename)
 
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     f_content = f.read()
                     if "add_library" in f_content:
                         for target in targets:
                             if f"add_library({target}" in f_content:
-                                tmp = lib_locs.get(target, {
-                                    "locs": []
-                                })
+                                tmp = lib_locs.get(target, {"locs": []})
                                 tmp["locs"].append(file_path)
                                 lib_locs[target] = tmp
                     if "add_executable" in f_content:
                         exes = []
                         for target in targets:
                             if (
-                                f"pico_add_extra_outputs({target})" in f_content or
-                                f"pico_add_extra_outputs({target}_background)" in f_content
+                                f"pico_add_extra_outputs({target})" in f_content
+                                or f"pico_add_extra_outputs({target}_background)"
+                                in f_content
                             ):
                                 exes.append(target)
-                                tmp = target_locs.get(target, {
-                                    "locs": [],
-                                    "libs": []
-                                })
+                                tmp = target_locs.get(target, {"locs": [], "libs": []})
                                 tmp["locs"].append(file_path)
                                 target_locs[target] = tmp
 
@@ -154,20 +145,20 @@ for board in boards:
                 for lib in v["libs"]:
                     shutil.copytree(
                         lib_locs[lib]["loc"].replace("/CMakeLists.txt", ""),
-                        f"tmp/{lib}"
+                        f"tmp/{lib}",
                     )
-            params={
-                'projectName'   : target,
-                'wantOverwrite' : True,
-                'wantConvert'   : True,
-                'wantExample'   : True,
-                'wantThreadsafeBackground'  : False,
-                'wantPoll'                  : False,
-                'boardtype'     : board,
-                'sdkVersion'    : "2.1.1",
-                'toolchainVersion': toolchainVersion,
-                'picotoolVersion': "2.1.1",
-                'exampleLibs'   : v["libs"]
+            params = {
+                "projectName": target,
+                "wantOverwrite": True,
+                "wantConvert": True,
+                "wantExample": True,
+                "wantThreadsafeBackground": False,
+                "wantPoll": False,
+                "boardtype": board,
+                "sdkVersion": SDK_VERSION,
+                "toolchainVersion": toolchainVersion,
+                "picotoolVersion": SDK_VERSION,
+                "exampleLibs": v["libs"],
             }
             GenerateCMake("tmp", params)
             if params["wantThreadsafeBackground"] or params["wantPoll"]:
@@ -175,18 +166,27 @@ for board in boards:
                 shutil.copy("lwipopts.h", "tmp/")
             shutil.copy("pico-examples/pico_sdk_import.cmake", "tmp/")
 
-            retcmake = os.system("cmake -S tmp -B tmp-build -DCMAKE_COMPILE_WARNING_AS_ERROR=ON")
+            retcmake = os.system(
+                "cmake -S tmp -B tmp-build -DCMAKE_COMPILE_WARNING_AS_ERROR=ON"
+            )
             retbuild = os.system("cmake --build tmp-build --parallel 22")
-            if (retcmake or retbuild):
-                print(f"Error occurred with {target} {v} - cmake {retcmake}, build {retbuild}")
+            if retcmake or retbuild:
+                print(
+                    f"Error occurred with {target} {v} - cmake {retcmake}, build {retbuild}"
+                )
                 shutil.copytree("tmp", f"errors-{board}-{platform}/{target}")
             else:
                 if examples.get(target) != None:
                     example = examples[target]
-                    assert(example["path"] == loc.replace(f"{walk_dir}/", ""))
-                    assert(example["name"] == target)
-                    assert(example["libPaths"] == [lib_locs[lib]["loc"].replace("/CMakeLists.txt", "").replace(f"{walk_dir}/", "") for lib in v["libs"]])
-                    assert(example["libNames"] == v["libs"])
+                    assert example["path"] == loc.replace(f"{walk_dir}/", "")
+                    assert example["name"] == target
+                    assert example["libPaths"] == [
+                        lib_locs[lib]["loc"]
+                        .replace("/CMakeLists.txt", "")
+                        .replace(f"{walk_dir}/", "")
+                        for lib in v["libs"]
+                    ]
+                    assert example["libNames"] == v["libs"]
                     if not board in example["boards"]:
                         example["boards"].append(board)
                     example["supportRiscV"] |= "riscv" in platform
@@ -194,14 +194,22 @@ for board in boards:
                     examples[target] = {
                         "path": loc.replace(f"{walk_dir}/", ""),
                         "name": target,
-                        "libPaths": [lib_locs[lib]["loc"].replace("/CMakeLists.txt", "").replace(f"{walk_dir}/", "") for lib in v["libs"]],
+                        "libPaths": [
+                            lib_locs[lib]["loc"]
+                            .replace("/CMakeLists.txt", "")
+                            .replace(f"{walk_dir}/", "")
+                            for lib in v["libs"]
+                        ],
                         "libNames": v["libs"],
                         "boards": [board],
-                        "supportRiscV": "riscv" in platform
+                        "supportRiscV": "riscv" in platform,
                     }
 
             shutil.rmtree("tmp")
             shutil.rmtree("tmp-build")
 
-with open(f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json", "w") as f:
+with open(
+    f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+    "w",
+) as f:
     json.dump(examples, f, indent=4)

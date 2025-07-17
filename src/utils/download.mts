@@ -86,7 +86,7 @@ const PICOTOOL_RELEASES: { [key: string]: string } = {
 /// Release tags for openocd
 const OPENOCD_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "0.12.0+dev": "v2.1.1-2",
+  "0.12.0+dev": "v2.1.1-3",
 };
 
 /// Translate nodejs platform names to cmake platform names
@@ -1016,17 +1016,6 @@ export async function downloadAndInstallOpenOCD(
   version: string,
   progressCallback?: (progress: Progress) => void
 ): Promise<boolean> {
-  if (
-    (process.platform === "darwin" && process.arch === "x64") ||
-    (process.platform === "linux" && !["arm64", "x64"].includes(process.arch))
-  ) {
-    Logger.error(
-      LoggerSource.downloader,
-      "Installation of OpenOCD not supported on this platform."
-    );
-
-    return false;
-  }
   const assetExt: string = process.platform === "linux" ? "tar.gz" : "zip";
   const targetDirectory = buildOpenOCDPath(version);
   const archiveFileName = `openocd.${assetExt}`;
@@ -1036,8 +1025,10 @@ export async function downloadAndInstallOpenOCD(
         ? "-aarch64"
         : "-x86_64"
       : process.platform === "darwin"
-      ? "-arm64"
-      : ""
+        ? process.arch === "arm64"
+          ? "-arm64"
+          : "-x86_64"
+        : ""
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
 
   const extraCallback = (): void => {
