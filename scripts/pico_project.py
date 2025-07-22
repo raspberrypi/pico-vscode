@@ -799,17 +799,6 @@ def GenerateCMake(folder, params):
                         )
                 file.write(content)
             else:
-                if any(
-                    [
-                        "pico_cyw43_arch_lwip_threadsafe_background" in line
-                        for line in lines
-                    ]
-                ):
-                    print("Threadsafe Background")
-                    params["wantThreadsafeBackground"] = True
-                if any(["pico_cyw43_arch_lwip_poll" in line for line in lines]):
-                    print("Poll")
-                    params["wantPoll"] = True
                 for line in lines:
                     if "WIFI_SSID" in line and "WIFI_SSID" not in cmake_header2:
                         cmake_header2 += (
@@ -1409,10 +1398,25 @@ def DoEverything(params):
 
     GenerateCMake(projectPath, params)
 
+    # Add examples common files if we are using examples
     if params["wantExample"]:
-        if params["wantThreadsafeBackground"] or params["wantPoll"]:
-            # Write lwipopts for examples
-            shutil.copy(sourcefolder + "/" + "lwipopts.h", projectPath / "lwipopts.h")
+        if os.path.exists(projectPath / "lwipopts.h"):
+            with open(projectPath / "lwipopts.h", "r") as f:
+                if "lwipopts_examples_common.h" in f.read():
+                    # Write lwipopts for examples
+                    shutil.copy(
+                        sourcefolder + "/" + "lwipopts.h",
+                        projectPath / "lwipopts_examples_common.h",
+                    )
+
+        if os.path.exists(projectPath / "mbedtls_config.h"):
+            with open(projectPath / "mbedtls_config.h", "r") as f:
+                if "mbedtls_config_examples_common.h" in f.read():
+                    # Write mbedtls_config for examples
+                    shutil.copy(
+                        sourcefolder + "/" + "mbedtls_config.h",
+                        projectPath / "mbedtls_config_examples_common.h",
+                    )
 
     # Create a build folder, and run our cmake project build from it
     if not os.path.exists("build"):
@@ -1494,8 +1498,6 @@ if __name__ == "__main__":
         "wantOverwrite": args.overwrite,
         "wantConvert": args.convert or args.example,
         "wantExample": args.example,
-        "wantThreadsafeBackground": False,
-        "wantPoll": False,
         "boardtype": args.boardtype,
         "features": args.feature,
         "projects": args.project,

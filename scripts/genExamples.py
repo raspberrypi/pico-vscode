@@ -163,8 +163,6 @@ for board in boards:
                 "wantOverwrite": True,
                 "wantConvert": True,
                 "wantExample": True,
-                "wantThreadsafeBackground": False,
-                "wantPoll": False,
                 "boardtype": board,
                 "sdkVersion": SDK_VERSION,
                 "toolchainVersion": toolchainVersion,
@@ -172,12 +170,23 @@ for board in boards:
                 "exampleLibs": v["libs"],
             }
             GenerateCMake(dir, params)
-            if params["wantThreadsafeBackground"] or params["wantPoll"]:
-                # Write lwipopts for examples
-                shutil.copy(
-                    f"{os.path.dirname(os.path.realpath(__file__))}/lwipopts.h",
-                    f"{dir}/",
-                )
+            if os.path.exists(f"{dir}/lwipopts.h"):
+                with open(f"{dir}/lwipopts.h", "r") as f:
+                    if "lwipopts_examples_common.h" in f.read():
+                        # Write lwipopts for examples
+                        shutil.copy(
+                            f"{os.path.dirname(os.path.realpath(__file__))}/lwipopts.h",
+                            f"{dir}/lwipopts_examples_common.h",
+                        )
+
+            if os.path.exists(f"{dir}/mbedtls_config.h"):
+                with open(f"{dir}/mbedtls_config.h", "r") as f:
+                    if "mbedtls_config_examples_common.h" in f.read():
+                        # Write mbedtls_config for examples
+                        shutil.copy(
+                            f"{os.path.dirname(os.path.realpath(__file__))}/mbedtls_config.h",
+                            f"{dir}/mbedtls_config_examples_common.h",
+                        )
             shutil.copy("pico-examples/pico_sdk_import.cmake", f"{dir}/")
 
             retcmake = os.system(f"cmake -S {dir} -B {dir}-build -GNinja")
