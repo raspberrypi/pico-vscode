@@ -15,12 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.13
-          cache: 'pip'
-          cache-dependency-path: '.github/workflows/genExamples.yml'
       - name: Install Dependencies
         run: |
           pip install pycryptodomex
@@ -29,11 +23,17 @@ jobs:
         with:
           path: ~/.pico-sdk
           key: pico-sdk-${{ hashFiles('scripts/genExamples.py') }}
+      - name: List ~/.pico-sdk
+        run: |
+          ls -la ~/.pico-sdk/*/*
       - name: Run genExamples.py
         # env:
         #   SDK_VERSION: ${{ inputs.develop && '2-develop' || '' }}
         run: |
           python scripts/genExamples.py
+      - name: List errors
+        run: |
+          ls -la errors-pico*
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
