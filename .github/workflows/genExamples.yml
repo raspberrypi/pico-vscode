@@ -23,9 +23,6 @@ jobs:
         with:
           path: ~/.pico-sdk
           key: pico-sdk-${{ hashFiles('scripts/genExamples.py') }}
-      - name: List ~/.pico-sdk
-        run: |
-          ls -la ~/.pico-sdk/*/*
       - name: Run genExamples.py
         # env:
         #   SDK_VERSION: ${{ inputs.develop && '2-develop' || '' }}
