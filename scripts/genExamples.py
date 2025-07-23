@@ -71,7 +71,10 @@ if not os.path.exists(
     os.path.expanduser(f"~/.pico-sdk/toolchain/{ARM_TOOLCHAIN_VERSION}")
 ):
     toolchain_url = config[ARM_TOOLCHAIN_VERSION][platform]
-    os.mkdir(os.path.expanduser(f"~/.pico-sdk/toolchain/{ARM_TOOLCHAIN_VERSION}"))
+    os.makedirs(
+        os.path.expanduser(f"~/.pico-sdk/toolchain/{ARM_TOOLCHAIN_VERSION}"),
+        exist_ok=True,
+    )
     os.system(f"wget {toolchain_url}")
     os.system(
         f"tar -xf {toolchain_url.split('/')[-1]} --strip-components 1 -C ~/.pico-sdk/toolchain/{ARM_TOOLCHAIN_VERSION}"
@@ -83,7 +86,10 @@ if not os.path.exists(
     os.path.expanduser(f"~/.pico-sdk/toolchain/{RISCV_TOOLCHAIN_VERSION}")
 ):
     toolchain_url = config[RISCV_TOOLCHAIN_VERSION][platform]
-    os.mkdir(os.path.expanduser(f"~/.pico-sdk/toolchain/{RISCV_TOOLCHAIN_VERSION}"))
+    os.makedirs(
+        os.path.expanduser(f"~/.pico-sdk/toolchain/{RISCV_TOOLCHAIN_VERSION}"),
+        exist_ok=True,
+    )
     os.system(f"wget {toolchain_url}")
     os.system(
         f"tar -xf {toolchain_url.split('/')[-1]} -C ~/.pico-sdk/toolchain/{RISCV_TOOLCHAIN_VERSION}"
