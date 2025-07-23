@@ -97,6 +97,7 @@ if not os.path.exists(
     os.system(f"rm {toolchain_url.split('/')[-1]}")
 
 # Copy pico-vscode.cmake to ~/.pico-sdk/cmake/pico-vscode.cmake
+os.makedirs(os.path.expanduser("~/.pico-sdk/cmake"), exist_ok=True)
 shutil.copy(
     f"{os.path.dirname(os.path.realpath(__file__))}/pico-vscode.cmake",
     os.path.expanduser("~/.pico-sdk/cmake/pico-vscode.cmake"),
