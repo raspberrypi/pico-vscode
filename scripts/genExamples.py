@@ -96,6 +96,12 @@ if not os.path.exists(
     )
     os.system(f"rm {toolchain_url.split('/')[-1]}")
 
+# Copy pico-vscode.cmake to ~/.pico-sdk/cmake/pico-vscode.cmake
+shutil.copy(
+    f"{os.path.dirname(os.path.realpath(__file__))}/pico-vscode.cmake",
+    os.path.expanduser("~/.pico-sdk/cmake/pico-vscode.cmake"),
+)
+
 if BUILD_TOOLS:
     # Clone pico-sdk
     try:
