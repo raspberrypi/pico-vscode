@@ -1421,6 +1421,17 @@
         ],
         "supportRiscV": true
     },
+    "picow_tcpip_client": {
+        "path": "pico_w/wifi/tcp_client",
+        "name": "picow_tcpip_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
     "picow_tls_client": {
         "path": "pico_w/wifi/tls_client",
         "name": "picow_tls_client",

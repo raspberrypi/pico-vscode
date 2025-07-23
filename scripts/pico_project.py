@@ -805,6 +805,13 @@ def GenerateCMake(folder, params):
                             '\nset(WIFI_SSID "Your Wi-Fi SSID")\n'
                             'set(WIFI_PASSWORD "Your Wi-Fi Password")\n'
                         )
+                    if (
+                        "TEST_TCP_SERVER_IP" in line
+                        and "TEST_TCP_SERVER_IP" not in cmake_header2
+                    ):
+                        cmake_header2 += '\nset(TEST_TCP_SERVER_IP "192.168.1.100") # Change this to your TCP server IP\n'
+                    if "MQTT_SERVER" in line and "MQTT_SERVER" not in cmake_header2:
+                        cmake_header2 += '\nset(MQTT_SERVER "myMQTTserver") # Change this to the host name of your MQTT server\n'
                 # Write all headers
                 file.write(cmake_header1)
                 file.write(cmake_header_us)

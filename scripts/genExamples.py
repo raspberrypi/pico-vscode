@@ -49,6 +49,10 @@ os.system(
 os.environ["PICO_SDK_PATH"] = f"~/.pico-sdk/sdk/{SDK_VERSION}"
 os.environ["WIFI_SSID"] = "Your Wi-Fi SSID"
 os.environ["WIFI_PASSWORD"] = "Your Wi-Fi Password"
+os.environ["TEST_TCP_SERVER_IP"] = (
+    "192.168.1.100"  # This isn't read from environment variables, so also needs to be passed to cmake
+)
+os.environ["MQTT_SERVER"] = "myMQTTserver"
 os.environ["CFLAGS"] = "-Werror=cpp"
 os.environ["CXXFLAGS"] = "-Werror=cpp"
 
@@ -66,7 +70,7 @@ for board in boards:
         toolchainPath = f"~/.pico-sdk/toolchain/{toolchainVersion}"
         picotoolDir = f"~/.pico-sdk/picotool/{SDK_VERSION}/picotool"
         os.system(
-            f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir}"
+            f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir} -DTEST_TCP_SERVER_IP=$TEST_TCP_SERVER_IP"
         )
 
         os.system("cmake --build build --target help > targets.txt")
