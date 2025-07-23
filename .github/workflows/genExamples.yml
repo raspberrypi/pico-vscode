@@ -1,12 +1,13 @@
 name: Update examples.json
 
 on:
-  workflow_dispatch:
-    inputs:
-      develop:
-        description: "Test with develop branch"
-        required: false
-        type: boolean
+  # workflow_dispatch:
+  #   inputs:
+  #     develop:
+  #       description: "Test with develop branch"
+  #       required: false
+  #       type: boolean
+  push:
 
 jobs:
   build:
@@ -30,8 +31,8 @@ jobs:
           path: ~/.pico-sdk
           key: pico-sdk-${{ hashFiles('scripts/genExamples.py') }}
       - name: Run genExamples.py
-        env:
-          SDK_VERSION: ${{ inputs.develop && '2-develop' || '' }}
+        # env:
+        #   SDK_VERSION: ${{ inputs.develop && '2-develop' || '' }}
         run: |
           python scripts/genExamples.py
       - name: Upload Artifact
