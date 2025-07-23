@@ -18,12 +18,11 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
+          python-version: 3.13
           cache: 'pip'
           cache-dependency-path: '.github/workflows/genExamples.yml'
       - name: Install Dependencies
         run: |
-          sudo apt update
-          sudo apt install -y cmake ninja-build build-essential
           pip install pycryptodomex
       - name: Cache ~/.pico-sdk
         uses: actions/cache@v4
