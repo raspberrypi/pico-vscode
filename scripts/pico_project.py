@@ -22,6 +22,8 @@ import platform
 import csv
 import json
 
+sourcefolder = os.path.dirname(os.path.abspath(__file__))
+
 CMAKELIST_FILENAME = "CMakeLists.txt"
 CMAKECACHE_FILENAME = "CMakeCache.txt"
 
@@ -1322,6 +1324,28 @@ ${{env:PATH}}"
     os.chdir(oldCWD)
 
 
+def copyExampleConfigs(projectPath):
+    lwipopts_path = os.path.join(projectPath, "lwipopts.h")
+    if os.path.exists(lwipopts_path):
+        with open(lwipopts_path, "r") as f:
+            if "lwipopts_examples_common.h" in f.read():
+                # Write lwipopts for examples
+                shutil.copy(
+                    os.path.join(sourcefolder, "lwipopts.h"),
+                    os.path.join(projectPath, "lwipopts_examples_common.h"),
+                )
+
+    mbedtls_config_path = os.path.join(projectPath, "mbedtls_config.h")
+    if os.path.exists(mbedtls_config_path):
+        with open(mbedtls_config_path, "r") as f:
+            if "mbedtls_config_examples_common.h" in f.read():
+                # Write mbedtls_config for examples
+                shutil.copy(
+                    os.path.join(sourcefolder, "mbedtls_config.h"),
+                    os.path.join(projectPath, "mbedtls_config_examples_common.h"),
+                )
+
+
 def DoEverything(params):
     if not os.path.exists(params["projectRoot"]):
         print("Invalid project path")
@@ -1464,8 +1488,6 @@ def DoEverything(params):
 # main execution starteth here
 
 if __name__ == "__main__":
-    sourcefolder = os.path.dirname(os.path.abspath(__file__))
-
     args = ParseCommandLine()
 
     if args.nouart:

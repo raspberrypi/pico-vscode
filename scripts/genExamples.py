@@ -8,7 +8,7 @@ import multiprocessing
 import configparser
 import platform
 
-from pico_project import GenerateCMake
+from pico_project import GenerateCMake, copyExampleConfigs
 
 # This script is designed to be run on Linux
 assert platform.system() == "Linux"
@@ -164,13 +164,16 @@ except FileNotFoundError:
 os.system(
     f"git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch {EXAMPLES_BRANCH}"
 )
-os.environ["PICO_SDK_PATH"] = f"~/.pico-sdk/sdk/{SDK_VERSION}"
-os.environ["WIFI_SSID"] = "Your Wi-Fi SSID"
-os.environ["WIFI_PASSWORD"] = "Your Wi-Fi Password"
-os.environ["TEST_TCP_SERVER_IP"] = (
-    "192.168.1.100"  # This isn't read from environment variables, so also needs to be passed to cmake
-)
-os.environ["MQTT_SERVER"] = "myMQTTserver"
+
+PICO_SDK_PATH = f"~/.pico-sdk/sdk/{SDK_VERSION}"
+configure_env = {
+    "PICO_SDK_PATH": PICO_SDK_PATH,
+    "WIFI_SSID": "Your Wi-Fi SSID",
+    "WIFI_PASSWORD": "Your Wi-Fi Password",
+    "TEST_TCP_SERVER_IP": "192.168.1.100",  # This isn't read from environment variables, so also needs to be passed to cmake
+    "MQTT_SERVER": "myMQTTserver",
+}
+
 os.environ["CFLAGS"] = "-Werror=cpp"
 os.environ["CXXFLAGS"] = "-Werror=cpp"
 
@@ -187,11 +190,20 @@ for board in boards:
         )
         toolchainPath = f"~/.pico-sdk/toolchain/{toolchainVersion}"
         picotoolDir = f"~/.pico-sdk/picotool/{SDK_VERSION}/picotool"
+
+        # Setup env to find targets
+        for k, v in configure_env.items():
+            os.environ[k] = v
+
         os.system(
             f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir} -DTEST_TCP_SERVER_IP=$TEST_TCP_SERVER_IP"
         )
 
         os.system("cmake --build build --target help > targets.txt")
+
+        # Clear env for clean tests
+        for k in configure_env.keys():
+            del os.environ[k]
 
         targets = []
 
@@ -295,24 +307,12 @@ for board in boards:
                 "exampleLibs": v["libs"],
             }
             GenerateCMake(dir, params)
-            if os.path.exists(f"{dir}/lwipopts.h"):
-                with open(f"{dir}/lwipopts.h", "r") as f:
-                    if "lwipopts_examples_common.h" in f.read():
-                        # Write lwipopts for examples
-                        shutil.copy(
-                            f"{os.path.dirname(os.path.realpath(__file__))}/lwipopts.h",
-                            f"{dir}/lwipopts_examples_common.h",
-                        )
+            copyExampleConfigs(dir)
 
-            if os.path.exists(f"{dir}/mbedtls_config.h"):
-                with open(f"{dir}/mbedtls_config.h", "r") as f:
-                    if "mbedtls_config_examples_common.h" in f.read():
-                        # Write mbedtls_config for examples
-                        shutil.copy(
-                            f"{os.path.dirname(os.path.realpath(__file__))}/mbedtls_config.h",
-                            f"{dir}/mbedtls_config_examples_common.h",
-                        )
-            shutil.copy("pico-examples/pico_sdk_import.cmake", f"{dir}/")
+            shutil.copy(
+                os.path.expanduser(f"{PICO_SDK_PATH}/external/pico_sdk_import.cmake"),
+                f"{dir}/",
+            )
 
             retcmake = os.system(f"cmake -S {dir} -B {dir}-build -GNinja")
             retbuild = os.system(f"cmake --build {dir}-build")
