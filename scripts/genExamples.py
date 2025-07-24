@@ -174,7 +174,7 @@ os.environ["MQTT_SERVER"] = "myMQTTserver"
 os.environ["CFLAGS"] = "-Werror=cpp"
 os.environ["CXXFLAGS"] = "-Werror=cpp"
 
-ordered_targets = []
+updated_examples = set()
 
 for board in boards:
     for platform in platforms[board]:
@@ -329,8 +329,6 @@ for board in boards:
             shutil.rmtree(f"{dir}-build")
             return ret
 
-        ordered_targets.extend(target_locs.keys())
-
         with multiprocessing.Pool(processes=os.cpu_count()) as pool:
             ret = pool.starmap(
                 test_build,
@@ -369,9 +367,30 @@ for board in boards:
         # Write out after each platform
         with open(
             f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+            "r",
+        ) as f:
+            current_examples = json.load(f)
+
+        current_examples.update(examples)
+        updated_examples.update(examples.keys())
+
+        with open(
+            f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
             "w",
         ) as f:
-            sorted_examples = dict(
-                sorted(examples.items(), key=lambda x: ordered_targets.index(x[0]))
-            )
-            json.dump(sorted_examples, f, indent=4)
+            json.dump(current_examples, f, indent=4)
+
+# Finalise list, removing any examples no longer supported
+with open(
+    f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+    "r",
+) as f:
+    current_examples = dict(json.load(f))
+
+current_examples = {k: v for k, v in current_examples.items() if k in updated_examples}
+
+with open(
+    f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+    "w",
+) as f:
+    json.dump(current_examples, f, indent=4)
