@@ -4,8 +4,14 @@ import os
 import glob
 import shutil
 import json
+import multiprocessing
+import configparser
+import platform
 
-from pico_project import GenerateCMake
+from pico_project import GenerateCMake, copyExampleConfigs
+
+# This script is designed to be run on Linux
+assert platform.system() == "Linux"
 
 boards = ["pico", "pico_w", "pico2", "pico2_w"]
 
@@ -31,7 +37,120 @@ examples.clear()
 
 CURRENT_DATA_VERSION = "0.17.0"
 
-SDK_VERSION = "2.1.1"
+SDK_VERSION = os.environ.get("SDK_VERSION", "2.1.1")
+ARM_TOOLCHAIN_VERSION = os.environ.get("ARM_TOOLCHAIN_VERSION", "14_2_Rel1")
+RISCV_TOOLCHAIN_VERSION = os.environ.get(
+    "RISCV_TOOLCHAIN_VERSION", "RISCV_ZCB_RPI_2_1_1_3"
+)
+
+# To test with develop SDK, uncomment the line below - this will clone the SDK & picotool, and build picotool & pioasm
+# note: the 2- is required due to a VERSION_LESS check in pico-vscode.cmake
+# SDK_VERSION = "2-develop"
+
+BUILD_TOOLS = not os.path.exists(os.path.expanduser(f"~/.pico-sdk/sdk/{SDK_VERSION}"))
+
+if "develop" in SDK_VERSION:
+    SDK_BRANCH = "develop"
+    PICOTOOL_BRANCH = "develop"
+    EXAMPLES_BRANCH = "develop"
+    BUILD_TOOLS = True  # Always clone & build the latest when using develop
+else:
+    SDK_BRANCH = SDK_VERSION
+    PICOTOOL_BRANCH = SDK_VERSION
+    EXAMPLES_BRANCH = f"sdk-{SDK_VERSION}"
+
+# Platform & toolchain setup
+platform = "linux_x64" if platform.machine() == "x86_64" else "linux_arm64"
+config = configparser.ConfigParser()
+config.read(
+    f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/supportedToolchains.ini"
+)
+
+# Download arm toolchain if not already downloaded
+if not os.path.exists(
+    os.path.expanduser(f"~/.pico-sdk/toolchain/{ARM_TOOLCHAIN_VERSION}")
+):
+    toolchain_url = config[ARM_TOOLCHAIN_VERSION][platform]
+    os.makedirs(
+        os.path.expanduser(f"~/.pico-sdk/toolchain/{ARM_TOOLCHAIN_VERSION}"),
+        exist_ok=True,
+    )
+    os.system(f"wget {toolchain_url}")
+    os.system(
+        f"tar -xf {toolchain_url.split('/')[-1]} --strip-components 1 -C ~/.pico-sdk/toolchain/{ARM_TOOLCHAIN_VERSION}"
+    )
+    os.system(f"rm {toolchain_url.split('/')[-1]}")
+
+# Download riscv toolchain if not already downloaded
+if not os.path.exists(
+    os.path.expanduser(f"~/.pico-sdk/toolchain/{RISCV_TOOLCHAIN_VERSION}")
+):
+    toolchain_url = config[RISCV_TOOLCHAIN_VERSION][platform]
+    os.makedirs(
+        os.path.expanduser(f"~/.pico-sdk/toolchain/{RISCV_TOOLCHAIN_VERSION}"),
+        exist_ok=True,
+    )
+    os.system(f"wget {toolchain_url}")
+    os.system(
+        f"tar -xf {toolchain_url.split('/')[-1]} -C ~/.pico-sdk/toolchain/{RISCV_TOOLCHAIN_VERSION}"
+    )
+    os.system(f"rm {toolchain_url.split('/')[-1]}")
+
+# Copy pico-vscode.cmake to ~/.pico-sdk/cmake/pico-vscode.cmake
+os.makedirs(os.path.expanduser("~/.pico-sdk/cmake"), exist_ok=True)
+shutil.copy(
+    f"{os.path.dirname(os.path.realpath(__file__))}/pico-vscode.cmake",
+    os.path.expanduser("~/.pico-sdk/cmake/pico-vscode.cmake"),
+)
+
+if BUILD_TOOLS:
+    # Clone pico-sdk
+    try:
+        shutil.rmtree(os.path.expanduser(f"~/.pico-sdk/sdk/{SDK_VERSION}"))
+    except FileNotFoundError:
+        pass
+    os.system(
+        f"git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-sdk.git --depth=1 --branch {SDK_BRANCH} --recurse-submodules --shallow-submodules ~/.pico-sdk/sdk/{SDK_VERSION}"
+    )
+
+    # Clone & build picotool
+    try:
+        shutil.rmtree("picotool")
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.rmtree("picotool-build")
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.rmtree(os.path.expanduser(f"~/.pico-sdk/picotool/{SDK_VERSION}"))
+    except FileNotFoundError:
+        pass
+    os.system(
+        f"git -c advice.detachedHead=false clone https://github.com/raspberrypi/picotool.git --depth=1 --branch {PICOTOOL_BRANCH}"
+    )
+    os.system(
+        f"cmake -S picotool -B picotool-build -GNinja -DPICO_SDK_PATH=~/.pico-sdk/sdk/{SDK_VERSION} -DPICOTOOL_FLAT_INSTALL=1 -DPICOTOOL_NO_LIBUSB=1"
+    )
+    os.system(f"cmake --build picotool-build")
+    os.system(
+        f"cmake --install picotool-build --prefix ~/.pico-sdk/picotool/{SDK_VERSION}"
+    )
+
+    # Build pioasm
+    try:
+        shutil.rmtree("pioasm-build")
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.rmtree(os.path.expanduser(f"~/.pico-sdk/tools/{SDK_VERSION}"))
+    except FileNotFoundError:
+        pass
+    os.system(
+        f"cmake -S ~/.pico-sdk/sdk/{SDK_VERSION}/tools/pioasm -B pioasm-build -GNinja -DPIOASM_FLAT_INSTALL=1 -DPIOASM_VERSION_STRING={SDK_VERSION}"
+    )
+    os.system(f"cmake --build pioasm-build")
+    os.system(f"cmake --install pioasm-build --prefix ~/.pico-sdk/tools/{SDK_VERSION}")
 
 try:
     shutil.rmtree("pico-examples")
@@ -43,11 +162,22 @@ try:
 except FileNotFoundError:
     pass
 os.system(
-    f"git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch sdk-{SDK_VERSION}"
+    f"git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch {EXAMPLES_BRANCH}"
 )
-os.environ["PICO_SDK_PATH"] = f"~/.pico-sdk/sdk/{SDK_VERSION}"
-os.environ["WIFI_SSID"] = "Your Wi-Fi SSID"
-os.environ["WIFI_PASSWORD"] = "Your Wi-Fi Password"
+
+PICO_SDK_PATH = f"~/.pico-sdk/sdk/{SDK_VERSION}"
+configure_env = {
+    "PICO_SDK_PATH": PICO_SDK_PATH,
+    "WIFI_SSID": "Your Wi-Fi SSID",
+    "WIFI_PASSWORD": "Your Wi-Fi Password",
+    "TEST_TCP_SERVER_IP": "192.168.1.100",  # This isn't read from environment variables, so also needs to be passed to cmake
+    "MQTT_SERVER": "myMQTTserver",
+}
+
+os.environ["CFLAGS"] = "-Werror=cpp"
+os.environ["CXXFLAGS"] = "-Werror=cpp"
+
+updated_examples = set()
 
 for board in boards:
     for platform in platforms[board]:
@@ -55,14 +185,25 @@ for board in boards:
             shutil.rmtree("build")
         except FileNotFoundError:
             pass
-        toolchainVersion = "RISCV_RPI_2_1_1_3" if "riscv" in platform else "14_2_Rel1"
+        toolchainVersion = (
+            RISCV_TOOLCHAIN_VERSION if "riscv" in platform else ARM_TOOLCHAIN_VERSION
+        )
         toolchainPath = f"~/.pico-sdk/toolchain/{toolchainVersion}"
         picotoolDir = f"~/.pico-sdk/picotool/{SDK_VERSION}/picotool"
+
+        # Setup env to find targets
+        for k, v in configure_env.items():
+            os.environ[k] = v
+
         os.system(
-            f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir}"
+            f"cmake -S pico-examples -B build -DPICO_BOARD={board} -DPICO_PLATFORM={platform} -DPICO_TOOLCHAIN_PATH={toolchainPath} -Dpicotool_DIR={picotoolDir} -DTEST_TCP_SERVER_IP=$TEST_TCP_SERVER_IP"
         )
 
         os.system("cmake --build build --target help > targets.txt")
+
+        # Clear env for clean tests
+        for k in configure_env.keys():
+            del os.environ[k]
 
         targets = []
 
@@ -131,51 +272,70 @@ for board in boards:
             lib_locs[k]["loc"] = v["locs"][0]
 
         # Test build them all
-        try:
-            shutil.rmtree("tmp")
-            shutil.rmtree("tmp-build")
-        except FileNotFoundError:
-            pass
-        for target, v in target_locs.items():
-            os.mkdir("tmp-build")
+
+        # Test build function
+        def test_build(target, v):
+            dir = f"tmp-{target}"
+            try:
+                shutil.rmtree(dir)
+            except FileNotFoundError:
+                pass
+            try:
+                shutil.rmtree(f"{dir}-build")
+            except FileNotFoundError:
+                pass
+
+            os.mkdir(f"{dir}-build")
             loc = v["loc"]
             loc = loc.replace("/CMakeLists.txt", "")
-            shutil.copytree(loc, "tmp")
+            shutil.copytree(loc, dir)
             if len(v["libs"]):
                 for lib in v["libs"]:
                     shutil.copytree(
                         lib_locs[lib]["loc"].replace("/CMakeLists.txt", ""),
-                        f"tmp/{lib}",
+                        f"{dir}/{lib}",
                     )
             params = {
                 "projectName": target,
                 "wantOverwrite": True,
                 "wantConvert": True,
                 "wantExample": True,
-                "wantThreadsafeBackground": False,
-                "wantPoll": False,
                 "boardtype": board,
                 "sdkVersion": SDK_VERSION,
                 "toolchainVersion": toolchainVersion,
                 "picotoolVersion": SDK_VERSION,
                 "exampleLibs": v["libs"],
             }
-            GenerateCMake("tmp", params)
-            if params["wantThreadsafeBackground"] or params["wantPoll"]:
-                # Write lwipopts for examples
-                shutil.copy("lwipopts.h", "tmp/")
-            shutil.copy("pico-examples/pico_sdk_import.cmake", "tmp/")
+            GenerateCMake(dir, params)
+            copyExampleConfigs(dir)
 
-            retcmake = os.system(
-                "cmake -S tmp -B tmp-build -DCMAKE_COMPILE_WARNING_AS_ERROR=ON"
+            shutil.copy(
+                os.path.expanduser(f"{PICO_SDK_PATH}/external/pico_sdk_import.cmake"),
+                f"{dir}/",
             )
-            retbuild = os.system("cmake --build tmp-build --parallel 22")
+
+            retcmake = os.system(f"cmake -S {dir} -B {dir}-build -GNinja")
+            retbuild = os.system(f"cmake --build {dir}-build")
+            ret = None
             if retcmake or retbuild:
                 print(
                     f"Error occurred with {target} {v} - cmake {retcmake}, build {retbuild}"
                 )
-                shutil.copytree("tmp", f"errors-{board}-{platform}/{target}")
+                shutil.copytree(dir, f"errors-{board}-{platform}/{target}")
             else:
+                ret = (target, v, loc)
+
+            shutil.rmtree(dir)
+            shutil.rmtree(f"{dir}-build")
+            return ret
+
+        with multiprocessing.Pool(processes=os.cpu_count()) as pool:
+            ret = pool.starmap(
+                test_build,
+                [(target, v) for target, v in target_locs.items()],
+            )
+            ret = filter(lambda x: x != None, ret)
+            for target, v, loc in ret:
                 if examples.get(target) != None:
                     example = examples[target]
                     assert example["path"] == loc.replace(f"{walk_dir}/", "")
@@ -204,12 +364,33 @@ for board in boards:
                         "boards": [board],
                         "supportRiscV": "riscv" in platform,
                     }
+        # Write out after each platform
+        with open(
+            f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+            "r",
+        ) as f:
+            current_examples = json.load(f)
 
-            shutil.rmtree("tmp")
-            shutil.rmtree("tmp-build")
+        current_examples.update(examples)
+        updated_examples.update(examples.keys())
+
+        with open(
+            f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+            "w",
+        ) as f:
+            json.dump(current_examples, f, indent=4)
+
+# Finalise list, removing any examples no longer supported
+with open(
+    f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
+    "r",
+) as f:
+    current_examples = dict(json.load(f))
+
+current_examples = {k: v for k, v in current_examples.items() if k in updated_examples}
 
 with open(
     f"{os.path.dirname(os.path.realpath(__file__))}/../data/{CURRENT_DATA_VERSION}/examples.json",
     "w",
 ) as f:
-    json.dump(examples, f, indent=4)
+    json.dump(current_examples, f, indent=4)

@@ -756,6 +756,19 @@
         ],
         "supportRiscV": true
     },
+    "dev_multi_cdc": {
+        "path": "usb/device/dev_multi_cdc",
+        "name": "dev_multi_cdc",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
     "dev_hid_composite": {
         "path": "usb/device/dev_hid_composite",
         "name": "dev_hid_composite",
@@ -1342,6 +1355,28 @@
         ],
         "supportRiscV": true
     },
+    "picow_http_client": {
+        "path": "pico_w/wifi/http_client",
+        "name": "picow_http_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_http_client_verify": {
+        "path": "pico_w/wifi/http_client",
+        "name": "picow_http_client_verify",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
     "picow_blink": {
         "path": "pico_w/wifi/blink",
         "name": "picow_blink",
@@ -1386,6 +1421,39 @@
         ],
         "supportRiscV": true
     },
+    "picow_tcpip_client": {
+        "path": "pico_w/wifi/tcp_client",
+        "name": "picow_tcpip_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_tls_client": {
+        "path": "pico_w/wifi/tls_client",
+        "name": "picow_tls_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_tls_verify": {
+        "path": "pico_w/wifi/tls_client",
+        "name": "picow_tls_verify",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
     "picow_udp_beacon": {
         "path": "pico_w/wifi/udp_beacon",
         "name": "picow_udp_beacon",
@@ -1422,6 +1490,17 @@
     "picow_access_point": {
         "path": "pico_w/wifi/access_point",
         "name": "picow_access_point",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_httpd": {
+        "path": "pico_w/wifi/httpd",
+        "name": "picow_httpd",
         "libPaths": [],
         "libNames": [],
         "boards": [

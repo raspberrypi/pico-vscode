@@ -1,0 +1,41 @@
+name: Update examples.json
+
+on:
+  workflow_dispatch:
+    inputs:
+      develop:
+        description: "Test with develop branch"
+        required: false
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: |
+          pip install pycryptodomex
+      - name: Cache ~/.pico-sdk
+        uses: actions/cache@v4
+        with:
+          path: ~/.pico-sdk
+          key: pico-sdk-${{ hashFiles('scripts/genExamples.py') }}
+      - name: Run genExamples.py
+        env:
+          SDK_VERSION: ${{ inputs.develop && '2-develop' || '' }}
+        run: |
+          python scripts/genExamples.py
+      - name: List errors
+        run: |
+          ls -la errors-pico*
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: examples.json
+          path: |
+            data/0.17.0/examples.json
+      - name: Print diff
+        run: |
+          git diff data/0.17.0/examples.json
