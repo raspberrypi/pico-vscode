@@ -8,6 +8,22 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.17.7] - 2025-07-25
+
+### Added
+- Full support for x86_64 MacOS with OpenOCD and natively compiled RISC-V toolchain (Fixes #126)
+- More examples support (#195)
+- New RISC-V toolchain and updated OpenOCD
+- `updateOpenOCD` command for updating OpenOCD installations
+
+### Fixed
+- Occasional race condition with the CMake Tools extension at activation
+- Project name handling for cyw43 architecture examples
+
+### Changed
+- Enhanced debugging configuration with Rescue Reset and RISC-V Reset tasks
+- Removed C++ Debugger from debugging setup
+
 ## [0.17.6] - 2025-06-02
 
 ### Added
