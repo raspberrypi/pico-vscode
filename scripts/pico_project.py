@@ -1345,6 +1345,16 @@ def copyExampleConfigs(projectPath):
                     os.path.join(projectPath, "mbedtls_config_examples_common.h"),
                 )
 
+    btstack_config_path = os.path.join(projectPath, "btstack_config.h")
+    if os.path.exists(btstack_config_path):
+        with open(btstack_config_path, "r") as f:
+            if "btstack_config_common.h" in f.read():
+                # Write btstack_config for examples
+                shutil.copy(
+                    os.path.join(sourcefolder, "btstack_config.h"),
+                    os.path.join(projectPath, "btstack_config_common.h"),
+                )
+
 
 def DoEverything(params):
     if not os.path.exists(params["projectRoot"]):
