@@ -37,10 +37,25 @@ examples.clear()
 
 CURRENT_DATA_VERSION = "0.17.0"
 
-SDK_VERSION = os.environ.get("SDK_VERSION", "2.1.1")
-ARM_TOOLCHAIN_VERSION = os.environ.get("ARM_TOOLCHAIN_VERSION", "14_2_Rel1")
-RISCV_TOOLCHAIN_VERSION = os.environ.get(
-    "RISCV_TOOLCHAIN_VERSION", "RISCV_ZCB_RPI_2_1_1_3"
+SDK_VERSION_DEFAULT = "2.1.1"
+ARM_TOOLCHAIN_VERSION_DEFAULT = "14_2_Rel1"
+RISCV_TOOLCHAIN_VERSION_DEFAULT = "RISCV_ZCB_RPI_2_1_1_3"
+
+
+def env_get_default(env_var, default):
+    value = os.environ.get(env_var, default)
+    if value == "default":
+        # The action passes default in the environment variable
+        value = default
+    return value
+
+
+SDK_VERSION = env_get_default("SDK_VERSION", SDK_VERSION_DEFAULT)
+ARM_TOOLCHAIN_VERSION = env_get_default(
+    "ARM_TOOLCHAIN_VERSION", ARM_TOOLCHAIN_VERSION_DEFAULT
+)
+RISCV_TOOLCHAIN_VERSION = env_get_default(
+    "RISCV_TOOLCHAIN_VERSION", RISCV_TOOLCHAIN_VERSION_DEFAULT
 )
 
 # To test with develop SDK, uncomment the line below - this will clone the SDK & picotool, and build picotool & pioasm

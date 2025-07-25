@@ -7,6 +7,16 @@ on:
         description: "Test with develop branch"
         required: false
         type: boolean
+      arm_toolchain_version:
+        description: "ARM toolchain version"
+        required: false
+        type: string
+        default: "default"
+      riscv_toolchain_version:
+        description: "RISC-V toolchain version"
+        required: false
+        type: string
+        default: "default"
 
 jobs:
   build:
@@ -24,12 +34,14 @@ jobs:
           key: pico-sdk-${{ hashFiles('scripts/genExamples.py') }}
       - name: Run genExamples.py
         env:
-          SDK_VERSION: ${{ inputs.develop && '2-develop' || '' }}
+          SDK_VERSION: ${{ inputs.develop && '2-develop' || 'default' }}
+          ARM_TOOLCHAIN_VERSION: ${{ inputs.arm_toolchain_version }}
+          RISCV_TOOLCHAIN_VERSION: ${{ inputs.riscv_toolchain_version }}
         run: |
           python scripts/genExamples.py
       - name: List errors
         run: |
-          ls -la errors-pico*
+          ls -la errors-pico* || true
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
