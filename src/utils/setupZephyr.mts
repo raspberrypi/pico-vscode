@@ -1,9 +1,10 @@
 import { existsSync, readdirSync, rmSync } from "fs";
-import { window, workspace, Uri } from "vscode";
+import { window, workspace, ProgressLocation, Uri } from "vscode";
 import { type ExecOptions, exec, spawnSync } from "child_process";
 import { join as joinPosix } from "path/posix";
 import { homedir } from "os";
 import Logger from "../logger.mjs";
+import type { Progress as GotProgress } from "got";
 
 import {
   buildZephyrWorkspacePath,
@@ -45,8 +46,6 @@ function _runCommand(
 }
 
 export async function setupZephyr(): Promise<string | undefined> {
-  window.showInformationMessage("Setup Zephyr Command Running");
-
   const settings = Settings.getInstance();
   if (settings === undefined) {
     _logger.error("Settings not initialized.");
@@ -54,134 +53,349 @@ export async function setupZephyr(): Promise<string | undefined> {
     return;
   }
 
-  // TODO: this does take about 2s - may be reduced
-  const gitPath = await ensureGit(settings, { returnPath: true });
-  if (typeof gitPath !== "string" || gitPath.length === 0) {
-    return;
-  }
+  let python3Path = "";
+  let isWindows = false;
+  await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Setting up Zephyr Toolchain",
+    },
+    async progress => {
+      let installedSuccessfully = true;
+      let prog2LastState = 0;
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Ensuring Git is available",
+          cancellable: false,
+        },
+        async progress2 => {
+          // TODO: this does take about 2s - may be reduced
+          const gitPath = await ensureGit(settings, { returnPath: true });
+          if (typeof gitPath !== "string" || gitPath.length === 0) {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
 
-  _logger.info("Installing CMake");
-  const cmakeResult = await downloadAndInstallCmake("v3.31.5");
-  if (!cmakeResult) {
-    window.showErrorMessage("Could not install CMake. Exiting Zephyr Setup");
-  }
-  window.showInformationMessage("CMake installed.");
-
-  _logger.info("Installing Ninja");
-  const ninjaResult = await downloadAndInstallNinja("v1.12.1");
-  if (!ninjaResult) {
-    window.showErrorMessage("Could not install Ninja. Exiting Zephyr Setup");
-  }
-  window.showInformationMessage("Ninja installed.");
-
-  _logger.info("Installing Picotool");
-  const picotoolResult = await downloadAndInstallPicotool("2.1.1");
-  if (!picotoolResult) {
-    window.showErrorMessage("Could not install Ninja. Exiting Zephyr Setup");
-  }
-  window.showInformationMessage("Picotool installed.");
-
-  const python3Path = await findPython();
-  if (!python3Path) {
-    _logger.error("Failed to find Python3 executable.");
-    showPythonNotFoundError();
-
-    return;
-  }
-
-  const isWindows = process.platform === "win32";
-
-  if (isWindows) {
-    // Setup other Zephyr dependencies
-    _logger.info("Installing dtc");
-    const dtcResult = await downloadAndInstallArchive(
-      "https://github.com/oss-winget/oss-winget-storage/raw/" +
-        "96ea1b934342f45628a488d3b50d0c37cf06012c/packages/dtc/" +
-        "1.6.1/dtc-msys2-1.6.1-x86_64.zip",
-      joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc"),
-      "dtc-msys2-1.6.1-x86_64.zip",
-      "dtc"
-    );
-    if (!dtcResult) {
-      window.showErrorMessage("Could not install DTC. Exiting Zephyr Setup");
-
-      return;
-    }
-    window.showInformationMessage("DTC installed.");
-
-    _logger.info("Installing gperf");
-    const gperfResult = await downloadAndInstallArchive(
-      "https://sourceforge.net/projects/gnuwin32/files/gperf/3.0.1/" +
-        "gperf-3.0.1-bin.zip/download",
-      joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf"),
-      "gperf-3.0.1-bin.zip",
-      "gperf"
-    );
-    if (!gperfResult) {
-      window.showErrorMessage("Could not install gperf. Exiting Zephyr Setup");
-
-      return;
-    }
-    window.showInformationMessage("gperf installed.");
-
-    _logger.info("Installing wget");
-    const wgetResult = await downloadAndInstallArchive(
-      "https:///eternallybored.org/misc/wget/releases/wget-1.21.4-win64.zip",
-      joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
-      "wget-1.21.4-win64.zip",
-      "wget"
-    );
-    if (!wgetResult) {
-      window.showErrorMessage("Could not install wget. Exiting Zephyr Setup");
-
-      return;
-    }
-    window.showInformationMessage("wget installed.");
-
-    _logger.info("Installing 7zip");
-    const szipTargetDirectory = joinPosix("C:\\Program Files\\7-Zip");
-    if (
-      existsSync(szipTargetDirectory) &&
-      readdirSync(szipTargetDirectory).length !== 0
-    ) {
-      _logger.info("7-Zip is already installed.");
-    } else {
-      const szipURL = new URL("https://7-zip.org/a/7z2409-x64.exe");
-      const szipResult = await downloadFileGot(
-        szipURL,
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "7zip-x64.exe")
+            return;
+          }
+          progress2.report({
+            message: "Git setup correctly.",
+            increment: 100,
+          });
+          installedSuccessfully = true;
+        }
       );
 
-      if (!szipResult) {
-        window.showErrorMessage(
-          "Could not download 7-Zip. Exiting Zephyr Setup"
-        );
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Download and install CMake",
+          cancellable: false,
+        },
+        async progress2 => {
+          if (
+            await downloadAndInstallCmake("v3.31.5", (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress2.report({
+                increment: per - prog2LastState,
+              });
+              prog2LastState = per;
+            })
+          ) {
+            progress2.report({
+              message: "Successfully downloaded and installed CMake.",
+              increment: 100,
+            });
 
-        return;
-      }
-
-      const szipCommand: string = "7zip-x64.exe";
-      const szipInstallResult = await _runCommand(szipCommand, {
-        cwd: joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk"),
-      });
-
-      if (szipInstallResult !== 0) {
-        window.showErrorMessage(
-          "Could not install 7-Zip. Please ensure 7-Zip is installed." +
-            "Exiting Zephyr Setup"
-        );
-
-        return;
-      }
-
-      // Clean up
-      rmSync(
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "7zip-x64.exe")
+            installedSuccessfully = true;
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
       );
 
-      window.showInformationMessage("7-Zip installed.");
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Download and install Ninja",
+          cancellable: false,
+        },
+        async progress2 => {
+          if (
+            await downloadAndInstallNinja("v1.12.1", (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress2.report({
+                increment: per - prog2LastState,
+              });
+              prog2LastState = per;
+            })
+          ) {
+            progress2.report({
+              message: "Successfully downloaded and installed Ninja.",
+              increment: 100,
+            });
+
+            installedSuccessfully = true;
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
+      );
+
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Download and install Picotool",
+          cancellable: false,
+        },
+        async progress2 => {
+          if (
+            await downloadAndInstallPicotool("2.1.1", (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress2.report({
+                increment: per - prog2LastState,
+              });
+              prog2LastState = per;
+            })
+          ) {
+            progress2.report({
+              message: "Successfully downloaded and installed Picotool.",
+              increment: 100,
+            });
+
+            installedSuccessfully = true;
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
+      );
+
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Set up Python",
+          cancellable: false,
+        },
+        async progress2 => {
+          python3Path = await findPython();
+          if (!python3Path) {
+            _logger.error("Failed to find Python3 executable.");
+            showPythonNotFoundError();
+
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+
+          progress2.report({
+            message: "Successfully downloaded and installed Picotool.",
+            increment: 100,
+          });
+
+          installedSuccessfully = true;
+        }
+      );
+
+      isWindows = process.platform === "win32";
+
+      if (isWindows) {
+        await window.withProgress(
+          {
+            location: ProgressLocation.Notification,
+            title: "Download and install DTC",
+            cancellable: false,
+          },
+          async progress2 => {
+            if (
+              await downloadAndInstallArchive(
+                "https://github.com/oss-winget/oss-winget-storage/raw/" +
+                  "96ea1b934342f45628a488d3b50d0c37cf06012c/packages/dtc/" +
+                  "1.6.1/dtc-msys2-1.6.1-x86_64.zip",
+                joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc"),
+                "dtc-msys2-1.6.1-x86_64.zip",
+                "dtc"
+              )
+            ) {
+              progress2.report({
+                message: "Successfully downloaded and installed DTC.",
+                increment: 100,
+              });
+
+              installedSuccessfully = true;
+            } else {
+              installedSuccessfully = false;
+              progress2.report({
+                message: "Failed",
+                increment: 100,
+              });
+            }
+          }
+        );
+
+        await window.withProgress(
+          {
+            location: ProgressLocation.Notification,
+            title: "Download and install gperf",
+            cancellable: false,
+          },
+          async progress2 => {
+            if (
+              await downloadAndInstallArchive(
+                "https://sourceforge.net/projects/gnuwin32/files/gperf/3.0.1/" +
+                  "gperf-3.0.1-bin.zip/download",
+                joinPosix(
+                  homedir().replaceAll("\\", "/"),
+                  ".pico-sdk",
+                  "gperf"
+                ),
+                "gperf-3.0.1-bin.zip",
+                "gperf"
+              )
+            ) {
+              progress2.report({
+                message: "Successfully downloaded and installed DTC.",
+                increment: 100,
+              });
+
+              installedSuccessfully = true;
+            } else {
+              installedSuccessfully = false;
+              progress2.report({
+                message: "Failed",
+                increment: 100,
+              });
+            }
+          }
+        );
+
+        await window.withProgress(
+          {
+            location: ProgressLocation.Notification,
+            title: "Download and install wget",
+            cancellable: false,
+          },
+          async progress2 => {
+            if (
+              await downloadAndInstallArchive(
+                "https:///eternallybored.org/misc/wget/releases/" +
+                  "wget-1.21.4-win64.zip",
+                joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
+                "wget-1.21.4-win64.zip",
+                "wget"
+              )
+            ) {
+              progress2.report({
+                message: "Successfully downloaded and installed wget.",
+                increment: 100,
+              });
+
+              installedSuccessfully = true;
+            } else {
+              installedSuccessfully = false;
+              progress2.report({
+                message: "Failed",
+                increment: 100,
+              });
+            }
+          }
+        );
+
+        await window.withProgress(
+          {
+            location: ProgressLocation.Notification,
+            title: "Download and install 7-zip",
+            cancellable: false,
+          },
+          async progress2 => {
+            _logger.info("Installing 7zip");
+            const szipTargetDirectory = joinPosix("C:\\Program Files\\7-Zip");
+            if (
+              existsSync(szipTargetDirectory) &&
+              readdirSync(szipTargetDirectory).length !== 0
+            ) {
+              _logger.info("7-Zip is already installed.");
+              progress2.report({
+                message: "7-zip already installed.",
+                increment: 100,
+              });
+            } else {
+              const szipURL = new URL("https://7-zip.org/a/7z2409-x64.exe");
+              const szipResult = await downloadFileGot(
+                szipURL,
+                joinPosix(
+                  homedir().replaceAll("\\", "/"),
+                  ".pico-sdk",
+                  "7zip-x64.exe"
+                )
+              );
+
+              if (!szipResult) {
+                installedSuccessfully = false;
+                progress2.report({
+                  message: "Failed",
+                  increment: 100,
+                });
+
+                return;
+              }
+
+              const szipCommand: string = "7zip-x64.exe";
+              const szipInstallResult = await _runCommand(szipCommand, {
+                cwd: joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk"),
+              });
+
+              if (szipInstallResult !== 0) {
+                installedSuccessfully = false;
+                progress2.report({
+                  message: "Failed",
+                  increment: 100,
+                });
+
+                return;
+              }
+
+              // Clean up
+              rmSync(
+                joinPosix(
+                  homedir().replaceAll("\\", "/"),
+                  ".pico-sdk",
+                  "7zip-x64.exe"
+                )
+              );
+
+              progress2.report({
+                message: "Successfully downloaded and installed 7-zip.",
+                increment: 100,
+              });
+
+              installedSuccessfully = true;
+            }
+          }
+        );
+      }
+
+      if (installedSuccessfully) {
+        window.showInformationMessage("Tool setup complete");
+      }
     }
-  }
+  );
 
   _logger.info("Installing OpenOCD");
   const openocdResult = await downloadAndInstallOpenOCD(openOCDVersion);
