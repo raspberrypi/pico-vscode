@@ -22,6 +22,28 @@ import { ensureGit } from "../utils/gitUtil.mjs";
 
 const _logger = new Logger("zephyrSetup");
 
+const zephyrManifestContent: string = `
+manifest:
+  self:
+    west-commands: scripts/west-commands.yml
+
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/magpieembedded
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: pico2w
+      import:
+        # By using name-allowlist we can clone only the modules that are
+        # strictly needed by the application.
+        name-allowlist:
+          - cmsis_6      # required by the ARM Cortex-M port
+          - hal_rpi_pico # required for Pico board support
+          - hal_infineon # required for Wifi chip support
+`;
+
 function _runCommand(
   command: string,
   options: ExecOptions
@@ -391,269 +413,401 @@ export async function setupZephyr(): Promise<string | undefined> {
         );
       }
 
-      if (installedSuccessfully) {
-        window.showInformationMessage("Tool setup complete");
-      }
-    }
-  );
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Download and install OpenOCD",
+          cancellable: false,
+        },
+        async progress2 => {
+          if (
+            await downloadAndInstallOpenOCD(
+              openOCDVersion,
+              (prog: GotProgress) => {
+                const per = prog.percent * 100;
+                progress2.report({
+                  increment: per - prog2LastState,
+                });
+                prog2LastState = per;
+              }
+            )
+          ) {
+            progress2.report({
+              message: "Successfully downloaded and installed Picotool.",
+              increment: 100,
+            });
 
-  _logger.info("Installing OpenOCD");
-  const openocdResult = await downloadAndInstallOpenOCD(openOCDVersion);
-  if (!openocdResult) {
-    window.showErrorMessage("Could not install OpenOCD. Exiting Zephyr Setup");
-
-    return;
-  }
-
-  const pythonExe = python3Path.replace(
-    HOME_VAR,
-    homedir().replaceAll("\\", "/")
-  );
-
-  const customEnv = process.env;
-  // const customPath = await getPath();
-  // _logger.info(`Path: ${customPath}`);
-  // if (!customPath) {
-  //   return;
-  // }
-
-  const customPath = [
-    joinPosix(
-      homedir().replaceAll("\\", "/"),
-      ".pico-sdk",
-      "cmake",
-      "v3.31.5",
-      "bin"
-    ),
-    joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc", "bin"),
-    joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "git", "cmd"),
-    joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf", "bin"),
-    joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "ninja", "v1.12.1"),
-    joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "python", "3.12.6"),
-    joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
-    joinPosix("C:\\Program Files".replaceAll("\\", "/"), "7-Zip"),
-    "", // Need this to add separator to end
-  ].join(process.platform === "win32" ? ";" : ":");
-
-  _logger.info(`New path: ${customPath}`);
-
-  customPath.replaceAll("/", "\\");
-  customEnv[isWindows ? "Path" : "PATH"] =
-    customPath + customEnv[isWindows ? "Path" : "PATH"];
-
-  const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
-
-  const zephyrManifestDir: string = joinPosix(
-    zephyrWorkspaceDirectory,
-    "manifest"
-  );
-
-  const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
-
-  const zephyrManifestContent: string = `
-manifest:
-  self:
-    west-commands: scripts/west-commands.yml
-
-  remotes:
-    - name: zephyrproject-rtos
-      url-base: https://github.com/magpieembedded
-
-  projects:
-    - name: zephyr
-      remote: zephyrproject-rtos
-      revision: pico2w
-      import:
-        # By using name-allowlist we can clone only the modules that are
-        # strictly needed by the application.
-        name-allowlist:
-          - cmsis_6      # required by the ARM Cortex-M port
-          - hal_rpi_pico # required for Pico board support
-          - hal_infineon # required for Wifi chip support
-`;
-
-  await workspace.fs.writeFile(
-    Uri.file(zephyrManifestFile),
-    Buffer.from(zephyrManifestContent)
-  );
-
-  const createVenvCommandVenv: string = [
-    `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-    "-m venv venv",
-  ].join(" ");
-  const createVenvCommandVirtualenv: string = [
-    `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-    "-m virtualenv venv",
-  ].join(" ");
-
-  // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
-  workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
-
-  // Generic result to get value from runCommand calls
-  let result: number | null;
-
-  _logger.info("Setting up virtual environment for Zephyr");
-  const venvPython: string = joinPosix(
-    zephyrWorkspaceDirectory,
-    "venv",
-    process.platform === "win32" ? "Scripts" : "bin",
-    process.platform === "win32" ? "python.exe" : "python"
-  );
-  if (existsSync(venvPython)) {
-    _logger.info("Existing Python venv found.");
-  } else {
-    result = await _runCommand(createVenvCommandVenv, {
-      cwd: zephyrWorkspaceDirectory,
-      windowsHide: true,
-      env: customEnv,
-    });
-    if (result !== 0) {
-      _logger.warn(
-        "Could not create virtual environment with venv," +
-          "trying with virtualenv..."
+            installedSuccessfully = true;
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
       );
 
-      result = await _runCommand(createVenvCommandVirtualenv, {
+      const pythonExe = python3Path.replace(
+        HOME_VAR,
+        homedir().replaceAll("\\", "/")
+      );
+
+      const customEnv = process.env;
+
+      const customPath = [
+        joinPosix(
+          homedir().replaceAll("\\", "/"),
+          ".pico-sdk",
+          "cmake",
+          "v3.31.5",
+          "bin"
+        ),
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc", "bin"),
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "git", "cmd"),
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf", "bin"),
+        joinPosix(
+          homedir().replaceAll("\\", "/"),
+          ".pico-sdk",
+          "ninja",
+          "v1.12.1"
+        ),
+        joinPosix(
+          homedir().replaceAll("\\", "/"),
+          ".pico-sdk",
+          "python",
+          "3.12.6"
+        ),
+        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
+        joinPosix("C:\\Program Files".replaceAll("\\", "/"), "7-Zip"),
+        "", // Need this to add separator to end
+      ].join(process.platform === "win32" ? ";" : ":");
+
+      _logger.info(`New path: ${customPath}`);
+
+      customPath.replaceAll("/", "\\");
+      customEnv[isWindows ? "Path" : "PATH"] =
+        customPath + customEnv[isWindows ? "Path" : "PATH"];
+
+      const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
+
+      const zephyrManifestDir: string = joinPosix(
+        zephyrWorkspaceDirectory,
+        "manifest"
+      );
+
+      const zephyrManifestFile: string = joinPosix(
+        zephyrManifestDir,
+        "west.yml"
+      );
+
+      await workspace.fs.writeFile(
+        Uri.file(zephyrManifestFile),
+        Buffer.from(zephyrManifestContent)
+      );
+
+      const createVenvCommandVenv: string = [
+        `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
+        "-m venv venv",
+      ].join(" ");
+      const createVenvCommandVirtualenv: string = [
+        `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
+        "-m virtualenv venv",
+      ].join(" ");
+
+      // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
+      workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
+
+      // Generic result to get value from runCommand calls
+      let result: number | null;
+
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Setup Python virtual environment for Zephyr",
+          cancellable: false,
+        },
+        async progress2 => {
+          const venvPython: string = joinPosix(
+            zephyrWorkspaceDirectory,
+            "venv",
+            process.platform === "win32" ? "Scripts" : "bin",
+            process.platform === "win32" ? "python.exe" : "python"
+          );
+          if (existsSync(venvPython)) {
+            _logger.info("Existing Python venv found.");
+          } else {
+            result = await _runCommand(createVenvCommandVenv, {
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            });
+            if (result !== 0) {
+              _logger.warn(
+                "Could not create virtual environment with venv," +
+                  "trying with virtualenv..."
+              );
+
+              result = await _runCommand(createVenvCommandVirtualenv, {
+                cwd: zephyrWorkspaceDirectory,
+                windowsHide: true,
+                env: customEnv,
+              });
+
+              if (result === 0) {
+                progress2.report({
+                  message:
+                    "Successfully setup Python virtual environment for Zephyr.",
+                  increment: 100,
+                });
+              } else {
+                installedSuccessfully = false;
+                progress2.report({
+                  message: "Failed",
+                  increment: 100,
+                });
+              }
+            }
+
+            _logger.info("Venv created.");
+          }
+        }
+      );
+
+      const venvPythonCommand: string = joinPosix(
+        process.env.ComSpec === "powershell.exe" ? "&" : "",
+        zephyrWorkspaceDirectory,
+        "venv",
+        process.platform === "win32" ? "Scripts" : "bin",
+        process.platform === "win32" ? "python.exe" : "python"
+      );
+
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Install Zephyr Python dependencies",
+          cancellable: false,
+        },
+        async progress2 => {
+          const installWestCommand: string = [
+            venvPythonCommand,
+            "-m pip install west pyelftools",
+          ].join(" ");
+
+          if (
+            (await _runCommand(installWestCommand, {
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            })) === 0
+          ) {
+            progress2.report({
+              message: "Successfully installed Python dependencies for Zephyr.",
+              increment: 100,
+            });
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
+      );
+
+      const westExe: string = joinPosix(
+        process.env.ComSpec === "powershell.exe" ? "&" : "",
+        zephyrWorkspaceDirectory,
+        "venv",
+        process.platform === "win32" ? "Scripts" : "bin",
+        process.platform === "win32" ? "west.exe" : "west"
+      );
+
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Setting up West workspace",
+          cancellable: false,
+        },
+        async progress2 => {
+          const zephyrWorkspaceFiles = await workspace.fs.readDirectory(
+            Uri.file(zephyrWorkspaceDirectory)
+          );
+
+          const westAlreadyExists = zephyrWorkspaceFiles.find(
+            x => x[0] === ".west"
+          );
+          if (westAlreadyExists) {
+            _logger.info("West workspace already initialised.");
+          } else {
+            _logger.info("No West workspace found. Initialising...");
+
+            const westInitCommand: string = [westExe, "init -l manifest"].join(
+              " "
+            );
+            result = await _runCommand(westInitCommand, {
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            });
+
+            _logger.info(`${result}`);
+          }
+
+          const westUpdateCommand: string = [westExe, "update"].join(" ");
+
+          if (
+            (await _runCommand(westUpdateCommand, {
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            })) === 0
+          ) {
+            progress2.report({
+              message: "Successfully setup West workspace.",
+              increment: 100,
+            });
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
+      );
+
+      const zephyrExportCommand: string = [westExe, "zephyr-export"].join(" ");
+      _logger.info("Exporting Zephyr CMake Files");
+      result = await _runCommand(zephyrExportCommand, {
         cwd: zephyrWorkspaceDirectory,
         windowsHide: true,
         env: customEnv,
       });
 
-      if (result !== 0) {
-        _logger.error("Could not create virtual environment. Exiting.");
-        window.showErrorMessage("Could not install venv. Exiting Zephyr Setup");
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Install West Python dependencies",
+          cancellable: false,
+        },
+        async progress2 => {
+          const westPipPackagesCommand: string = [
+            westExe,
+            "packages pip --install",
+          ].join(" ");
 
-        return;
+          if (
+            (await _runCommand(westPipPackagesCommand, {
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            })) === 0
+          ) {
+            progress2.report({
+              message: "Successfully installed Python dependencies for West.",
+              increment: 100,
+            });
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
+      );
+
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Fetching Zephyr binary blobs",
+          cancellable: false,
+        },
+        async progress2 => {
+          const westBlobsFetchCommand: string = [
+            westExe,
+            "blobs fetch hal_infineon",
+          ].join(" ");
+
+          if (
+            (await _runCommand(westBlobsFetchCommand, {
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            })) === 0
+          ) {
+            progress2.report({
+              message: "Successfully retrieved Zephyr binary blobs.",
+              increment: 100,
+            });
+          } else {
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+          }
+        }
+      );
+
+      await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Installing Zephyr SDK",
+          cancellable: false,
+        },
+        async progress2 => {
+          const westInstallSDKCommand: string = [
+            westExe,
+            "sdk install -t arm-zephyr-eabi",
+            `-b ${zephyrWorkspaceDirectory}`,
+          ].join(" ");
+
+          // This has to be a spawn due to the way the underlying SDK command calls
+          // subprocess and needs to inherit the Path variables set in customEnv
+          _logger.info("Installing Zephyr SDK");
+          const child = spawnSync(westInstallSDKCommand, {
+            shell: true,
+            cwd: zephyrWorkspaceDirectory,
+            windowsHide: true,
+            env: customEnv,
+          });
+          _logger.info("stdout: ", child.stdout.toString());
+          _logger.info("stderr: ", child.stderr.toString());
+          if (child.status) {
+            _logger.info("exit code: ", child.status);
+            if (child.status !== 0) {
+              window.showErrorMessage(
+                "Error installing Zephyr SDK." + "Exiting Zephyr Setup."
+              );
+            }
+
+            installedSuccessfully = false;
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            return;
+          }
+
+          progress2.report({
+            message: "Successfully installed Zephyr SDK.",
+            increment: 100,
+          });
+        }
+      );
+
+      if (installedSuccessfully) {
+        window.showInformationMessage("Zephyr setup complete");
+        progress.report({
+          message: "Zephyr setup complete.",
+          increment: 100,
+        });
       }
     }
-
-    _logger.info("Venv created.");
-  }
-
-  const venvPythonCommand: string = joinPosix(
-    process.env.ComSpec === "powershell.exe" ? "&" : "",
-    zephyrWorkspaceDirectory,
-    "venv",
-    process.platform === "win32" ? "Scripts" : "bin",
-    process.platform === "win32" ? "python.exe" : "python"
   );
-
-  const installWestCommand: string = [
-    venvPythonCommand,
-    "-m pip install west pyelftools",
-  ].join(" ");
-
-  _logger.info("Installing Python dependencies for Zephyr");
-  result = await _runCommand(installWestCommand, {
-    cwd: zephyrWorkspaceDirectory,
-    windowsHide: true,
-    env: customEnv,
-  });
-
-  const westExe: string = joinPosix(
-    process.env.ComSpec === "powershell.exe" ? "&" : "",
-    zephyrWorkspaceDirectory,
-    "venv",
-    process.platform === "win32" ? "Scripts" : "bin",
-    process.platform === "win32" ? "west.exe" : "west"
-  );
-
-  const zephyrWorkspaceFiles = await workspace.fs.readDirectory(
-    Uri.file(zephyrWorkspaceDirectory)
-  );
-
-  const westAlreadyExists = zephyrWorkspaceFiles.find(x => x[0] === ".west");
-  if (westAlreadyExists) {
-    _logger.info("West workspace already initialised.");
-  } else {
-    _logger.info("No West workspace found. Initialising...");
-
-    const westInitCommand: string = [westExe, "init -l manifest"].join(" ");
-    result = await _runCommand(westInitCommand, {
-      cwd: zephyrWorkspaceDirectory,
-      windowsHide: true,
-      env: customEnv,
-    });
-
-    _logger.info(`${result}`);
-  }
-
-  const westUpdateCommand: string = [westExe, "update"].join(" ");
-
-  _logger.info("Updating West workspace");
-  result = await _runCommand(westUpdateCommand, {
-    cwd: zephyrWorkspaceDirectory,
-    windowsHide: true,
-    env: customEnv,
-  });
-
-  _logger.info(`${result}`);
-
-  const zephyrExportCommand: string = [westExe, "zephyr-export"].join(" ");
-  _logger.info("Exporting Zephyr CMake Files");
-  result = await _runCommand(zephyrExportCommand, {
-    cwd: zephyrWorkspaceDirectory,
-    windowsHide: true,
-    env: customEnv,
-  });
-
-  const westPipPackagesCommand: string = [
-    westExe,
-    "packages pip --install",
-  ].join(" ");
-
-  _logger.info("Installing West Python packages");
-  result = await _runCommand(westPipPackagesCommand, {
-    cwd: zephyrWorkspaceDirectory,
-    windowsHide: true,
-    env: customEnv,
-  });
-
-  _logger.info(`${result}`);
-
-  const westBlobsFetchCommand: string = [
-    westExe,
-    "blobs fetch hal_infineon",
-  ].join(" ");
-
-  _logger.info("Fetching binary blobs for Zephyr");
-  result = await _runCommand(westBlobsFetchCommand, {
-    cwd: zephyrWorkspaceDirectory,
-    windowsHide: true,
-    env: customEnv,
-  });
-
-  _logger.info(`${result}`);
-
-  const westInstallSDKCommand: string = [
-    westExe,
-    "sdk install -t arm-zephyr-eabi",
-    `-b ${zephyrWorkspaceDirectory}`,
-  ].join(" ");
-
-  // This has to be a spawn due to the way the underlying SDK command calls
-  // subprocess and needs to inherit the Path variables set in customEnv
-  _logger.info("Installing Zephyr SDK");
-  const child = spawnSync(westInstallSDKCommand, {
-    shell: true,
-    cwd: zephyrWorkspaceDirectory,
-    windowsHide: true,
-    env: customEnv,
-  });
-  _logger.info("stdout: ", child.stdout.toString());
-  _logger.info("stderr: ", child.stderr.toString());
-  if (child.status) {
-    _logger.info("exit code: ", child.status);
-    if (child.status !== 0) {
-      window.showErrorMessage(
-        "Error installing Zephyr SDK." + "Exiting Zephyr Setup."
-      );
-    }
-
-    return;
-  }
-
-  _logger.info(`${result}`);
 
   _logger.info("Complete");
 
