@@ -28,6 +28,8 @@ node_modules/**
 # make sure scripts and data are always included
 !scripts/blink.pio
 !scripts/lwipopts.h
+!scripts/mbedtls_config.h
+!scripts/btstack_config.h
 !scripts/pico_configs.tsv
 !scripts/pico_project.py
 !scripts/pico-vscode.cmake
