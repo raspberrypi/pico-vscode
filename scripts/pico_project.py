@@ -1441,23 +1441,7 @@ def DoEverything(params):
 
     # Add examples common files if we are using examples
     if params["wantExample"]:
-        if os.path.exists(projectPath / "lwipopts.h"):
-            with open(projectPath / "lwipopts.h", "r") as f:
-                if "lwipopts_examples_common.h" in f.read():
-                    # Write lwipopts for examples
-                    shutil.copy(
-                        sourcefolder + "/" + "lwipopts.h",
-                        projectPath / "lwipopts_examples_common.h",
-                    )
-
-        if os.path.exists(projectPath / "mbedtls_config.h"):
-            with open(projectPath / "mbedtls_config.h", "r") as f:
-                if "mbedtls_config_examples_common.h" in f.read():
-                    # Write mbedtls_config for examples
-                    shutil.copy(
-                        sourcefolder + "/" + "mbedtls_config.h",
-                        projectPath / "mbedtls_config_examples_common.h",
-                    )
+        copyExampleConfigs(projectPath)
 
     # Create a build folder, and run our cmake project build from it
     if not os.path.exists("build"):
