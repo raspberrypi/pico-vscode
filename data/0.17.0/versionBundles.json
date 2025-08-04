@@ -39,6 +39,6 @@
     "cmake": "v3.31.5",
     "picotool": "2.2.0",
     "toolchain": "14_2_Rel1",
-    "riscvToolchain": "RISCV_RPI_2_1_1_3"
+    "riscvToolchain": "RISCV_ZCB_RPI_2_1_1_3"
   }
 }
