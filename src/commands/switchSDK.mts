@@ -744,7 +744,7 @@ export default class SwitchSDKCommand extends Command {
           workspaceFolder.uri,
           selectedSDK.sdk,
           selectedToolchain.toolchain.version,
-          selectedPicotool ?? "2.1.1"
+          selectedPicotool ?? "2.2.0"
         );
 
         progress.report({

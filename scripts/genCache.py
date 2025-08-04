@@ -47,7 +47,7 @@ print("Num repos", num_repos)
 
 # Only provide data for these versions
 versions = [
-    ["1.5.1", "2.0.0", "2.1.0", "2.1.1"],  # SDK
+    ["1.5.1", "2.0.0", "2.1.0", "2.1.1", "2.2.0"],  # SDK
     ["v3.28.6", "v3.29.6", "v3.29.9", "v3.31.5"],  # CMake
     ["v1.12.1"],  # Ninja
     [
@@ -61,8 +61,9 @@ versions = [
         "v2.1.0-0",
         "v2.1.1-1",
         "v2.1.1-3",
+        "v2.2.0-0",
     ],  # pico-sdk-tools
-    ["2.0.0", "2.1.0", "2.1.1"],  # picotool
+    ["2.0.0", "2.1.0", "2.1.1", "2.2.0"],  # picotool
 ]
 
 headers = {
