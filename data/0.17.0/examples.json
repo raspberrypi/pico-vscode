@@ -461,25 +461,6 @@
         ],
         "supportRiscV": true
     },
-    "pio_ir_loopback": {
-        "path": "pio/ir_nec/ir_loopback",
-        "name": "pio_ir_loopback",
-        "libPaths": [
-            "pio/ir_nec/nec_receive_library",
-            "pio/ir_nec/nec_transmit_library"
-        ],
-        "libNames": [
-            "nec_receive_library",
-            "nec_transmit_library"
-        ],
-        "boards": [
-            "pico",
-            "pico_w",
-            "pico2",
-            "pico2_w"
-        ],
-        "supportRiscV": true
-    },
     "pio_i2c_bus_scan": {
         "path": "pio/i2c",
         "name": "pio_i2c_bus_scan",
@@ -1510,7 +1491,7 @@
         "supportRiscV": true
     },
     "picow_ble_temp_reader": {
-        "path": "pico_w/bt/standalone",
+        "path": "pico_w/bt/standalone/client",
         "name": "picow_ble_temp_reader",
         "libPaths": [],
         "libNames": [],
@@ -1521,19 +1502,8 @@
         "supportRiscV": true
     },
     "picow_ble_temp_sensor": {
-        "path": "pico_w/bt/standalone",
+        "path": "pico_w/bt/standalone/server",
         "name": "picow_ble_temp_sensor",
-        "libPaths": [],
-        "libNames": [],
-        "boards": [
-            "pico_w",
-            "pico2_w"
-        ],
-        "supportRiscV": true
-    },
-    "picow_ble_temp_sensor_with_wifi": {
-        "path": "pico_w/bt/standalone",
-        "name": "picow_ble_temp_sensor_with_wifi",
         "libPaths": [],
         "libNames": [],
         "boards": [
@@ -1659,6 +1629,95 @@
         "libNames": [],
         "boards": [
             "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "status_blink": {
+        "path": "status_led/status_blink",
+        "name": "status_blink",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_mqtt_client": {
+        "path": "pico_w/wifi/mqtt",
+        "name": "picow_mqtt_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hello_encrypted": {
+        "path": "encrypted/hello_encrypted",
+        "name": "hello_encrypted",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": false
+    },
+    "hello_encrypted_mbedtls": {
+        "path": "encrypted/hello_encrypted",
+        "name": "hello_encrypted_mbedtls",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": false
+    },
+    "partition_info": {
+        "path": "flash/partition_info",
+        "name": "partition_info",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "uart_binary": {
+        "path": "bootloaders/uart",
+        "name": "uart_binary",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "uart_boot": {
+        "path": "bootloaders/uart",
+        "name": "uart_boot",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_ota_update": {
+        "path": "pico_w/wifi/ota_update",
+        "name": "picow_ota_update",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
             "pico2_w"
         ],
         "supportRiscV": true
