@@ -48,16 +48,6 @@ jobs:
           vsce package -o ovsx-raspberry-pi-pico-${version}.vsix
         env:
           BUILD_ENV: production
-      - name: Test PAT
-        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
-        env:
-          VSCE_PAT: ${{ secrets.VSCODE_MARKETPLACE_PAT }}
-        run: |
-          vsce verify-pat raspberry-pi
-      - name: Test OVSX PAT
-        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
-        run: |
-          npx ovsx verify-pat -p ${{ secrets.OPEN_VSX_PAT }}
       - name: Get Short Commit SHA
         run: |
           short_sha=$(git rev-parse --short "$GITHUB_SHA")
@@ -70,6 +60,16 @@ jobs:
             debug-raspberry-pi-pico-*.vsix
             raspberry-pi-pico-*.vsix
             ovsx-raspberry-pi-pico-*.vsix
+      - name: Test PAT
+        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
+        env:
+          VSCE_PAT: ${{ secrets.VSCODE_MARKETPLACE_PAT }}
+        run: |
+          vsce verify-pat raspberry-pi
+      - name: Test OVSX PAT
+        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/') }}
+        run: |
+          npx ovsx verify-pat -p ${{ secrets.OPEN_VSX_PAT }}
       - name: Add Release Asset
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
