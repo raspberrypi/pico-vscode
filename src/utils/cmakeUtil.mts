@@ -12,6 +12,7 @@ import { homedir } from "os";
 import which from "which";
 import { compareLt } from "./semverUtil.mjs";
 import { buildCMakeIncPath } from "./download.mjs";
+import {EOL} from "os";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -350,19 +351,19 @@ export async function cmakeUpdateSDK(
 
     let modifiedContent = content.replace(
       updateSectionRegex,
-      `# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}\n` +
-        "if(WIN32)\n" +
-        "    set(USERHOME $ENV{USERPROFILE})\n" +
-        "else()\n" +
-        "    set(USERHOME $ENV{HOME})\n" +
-        "endif()\n" +
-        `set(sdkVersion ${newSDKVersion})\n` +
-        `set(toolchainVersion ${newToolchainVersion})\n` +
-        `set(picotoolVersion ${newPicotoolVersion})\n` +
-        `set(picoVscode ${buildCMakeIncPath(false)}/pico-vscode.cmake)\n` +
-        "if (EXISTS ${picoVscode})\n" +
-        "    include(${picoVscode})\n" +
-        "endif()\n" +
+      `# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}` + EOL +
+        "if(WIN32)" + EOL +
+        "    set(USERHOME $ENV{USERPROFILE})" + EOL +
+        "else()" + EOL +
+        "    set(USERHOME $ENV{HOME})" + EOL +
+        "endif()" + EOL +
+        `set(sdkVersion ${newSDKVersion})` + EOL +
+        `set(toolchainVersion ${newToolchainVersion})` + EOL +
+        `set(picotoolVersion ${newPicotoolVersion})` + EOL +
+        `set(picoVscode ${buildCMakeIncPath(false)}/pico-vscode.cmake)` + EOL +
+        "if (EXISTS ${picoVscode})" + EOL +
+        "    include(${picoVscode})" + EOL +
+        "endif()" + EOL +
         // eslint-disable-next-line max-len
         "# ===================================================================================="
     );

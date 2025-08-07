@@ -6,6 +6,7 @@ import { type WorkspaceConfiguration, workspace } from "vscode";
 import { dirname } from "path/posix";
 import { compareGe } from "./semverUtil.mjs";
 import { extensionName } from "../commands/command.mjs";
+import {EOL} from "os";
 
 interface Configuration {
   includePath: string[];
@@ -58,11 +59,12 @@ async function updateCppPropertiesFile(
               ? "riscv32-corev-elf-gcc"
               : "riscv32-unknown-elf-gcc"
             : "arm-none-eabi-gcc"
-        }`;
+        }${config.compilerPath.endsWith(".exe") ? ".exe" : ""}`;
     });
 
     // Write the updated JSON back to the file
-    const updatedJsonData = JSON.stringify(cppProperties, null, 4);
+    const updatedJsonData =
+      (JSON.stringify(cppProperties, null, 4) + EOL).replace(/\r?\n/g, EOL);
     await writeFile(file, updatedJsonData, "utf8");
 
     console.log("cpp_properties.json file updated successfully.");
@@ -148,6 +150,7 @@ async function updateSettingsFile(
     Logger.debug(LoggerSource.vscodeConfigUtil, `Oldpath: ${oldPath}`);
     const pathList = oldPath.split(key.includes("windows") ? ";" : ":");
     let toolchainIdx = -1;
+    let picotoolIdx = -1;
     let cmakeIdx = -1;
     let ninjaIdx = -1;
 
@@ -157,6 +160,9 @@ async function updateSettingsFile(
       const item = pathList[i];
       if (item.includes(".pico-sdk/toolchain")) {
         toolchainIdx = i;
+      }
+      if (item.includes(".pico-sdk/picotool")) {
+        picotoolIdx = i;
       }
       if (item.includes(".pico-sdk/cmake")) {
         cmakeIdx = i;
@@ -172,6 +178,17 @@ async function updateSettingsFile(
     );
 
     pathList[toolchainIdx] = currentValue["PICO_TOOLCHAIN_PATH"] + "/bin";
+
+    if (newSDKVersion) {
+      const newPicotoolPath = `\${${
+        key.includes("windows") ? "env:USERPROFILE" : "env:HOME"
+      }}/.pico-sdk/picotool/${newSDKVersion}/picotool`;
+      if (picotoolIdx > 0) {
+        pathList[picotoolIdx] = newPicotoolPath;
+      } else {
+        pathList.splice(pathList.length - 1, 0, newPicotoolPath);
+      }
+    }
 
     if (newCMakeVersion && newCMakeVersion !== "cmake") {
       let newCmakePath = "";
