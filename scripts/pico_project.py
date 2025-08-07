@@ -1058,8 +1058,8 @@ def generateProjectFiles(
                 "{codeSdkPath(sdkVersion)}/**"
             ],
             "forcedInclude": [
-                "{codeSdkPath(sdkVersion)}/src/common/{base_headers_folder_name}/include/pico.h",
-                "${{workspaceFolder}}/build/generated/pico_base/pico/config_autogen.h"
+                "${{workspaceFolder}}/build/generated/pico_base/pico/config_autogen.h",
+                "{codeSdkPath(sdkVersion)}/src/common/{base_headers_folder_name}/include/pico.h"
             ],
             "defines": [],
             "compilerPath": "{cPath}",
