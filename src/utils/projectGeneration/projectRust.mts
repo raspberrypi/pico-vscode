@@ -82,7 +82,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
 
   const settings = {
     "rust-analyzer.cargo.target": "thumbv8m.main-none-eabihf",
-    "rust-analyzer.checkOnSave.allTargets": false,
+    "rust-analyzer.check.allTargets": false,
     "editor.formatOnSave": true,
     "files.exclude": {
       ".pico-rs": true,
@@ -182,7 +182,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
 async function generateMainRs(projectRoot: string): Promise<boolean> {
   const mainRs = `//! # GPIO 'Blinky' Example
 //!
-//! This application demonstrates how to control a GPIO pin on the rp235x.
+//! This application demonstrates how to control a GPIO pin on the rp2040 and rp235x.
 //!
 //! It may need to be adapted to your particular board layout and/or pin assignment.
 //!
@@ -217,18 +217,13 @@ use rp2040_hal as hal;
 /// need this to help the ROM bootloader get our code up and running.
 /// Note: This boot block is not necessary when using a rp-hal based BSP
 /// as the BSPs already perform this step.
-#[link_section = ".boot2"]
+#[unsafe(link_section = ".boot2")]
 #[used]
 #[cfg(rp2040)]
-pub static BOOT2: [u8; 256] = rp2040_boot2::BOOT_LOADER_GENERIC_03H;
+pub static BOOT2: [u8; 256] = rp2040_boot2::BOOT_LOADER_W25Q080;
 
-// \`target_abi\`, \`target_arch\`, \`target_endian\`, 
-// \`target_env\`, \`target_family\`, \`target_feature\`, 
-// \`target_has_atomic\`, \`target_has_atomic_equal_alignment\`, 
-// \`target_has_atomic_load_store\`, \`target_os\`, 
-// \`target_pointer_width\`, \`target_thread_local\`, \`target_vendor\`
 /// Tell the Boot ROM about our application
-#[link_section = ".start_block"]
+#[unsafe(link_section = ".start_block")]
 #[used]
 #[cfg(rp2350)]
 pub static IMAGE_DEF: hal::block::ImageDef = hal::block::ImageDef::secure_exe();
@@ -242,7 +237,7 @@ const XTAL_FREQ_HZ: u32 = 12_000_000u32;
 /// The \`#[hal::entry]\` macro ensures the Cortex-M start-up code calls this function
 /// as soon as all global variables and the spinlock are initialised.
 ///
-/// The function configures the rp235x peripherals, then toggles a GPIO pin in
+/// The function configures the rp2040 and rp235x peripherals, then toggles a GPIO pin in
 /// an infinite loop. If there is an LED connected to that pin, it will blink.
 #[entry]
 fn main() -> ! {
@@ -295,7 +290,7 @@ fn main() -> ! {
 }
 
 /// Program metadata for \`picotool info\`
-#[link_section = ".bi_entries"]
+#[unsafe(link_section = ".bi_entries")]
 #[used]
 pub static PICOTOOL_ENTRIES: [hal::binary_info::EntryAddr; 5] = [
     hal::binary_info::rp_cargo_bin_name!(),
@@ -399,7 +394,7 @@ async function generateCargoToml(
 ): Promise<boolean> {
   const obj: CargoToml = {
     package: {
-      edition: "2021",
+      edition: "2024",
       name: projectName,
       version: "0.1.0",
       license: "MIT or Apache-2.0",
@@ -411,14 +406,14 @@ async function generateCargoToml(
       "cortex-m": "0.7",
       "cortex-m-rt": "0.7",
       "embedded-hal": "1.0.0",
-      defmt: "0.3",
-      "defmt-rtt": "0.4",
+      defmt: "1",
+      "defmt-rtt": "1",
     },
     target: {
       "'cfg( target_arch = \"arm\" )'": {
         dependencies: {
           "panic-probe": new TomlInlineObject({
-            version: "0.3",
+            version: "1",
             features: ["print-defmt"],
           }),
         },
@@ -1151,8 +1146,8 @@ target = "thumbv8m.main-none-eabihf"
 #   describes the particular memory layout for your specific chip. 
 # * no-vectorize-loops turns off the loop vectorizer (seeing as the M0+ doesn't
 #   have SIMD)
+linker = "flip-link"
 rustflags = [
-    "-C", "linker=flip-link",
     "-C", "link-arg=--nmagic",
     "-C", "link-arg=-Tlink.x",
     "-C", "link-arg=-Tdefmt.x",

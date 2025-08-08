@@ -147,7 +147,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new UninstallPicoSDKCommand(),
     new CleanCMakeCommand(ui),
     new UpdateOpenOCDCommand(),
-    new GetRTTDecoderPathCommand(context.extensionUri),
   ];
 
   // register all command handlers
@@ -211,10 +210,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // check if there is a workspace folder
   if (workspaceFolder === undefined) {
     // finish activation
-    Logger.warn(
-      LoggerSource.extension,
-      "No workspace folder found."
-    );
+    Logger.warn(LoggerSource.extension, "No workspace folder found.");
     await commands.executeCommand(
       "setContext",
       ContextKeys.isPicoProject,
@@ -250,24 +246,24 @@ export async function activate(context: ExtensionContext): Promise<void> {
       return;
     }
 
-  // check for pico_sdk_init() in CMakeLists.txt
-  if (
-    !readFileSync(cmakeListsFilePath)
-      .toString("utf-8")
-      .includes("pico_sdk_init()")
-  ) {
-    Logger.warn(
-      LoggerSource.extension,
-      "No pico_sdk_init() in CMakeLists.txt found."
-    );
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
+    // check for pico_sdk_init() in CMakeLists.txt
+    if (
+      !readFileSync(cmakeListsFilePath)
+        .toString("utf-8")
+        .includes("pico_sdk_init()")
+    ) {
+      Logger.warn(
+        LoggerSource.extension,
+        "No pico_sdk_init() in CMakeLists.txt found."
+      );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        false
+      );
 
-    return;
-  }
+      return;
+    }
 
     // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
     if (
