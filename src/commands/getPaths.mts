@@ -494,12 +494,14 @@ export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
       return;
     }
 
+    const theChip = chip === "rp2350-riscv" ? "rp2350" : chip;
+
     return joinPosix(
       buildSDKPath(latestSDK),
       "src",
-      chip,
+      theChip,
       "hardware_regs",
-      `${chip.toUpperCase()}.svd`
+      `${theChip.toUpperCase()}.svd`
     );
   }
 }
