@@ -5,7 +5,7 @@ import { rimraf } from "rimraf";
 import { join } from "path";
 import { homedir } from "os";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
-import { openOCDVersion } from "../webview/newProjectPanel.mjs";
+import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 
 export default class UpdateOpenOCDCommand extends Command {
   private _logger: Logger = new Logger("UpdateOpenOCDCommand");
@@ -22,7 +22,7 @@ export default class UpdateOpenOCDCommand extends Command {
 
     try {
       // rimraf ~/.pico-sdk/openocd/$openOCDVersion
-      await rimraf(join(homedir(), ".pico-sdk/openocd", openOCDVersion), {
+      await rimraf(join(homedir(), ".pico-sdk/openocd", OPENOCD_VERSION), {
         preserveRoot: false,
         maxRetries: 1,
         retryDelay: 1000,

@@ -75,51 +75,25 @@ var submitted = false;
       return;
     }
 
-    // selected python version
-    const pythonVersionRadio = document.getElementsByName('python-version-radio');
-    let pythonMode = null;
-    let pythonPath = null;
-    for (let i = 0; i < pythonVersionRadio.length; i++) {
-      if (pythonVersionRadio[i].checked) {
-        pythonMode = Number(pythonVersionRadio[i].value);
+    // flash-method selection
+    const flashMethodRadio = document.getElementsByName('flash-method-radio');
+    let flashMethodSelection = null;
+    for (let i = 0; i < flashMethodRadio.length; i++) {
+      if (flashMethodRadio[i].checked) {
+        flashMethodSelection = parseInt(flashMethodRadio[i].value);
         break;
       }
     }
-    if (pythonVersionRadio.length == 0) {
-      // default to python mode 0 == python ext version
-      pythonMode = 0;
-    }
-
-    // if python version is null or not a number, smaller than 0 or bigger than 3, set it to 0
-    if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
-      pythonMode = 0;
-      console.debug('Invalid python version value: ' + pythonMode.toString());
+    // if flash-method selection is null or not a number, smaller than 0 or bigger than 2, set it to 0
+    if (flashMethodSelection === null || isNaN(flashMethodSelection) || flashMethodSelection < 0 || flashMethodSelection > 2) {
+      flashMethodSelection = 0;
+      console.debug('Invalid flash-method selection value: ' + flashMethodSelection);
       vscode.postMessage({
         command: CMD_ERROR,
-        value: "Please select a valid python version."
+        value: "Please select a valid flash-method."
       });
       submitted = false;
-
       return;
-    }
-    if (pythonMode === 0) {
-      const pyenvKnownSel = document.getElementById("sel-pyenv-known");
-      pythonPath = pyenvKnownSel.value;
-    } else if (pythonMode === 2) {
-      const files = document.getElementById('python-path-executable').files;
-
-      if (files.length == 1) {
-        pythonPath = files[0].name;
-      } else {
-        console.debug("Please select a valid python executable file");
-        vscode.postMessage({
-          command: CMD_ERROR,
-          value: "Please select a valid python executable file."
-        });
-        submitted = false;
-
-        return;
-      }
     }
 
     //post all data values to the extension
@@ -127,8 +101,7 @@ var submitted = false;
       command: CMD_SUBMIT,
       value: {
         projectName: projectName,
-        pythonMode: Number(pythonMode),
-        pythonPath: pythonPath
+        flashMethod: flashMethodSelection
       }
     });
   }
@@ -170,13 +143,4 @@ var submitted = false;
   document.getElementById('btn-change-project-location').addEventListener('click', changeLocation);
   document.getElementById('btn-cancel').addEventListener('click', cancelBtnClick);
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);
-
-  document.getElementById('inp-project-name').addEventListener('input', function () {
-    const projName = document.getElementById('inp-project-name').value;
-    // TODO: future examples stuff (maybe)
-  });
-
-  const pythonVersionRadio = document.getElementsByName('python-version-radio');
-  if (pythonVersionRadio.length > 0)
-    pythonVersionRadio[0].checked = true;
 }());
