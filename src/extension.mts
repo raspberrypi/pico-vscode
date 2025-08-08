@@ -95,6 +95,7 @@ import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
 import { OPENOCD_VERSION } from "./utils/sharedConstants.mjs";
+import VersionBundlesLoader from "./utils/versionBundles.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -306,6 +307,69 @@ export async function activate(context: ExtensionContext): Promise<void> {
   await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
 
   if (isRustProject) {
+    const vs = new VersionBundlesLoader(context.extensionUri);
+    const latestSDK = await vs.getLatestSDK();
+    if (!latestSDK) {
+      Logger.error(
+        LoggerSource.extension,
+        "Failed to get latest Pico SDK version for Rust project."
+      );
+      void window.showErrorMessage(
+        "Failed to get latest Pico SDK version for Rust project."
+      );
+
+      return;
+    }
+
+    const sdk = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title:
+          "Downloading and installing latest Pico SDK (" +
+          latestSDK +
+          "). This may take a while...",
+        cancellable: false,
+      },
+      async progress => {
+        const result = await downloadAndInstallSDK(
+          latestSDK,
+          SDK_REPOSITORY_URL
+        );
+
+        progress.report({
+          increment: 100,
+        });
+
+        if (!result) {
+          installSuccess = false;
+
+          Logger.error(
+            LoggerSource.extension,
+            "Failed to install latest SDK",
+            `version: ${latestSDK}.`,
+            "Make sure all requirements are met."
+          );
+
+          void window.showErrorMessage(
+            "Failed to install latest SDK version for rust project."
+          );
+
+          return false;
+        } else {
+          Logger.info(
+            LoggerSource.extension,
+            "Found/installed latest SDK",
+            `version: ${latestSDK}`
+          );
+
+          return true;
+        }
+      }
+    );
+    if (!sdk) {
+      return;
+    }
+
     const cargo = await window.withProgress(
       {
         location: ProgressLocation.Notification,
