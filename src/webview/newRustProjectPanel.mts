@@ -481,7 +481,7 @@ export class NewRustProjectPanel {
               </div>
 
               <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                Note: The Pico extension will always install and use the latest stable version of Rust.
+                Note: Ensure that you have the latest version of the Rustup toolchain manager installed.
               </h3>
 
               <div class="mt-6 mb-4 col-span-2">
