@@ -97,7 +97,7 @@ export default class SwitchBoardCommand extends Command {
           file => {
             const fullFilename = join(path, file);
             if(fullFilename.endsWith(".h")) {
-              const boardName = file.split(".")[0];
+              const boardName = file.slice(0, -2);  // remove .h
               boardFiles[boardName] = fullFilename;
               quickPickItems.push(boardName);
             }
