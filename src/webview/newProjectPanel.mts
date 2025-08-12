@@ -182,9 +182,11 @@ async function enumToBoard(e: BoardType, sdkPath: string): Promise<string> {
     case BoardType.pico2W:
       return "-board pico2_w";
     case BoardType.other:
-      readdirSync(`${sdkPath}/src/boards/include/boards`).forEach(file => {
-        quickPickItems.push(file.split(".")[0]);
-      });
+      readdirSync(`${sdkPath}/src/boards/include/boards`)
+        .filter((file: string) => file.endsWith(".h"))
+        .forEach((file: string) => {
+          quickPickItems.push(file.slice(0, -2));  // remove .h
+        });
 
       // show quick pick for board type
       board = await window.showQuickPick(quickPickItems, {
