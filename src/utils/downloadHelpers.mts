@@ -96,7 +96,7 @@ export function unzipFile(
  *
  * Also supports tar.gz files.
  *
- * Linux and macOS only.
+ * Linux, macOS and Windows >= 10.0.17063.0.
  *
  * @param xzFilePath
  * @param targetDirectory
@@ -104,19 +104,29 @@ export function unzipFile(
  */
 export async function unxzFile(
   xzFilePath: string,
-  targetDirectory: string
+  targetDirectory: string,
+  singleDir?: string
 ): Promise<boolean> {
-  if (process.platform === "win32") {
-    return false;
-  }
-
   return new Promise<boolean>(resolve => {
     try {
-      // Construct the command to extract the .xz file using the 'tar' command
-      // -J option is redundant in modern versions of tar, but it's still good for compatibility
-      const command = `tar -x${
-        xzFilePath.endsWith(".xz") ? "J" : "z"
-      }f "${xzFilePath}" -C "${targetDirectory}"`;
+      let command = "";
+
+      if (process.platform === "win32") {
+        // Construct the command to extract the .xz file using the 'tar' command
+        command = `tar -xf "${xzFilePath}" -C "${targetDirectory}"`;
+        if (singleDir) {
+          command += ` "${singleDir}"`;
+        }
+      } else {
+        // Construct the command to extract the .xz file using the 'tar' command
+        // -J option is redundant in modern versions of tar, but it's still good for compatibility
+        command = `tar -x${
+          xzFilePath.endsWith(".xz") ? "J" : "z"
+        }f "${xzFilePath}" -C "${targetDirectory}"`;
+        if (singleDir) {
+          command += ` --strip-components=1 '${singleDir}'`;
+        }
+      }
 
       // Execute the 'tar' command in the shell
       exec(command, error => {
@@ -128,27 +138,34 @@ export async function unxzFile(
           );
           resolve(false);
         } else {
-          const targetDirContents = readdirSync(targetDirectory);
-          const subfolderPath =
-            targetDirContents.length === 1
-              ? join(targetDirectory, targetDirContents[0])
-              : "";
-          if (
-            targetDirContents.length === 1 &&
-            statSync(subfolderPath).isDirectory()
-          ) {
-            // Move all files and folders from the subfolder to targetDirectory
-            readdirSync(subfolderPath).forEach(item => {
-              const itemPath = join(subfolderPath, item);
-              const newItemPath = join(targetDirectory, item);
+          // flatten structure
+          let targetDirContents = readdirSync(targetDirectory);
+          do {
+            const subfolderPath =
+              targetDirContents.length === 1
+                ? join(targetDirectory, targetDirContents[0])
+                : "";
+            if (
+              targetDirContents.length === 1 &&
+              statSync(subfolderPath).isDirectory()
+            ) {
+              // Move all files and folders from the subfolder to targetDirectory
+              readdirSync(subfolderPath).forEach(item => {
+                const itemPath = join(subfolderPath, item);
+                const newItemPath = join(targetDirectory, item);
 
-              // Use fs.renameSync to move the item
-              renameSync(itemPath, newItemPath);
-            });
+                // Use fs.renameSync to move the item
+                renameSync(itemPath, newItemPath);
+              });
 
-            // Remove the empty subfolder
-            rmdirSync(subfolderPath);
-          }
+              // Remove the empty subfolder
+              rmdirSync(subfolderPath);
+            }
+            if (!singleDir) {
+              break;
+            }
+            targetDirContents = readdirSync(targetDirectory);
+          } while (targetDirContents.length === 1);
 
           Logger.debug(
             LoggerSource.downloadHelper,

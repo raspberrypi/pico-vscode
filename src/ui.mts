@@ -1,6 +1,7 @@
 import { window, type StatusBarItem, StatusBarAlignment } from "vscode";
 import Logger from "./logger.mjs";
 import type { PicoProjectActivityBar } from "./webview/activityBar.mjs";
+import State from "./state.mjs";
 
 enum StatusBarItemKey {
   compile = "raspberry-pi-pico.compileProject",
@@ -10,29 +11,40 @@ enum StatusBarItemKey {
 }
 
 const STATUS_BAR_ITEMS: {
-  [key: string]: { text: string; command: string; tooltip: string };
+  [key: string]: {
+    text: string;
+    rustText?: string;
+    command: string;
+    tooltip: string;
+    rustSupport: boolean;
+  };
 } = {
   [StatusBarItemKey.compile]: {
     // alt. "$(gear) Compile"
     text: "$(file-binary) Compile",
     command: "raspberry-pi-pico.compileProject",
     tooltip: "Compile Project",
+    rustSupport: true,
   },
   [StatusBarItemKey.run]: {
     // alt. "$(gear) Compile"
     text: "$(run) Run",
     command: "raspberry-pi-pico.runProject",
     tooltip: "Run Project",
+    rustSupport: true,
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
     text: "Pico SDK: <version>",
     command: "raspberry-pi-pico.switchSDK",
     tooltip: "Select Pico SDK",
+    rustSupport: false,
   },
   [StatusBarItemKey.picoBoardQuickPick]: {
     text: "Board: <board>",
+    rustText: "Chip: <chip>",
     command: "raspberry-pi-pico.switchBoard",
-    tooltip: "Select Board",
+    tooltip: "Select Chip",
+    rustSupport: true,
   },
 };
 
@@ -57,8 +69,10 @@ export default class UI {
     });
   }
 
-  public showStatusBarItems(): void {
-    Object.values(this._items).forEach(item => item.show());
+  public showStatusBarItems(isRustProject = false): void {
+    Object.values(this._items)
+      .filter(item => !isRustProject || STATUS_BAR_ITEMS[item.id].rustSupport)
+      .forEach(item => item.show());
   }
 
   public updateSDKVersion(version: string): void {
@@ -69,10 +83,20 @@ export default class UI {
   }
 
   public updateBoard(board: string): void {
-    this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
-      StatusBarItemKey.picoBoardQuickPick
-    ].text.replace("<board>", board);
-    this._activityBarProvider.refreshBoard(board);
+    const isRustProject = State.getInstance().isRustProject;
+
+    if (
+      isRustProject &&
+      STATUS_BAR_ITEMS[StatusBarItemKey.picoBoardQuickPick].rustSupport
+    ) {
+      this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
+        StatusBarItemKey.picoBoardQuickPick
+      ].rustText!.replace("<chip>", board);
+    } else {
+      this._items[StatusBarItemKey.picoBoardQuickPick].text = STATUS_BAR_ITEMS[
+        StatusBarItemKey.picoBoardQuickPick
+      ].text.replace("<board>", board);
+    }
   }
 
   public updateBuildType(buildType: string): void {
