@@ -62,8 +62,9 @@ versions = [
         "v2.1.1-1",
         "v2.1.1-3",
         "v2.2.0-0",
+        "v2.2.0-1",
     ],  # pico-sdk-tools
-    ["2.0.0", "2.1.0", "2.1.1", "2.2.0"],  # picotool
+    ["2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.2.0-a4"],  # picotool
 ]
 
 headers = {
@@ -74,7 +75,8 @@ headers = {
 
 ret = {}
 for repo in range(num_repos):
-    ret[f"githubApiCache-{repo}-0"] = versions[repo]
+    ret[f"githubApiCache-{repo}-0"] = versions[repo].copy()
+    ret[f"githubApiCache-{repo}-0"].reverse()
 
     for version in versions[repo]:
         owner = stuff.ownerOfRepository(repo)

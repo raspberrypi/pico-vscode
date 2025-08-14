@@ -39,6 +39,8 @@ import { NINJA_AUTO_INSTALL_DISABLED } from "../webview/newProjectPanel.mjs";
 import Logger from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
 
+const DEFAULT_PICOTOOL_VERSION = "2.2.0-a4";
+
 export interface AdvancedSwitchSDKOptions {
   toolchainVersion: { label: string; toolchain: SupportedToolchainVersion };
   cmakeVersion: string;
@@ -411,7 +413,8 @@ export default class SwitchSDKCommand extends Command {
       selectedSDK.label.replace("v", "")
     );
 
-    const selectedPicotool = versionBundle?.picotool;
+    const selectedPicotool =
+      versionBundle?.picotool ?? DEFAULT_PICOTOOL_VERSION;
 
     const configureAdvancedOptions = await window.showQuickPick(["No", "Yes"], {
       title: "Switch Tools",
@@ -731,6 +734,7 @@ export default class SwitchSDKCommand extends Command {
           workspaceFolder.uri.fsPath,
           selectedSDK.sdk,
           selectedToolchain.toolchain.version,
+          selectedPicotool,
           options.advancedOptions?.ninjaVersion,
           options.advancedOptions?.cmakeVersion
         );
@@ -744,7 +748,7 @@ export default class SwitchSDKCommand extends Command {
           workspaceFolder.uri,
           selectedSDK.sdk,
           selectedToolchain.toolchain.version,
-          selectedPicotool ?? "2.2.0"
+          selectedPicotool
         );
 
         progress.report({

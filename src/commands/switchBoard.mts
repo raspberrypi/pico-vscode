@@ -229,7 +229,8 @@ export default class SwitchBoardCommand extends Command {
             await updateVSCodeStaticConfigs(
               workspaceFolder.uri.fsPath,
               versions[0],
-              selectedToolchain.version
+              selectedToolchain.version,
+              versions[2]
             );
             progress.report({
               increment: 20,

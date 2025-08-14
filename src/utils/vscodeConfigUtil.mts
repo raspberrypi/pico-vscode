@@ -111,6 +111,7 @@ function buildNinjaHomePath(ninjaVersion: string): string {
 async function updateSettingsFile(
   newSDKVersion: string,
   newToolchainVersion: string,
+  newPicotoolVersion: string,
   newNinjaVersion?: string,
   newCMakeVersion?: string
 ): Promise<void> {
@@ -179,10 +180,10 @@ async function updateSettingsFile(
 
     pathList[toolchainIdx] = currentValue["PICO_TOOLCHAIN_PATH"] + "/bin";
 
-    if (newSDKVersion) {
+    if (newPicotoolVersion) {
       const newPicotoolPath = `\${${
         key.includes("windows") ? "env:USERPROFILE" : "env:HOME"
-      }}/.pico-sdk/picotool/${newSDKVersion}/picotool`;
+      }}/.pico-sdk/picotool/${newPicotoolVersion}/picotool`;
       if (picotoolIdx > 0) {
         pathList[picotoolIdx] = newPicotoolPath;
       } else {
@@ -282,6 +283,7 @@ export async function updateVSCodeStaticConfigs(
   folder: string,
   newSDKVersion: string,
   newToolchainVersion: string,
+  newPicotoolVersion: string,
   newNinjaVersion?: string,
   newCMakeVersion?: string
 ): Promise<void> {
@@ -295,6 +297,7 @@ export async function updateVSCodeStaticConfigs(
   await updateSettingsFile(
     newSDKVersion,
     newToolchainVersion,
+    newPicotoolVersion,
     newNinjaVersion,
     newCMakeVersion
   );
