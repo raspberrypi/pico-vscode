@@ -7,6 +7,7 @@ import Logger from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
 
 import {
+  buildCMakePath,
   buildZephyrWorkspacePath,
   downloadAndInstallArchive,
   downloadAndInstallCmake,
@@ -19,6 +20,7 @@ import Settings, { HOME_VAR } from "../settings.mjs";
 import { openOCDVersion } from "../webview/newProjectPanel.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 import { ensureGit } from "../utils/gitUtil.mjs";
+import { type VersionBundle } from "../utils/versionBundles.mjs";
 
 const _logger = new Logger("zephyrSetup");
 
@@ -44,6 +46,17 @@ manifest:
           - hal_infineon # required for Wifi chip support
 `;
 
+interface ZephyrSetupValue {
+  versionBundle: VersionBundle | undefined;
+  cmakeMode: number;
+  cmakePath: string;
+  cmakeVersion: string;
+}
+
+interface ZephyrSetupOutputs {
+  cmakeExecutable: string;
+}
+
 function _runCommand(
   command: string,
   options: ExecOptions
@@ -67,13 +80,17 @@ function _runCommand(
   });
 }
 
-export async function setupZephyr(): Promise<string | undefined> {
+export async function setupZephyr(
+  data: ZephyrSetupValue
+): Promise<ZephyrSetupOutputs | string | undefined> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
     _logger.error("Settings not initialized.");
 
     return;
   }
+
+  let output: ZephyrSetupOutputs = { cmakeExecutable: "" };
 
   let python3Path = "";
   let isWindows = false;
@@ -111,38 +128,96 @@ export async function setupZephyr(): Promise<string | undefined> {
         }
       );
 
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Download and install CMake",
-          cancellable: false,
-        },
-        async progress2 => {
-          if (
-            await downloadAndInstallCmake("v3.31.5", (prog: GotProgress) => {
-              const per = prog.percent * 100;
-              progress2.report({
-                increment: per - prog2LastState,
-              });
-              prog2LastState = per;
-            })
-          ) {
-            progress2.report({
-              message: "Successfully downloaded and installed CMake.",
-              increment: 100,
-            });
+      // Handle CMake install
+      switch (data.cmakeMode) {
+        case 0:
+          if (data.versionBundle !== undefined) {
+            data.cmakeVersion = data.versionBundle.cmake;
+          }
+        // eslint-disable-next-line no-fallthrough
+        case 2:
+          installedSuccessfully = false;
+          prog2LastState = 0;
+          await window.withProgress(
+            {
+              location: ProgressLocation.Notification,
+              title: "Download and install CMake",
+              cancellable: false,
+            },
+            async progress2 => {
+              if (
+                await downloadAndInstallCmake(
+                  data.cmakeVersion,
+                  (prog: GotProgress) => {
+                    const per = prog.percent * 100;
+                    progress2.report({
+                      increment: per - prog2LastState,
+                    });
+                    prog2LastState = per;
+                  }
+                )
+              ) {
+                progress.report({
+                  // TODO: maybe just finished or something like that
+                  message: "Successfully downloaded and installed CMake.",
+                  increment: 100,
+                });
 
-            installedSuccessfully = true;
-          } else {
-            installedSuccessfully = false;
-            progress2.report({
+                installedSuccessfully = true;
+              } else {
+                installedSuccessfully = false;
+                progress2.report({
+                  message: "Failed",
+                  increment: 100,
+                });
+              }
+            }
+          );
+
+          if (!installedSuccessfully) {
+            progress.report({
               message: "Failed",
               increment: 100,
             });
-          }
-        }
-      );
+            void window.showErrorMessage(
+              // TODO: maybe remove all requirements met part
+              "Failed to download and install CMake.\
+              Make sure all requirements are met."
+            );
 
+            return;
+          } else {
+            const cmakeVersionBasePath = buildCMakePath(data.cmakeVersion);
+
+            output.cmakeExecutable = joinPosix(
+              cmakeVersionBasePath,
+              "bin",
+              "cmake"
+            );
+          }
+          break;
+        case 1:
+          // Don't need to add anything to path if already available via system
+          output.cmakeExecutable = "";
+          break;
+        case 3:
+          // normalize path returned by the os selector to posix path for the settings json
+          // and cross platform compatibility
+          output.cmakeExecutable =
+            process.platform === "win32"
+              ? // TODO: maybe use path.sep for split
+                joinPosix(...data.cmakePath.split("\\"))
+              : data.cmakePath;
+          break;
+        default:
+          progress.report({
+            message: "Failed",
+            increment: 100,
+          });
+          void window.showErrorMessage("Unknown cmake selection.");
+
+          return;
+      }
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
@@ -811,5 +886,5 @@ export async function setupZephyr(): Promise<string | undefined> {
 
   _logger.info("Complete");
 
-  return "";
+  return output;
 }

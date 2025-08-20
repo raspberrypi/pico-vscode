@@ -173,6 +173,58 @@ var submitted = false;
       "shell-features-cblist"
     ).checked;
 
+    const cmakeVersionRadio = document.getElementsByName("cmake-version-radio");
+    let cmakeMode = null;
+    let cmakePath = null;
+    let cmakeVersion = null;
+    for (let i = 0; i < cmakeVersionRadio.length; i++) {
+      if (cmakeVersionRadio[i].checked) {
+        cmakeMode = Number(cmakeVersionRadio[i].value);
+        break;
+      }
+    }
+    if (cmakeVersionRadio.length === 0) {
+      // default to cmake mode 1 == System version
+      cmakeMode = 1;
+    }
+
+    // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
+    if (
+      cmakeMode === null ||
+      isNaN(cmakeMode) ||
+      cmakeMode < 0 ||
+      cmakeMode > 4
+    ) {
+      // TODO: first check if default is supported
+      cmakeMode = 0;
+      console.debug("Invalid cmake version value: " + cmakeMode.toString());
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: "Please select a valid cmake version.",
+      });
+      submitted = false;
+
+      return;
+    }
+    if (cmakeMode === 2) {
+      cmakeVersion = document.getElementById("sel-cmake").value;
+    } else if (cmakeMode == 3) {
+      const files = document.getElementById("cmake-path-executable").files;
+
+      if (files.length === 1) {
+        cmakePath = files[0].name;
+      } else {
+        console.debug("Please select a valid cmake executable file");
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: "Please select a valid cmake executable file.",
+        });
+        submitted = false;
+
+        return;
+      }
+    }
+
     //post all data values to the extension
     vscode.postMessage({
       command: CMD_SUBMIT,
@@ -188,6 +240,9 @@ var submitted = false;
         wifiFeature: wifiFeature,
         sensorFeature: sensorFeature,
         shellFeature: shellFeature,
+        cmakeMode: Number(cmakeMode),
+        cmakePath: cmakePath,
+        cmakeVersion: cmakeVersion,
       },
     });
   };

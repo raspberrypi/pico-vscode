@@ -28,6 +28,10 @@ import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
 import { setupZephyr } from "../utils/setupZephyr.mjs";
+import VersionBundlesLoader, {
+  type VersionBundle,
+} from "../utils/versionBundles.mjs";
+import { getCmakeReleases } from "../utils/githubREST.mjs";
 
 enum BoardType {
   pico = "pico",
@@ -48,6 +52,9 @@ interface SubmitMessageValue {
   wifiFeature: boolean;
   sensorFeature: boolean;
   shellFeature: boolean;
+  cmakeMode: number;
+  cmakePath: string;
+  cmakeVersion: string;
 }
 
 // Kconfig snippets
@@ -130,6 +137,57 @@ export class NewZephyrProjectPanel {
 
   private _projectRoot?: Uri;
   private _pythonExtensionApi?: PythonExtension;
+  private _versionBundlesLoader?: VersionBundlesLoader;
+  private _versionBundle: VersionBundle | undefined;
+
+  // Create settings.json file with correct subsitution for tools such as
+  // CMake, Ninja, Python, etc
+  private static createSettingsJson(): string {
+    const settingsJson = {
+      /* eslint-disable @typescript-eslint/naming-convention */
+      "cmake.options.statusBarVisibility": "hidden",
+      "cmake.options.advanced": {
+        build: {
+          statusBarVisibility: "hidden",
+        },
+        launch: {
+          statusBarVisibility: "hidden",
+        },
+        debug: {
+          statusBarVisibility: "hidden",
+        },
+      },
+      "cmake.configureOnEdit": false,
+      "cmake.automaticReconfigure": false,
+      "cmake.configureOnOpen": false,
+      "cmake.generator": "Ninja",
+      "cmake.cmakePath": "${userHome}/.pico-sdk/cmake/v3.31.5/bin/cmake",
+      "C_Cpp.debugShortcut": false,
+      "terminal.integrated.env.windows": {
+        PICO_SDK_PATH: "${env:USERPROFILE}/.pico-sdk/sdk/2.1.1",
+        PICO_TOOLCHAIN_PATH: "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1",
+        Path: "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1/bin;${env:USERPROFILE}/.pico-sdk/picotool/2.1.1/picotool;${env:USERPROFILE}/.pico-sdk/cmake/v3.31.5/bin;${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1;${env:PATH}",
+      },
+      "terminal.integrated.env.osx": {
+        PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
+        PICO_TOOLCHAIN_PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1",
+        PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:${env:HOME}/.pico-sdk/cmake/v3.31.5/bin:${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
+      },
+      "terminal.integrated.env.linux": {
+        PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
+        PICO_TOOLCHAIN_PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1",
+        PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:${env:HOME}/.pico-sdk/cmake/v3.31.5/bin:${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
+      },
+      "raspberry-pi-pico.cmakeAutoConfigure": true,
+      "raspberry-pi-pico.useCmakeTools": false,
+      "raspberry-pi-pico.cmakePath":
+        "${HOME}/.pico-sdk/cmake/v3.31.5/bin/cmake",
+      "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
+    };
+
+    /* eslint-enable @typescript-eslint/naming-convention */
+    return JSON.stringify(settingsJson, null, 2);
+  }
 
   public static createOrShow(extensionUri: Uri, projectUri?: Uri): void {
     const column = window.activeTextEditor
@@ -258,6 +316,23 @@ export class NewZephyrProjectPanel {
                   value: newLoc[0].fsPath,
                 });
               }
+            }
+            break;
+          case "versionBundleAvailableTest":
+            {
+              // test if versionBundle for sdk version is available
+              const versionBundle =
+                await this._versionBundlesLoader?.getModuleVersion(
+                  message.value as string
+                );
+              // return result in message of command versionBundleAvailableTest
+              await this._panel.webview.postMessage({
+                command: "versionBundleAvailableTest",
+                value: {
+                  result: versionBundle !== undefined,
+                  picotoolVersion: versionBundle?.picotool,
+                },
+              });
             }
             break;
           case "cancel":
@@ -399,9 +474,32 @@ export class NewZephyrProjectPanel {
       return;
     }
 
-    // Setup Zephyr before doing anything else
-    await setupZephyr();
+    if (
+      this._versionBundle === undefined &&
+      // if no versionBundle then all version options the could be dependent on it must be custom (=> independent of versionBundle)
+      data.cmakeMode === 0
+      // (data.ninjaMode === 0 || data.cmakeMode === 0)
+    ) {
+      progress.report({
+        message: "Failed",
+        increment: 100,
+      });
+      void window.showErrorMessage("Failed to find selected SDK version.");
 
+      return;
+    }
+
+    // Setup Zephyr before doing anything else
+    const zephyrSetupOutputs = await setupZephyr({
+      versionBundle: this._versionBundle,
+      cmakeMode: data.cmakeMode,
+      cmakePath: data.cmakePath,
+      cmakeVersion: data.cmakeVersion,
+    });
+
+    if (zephyrSetupOutputs !== null) {
+      this._logger.info(zephyrSetupOutputs);
+    }
     this._logger.info("Generating new Zephyr Project");
 
     // Create a new directory to put the project in
@@ -486,6 +584,19 @@ export class NewZephyrProjectPanel {
     await workspace.fs.writeFile(
       Uri.file(kconfigFile),
       Buffer.from(newKconfigString)
+    );
+
+    const settingJsonFile = joinPosix(
+      newProjectDir,
+      ".vscode",
+      "settings.json"
+    );
+
+    // Create settings JSON and write to new folder
+    const settingsJson = NewZephyrProjectPanel.createSettingsJson();
+    await workspace.fs.writeFile(
+      Uri.file(settingJsonFile),
+      Buffer.from(settingsJson)
     );
 
     this._logger.info(`Zephyr Project generated at ${newProjectDir}`);
@@ -593,10 +704,21 @@ export class NewZephyrProjectPanel {
     const knownEnvironments = environments?.known;
     const activeEnv = environments?.getActiveEnvironmentPath();
 
+    let cmakesHtml = "";
+    const cmakeReleases = await getCmakeReleases();
+    cmakeReleases.forEach(cmake => {
+      cmakesHtml += `<option ${
+        cmakesHtml.length === 0 ? "selected " : ""
+      }value="${cmake}">${cmake}</option>`;
+    });
+
     // TODO: check python version, workaround, only allow python3 commands on unix
     const isPythonSystemAvailable =
       (await which("python3", { nothrow: true })) !== null ||
       (await which("python", { nothrow: true })) !== null;
+
+    const isCmakeSystemAvailable =
+      (await which("cmake", { nothrow: true })) !== null;
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
@@ -823,6 +945,41 @@ export class NewZephyrProjectPanel {
                         <label for="console-radio-usb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">USB</label>
                     </div>
                 </div>
+            </div>
+          </div>
+
+          <div class="col-span-2">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CMake Version:</label>
+            ${
+              this._versionBundle !== undefined
+                ? `<div class="flex items-center mb-2">
+                    <input type="radio" id="cmake-radio-default-version" name="cmake-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
+                    <label for="cmake-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
+                  </div>`
+                : ""
+            }
+
+            ${
+              isCmakeSystemAvailable
+                ? `<div class="flex items-center mb-2" >
+                    <input type="radio" id="cmake-radio-system-version" name="cmake-version-radio" value="1" class="mr-1 text-blue-500">
+                    <label for="cmake-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+                  </div>`
+                : ""
+            }
+
+            <div class="flex items-center mb-2">
+              <input type="radio" id="cmake-radio-select-version" name="cmake-version-radio" value="2" class="mr-1 text-blue-500">
+              <label for="cmake-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
+              <select id="sel-cmake" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                ${cmakesHtml}
+              </select>
+            </div>
+
+            <div class="flex items-center mb-2">
+              <input type="radio" id="cmake-radio-path-executable" name="cmake-version-radio" value="3" class="mr-1 text-blue-500">
+              <label for="cmake-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+              <input type="file" id="cmake-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
             </div>
           </div>
 
