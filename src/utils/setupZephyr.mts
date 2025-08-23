@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, rmSync } from "fs";
 import { window, workspace, ProgressLocation, Uri } from "vscode";
 import { type ExecOptions, exec, spawnSync } from "child_process";
+import { dirname } from "path";
 import { join as joinPosix } from "path/posix";
 import { homedir } from "os";
 import Logger from "../logger.mjs";
@@ -82,7 +83,7 @@ function _runCommand(
 
 export async function setupZephyr(
   data: ZephyrSetupValue
-): Promise<ZephyrSetupOutputs | string | undefined> {
+): Promise<ZephyrSetupOutputs | undefined> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
     _logger.error("Settings not initialized.");
@@ -531,13 +532,7 @@ export async function setupZephyr(
       const customEnv = process.env;
 
       const customPath = [
-        joinPosix(
-          homedir().replaceAll("\\", "/"),
-          ".pico-sdk",
-          "cmake",
-          "v3.31.5",
-          "bin"
-        ),
+        dirname(output.cmakeExecutable.replaceAll("\\", "/")),
         joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc", "bin"),
         joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "git", "cmd"),
         joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf", "bin"),

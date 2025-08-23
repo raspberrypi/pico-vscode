@@ -23,11 +23,11 @@ import {
 } from "./newProjectPanel.mjs";
 import which from "which";
 import { existsSync } from "fs";
-import { join } from "path";
+import { join, dirname } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
-import { setupZephyr } from "../utils/setupZephyr.mjs";
+import { setupZephyr, type ZephyrSetupOutputs } from "../utils/setupZephyr.mjs";
 import VersionBundlesLoader, {
   type VersionBundle,
 } from "../utils/versionBundles.mjs";
@@ -142,7 +142,18 @@ export class NewZephyrProjectPanel {
 
   // Create settings.json file with correct subsitution for tools such as
   // CMake, Ninja, Python, etc
-  private static createSettingsJson(): string {
+  private static createSettingsJson(
+    homePath: string,
+    cmakePath: string
+  ): string {
+    // Helper functions
+    const getDirName = (s: string): string => dirname(joinPosix(s));
+
+    const subbedCmakePath = getDirName(
+      cmakePath.replace(homePath, "${userHome}")
+    );
+    console.log(subbedCmakePath);
+
     const settingsJson = {
       /* eslint-disable @typescript-eslint/naming-convention */
       "cmake.options.statusBarVisibility": "hidden",
@@ -161,27 +172,37 @@ export class NewZephyrProjectPanel {
       "cmake.automaticReconfigure": false,
       "cmake.configureOnOpen": false,
       "cmake.generator": "Ninja",
-      "cmake.cmakePath": "${userHome}/.pico-sdk/cmake/v3.31.5/bin/cmake",
+      "cmake.cmakePath": `${cmakePath.replace(homePath, "${userHome}")}`,
       "C_Cpp.debugShortcut": false,
       "terminal.integrated.env.windows": {
         PICO_SDK_PATH: "${env:USERPROFILE}/.pico-sdk/sdk/2.1.1",
         PICO_TOOLCHAIN_PATH: "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1",
-        Path: "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1/bin;${env:USERPROFILE}/.pico-sdk/picotool/2.1.1/picotool;${env:USERPROFILE}/.pico-sdk/cmake/v3.31.5/bin;${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1;${env:PATH}",
+        Path:
+          "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1/bin;${env:USERPROFILE}/.pico-sdk/picotool/2.1.1/picotool;" +
+          `${getDirName(cmakePath.replace(homePath, "${env:USERPROFILE}"))};` +
+          "${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1;${env:PATH}",
       },
       "terminal.integrated.env.osx": {
         PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
         PICO_TOOLCHAIN_PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1",
-        PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:${env:HOME}/.pico-sdk/cmake/v3.31.5/bin:${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
+        PATH:
+          "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:" +
+          `${getDirName(cmakePath.replace(homePath, "{env:HOME}"))}:` +
+          "${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
       },
       "terminal.integrated.env.linux": {
         PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
         PICO_TOOLCHAIN_PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1",
-        PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:${env:HOME}/.pico-sdk/cmake/v3.31.5/bin:${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
+        PATH:
+          "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:" +
+          `${getDirName(cmakePath.replace(homePath, "{env:HOME}"))}:` +
+          "${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
       },
       "raspberry-pi-pico.cmakeAutoConfigure": true,
       "raspberry-pi-pico.useCmakeTools": false,
-      "raspberry-pi-pico.cmakePath":
-        "${HOME}/.pico-sdk/cmake/v3.31.5/bin/cmake",
+      "raspberry-pi-pico.cmakePath": `${getDirName(
+        cmakePath.replace(homePath, "${HOME}")
+      )};`,
       "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
     };
 
@@ -497,9 +518,12 @@ export class NewZephyrProjectPanel {
       cmakeVersion: data.cmakeVersion,
     });
 
-    if (zephyrSetupOutputs !== null) {
-      this._logger.info(zephyrSetupOutputs);
+    if (zephyrSetupOutputs === null) {
+      return;
     }
+
+    this._logger.info(JSON.stringify(zephyrSetupOutputs));
+
     this._logger.info("Generating new Zephyr Project");
 
     // Create a new directory to put the project in
@@ -593,7 +617,10 @@ export class NewZephyrProjectPanel {
     );
 
     // Create settings JSON and write to new folder
-    const settingsJson = NewZephyrProjectPanel.createSettingsJson();
+    const settingsJson = NewZephyrProjectPanel.createSettingsJson(
+      homeDirectory.replaceAll("\\", "/"),
+      zephyrSetupOutputs?.cmakeExecutable || ""
+    );
     await workspace.fs.writeFile(
       Uri.file(settingJsonFile),
       Buffer.from(settingsJson)
