@@ -82,8 +82,9 @@ function computeDownloadLink(release: string): string {
 export async function cargoInstall(
   packageName: string,
   locked = false
-): Promise<boolean> {
+): Promise<string | undefined> {
   const command = process.platform === "win32" ? "cargo.exe" : "cargo";
+
   try {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { stdout, stderr } = await execAsync(
@@ -93,7 +94,7 @@ export async function cargoInstall(
       }
     );
 
-    return true;
+    return;
   } catch (error) {
     const msg = unknownErrorToString(error);
     if (
@@ -109,7 +110,7 @@ export async function cargoInstall(
         msg
       );
 
-      return true;
+      return;
     }
     Logger.error(
       LoggerSource.rustUtil,
@@ -118,7 +119,7 @@ export async function cargoInstall(
       )}`
     );
 
-    return false;
+    return unknownErrorToString(error);
   }
 }
 
@@ -296,7 +297,7 @@ export async function checkRustInstallation(): Promise<boolean> {
  * @returns {boolean} True if all requirements are met or have been installed, false otherwise.
  */
 export async function downloadAndInstallRust(): Promise<boolean> {
-  let result = await checkRustInstallation();
+  const result = await checkRustInstallation();
   if (!result) {
     return false;
   }
@@ -329,20 +330,41 @@ export async function downloadAndInstallRust(): Promise<boolean> {
 
   // install flip-link
   const flipLink = "flip-link";
-  result = await cargoInstall(flipLink, false);
-  if (!result) {
-    void window.showErrorMessage(
-      `Failed to install cargo package '${flipLink}'.` +
-        "Please check the logs."
-    );
+  let cargoInstResult = await cargoInstall(flipLink, false);
+  if (cargoInstResult !== undefined) {
+    if (cargoInstResult.includes("error: linker `link.exe` not found")) {
+      void window
+        .showErrorMessage(
+          `Failed to install cargo package '${flipLink}'` +
+            " because the MSVC linker is not found" +
+            " or Windows SDK components are missing.",
+          "More Info"
+        )
+        .then(selection => {
+          if (selection === "More Info") {
+            env.openExternal(
+              Uri.parse(
+                // eslint-disable-next-line max-len
+                "https://rust-lang.github.io/rustup/installation/windows-msvc.html#manual-install",
+                true
+              )
+            );
+          }
+        });
+    } else {
+      void window.showErrorMessage(
+        `Failed to install cargo package '${flipLink}'.` +
+          "Please check the logs."
+      );
+    }
 
     return false;
   }
 
   // or install probe-rs-tools
   const probeRsTools = "defmt-print";
-  result = await cargoInstall(probeRsTools, true);
-  if (!result) {
+  cargoInstResult = await cargoInstall(probeRsTools, true);
+  if (!cargoInstResult) {
     void window.showErrorMessage(
       `Failed to install cargo package '${probeRsTools}'.` +
         "Please check the logs."
@@ -353,8 +375,8 @@ export async function downloadAndInstallRust(): Promise<boolean> {
 
   // install elf2uf2-rs
   const elf2uf2Rs = "elf2uf2-rs";
-  result = await cargoInstall(elf2uf2Rs, true);
-  if (!result) {
+  cargoInstResult = await cargoInstall(elf2uf2Rs, true);
+  if (!cargoInstResult) {
     void window.showErrorMessage(
       `Failed to install cargo package '${elf2uf2Rs}'.` +
         "Please check the logs."
