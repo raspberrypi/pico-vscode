@@ -262,7 +262,7 @@ export async function checkRustInstallation(): Promise<boolean> {
     if (!rustupOk) {
       void window
         .showErrorMessage(
-          "Rustup is not installed. Please install it manually.",
+          "Rustup is not installed. Please install it manually and restart VS Code.",
           "Install"
         )
         .then(result => {
