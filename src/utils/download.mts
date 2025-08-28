@@ -38,6 +38,7 @@ import {
   githubApiUnauthorized,
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_OK,
+  SDK_REPOSITORY_URL,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
@@ -52,6 +53,7 @@ import {
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
 import VersionBundlesLoader from "./versionBundles.mjs";
+import findPython, { showPythonNotFoundError } from "./pythonHelper.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -574,6 +576,8 @@ export async function downloadAndInstallSDK(
     (await cloneRepository(repositoryUrl, version, targetDirectory, gitPath))
   ) {
     settings.reload();
+
+    // TODO: should already be done by rust project panel
     // check python requirements
     const python3Exe: string =
       python3Path ||
@@ -589,7 +593,10 @@ export async function downloadAndInstallSDK(
         "Python3 is not installed and could not be downloaded."
       );
 
-      void window.showErrorMessage("Python3 is not installed and in PATH.");
+      void window.showErrorMessage(
+        "Python 3 was not found. " +
+          "Please install Python 3 to complete Pico SDK setup."
+      );
 
       return false;
     }
@@ -1068,10 +1075,10 @@ export async function downloadAndInstallOpenOCD(
         ? "-aarch64"
         : "-x86_64"
       : process.platform === "darwin"
-        ? process.arch === "arm64"
-          ? "-arm64"
-          : "-x86_64"
-        : ""
+      ? process.arch === "arm64"
+        ? "-arm64"
+        : "-x86_64"
+      : ""
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
 
   const extraCallback = (): void => {
@@ -1327,16 +1334,66 @@ export async function installLatestRustRequirements(
     return false;
   }
 
-  const supportedToolchains = await getSupportedToolchains();
+  // install python (if necessary)
+  const python3Path = await findPython();
+  if (!python3Path) {
+    Logger.error(LoggerSource.downloader, "Failed to find Python3 executable.");
+    showPythonNotFoundError();
+
+    return false;
+  }
 
   let result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing SDK",
+      cancellable: false,
+    },
+    async progress2 => {
+      const result = await downloadAndInstallSDK(
+        latest[0],
+        SDK_REPOSITORY_URL,
+        // python3Path is only possible undefined if downloaded and
+        // there is already checked and returned if this happened
+        python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+      );
+
+      if (!result) {
+        Logger.error(
+          LoggerSource.downloader,
+          "Failed to download and install SDK."
+        );
+        progress2.report({
+          message: "Failed - Make sure all requirements are met.",
+          increment: 100,
+        });
+
+        void window.showErrorMessage(
+          "Failed to download and install SDK. " +
+            "Make sure all requirements are met."
+        );
+
+        return false;
+      }
+
+      return true;
+    }
+  );
+
+  if (!result) {
+    return false;
+  }
+
+  const supportedToolchains = await getSupportedToolchains();
+
+  result = await window.withProgress(
     {
       location: ProgressLocation.Notification,
       title: `Downloading ARM Toolchain for debugging...`,
     },
     async progress => {
       const toolchain = supportedToolchains.find(
-        t => t.version === latest.toolchain
+        t => t.version === latest[1].toolchain
       );
 
       if (toolchain === undefined) {
@@ -1374,7 +1431,7 @@ export async function installLatestRustRequirements(
     },
     async progress => {
       const toolchain = supportedToolchains.find(
-        t => t.version === latest.riscvToolchain
+        t => t.version === latest[1].riscvToolchain
       );
 
       if (toolchain === undefined) {
@@ -1437,11 +1494,14 @@ export async function installLatestRustRequirements(
     async progress => {
       let progressState = 0;
 
-      return downloadAndInstallPicotool(latest.picotool, (prog: Progress) => {
-        const percent = prog.percent * 100;
-        progress.report({ increment: percent - progressState });
-        progressState = percent;
-      });
+      return downloadAndInstallPicotool(
+        latest[1].picotool,
+        (prog: Progress) => {
+          const percent = prog.percent * 100;
+          progress.report({ increment: percent - progressState });
+          progressState = percent;
+        }
+      );
     }
   );
   if (!result) {
