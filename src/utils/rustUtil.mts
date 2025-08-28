@@ -364,7 +364,7 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   // or install probe-rs-tools
   const probeRsTools = "defmt-print";
   cargoInstResult = await cargoInstall(probeRsTools, true);
-  if (!cargoInstResult) {
+  if (cargoInstResult !== undefined) {
     void window.showErrorMessage(
       `Failed to install cargo package '${probeRsTools}'.` +
         "Please check the logs."
@@ -376,7 +376,7 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   // install elf2uf2-rs
   const elf2uf2Rs = "elf2uf2-rs";
   cargoInstResult = await cargoInstall(elf2uf2Rs, true);
-  if (!cargoInstResult) {
+  if (cargoInstResult !== undefined) {
     void window.showErrorMessage(
       `Failed to install cargo package '${elf2uf2Rs}'.` +
         "Please check the logs."
