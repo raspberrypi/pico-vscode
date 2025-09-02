@@ -95,7 +95,7 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
 
       const supportedToolchains = await getSupportedToolchains();
       const latestSupportedToolchain = supportedToolchains.find(
-        t => t.version === latestVb.toolchain
+        t => t.version === latestVb[1].toolchain
       );
       if (!latestSupportedToolchain) {
         void window.showErrorMessage(
@@ -110,8 +110,8 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
       )?.includes("riscv");
 
       toolchainVersion = useRISCV
-        ? latestVb.riscvToolchain
-        : latestVb.toolchain;
+        ? latestVb[1].riscvToolchain
+        : latestVb[1].toolchain;
     } else {
       const selectedToolchainAndSDKVersions =
         await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
