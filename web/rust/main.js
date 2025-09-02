@@ -22,19 +22,36 @@ var submitted = false;
     }
 
     const projectNameError = document.getElementById('inp-project-name-error');
-    const projectName = projectNameElement.value;
+    const nameRaw = projectNameElement.value || "";
+    const name = nameRaw.trim();
 
-    var invalidChars = /[\/:*?"<>| ]/;
-    // check for reserved names in Windows
-    var reservedNames = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
-    if (projectName.trim().length == 0 || invalidChars.test(projectName) || reservedNames.test(projectName)) {
+    // Windows reserved basenames (case-insensitive)
+    const reservedNames = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
+
+    // Valid Cargo crate/package name:
+    // - start with a letter
+    // - rest: letters, digits, underscore, hyphen
+    // - all lowercase (Cargo convention)
+    const crateNameRegex = /^[a-z][a-z0-9_-]*$/;
+
+    // Disallow path separators and whitespace outright as a fast path
+    const hasBadChars = /[\/\\:*?"<>|\s]/.test(name);
+
+    if (
+      name.length === 0 ||
+      hasBadChars ||
+      reservedNames.test(name) ||
+      !crateNameRegex.test(name)
+    ) {
       projectNameError.hidden = false;
-      //projectNameElement.scrollIntoView({ behavior: "smooth" });
+      projectNameError.innerHTML =
+        `<span class="font-medium">Error</span> \
+Project name must start with a letter and contain only lowercase letters, digits, '-' or '_' (no spaces), \
+and must not be a reserved Windows name.`;
       window.scrollTo({
         top: projectNameElement.offsetTop - navbarOffsetHeight,
         behavior: 'smooth'
       });
-
       return false;
     }
 
@@ -75,60 +92,11 @@ var submitted = false;
       return;
     }
 
-    // selected python version
-    const pythonVersionRadio = document.getElementsByName('python-version-radio');
-    let pythonMode = null;
-    let pythonPath = null;
-    for (let i = 0; i < pythonVersionRadio.length; i++) {
-      if (pythonVersionRadio[i].checked) {
-        pythonMode = Number(pythonVersionRadio[i].value);
-        break;
-      }
-    }
-    if (pythonVersionRadio.length == 0) {
-      // default to python mode 0 == python ext version
-      pythonMode = 0;
-    }
-
-    // if python version is null or not a number, smaller than 0 or bigger than 3, set it to 0
-    if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
-      pythonMode = 0;
-      console.debug('Invalid python version value: ' + pythonMode.toString());
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid python version."
-      });
-      submitted = false;
-
-      return;
-    }
-    if (pythonMode === 0) {
-      const pyenvKnownSel = document.getElementById("sel-pyenv-known");
-      pythonPath = pyenvKnownSel.value;
-    } else if (pythonMode === 2) {
-      const files = document.getElementById('python-path-executable').files;
-
-      if (files.length == 1) {
-        pythonPath = files[0].name;
-      } else {
-        console.debug("Please select a valid python executable file");
-        vscode.postMessage({
-          command: CMD_ERROR,
-          value: "Please select a valid python executable file."
-        });
-        submitted = false;
-
-        return;
-      }
-    }
-
     //post all data values to the extension
     vscode.postMessage({
       command: CMD_SUBMIT,
       value: {
-        projectName: projectName,
-        pythonMode: Number(pythonMode),
-        pythonPath: pythonPath
+        projectName: projectName
       }
     });
   }
@@ -170,13 +138,4 @@ var submitted = false;
   document.getElementById('btn-change-project-location').addEventListener('click', changeLocation);
   document.getElementById('btn-cancel').addEventListener('click', cancelBtnClick);
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);
-
-  document.getElementById('inp-project-name').addEventListener('input', function () {
-    const projName = document.getElementById('inp-project-name').value;
-    // TODO: future examples stuff (maybe)
-  });
-
-  const pythonVersionRadio = document.getElementsByName('python-version-radio');
-  if (pythonVersionRadio.length > 0)
-    pythonVersionRadio[0].checked = true;
 }());

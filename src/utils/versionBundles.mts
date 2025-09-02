@@ -4,6 +4,7 @@ import { isInternetConnected } from "./downloadHelpers.mjs";
 import { get } from "https";
 import Logger from "../logger.mjs";
 import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import { compare } from "./semverUtil.mjs";
 
 const versionBundlesUrl =
   "https://raspberrypi.github.io/pico-vscode/" +
@@ -126,5 +127,25 @@ export default class VersionBundlesLoader {
     }
 
     return chosenBundle;
+  }
+
+  public async getLatest(): Promise<[string, VersionBundle] | undefined> {
+    if (this.bundles === undefined) {
+      await this.loadBundles();
+    }
+
+    return Object.entries(this.bundles ?? {}).sort(
+      (a, b) => compare(a[0], b[0]) * -1
+    )[0];
+  }
+
+  public async getLatestSDK(): Promise<string | undefined> {
+    if (this.bundles === undefined) {
+      await this.loadBundles();
+    }
+
+    return Object.entries(this.bundles ?? {}).sort(
+      (a, b) => compare(a[0], b[0]) * -1
+    )[0][0];
   }
 }

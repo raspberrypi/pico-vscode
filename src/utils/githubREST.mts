@@ -25,6 +25,8 @@ export enum GithubRepository {
   ninja = 2,
   tools = 3,
   picotool = 4,
+  rust = 5,
+  rsTools = 6,
 }
 
 /**
@@ -68,6 +70,10 @@ export function ownerOfRepository(repository: GithubRepository): string {
       return "Kitware";
     case GithubRepository.ninja:
       return "ninja-build";
+    case GithubRepository.rust:
+      return "rust-lang";
+    case GithubRepository.rsTools:
+      return "paulober";
   }
 }
 
@@ -90,6 +96,10 @@ export function repoNameOfRepository(repository: GithubRepository): string {
       return "pico-sdk-tools";
     case GithubRepository.picotool:
       return "picotool";
+    case GithubRepository.rust:
+      return "rust";
+    case GithubRepository.rsTools:
+      return "pico-vscode-rs-tools";
   }
 }
 
@@ -221,9 +231,10 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
       headers["if-none-match"] = lastEtag;
     }
 
+    const url = `${GITHUB_API_BASE_URL}/repos/${owner}/${repo}/releases`;
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const response = await makeAsyncGetRequest<Array<{ tag_name: string }>>(
-      `${GITHUB_API_BASE_URL}/repos/${owner}/${repo}/releases`,
+      url,
       headers
     );
 
@@ -251,7 +262,9 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
       // there is no way a rerun will succeed in the near future
       throw new Error("GitHub API Code 403 Forbidden. Rate limit exceeded.");
     } else if (response.status !== 200) {
-      throw new Error("Error http status code: " + response.status);
+      throw new Error(
+        "Error http status code: " + response.status + " for " + url
+      );
     }
 
     if (response.data !== null) {
@@ -305,6 +318,14 @@ export async function getNinjaReleases(): Promise<string[]> {
 
 export async function getCmakeReleases(): Promise<string[]> {
   return getReleases(GithubRepository.cmake);
+}
+
+export async function getRustReleases(): Promise<string[]> {
+  return getReleases(GithubRepository.rust);
+}
+
+export async function getRustToolsReleases(): Promise<string[]> {
+  return getReleases(GithubRepository.rsTools);
 }
 
 /**
