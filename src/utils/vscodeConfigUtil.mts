@@ -75,25 +75,46 @@ async function updateCppPropertiesFile(
 
 async function updateTasksFile(
   tasksFile: string,
-  newNinjaVersion: string
+  newPicotoolVersion: string,
+  newNinjaVersion?: string
 ): Promise<void> {
-  // read tasksFile (it contains the path)
-  let content = await readFile(tasksFile, "utf8");
+  try {
+    // read tasksFile (it contains the path)
+    let content = await readFile(tasksFile, "utf8");
 
-  // if a string with following format .pico-sdk/ninja/<version>/ exists
-  // then replace <version> with the new version
-  if (content.includes(".pico-sdk/ninja/")) {
-    const oldNinjaVersion = content.match(/(?<=\.pico-sdk\/ninja\/)(.*)(?=\/)/);
-    if (oldNinjaVersion !== null) {
-      content = content.replaceAll(
-        `.pico-sdk/ninja/${oldNinjaVersion[0]}`,
-        `.pico-sdk/ninja/${newNinjaVersion}`
-      );
+    // if a string with following format .pico-sdk/<thing>/<version>/ exists
+    // then replace <version> with the new version
+
+    if (content.includes(".pico-sdk/picotool/")) {
+      const oldPicotoolVersion =
+        content.match(/(?<=\.pico-sdk\/picotool\/)(.*)(?=\/)/);
+      if (oldPicotoolVersion !== null) {
+        content = content.replaceAll(
+          `.pico-sdk/picotool/${oldPicotoolVersion[0]}`,
+          `.pico-sdk/picotool/${newPicotoolVersion}`
+        );
+      }
     }
-  }
 
-  // save tasksFile
-  await writeFile(tasksFile, content, "utf8");
+    if (newNinjaVersion) {
+      if (content.includes(".pico-sdk/ninja/")) {
+        const oldNinjaVersion =
+          content.match(/(?<=\.pico-sdk\/ninja\/)(.*)(?=\/)/);
+        if (oldNinjaVersion !== null) {
+          content = content.replaceAll(
+            `.pico-sdk/ninja/${oldNinjaVersion[0]}`,
+            `.pico-sdk/ninja/${newNinjaVersion}`
+          );
+        }
+      }
+    }
+
+    // save tasksFile
+    await writeFile(tasksFile, content, "utf8");
+    console.log("tasks.json file updated successfully.");
+  } catch {
+    Logger.log("Error updating tasks.json file.");
+  }
 }
 
 function buildCMakePath(cmakeVersion: string): string {
@@ -305,8 +326,6 @@ export async function updateVSCodeStaticConfigs(
   const launchFile = join(folder, ".vscode", "launch.json");
   await updateLaunchFile(launchFile, newSDKVersion);
 
-  if (newNinjaVersion) {
-    const tasksFile = join(folder, ".vscode", "tasks.json");
-    await updateTasksFile(tasksFile, newNinjaVersion);
-  }
+  const tasksFile = join(folder, ".vscode", "tasks.json");
+  await updateTasksFile(tasksFile, newPicotoolVersion, newNinjaVersion);
 }
