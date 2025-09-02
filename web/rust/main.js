@@ -22,19 +22,36 @@ var submitted = false;
     }
 
     const projectNameError = document.getElementById('inp-project-name-error');
-    const projectName = projectNameElement.value;
+    const nameRaw = projectNameElement.value || "";
+    const name = nameRaw.trim();
 
-    var invalidChars = /[\/:*?"<>| ]/;
-    // check for reserved names in Windows
-    var reservedNames = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
-    if (projectName.trim().length == 0 || invalidChars.test(projectName) || reservedNames.test(projectName)) {
+    // Windows reserved basenames (case-insensitive)
+    const reservedNames = /^(con|prn|aux|nul|com[0-9]|lpt[0-9])$/i;
+
+    // Valid Cargo crate/package name:
+    // - start with a letter
+    // - rest: letters, digits, underscore, hyphen
+    // - all lowercase (Cargo convention)
+    const crateNameRegex = /^[a-z][a-z0-9_-]*$/;
+
+    // Disallow path separators and whitespace outright as a fast path
+    const hasBadChars = /[\/\\:*?"<>|\s]/.test(name);
+
+    if (
+      name.length === 0 ||
+      hasBadChars ||
+      reservedNames.test(name) ||
+      !crateNameRegex.test(name)
+    ) {
       projectNameError.hidden = false;
-      //projectNameElement.scrollIntoView({ behavior: "smooth" });
+      projectNameError.innerHTML =
+        `<span class="font-medium">Error</span> \
+Project name must start with a letter and contain only lowercase letters, digits, '-' or '_' (no spaces), \
+and must not be a reserved Windows name.`;
       window.scrollTo({
         top: projectNameElement.offsetTop - navbarOffsetHeight,
         behavior: 'smooth'
       });
-
       return false;
     }
 
@@ -75,33 +92,11 @@ var submitted = false;
       return;
     }
 
-    // flash-method selection
-    const flashMethodRadio = document.getElementsByName('flash-method-radio');
-    let flashMethodSelection = null;
-    for (let i = 0; i < flashMethodRadio.length; i++) {
-      if (flashMethodRadio[i].checked) {
-        flashMethodSelection = parseInt(flashMethodRadio[i].value);
-        break;
-      }
-    }
-    // if flash-method selection is null or not a number, smaller than 0 or bigger than 2, set it to 0
-    if (flashMethodSelection === null || isNaN(flashMethodSelection) || flashMethodSelection < 0 || flashMethodSelection > 2) {
-      flashMethodSelection = 0;
-      console.debug('Invalid flash-method selection value: ' + flashMethodSelection);
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid flash-method."
-      });
-      submitted = false;
-      return;
-    }
-
     //post all data values to the extension
     vscode.postMessage({
       command: CMD_SUBMIT,
       value: {
-        projectName: projectName,
-        flashMethod: flashMethodSelection
+        projectName: projectName
       }
     });
   }

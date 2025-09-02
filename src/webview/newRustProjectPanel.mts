@@ -23,15 +23,11 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { downloadAndInstallRust } from "../utils/rustUtil.mjs";
-import {
-  type FlashMethod,
-  generateRustProject,
-} from "../utils/projectGeneration/projectRust.mjs";
+import { generateRustProject } from "../utils/projectGeneration/projectRust.mjs";
 import { installLatestRustRequirements } from "../utils/download.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
-  flashMethod: FlashMethod;
 }
 
 export class NewRustProjectPanel {
@@ -297,11 +293,7 @@ export class NewRustProjectPanel {
 
     const projectFolder = join(projectPath, data.projectName);
 
-    result = await generateRustProject(
-      projectFolder,
-      data.projectName
-      //data.flashMethod
-    );
+    result = await generateRustProject(projectFolder, data.projectName);
 
     if (!result) {
       this._logger.error("Failed to generate Rust project.");
@@ -551,23 +543,6 @@ export class NewRustProjectPanel {
               </div>
           </div>
 
-          <div id="section-flash-method">
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Flash Method</h3>
-              <div class="flex items-stretch space-x-4">
-                  <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                      <input checked id="flash-method-radio-debug-probe" type="radio" value="0" name="flash-method-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                      <label for="flash-method-radio-debug-probe" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pico Probe [Default]</label>
-                  </div>
-                  <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                      <input id="flash-method-radio-elf2uf2" type="radio" value="1" name="flash-method-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                      <label for="flash-method-radio-elf2uf2" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">ELF2UF2</label>
-                  </div>
-                  <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                      <input id="flash-method-radio-cargo-embed" type="radio" value="2" name="flash-method-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                      <label for="flash-method-radio-cargo-embed" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Cargo Embed</label>
-                  </div>
-              </div>
-          </div>
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
               <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
               <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">

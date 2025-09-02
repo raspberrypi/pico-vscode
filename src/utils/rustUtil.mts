@@ -386,6 +386,18 @@ export async function downloadAndInstallRust(): Promise<boolean> {
     return false;
   }
 
+  // install cargo-sbom
+  const cargoSbom = "cargo-sbom";
+  cargoInstResult = await cargoInstall(cargoSbom, true);
+  if (cargoInstResult !== undefined) {
+    void window.showErrorMessage(
+      `Failed to install cargo package '${cargoSbom}'.` +
+        "Please check the logs."
+    );
+
+    return false;
+  }
+
   // install cargo-generate binary
   /*result = await installCargoGenerate();
   if (!result) {

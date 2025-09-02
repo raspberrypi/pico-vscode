@@ -16,15 +16,14 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
   }
 
   async execute(): Promise<boolean> {
+    const isRustProject = State.getInstance().isRustProject;
+
     // Get the task with the specified name
     const task = (await tasks.fetchTasks()).find(
-      task => task.name === "Compile Project"
+      task =>
+        task.name ===
+        (isRustProject ? "Build + Generate SBOM (release)" : "Compile Project")
     );
-    /*const isRustProject = await commands.executeCommand(
-      "getContext",
-      ContextKeys.isRustProject
-    );*/
-    const isRustProject = State.getInstance().isRustProject;
 
     const settings = Settings.getInstance();
     if (
