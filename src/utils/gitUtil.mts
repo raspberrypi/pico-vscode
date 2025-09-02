@@ -26,7 +26,7 @@ export async function checkGitVersion(
   console.debug(
     `Git version check result: ${ret.stderr} stdout: ${ret.stdout}`
   );
-  const regex = /git version (\d+\.\d+(\.\d+)*)/;
+  const regex = /git version (\d+\.\d+\.\d+)/;
   const match = regex.exec(ret.stdout);
   if (match && match[1]) {
     const gitVersion = match[1];
