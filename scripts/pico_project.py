@@ -780,6 +780,7 @@ def GenerateCMake(folder, params):
             file.seek(0)
             lines = file.readlines()
             file.seek(0)
+            file.truncate()
             if not params["wantExample"]:
                 if CMAKE_DO_NOT_EDIT_HEADER_PREFIX in content:
                     print(
