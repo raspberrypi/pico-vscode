@@ -1,4 +1,4 @@
-import { existsSync, PathOrFileDescriptor, readFileSync } from "fs";
+import { existsSync, type PathOrFileDescriptor, readFileSync } from "fs";
 import { join } from "path";
 import { join as joinPosix } from "path/posix";
 import { window, workspace, Uri } from "vscode";
@@ -14,12 +14,19 @@ enum BoardNames {
   pico2W = "Pico 2W",
 }
 
+interface TasksJson {
+  tasks: Array<{
+    label: string;
+    args: string[];
+  }>;
+}
+
 export function findZephyrBoardInTasksJson(
   tasksJsonFilePath: PathOrFileDescriptor
 ): string | undefined {
-  const tasksJson: any = JSON.parse(
+  const tasksJson = JSON.parse(
     readFileSync(tasksJsonFilePath).toString("utf-8")
-  );
+  ) as TasksJson;
 
   // Check it has a tasks object with
   if (tasksJson.tasks === undefined || !Array.isArray(tasksJson.tasks)) {
@@ -168,7 +175,7 @@ export default class SwitchZephyrBoardCommand extends Command {
       const jsonString = (
         await workspace.fs.readFile(Uri.file(taskJsonFile))
       ).toString();
-      const tasksJson: any = JSON.parse(jsonString);
+      const tasksJson = JSON.parse(jsonString) as TasksJson;
 
       // Check it has a tasks object with
       if (tasksJson.tasks === undefined || !Array.isArray(tasksJson.tasks)) {
@@ -195,7 +202,7 @@ export default class SwitchZephyrBoardCommand extends Command {
         return;
       }
 
-      let args: string[] = tasksJson.tasks[compileIndex].args;
+      const args: string[] = tasksJson.tasks[compileIndex].args;
 
       if (args === undefined || !Array.isArray(args)) {
         window.showErrorMessage(

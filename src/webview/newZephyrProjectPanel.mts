@@ -27,10 +27,9 @@ import { join, dirname } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
-import { setupZephyr, type ZephyrSetupOutputs } from "../utils/setupZephyr.mjs";
-import VersionBundlesLoader, {
-  type VersionBundle,
-} from "../utils/versionBundles.mjs";
+import { setupZephyr } from "../utils/setupZephyr.mjs";
+import type { VersionBundle } from "../utils/versionBundles.mjs";
+import type VersionBundlesLoader from "../utils/versionBundles.mjs";
 import { getCmakeReleases } from "../utils/githubREST.mjs";
 
 enum BoardType {
@@ -123,6 +122,12 @@ const shellSensorKconfig: string = "CONFIG_SENSOR_SHELL=y";
 const shellWifiKconfig: string = `CONFIG_WIFI_LOG_LEVEL_ERR=y
 CONFIG_NET_L2_WIFI_SHELL=y
 CONFIG_NET_SHELL=y`;
+
+interface TasksJson {
+  tasks: Array<{
+    args: string[];
+  }>;
+}
 
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;
@@ -565,8 +570,8 @@ export class NewZephyrProjectPanel {
     const jsonString = (
       await workspace.fs.readFile(Uri.file(taskJsonFile))
     ).toString();
-    const tasksJson: any = JSON.parse(jsonString);
-    this._logger.error(`${tasksJson}`);
+
+    const tasksJson = JSON.parse(jsonString) as TasksJson;
 
     // Modify task.json
     tasksJson.tasks[0].args = buildArgs;
@@ -629,7 +634,9 @@ export class NewZephyrProjectPanel {
     this._logger.info(`Zephyr Project generated at ${newProjectDir}`);
 
     // Open the folder
-    commands.executeCommand(`vscode.openFolder`, Uri.file(newProjectDir));
+    void commands.executeCommand(`vscode.openFolder`, Uri.file(newProjectDir), {
+      forceNewWindow: (workspace.workspaceFolders?.length ?? 0) > 0,
+    });
 
     return;
   }
@@ -727,9 +734,9 @@ export class NewZephyrProjectPanel {
 
     // TODO: add support for onDidChangeActiveEnvironment and filter envs that don't directly point
     // to an executable
-    const environments = this._pythonExtensionApi?.environments;
-    const knownEnvironments = environments?.known;
-    const activeEnv = environments?.getActiveEnvironmentPath();
+    //const environments = this._pythonExtensionApi?.environments;
+    //const knownEnvironments = environments?.known;
+    //const activeEnv = environments?.getActiveEnvironmentPath();
 
     let cmakesHtml = "";
     const cmakeReleases = await getCmakeReleases();
@@ -740,9 +747,9 @@ export class NewZephyrProjectPanel {
     });
 
     // TODO: check python version, workaround, only allow python3 commands on unix
-    const isPythonSystemAvailable =
-      (await which("python3", { nothrow: true })) !== null ||
-      (await which("python", { nothrow: true })) !== null;
+    //const isPythonSystemAvailable =
+    //  (await which("python3", { nothrow: true })) !== null ||
+    //  (await which("python", { nothrow: true })) !== null;
 
     const isCmakeSystemAvailable =
       (await which("cmake", { nothrow: true })) !== null;
@@ -791,6 +798,7 @@ export class NewZephyrProjectPanel {
           <!-- Navigation links go here -->
           <ul class="overlay-menu">
             <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Basic Settings</li>
+            <li id="ov-nav-features" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Modules</li>
           </ul>
         </div>
         <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 pr-5 h-24 bg-opacity-95 bg-slate-400 dark:bg-slate-800 rounded-md">
@@ -801,6 +809,9 @@ export class NewZephyrProjectPanel {
             <ul class="pl-3 pr-3 space-x-4 h-auto align-middle hidden md:flex">
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
                     Basic Settings
+                </li>
+                <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-features">
+                    Modules
                 </li>
             </ul>
             <div id="burger-menu" class="flex md:hidden cursor-pointer h-auto me-7">
@@ -826,73 +837,29 @@ export class NewZephyrProjectPanel {
                       <span class="font-medium">Error</span> Please enter a valid project name.
                   </p>
                 </div>
-              </div>
 
-              <div>
-                  <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
-                  <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                    <option id="option-board-type-${BoardType.pico}" value="${
+                <div id="board-type-riscv-grid" class="grid gap-6 grid-cols-1">
+                <div>
+                    <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
+                    <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <option id="option-board-type-${
+                        BoardType.pico2
+                      }" value="${BoardType.pico2}">Pico 2</option>   
+                      <option id="option-board-type-${
+                        BoardType.pico2W
+                      }" value="${BoardType.pico2W}">Pico 2 W</option>
+                      <option id="option-board-type-${BoardType.pico}" value="${
       BoardType.pico
     }">Pico</option>
-                    <option id="option-board-type-${BoardType.picoW}" value="${
-      BoardType.picoW
-    }">Pico W</option>
-                    <option id="option-board-type-${BoardType.pico2}" value="${
-      BoardType.pico2
-    }">Pico 2</option>   
-                    <option id="option-board-type-${BoardType.pico2W}" value="${
-      BoardType.pico2W
-    }">Pico 2 W</option>
-                  </select>
+                      <option id="option-board-type-${
+                        BoardType.picoW
+                      }" value="${BoardType.picoW}">Pico W</option>
+                    </select>
+                </div>
+                </div>
               </div>
 
-              <div id="section-features" class="snap-start mt-10 project-options">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Modules</h3>
-                <h4 class="text-sm text-gray-900 dark:text-white mb-8">Kconfig options to enable the below modules</h4>
-                <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                            <input id="spi-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="spi-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SPI</label>
-                        </div>
-                    </li>
-                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                            <input id="i2c-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="i2c-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I2C interface</label>
-                        </div>
-                    </li>
-                    <li class="w-full dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                            <input id="gpio-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="gpio-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">GPIO</label>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                            <input id="wifi-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="wifi-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Wifi</label>
-                        </div>
-                    </li>
-                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                            <input id="sensor-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="sensor-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sensor interface</label>
-                        </div>
-                    </li>
-                    <li class="w-full dark:border-gray-600">
-                        <div class="flex items-center pl-3">
-                            <input id="shell-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="shell-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Shell</label>
-                        </div>
-                    </li>
-                </ul>
-              </div>
-
-              <div>
-                <div class="mt-6 mb-4 col-span-2">
+              <div class="mt-6 mb-4 col-span-2">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
                     <div class="flex">
                         <div class="w-full left-0 flex">
@@ -957,57 +924,106 @@ export class NewZephyrProjectPanel {
                         </button>
                     </div>
                 </div>
-          </div>
 
-          <div class="grid gap-6 mt-10">
-            <div id="section-console" class="snap-start col-span-2">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Serial Port Over:</h3>
-                <div class="flex items-stretch space-x-4">
-                    <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input checked id="console-radio-uart" type="radio" value="UART" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="console-radio-uart" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">UART</label>
-                    </div>
-                    <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
-                        <input id="console-radio-usb" type="radio" value="USB" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="console-radio-usb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">USB</label>
-                    </div>
-                </div>
-            </div>
-          </div>
+              <div id="section-features" class="snap-start mt-10 project-options">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Modules</h3>
+                <h4 class="text-sm text-gray-900 dark:text-white mb-8">Kconfig options to enable the below modules</h4>
+                <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="spi-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="spi-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SPI</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="i2c-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="i2c-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I2C interface</label>
+                        </div>
+                    </li>
+                    <li class="w-full dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="gpio-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="gpio-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">GPIO</label>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="wifi-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="wifi-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Wifi</label>
+                        </div>
+                    </li>
+                    <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="sensor-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="sensor-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sensor interface</label>
+                        </div>
+                    </li>
+                    <li class="w-full dark:border-gray-600">
+                        <div class="flex items-center pl-3">
+                            <input id="shell-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                            <label for="shell-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Shell</label>
+                        </div>
+                    </li>
+                </ul>
+              </div>
 
-          <div class="col-span-2">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CMake Version:</label>
-            ${
-              this._versionBundle !== undefined
-                ? `<div class="flex items-center mb-2">
-                    <input type="radio" id="cmake-radio-default-version" name="cmake-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
-                    <label for="cmake-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
-                  </div>`
-                : ""
-            }
+          <div class="grid gap-6 grid-cols-3 mt-10">
+              <div id="section-console" class="snap-start col-span-2">
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Stdio support:</h3>
+                  <div class="flex items-stretch space-x-4">
+                      <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                          <input checked id="console-radio-uart" type="radio" value="UART" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                          <label for="console-radio-uart" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Console over UART</label>
+                      </div>
+                      <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
+                          <input id="console-radio-usb" type="radio" value="USB" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
+                          <label for="console-radio-usb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Console over USB</label>
+                      </div>
+                  </div>
+              </div>
 
-            ${
-              isCmakeSystemAvailable
-                ? `<div class="flex items-center mb-2" >
-                    <input type="radio" id="cmake-radio-system-version" name="cmake-version-radio" value="1" class="mr-1 text-blue-500">
-                    <label for="cmake-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
-                  </div>`
-                : ""
-            }
+              <div id="selection-cmake-version" class="snap-end">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CMake Version:</label>
+                  ${
+                    this._versionBundle !== undefined
+                      ? `<div class="flex items-center mb-2">
+                          <input type="radio" id="cmake-radio-default-version" name="cmake-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
+                          <label for="cmake-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
+                        </div>`
+                      : ""
+                  }
 
-            <div class="flex items-center mb-2">
-              <input type="radio" id="cmake-radio-select-version" name="cmake-version-radio" value="2" class="mr-1 text-blue-500">
-              <label for="cmake-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
-              <select id="sel-cmake" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                ${cmakesHtml}
-              </select>
-            </div>
+                  ${
+                    isCmakeSystemAvailable
+                      ? `<div class="flex items-center mb-2">
+                          <input type="radio" id="cmake-radio-system-version" name="cmake-version-radio" value="1" class="mr-1 text-blue-500">
+                          <label for="cmake-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+                        </div>`
+                      : ""
+                  }
 
-            <div class="flex items-center mb-2">
-              <input type="radio" id="cmake-radio-path-executable" name="cmake-version-radio" value="3" class="mr-1 text-blue-500">
-              <label for="cmake-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
-              <input type="file" id="cmake-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
-            </div>
+                  <div class="flex items-center mb-2">
+                    <input type="radio" id="cmake-radio-latest-version" name="cmake-version-radio" value="4" class="mr-1 text-blue-500">
+                    <label for="cmake-radio-latest-version" class="text-gray-900 dark:text-white">Latest version</label>
+                  </div>
+
+                  <div class="flex items-center mb-2">
+                    <input type="radio" id="cmake-radio-select-version" name="cmake-version-radio" value="2" class="mr-1 text-blue-500">
+                    <label for="cmake-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
+                    <select id="sel-cmake" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      ${cmakesHtml}
+                    </select>
+                  </div>
+
+                  <div class="flex items-center mb-2">
+                    <input type="radio" id="cmake-radio-path-executable" name="cmake-version-radio" value="3" class="mr-1 text-blue-500">
+                    <label for="cmake-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+                    <input type="file" id="cmake-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+                  </div>
+              </div>
           </div>
 
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">

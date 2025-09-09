@@ -91,9 +91,9 @@ export async function setupZephyr(
     return;
   }
 
-  let output: ZephyrSetupOutputs = { cmakeExecutable: "" };
+  const output: ZephyrSetupOutputs = { cmakeExecutable: "" };
 
-  let python3Path = "";
+  let python3Path: string | undefined = "";
   let isWindows = false;
   await window.withProgress(
     {
@@ -524,7 +524,7 @@ export async function setupZephyr(
         }
       );
 
-      const pythonExe = python3Path.replace(
+      const pythonExe = python3Path?.replace(
         HOME_VAR,
         homedir().replaceAll("\\", "/")
       );
@@ -827,46 +827,49 @@ export async function setupZephyr(
           title: "Installing Zephyr SDK",
           cancellable: false,
         },
-        async progress2 => {
-          const westInstallSDKCommand: string = [
-            westExe,
-            "sdk install -t arm-zephyr-eabi",
-            `-b ${zephyrWorkspaceDirectory}`,
-          ].join(" ");
+        async progress2 =>
+          new Promise<void>(resolve => {
+            const westInstallSDKCommand: string = [
+              westExe,
+              "sdk install -t arm-zephyr-eabi",
+              `-b ${zephyrWorkspaceDirectory}`,
+            ].join(" ");
 
-          // This has to be a spawn due to the way the underlying SDK command calls
-          // subprocess and needs to inherit the Path variables set in customEnv
-          _logger.info("Installing Zephyr SDK");
-          const child = spawnSync(westInstallSDKCommand, {
-            shell: true,
-            cwd: zephyrWorkspaceDirectory,
-            windowsHide: true,
-            env: customEnv,
-          });
-          _logger.info("stdout: ", child.stdout.toString());
-          _logger.info("stderr: ", child.stderr.toString());
-          if (child.status) {
-            _logger.info("exit code: ", child.status);
-            if (child.status !== 0) {
-              window.showErrorMessage(
-                "Error installing Zephyr SDK." + "Exiting Zephyr Setup."
-              );
+            // This has to be a spawn due to the way the underlying SDK command calls
+            // subprocess and needs to inherit the Path variables set in customEnv
+            _logger.info("Installing Zephyr SDK");
+            const child = spawnSync(westInstallSDKCommand, {
+              shell: true,
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            });
+            _logger.info("stdout: ", child.stdout.toString());
+            _logger.info("stderr: ", child.stderr.toString());
+            if (child.status) {
+              _logger.info("exit code: ", child.status);
+              if (child.status !== 0) {
+                window.showErrorMessage(
+                  "Error installing Zephyr SDK." + "Exiting Zephyr Setup."
+                );
+              }
+
+              installedSuccessfully = false;
+              progress2.report({
+                message: "Failed",
+                increment: 100,
+              });
+              resolve();
+
+              return;
             }
 
-            installedSuccessfully = false;
             progress2.report({
-              message: "Failed",
+              message: "Successfully installed Zephyr SDK.",
               increment: 100,
             });
-
-            return;
-          }
-
-          progress2.report({
-            message: "Successfully installed Zephyr SDK.",
-            increment: 100,
-          });
-        }
+            resolve();
+          })
       );
 
       if (installedSuccessfully) {
