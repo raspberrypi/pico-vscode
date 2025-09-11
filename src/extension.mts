@@ -35,6 +35,8 @@ import CompileProjectCommand from "./commands/compileProject.mjs";
 import RunProjectCommand from "./commands/runProject.mjs";
 import LaunchTargetPathCommand, {
   LaunchTargetPathReleaseCommand,
+  SbomTargetPathDebugCommand,
+  SbomTargetPathReleaseCommand,
 } from "./commands/launchTargetPath.mjs";
 import {
   GetPythonPathCommand,
@@ -148,6 +150,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new UninstallPicoSDKCommand(),
     new CleanCMakeCommand(ui),
     new UpdateOpenOCDCommand(),
+    new SbomTargetPathDebugCommand(),
+    new SbomTargetPathReleaseCommand(),
   ];
 
   // register all command handlers

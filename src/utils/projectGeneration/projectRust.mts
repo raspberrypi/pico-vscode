@@ -13,7 +13,10 @@ import {
 } from "../../commands/getPaths.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, window } from "vscode";
-import LaunchTargetPathCommand from "../../commands/launchTargetPath.mjs";
+import LaunchTargetPathCommand, {
+  SbomTargetPathDebugCommand,
+  SbomTargetPathReleaseCommand,
+} from "../../commands/launchTargetPath.mjs";
 
 async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
   const vsc = join(projectRoot, ".vscode");
@@ -120,7 +123,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         command: "bash",
         args: [
           "-lc",
-          `cargo sbom > \${command:${extensionName}.${LaunchTargetPathCommand.id}}/../../release/sbom.spdx.json`,
+          `cargo sbom > \${command:${extensionName}.${SbomTargetPathReleaseCommand.id}}`,
         ],
         windows: {
           command: "powershell",
@@ -129,7 +132,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
             "-ExecutionPolicy",
             "Bypass",
             "-Command",
-            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${LaunchTargetPathCommand.id}}\\..\\..\\release\\sbom.spdx.json`,
+            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${SbomTargetPathReleaseCommand.id}}`,
           ],
         },
         dependsOn: "Compile Project",
@@ -167,7 +170,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         command: "bash",
         args: [
           "-lc",
-          `cargo sbom --output-format spdx-json > \${command:${extensionName}.${LaunchTargetPathCommand.id}}/../../debug/sbom.spdx.json`,
+          `cargo sbom --output-format spdx-json > \${command:${extensionName}.${SbomTargetPathDebugCommand.id}}`,
         ],
         windows: {
           command: "powershell",
@@ -176,7 +179,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
             "-ExecutionPolicy",
             "Bypass",
             "-Command",
-            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${LaunchTargetPathCommand.id}}\\..\\..\\debug\\sbom.spdx.json`,
+            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${SbomTargetPathDebugCommand.id}}`,
           ],
         },
         dependsOn: "Compile Project (debug)",

@@ -9,199 +9,202 @@ import { join as joinPosix } from "path/posix";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 
+/* ----------------------------- Shared helpers ----------------------------- */
+
+type SupportedChip = "rp2040" | "rp2350" | "rp2350-riscv" | null;
+
+const wsRoot = (): string => workspace.workspaceFolders?.[0]?.uri.fsPath ?? "";
+
+const norm = (p: string): string => p.replaceAll("\\", "/");
+
+const isRustProject = (): boolean => State.getInstance().isRustProject;
+
+const chipToTriple = (chip: SupportedChip): string => {
+  switch (chip) {
+    case "rp2040":
+      return "thumbv6m-none-eabi";
+    case "rp2350":
+      return "thumbv8m.main-none-eabihf";
+    case "rp2350-riscv":
+    case null:
+    default:
+      // Default to RISC-V if unknown/null. Change if you prefer a different default.
+      return "riscv32imac-unknown-none-elf";
+  }
+};
+
+const readCargoPackageName = (root: string): string | undefined => {
+  try {
+    const contents = readFileSync(join(root, "Cargo.toml"), "utf-8");
+    const cargo = parseToml(contents) as
+      | { package?: { name?: string } }
+      | undefined;
+
+    return cargo?.package?.name;
+  } catch {
+    return undefined;
+  }
+};
+
+const rustTargetPath = (
+  root: string,
+  mode: "debug" | "release",
+  file?: string
+): string => {
+  const chip: SupportedChip = rustProjectGetSelectedChip(root);
+  const triple = chipToTriple(chip);
+
+  return joinPosix(norm(root), "target", triple, mode, file ?? "");
+};
+
+const readProjectNameFromCMakeLists = async (
+  filename: string
+): Promise<string | null> => {
+  const fileContent = readFileSync(filename, "utf-8");
+
+  const projectMatch = /project\(([^)\s]+)/.exec(fileContent);
+  if (!projectMatch?.[1]) {
+    return null;
+  }
+
+  const projectName = projectMatch[1].trim();
+
+  const hasBg = /pico_cyw43_arch_lwip_threadsafe_background/.test(fileContent);
+  const hasPoll = /pico_cyw43_arch_lwip_poll/.test(fileContent);
+
+  if (hasBg && hasPoll) {
+    const choice = await window.showQuickPick(
+      ["Threadsafe Background", "Poll"],
+      { placeHolder: "Select PicoW Architecture" }
+    );
+    if (choice === "Threadsafe Background") {
+      return `${projectName}_background`;
+    }
+    if (choice === "Poll") {
+      return `${projectName}_poll`;
+    }
+    // user dismissed → fall back to base name
+  }
+
+  return projectName;
+};
+
+const tryCMakeToolsLaunchPath = async (): Promise<string | null> => {
+  const settings = Settings.getInstance();
+  if (settings?.getBoolean(SettingsKey.useCmakeTools)) {
+    await cmakeToolsForcePicoKit();
+    const path: string = await commands.executeCommand(
+      "cmake.launchTargetPath"
+    );
+    if (path) {
+      return norm(path);
+    }
+  }
+
+  return null;
+};
+
+/* ------------------------------ Main command ------------------------------ */
+
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
   public static readonly id = "launchTargetPath";
-
   constructor() {
     super(LaunchTargetPathCommand.id);
   }
 
-  private async readProjectNameFromCMakeLists(
-    filename: string
-  ): Promise<string | null> {
-    // Read the file
-    const fileContent = readFileSync(filename, "utf-8");
-
-    // Match the project line using a regular expression
-    const regex = /project\(([^)\s]+)/;
-    const match = regex.exec(fileContent);
-
-    // Match for poll and threadsafe background inclusions
-    const regexBg = /pico_cyw43_arch_lwip_threadsafe_background/;
-    const matchBg = regexBg.exec(fileContent);
-    const regexPoll = /pico_cyw43_arch_lwip_poll/;
-    const matchPoll = regexPoll.exec(fileContent);
-
-    // Extract the project name from the matched result
-    if (match && match[1]) {
-      const projectName = match[1].trim();
-
-      if (matchBg && matchPoll) {
-        // For examples with both background and poll, let user pick which to run
-        const quickPickItems = ["Threadsafe Background", "Poll"];
-        const backgroundOrPoll = await window.showQuickPick(quickPickItems, {
-          placeHolder: "Select PicoW Architecture",
-        });
-        if (backgroundOrPoll === undefined) {
-          return projectName;
-        }
-
-        switch (backgroundOrPoll) {
-          case quickPickItems[0]:
-            return projectName + "_background";
-          case quickPickItems[1]:
-            return projectName + "_poll";
-        }
-      }
-
-      return projectName;
-    }
-
-    return null; // Return null if project line is not found
-  }
-
   async execute(): Promise<string> {
-    if (
-      workspace.workspaceFolders === undefined ||
-      workspace.workspaceFolders.length === 0
-    ) {
+    const root = wsRoot();
+    if (!root) {
       return "";
     }
 
-    const isRustProject = State.getInstance().isRustProject;
-
-    if (isRustProject) {
-      const cargoTomlPath = join(
-        workspace.workspaceFolders[0].uri.fsPath,
-        "Cargo.toml"
-      );
-      const contents = readFileSync(cargoTomlPath, "utf-8");
-      const cargoToml = (await parseToml(contents)) as
-        | {
-            package?: { name?: string };
-          }
-        | undefined;
-
-      if (cargoToml?.package?.name) {
-        const chip = rustProjectGetSelectedChip(
-          workspace.workspaceFolders[0].uri.fsPath
-        );
-        const toolchain =
-          chip === "rp2040"
-            ? "thumbv6m-none-eabi"
-            : chip === "rp2350"
-            ? "thumbv8m.main-none-eabihf"
-            : "riscv32imac-unknown-none-elf";
-
-        return joinPosix(
-          workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
-          "target",
-          toolchain,
-          "debug",
-          cargoToml.package.name
-        );
+    if (isRustProject()) {
+      const name = readCargoPackageName(root);
+      if (!name) {
+        return "";
       }
 
+      return rustTargetPath(root, "debug", name);
+    }
+
+    // Non-Rust: try CMake Tools first
+    const cmakeToolsPath = await tryCMakeToolsLaunchPath();
+    if (cmakeToolsPath) {
+      return cmakeToolsPath;
+    }
+
+    // Fallback: parse CMakeLists + compile task, then return build/<name>.elf
+    const cmakelists = join(root, "CMakeLists.txt");
+    const projectName = await readProjectNameFromCMakeLists(cmakelists);
+    if (!projectName) {
       return "";
     }
 
-    const settings = Settings.getInstance();
-    if (
-      settings !== undefined &&
-      settings.getBoolean(SettingsKey.useCmakeTools)
-    ) {
-      // Ensure the Pico kit is selected
-      await cmakeToolsForcePicoKit();
-
-      // Compile with CMake Tools
-      const path: string = await commands.executeCommand(
-        "cmake.launchTargetPath"
-      );
-      if (path) {
-        return path.replaceAll("\\", "/");
-      }
-    }
-
-    const fsPathFolder = workspace.workspaceFolders[0].uri.fsPath;
-
-    const projectName = await this.readProjectNameFromCMakeLists(
-      join(fsPathFolder, "CMakeLists.txt")
-    );
-
-    if (projectName === null) {
-      return "";
-    }
-
-    // Compile before returning
     const compiled = await commands.executeCommand(
       "raspberry-pi-pico.compileProject"
     );
-
     if (!compiled) {
       throw new Error(
         "Failed to compile project - check output from the Compile Project task"
       );
     }
 
-    return join(fsPathFolder, "build", projectName + ".elf").replaceAll(
-      "\\",
-      "/"
-    );
+    return norm(join(root, "build", `${projectName}.elf`));
   }
 }
 
+/* -------------------------- Rust-specific commands ------------------------- */
+
 export class LaunchTargetPathReleaseCommand extends CommandWithResult<string> {
   public static readonly id = "launchTargetPathRelease";
-
   constructor() {
     super(LaunchTargetPathReleaseCommand.id);
   }
 
-  async execute(): Promise<string> {
-    if (
-      workspace.workspaceFolders === undefined ||
-      workspace.workspaceFolders.length === 0
-    ) {
+  execute(): string {
+    const root = wsRoot();
+    if (!root || !isRustProject()) {
       return "";
     }
 
-    const isRustProject = State.getInstance().isRustProject;
-
-    if (!isRustProject) {
+    const name = readCargoPackageName(root);
+    if (!name) {
       return "";
     }
 
-    const cargoTomlPath = join(
-      workspace.workspaceFolders[0].uri.fsPath,
-      "Cargo.toml"
-    );
-    const contents = readFileSync(cargoTomlPath, "utf-8");
-    const cargoToml = (await parseToml(contents)) as
-      | {
-          package?: { name?: string };
-        }
-      | undefined;
+    return rustTargetPath(root, "release", name);
+  }
+}
 
-    if (cargoToml?.package?.name) {
-      const chip = rustProjectGetSelectedChip(
-        workspace.workspaceFolders[0].uri.fsPath
-      );
-      const toolchain =
-        chip === "rp2040"
-          ? "thumbv6m-none-eabi"
-          : chip === "rp2350"
-          ? "thumbv8m.main-none-eabihf"
-          : "riscv32imac-unknown-none-elf";
+export class SbomTargetPathDebugCommand extends CommandWithResult<string> {
+  public static readonly id = "sbomTargetPathDebug";
+  constructor() {
+    super(SbomTargetPathDebugCommand.id);
+  }
 
-      return joinPosix(
-        workspace.workspaceFolders[0].uri.fsPath.replaceAll("\\", "/"),
-        "target",
-        toolchain,
-        "release",
-        cargoToml.package.name
-      );
+  execute(): string {
+    const root = wsRoot();
+    if (!root || !isRustProject()) {
+      return "";
     }
 
-    return "";
+    // sbom is a fixed filename living next to build artifacts
+    return rustTargetPath(root, "debug", "sbom.spdx.json");
+  }
+}
+
+export class SbomTargetPathReleaseCommand extends CommandWithResult<string> {
+  public static readonly id = "sbomTargetPathRelease";
+  constructor() {
+    super(SbomTargetPathReleaseCommand.id);
+  }
+
+  execute(): string {
+    const root = wsRoot();
+    if (!root || !isRustProject()) {
+      return "";
+    }
+
+    return rustTargetPath(root, "release", "sbom.spdx.json");
   }
 }

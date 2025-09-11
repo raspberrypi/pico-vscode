@@ -249,6 +249,18 @@
         "title": "Get RTT Decoder module path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.sbomTargetPathDebug",
+        "title": "Get path of the project debug SBOM (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.sbomTargetPathRelease",
+        "title": "Get path of the project release SBOM (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
       }
     ],
     "configuration": {
