@@ -33,7 +33,11 @@ import { existsSync, readFileSync } from "fs";
 import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
 import RunProjectCommand from "./commands/runProject.mjs";
-import LaunchTargetPathCommand from "./commands/launchTargetPath.mjs";
+import LaunchTargetPathCommand, {
+  LaunchTargetPathReleaseCommand,
+  SbomTargetPathDebugCommand,
+  SbomTargetPathReleaseCommand,
+} from "./commands/launchTargetPath.mjs";
 import {
   GetPythonPathCommand,
   GetEnvPathCommand,
@@ -44,6 +48,8 @@ import {
   GetTargetCommand,
   GetChipUppercaseCommand,
   GetPicotoolPathCommand,
+  GetOpenOCDRootCommand,
+  GetSVDPathCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -53,13 +59,13 @@ import {
   downloadAndInstallTools,
   downloadAndInstallPicotool,
   downloadAndInstallOpenOCD,
+  installLatestRustRequirements,
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import {
   NewProjectPanel,
   getWebviewOptions,
-  openOCDVersion,
 } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
 import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
@@ -83,7 +89,16 @@ import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
+import {
+  downloadAndInstallRust,
+  rustProjectGetSelectedChip,
+} from "./utils/rustUtil.mjs";
+import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
+import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
+import { OPENOCD_VERSION } from "./utils/sharedConstants.mjs";
+import VersionBundlesLoader from "./utils/versionBundles.mjs";
+
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
 
@@ -109,15 +124,18 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new SwitchSDKCommand(ui, context.extensionUri),
     new SwitchBoardCommand(ui, context.extensionUri),
     new LaunchTargetPathCommand(),
+    new LaunchTargetPathReleaseCommand(),
     new GetPythonPathCommand(),
     new GetEnvPathCommand(),
-    new GetGDBPathCommand(),
+    new GetGDBPathCommand(context.extensionUri),
     new GetCompilerPathCommand(),
     new GetCxxCompilerPathCommand(),
     new GetChipCommand(),
     new GetChipUppercaseCommand(),
     new GetTargetCommand(),
     new GetPicotoolPathCommand(),
+    new GetOpenOCDRootCommand(),
+    new GetSVDPathCommand(context.extensionUri),
     new CompileProjectCommand(),
     new RunProjectCommand(),
     new FlashProjectSWDCommand(),
@@ -132,6 +150,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new UninstallPicoSDKCommand(),
     new CleanCMakeCommand(ui),
     new UpdateOpenOCDCommand(),
+    new SbomTargetPathDebugCommand(),
+    new SbomTargetPathReleaseCommand(),
   ];
 
   // register all command handlers
@@ -170,6 +190,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
 
   context.subscriptions.push(
+    window.registerWebviewPanelSerializer(NewRustProjectPanel.viewType, {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+        // Reset the webview options so we use latest uri for `localResourceRoots`.
+        webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+        NewRustProjectPanel.revive(webviewPanel, context.extensionUri);
+      },
+    })
+  );
+
+  context.subscriptions.push(
     window.registerTreeDataProvider(
       PicoProjectActivityBar.viewType,
       picoProjectActivityBarProvider
@@ -177,14 +208,14 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
 
   const workspaceFolder = workspace.workspaceFolders?.[0];
+  const isRustProject = workspaceFolder
+    ? existsSync(join(workspaceFolder.uri.fsPath, ".pico-rs"))
+    : false;
 
   // check if there is a workspace folder
   if (workspaceFolder === undefined) {
     // finish activation
-    Logger.warn(
-      LoggerSource.extension,
-      "No workspace folder found."
-    );
+    Logger.warn(LoggerSource.extension, "No workspace folder found.");
     await commands.executeCommand(
       "setContext",
       ContextKeys.isPicoProject,
@@ -194,78 +225,186 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return;
   }
 
-  const cmakeListsFilePath = join(workspaceFolder.uri.fsPath, "CMakeLists.txt");
-  if (!existsSync(cmakeListsFilePath)) {
-    Logger.warn(
-      LoggerSource.extension,
-      "No CMakeLists.txt in workspace folder has been found."
-    );
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
+  void commands.executeCommand(
+    "setContext",
+    ContextKeys.isRustProject,
+    isRustProject
+  );
+  State.getInstance().isRustProject = isRustProject;
 
-    return;
-  }
-
-  // check for pico_sdk_init() in CMakeLists.txt
-  if (
-    !readFileSync(cmakeListsFilePath)
-      .toString("utf-8")
-      .includes("pico_sdk_init()")
-  ) {
-    Logger.warn(
-      LoggerSource.extension,
-      "No pico_sdk_init() in CMakeLists.txt found."
+  if (!isRustProject) {
+    const cmakeListsFilePath = join(
+      workspaceFolder.uri.fsPath,
+      "CMakeLists.txt"
     );
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
-
-    return;
-  }
-
-  // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
-  if (
-    !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
-    !(
-      readFileSync(cmakeListsFilePath)
-        .toString("utf-8")
-        .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX) ||
-      readFileSync(cmakeListsFilePath)
-        .toString("utf-8")
-        .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD)
-    )
-  ) {
-    Logger.warn(
-      LoggerSource.extension,
-      "No .vscode folder and/or cmake",
-      '"DO NOT EDIT"-header in CMakelists.txt found.'
-    );
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
-    const wantToImport = await window.showInformationMessage(
-      "Do you want to import this project as Raspberry Pi Pico project?",
-      "Yes",
-      "No"
-    );
-    if (wantToImport === "Yes") {
-      void commands.executeCommand(
-        `${extensionName}.${ImportProjectCommand.id}`,
-        workspaceFolder.uri
+    if (!existsSync(cmakeListsFilePath)) {
+      Logger.warn(
+        LoggerSource.extension,
+        "No CMakeLists.txt in workspace folder has been found."
       );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        false
+      );
+
+      return;
+    }
+
+    // check for pico_sdk_init() in CMakeLists.txt
+    if (
+      !readFileSync(cmakeListsFilePath)
+        .toString("utf-8")
+        .includes("pico_sdk_init()")
+    ) {
+      Logger.warn(
+        LoggerSource.extension,
+        "No pico_sdk_init() in CMakeLists.txt found."
+      );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        false
+      );
+
+      return;
+    }
+
+    // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
+    if (
+      !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
+      !(
+        readFileSync(cmakeListsFilePath)
+          .toString("utf-8")
+          .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX) ||
+        readFileSync(cmakeListsFilePath)
+          .toString("utf-8")
+          .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD)
+      )
+    ) {
+      Logger.warn(
+        LoggerSource.extension,
+        "No .vscode folder and/or cmake",
+        '"DO NOT EDIT"-header in CMakelists.txt found.'
+      );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        false
+      );
+      const wantToImport = await window.showInformationMessage(
+        "Do you want to import this project as Raspberry Pi Pico project?",
+        "Yes",
+        "No"
+      );
+      if (wantToImport === "Yes") {
+        void commands.executeCommand(
+          `${extensionName}.${ImportProjectCommand.id}`,
+          workspaceFolder.uri
+        );
+      }
+
+      return;
+    }
+  }
+
+  await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
+
+  if (isRustProject) {
+    const vs = new VersionBundlesLoader(context.extensionUri);
+    const latestSDK = await vs.getLatestSDK();
+    if (!latestSDK) {
+      Logger.error(
+        LoggerSource.extension,
+        "Failed to get latest Pico SDK version for Rust project."
+      );
+      void window.showErrorMessage(
+        "Failed to get latest Pico SDK version for Rust project."
+      );
+
+      return;
+    }
+
+    const sdk = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title:
+          "Downloading and installing latest Pico SDK (" +
+          latestSDK +
+          "). This may take a while...",
+        cancellable: false,
+      },
+      async progress => {
+        const result = await downloadAndInstallSDK(
+          latestSDK,
+          SDK_REPOSITORY_URL
+        );
+
+        progress.report({
+          increment: 100,
+        });
+
+        if (!result) {
+          installSuccess = false;
+
+          Logger.error(
+            LoggerSource.extension,
+            "Failed to install latest SDK",
+            `version: ${latestSDK}.`,
+            "Make sure all requirements are met."
+          );
+
+          void window.showErrorMessage(
+            "Failed to install latest SDK version for rust project."
+          );
+
+          return false;
+        } else {
+          Logger.info(
+            LoggerSource.extension,
+            "Found/installed latest SDK",
+            `version: ${latestSDK}`
+          );
+
+          return true;
+        }
+      }
+    );
+    if (!sdk) {
+      return;
+    }
+
+    const cargo = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Downloading and installing Rust. This may take a while...",
+        cancellable: false,
+      },
+      async () => downloadAndInstallRust()
+    );
+    if (!cargo) {
+      void window.showErrorMessage("Failed to install Rust.");
+
+      return;
+    }
+
+    const result = await installLatestRustRequirements(context.extensionUri);
+
+    if (!result) {
+      return;
+    }
+
+    ui.showStatusBarItems(isRustProject);
+
+    const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
+    if (chip !== null) {
+      ui.updateBoard(chip.toUpperCase());
+    } else {
+      ui.updateBoard("N/A");
     }
 
     return;
   }
-
-  await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
 
   // get sdk selected in the project
   const selectedToolchainAndSDKVersions =
@@ -495,7 +634,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     },
     async progress => {
       const result = await downloadAndInstallOpenOCD(
-        openOCDVersion,
+        OPENOCD_VERSION,
         (prog: GotProgress) => {
           const percent = prog.percent * 100;
           progress.report({
@@ -796,7 +935,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     await configureCmakeNinja(workspaceFolder.uri);
 
     const ws = workspaceFolder.uri.fsPath;
-    const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+    const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
     const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
     ui.updateBuildType(newBuildType ?? "unknown");
 

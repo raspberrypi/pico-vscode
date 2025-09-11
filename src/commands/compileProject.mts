@@ -3,7 +3,9 @@ import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
+import State from "../state.mjs";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
+
 export default class CompileProjectCommand extends CommandWithResult<boolean> {
   private _logger: Logger = new Logger("CompileProjectCommand");
 
@@ -14,13 +16,18 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
   }
 
   async execute(): Promise<boolean> {
+    const isRustProject = State.getInstance().isRustProject;
+
     // Get the task with the specified name
     const task = (await tasks.fetchTasks()).find(
-      task => task.name === "Compile Project"
+      task =>
+        task.name ===
+        (isRustProject ? "Build + Generate SBOM (release)" : "Compile Project")
     );
 
     const settings = Settings.getInstance();
     if (
+      !isRustProject &&
       settings !== undefined &&
       settings.getBoolean(SettingsKey.useCmakeTools)
     ) {

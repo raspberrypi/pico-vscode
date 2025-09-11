@@ -61,11 +61,10 @@ import {
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
+import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
-
-export const openOCDVersion = "0.12.0+dev";
 
 interface ImportProjectMessageValue {
   selectedSDK: string;
@@ -1056,7 +1055,7 @@ export class NewProjectPanel {
         },
         async progress2 => {
           const result = await downloadAndInstallOpenOCD(
-            openOCDVersion,
+            OPENOCD_VERSION,
             (prog: GotProgress) => {
               const per = prog.percent * 100;
               progress2.report({
@@ -1307,7 +1306,7 @@ export class NewProjectPanel {
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
             picotoolVersion: selectedPicotool,
-            openOCDVersion: openOCDVersion,
+            openOCDVersion: OPENOCD_VERSION,
           },
           ninjaExecutable,
           cmakeExecutable,
@@ -1332,7 +1331,7 @@ export class NewProjectPanel {
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
             picotoolVersion: selectedPicotool,
-            openOCDVersion: openOCDVersion,
+            openOCDVersion: OPENOCD_VERSION,
           },
           ninjaExecutable,
           cmakeExecutable,
@@ -1353,7 +1352,7 @@ export class NewProjectPanel {
             sdkVersion: selectedSDK,
             sdkPath: buildSDKPath(selectedSDK),
             picotoolVersion: selectedPicotool,
-            openOCDVersion: openOCDVersion,
+            openOCDVersion: OPENOCD_VERSION,
           },
           ninjaExecutable,
           cmakeExecutable,

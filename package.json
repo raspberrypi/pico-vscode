@@ -65,6 +65,7 @@
   },
   "activationEvents": [
     "workspaceContains:./pico_sdk_import.cmake",
+    "workspaceContains:./.pico-rs",
     "onWebviewPanel:newPicoProject",
     "onWebviewPanel:newPicoMicroPythonProject"
   ],
@@ -79,17 +80,23 @@
         "command": "raspberry-pi-pico.switchSDK",
         "title": "Switch Pico SDK",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.switchBoard",
         "title": "Switch Board",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPath",
         "title": "Get path of the project executable",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.launchTargetPathRelease",
+        "title": "Get path of the project release executable (rust only)",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
       },
@@ -148,6 +155,18 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.getOpenOCDRoot",
+        "title": "Get OpenOCD root",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getSVDPath",
+        "title": "Get SVD Path (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.compileProject",
         "title": "Compile Pico Project",
         "category": "Raspberry Pi Pico",
@@ -185,13 +204,13 @@
         "command": "raspberry-pi-pico.configureCmake",
         "title": "Configure CMake",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.switchBuildType",
         "title": "Switch Build Type",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.importProject",
@@ -217,13 +236,31 @@
         "command": "raspberry-pi-pico.flashProject",
         "title": "Flash Pico Project (SWD)",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.cleanCmake",
         "title": "Clean CMake",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+      },
+      {
+        "command": "raspberry-pi-pico.getRTTDecoderPath",
+        "title": "Get RTT Decoder module path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.sbomTargetPathDebug",
+        "title": "Get path of the project debug SBOM (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.sbomTargetPathRelease",
+        "title": "Get path of the project release SBOM (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
       }
     ],
     "configuration": {
@@ -331,6 +368,7 @@
     "got": "^14.4.7",
     "ini": "^5.0.0",
     "rimraf": "^6.0.1",
+    "toml": "^3.0.0",
     "undici": "^6.21.0",
     "uuid": "^11.1.0",
     "which": "^5.0.0"
