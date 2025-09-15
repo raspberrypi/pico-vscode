@@ -87,7 +87,7 @@ async function updateTasksFile(
 
     if (content.includes(".pico-sdk/picotool/")) {
       const oldPicotoolVersion =
-        content.match(/(?<=\.pico-sdk\/picotool\/)(.*)(?=\/)/);
+        content.match(/(?<=\.pico-sdk\/picotool\/)([^/]*)(?=\/)/);
       if (oldPicotoolVersion !== null) {
         content = content.replaceAll(
           `.pico-sdk/picotool/${oldPicotoolVersion[0]}`,
