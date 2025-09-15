@@ -12,6 +12,69 @@ var submitted = false;
 (function () {
   const vscode = acquireVsCodeApi();
 
+  // CMake version selection handling
+  {
+    const modeEl = document.getElementById('cmake-mode');
+    const systemRow = document.getElementById('cmake-secondary-system');
+    const latestRow = document.getElementById('cmake-secondary-latest');
+    const selectRow = document.getElementById('cmake-secondary-select');
+    const customRow = document.getElementById('cmake-secondary-custom');
+
+    const fileInput = document.getElementById('cmake-path-executable');
+    const fileLabel = document.getElementById('cmake-file-label');
+    const fileBox = document.getElementById('cmake-filebox');
+
+    // Optional: show the exact latest version, if you have it
+    const latestValEl = document.getElementById('cmake-latest-val');
+    if (latestValEl && typeof window.latestCmakeVersion === 'string') {
+      latestValEl.textContent = `: ${window.latestCmakeVersion}`;
+    }
+
+    // Update label text when a file is chosen
+    fileInput?.addEventListener('change', () => {
+      const f = fileInput.files && fileInput.files[0];
+      fileLabel.textContent = f ? f.name : 'No file selected';
+    });
+
+    // Make label keyboard-activatable (Enter/Space)
+    fileBox?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput?.click();
+      }
+    });
+
+    // In your toggleSection(), also reflect disabled state on the label
+    function toggleSection(el, show) {
+      if (!el) return;
+      el.classList.toggle('hidden', !show);
+      el.querySelectorAll('input, select, button, textarea').forEach(ctrl => {
+        ctrl.disabled = !show;
+        ctrl.tabIndex = show ? 0 : -1;
+      });
+      // If this is the custom row, also toggle the label interactivity
+      const label = el.querySelector('#cmake-filebox');
+      if (label) {
+        label.setAttribute('aria-disabled', String(!show));
+        label.classList.toggle('pointer-events-none', !show);
+        label.classList.toggle('opacity-60', !show);
+      }
+    }
+
+    function setMode(mode) {
+      toggleSection(systemRow, mode === 'system');
+      toggleSection(latestRow, mode === 'latest' || mode === 'default');
+      toggleSection(selectRow, mode === 'select');
+      toggleSection(customRow, mode === 'custom');
+    }
+
+    // TODO: add state saving/loading via state.js
+    // modeEl.value = window.savedCmakeMode ?? modeEl.value;
+
+    modeEl.addEventListener('change', e => setMode(e.target.value));
+    setMode(modeEl.value);
+  }
+
   // needed so a element isn't hidden behind the navbar on scroll
   const navbarOffsetHeight = document.getElementById("top-navbar").offsetHeight;
 
@@ -63,13 +126,6 @@ var submitted = false;
   };
 
   window.submitBtnClick = () => {
-    /* Catch silly users who spam the submit button */
-    if (submitted) {
-      console.error("already submitted");
-      return;
-    }
-    submitted = true;
-
     // get all values of inputs
     const projectNameElement = document.getElementById("inp-project-name");
     // if is project import then the project name element will not be rendered and does not exist in the DOM
@@ -173,57 +229,83 @@ var submitted = false;
       "shell-features-cblist"
     ).checked;
 
-    const cmakeVersionRadio = document.getElementsByName("cmake-version-radio");
-    let cmakeMode = null;
-    let cmakePath = null;
-    let cmakeVersion = null;
-    for (let i = 0; i < cmakeVersionRadio.length; i++) {
-      if (cmakeVersionRadio[i].checked) {
-        cmakeMode = Number(cmakeVersionRadio[i].value);
-        break;
-      }
-    }
-    if (cmakeVersionRadio.length === 0) {
-      // default to cmake mode 1 == System version
-      cmakeMode = 1;
-    }
+    // --- CMake: collect values from the new controls ---
+    let cmakeMode = null;      // numeric contract: 0..4
+    let cmakePath = null;      // string | null
+    let cmakeVersion = null;   // string | null
 
-    // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
-    if (
-      cmakeMode === null ||
-      isNaN(cmakeMode) ||
-      cmakeMode < 0 ||
-      cmakeMode > 4
-    ) {
-      // TODO: first check if default is supported
-      cmakeMode = 0;
-      console.debug("Invalid cmake version value: " + cmakeMode.toString());
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid cmake version.",
-      });
-      submitted = false;
+    const cmakeModeSel = document.getElementById('cmake-mode');
+    const selCmake = document.getElementById('sel-cmake');                  // shown in "select" mode
+    const cmakeFileInp = document.getElementById('cmake-path-executable');  // shown in "custom" mode
 
-      return;
-    }
-    if (cmakeMode === 2) {
-      cmakeVersion = document.getElementById("sel-cmake").value;
-    } else if (cmakeMode == 3) {
-      const files = document.getElementById("cmake-path-executable").files;
+    // Fallback to "latest" if the select isn't there for some reason
+    const cmakeModeStr = (cmakeModeSel?.value || 'latest');
 
-      if (files.length === 1) {
-        cmakePath = files[0].name;
-      } else {
-        console.debug("Please select a valid cmake executable file");
+    // Map string modes -> numeric API
+    // 0 = default bundle, 1 = system, 2 = select version, 3 = custom path, 4 = latest
+    switch (cmakeModeStr) {
+      // should never happen, but just in case let the backend handle it
+      case 'default': cmakeMode = 0; break;
+      case 'system': cmakeMode = 1; break;
+      case 'select': cmakeMode = 2; break;
+      case 'custom': cmakeMode = 3; break;
+      case 'latest': cmakeMode = 4; break;
+      default:
+        console.debug('Invalid cmake mode string: ' + cmakeModeStr);
         vscode.postMessage({
           command: CMD_ERROR,
-          value: "Please select a valid cmake executable file.",
+          value: `Please select a valid CMake mode (got: ${cmakeModeStr}).`
         });
         submitted = false;
+        return;
+    }
 
+    // Validate + collect per-mode extras
+    if (cmakeMode === 2) {
+      // specific version chosen from dropdown
+      if (!selCmake || !selCmake.value) {
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: 'Please select a CMake version.'
+        });
+        submitted = false;
         return;
       }
+      cmakeVersion = selCmake.value;
+    } else if (cmakeMode === 3) {
+      // custom executable file
+      const files = cmakeFileInp?.files || [];
+      if (files.length !== 1) {
+        console.debug('Please select a valid CMake executable file');
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: 'Please select a valid CMake executable file.'
+        });
+        submitted = false;
+        return;
+      }
+
+      cmakePath = files[0].name;
     }
+
+    // Final sanity check: numeric range 0..4
+    if (cmakeMode === null || isNaN(cmakeMode) || cmakeMode < 0 || cmakeMode > 4) {
+      console.debug('Invalid cmake version value: ' + cmakeMode);
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: 'Please select a valid CMake version.'
+      });
+      submitted = false;
+      return;
+    }
+    // --- end CMake block ---
+
+    /* Catch silly users who spam the submit button */
+    if (submitted) {
+      console.error("already submitted");
+      return;
+    }
+    submitted = true;
 
     //post all data values to the extension
     vscode.postMessage({

@@ -1,4 +1,4 @@
-import { exec } from "child_process";
+import { exec, execFile } from "child_process";
 import { workspace, type Uri, window, ProgressLocation } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
 import { dirname, join, resolve } from "path";
@@ -540,4 +540,53 @@ export function cmakeGetPicoVar(
   }
 
   return match[1];
+}
+
+/**
+ * Get the version string of a CMake executable.
+ * Works for both stable releases (e.g. "3.31.5")
+ * and prereleases like "3.31.0-rc4".
+ *
+ * @param cmakePath Path to the cmake executable (absolute or in PATH).
+ * @returns Promise that resolves to the version string (e.g. "3.31.5" or "3.31.0-rc4"),
+ *          or undefined if not found/parse failed.
+ */
+export async function getCmakeVersion(
+  cmakePath: string
+): Promise<string | undefined> {
+  return new Promise(resolve => {
+    execFile(cmakePath, ["--version"], { windowsHide: true }, (err, stdout) => {
+      if (err) {
+        console.error(`Failed to run cmake at ${cmakePath}: ${err.message}`);
+        resolve(undefined);
+
+        return;
+      }
+
+      const firstLine = stdout.split(/\r?\n/)[0].trim();
+      // Expected: "cmake version 3.31.5" or "cmake version 3.31.0-rc4"
+      const prefix = "cmake version ";
+      if (firstLine.toLowerCase().startsWith(prefix)) {
+        const version = firstLine.substring(prefix.length).trim();
+        resolve(version);
+      } else {
+        console.error(`Unexpected cmake --version output: ${firstLine}`);
+        resolve(undefined);
+      }
+    });
+  });
+}
+
+/**
+ * Get the version string of the system-installed CMake (in PATH).
+ * @returns Promise that resolves to a version string (e.g. "3.31.5")
+ * or undefined if cmake not available.
+ */
+export async function getSystemCmakeVersion(): Promise<string | undefined> {
+  const cmakePath = await which("cmake", { nothrow: true });
+  if (!cmakePath) {
+    return undefined;
+  }
+
+  return getCmakeVersion(cmakePath);
 }

@@ -21,7 +21,6 @@ import {
   getProjectFolderDialogOptions,
   getWebviewOptions,
 } from "./newProjectPanel.mjs";
-import which from "which";
 import { existsSync } from "fs";
 import { join, dirname } from "path";
 import { PythonExtension } from "@vscode/python-extension";
@@ -31,6 +30,7 @@ import { setupZephyr } from "../utils/setupZephyr.mjs";
 import type { VersionBundle } from "../utils/versionBundles.mjs";
 import type VersionBundlesLoader from "../utils/versionBundles.mjs";
 import { getCmakeReleases } from "../utils/githubREST.mjs";
+import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
 
 enum BoardType {
   pico = "pico",
@@ -144,6 +144,7 @@ export class NewZephyrProjectPanel {
   private _pythonExtensionApi?: PythonExtension;
   private _versionBundlesLoader?: VersionBundlesLoader;
   private _versionBundle: VersionBundle | undefined;
+  private _systemCmakeVersion: string | undefined;
 
   // Create settings.json file with correct subsitution for tools such as
   // CMake, Ninja, Python, etc
@@ -500,17 +501,12 @@ export class NewZephyrProjectPanel {
       return;
     }
 
-    if (
-      this._versionBundle === undefined &&
-      // if no versionBundle then all version options the could be dependent on it must be custom (=> independent of versionBundle)
-      data.cmakeMode === 0
-      // (data.ninjaMode === 0 || data.cmakeMode === 0)
-    ) {
+    if (this._versionBundle === undefined && data.cmakeMode === 0) {
       progress.report({
         message: "Failed",
         increment: 100,
       });
-      void window.showErrorMessage("Failed to find selected SDK version.");
+      void window.showErrorMessage("Unknown cmake version selected.");
 
       return;
     }
@@ -751,8 +747,7 @@ export class NewZephyrProjectPanel {
     //  (await which("python3", { nothrow: true })) !== null ||
     //  (await which("python", { nothrow: true })) !== null;
 
-    const isCmakeSystemAvailable =
-      (await which("cmake", { nothrow: true })) !== null;
+    this._systemCmakeVersion = await getSystemCmakeVersion();
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
@@ -970,8 +965,8 @@ export class NewZephyrProjectPanel {
                 </ul>
               </div>
 
-          <div class="grid gap-6 grid-cols-3 mt-10">
-              <div id="section-console" class="snap-start col-span-2">
+          <div class="grid gap-6 grid-cols-2 mt-10">
+              <div id="section-console" class="snap-start">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Stdio support:</h3>
                   <div class="flex items-stretch space-x-4">
                       <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
@@ -985,45 +980,84 @@ export class NewZephyrProjectPanel {
                   </div>
               </div>
 
-              <div id="selection-cmake-version" class="snap-end">
-                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CMake Version:</label>
-                  ${
-                    this._versionBundle !== undefined
-                      ? `<div class="flex items-center mb-2">
-                          <input type="radio" id="cmake-radio-default-version" name="cmake-version-radio" value="0" class="mr-1 text-blue-500 requires-version-bundle">
-                          <label for="cmake-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
-                        </div>`
-                      : ""
-                  }
+              <!-- CMake Version -->
+              <fieldset id="cmake-fieldset" class="snap-end">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">
+                  CMake Version:
+                </h3>
 
-                  ${
-                    isCmakeSystemAvailable
-                      ? `<div class="flex items-center mb-2">
-                          <input type="radio" id="cmake-radio-system-version" name="cmake-version-radio" value="1" class="mr-1 text-blue-500">
-                          <label for="cmake-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
-                        </div>`
-                      : ""
-                  }
+                <div class="flex items-center gap-3 flex-wrap">
+                  <!-- Primary mode selector -->
+                  <select id="cmake-mode"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                                focus:ring-blue-500 focus:border-blue-500 p-2.5
+                                dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    ${
+                      this._versionBundle !== undefined
+                        ? `<option value="default">Default bundle</option>`
+                        : ""
+                    }
+                    ${
+                      this._systemCmakeVersion !== undefined
+                        ? `<option value="system">Use system version</option>`
+                        : ""
+                    }
+                    <option value="latest">Latest</option>
+                    <option value="select">Select</option>
+                    <option value="custom">Custom path</option>
+                  </select>
 
-                  <div class="flex items-center mb-2">
-                    <input type="radio" id="cmake-radio-latest-version" name="cmake-version-radio" value="4" class="mr-1 text-blue-500">
-                    <label for="cmake-radio-latest-version" class="text-gray-900 dark:text-white">Latest version</label>
+                  <!-- Secondary areas; one shown at a time -->
+
+                  <!-- Shown for "system" (optional) -->
+                  <div id="cmake-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
+                    System: <span id="cmake-system-label">${
+                      this._systemCmakeVersion
+                    }</span>
                   </div>
 
-                  <div class="flex items-center mb-2">
-                    <input type="radio" id="cmake-radio-select-version" name="cmake-version-radio" value="2" class="mr-1 text-blue-500">
-                    <label for="cmake-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
-                    <select id="sel-cmake" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <!-- Shown for "latest" -->
+                  <div id="cmake-secondary-latest" class="hidden text-sm text-gray-600 dark:text-gray-300">
+                    Latest: <span id="cmake-latest-label">${
+                      cmakeReleases.length > 0 ? cmakeReleases[0] : "unknown"
+                    }</span>
+                  </div>
+
+                  <!-- Shown for "select" -->
+                  <div id="cmake-secondary-select" class="hidden">
+                    <label for="sel-cmake" class="sr-only">Select CMake version</label>
+                    <select id="sel-cmake" data-input data-required="true"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                                  focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
+                                  dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                       ${cmakesHtml}
                     </select>
                   </div>
 
-                  <div class="flex items-center mb-2">
-                    <input type="radio" id="cmake-radio-path-executable" name="cmake-version-radio" value="3" class="mr-1 text-blue-500">
-                    <label for="cmake-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
-                    <input type="file" id="cmake-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+                  <!-- Shown for "custom" -->
+                  <div id="cmake-secondary-custom" class="hidden">
+                    <!-- The actual file input is visually hidden, the label is the clickable box -->
+                    <input
+                      type="file"
+                      id="cmake-path-executable"
+                      data-input
+                      data-required="true"
+                      class="sr-only"
+                    />
+
+                    <!-- Match the select's look & width; make the whole thing clickable -->
+                    <label
+                      for="cmake-path-executable"
+                      id="cmake-filebox"
+                      class="inline-flex items-center gap-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2.5 w-44" role="button" tabindex="0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
+                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
+                      </svg>
+                      <span id="cmake-file-label" class="truncate select-none">No file selected</span>
+                    </label>
                   </div>
-              </div>
+                </div>
+              </fieldset>
           </div>
 
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
