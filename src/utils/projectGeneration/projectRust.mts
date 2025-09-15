@@ -170,7 +170,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         command: "bash",
         args: [
           "-lc",
-          `cargo sbom --output-format spdx-json > \${command:${extensionName}.${SbomTargetPathDebugCommand.id}}`,
+          `cargo sbom > \${command:${extensionName}.${SbomTargetPathDebugCommand.id}}`,
         ],
         windows: {
           command: "powershell",
