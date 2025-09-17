@@ -23,7 +23,7 @@ import { cloneRepository, initSubmodules, ensureGit } from "./gitUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
-import { ProgressLocation, type Uri, window, workspace } from "vscode";
+import { ProgressLocation, Uri, window, workspace } from "vscode";
 import { fileURLToPath } from "url";
 import {
   type GithubReleaseAssetData,

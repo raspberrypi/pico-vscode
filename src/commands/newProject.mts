@@ -4,6 +4,7 @@ import { window, type Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "../webview/newMicroPythonProjectPanel.mjs";
+import { NewRustProjectPanel } from "../webview/newRustProjectPanel.mjs";
 import { NewZephyrProjectPanel } from "../webview/newZephyrProjectPanel.mjs";
 
 /**

@@ -128,7 +128,7 @@ var submitted = false;
   window.submitBtnClick = () => {
     // get all values of inputs
     const projectNameElement = document.getElementById("inp-project-name");
-    // if is project import then the project name element will not be rendered and does not exist in the DOM
+
     const projectName = projectNameElement.value;
     if (
       projectName !== undefined &&
@@ -235,8 +235,9 @@ var submitted = false;
     let cmakeVersion = null;   // string | null
 
     const cmakeModeSel = document.getElementById('cmake-mode');
-    const selCmake = document.getElementById('sel-cmake');                  // shown in "select" mode
-    const cmakeFileInp = document.getElementById('cmake-path-executable');  // shown in "custom" mode
+    const selCmake = document.getElementById('sel-cmake');                    // shown in "select" mode
+    const cmakeFileInp = document.getElementById('cmake-path-executable');    // shown in "custom" mode
+    const latestCmakeVersion = document.getElementById('cmake-latest-label'); // get latest version
 
     // Fallback to "latest" if the select isn't there for some reason
     const cmakeModeStr = (cmakeModeSel?.value || 'latest');
@@ -244,8 +245,8 @@ var submitted = false;
     // Map string modes -> numeric API
     // 0 = default bundle, 1 = system, 2 = select version, 3 = custom path, 4 = latest
     switch (cmakeModeStr) {
-      // should never happen, but just in case let the backend handle it
-      case 'default': cmakeMode = 0; break;
+      // default to latest
+      case 'default': cmakeMode = 4; break;
       case 'system': cmakeMode = 1; break;
       case 'select': cmakeMode = 2; break;
       case 'custom': cmakeMode = 3; break;
@@ -261,7 +262,12 @@ var submitted = false;
     }
 
     // Validate + collect per-mode extras
-    if (cmakeMode === 2) {
+    if (cmakeMode === 4) {
+      if (!latestCmakeVersion) {
+
+      }
+      cmakeVersion = latestCmakeVersion.textContent.trim();
+    } else if (cmakeMode === 2) {
       // specific version chosen from dropdown
       if (!selCmake || !selCmake.value) {
         vscode.postMessage({
@@ -288,8 +294,8 @@ var submitted = false;
       cmakePath = files[0].name;
     }
 
-    // Final sanity check: numeric range 0..4
-    if (cmakeMode === null || isNaN(cmakeMode) || cmakeMode < 0 || cmakeMode > 4) {
+    // Final sanity check: numeric range 1..4
+    if (cmakeMode === null || isNaN(cmakeMode) || cmakeMode < 1 || cmakeMode > 4) {
       console.debug('Invalid cmake version value: ' + cmakeMode);
       vscode.postMessage({
         command: CMD_ERROR,

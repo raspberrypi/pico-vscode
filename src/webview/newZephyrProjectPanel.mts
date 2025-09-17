@@ -27,8 +27,6 @@ import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { buildZephyrWorkspacePath } from "../utils/download.mjs";
 import { setupZephyr } from "../utils/setupZephyr.mjs";
-import type { VersionBundle } from "../utils/versionBundles.mjs";
-import type VersionBundlesLoader from "../utils/versionBundles.mjs";
 import { getCmakeReleases } from "../utils/githubREST.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
 
@@ -142,8 +140,6 @@ export class NewZephyrProjectPanel {
 
   private _projectRoot?: Uri;
   private _pythonExtensionApi?: PythonExtension;
-  private _versionBundlesLoader?: VersionBundlesLoader;
-  private _versionBundle: VersionBundle | undefined;
   private _systemCmakeVersion: string | undefined;
 
   // Create settings.json file with correct subsitution for tools such as
@@ -254,7 +250,7 @@ export class NewZephyrProjectPanel {
         )
         .then(selected => {
           if (selected === "Reload Window") {
-            commands.executeCommand("workbench.action.reloadWindow");
+            void commands.executeCommand("workbench.action.reloadWindow");
           }
         });
 
@@ -280,7 +276,6 @@ export class NewZephyrProjectPanel {
       return;
     }
 
-    // TODO: reload if it was import panel maybe in state
     NewZephyrProjectPanel.currentPanel = new NewZephyrProjectPanel(
       panel,
       settings,
@@ -343,23 +338,6 @@ export class NewZephyrProjectPanel {
                   value: newLoc[0].fsPath,
                 });
               }
-            }
-            break;
-          case "versionBundleAvailableTest":
-            {
-              // test if versionBundle for sdk version is available
-              const versionBundle =
-                await this._versionBundlesLoader?.getModuleVersion(
-                  message.value as string
-                );
-              // return result in message of command versionBundleAvailableTest
-              await this._panel.webview.postMessage({
-                command: "versionBundleAvailableTest",
-                value: {
-                  result: versionBundle !== undefined,
-                  picotoolVersion: versionBundle?.picotool,
-                },
-              });
             }
             break;
           case "cancel":
@@ -445,6 +423,13 @@ export class NewZephyrProjectPanel {
     }
   }
 
+  /**
+   * Convert the enum to the Zephyr board name
+   *
+   * @param e BoardType enum
+   * @returns string Zephyr board name
+   * @throws Error if unknown board type
+   */
   private enumToBoard(e: BoardType): string {
     switch (e) {
       case BoardType.pico:
@@ -456,7 +441,6 @@ export class NewZephyrProjectPanel {
       case BoardType.pico2W:
         return "rpi_pico2/rp2350a/m33/w";
       default:
-        // TODO: maybe just return an empty string
         throw new Error(`Unknown Board Type: ${e as string}`);
     }
   }
@@ -501,7 +485,7 @@ export class NewZephyrProjectPanel {
       return;
     }
 
-    if (this._versionBundle === undefined && data.cmakeMode === 0) {
+    if (data.cmakeMode === 0) {
       progress.report({
         message: "Failed",
         increment: 100,
@@ -513,10 +497,10 @@ export class NewZephyrProjectPanel {
 
     // Setup Zephyr before doing anything else
     const zephyrSetupOutputs = await setupZephyr({
-      versionBundle: this._versionBundle,
       cmakeMode: data.cmakeMode,
       cmakePath: data.cmakePath,
       cmakeVersion: data.cmakeVersion,
+      extUri: this._extensionUri,
     });
 
     if (zephyrSetupOutputs === null) {
@@ -992,11 +976,6 @@ export class NewZephyrProjectPanel {
                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                 focus:ring-blue-500 focus:border-blue-500 p-2.5
                                 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    ${
-                      this._versionBundle !== undefined
-                        ? `<option value="default">Default bundle</option>`
-                        : ""
-                    }
                     ${
                       this._systemCmakeVersion !== undefined
                         ? `<option value="system">Use system version</option>`

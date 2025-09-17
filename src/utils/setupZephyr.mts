@@ -18,10 +18,10 @@ import {
   downloadFileGot,
 } from "../utils/download.mjs";
 import Settings, { HOME_VAR } from "../settings.mjs";
-import { openOCDVersion } from "../webview/newProjectPanel.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 import { ensureGit } from "../utils/gitUtil.mjs";
-import { type VersionBundle } from "../utils/versionBundles.mjs";
+import VersionBundlesLoader from "./versionBundles.mjs";
+import { OPENOCD_VERSION } from "./sharedConstants.mjs";
 
 const _logger = new Logger("zephyrSetup");
 
@@ -48,10 +48,10 @@ manifest:
 `;
 
 interface ZephyrSetupValue {
-  versionBundle: VersionBundle | undefined;
   cmakeMode: number;
   cmakePath: string;
   cmakeVersion: string;
+  extUri: Uri;
 }
 
 interface ZephyrSetupOutputs {
@@ -90,7 +90,17 @@ export async function setupZephyr(
 
     return;
   }
+  _logger.info("Setting up Zephyr...");
 
+  const latestVb = await new VersionBundlesLoader(data.extUri).getLatest();
+  if (latestVb === undefined) {
+    _logger.error("Failed to get latest version bundles.");
+    void window.showErrorMessage(
+      "Failed to get latest version bundles. Cannot continue Zephyr setup."
+    );
+
+    return;
+  }
   const output: ZephyrSetupOutputs = { cmakeExecutable: "" };
 
   let python3Path: string | undefined = "";
@@ -131,11 +141,7 @@ export async function setupZephyr(
 
       // Handle CMake install
       switch (data.cmakeMode) {
-        case 0:
-          if (data.versionBundle !== undefined) {
-            data.cmakeVersion = data.versionBundle.cmake;
-          }
-        // eslint-disable-next-line no-fallthrough
+        case 4:
         case 2:
           installedSuccessfully = false;
           prog2LastState = 0;
@@ -215,7 +221,7 @@ export async function setupZephyr(
             message: "Failed",
             increment: 100,
           });
-          void window.showErrorMessage("Unknown cmake selection.");
+          void window.showErrorMessage("Unknown CMake version selected.");
 
           return;
       }
@@ -227,13 +233,16 @@ export async function setupZephyr(
         },
         async progress2 => {
           if (
-            await downloadAndInstallNinja("v1.12.1", (prog: GotProgress) => {
-              const per = prog.percent * 100;
-              progress2.report({
-                increment: per - prog2LastState,
-              });
-              prog2LastState = per;
-            })
+            await downloadAndInstallNinja(
+              latestVb[1].ninja,
+              (prog: GotProgress) => {
+                const per = prog.percent * 100;
+                progress2.report({
+                  increment: per - prog2LastState,
+                });
+                prog2LastState = per;
+              }
+            )
           ) {
             progress2.report({
               message: "Successfully downloaded and installed Ninja.",
@@ -259,13 +268,16 @@ export async function setupZephyr(
         },
         async progress2 => {
           if (
-            await downloadAndInstallPicotool("2.1.1", (prog: GotProgress) => {
-              const per = prog.percent * 100;
-              progress2.report({
-                increment: per - prog2LastState,
-              });
-              prog2LastState = per;
-            })
+            await downloadAndInstallPicotool(
+              latestVb[1].picotool,
+              (prog: GotProgress) => {
+                const per = prog.percent * 100;
+                progress2.report({
+                  increment: per - prog2LastState,
+                });
+                prog2LastState = per;
+              }
+            )
           ) {
             progress2.report({
               message: "Successfully downloaded and installed Picotool.",
@@ -322,6 +334,7 @@ export async function setupZephyr(
           },
           async progress2 => {
             if (
+              // TODO: integrate into extension system for github api caching
               await downloadAndInstallArchive(
                 "https://github.com/oss-winget/oss-winget-storage/raw/" +
                   "96ea1b934342f45628a488d3b50d0c37cf06012c/packages/dtc/" +
@@ -355,6 +368,7 @@ export async function setupZephyr(
           },
           async progress2 => {
             if (
+              // TODO: integrate into extension system for github api caching
               await downloadAndInstallArchive(
                 "https://sourceforge.net/projects/gnuwin32/files/gperf/3.0.1/" +
                   "gperf-3.0.1-bin.zip/download",
@@ -391,6 +405,7 @@ export async function setupZephyr(
           },
           async progress2 => {
             if (
+              // TODO: integrate into extension system for github api caching
               await downloadAndInstallArchive(
                 "https:///eternallybored.org/misc/wget/releases/" +
                   "wget-1.21.4-win64.zip",
@@ -498,7 +513,7 @@ export async function setupZephyr(
         async progress2 => {
           if (
             await downloadAndInstallOpenOCD(
-              openOCDVersion,
+              OPENOCD_VERSION,
               (prog: GotProgress) => {
                 const per = prog.percent * 100;
                 progress2.report({
@@ -844,12 +859,13 @@ export async function setupZephyr(
               windowsHide: true,
               env: customEnv,
             });
-            _logger.info("stdout: ", child.stdout.toString());
-            _logger.info("stderr: ", child.stderr.toString());
+            _logger.debug("stdout: ", child.stdout.toString());
+            _logger.debug("stderr: ", child.stderr.toString());
+
             if (child.status) {
-              _logger.info("exit code: ", child.status);
+              _logger.debug("exit code: ", child.status);
               if (child.status !== 0) {
-                window.showErrorMessage(
+                void window.showErrorMessage(
                   "Error installing Zephyr SDK." + "Exiting Zephyr Setup."
                 );
               }
@@ -873,7 +889,8 @@ export async function setupZephyr(
       );
 
       if (installedSuccessfully) {
-        window.showInformationMessage("Zephyr setup complete");
+        // TODO: duplicate signaling
+        void window.showInformationMessage("Zephyr setup complete");
         progress.report({
           message: "Zephyr setup complete.",
           increment: 100,
