@@ -1,10 +1,10 @@
 import { existsSync, readdirSync, rmSync } from "fs";
 import { window, workspace, ProgressLocation, Uri } from "vscode";
 import { type ExecOptions, exec, spawnSync } from "child_process";
-import { dirname } from "path";
+import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
-import { homedir } from "os";
-import Logger from "../logger.mjs";
+import { homedir, tmpdir } from "os";
+import Logger, { LoggerSource } from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
 
 import {
@@ -20,8 +20,18 @@ import {
 import Settings, { HOME_VAR } from "../settings.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 import { ensureGit } from "../utils/gitUtil.mjs";
-import VersionBundlesLoader from "./versionBundles.mjs";
-import { OPENOCD_VERSION } from "./sharedConstants.mjs";
+import VersionBundlesLoader, { type VersionBundle } from "./versionBundles.mjs";
+import {
+  CURRENT_7ZIP_VERSION,
+  CURRENT_DTC_VERSION,
+  CURRENT_GPERF_VERSION,
+  CURRENT_WGET_VERSION,
+  OPENOCD_VERSION,
+  WINDOWS_X86_7ZIP_DOWNLOAD_URL,
+  WINDOWS_X86_DTC_DOWNLOAD_URL,
+  WINDOWS_X86_GPERF_DOWNLOAD_URL,
+  WINDOWS_X86_WGET_DOWNLOAD_URL,
+} from "./sharedConstants.mjs";
 
 const _logger = new Logger("zephyrSetup");
 
@@ -58,6 +68,68 @@ interface ZephyrSetupOutputs {
   cmakeExecutable: string;
 }
 
+// Compute and cache the home directory
+const homeDirectory: string = homedir();
+
+// TODO: maybe move into download.mts
+function buildDtcPath(version: string): string {
+  return joinPosix(
+    homeDirectory.replaceAll("\\", "/"),
+    ".pico-sdk",
+    "dtc",
+    version
+  );
+}
+
+function buildGperfPath(version: string): string {
+  return joinPosix(
+    homeDirectory.replaceAll("\\", "/"),
+    ".pico-sdk",
+    "gperf",
+    version
+  );
+}
+
+function buildWgetPath(version: string): string {
+  return joinPosix(
+    homeDirectory.replaceAll("\\", "/"),
+    ".pico-sdk",
+    "wget",
+    version
+  );
+}
+
+function build7ZipPathWin32(version: string): string {
+  return join(homeDirectory, ".pico-sdk", "7zip", version);
+}
+
+function generateCustomEnv(
+  isWindows: boolean,
+  latestVb: VersionBundle,
+  cmakeExe: string,
+  pythonExe: string
+): NodeJS.ProcessEnv {
+  const customEnv = process.env;
+
+  const customPath = [
+    dirname(cmakeExe),
+    join(homedir(), ".pico-sdk", "dtc", CURRENT_DTC_VERSION, "bin"),
+    join(homedir(), ".pico-sdk", "git", "cmd"),
+    join(homedir(), ".pico-sdk", "gperf", CURRENT_GPERF_VERSION, "bin"),
+    join(homedir(), ".pico-sdk", "ninja", latestVb.ninja),
+    dirname(pythonExe),
+    join(homedir(), ".pico-sdk", "wget"),
+    join(homedir(), ".pico-sdk", "7zip", CURRENT_7ZIP_VERSION),
+    "", // Need this to add separator to end
+  ].join(process.platform === "win32" ? ";" : ":");
+
+  customEnv[isWindows ? "Path" : "PATH"] =
+    customPath + customEnv[isWindows ? "Path" : "PATH"];
+
+  return customEnv;
+}
+
+// TODO: duplicate code with _runGenerator
 function _runCommand(
   command: string,
   options: ExecOptions
@@ -65,31 +137,457 @@ function _runCommand(
   _logger.debug(`Running: ${command}`);
 
   return new Promise<number | null>(resolve => {
-    const generatorProcess = exec(command, options, (error, stdout, stderr) => {
+    const proc = exec(command, options, (error, stdout, stderr) => {
       _logger.debug(stdout);
-      _logger.info(stderr);
+      _logger.error(stderr);
       if (error) {
         _logger.error(`Setup venv error: ${error.message}`);
         resolve(null); // indicate error
       }
     });
 
-    generatorProcess.on("exit", code => {
+    proc.on("exit", code => {
       // Resolve with exit code or -1 if code is undefined
       resolve(code);
     });
   });
 }
 
-export async function setupZephyr(
-  data: ZephyrSetupValue
-): Promise<ZephyrSetupOutputs | undefined> {
+async function checkGit(): Promise<boolean> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
     _logger.error("Settings not initialized.");
 
-    return;
+    return false;
   }
+
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Ensuring Git is available",
+      cancellable: false,
+    },
+    async progress2 => {
+      // TODO: this does take about 2s - may be reduced
+      const gitPath = await ensureGit(settings, { returnPath: true });
+      if (typeof gitPath !== "string" || gitPath.length === 0) {
+        progress2.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+
+      progress2.report({
+        message: "Success",
+        increment: 100,
+      });
+
+      return true;
+    }
+  );
+}
+
+async function checkCmake(
+  cmakeMode: number,
+  cmakeVersion: string,
+  cmakePath: string
+): Promise<string | undefined> {
+  let progLastState = 0;
+  let installedSuccessfully = false;
+
+  switch (cmakeMode) {
+    case 4:
+    case 2:
+      installedSuccessfully = await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing CMake",
+          cancellable: false,
+        },
+        async progress => {
+          const result = await downloadAndInstallCmake(
+            cmakeVersion,
+            (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress.report({
+                increment: per - progLastState,
+              });
+              progLastState = per;
+            }
+          );
+
+          if (!result) {
+            progress.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            return false;
+          }
+
+          progress.report({
+            message: "Success",
+            increment: 100,
+          });
+
+          return true;
+        }
+      );
+
+      if (!installedSuccessfully) {
+        return;
+      }
+
+      return joinPosix(buildCMakePath(cmakeVersion), "bin", "cmake");
+    case 1:
+      // Don't need to add anything to path if already available via system
+      return "";
+    case 3:
+      // normalize path returned by the os selector to posix path for the settings json
+      // and cross platform compatibility
+      return process.platform === "win32"
+        ? // TODO: maybe use path.sep for split
+          joinPosix(...cmakePath.split("\\"))
+        : cmakePath;
+    default:
+      void window.showErrorMessage("Unknown CMake version selected.");
+
+      return;
+  }
+}
+
+async function checkNinja(latestVb: VersionBundle): Promise<boolean> {
+  let progLastState = 0;
+
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing Ninja",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallNinja(
+        latestVb.ninja,
+        (prog: GotProgress) => {
+          const per = prog.percent * 100;
+          progress.report({
+            increment: per - progLastState,
+          });
+          progLastState = per;
+        }
+      );
+
+      if (result) {
+        progress.report({
+          message: "Successfully downloaded and installed Ninja.",
+          increment: 100,
+        });
+
+        return true;
+      } else {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+    }
+  );
+}
+
+async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
+  let progLastState = 0;
+
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing Picotool",
+      cancellable: false,
+    },
+    async progress => {
+      if (
+        await downloadAndInstallPicotool(
+          latestVb.picotool,
+          (prog: GotProgress) => {
+            const per = prog.percent * 100;
+            progress.report({
+              increment: per - progLastState,
+            });
+            progLastState = per;
+          }
+        )
+      ) {
+        progress.report({
+          message: "Success",
+          increment: 100,
+        });
+
+        return true;
+      } else {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+    }
+  );
+}
+
+async function checkDtc(): Promise<boolean> {
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing DTC",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallArchive(
+        WINDOWS_X86_DTC_DOWNLOAD_URL,
+        buildDtcPath(CURRENT_DTC_VERSION),
+        "dtc-msys2-1.6.1-x86_64.zip",
+        "dtc"
+      );
+
+      if (!result) {
+        Logger.error(
+          LoggerSource.zephyrSetup,
+          "Failed to download and install DTC."
+        );
+
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      } else {
+        progress.report({
+          message: "Success",
+          increment: 100,
+        });
+
+        return true;
+      }
+    }
+  );
+}
+
+async function checkGperf(): Promise<boolean> {
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing gperf",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallArchive(
+        WINDOWS_X86_GPERF_DOWNLOAD_URL,
+        buildGperfPath(CURRENT_GPERF_VERSION),
+        `gperf-${CURRENT_GPERF_VERSION}-win64_x64.zip`,
+        "gperf"
+      );
+
+      if (!result) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      } else {
+        progress.report({
+          message: "Success",
+          increment: 100,
+        });
+
+        return true;
+      }
+    }
+  );
+}
+
+async function checkWget(): Promise<boolean> {
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing wget",
+      cancellable: false,
+    },
+    async progress2 => {
+      const result = await downloadAndInstallArchive(
+        WINDOWS_X86_WGET_DOWNLOAD_URL,
+        buildWgetPath(CURRENT_WGET_VERSION),
+        `wget-${CURRENT_WGET_VERSION}-win64.zip`,
+        "wget"
+      );
+
+      if (result) {
+        progress2.report({
+          message: "Successfully downloaded and installed wget.",
+          increment: 100,
+        });
+
+        return true;
+      } else {
+        progress2.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+    }
+  );
+}
+
+async function check7Zip(): Promise<boolean> {
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing 7-Zip",
+      cancellable: false,
+    },
+    async progress => {
+      _logger.info("Installing 7-Zip");
+      const targetDirectory = joinPosix("C:\\Program Files\\7-Zip");
+
+      if (
+        existsSync(targetDirectory) &&
+        readdirSync(targetDirectory).length !== 0
+      ) {
+        _logger.info("7-Zip is already installed.");
+
+        progress.report({
+          message: "7-Zip already installed.",
+          increment: 100,
+        });
+
+        return true;
+      }
+
+      const binName = `7z${CURRENT_7ZIP_VERSION}-x64.msi`;
+      const downloadURL = new URL(WINDOWS_X86_7ZIP_DOWNLOAD_URL);
+      const downloadDir = tmpdir().replaceAll("\\", "/");
+      const result = await downloadFileGot(
+        downloadURL,
+        joinPosix(downloadDir, binName)
+      );
+
+      if (!result) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+
+      const installDir = build7ZipPathWin32(CURRENT_7ZIP_VERSION);
+      const installResult = await _runCommand(
+        `msiexec /i ${binName} INSTALLDIR="${installDir}" /quiet /norestart`,
+        {
+          cwd: join(homedir(), ".pico-sdk"),
+        }
+      );
+
+      if (installResult !== 0) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+
+      // Clean up
+      rmSync(join(downloadDir, binName));
+
+      progress.report({
+        message: "Seccess",
+        increment: 100,
+      });
+
+      return true;
+    }
+  );
+}
+
+async function checkWindowsDeps(isWindows: boolean): Promise<boolean> {
+  if (!isWindows) {
+    return true;
+  }
+
+  let installedSuccessfully = await checkDtc();
+  if (!installedSuccessfully) {
+    return false;
+  }
+
+  installedSuccessfully = await checkGperf();
+  if (!installedSuccessfully) {
+    return false;
+  }
+
+  installedSuccessfully = await checkWget();
+  if (!installedSuccessfully) {
+    return false;
+  }
+
+  installedSuccessfully = await check7Zip();
+  if (!installedSuccessfully) {
+    return false;
+  }
+
+  return true;
+}
+
+async function checkOpenOCD(): Promise<boolean> {
+  let progLastState = 0;
+
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing OpenOCD",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallOpenOCD(
+        OPENOCD_VERSION,
+        (prog: GotProgress) => {
+          const per = prog.percent * 100;
+          progress.report({
+            increment: per - progLastState,
+          });
+          progLastState = per;
+        }
+      );
+
+      if (result) {
+        progress.report({
+          message: "Success",
+          increment: 100,
+        });
+
+        return true;
+      } else {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+    }
+  );
+}
+
+export async function setupZephyr(
+  data: ZephyrSetupValue
+): Promise<ZephyrSetupOutputs | undefined> {
   _logger.info("Setting up Zephyr...");
 
   const latestVb = await new VersionBundlesLoader(data.extUri).getLatest();
@@ -103,7 +601,6 @@ export async function setupZephyr(
   }
   const output: ZephyrSetupOutputs = { cmakeExecutable: "" };
 
-  let python3Path: string | undefined = "";
   let isWindows = false;
   await window.withProgress(
     {
@@ -112,475 +609,107 @@ export async function setupZephyr(
     },
     async progress => {
       let installedSuccessfully = true;
-      let prog2LastState = 0;
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Ensuring Git is available",
-          cancellable: false,
-        },
-        async progress2 => {
-          // TODO: this does take about 2s - may be reduced
-          const gitPath = await ensureGit(settings, { returnPath: true });
-          if (typeof gitPath !== "string" || gitPath.length === 0) {
-            installedSuccessfully = false;
-            progress2.report({
-              message: "Failed",
-              increment: 100,
-            });
 
-            return;
-          }
-          progress2.report({
-            message: "Git setup correctly.",
-            increment: 100,
-          });
-          installedSuccessfully = true;
-        }
-      );
+      installedSuccessfully = await checkGit();
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return;
+      }
 
       // Handle CMake install
-      switch (data.cmakeMode) {
-        case 4:
-        case 2:
-          installedSuccessfully = false;
-          prog2LastState = 0;
-          await window.withProgress(
-            {
-              location: ProgressLocation.Notification,
-              title: "Download and install CMake",
-              cancellable: false,
-            },
-            async progress2 => {
-              if (
-                await downloadAndInstallCmake(
-                  data.cmakeVersion,
-                  (prog: GotProgress) => {
-                    const per = prog.percent * 100;
-                    progress2.report({
-                      increment: per - prog2LastState,
-                    });
-                    prog2LastState = per;
-                  }
-                )
-              ) {
-                progress.report({
-                  // TODO: maybe just finished or something like that
-                  message: "Successfully downloaded and installed CMake.",
-                  increment: 100,
-                });
+      const cmakePath = await checkCmake(
+        data.cmakeMode,
+        data.cmakeVersion,
+        data.cmakePath
+      );
+      if (cmakePath === undefined) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-                installedSuccessfully = true;
-              } else {
-                installedSuccessfully = false;
-                progress2.report({
-                  message: "Failed",
-                  increment: 100,
-                });
-              }
-            }
-          );
-
-          if (!installedSuccessfully) {
-            progress.report({
-              message: "Failed",
-              increment: 100,
-            });
-            void window.showErrorMessage(
-              // TODO: maybe remove all requirements met part
-              "Failed to download and install CMake.\
-              Make sure all requirements are met."
-            );
-
-            return;
-          } else {
-            const cmakeVersionBasePath = buildCMakePath(data.cmakeVersion);
-
-            output.cmakeExecutable = joinPosix(
-              cmakeVersionBasePath,
-              "bin",
-              "cmake"
-            );
-          }
-          break;
-        case 1:
-          // Don't need to add anything to path if already available via system
-          output.cmakeExecutable = "";
-          break;
-        case 3:
-          // normalize path returned by the os selector to posix path for the settings json
-          // and cross platform compatibility
-          output.cmakeExecutable =
-            process.platform === "win32"
-              ? // TODO: maybe use path.sep for split
-                joinPosix(...data.cmakePath.split("\\"))
-              : data.cmakePath;
-          break;
-        default:
-          progress.report({
-            message: "Failed",
-            increment: 100,
-          });
-          void window.showErrorMessage("Unknown CMake version selected.");
-
-          return;
+        return;
       }
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Download and install Ninja",
-          cancellable: false,
-        },
-        async progress2 => {
-          if (
-            await downloadAndInstallNinja(
-              latestVb[1].ninja,
-              (prog: GotProgress) => {
-                const per = prog.percent * 100;
-                progress2.report({
-                  increment: per - prog2LastState,
-                });
-                prog2LastState = per;
-              }
-            )
-          ) {
-            progress2.report({
-              message: "Successfully downloaded and installed Ninja.",
-              increment: 100,
-            });
+      output.cmakeExecutable = cmakePath;
 
-            installedSuccessfully = true;
-          } else {
-            installedSuccessfully = false;
-            progress2.report({
-              message: "Failed",
-              increment: 100,
-            });
-          }
-        }
-      );
+      installedSuccessfully = await checkNinja(latestVb[1]);
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Download and install Picotool",
-          cancellable: false,
-        },
-        async progress2 => {
-          if (
-            await downloadAndInstallPicotool(
-              latestVb[1].picotool,
-              (prog: GotProgress) => {
-                const per = prog.percent * 100;
-                progress2.report({
-                  increment: per - prog2LastState,
-                });
-                prog2LastState = per;
-              }
-            )
-          ) {
-            progress2.report({
-              message: "Successfully downloaded and installed Picotool.",
-              increment: 100,
-            });
+        return;
+      }
 
-            installedSuccessfully = true;
-          } else {
-            installedSuccessfully = false;
-            progress2.report({
-              message: "Failed",
-              increment: 100,
-            });
-          }
-        }
-      );
+      installedSuccessfully = await checkPicotool(latestVb[1]);
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Set up Python",
-          cancellable: false,
-        },
-        async progress2 => {
-          python3Path = await findPython();
-          if (!python3Path) {
-            _logger.error("Failed to find Python3 executable.");
-            showPythonNotFoundError();
+        return;
+      }
 
-            installedSuccessfully = false;
-            progress2.report({
-              message: "Failed",
-              increment: 100,
-            });
-          }
+      // install python (if necessary)
+      const python3Path = await findPython();
+      if (!python3Path) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+        Logger.error(
+          LoggerSource.zephyrSetup,
+          "Failed to find Python3 executable."
+        );
+        showPythonNotFoundError();
 
-          progress2.report({
-            message: "Successfully downloaded and installed Picotool.",
-            increment: 100,
-          });
-
-          installedSuccessfully = true;
-        }
-      );
+        return;
+      }
 
       isWindows = process.platform === "win32";
 
-      if (isWindows) {
-        await window.withProgress(
-          {
-            location: ProgressLocation.Notification,
-            title: "Download and install DTC",
-            cancellable: false,
-          },
-          async progress2 => {
-            if (
-              // TODO: integrate into extension system for github api caching
-              await downloadAndInstallArchive(
-                "https://github.com/oss-winget/oss-winget-storage/raw/" +
-                  "96ea1b934342f45628a488d3b50d0c37cf06012c/packages/dtc/" +
-                  "1.6.1/dtc-msys2-1.6.1-x86_64.zip",
-                joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc"),
-                "dtc-msys2-1.6.1-x86_64.zip",
-                "dtc"
-              )
-            ) {
-              progress2.report({
-                message: "Successfully downloaded and installed DTC.",
-                increment: 100,
-              });
+      installedSuccessfully = await checkWindowsDeps(isWindows);
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-              installedSuccessfully = true;
-            } else {
-              installedSuccessfully = false;
-              progress2.report({
-                message: "Failed",
-                increment: 100,
-              });
-            }
-          }
-        );
-
-        await window.withProgress(
-          {
-            location: ProgressLocation.Notification,
-            title: "Download and install gperf",
-            cancellable: false,
-          },
-          async progress2 => {
-            if (
-              // TODO: integrate into extension system for github api caching
-              await downloadAndInstallArchive(
-                "https://sourceforge.net/projects/gnuwin32/files/gperf/3.0.1/" +
-                  "gperf-3.0.1-bin.zip/download",
-                joinPosix(
-                  homedir().replaceAll("\\", "/"),
-                  ".pico-sdk",
-                  "gperf"
-                ),
-                "gperf-3.0.1-bin.zip",
-                "gperf"
-              )
-            ) {
-              progress2.report({
-                message: "Successfully downloaded and installed DTC.",
-                increment: 100,
-              });
-
-              installedSuccessfully = true;
-            } else {
-              installedSuccessfully = false;
-              progress2.report({
-                message: "Failed",
-                increment: 100,
-              });
-            }
-          }
-        );
-
-        await window.withProgress(
-          {
-            location: ProgressLocation.Notification,
-            title: "Download and install wget",
-            cancellable: false,
-          },
-          async progress2 => {
-            if (
-              // TODO: integrate into extension system for github api caching
-              await downloadAndInstallArchive(
-                "https:///eternallybored.org/misc/wget/releases/" +
-                  "wget-1.21.4-win64.zip",
-                joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
-                "wget-1.21.4-win64.zip",
-                "wget"
-              )
-            ) {
-              progress2.report({
-                message: "Successfully downloaded and installed wget.",
-                increment: 100,
-              });
-
-              installedSuccessfully = true;
-            } else {
-              installedSuccessfully = false;
-              progress2.report({
-                message: "Failed",
-                increment: 100,
-              });
-            }
-          }
-        );
-
-        await window.withProgress(
-          {
-            location: ProgressLocation.Notification,
-            title: "Download and install 7-zip",
-            cancellable: false,
-          },
-          async progress2 => {
-            _logger.info("Installing 7zip");
-            const szipTargetDirectory = joinPosix("C:\\Program Files\\7-Zip");
-            if (
-              existsSync(szipTargetDirectory) &&
-              readdirSync(szipTargetDirectory).length !== 0
-            ) {
-              _logger.info("7-Zip is already installed.");
-              progress2.report({
-                message: "7-zip already installed.",
-                increment: 100,
-              });
-            } else {
-              const szipURL = new URL("https://7-zip.org/a/7z2409-x64.exe");
-              const szipResult = await downloadFileGot(
-                szipURL,
-                joinPosix(
-                  homedir().replaceAll("\\", "/"),
-                  ".pico-sdk",
-                  "7zip-x64.exe"
-                )
-              );
-
-              if (!szipResult) {
-                installedSuccessfully = false;
-                progress2.report({
-                  message: "Failed",
-                  increment: 100,
-                });
-
-                return;
-              }
-
-              const szipCommand: string = "7zip-x64.exe";
-              const szipInstallResult = await _runCommand(szipCommand, {
-                cwd: joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk"),
-              });
-
-              if (szipInstallResult !== 0) {
-                installedSuccessfully = false;
-                progress2.report({
-                  message: "Failed",
-                  increment: 100,
-                });
-
-                return;
-              }
-
-              // Clean up
-              rmSync(
-                joinPosix(
-                  homedir().replaceAll("\\", "/"),
-                  ".pico-sdk",
-                  "7zip-x64.exe"
-                )
-              );
-
-              progress2.report({
-                message: "Successfully downloaded and installed 7-zip.",
-                increment: 100,
-              });
-
-              installedSuccessfully = true;
-            }
-          }
-        );
+        return;
       }
 
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Download and install OpenOCD",
-          cancellable: false,
-        },
-        async progress2 => {
-          if (
-            await downloadAndInstallOpenOCD(
-              OPENOCD_VERSION,
-              (prog: GotProgress) => {
-                const per = prog.percent * 100;
-                progress2.report({
-                  increment: per - prog2LastState,
-                });
-                prog2LastState = per;
-              }
-            )
-          ) {
-            progress2.report({
-              message: "Successfully downloaded and installed Picotool.",
-              increment: 100,
-            });
+      installedSuccessfully = await checkOpenOCD();
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-            installedSuccessfully = true;
-          } else {
-            installedSuccessfully = false;
-            progress2.report({
-              message: "Failed",
-              increment: 100,
-            });
-          }
-        }
-      );
+        return;
+      }
 
       const pythonExe = python3Path?.replace(
         HOME_VAR,
         homedir().replaceAll("\\", "/")
       );
-
-      const customEnv = process.env;
-
-      const customPath = [
-        dirname(output.cmakeExecutable.replaceAll("\\", "/")),
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "dtc", "bin"),
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "git", "cmd"),
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "gperf", "bin"),
-        joinPosix(
-          homedir().replaceAll("\\", "/"),
-          ".pico-sdk",
-          "ninja",
-          "v1.12.1"
-        ),
-        joinPosix(
-          homedir().replaceAll("\\", "/"),
-          ".pico-sdk",
-          "python",
-          "3.12.6"
-        ),
-        joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "wget"),
-        joinPosix("C:\\Program Files".replaceAll("\\", "/"), "7-Zip"),
-        "", // Need this to add separator to end
-      ].join(process.platform === "win32" ? ";" : ":");
-
-      _logger.info(`New path: ${customPath}`);
-
-      customPath.replaceAll("/", "\\");
-      customEnv[isWindows ? "Path" : "PATH"] =
-        customPath + customEnv[isWindows ? "Path" : "PATH"];
+      const customEnv = generateCustomEnv(
+        isWindows,
+        latestVb[1],
+        output.cmakeExecutable,
+        pythonExe
+      );
 
       const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
-
       const zephyrManifestDir: string = joinPosix(
         zephyrWorkspaceDirectory,
         "manifest"
       );
-
       const zephyrManifestFile: string = joinPosix(
         zephyrManifestDir,
         "west.yml"
@@ -601,104 +730,123 @@ export async function setupZephyr(
       ].join(" ");
 
       // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
-      workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
+      await workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
 
       // Generic result to get value from runCommand calls
       let result: number | null;
-
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Setup Python virtual environment for Zephyr",
-          cancellable: false,
-        },
-        async progress2 => {
-          const venvPython: string = joinPosix(
-            zephyrWorkspaceDirectory,
-            "venv",
-            process.platform === "win32" ? "Scripts" : "bin",
-            process.platform === "win32" ? "python.exe" : "python"
-          );
-          if (existsSync(venvPython)) {
-            _logger.info("Existing Python venv found.");
-          } else {
-            result = await _runCommand(createVenvCommandVenv, {
-              cwd: zephyrWorkspaceDirectory,
-              windowsHide: true,
-              env: customEnv,
-            });
-            if (result !== 0) {
-              _logger.warn(
-                "Could not create virtual environment with venv," +
-                  "trying with virtualenv..."
-              );
-
-              result = await _runCommand(createVenvCommandVirtualenv, {
-                cwd: zephyrWorkspaceDirectory,
-                windowsHide: true,
-                env: customEnv,
-              });
-
-              if (result === 0) {
-                progress2.report({
-                  message:
-                    "Successfully setup Python virtual environment for Zephyr.",
-                  increment: 100,
-                });
-              } else {
-                installedSuccessfully = false;
-                progress2.report({
-                  message: "Failed",
-                  increment: 100,
-                });
-              }
-            }
-
-            _logger.info("Venv created.");
-          }
-        }
-      );
-
-      const venvPythonCommand: string = joinPosix(
-        process.env.ComSpec === "powershell.exe" ? "&" : "",
+      const venvPython: string = joinPosix(
         zephyrWorkspaceDirectory,
         "venv",
         process.platform === "win32" ? "Scripts" : "bin",
         process.platform === "win32" ? "python.exe" : "python"
       );
 
-      await window.withProgress(
+      installedSuccessfully = await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Setup Python virtual environment for Zephyr",
+          cancellable: false,
+        },
+        async progress2 => {
+          if (existsSync(venvPython)) {
+            _logger.info(
+              "Existing Python virtual environment for Zephyr found."
+            );
+
+            return true;
+          }
+
+          result = await _runCommand(createVenvCommandVenv, {
+            cwd: zephyrWorkspaceDirectory,
+            windowsHide: true,
+            env: customEnv,
+          });
+          if (result !== 0) {
+            _logger.warn(
+              "Could not create virtual environment with venv," +
+                "trying with virtualenv..."
+            );
+
+            result = await _runCommand(createVenvCommandVirtualenv, {
+              cwd: zephyrWorkspaceDirectory,
+              windowsHide: true,
+              env: customEnv,
+            });
+
+            if (result !== 0) {
+              progress2.report({
+                message: "Failed",
+                increment: 100,
+              });
+
+              return false;
+            }
+          }
+
+          progress2.report({
+            message: "Success",
+            increment: 100,
+          });
+
+          _logger.info("Zephyr Python virtual environment created.");
+
+          return true;
+        }
+      );
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return;
+      }
+
+      const venvPythonCommand: string = joinPosix(
+        process.env.ComSpec === "powershell.exe" ? "&" : "",
+        venvPython
+      );
+
+      installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
           title: "Install Zephyr Python dependencies",
           cancellable: false,
         },
         async progress2 => {
-          const installWestCommand: string = [
-            venvPythonCommand,
-            "-m pip install west pyelftools",
-          ].join(" ");
+          const installWestCommand: string =
+            `${venvPythonCommand} -m pip install ` + "west pyelftools";
 
-          if (
-            (await _runCommand(installWestCommand, {
-              cwd: zephyrWorkspaceDirectory,
-              windowsHide: true,
-              env: customEnv,
-            })) === 0
-          ) {
+          const installExitCode = await _runCommand(installWestCommand, {
+            cwd: zephyrWorkspaceDirectory,
+            windowsHide: true,
+            env: customEnv,
+          });
+          if (installExitCode === 0) {
             progress2.report({
-              message: "Successfully installed Python dependencies for Zephyr.",
+              message: "Success",
               increment: 100,
             });
+
+            return true;
           } else {
-            installedSuccessfully = false;
             progress2.report({
               message: "Failed",
               increment: 100,
             });
+
+            return false;
           }
         }
       );
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return;
+      }
 
       const westExe: string = joinPosix(
         process.env.ComSpec === "powershell.exe" ? "&" : "",
@@ -708,7 +856,7 @@ export async function setupZephyr(
         process.platform === "win32" ? "west.exe" : "west"
       );
 
-      await window.withProgress(
+      installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
           title: "Setting up West workspace",
@@ -727,179 +875,208 @@ export async function setupZephyr(
           } else {
             _logger.info("No West workspace found. Initialising...");
 
-            const westInitCommand: string = [westExe, "init -l manifest"].join(
-              " "
-            );
+            const westInitCommand: string = `${westExe} init -l manifest`;
             result = await _runCommand(westInitCommand, {
               cwd: zephyrWorkspaceDirectory,
               windowsHide: true,
               env: customEnv,
             });
 
-            _logger.info(`${result}`);
+            _logger.info(`West workspace initialization ended with ${result}`);
+
+            if (result !== 0) {
+              progress2.report({
+                message: "Failed",
+                increment: 100,
+              });
+
+              return false;
+            }
           }
 
-          const westUpdateCommand: string = [westExe, "update"].join(" ");
+          const westUpdateCommand: string = `${westExe} update`;
+          result = await _runCommand(westUpdateCommand, {
+            cwd: zephyrWorkspaceDirectory,
+            windowsHide: true,
+            env: customEnv,
+          });
 
-          if (
-            (await _runCommand(westUpdateCommand, {
-              cwd: zephyrWorkspaceDirectory,
-              windowsHide: true,
-              env: customEnv,
-            })) === 0
-          ) {
+          if (result === 0) {
             progress2.report({
-              message: "Successfully setup West workspace.",
+              message: "Success",
               increment: 100,
             });
+
+            return true;
           } else {
-            installedSuccessfully = false;
             progress2.report({
               message: "Failed",
               increment: 100,
             });
+
+            return false;
           }
         }
       );
 
-      const zephyrExportCommand: string = [westExe, "zephyr-export"].join(" ");
-      _logger.info("Exporting Zephyr CMake Files");
+      const zephyrExportCommand: string = `${westExe} zephyr-export`;
+      _logger.info("Exporting Zephyr CMake Files...");
+
+      // TODO: maybe progress
       result = await _runCommand(zephyrExportCommand, {
         cwd: zephyrWorkspaceDirectory,
         windowsHide: true,
         env: customEnv,
       });
+      if (result !== 0) {
+        _logger.error("Error exporting Zephyr CMake files.");
+        void window.showErrorMessage("Error exporting Zephyr CMake files.");
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-      await window.withProgress(
+        return;
+      }
+
+      installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Install West Python dependencies",
+          title: "Installing West Python dependencies",
           cancellable: false,
         },
         async progress2 => {
-          const westPipPackagesCommand: string = [
-            westExe,
-            "packages pip --install",
-          ].join(" ");
+          const westPipPackagesCommand: string =
+            `${westExe} packages ` + "pip --install";
 
-          if (
-            (await _runCommand(westPipPackagesCommand, {
-              cwd: zephyrWorkspaceDirectory,
-              windowsHide: true,
-              env: customEnv,
-            })) === 0
-          ) {
+          result = await _runCommand(westPipPackagesCommand, {
+            cwd: zephyrWorkspaceDirectory,
+            windowsHide: true,
+            env: customEnv,
+          });
+
+          if (result === 0) {
+            _logger.debug("West Python dependencies installed.");
             progress2.report({
-              message: "Successfully installed Python dependencies for West.",
+              message: "Success",
               increment: 100,
             });
+
+            return true;
           } else {
-            installedSuccessfully = false;
+            _logger.error("Error installing West Python dependencies.");
             progress2.report({
               message: "Failed",
               increment: 100,
             });
+
+            return false;
           }
         }
       );
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-      await window.withProgress(
+        return;
+      }
+
+      installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
           title: "Fetching Zephyr binary blobs",
           cancellable: false,
         },
         async progress2 => {
-          const westBlobsFetchCommand: string = [
-            westExe,
-            "blobs fetch hal_infineon",
-          ].join(" ");
+          const westBlobsFetchCommand: string =
+            `${westExe} blobs fetch ` + "hal_infineon";
 
-          if (
-            (await _runCommand(westBlobsFetchCommand, {
-              cwd: zephyrWorkspaceDirectory,
-              windowsHide: true,
-              env: customEnv,
-            })) === 0
-          ) {
+          result = await _runCommand(westBlobsFetchCommand, {
+            cwd: zephyrWorkspaceDirectory,
+            windowsHide: true,
+            env: customEnv,
+          });
+
+          if (result === 0) {
             progress2.report({
-              message: "Successfully retrieved Zephyr binary blobs.",
+              message: "Success",
               increment: 100,
             });
+
+            return true;
           } else {
-            installedSuccessfully = false;
             progress2.report({
               message: "Failed",
               increment: 100,
             });
+
+            return false;
           }
         }
       );
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-      await window.withProgress(
+        return;
+      }
+
+      installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
           title: "Installing Zephyr SDK",
           cancellable: false,
         },
-        async progress2 =>
-          new Promise<void>(resolve => {
-            const westInstallSDKCommand: string = [
-              westExe,
-              "sdk install -t arm-zephyr-eabi",
-              `-b ${zephyrWorkspaceDirectory}`,
-            ].join(" ");
+        async progress2 => {
+          const westInstallSDKCommand: string =
+            `${westExe} sdk install ` +
+            `-t arm-zephyr-eabi -b ${zephyrWorkspaceDirectory}`;
 
-            // This has to be a spawn due to the way the underlying SDK command calls
-            // subprocess and needs to inherit the Path variables set in customEnv
-            _logger.info("Installing Zephyr SDK");
-            const child = spawnSync(westInstallSDKCommand, {
-              shell: true,
-              cwd: zephyrWorkspaceDirectory,
-              windowsHide: true,
-              env: customEnv,
-            });
-            _logger.debug("stdout: ", child.stdout.toString());
-            _logger.debug("stderr: ", child.stderr.toString());
+          result = await _runCommand(westInstallSDKCommand, {
+            cwd: zephyrWorkspaceDirectory,
+            windowsHide: true,
+            env: customEnv,
+          });
 
-            if (child.status) {
-              _logger.debug("exit code: ", child.status);
-              if (child.status !== 0) {
-                void window.showErrorMessage(
-                  "Error installing Zephyr SDK." + "Exiting Zephyr Setup."
-                );
-              }
-
-              installedSuccessfully = false;
-              progress2.report({
-                message: "Failed",
-                increment: 100,
-              });
-              resolve();
-
-              return;
-            }
-
+          if (result === 0) {
             progress2.report({
-              message: "Successfully installed Zephyr SDK.",
+              message: "Success",
               increment: 100,
             });
-            resolve();
-          })
-      );
 
-      if (installedSuccessfully) {
-        // TODO: duplicate signaling
-        void window.showInformationMessage("Zephyr setup complete");
+            return true;
+          } else {
+            progress2.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            return false;
+          }
+        }
+      );
+      if (!installedSuccessfully) {
         progress.report({
-          message: "Zephyr setup complete.",
+          message: "Failed",
           increment: 100,
         });
+
+        return;
       }
+
+      progress.report({
+        message: "Complete",
+        increment: 100,
+      });
     }
   );
 
-  _logger.info("Complete");
+  _logger.info("Zephyr setup complete.");
+  //void window.showInformationMessage("Zephyr setup complete");
 
   return output;
 }

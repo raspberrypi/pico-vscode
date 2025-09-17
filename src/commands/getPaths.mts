@@ -1,6 +1,5 @@
 import { CommandWithResult } from "./command.mjs";
 import { commands, type Uri, window, workspace } from "vscode";
-import { type ExecOptions, exec, spawnSync } from "child_process";
 import {
   getPythonPath,
   getPath,
@@ -29,9 +28,6 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
-import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
-import { ensureGit } from "../utils/gitUtil.mjs";
-import { openOCDVersion } from "../webview/newProjectPanel.mjs";
 import { setupZephyr } from "../utils/setupZephyr.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
@@ -567,30 +563,6 @@ export class GetZephyrWorkspacePathCommand extends CommandWithResult<
       return undefined;
     }
 
-    this.running = false;
-
-    return result;
-  }
-}
-
-export class SetupZephyrCommand extends CommandWithResult<string | undefined> {
-  private running: boolean = false;
-
-  public static readonly id = "setupZephyr";
-
-  constructor() {
-    super(SetupZephyrCommand.id);
-  }
-
-  private readonly _logger: Logger = new Logger("SetupZephyr");
-
-  async execute(): Promise<string | undefined> {
-    if (this.running) {
-      return undefined;
-    }
-
-    this.running = true;
-    const result = setupZephyr();
     this.running = false;
 
     return result;

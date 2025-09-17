@@ -50,7 +50,6 @@ import {
   GetPicotoolPathCommand,
   GetOpenOCDRootCommand,
   GetSVDPathCommand,
-  SetupZephyrCommand,
   GetWestPathCommand,
   GetZephyrWorkspacePathCommand,
 } from "./commands/getPaths.mjs";
@@ -104,6 +103,7 @@ import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
 import { OPENOCD_VERSION } from "./utils/sharedConstants.mjs";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
+import { setupZephyr } from "./utils/setupZephyr.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -145,7 +145,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetSVDPathCommand(context.extensionUri),
     new GetWestPathCommand(),
     new GetZephyrWorkspacePathCommand(),
-    new SetupZephyrCommand(),
     new NewZephyrProjectCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
@@ -262,63 +261,68 @@ export async function activate(context: ExtensionContext): Promise<void> {
       return;
     }
 
-  // Set Pico Zephyr Project false by default
-  await commands.executeCommand(
-    "setContext",
-    ContextKeys.isPicoZephyrProject,
-    false
-  );
-
-  // Check for pico_zephyr in CMakeLists.txt
-  if (
-    readFileSync(cmakeListsFilePath).toString("utf-8").includes("pico_zephyr")
-  ) {
-    Logger.info(LoggerSource.extension, "Pico Zephyr Project");
+    // Set Pico Zephyr Project false by default
     await commands.executeCommand(
       "setContext",
       ContextKeys.isPicoZephyrProject,
-      true
-    );
-
-    // Update the board info if it can be found in tasks.json
-    const tasksJsonFilePath = join(
-      workspaceFolder.uri.fsPath,
-      ".vscode",
-      "tasks.json"
-    );
-
-    // Update UI with board description
-    const board = findZephyrBoardInTasksJson(tasksJsonFilePath);
-
-    if (board !== undefined) {
-      if (board === "rpi_pico2/rp2350a/m33/w") {
-        ui.updateBoard("Pico 2W");
-      } else if (board === "rpi_pico2/rp2350a/m33") {
-        ui.updateBoard("Pico 2");
-      } else if (board === "rpi_pico/rp2040/w") {
-        ui.updateBoard("Pico W");
-      } else if (board.includes("rpi_pico")) {
-        ui.updateBoard("Pico");
-      } else {
-        ui.updateBoard("Other");
-      }
-    }
-  }
-  // check for pico_sdk_init() in CMakeLists.txt
-  else if (
-    !readFileSync(cmakeListsFilePath)
-      .toString("utf-8")
-      .includes("pico_sdk_init()")
-  ) {
-    Logger.warn(
-      LoggerSource.extension,
-      "No pico_sdk_init() in CMakeLists.txt found."
-    );
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
       false
     );
+
+    // Check for pico_zephyr in CMakeLists.txt
+    if (
+      readFileSync(cmakeListsFilePath).toString("utf-8").includes("pico_zephyr")
+    ) {
+      Logger.info(LoggerSource.extension, "Project is of type: Zephyr");
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoZephyrProject,
+        true
+      );
+
+      // TODO: !!!!!!!!! IMPORTANT !!!!!!!!!
+      // TODO: make sure zephy dependencies are installed
+
+      ui.showStatusBarItems(false, true);
+
+      // Update the board info if it can be found in tasks.json
+      const tasksJsonFilePath = join(
+        workspaceFolder.uri.fsPath,
+        ".vscode",
+        "tasks.json"
+      );
+
+      // Update UI with board description
+      const board = findZephyrBoardInTasksJson(tasksJsonFilePath);
+
+      if (board !== undefined) {
+        if (board === "rpi_pico2/rp2350a/m33/w") {
+          ui.updateBoard("Pico 2W");
+        } else if (board === "rpi_pico2/rp2350a/m33") {
+          ui.updateBoard("Pico 2");
+        } else if (board === "rpi_pico/rp2040/w") {
+          ui.updateBoard("Pico W");
+        } else if (board.includes("rpi_pico")) {
+          ui.updateBoard("Pico");
+        } else {
+          ui.updateBoard("Other");
+        }
+      }
+    }
+    // check for pico_sdk_init() in CMakeLists.txt
+    else if (
+      !readFileSync(cmakeListsFilePath)
+        .toString("utf-8")
+        .includes("pico_sdk_init()")
+    ) {
+      Logger.warn(
+        LoggerSource.extension,
+        "No pico_sdk_init() in CMakeLists.txt found."
+      );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        false
+      );
 
       return;
     }
@@ -869,108 +873,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
     return;
   }
-
-  /*
-  const pythonPath = settings.getString(SettingsKey.python3Path);
-  if (pythonPath && pythonPath.includes("/.pico-sdk/python")) {
-    // check if python path exists
-    if (!existsSync(pythonPath.replace(HOME_VAR, homedir()))) {
-      Logger.warn(
-        LoggerSource.extension,
-        "Python path in settings does not exist.",
-        "Installing Python3 to default path."
-      );
-      const pythonVersion = /\/\.pico-sdk\/python\/([.0-9]+)\//.exec(
-        pythonPath
-      )?.[1];
-      if (pythonVersion === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to get Python version from path."
-        );
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-
-      let result: string | undefined;
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title:
-            "Downloading and installing Python. This may take a long while...",
-          cancellable: false,
-        },
-        async progress => {
-          if (process.platform === "win32") {
-            const versionBundle = await new VersionBundlesLoader(
-              context.extensionUri
-            ).getPythonWindowsAmd64Url(pythonVersion);
-
-            if (versionBundle === undefined) {
-              Logger.error(
-                LoggerSource.extension,
-                "Failed to get Python download url from version bundle."
-              );
-              await commands.executeCommand(
-                "setContext",
-                ContextKeys.isPicoProject,
-                false
-              );
-
-              return;
-            }
-
-            // ! because data.pythonMode === 0 => versionBundle !== undefined
-            result = await downloadEmbedPython(versionBundle);
-          } else if (process.platform === "darwin") {
-            const result1 = await setupPyenv();
-            if (!result1) {
-              progress.report({
-                increment: 100,
-              });
-
-              return;
-            }
-            const result2 = await pyenvInstallPython(pythonVersion);
-
-            if (result2 !== null) {
-              result = result2;
-            }
-          } else {
-            Logger.info(
-              LoggerSource.extension,
-              "Automatic Python installation is only",
-              "supported on Windows and macOS."
-            );
-
-            await window.showErrorMessage(
-              "Automatic Python installation is only " +
-                "supported on Windows and macOS."
-            );
-          }
-          progress.report({
-            increment: 100,
-          });
-        }
-      );
-
-      if (result === undefined) {
-        Logger.error(LoggerSource.extension, "Failed to install Python3.");
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-    }
-  }*/
 
   ui.showStatusBarItems();
   ui.updateSDKVersion(selectedToolchainAndSDKVersions[0]);

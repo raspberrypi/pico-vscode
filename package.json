@@ -66,6 +66,7 @@
   "activationEvents": [
     "workspaceContains:./pico_sdk_import.cmake",
     "workspaceContains:./.pico-rs",
+    "workspaceContains:./prj.conf",
     "onWebviewPanel:newPicoProject",
     "onWebviewPanel:newPicoMicroPythonProject"
   ],

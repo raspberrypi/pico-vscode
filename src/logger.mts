@@ -44,6 +44,7 @@ export enum LoggerSource {
   vscodeConfigUtil = "vscodeConfigUtil",
   rustUtil = "rustUtil",
   projectRust = "projectRust",
+  zephyrSetup = "setupZephyr",
 }
 
 /**

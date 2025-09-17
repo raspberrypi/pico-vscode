@@ -17,6 +17,7 @@ const STATUS_BAR_ITEMS: {
     command: string;
     tooltip: string;
     rustSupport: boolean;
+    zephyrSupport: boolean;
   };
 } = {
   [StatusBarItemKey.compile]: {
@@ -25,6 +26,7 @@ const STATUS_BAR_ITEMS: {
     command: "raspberry-pi-pico.compileProject",
     tooltip: "Compile Project",
     rustSupport: true,
+    zephyrSupport: true,
   },
   [StatusBarItemKey.run]: {
     // alt. "$(gear) Compile"
@@ -32,12 +34,14 @@ const STATUS_BAR_ITEMS: {
     command: "raspberry-pi-pico.runProject",
     tooltip: "Run Project",
     rustSupport: true,
+    zephyrSupport: true,
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
     text: "Pico SDK: <version>",
     command: "raspberry-pi-pico.switchSDK",
     tooltip: "Select Pico SDK",
     rustSupport: false,
+    zephyrSupport: false,
   },
   [StatusBarItemKey.picoBoardQuickPick]: {
     text: "Board: <board>",
@@ -45,6 +49,7 @@ const STATUS_BAR_ITEMS: {
     command: "raspberry-pi-pico.switchBoard",
     tooltip: "Select Chip",
     rustSupport: true,
+    zephyrSupport: true,
   },
 };
 
@@ -69,9 +74,15 @@ export default class UI {
     });
   }
 
-  public showStatusBarItems(isRustProject = false): void {
+  public showStatusBarItems(
+    isRustProject = false,
+    isZephyrProject = false
+  ): void {
     Object.values(this._items)
       .filter(item => !isRustProject || STATUS_BAR_ITEMS[item.id].rustSupport)
+      .filter(
+        item => !isZephyrProject || STATUS_BAR_ITEMS[item.id].zephyrSupport
+      )
       .forEach(item => item.show());
   }
 
