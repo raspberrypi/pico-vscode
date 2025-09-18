@@ -5,6 +5,8 @@ import {
   type WebviewPanel,
   commands,
   ProgressLocation,
+  Uri,
+  FileSystemError,
 } from "vscode";
 import {
   extensionName,
@@ -101,9 +103,13 @@ import {
 import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
-import { OPENOCD_VERSION } from "./utils/sharedConstants.mjs";
+import {
+  CMAKELISTS_ZEPHYR_HEADER,
+  OPENOCD_VERSION,
+} from "./utils/sharedConstants.mjs";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { setupZephyr } from "./utils/setupZephyr.mjs";
+import { unknownErrorToString } from "./utils/errorHelper.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -268,10 +274,12 @@ export async function activate(context: ExtensionContext): Promise<void> {
       false
     );
 
+    const cmakeListsContents = new TextDecoder().decode(
+      await workspace.fs.readFile(Uri.file(cmakeListsFilePath))
+    );
+
     // Check for pico_zephyr in CMakeLists.txt
-    if (
-      readFileSync(cmakeListsFilePath).toString("utf-8").includes("pico_zephyr")
-    ) {
+    if (cmakeListsContents.startsWith(CMAKELISTS_ZEPHYR_HEADER)) {
       Logger.info(LoggerSource.extension, "Project is of type: Zephyr");
       await commands.executeCommand(
         "setContext",
@@ -307,13 +315,44 @@ export async function activate(context: ExtensionContext): Promise<void> {
           ui.updateBoard("Other");
         }
       }
+
+      // check if build dir is empty and recommend to run a build to
+      // get the intellisense working
+      // TODO: maybe run cmake configure automatically if build folder empty
+      try {
+        const buildDirContents = await workspace.fs.readDirectory(
+          Uri.file(join(workspaceFolder.uri.fsPath, "build"))
+        );
+
+        if (buildDirContents.length === 0) {
+          void window.showWarningMessage(
+            "To get full intellisense support please build the project once."
+          );
+        }
+      } catch (error) {
+        if (error instanceof FileSystemError && error.code === "FileNotFound") {
+          void window.showWarningMessage(
+            "To get full intellisense support please build the project once."
+          );
+
+          Logger.debug(
+            LoggerSource.extension,
+            'No "build" folder found. Intellisense might not work ' +
+              "properly until a build has been done."
+          );
+        } else {
+          Logger.error(
+            LoggerSource.extension,
+            "Error when reading build folder:",
+            unknownErrorToString(error)
+          );
+        }
+      }
+
+      return;
     }
     // check for pico_sdk_init() in CMakeLists.txt
-    else if (
-      !readFileSync(cmakeListsFilePath)
-        .toString("utf-8")
-        .includes("pico_sdk_init()")
-    ) {
+    else if (!cmakeListsContents.includes("pico_sdk_init()")) {
       Logger.warn(
         LoggerSource.extension,
         "No pico_sdk_init() in CMakeLists.txt found."

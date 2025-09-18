@@ -21,7 +21,7 @@ LOG_MODULE_REGISTER(http);
 
 static K_SEM_DEFINE(json_response_complete, 0, 1);
 static K_SEM_DEFINE(http_response_complete, 0, 1);
-static const char * json_post_headers[] = { "Content-Type: application/json\r\n", NULL };
+static const char * json_post_headers[] = { "Content-Type: application/json\\r\\n", NULL };
 
 // Holds the HTTP response
 static char response_buffer[2048];
@@ -79,7 +79,7 @@ static void http_response_cb(struct http_response *rsp,
 	printk("HTTP Callback: %.*s", rsp->data_len, rsp->recv_buf);
 
 	if (HTTP_DATA_FINAL == final_data){
-		printk("\n");
+		printk("\\n");
 		k_sem_give(&http_response_complete);
 	}
 }
@@ -135,7 +135,7 @@ static void json_response_cb(struct http_response *rsp,
 	if (rsp->body_found)
 	{
 		LOG_DBG("Body:");
-		printk("%.*s\n", rsp->body_frag_len, rsp->body_frag_start);
+		printk("%.*s\\n", rsp->body_frag_len, rsp->body_frag_start);
 
 		if (returned_placeholder_post != NULL)
 		{
@@ -448,7 +448,7 @@ void wifi_connect(const char * ssid, const char * psk)
 		connection_result = net_mgmt(NET_REQUEST_WIFI_CONNECT, iface,
 				&cnx_params, sizeof(struct wifi_connect_req_params));
 		if (connection_result) {
-			LOG_ERR("Connection request failed with error: %d\n", connection_result);
+			LOG_ERR("Connection request failed with error: %d\\n", connection_result);
 		}
 		k_sleep(K_MSEC(1000));
 	}

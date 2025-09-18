@@ -13,7 +13,6 @@ import {
 import { extensionName } from "../../commands/command.mjs";
 import { commands, Uri, window, workspace } from "vscode";
 import {
-  CURRENT_7ZIP_VERSION,
   CURRENT_DTC_VERSION,
   CURRENT_GPERF_VERSION,
   CURRENT_WGET_VERSION,
@@ -35,6 +34,7 @@ import {
   WIFI_WIFI_C,
   WIFI_WIFI_H,
 } from "./zephyrFiles.mjs";
+import { homedir } from "os";
 
 // Kconfig snippets
 const spiKconfig: string = "CONFIG_SPI=y";
@@ -165,7 +165,7 @@ async function generateVSCodeConfig(
         intelliSenseMode: "linux-gcc-arm",
         compilerPath:
           // TODO: maybe move into command (the part before the executable) / test if not .exe works on win32
-          "${userHome}/.pico-sdk/zephyr_workspace/zephyr-sdk-0.17.1/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+          "${userHome}/.pico-sdk/zephyr_workspace/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
         includePath: [
           "${workspaceFolder}/**",
           "${workspaceFolder}/build/zephyr/include",
@@ -205,7 +205,7 @@ async function generateVSCodeConfig(
         toolchainPrefix: "arm-zephyr-eabi",
         armToolchainPath:
           // TODO: maybe just full get zephyr compiler path command
-          "${command:${extensionName}.getZephyrWorkspacePath}/zephyr-sdk-0.17.1/arm-zephyr-eabi/bin",
+          "${command:${extensionName}.getZephyrWorkspacePath}/zephyr-sdk/arm-zephyr-eabi/bin",
         // TODO: get chip dynamically maybe: chip: `\${command:${extensionName}.${GetChipCommand.id}}`,
         // meaning only one cfg required
         device: `\${command:${extensionName}.${GetChipUppercaseCommand.id}}`,
@@ -243,7 +243,7 @@ async function generateVSCodeConfig(
     "C_Cpp.debugShortcut": false,
     "terminal.integrated.env.windows": {
       // TODO: contitionally cmake: \${env:USERPROFILE}/.pico-sdk/cmake/${latestVb.cmake}/bin
-      Path: `\${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION};\${env:USERPROFILE}/.pico-sdk/ninja/${latestVb[1].ninja};\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip/${CURRENT_7ZIP_VERSION};\${env:PATH}`,
+      Path: `\${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION};\${env:USERPROFILE}/.pico-sdk/ninja/${latestVb[1].ninja};\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:PATH}`,
     },
     "terminal.integrated.env.osx": {
       PATH: `\${env:HOME}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin:\${env:HOME}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}:\${env:HOME}/.pico-sdk/ninja/${latestVb[1].ninja}:\${env:HOME}/.pico-sdk/wget:\${env:PATH}`,
@@ -262,10 +262,20 @@ async function generateVSCodeConfig(
   };
 
   if (cmakePath.length > 0) {
-    const pathWindows = cmakePath.replace(HOME_VAR, "${env:USERPROFILE}");
-    const pathPosix = cmakePath.replace(HOME_VAR, "${env:HOME}");
-    settings["cmake.cmakePath"] = cmakePath;
-    settings["raspberry-pi-pico.cmakePath"] = cmakePath;
+    const pathWindows = cmakePath
+      .replace(HOME_VAR, "${env:USERPROFILE}")
+      .replace(homedir().replace("\\", "/"), "${env:USERPROFILE}");
+    const pathPosix = cmakePath
+      .replace(HOME_VAR, "${env:HOME}")
+      .replace(homedir().replace("\\", "/"), "${env:HOME}");
+    settings["cmake.cmakePath"] = cmakePath.replace(
+      homedir().replace("\\", "/"),
+      "${userHome}"
+    );
+    settings["raspberry-pi-pico.cmakePath"] = cmakePath.replace(
+      homedir().replace("\\", "/"),
+      HOME_VAR
+    );
     // add to path
     settings[
       "terminal.integrated.env.windows"
@@ -292,15 +302,18 @@ async function generateVSCodeConfig(
     // TODO: check! ""
     '"${workspaceFolder}"/build',
     '"${workspaceFolder}"',
-    "--",
-    `-DOPENOCD=\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/openocd`,
-    `-DOPENOCD_DEFAULT_PATH=\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/scripts`,
   ];
 
   // If console is USB, use the local snippet
   if (data.console === "USB") {
-    westArgs.unshift("-S", "usb_serial_port");
+    westArgs.push("-S", "usb_serial_port");
   }
+
+  westArgs.push(
+    "--",
+    `-DOPENOCD=\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/openocd`,
+    `-DOPENOCD_DEFAULT_PATH=\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/scripts`
+  );
 
   const tasks = {
     version: "2.0.0",
@@ -308,7 +321,6 @@ async function generateVSCodeConfig(
       {
         label: "Compile Project",
         type: "shell",
-        isBuildCommand: true,
         command: `\${command:${extensionName}.${GetWestPathCommand.id}}`,
         args: westArgs,
         group: {
@@ -426,15 +438,15 @@ const char JSON_POST_PATH[] = "/posts";
 
 int main(void)
 {
-	printk("Starting wifi example on %s\n", CONFIG_BOARD_TARGET);
+	printk("Starting wifi example on %s\\n", CONFIG_BOARD_TARGET);
 
 	wifi_connect(WIFI_SSID, WIFI_PSK);
 
 	// Ping Google DNS 4 times
-	printk("Pinging 8.8.8.8 to demonstrate connection:\n");
+	printk("Pinging 8.8.8.8 to demonstrate connection:\\n");
     ping("8.8.8.8", 4);
 
-	printk("Now performing http GET request to google.com...\n");
+	printk("Now performing http GET request to google.com...\\n");
 	http_get_example(HTTP_HOSTNAME, HTTP_PATH);
 	k_sleep(K_SECONDS(1));
 
@@ -445,11 +457,11 @@ int main(void)
 	{
 		LOG_ERR("Error in json_get_example");
 	} else {
-		printk("Got JSON result:\n");
-		printk("Title: %s\n", get_post_result.title);
-		printk("Body: %s\n", get_post_result.body);
-		printk("User ID: %d\n", get_post_result.userId);
-		printk("ID: %d\n", get_post_result.id);
+		printk("Got JSON result:\\n");
+		printk("Title: %s\\n", get_post_result.title);
+		printk("Body: %s\\n", get_post_result.body);
+		printk("User ID: %d\\n", get_post_result.userId);
+		printk("ID: %d\\n", get_post_result.id);
 	}
 	k_sleep(K_SECONDS(1));
 
@@ -465,11 +477,11 @@ int main(void)
 	{
 		LOG_ERR("Error in json_post_example");
 	} else {
-		printk("Got JSON result:\n");
-		printk("Title: %s\n", new_post_result.title);
-		printk("Body: %s\n", new_post_result.body);
-		printk("User ID: %d\n", new_post_result.userId);
-		printk("ID: %d\n", new_post_result.id);
+		printk("Got JSON result:\\n");
+		printk("Title: %s\\n", new_post_result.title);
+		printk("Body: %s\\n", new_post_result.body);
+		printk("User ID: %d\\n", new_post_result.userId);
+		printk("ID: %d\\n", new_post_result.id);
 	}
 	k_sleep(K_SECONDS(1));
 
@@ -529,7 +541,7 @@ async function generateMainC(
     );
   }
 
-  mainC = mainC.concat("void main(void) {\n");
+  mainC = mainC.concat("int main(void) {\n");
 
   if (isBlinky) {
     mainC = mainC.concat('    printk("Hello World! Blinky sample\\n");\n\n');
@@ -561,13 +573,13 @@ async function generateMainC(
         }
 
 		    led_state = !led_state;
-		    printk("LED state: %s\n", led_state ? "ON" : "OFF");
+		    printk("LED state: %s\\n", led_state ? "ON" : "OFF");
     
 `;
     mainC = mainC.concat(blinkyLoop);
   } else {
     mainC = mainC.concat(
-      '        printk("Running on %s...\n", CONFIG_BOARD);\n\n'
+      '        printk("Running on %s...\\n", CONFIG_BOARD);\n\n'
     );
   }
 
@@ -869,11 +881,15 @@ async function generateCMakeList(
 ): Promise<boolean> {
   // TODO: maybe dynamic check cmake minimum cmake version on cmake selection
   // TODO: license notice required anymore?
-  let cmakeList = `#-------------------------------------------------------------------------------
+  let cmakeList = `#pico-zephyr-project
+#-------------------------------------------------------------------------------
 # Zephyr Example Application
 #
 # Copyright (c) 2021 Nordic Semiconductor ASA
 # SPDX-License-Identifier: Apache-2.0
+#-------------------------------------------------------------------------------
+# NOTE: Please do not remove the #pico-zephyr-project header, it is used by
+# the Raspberry Pi Pico SDK extension to identify the project type.
 #-------------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.20.0)

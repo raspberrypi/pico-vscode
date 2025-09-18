@@ -1,9 +1,15 @@
-import { existsSync, readdirSync, rmSync } from "fs";
-import { window, workspace, ProgressLocation, Uri } from "vscode";
+import { existsSync } from "fs";
+import {
+  window,
+  workspace,
+  ProgressLocation,
+  Uri,
+  FileSystemError,
+} from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
-import { homedir, tmpdir } from "os";
+import { homedir } from "os";
 import Logger, { LoggerSource } from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
 
@@ -23,10 +29,10 @@ import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 import { ensureGit } from "../utils/gitUtil.mjs";
 import VersionBundlesLoader, { type VersionBundle } from "./versionBundles.mjs";
 import {
-  CURRENT_7ZIP_VERSION,
   CURRENT_DTC_VERSION,
   CURRENT_GPERF_VERSION,
   CURRENT_WGET_VERSION,
+  LICENSE_URL_7ZIP,
   OPENOCD_VERSION,
   WINDOWS_X86_7ZIP_DOWNLOAD_URL,
   WINDOWS_X86_DTC_DOWNLOAD_URL,
@@ -63,6 +69,7 @@ manifest:
   projects:
     - name: zephyr
       remote: zephyrproject-rtos
+      revision: main
       import:
         # By using name-allowlist we can clone only the modules that are
         # strictly needed by the application.
@@ -100,8 +107,8 @@ function buildWgetPath(version: string): string {
   );
 }
 
-function build7ZipPathWin32(version: string): string {
-  return join(homeDirectory, ".pico-sdk", "7zip", version);
+function build7ZipPathWin32(): string {
+  return join(homeDirectory, ".pico-sdk", "7zip");
 }
 
 function generateCustomEnv(
@@ -121,7 +128,7 @@ function generateCustomEnv(
     join(homedir(), ".pico-sdk", "ninja", latestVb.ninja),
     dirname(pythonExe),
     join(homedir(), ".pico-sdk", "wget", CURRENT_WGET_VERSION),
-    join(homedir(), ".pico-sdk", "7zip", CURRENT_7ZIP_VERSION),
+    join(homedir(), ".pico-sdk", "7zip"),
     "", // Need this to add separator to end
   ].join(process.platform === "win32" ? ";" : ":");
 
@@ -139,17 +146,26 @@ function _runCommand(
   Logger.debug(LoggerSource.zephyrSetup, `Running: ${command}`);
 
   return new Promise<number | null>(resolve => {
-    const proc = exec(command, options, (error, stdout, stderr) => {
-      Logger.debug(LoggerSource.zephyrSetup, stdout);
-      Logger.debug(LoggerSource.zephyrSetup, stderr);
-      if (error) {
-        Logger.error(
-          LoggerSource.zephyrSetup,
-          `Setup venv error: ${error.message}`
-        );
-        resolve(null); // indicate error
+    const proc = exec(
+      ((process.env.ComSpec === "powershell.exe" ||
+        process.env.ComSpec ===
+          "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe") &&
+      command.startsWith('"')
+        ? "&"
+        : "") + command,
+      options,
+      (error, stdout, stderr) => {
+        Logger.debug(LoggerSource.zephyrSetup, stdout);
+        Logger.debug(LoggerSource.zephyrSetup, stderr);
+        if (error) {
+          Logger.error(
+            LoggerSource.zephyrSetup,
+            `An error occurred executing a command: ${error.message}`
+          );
+          resolve(null); // indicate error
+        }
       }
-    });
+    );
 
     proc.on("exit", code => {
       // Resolve with exit code or -1 if code is undefined
@@ -491,6 +507,20 @@ async function checkWget(): Promise<boolean> {
   );
 }
 
+async function vsExists(path: string): Promise<boolean> {
+  try {
+    await workspace.fs.stat(Uri.file(path));
+
+    return true;
+  } catch (err) {
+    if (err instanceof FileSystemError && err.code === "FileNotFound") {
+      return false;
+    }
+    // rethrow unexpected errors
+    throw err;
+  }
+}
+
 async function check7Zip(): Promise<boolean> {
   return window.withProgress(
     {
@@ -499,30 +529,44 @@ async function check7Zip(): Promise<boolean> {
       cancellable: false,
     },
     async progress => {
-      Logger.info(LoggerSource.zephyrSetup, "Installing 7-Zip");
-      const installDir = build7ZipPathWin32(CURRENT_7ZIP_VERSION);
+      Logger.info(LoggerSource.zephyrSetup, "Installing 7-Zip...");
+      const installDir = build7ZipPathWin32();
 
-      if (existsSync(installDir) && readdirSync(installDir).length !== 0) {
-        Logger.info(LoggerSource.zephyrSetup, "7-Zip is already installed.");
+      if (await vsExists(installDir)) {
+        const installDirContents = await workspace.fs.readDirectory(
+          Uri.file(installDir)
+        );
 
+        if (installDirContents.length !== 0) {
+          Logger.info(LoggerSource.zephyrSetup, "7-Zip is already installed.");
+
+          progress.report({
+            message: "7-Zip already installed.",
+            increment: 100,
+          });
+
+          return true;
+        }
+      } else {
+        await workspace.fs.createDirectory(Uri.file(installDir));
+      }
+
+      const licenseURL = new URL(LICENSE_URL_7ZIP);
+      const licenseTarget = join(installDir, "License.txt");
+      const licenseResult = await downloadFileGot(licenseURL, licenseTarget);
+      if (!licenseResult) {
         progress.report({
-          message: "7-Zip already installed.",
+          message: "Failed",
           increment: 100,
         });
 
-        return true;
-      } else if (existsSync(installDir)) {
-        // Remove existing empty directory
-        rmSync(installDir, { recursive: true, force: true });
+        return false;
       }
 
-      const binName = `7z${CURRENT_7ZIP_VERSION}-x64.msi`;
       const downloadURL = new URL(WINDOWS_X86_7ZIP_DOWNLOAD_URL);
-      const downloadDir = tmpdir().replaceAll("\\", "/");
-      const result = await downloadFileGot(
-        downloadURL,
-        joinPosix(downloadDir, binName)
-      );
+      // rename latest 7zr.exe to 7z.exe for compaibility with Zephyr installer script
+      const downloadTarget = join(installDir, "7z.exe");
+      const result = await downloadFileGot(downloadURL, downloadTarget);
 
       if (!result) {
         progress.report({
@@ -533,27 +577,8 @@ async function check7Zip(): Promise<boolean> {
         return false;
       }
 
-      const installResult = await _runCommand(
-        `msiexec /i ${binName} INSTALLDIR="${installDir}" /quiet /norestart`,
-        {
-          cwd: join(homedir(), ".pico-sdk"),
-        }
-      );
-
-      if (installResult !== 0) {
-        progress.report({
-          message: "Failed",
-          increment: 100,
-        });
-
-        return false;
-      }
-
-      // Clean up
-      rmSync(join(downloadDir, binName));
-
       progress.report({
-        message: "Seccess",
+        message: "Success",
         increment: 100,
       });
 
@@ -569,21 +594,37 @@ async function checkWindowsDeps(isWindows: boolean): Promise<boolean> {
 
   let installedSuccessfully = await checkDtc();
   if (!installedSuccessfully) {
+    void window.showErrorMessage(
+      "Failed to install DTC. Cannot continue Zephyr setup."
+    );
+
     return false;
   }
 
   installedSuccessfully = await checkGperf();
   if (!installedSuccessfully) {
+    void window.showErrorMessage(
+      "Failed to install gperf. Cannot continue Zephyr setup."
+    );
+
     return false;
   }
 
   installedSuccessfully = await checkWget();
   if (!installedSuccessfully) {
+    void window.showErrorMessage(
+      "Failed to install wget. Cannot continue Zephyr setup."
+    );
+
     return false;
   }
 
   installedSuccessfully = await check7Zip();
   if (!installedSuccessfully) {
+    void window.showErrorMessage(
+      "Failed to install 7-Zip. Cannot continue Zephyr setup."
+    );
+
     return false;
   }
 
@@ -655,7 +696,7 @@ export async function setupZephyr(
   };
 
   let isWindows = false;
-  await window.withProgress(
+  const endResult: boolean = await window.withProgress(
     {
       location: ProgressLocation.Notification,
       title: "Setting up Zephyr Toolchain",
@@ -670,7 +711,7 @@ export async function setupZephyr(
           increment: 100,
         });
 
-        return;
+        return false;
       }
       output.gitPath = gitPath;
 
@@ -685,8 +726,11 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install or find CMake. Cannot continue Zephyr setup."
+        );
 
-        return;
+        return false;
       }
       output.cmakeExecutable = cmakePath;
 
@@ -696,8 +740,11 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install Ninja. Cannot continue Zephyr setup."
+        );
 
-        return;
+        return false;
       }
 
       installedSuccessfully = await checkPicotool(latestVb[1]);
@@ -706,8 +753,11 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install Picotool. Cannot continue Zephyr setup."
+        );
 
-        return;
+        return false;
       }
 
       // install python (if necessary)
@@ -723,7 +773,7 @@ export async function setupZephyr(
         );
         showPythonNotFoundError();
 
-        return;
+        return false;
       }
 
       // required for svd files
@@ -733,8 +783,11 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install Pico SDK. Cannot continue Zephyr setup."
+        );
 
-        return;
+        return false;
       }
 
       isWindows = process.platform === "win32";
@@ -746,7 +799,7 @@ export async function setupZephyr(
           increment: 100,
         });
 
-        return;
+        return false;
       }
 
       installedSuccessfully = await checkOpenOCD();
@@ -755,8 +808,11 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install OpenOCD. Cannot continue Zephyr setup."
+        );
 
-        return;
+        return false;
       }
 
       const pythonExe = python3Path?.replace(
@@ -785,14 +841,9 @@ export async function setupZephyr(
         Buffer.from(zephyrManifestContent)
       );
 
-      const createVenvCommandVenv: string = [
-        `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-        "-m venv venv",
-      ].join(" ");
-      const createVenvCommandVirtualenv: string = [
-        `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-        "-m virtualenv venv",
-      ].join(" ");
+      const createVenvCommandVenv: string = `"${pythonExe}" -m venv venv`;
+      const createVenvCommandVirtualenv: string =
+        `"${pythonExe}" -m ` + "virtualenv venv";
 
       // Create a Zephyr workspace, copy the west manifest in and initialise the workspace
       await workspace.fs.createDirectory(Uri.file(zephyrWorkspaceDirectory));
@@ -869,7 +920,7 @@ export async function setupZephyr(
           increment: 100,
         });
 
-        return;
+        return false;
       }
 
       const venvPythonCommand: string = joinPosix(
@@ -915,11 +966,10 @@ export async function setupZephyr(
           increment: 100,
         });
 
-        return;
+        return false;
       }
 
       const westExe: string = joinPosix(
-        process.env.ComSpec === "powershell.exe" ? "&" : "",
         zephyrWorkspaceDirectory,
         "venv",
         process.platform === "win32" ? "Scripts" : "bin",
@@ -951,7 +1001,7 @@ export async function setupZephyr(
               "No West workspace found. Initialising..."
             );
 
-            const westInitCommand: string = `${westExe} init -l manifest`;
+            const westInitCommand: string = `"${westExe}" init -l manifest`;
             result = await _runCommand(westInitCommand, {
               cwd: zephyrWorkspaceDirectory,
               windowsHide: true,
@@ -960,7 +1010,7 @@ export async function setupZephyr(
 
             Logger.info(
               LoggerSource.zephyrSetup,
-              `West workspace initialization ended with ${result}`
+              `West workspace initialization ended with exit code ${result}.`
             );
 
             if (result !== 0) {
@@ -973,7 +1023,7 @@ export async function setupZephyr(
             }
           }
 
-          const westUpdateCommand: string = `${westExe} update`;
+          const westUpdateCommand: string = `"${westExe}" update`;
           result = await _runCommand(westUpdateCommand, {
             cwd: zephyrWorkspaceDirectory,
             windowsHide: true,
@@ -997,8 +1047,16 @@ export async function setupZephyr(
           }
         }
       );
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
-      const zephyrExportCommand: string = `${westExe} zephyr-export`;
+        return false;
+      }
+
+      const zephyrExportCommand: string = `"${westExe}" zephyr-export`;
       Logger.info(LoggerSource.zephyrSetup, "Exporting Zephyr CMake Files...");
 
       // TODO: maybe progress
@@ -1012,13 +1070,13 @@ export async function setupZephyr(
           LoggerSource.zephyrSetup,
           "Error exporting Zephyr CMake files."
         );
-        void window.showErrorMessage("Error exporting Zephyr CMake files.");
         progress.report({
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage("Error exporting Zephyr CMake files.");
 
-        return;
+        return false;
       }
 
       installedSuccessfully = await window.withProgress(
@@ -1029,7 +1087,7 @@ export async function setupZephyr(
         },
         async progress2 => {
           const westPipPackagesCommand: string =
-            `${westExe} packages ` + "pip --install";
+            `"${westExe}" packages ` + "pip --install";
 
           result = await _runCommand(westPipPackagesCommand, {
             cwd: zephyrWorkspaceDirectory,
@@ -1068,7 +1126,7 @@ export async function setupZephyr(
           increment: 100,
         });
 
-        return;
+        return false;
       }
 
       installedSuccessfully = await window.withProgress(
@@ -1079,7 +1137,7 @@ export async function setupZephyr(
         },
         async progress2 => {
           const westBlobsFetchCommand: string =
-            `${westExe} blobs fetch ` + "hal_infineon";
+            `"${westExe}" blobs fetch ` + "hal_infineon";
 
           result = await _runCommand(westBlobsFetchCommand, {
             cwd: zephyrWorkspaceDirectory,
@@ -1110,7 +1168,7 @@ export async function setupZephyr(
           increment: 100,
         });
 
-        return;
+        return false;
       }
 
       installedSuccessfully = await window.withProgress(
@@ -1120,9 +1178,10 @@ export async function setupZephyr(
           cancellable: false,
         },
         async progress2 => {
+          // was -b ${zephyrWorkspaceDirectory} which results in zephyr-sdk-<version> in it
           const westInstallSDKCommand: string =
-            `${westExe} sdk install ` +
-            `-t arm-zephyr-eabi -b ${zephyrWorkspaceDirectory}`;
+            `"${westExe}" sdk install ` +
+            `-t arm-zephyr-eabi -d "${zephyrWorkspaceDirectory}/zephyr-sdk"`;
 
           result = await _runCommand(westInstallSDKCommand, {
             cwd: zephyrWorkspaceDirectory,
@@ -1153,18 +1212,25 @@ export async function setupZephyr(
           increment: 100,
         });
 
-        return;
+        return false;
       }
 
       progress.report({
         message: "Complete",
         increment: 100,
       });
+
+      return true;
     }
   );
 
-  Logger.info(LoggerSource.zephyrSetup, "Zephyr setup complete.");
-  //void window.showInformationMessage("Zephyr setup complete");
+  if (endResult) {
+    Logger.info(LoggerSource.zephyrSetup, "Zephyr setup complete.");
 
-  return output;
+    return output;
+  } else {
+    Logger.error(LoggerSource.zephyrSetup, "Zephyr setup failed.");
+
+    return undefined;
+  }
 }
