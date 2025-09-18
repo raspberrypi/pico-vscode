@@ -45,6 +45,7 @@ export enum LoggerSource {
   rustUtil = "rustUtil",
   projectRust = "projectRust",
   zephyrSetup = "setupZephyr",
+  projectZephyr = "projectZephyr",
 }
 
 /**

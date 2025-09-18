@@ -28,11 +28,12 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
-import { setupZephyr } from "../utils/setupZephyr.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getPythonPath";
+
   constructor() {
-    super("getPythonPath");
+    super(GetPythonPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -50,8 +51,10 @@ export class GetPythonPathCommand extends CommandWithResult<string> {
 }
 
 export class GetEnvPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getEnvPath";
+
   constructor() {
-    super("getEnvPath");
+    super(GetEnvPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -69,8 +72,10 @@ export class GetEnvPathCommand extends CommandWithResult<string> {
 }
 
 export class GetGDBPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getGDBPath";
+
   constructor(private readonly _extensionUri: Uri) {
-    super("getGDBPath");
+    super(GetGDBPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -160,8 +165,10 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
 }
 
 export class GetCompilerPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getCompilerPath";
+
   constructor() {
-    super("getCompilerPath");
+    super(GetCompilerPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -199,8 +206,10 @@ export class GetCompilerPathCommand extends CommandWithResult<string> {
 }
 
 export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getCxxCompilerPath";
+
   constructor() {
-    super("getCxxCompilerPath");
+    super(GetCxxCompilerPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -310,8 +319,10 @@ export class GetChipCommand extends CommandWithResult<string> {
 }
 
 export class GetChipUppercaseCommand extends CommandWithResult<string> {
+  public static readonly id = "getChipUppercase";
+
   constructor() {
-    super("getChipUppercase");
+    super(GetChipUppercaseCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -323,8 +334,10 @@ export class GetChipUppercaseCommand extends CommandWithResult<string> {
 }
 
 export class GetTargetCommand extends CommandWithResult<string> {
+  public static readonly id = "getTarget";
+
   constructor() {
-    super("getTarget");
+    super(GetTargetCommand.id);
   }
 
   async execute(): Promise<string> {

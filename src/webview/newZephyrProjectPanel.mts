@@ -11,7 +11,6 @@ import {
   ProgressLocation,
   commands,
 } from "vscode";
-import { homedir } from "os";
 import { join as joinPosix } from "path/posix";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
@@ -25,107 +24,15 @@ import { existsSync } from "fs";
 import { join, dirname } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
-import { buildZephyrWorkspacePath } from "../utils/download.mjs";
 import { setupZephyr } from "../utils/setupZephyr.mjs";
 import { getCmakeReleases } from "../utils/githubREST.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
-
-enum BoardType {
-  pico = "pico",
-  picoW = "pico_w",
-  pico2 = "pico2",
-  pico2W = "pico2_w",
-}
-
-interface SubmitMessageValue {
-  projectName: string;
-  pythonMode: number;
-  pythonPath: string;
-  console: string;
-  boardType: BoardType;
-  spiFeature: boolean;
-  i2cFeature: boolean;
-  gpioFeature: boolean;
-  wifiFeature: boolean;
-  sensorFeature: boolean;
-  shellFeature: boolean;
-  cmakeMode: number;
-  cmakePath: string;
-  cmakeVersion: string;
-}
-
-// Kconfig snippets
-const spiKconfig: string = "CONFIG_SPI=y";
-const i2cKconfig: string = "CONFIG_I2C=y";
-const gpioKconfig: string = "CONFIG_GPIO=y";
-const sensorKconfig: string = "CONFIG_SENSOR=y";
-const shellKconfig: string = "CONFIG_SHELL=y";
-const wifiKconfig: string = `CONFIG_NETWORKING=y
-CONFIG_TEST_RANDOM_GENERATOR=y
-
-CONFIG_MAIN_STACK_SIZE=5200
-CONFIG_SHELL_STACK_SIZE=5200
-CONFIG_NET_TX_STACK_SIZE=2048
-CONFIG_NET_RX_STACK_SIZE=2048
-CONFIG_LOG_BUFFER_SIZE=4096
-
-CONFIG_NET_PKT_RX_COUNT=10
-CONFIG_NET_PKT_TX_COUNT=10
-CONFIG_NET_BUF_RX_COUNT=20
-CONFIG_NET_BUF_TX_COUNT=20
-CONFIG_NET_MAX_CONN=10
-CONFIG_NET_MAX_CONTEXTS=10
-CONFIG_NET_DHCPV4=y
-
-CONFIG_NET_IPV4=y
-CONFIG_NET_IPV6=n
-
-CONFIG_NET_TCP=y
-CONFIG_NET_SOCKETS=y
-
-CONFIG_DNS_RESOLVER=y
-CONFIG_DNS_SERVER_IP_ADDRESSES=y
-CONFIG_DNS_SERVER1="192.0.2.2"
-CONFIG_DNS_RESOLVER_AI_MAX_ENTRIES=10
-
-# Network address config
-CONFIG_NET_CONFIG_AUTO_INIT=n
-CONFIG_NET_CONFIG_SETTINGS=y
-CONFIG_NET_CONFIG_NEED_IPV4=y
-CONFIG_NET_CONFIG_MY_IPV4_ADDR="192.0.2.1"
-CONFIG_NET_CONFIG_PEER_IPV4_ADDR="192.0.2.2"
-CONFIG_NET_CONFIG_MY_IPV4_GW="192.0.2.2"
-
-CONFIG_NET_LOG=y
-CONFIG_INIT_STACKS=y
-
-CONFIG_NET_STATISTICS=y
-CONFIG_NET_STATISTICS_PERIODIC_OUTPUT=n
-
-CONFIG_HTTP_CLIENT=y
-
-CONFIG_WIFI=y
-CONFIG_WIFI_LOG_LEVEL_ERR=y
-# printing of scan results puts pressure on queues in new locking
-# design in net_mgmt. So, use a higher timeout for a crowded
-# environment.
-CONFIG_NET_MGMT_EVENT_QUEUE_TIMEOUT=5000
-CONFIG_NET_MGMT_EVENT_QUEUE_SIZE=16`;
-
-// Shell Kconfig values
-const shellSpiKconfig: string = "CONFIG_SPI_SHELL=y";
-const shellI2CKconfig: string = "CONFIG_I2C_SHELL=y";
-const shellGPIOKconfig: string = "CONFIG_GPIO_SHELL=y";
-const shellSensorKconfig: string = "CONFIG_SENSOR_SHELL=y";
-const shellWifiKconfig: string = `CONFIG_WIFI_LOG_LEVEL_ERR=y
-CONFIG_NET_L2_WIFI_SHELL=y
-CONFIG_NET_SHELL=y`;
-
-interface TasksJson {
-  tasks: Array<{
-    args: string[];
-  }>;
-}
+import { generateZephyrProject } from "../utils/projectGeneration/projectZephyr.mjs";
+import {
+  BoardType,
+  ZephyrProjectBase,
+  type ZephyrSubmitMessageValue,
+} from "./sharedEnums.mjs";
 
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;
@@ -348,7 +255,7 @@ export class NewZephyrProjectPanel {
             break;
           case "submit":
             {
-              const data = message.value as SubmitMessageValue;
+              const data = message.value as ZephyrSubmitMessageValue;
 
               if (
                 this._projectRoot === undefined ||
@@ -423,51 +330,9 @@ export class NewZephyrProjectPanel {
     }
   }
 
-  /**
-   * Convert the enum to the Zephyr board name
-   *
-   * @param e BoardType enum
-   * @returns string Zephyr board name
-   * @throws Error if unknown board type
-   */
-  private enumToBoard(e: BoardType): string {
-    switch (e) {
-      case BoardType.pico:
-        return "rpi_pico";
-      case BoardType.picoW:
-        return "rpi_pico/rp2040/w";
-      case BoardType.pico2:
-        return "rpi_pico2/rp2350a/m33";
-      case BoardType.pico2W:
-        return "rpi_pico2/rp2350a/m33/w";
-      default:
-        throw new Error(`Unknown Board Type: ${e as string}`);
-    }
-  }
-
-  private generateZephyrBuildArgs(
-    boardType: BoardType,
-    usbSerialPort: boolean
-  ): string[] {
-    return [
-      "build",
-      "-p",
-      "auto",
-      "-b",
-      this.enumToBoard(boardType),
-      "-d",
-      '"${workspaceFolder}"/build',
-      '"${workspaceFolder}"',
-      usbSerialPort ? "-S usb_serial_port" : "",
-      "--",
-      "-DOPENOCD=${command:raspberry-pi-pico.getOpenOCDRoot}/openocd.exe",
-      "-DOPENOCD_DEFAULT_PATH=${command:raspberry-pi-pico.getOpenOCDRoot}/scripts",
-    ];
-  }
-
   private async _generateProjectOperation(
     progress: Progress<{ message?: string; increment?: number }>,
-    data: SubmitMessageValue,
+    data: ZephyrSubmitMessageValue,
     message: WebviewMessage
   ): Promise<void> {
     const projectPath = this._projectRoot?.fsPath ?? "";
@@ -503,120 +368,49 @@ export class NewZephyrProjectPanel {
       extUri: this._extensionUri,
     });
 
-    if (zephyrSetupOutputs === null) {
+    if (zephyrSetupOutputs === undefined) {
+      progress.report({
+        message: "Failed",
+        increment: 100,
+      });
+
       return;
     }
 
-    this._logger.info(JSON.stringify(zephyrSetupOutputs));
+    this._logger.info("Generating new Zephyr Project...");
 
-    this._logger.info("Generating new Zephyr Project");
-
-    // Create a new directory to put the project in
-    const homeDirectory: string = homedir();
-    const newProjectDir = joinPosix(
-      homeDirectory,
-      "zephyr_test",
-      data.projectName
+    const result = await generateZephyrProject(
+      projectPath,
+      data.projectName,
+      zephyrSetupOutputs.latestVb,
+      zephyrSetupOutputs.cmakeExecutable,
+      data
     );
+    if (!result) {
+      progress.report({
+        message: "Failed",
+        increment: 100,
+      });
+      void window.showErrorMessage(
+        "Failed to generate Zephyrproject. " +
+          "Please try again and check your settings."
+      );
 
-    await workspace.fs.createDirectory(Uri.file(newProjectDir));
-
-    // Copy the Zephyr App into the new directory
-    const zephyrAppDir = joinPosix(
-      buildZephyrWorkspacePath(),
-      "pico-zephyr",
-      "app"
-    );
-    await workspace.fs.copy(Uri.file(zephyrAppDir), Uri.file(newProjectDir), {
-      overwrite: true,
-    });
-
-    const result = true;
-
-    if (result === null || !result) {
-      return undefined;
+      return;
     }
 
-    this._logger.info(`Console: ${data.console}`);
-    const usbSerialPort = data.console === "USB";
-
-    const buildArgs = this.generateZephyrBuildArgs(
-      data.boardType,
-      usbSerialPort
+    this._logger.info(
+      `Zephyr Project generated at ${projectPath}/${data.projectName}`
     );
-
-    const taskJsonFile = joinPosix(newProjectDir, ".vscode", "tasks.json");
-
-    const jsonString = (
-      await workspace.fs.readFile(Uri.file(taskJsonFile))
-    ).toString();
-
-    const tasksJson = JSON.parse(jsonString) as TasksJson;
-
-    // Modify task.json
-    tasksJson.tasks[0].args = buildArgs;
-
-    // Write modified tasks.json to folder
-    const newTasksJsonString = JSON.stringify(tasksJson, null, 4);
-    await workspace.fs.writeFile(
-      Uri.file(taskJsonFile),
-      Buffer.from(newTasksJsonString)
-    );
-
-    // Enable modules with Kconfig
-    const kconfigFile = joinPosix(newProjectDir, "prj.conf");
-    const kconfigString = (
-      await workspace.fs.readFile(Uri.file(kconfigFile))
-    ).toString();
-
-    const newKconfigString = kconfigString.concat(
-      "\r\n",
-      "\r\n",
-      "# Enable Modules:",
-      "\r\n",
-      data.gpioFeature ? gpioKconfig + "\r\n" : "",
-      data.i2cFeature ? i2cKconfig + "\r\n" : "",
-      data.spiFeature ? spiKconfig + "\r\n" : "",
-      data.sensorFeature ? sensorKconfig + "\r\n" : "",
-      data.wifiFeature ? wifiKconfig + "\r\n" : "",
-      data.shellFeature ? "\r\n" + "# Enabling shells:" + "\r\n" : "",
-      data.shellFeature ? shellKconfig + "\r\n" : "",
-      data.shellFeature && data.gpioFeature ? shellGPIOKconfig + "\r\n" : "",
-      data.shellFeature && data.i2cFeature ? shellI2CKconfig + "\r\n" : "",
-      data.shellFeature && data.spiFeature ? shellSpiKconfig + "\r\n" : "",
-      data.shellFeature && data.sensorFeature
-        ? shellSensorKconfig + "\r\n"
-        : "",
-      data.shellFeature && data.wifiFeature ? shellWifiKconfig + "\r\n" : ""
-    );
-
-    await workspace.fs.writeFile(
-      Uri.file(kconfigFile),
-      Buffer.from(newKconfigString)
-    );
-
-    const settingJsonFile = joinPosix(
-      newProjectDir,
-      ".vscode",
-      "settings.json"
-    );
-
-    // Create settings JSON and write to new folder
-    const settingsJson = NewZephyrProjectPanel.createSettingsJson(
-      homeDirectory.replaceAll("\\", "/"),
-      zephyrSetupOutputs?.cmakeExecutable || ""
-    );
-    await workspace.fs.writeFile(
-      Uri.file(settingJsonFile),
-      Buffer.from(settingsJson)
-    );
-
-    this._logger.info(`Zephyr Project generated at ${newProjectDir}`);
 
     // Open the folder
-    void commands.executeCommand(`vscode.openFolder`, Uri.file(newProjectDir), {
-      forceNewWindow: (workspace.workspaceFolders?.length ?? 0) > 0,
-    });
+    void commands.executeCommand(
+      `vscode.openFolder`,
+      Uri.file(join(projectPath, data.projectName)),
+      {
+        forceNewWindow: (workspace.workspaceFolders?.length ?? 0) > 0,
+      }
+    );
 
     return;
   }
@@ -817,7 +611,7 @@ export class NewZephyrProjectPanel {
                   </p>
                 </div>
 
-                <div id="board-type-riscv-grid" class="grid gap-6 grid-cols-1">
+                <div id="board-type-riscv-grid" class="grid gap-6 grid-cols-2">
                 <div>
                     <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
                     <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
@@ -833,6 +627,14 @@ export class NewZephyrProjectPanel {
                       <option id="option-board-type-${
                         BoardType.picoW
                       }" value="${BoardType.picoW}">Pico W</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="sel-template" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Projct template</label>
+                    <select id="sel-template" class="bg-grey-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <option id="option-template-simple" value="simple" selected>Hello World</option>
+                      <option id="option-template-blinky" value="blinky">Blinky</option>
+                      <option id="option-template-wifi" value="wifi">Wi-Fi</option>
                     </select>
                 </div>
                 </div>

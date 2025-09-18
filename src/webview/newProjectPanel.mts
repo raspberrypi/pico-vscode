@@ -62,6 +62,7 @@ import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
+import { BoardType } from "./sharedEnums.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
 // process.platform === "linux" && process.arch === "arm64";
@@ -123,14 +124,6 @@ export interface WebviewMessage {
   key?: string;
 }
 
-enum BoardType {
-  pico = "pico",
-  picoW = "pico_w",
-  pico2 = "pico2",
-  pico2W = "pico2_w",
-  other = "other",
-}
-
 enum ConsoleOption {
   consoleOverUART = "Console over UART",
   consoleOverUSB = "Console over USB (disables other USB use)",
@@ -184,7 +177,7 @@ async function enumToBoard(e: BoardType, sdkPath: string): Promise<string> {
       readdirSync(`${sdkPath}/src/boards/include/boards`)
         .filter((file: string) => file.endsWith(".h"))
         .forEach((file: string) => {
-          quickPickItems.push(file.slice(0, -2));  // remove .h
+          quickPickItems.push(file.slice(0, -2)); // remove .h
         });
 
       // show quick pick for board type

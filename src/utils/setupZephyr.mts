@@ -1,6 +1,6 @@
 import { existsSync, readdirSync, rmSync } from "fs";
 import { window, workspace, ProgressLocation, Uri } from "vscode";
-import { type ExecOptions, exec, spawnSync } from "child_process";
+import { type ExecOptions, exec } from "child_process";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
 import { homedir, tmpdir } from "os";
@@ -15,6 +15,7 @@ import {
   downloadAndInstallNinja,
   downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
+  downloadAndInstallSDK,
   downloadFileGot,
 } from "../utils/download.mjs";
 import Settings, { HOME_VAR } from "../settings.mjs";
@@ -32,30 +33,7 @@ import {
   WINDOWS_X86_GPERF_DOWNLOAD_URL,
   WINDOWS_X86_WGET_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
-
-const _logger = new Logger("zephyrSetup");
-
-const zephyrManifestContent: string = `
-manifest:
-  self:
-    west-commands: scripts/west-commands.yml
-
-  remotes:
-    - name: zephyrproject-rtos
-      url-base: https://github.com/magpieembedded
-
-  projects:
-    - name: zephyr
-      remote: zephyrproject-rtos
-      revision: pico2w
-      import:
-        # By using name-allowlist we can clone only the modules that are
-        # strictly needed by the application.
-        name-allowlist:
-          - cmsis_6      # required by the ARM Cortex-M port
-          - hal_rpi_pico # required for Pico board support
-          - hal_infineon # required for Wifi chip support
-`;
+import { SDK_REPOSITORY_URL } from "./githubREST.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -66,10 +44,33 @@ interface ZephyrSetupValue {
 
 interface ZephyrSetupOutputs {
   cmakeExecutable: string;
+  gitPath: string;
+  latestVb: [string, VersionBundle];
 }
 
 // Compute and cache the home directory
 const homeDirectory: string = homedir();
+
+const zephyrManifestContent: string = `
+manifest:
+  self:
+    west-commands: scripts/west-commands.yml
+
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      import:
+        # By using name-allowlist we can clone only the modules that are
+        # strictly needed by the application.
+        name-allowlist:
+          - cmsis_6      # required by the ARM Cortex-M port
+          - hal_rpi_pico # required for Pico board support
+          - hal_infineon # required for Wifi chip support
+`;
 
 // TODO: maybe move into download.mts
 function buildDtcPath(version: string): string {
@@ -114,11 +115,12 @@ function generateCustomEnv(
   const customPath = [
     dirname(cmakeExe),
     join(homedir(), ".pico-sdk", "dtc", CURRENT_DTC_VERSION, "bin"),
+    // TODO: better git path
     join(homedir(), ".pico-sdk", "git", "cmd"),
     join(homedir(), ".pico-sdk", "gperf", CURRENT_GPERF_VERSION, "bin"),
     join(homedir(), ".pico-sdk", "ninja", latestVb.ninja),
     dirname(pythonExe),
-    join(homedir(), ".pico-sdk", "wget"),
+    join(homedir(), ".pico-sdk", "wget", CURRENT_WGET_VERSION),
     join(homedir(), ".pico-sdk", "7zip", CURRENT_7ZIP_VERSION),
     "", // Need this to add separator to end
   ].join(process.platform === "win32" ? ";" : ":");
@@ -134,14 +136,17 @@ function _runCommand(
   command: string,
   options: ExecOptions
 ): Promise<number | null> {
-  _logger.debug(`Running: ${command}`);
+  Logger.debug(LoggerSource.zephyrSetup, `Running: ${command}`);
 
   return new Promise<number | null>(resolve => {
     const proc = exec(command, options, (error, stdout, stderr) => {
-      _logger.debug(stdout);
-      _logger.error(stderr);
+      Logger.debug(LoggerSource.zephyrSetup, stdout);
+      Logger.debug(LoggerSource.zephyrSetup, stderr);
       if (error) {
-        _logger.error(`Setup venv error: ${error.message}`);
+        Logger.error(
+          LoggerSource.zephyrSetup,
+          `Setup venv error: ${error.message}`
+        );
         resolve(null); // indicate error
       }
     });
@@ -153,12 +158,12 @@ function _runCommand(
   });
 }
 
-async function checkGit(): Promise<boolean> {
+async function checkGit(): Promise<string | undefined> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
-    _logger.error("Settings not initialized.");
+    Logger.error(LoggerSource.zephyrSetup, "Settings not initialized.");
 
-    return false;
+    return;
   }
 
   return window.withProgress(
@@ -176,7 +181,7 @@ async function checkGit(): Promise<boolean> {
           increment: 100,
         });
 
-        return false;
+        return;
       }
 
       progress2.report({
@@ -184,7 +189,7 @@ async function checkGit(): Promise<boolean> {
         increment: 100,
       });
 
-      return true;
+      return gitPath;
     }
   );
 }
@@ -338,6 +343,47 @@ async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
   );
 }
 
+async function checkSdk(
+  latestVb: [string, VersionBundle],
+  python3Path: string
+): Promise<boolean> {
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing Pico SDK",
+      cancellable: false,
+    },
+    async progress => {
+      const result = await downloadAndInstallSDK(
+        latestVb[0],
+        SDK_REPOSITORY_URL,
+        python3Path
+      );
+
+      if (!result) {
+        Logger.error(
+          LoggerSource.zephyrSetup,
+          "Failed to download and install the Pico SDK."
+        );
+
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      } else {
+        progress.report({
+          message: "Success",
+          increment: 100,
+        });
+
+        return true;
+      }
+    }
+  );
+}
+
 async function checkDtc(): Promise<boolean> {
   return window.withProgress(
     {
@@ -453,14 +499,11 @@ async function check7Zip(): Promise<boolean> {
       cancellable: false,
     },
     async progress => {
-      _logger.info("Installing 7-Zip");
-      const targetDirectory = joinPosix("C:\\Program Files\\7-Zip");
+      Logger.info(LoggerSource.zephyrSetup, "Installing 7-Zip");
+      const installDir = build7ZipPathWin32(CURRENT_7ZIP_VERSION);
 
-      if (
-        existsSync(targetDirectory) &&
-        readdirSync(targetDirectory).length !== 0
-      ) {
-        _logger.info("7-Zip is already installed.");
+      if (existsSync(installDir) && readdirSync(installDir).length !== 0) {
+        Logger.info(LoggerSource.zephyrSetup, "7-Zip is already installed.");
 
         progress.report({
           message: "7-Zip already installed.",
@@ -468,6 +511,9 @@ async function check7Zip(): Promise<boolean> {
         });
 
         return true;
+      } else if (existsSync(installDir)) {
+        // Remove existing empty directory
+        rmSync(installDir, { recursive: true, force: true });
       }
 
       const binName = `7z${CURRENT_7ZIP_VERSION}-x64.msi`;
@@ -487,7 +533,6 @@ async function check7Zip(): Promise<boolean> {
         return false;
       }
 
-      const installDir = build7ZipPathWin32(CURRENT_7ZIP_VERSION);
       const installResult = await _runCommand(
         `msiexec /i ${binName} INSTALLDIR="${installDir}" /quiet /norestart`,
         {
@@ -588,18 +633,26 @@ async function checkOpenOCD(): Promise<boolean> {
 export async function setupZephyr(
   data: ZephyrSetupValue
 ): Promise<ZephyrSetupOutputs | undefined> {
-  _logger.info("Setting up Zephyr...");
+  Logger.info(LoggerSource.zephyrSetup, "Setting up Zephyr...");
 
   const latestVb = await new VersionBundlesLoader(data.extUri).getLatest();
   if (latestVb === undefined) {
-    _logger.error("Failed to get latest version bundles.");
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      "Failed to get latest version bundles."
+    );
     void window.showErrorMessage(
       "Failed to get latest version bundles. Cannot continue Zephyr setup."
     );
 
     return;
   }
-  const output: ZephyrSetupOutputs = { cmakeExecutable: "" };
+
+  const output: ZephyrSetupOutputs = {
+    cmakeExecutable: "",
+    gitPath: "",
+    latestVb,
+  };
 
   let isWindows = false;
   await window.withProgress(
@@ -610,8 +663,8 @@ export async function setupZephyr(
     async progress => {
       let installedSuccessfully = true;
 
-      installedSuccessfully = await checkGit();
-      if (!installedSuccessfully) {
+      const gitPath = await checkGit();
+      if (gitPath === undefined) {
         progress.report({
           message: "Failed",
           increment: 100,
@@ -619,6 +672,7 @@ export async function setupZephyr(
 
         return;
       }
+      output.gitPath = gitPath;
 
       // Handle CMake install
       const cmakePath = await checkCmake(
@@ -668,6 +722,17 @@ export async function setupZephyr(
           "Failed to find Python3 executable."
         );
         showPythonNotFoundError();
+
+        return;
+      }
+
+      // required for svd files
+      const sdk = await checkSdk(latestVb, python3Path);
+      if (!sdk) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
 
         return;
       }
@@ -749,7 +814,8 @@ export async function setupZephyr(
         },
         async progress2 => {
           if (existsSync(venvPython)) {
-            _logger.info(
+            Logger.info(
+              LoggerSource.zephyrSetup,
               "Existing Python virtual environment for Zephyr found."
             );
 
@@ -762,7 +828,8 @@ export async function setupZephyr(
             env: customEnv,
           });
           if (result !== 0) {
-            _logger.warn(
+            Logger.warn(
+              LoggerSource.zephyrSetup,
               "Could not create virtual environment with venv," +
                 "trying with virtualenv..."
             );
@@ -788,7 +855,10 @@ export async function setupZephyr(
             increment: 100,
           });
 
-          _logger.info("Zephyr Python virtual environment created.");
+          Logger.info(
+            LoggerSource.zephyrSetup,
+            "Zephyr Python virtual environment created."
+          );
 
           return true;
         }
@@ -871,9 +941,15 @@ export async function setupZephyr(
             x => x[0] === ".west"
           );
           if (westAlreadyExists) {
-            _logger.info("West workspace already initialised.");
+            Logger.info(
+              LoggerSource.zephyrSetup,
+              "West workspace already initialised."
+            );
           } else {
-            _logger.info("No West workspace found. Initialising...");
+            Logger.info(
+              LoggerSource.zephyrSetup,
+              "No West workspace found. Initialising..."
+            );
 
             const westInitCommand: string = `${westExe} init -l manifest`;
             result = await _runCommand(westInitCommand, {
@@ -882,7 +958,10 @@ export async function setupZephyr(
               env: customEnv,
             });
 
-            _logger.info(`West workspace initialization ended with ${result}`);
+            Logger.info(
+              LoggerSource.zephyrSetup,
+              `West workspace initialization ended with ${result}`
+            );
 
             if (result !== 0) {
               progress2.report({
@@ -920,7 +999,7 @@ export async function setupZephyr(
       );
 
       const zephyrExportCommand: string = `${westExe} zephyr-export`;
-      _logger.info("Exporting Zephyr CMake Files...");
+      Logger.info(LoggerSource.zephyrSetup, "Exporting Zephyr CMake Files...");
 
       // TODO: maybe progress
       result = await _runCommand(zephyrExportCommand, {
@@ -929,7 +1008,10 @@ export async function setupZephyr(
         env: customEnv,
       });
       if (result !== 0) {
-        _logger.error("Error exporting Zephyr CMake files.");
+        Logger.error(
+          LoggerSource.zephyrSetup,
+          "Error exporting Zephyr CMake files."
+        );
         void window.showErrorMessage("Error exporting Zephyr CMake files.");
         progress.report({
           message: "Failed",
@@ -956,7 +1038,10 @@ export async function setupZephyr(
           });
 
           if (result === 0) {
-            _logger.debug("West Python dependencies installed.");
+            Logger.debug(
+              LoggerSource.zephyrSetup,
+              "West Python dependencies installed."
+            );
             progress2.report({
               message: "Success",
               increment: 100,
@@ -964,7 +1049,10 @@ export async function setupZephyr(
 
             return true;
           } else {
-            _logger.error("Error installing West Python dependencies.");
+            Logger.error(
+              LoggerSource.zephyrSetup,
+              "Error installing West Python dependencies."
+            );
             progress2.report({
               message: "Failed",
               increment: 100,
@@ -1075,7 +1163,7 @@ export async function setupZephyr(
     }
   );
 
-  _logger.info("Zephyr setup complete.");
+  Logger.info(LoggerSource.zephyrSetup, "Zephyr setup complete.");
   //void window.showInformationMessage("Zephyr setup complete");
 
   return output;

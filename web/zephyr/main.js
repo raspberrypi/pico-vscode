@@ -8,6 +8,8 @@ const CMD_ERROR = "error";
 const CMD_SUBMIT_DENIED = "submitDenied";
 
 var submitted = false;
+var previousTemplate = "simple";
+var previousGpioState = false;
 
 (function () {
   const vscode = acquireVsCodeApi();
@@ -73,6 +75,33 @@ var submitted = false;
 
     modeEl.addEventListener('change', e => setMode(e.target.value));
     setMode(modeEl.value);
+  }
+
+  {
+    const templateSelector = document.getElementById("sel-template");
+    const gpioCheckbox = document.getElementById("gpio-features-cblist");
+    if (templateSelector) {
+      templateSelector.addEventListener("change", function (event) {
+        try {
+          const template = templateSelector.value;
+
+          if (gpioCheckbox) {
+            if (template === "blinky") {
+              previousGpioState = gpioCheckbox.checked;
+              gpioCheckbox.checked = true;
+              gpioCheckbox.disabled = true;
+            } else if (previousTemplate === "blinky") {
+              gpioCheckbox.checked = previousGpioState;
+              gpioCheckbox.disabled = false;
+            }
+          }
+
+          previousTemplate = template;
+        } catch (error) {
+          console.error("[raspberry-pi-pico - new zephyr pico project] Error handling template change:", error);
+        }
+      });
+    }
   }
 
   // needed so a element isn't hidden behind the navbar on scroll
@@ -331,6 +360,7 @@ var submitted = false;
         cmakeMode: Number(cmakeMode),
         cmakePath: cmakePath,
         cmakeVersion: cmakeVersion,
+        projectBase: document.getElementById("sel-template").value,
       },
     });
   };

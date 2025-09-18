@@ -224,7 +224,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
   } catch (error) {
     Logger.error(
       LoggerSource.projectRust,
-      "Failed to write extensions.json file",
+      "Failed to write vscode configuration files:",
       unknownErrorToString(error)
     );
 
