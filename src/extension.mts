@@ -112,6 +112,7 @@ import {
 } from "./utils/sharedConstants.mjs";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { unknownErrorToString } from "./utils/errorHelper.mjs";
+import { setupZephyr } from "./utils/setupZephyr.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -281,6 +282,36 @@ export async function activate(context: ExtensionContext): Promise<void> {
     // Check for pico_zephyr in CMakeLists.txt
     if (cmakeListsContents.startsWith(CMAKELISTS_ZEPHYR_HEADER)) {
       Logger.info(LoggerSource.extension, "Project is of type: Zephyr");
+
+      const vb = new VersionBundlesLoader(context.extensionUri);
+      const latest = await vb.getLatest();
+      if (latest === undefined) {
+        Logger.error(
+          LoggerSource.extension,
+          "Failed to get latest version bundle for Zephyr project."
+        );
+
+        void window.showErrorMessage(
+          "Failed to get latest version bundle for Zephyr project."
+        );
+
+        return;
+      }
+
+      const result = await setupZephyr({
+        extUri: context.extensionUri,
+        cmakeMode: 4,
+        cmakePath: latest[1].cmake,
+        cmakeVersion: "",
+      });
+      if (result === undefined) {
+        void window.showErrorMessage(
+          "Failed to setup Zephyr Toolchain. See logs for details."
+        );
+
+        return;
+      }
+
       await commands.executeCommand(
         "setContext",
         ContextKeys.isPicoProject,
@@ -292,9 +323,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
         true
       );
       State.getInstance().isZephyrProject = true;
-
-      // TODO: !!!!!!!!! IMPORTANT !!!!!!!!!
-      // TODO: make sure zephy dependencies are installed
 
       ui.showStatusBarItems(false, true);
 
