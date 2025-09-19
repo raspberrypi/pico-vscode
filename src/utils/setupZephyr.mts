@@ -40,6 +40,8 @@ import {
   WINDOWS_X86_WGET_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { SDK_REPOSITORY_URL } from "./githubREST.mjs";
+import { vsExists } from "./vsHelpers.mjs";
+import which from "which";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -77,6 +79,7 @@ manifest:
           - cmsis_6      # required by the ARM Cortex-M port
           - hal_rpi_pico # required for Pico board support
           - hal_infineon # required for Wifi chip support
+          - segger       # required for Segger RTT support
 `;
 
 // TODO: maybe move into download.mts
@@ -507,20 +510,6 @@ async function checkWget(): Promise<boolean> {
   );
 }
 
-async function vsExists(path: string): Promise<boolean> {
-  try {
-    await workspace.fs.stat(Uri.file(path));
-
-    return true;
-  } catch (err) {
-    if (err instanceof FileSystemError && err.code === "FileNotFound") {
-      return false;
-    }
-    // rethrow unexpected errors
-    throw err;
-  }
-}
-
 async function check7Zip(): Promise<boolean> {
   return window.withProgress(
     {
@@ -585,6 +574,42 @@ async function check7Zip(): Promise<boolean> {
       return true;
     }
   );
+}
+
+async function checkMacosLinuxDeps(isWindows: boolean): Promise<boolean> {
+  if (isWindows) {
+    return true;
+  }
+
+  const wget = await which("wget", { nothrow: true });
+  if (!wget) {
+    void window.showErrorMessage(
+      "wget not found in PATH. Please install wget " +
+        "and make sure it is available in PATH."
+    );
+
+    return false;
+  }
+  const dtc = await which("dtc", { nothrow: true });
+  if (!dtc) {
+    void window.showErrorMessage(
+      "dtc (Device Tree Compiler) not found in PATH. Please install dtc " +
+        "and make sure it is available in PATH."
+    );
+
+    return false;
+  }
+  const gperf = await which("gperf", { nothrow: true });
+  if (!gperf) {
+    void window.showErrorMessage(
+      "gperf not found in PATH. Please install gperf " +
+        "and make sure it is available in PATH."
+    );
+
+    return false;
+  }
+
+  return true;
 }
 
 async function checkWindowsDeps(isWindows: boolean): Promise<boolean> {
@@ -793,6 +818,16 @@ export async function setupZephyr(
       isWindows = process.platform === "win32";
 
       installedSuccessfully = await checkWindowsDeps(isWindows);
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return false;
+      }
+
+      installedSuccessfully = await checkMacosLinuxDeps(isWindows);
       if (!installedSuccessfully) {
         progress.report({
           message: "Failed",

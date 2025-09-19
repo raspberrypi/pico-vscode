@@ -28,6 +28,13 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
+import {
+  getBoardFromZephyrProject,
+  ZEPHYR_PICO,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+  ZEPHYR_PICO_W,
+} from "./switchBoard.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   public static readonly id = "getPythonPath";
@@ -265,6 +272,37 @@ export class GetChipCommand extends CommandWithResult<string> {
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
     const isRustProject = State.getInstance().isRustProject;
+    const isZephyrProject = State.getInstance().isZephyrProject;
+
+    if (isZephyrProject) {
+      const board = await getBoardFromZephyrProject(
+        join(workspaceFolder.uri.fsPath, ".vscode", "tasks.json")
+      );
+
+      if (board === undefined) {
+        this._logger.error("Failed to read Zephyr board from tasks.json");
+
+        return "";
+      }
+
+      switch (board) {
+        case ZEPHYR_PICO:
+        case ZEPHYR_PICO_W:
+          return "rp2040";
+        case ZEPHYR_PICO2:
+        case ZEPHYR_PICO2_W:
+          return "rp2350";
+        default:
+          this._logger.error(`Unsupported Zephyr board: ${board}`);
+          void window.showErrorMessage(
+            `Unsupported Zephyr board: ${board}. ` +
+              `Supported boards are: ${ZEPHYR_PICO}, ${ZEPHYR_PICO_W}, ` +
+              `${ZEPHYR_PICO2}, ${ZEPHYR_PICO2_W}`
+          );
+
+          return "rp2040";
+      }
+    }
 
     if (isRustProject) {
       // read .pico-rs
@@ -350,7 +388,28 @@ export class GetTargetCommand extends CommandWithResult<string> {
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
     const isRustProject = State.getInstance().isRustProject;
+    const isZephyrProject = State.getInstance().isZephyrProject;
 
+    if (isZephyrProject) {
+      const board = await getBoardFromZephyrProject(
+        join(workspaceFolder.uri.fsPath, ".vscode", "tasks.json")
+      );
+
+      if (board === undefined) {
+        return "rp2040";
+      }
+
+      switch (board) {
+        case ZEPHYR_PICO:
+        case ZEPHYR_PICO_W:
+          return "rp2040";
+        case ZEPHYR_PICO2:
+        case ZEPHYR_PICO2_W:
+          return "rp2350";
+        default:
+          return "rp2040";
+      }
+    }
     if (isRustProject) {
       const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
 
@@ -523,8 +582,6 @@ export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
 }
 
 export class GetWestPathCommand extends CommandWithResult<string | undefined> {
-  private running: boolean = false;
-
   public static readonly id = "getWestPath";
 
   constructor() {
@@ -532,20 +589,11 @@ export class GetWestPathCommand extends CommandWithResult<string | undefined> {
   }
 
   execute(): string | undefined {
-    if (this.running) {
-      return undefined;
-    }
-    this.running = true;
-
     const result = buildWestPath();
 
     if (result === null || !result) {
-      this.running = false;
-
       return undefined;
     }
-
-    this.running = false;
 
     return result;
   }
@@ -554,8 +602,6 @@ export class GetWestPathCommand extends CommandWithResult<string | undefined> {
 export class GetZephyrWorkspacePathCommand extends CommandWithResult<
   string | undefined
 > {
-  private running: boolean = false;
-
   public static readonly id = "getZephyrWorkspacePath";
 
   constructor() {
@@ -563,20 +609,11 @@ export class GetZephyrWorkspacePathCommand extends CommandWithResult<
   }
 
   execute(): string | undefined {
-    if (this.running) {
-      return undefined;
-    }
-    this.running = true;
-
     const result = buildZephyrWorkspacePath();
 
     if (result === null || !result) {
-      this.running = false;
-
       return undefined;
     }
-
-    this.running = false;
 
     return result;
   }

@@ -81,19 +81,13 @@
         "command": "raspberry-pi-pico.switchSDK",
         "title": "Switch Pico SDK",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.switchBoard",
         "title": "Switch Board",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
-      },
-      {
-        "command": "raspberry-pi-pico.switchBoardZephyr",
-        "title": "Switch Board for Zephyr",
-        "category": "Raspberry Pi Pico",
-        "enablement": "false"
+        "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPath",
@@ -223,13 +217,13 @@
         "command": "raspberry-pi-pico.configureCmake",
         "title": "Configure CMake",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.switchBuildType",
         "title": "Switch Build Type",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.importProject",
@@ -261,13 +255,7 @@
         "command": "raspberry-pi-pico.cleanCmake",
         "title": "Clean CMake",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isPicoZephyrProject"
-      },
-      {
-        "command": "raspberry-pi-pico.getRTTDecoderPath",
-        "title": "Get RTT Decoder module path",
-        "category": "Raspberry Pi Pico",
-        "enablement": "false"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.sbomTargetPathDebug",
@@ -280,16 +268,6 @@
         "title": "Get path of the project release SBOM (rust only)",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
-      },
-      {
-        "command": "raspberry-pi-pico.setupZephyr",
-        "title": "Setup Zephyr Toolchain",
-        "category": "Raspberry Pi Pico"
-      },
-      {
-        "command": "raspberry-pi-pico.newZephyrProject",
-        "title": "New Zephyr Project",
-        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {

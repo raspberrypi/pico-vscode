@@ -65,7 +65,6 @@ import {
   downloadAndInstallOpenOCD,
   installLatestRustRequirements,
 } from "./utils/download.mjs";
-import { NewZephyrProjectCommand } from "./utils/generateZephyrProject.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import {
@@ -86,12 +85,16 @@ import ConfigureCmakeCommand, {
 import ImportProjectCommand from "./commands/importProject.mjs";
 import { homedir } from "os";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
-import SwitchBoardCommand from "./commands/switchBoard.mjs";
-import SwitchBoardZephyrCommand from "./commands/switchBoardZephyr.mjs";
+import SwitchBoardCommand, {
+  getBoardFromZephyrProject,
+  ZEPHYR_PICO,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+  ZEPHYR_PICO_W,
+} from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import UpdateOpenOCDCommand from "./commands/updateOpenOCD.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
-import { findZephyrBoardInTasksJson } from "./commands/switchBoardZephyr.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import type { Progress as GotProgress } from "got";
@@ -108,7 +111,6 @@ import {
   OPENOCD_VERSION,
 } from "./utils/sharedConstants.mjs";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
-import { setupZephyr } from "./utils/setupZephyr.mjs";
 import { unknownErrorToString } from "./utils/errorHelper.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
@@ -135,7 +137,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new NewProjectCommand(context.extensionUri),
     new SwitchSDKCommand(ui, context.extensionUri),
     new SwitchBoardCommand(ui, context.extensionUri),
-    new SwitchBoardZephyrCommand(ui),
     new LaunchTargetPathCommand(),
     new LaunchTargetPathReleaseCommand(),
     new GetPythonPathCommand(),
@@ -151,7 +152,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetSVDPathCommand(context.extensionUri),
     new GetWestPathCommand(),
     new GetZephyrWorkspacePathCommand(),
-    new NewZephyrProjectCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
     new FlashProjectSWDCommand(),
@@ -270,7 +270,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     // Set Pico Zephyr Project false by default
     await commands.executeCommand(
       "setContext",
-      ContextKeys.isPicoZephyrProject,
+      ContextKeys.isZephyrProject,
       false
     );
 
@@ -283,9 +283,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
       Logger.info(LoggerSource.extension, "Project is of type: Zephyr");
       await commands.executeCommand(
         "setContext",
-        ContextKeys.isPicoZephyrProject,
+        ContextKeys.isPicoProject,
         true
       );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isZephyrProject,
+        true
+      );
+      State.getInstance().isZephyrProject = true;
 
       // TODO: !!!!!!!!! IMPORTANT !!!!!!!!!
       // TODO: make sure zephy dependencies are installed
@@ -300,16 +306,16 @@ export async function activate(context: ExtensionContext): Promise<void> {
       );
 
       // Update UI with board description
-      const board = findZephyrBoardInTasksJson(tasksJsonFilePath);
+      const board = await getBoardFromZephyrProject(tasksJsonFilePath);
 
       if (board !== undefined) {
-        if (board === "rpi_pico2/rp2350a/m33/w") {
+        if (board === ZEPHYR_PICO2_W) {
           ui.updateBoard("Pico 2W");
-        } else if (board === "rpi_pico2/rp2350a/m33") {
+        } else if (board === ZEPHYR_PICO2) {
           ui.updateBoard("Pico 2");
-        } else if (board === "rpi_pico/rp2040/w") {
+        } else if (board === ZEPHYR_PICO_W) {
           ui.updateBoard("Pico W");
-        } else if (board.includes("rpi_pico")) {
+        } else if (board === ZEPHYR_PICO) {
           ui.updateBoard("Pico");
         } else {
           ui.updateBoard("Other");

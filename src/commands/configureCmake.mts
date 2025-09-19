@@ -47,10 +47,10 @@ export default class ConfigureCmakeCommand extends Command {
     } else {
       void window.showWarningMessage(
         "CMake failed to configure your build. " +
-        "See the developer console for details " +
-        "(Help -> Toggle Developer Tools). " +
-        "You can also use the CMake Tools Extension Integration " +
-        "to get more information about the error."
+          "See the developer console for details " +
+          "(Help -> Toggle Developer Tools). " +
+          "You can also use the CMake Tools Extension Integration " +
+          "to get more information about the error."
       );
     }
   }
@@ -110,15 +110,15 @@ export class CleanCMakeCommand extends Command {
     } else {
       void window.showWarningMessage(
         "CMake could not be reconfigured. " +
-        "See the developer console for details " +
-        "(Help -> Toggle Developer Tools). " +
-        "You can also use the CMake Tools Extension Integration " +
-        "to get more information about the error."
+          "See the developer console for details " +
+          "(Help -> Toggle Developer Tools). " +
+          "You can also use the CMake Tools Extension Integration " +
+          "to get more information about the error."
       );
     }
 
     const ws = workspaceFolder.uri.fsPath;
-    const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+    const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
     const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
     this._ui.updateBuildType(newBuildType ?? "unknown");
   }
@@ -159,7 +159,7 @@ export class SwitchBuildTypeCommand extends Command {
     }
 
     const ws = workspaceFolder.uri.fsPath;
-    const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+    const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
     const oldBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
 
     // QuickPick for the build type
@@ -173,10 +173,10 @@ export class SwitchBuildTypeCommand extends Command {
     } else {
       void window.showWarningMessage(
         "CMake failed to configure your build. " +
-        "See the developer console for details " +
-        "(Help -> Toggle Developer Tools). " +
-        "You can also use the CMake Tools Extension Integration " +
-        "to get more information about the error."
+          "See the developer console for details " +
+          "(Help -> Toggle Developer Tools). " +
+          "You can also use the CMake Tools Extension Integration " +
+          "to get more information about the error."
       );
     }
 

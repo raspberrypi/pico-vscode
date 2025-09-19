@@ -9,6 +9,7 @@ import {
   GetPicotoolPathCommand,
   GetTargetCommand,
   GetWestPathCommand,
+  GetZephyrWorkspacePathCommand,
 } from "../../commands/getPaths.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, Uri, window, workspace } from "vscode";
@@ -205,7 +206,7 @@ async function generateVSCodeConfig(
         toolchainPrefix: "arm-zephyr-eabi",
         armToolchainPath:
           // TODO: maybe just full get zephyr compiler path command
-          "${command:${extensionName}.getZephyrWorkspacePath}/zephyr-sdk/arm-zephyr-eabi/bin",
+          `\${command:${extensionName}.${GetZephyrWorkspacePathCommand.id}}/zephyr-sdk/arm-zephyr-eabi/bin`,
         // TODO: get chip dynamically maybe: chip: `\${command:${extensionName}.${GetChipCommand.id}}`,
         // meaning only one cfg required
         device: `\${command:${extensionName}.${GetChipUppercaseCommand.id}}`,
@@ -218,6 +219,8 @@ async function generateVSCodeConfig(
         // Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
         // Also works fine for flash binaries
         openOCDLaunchCommands: ["adapter speed 5000"],
+        // TODO: add zephyr build support to support this.
+        rtos: "Zephyr",
       },
     ],
   };
