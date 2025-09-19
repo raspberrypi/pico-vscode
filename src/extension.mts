@@ -301,8 +301,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       const result = await setupZephyr({
         extUri: context.extensionUri,
         cmakeMode: 4,
-        cmakePath: latest[1].cmake,
-        cmakeVersion: "",
+        cmakePath: "",
+        cmakeVersion: latest[1].cmake,
       });
       if (result === undefined) {
         void window.showErrorMessage(

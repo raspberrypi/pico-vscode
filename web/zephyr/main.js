@@ -293,7 +293,13 @@ var previousGpioState = false;
     // Validate + collect per-mode extras
     if (cmakeMode === 4) {
       if (!latestCmakeVersion) {
-
+        console.error('Latest CMake version element not found');
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: 'Internal error: latest CMake version not found.'
+        });
+        submitted = false;
+        return;
       }
       cmakeVersion = latestCmakeVersion.textContent.trim();
     } else if (cmakeMode === 2) {
