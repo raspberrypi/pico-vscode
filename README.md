@@ -43,9 +43,12 @@ If you have any issues while installing, please check out the [Troubleshooting](
 
 - Visual Studio Code v1.92.1 or later
 
-### Raspberry Pi OS and Windows
+### Raspberry Pi OS
 
 No additional requirements are needed.
+
+### Windows
+- **[Python 3.9 or later](https://www.python.org/downloads/)** (ensure to check `Add python.exe to PATH` option in the installer)
 
 ### macOS
 To meet the requirements for macOS, run the following command in Terminal to install necessary tools:
