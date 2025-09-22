@@ -2,14 +2,13 @@ import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import GithubApiCache from "../utils/githubApiCache.mjs";
 import { window } from "vscode";
+import { CLEAR_GITHUB_API_CACHE } from "./cmdIds.mjs";
 
 export default class ClearGithubApiCacheCommand extends Command {
   private _logger: Logger = new Logger("ClearGithubApiCacheCommand");
 
-  public static readonly id = "clearGithubApiCache";
-
   constructor() {
-    super(ClearGithubApiCacheCommand.id);
+    super(CLEAR_GITHUB_API_CACHE);
   }
 
   async execute(): Promise<void> {

@@ -21,8 +21,8 @@ import {
   CURRENT_WGET_VERSION,
 } from "./sharedConstants.mjs";
 import { extensionName } from "../commands/command.mjs";
-import { GetZephyrWorkspacePathCommand } from "../commands/getPaths.mjs";
-import { getBoardFromZephyrProject } from "../commands/switchBoard.mjs";
+import { GET_ZEPHYR_WORKSPACE_PATH } from "../commands/cmdIds.mjs";
+import { getBoardFromZephyrProject } from "./setupZephyr.mjs";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -281,7 +281,7 @@ export async function configureCmakeNinja(
           (buildType ? ` -DCMAKE_BUILD_TYPE=${buildType}` : "");
 
         const zephyrWorkspace = await commands.executeCommand<string>(
-          `${extensionName}.${GetZephyrWorkspacePathCommand.id}`
+          `${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}`
         );
         const westExe = isWindows ? "west.exe" : "west";
         const westPath = join(zephyrWorkspace, "venv", "Scripts", westExe);

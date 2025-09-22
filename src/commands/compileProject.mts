@@ -5,14 +5,13 @@ import Logger from "../logger.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 import State from "../state.mjs";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
+import { COMPILE_PROJECT } from "./cmdIds.mjs";
 
 export default class CompileProjectCommand extends CommandWithResult<boolean> {
   private _logger: Logger = new Logger("CompileProjectCommand");
 
-  public static readonly id = "compileProject";
-
   constructor() {
-    super(CompileProjectCommand.id);
+    super(COMPILE_PROJECT);
   }
 
   async execute(): Promise<boolean> {

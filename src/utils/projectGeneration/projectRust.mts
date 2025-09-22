@@ -5,18 +5,18 @@ import { TomlInlineObject, writeTomlFile } from "./tomlUtil.mjs";
 import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
 import { mkdir, writeFile } from "fs/promises";
-import {
-  GetChipCommand,
-  GetOpenOCDRootCommand,
-  GetPicotoolPathCommand,
-  GetSVDPathCommand,
-} from "../../commands/getPaths.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, window } from "vscode";
-import LaunchTargetPathCommand, {
-  SbomTargetPathDebugCommand,
-  SbomTargetPathReleaseCommand,
-} from "../../commands/launchTargetPath.mjs";
+import {
+  GET_CHIP,
+  GET_OPENOCD_ROOT,
+  GET_PICOTOOL_PATH,
+  GET_SVD_PATH,
+  LAUNCH_TARGET_PATH,
+  LAUNCH_TARGET_PATH_RELEASE,
+  SBOM_TARGET_PATH_DEBUG,
+  SBOM_TARGET_PATH_RELEASE,
+} from "../../commands/cmdIds.mjs";
 
 async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
   const vsc = join(projectRoot, ".vscode");
@@ -32,7 +32,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
   };
 
   const openOCDPath: string | undefined = await commands.executeCommand(
-    `${extensionName}.${GetOpenOCDRootCommand.id}`
+    `${extensionName}.${GET_OPENOCD_ROOT}`
   );
   if (!openOCDPath) {
     Logger.error(LoggerSource.projectRust, "Failed to get OpenOCD path");
@@ -54,7 +54,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         connectUnderReset: false,
         speed: 5000,
         runtimeExecutable: "probe-rs",
-        chip: `\${command:${extensionName}.${GetChipCommand.id}}`,
+        chip: `\${command:${extensionName}.${GET_CHIP}}`,
         runtimeArgs: ["dap-server"],
         flashingConfig: {
           flashingEnabled: true,
@@ -63,9 +63,9 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         coreConfigs: [
           {
             coreIndex: 0,
-            programBinary: `\${command:${extensionName}.${LaunchTargetPathCommand.id}}`,
+            programBinary: `\${command:${extensionName}.${LAUNCH_TARGET_PATH}}`,
             rttEnabled: true,
-            svdFile: `\${command:${extensionName}.${GetSVDPathCommand.id}}`,
+            svdFile: `\${command:${extensionName}.${GET_SVD_PATH}}`,
             rttChannelFormats: [
               {
                 channelNumber: 0,
@@ -112,8 +112,8 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         problemMatcher: "$rustc",
         options: {
           env: {
-            PICOTOOL_PATH: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
-            CHIP: `\${command:${extensionName}.${GetChipCommand.id}}`,
+            PICOTOOL_PATH: `\${command:${extensionName}.${GET_PICOTOOL_PATH}}`,
+            CHIP: `\${command:${extensionName}.${GET_CHIP}}`,
           },
         },
       },
@@ -123,7 +123,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         command: "bash",
         args: [
           "-lc",
-          `cargo sbom > \${command:${extensionName}.${SbomTargetPathReleaseCommand.id}}`,
+          `cargo sbom > \${command:${extensionName}.${SBOM_TARGET_PATH_RELEASE}}`,
         ],
         windows: {
           command: "powershell",
@@ -132,7 +132,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
             "-ExecutionPolicy",
             "Bypass",
             "-Command",
-            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${SbomTargetPathReleaseCommand.id}}`,
+            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${SBOM_TARGET_PATH_RELEASE}}`,
           ],
         },
         dependsOn: "Compile Project",
@@ -159,8 +159,8 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         problemMatcher: "$rustc",
         options: {
           env: {
-            PICOTOOL_PATH: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
-            CHIP: `\${command:${extensionName}.${GetChipCommand.id}}`,
+            PICOTOOL_PATH: `\${command:${extensionName}.${GET_PICOTOOL_PATH}}`,
+            CHIP: `\${command:${extensionName}.${GET_CHIP}}`,
           },
         },
       },
@@ -170,7 +170,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         command: "bash",
         args: [
           "-lc",
-          `cargo sbom > \${command:${extensionName}.${SbomTargetPathDebugCommand.id}}`,
+          `cargo sbom > \${command:${extensionName}.${SBOM_TARGET_PATH_DEBUG}}`,
         ],
         windows: {
           command: "powershell",
@@ -179,7 +179,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
             "-ExecutionPolicy",
             "Bypass",
             "-Command",
-            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${SbomTargetPathDebugCommand.id}}`,
+            `cargo sbom | Set-Content -Encoding utf8 \${command:${extensionName}.${SBOM_TARGET_PATH_DEBUG}}`,
           ],
         },
         dependsOn: "Compile Project (debug)",
@@ -193,11 +193,11 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
         label: "Run Project",
         type: "shell",
         dependsOn: ["Build + Generate SBOM (release)"],
-        command: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
+        command: `\${command:${extensionName}.${GET_PICOTOOL_PATH}}`,
         args: [
           "load",
           "-x",
-          "${command:raspberry-pi-pico.launchTargetPathRelease}",
+          `\${command:${extensionName}.${LAUNCH_TARGET_PATH_RELEASE}}`,
           "-t",
           "elf",
         ],
@@ -1587,7 +1587,7 @@ export async function generateRustProject(
   projectName: string
 ): Promise<boolean> {
   const picotoolPath: string | undefined = await commands.executeCommand(
-    `${extensionName}.${GetPicotoolPathCommand.id}`
+    `${extensionName}.${GET_PICOTOOL_PATH}`
   );
 
   if (picotoolPath === undefined) {

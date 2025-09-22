@@ -3,12 +3,11 @@ import { Uri } from "vscode";
 import { isInternetConnected } from "./downloadHelpers.mjs";
 import { get } from "https";
 import Logger from "../logger.mjs";
-import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import {
+  CURRENT_DATA_VERSION,
+  VERSION_BUNDLES_URL,
+} from "./sharedConstants.mjs";
 import { compare } from "./semverUtil.mjs";
-
-const versionBundlesUrl =
-  "https://raspberrypi.github.io/pico-vscode/" +
-  `${CURRENT_DATA_VERSION}/versionBundles.json`;
 
 export interface VersionBundle {
   ninja: string;
@@ -36,7 +35,7 @@ export default class VersionBundlesLoader {
       }
 
       const result = await new Promise<VersionBundles>((resolve, reject) => {
-        get(versionBundlesUrl, response => {
+        get(VERSION_BUNDLES_URL, response => {
           if (response.statusCode !== 200) {
             reject(
               new Error(

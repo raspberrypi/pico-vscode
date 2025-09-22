@@ -2,14 +2,13 @@ import { tasks, window } from "vscode";
 import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
+import { RUN_PROJECT } from "./cmdIds.mjs";
 
 export default class RunProjectCommand extends CommandWithResult<boolean> {
   private _logger: Logger = new Logger("RunProjectCommand");
 
-  public static readonly id = "runProject";
-
   constructor() {
-    super(RunProjectCommand.id);
+    super(RUN_PROJECT);
   }
 
   async execute(): Promise<boolean> {

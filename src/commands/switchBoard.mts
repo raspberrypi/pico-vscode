@@ -3,7 +3,7 @@ import Logger from "../logger.mjs";
 import {
   commands,
   ProgressLocation,
-  Uri,
+  type Uri,
   window,
   workspace,
   type WorkspaceFolder,
@@ -29,30 +29,17 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
 import State from "../state.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import { SWITCH_BOARD } from "./cmdIds.mjs";
+import { zephyrTouchTasksJson } from "../utils/setupZephyr.mjs";
 
 interface IBoardFile {
   [key: string]: string;
-}
-
-interface ITask {
-  label: string;
-  args: string[];
 }
 
 const PICO_BOARD = "pico";
 const PICO_W_BOARD = "pico_w";
 const PICO2_BOARD = "pico2";
 const PICO2_W_BOARD = "pico2_w";
-export const ZEPHYR_PICO = "rpi_pico";
-export const ZEPHYR_PICO_W = "rpi_pico/rp2040/w";
-export const ZEPHYR_PICO2 = "rpi_pico2/rp2350a/m33";
-export const ZEPHYR_PICO2_W = "rpi_pico2/rp2350a/m33/w";
-const VALID_ZEPHYR_BOARDS = [
-  ZEPHYR_PICO,
-  ZEPHYR_PICO_W,
-  ZEPHYR_PICO2,
-  ZEPHYR_PICO2_W,
-];
 
 function stringToZephyrBoard(e: string): string {
   if (e === PICO_BOARD) {
@@ -68,100 +55,12 @@ function stringToZephyrBoard(e: string): string {
   }
 }
 
-/**
- * Reads and parses the tasks.json file at the given path.
- * If a overwriteBoard is provided, it will replace the board in the tasks.json file.
- *
- * @param tasksJsonPath The path to the tasks.json file.
- * @param overwriteBoard The board to overwrite in the tasks.json file.
- * @returns The current board if found, otherwise undefined.
- */
-async function touchTasksJson(
-  tasksJsonPath: string,
-  overwriteBoard?: string
-): Promise<string | undefined> {
-  const tasksUri = Uri.file(tasksJsonPath);
-
-  try {
-    await workspace.fs.stat(tasksUri);
-
-    const td = new TextDecoder("utf-8");
-    const tasksJson = JSON.parse(
-      td.decode(await workspace.fs.readFile(tasksUri))
-    ) as { tasks: ITask[] };
-
-    const compileTask = tasksJson.tasks.find(
-      t => t.label === "Compile Project"
-    );
-    if (compileTask === undefined) {
-      return undefined;
-    }
-
-    // find index of -b in the args and then thing after it should match on of the board strings
-    const bIndex = compileTask.args.findIndex(a => a === "-b");
-    if (bIndex === -1 || bIndex === compileTask.args.length - 1) {
-      return undefined;
-    }
-
-    let currentBoard = compileTask.args[bIndex + 1];
-
-    if (overwriteBoard !== undefined) {
-      if (!VALID_ZEPHYR_BOARDS.includes(currentBoard)) {
-        const cont = await window.showWarningMessage(
-          `Current board "${currentBoard}" is not a known ` +
-            "Zephyr board. Do you want to continue?",
-          {
-            modal: true,
-          },
-          "Continue",
-          "Cancel"
-        );
-
-        if (cont !== "Continue") {
-          return;
-        }
-      }
-
-      compileTask.args[bIndex + 1] = overwriteBoard;
-      currentBoard = overwriteBoard;
-      const te = new TextEncoder();
-      await workspace.fs.writeFile(
-        tasksUri,
-        te.encode(JSON.stringify(tasksJson, null, 2))
-      );
-    }
-
-    if (VALID_ZEPHYR_BOARDS.includes(currentBoard)) {
-      return currentBoard;
-    } else {
-      return undefined;
-    }
-  } catch (error) {
-    Logger.log(
-      `Failed to read tasks.json file: ${unknownErrorToString(error)}`
-    );
-    void window.showErrorMessage(
-      "Failed to read tasks.json file. " +
-        "Make sure the file exists and has a Compile Project task."
-    );
-
-    return undefined;
-  }
-}
-
-export async function getBoardFromZephyrProject(
-  tasksJsonPath: string
-): Promise<string | undefined> {
-  return touchTasksJson(tasksJsonPath);
-}
-
 export default class SwitchBoardCommand extends Command {
   private _logger: Logger = new Logger("SwitchBoardCommand");
   private _versionBundlesLoader: VersionBundlesLoader;
-  public static readonly id = "switchBoard";
 
   constructor(private readonly _ui: UI, extensionUri: Uri) {
-    super(SwitchBoardCommand.id);
+    super(SWITCH_BOARD);
 
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
   }
@@ -359,7 +258,7 @@ export default class SwitchBoardCommand extends Command {
 
     const board = stringToZephyrBoard(boardRes[0]);
     const taskJsonFile = join(wsf.uri.fsPath, ".vscode", "tasks.json");
-    await touchTasksJson(taskJsonFile, board);
+    await zephyrTouchTasksJson(taskJsonFile, board);
 
     // TODO: maybe reload cmake
   }

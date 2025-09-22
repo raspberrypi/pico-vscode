@@ -63,7 +63,6 @@ import {
   downloadAndInstallTools,
   downloadAndInstallPicotool,
   downloadAndInstallOpenOCD,
-  installLatestRustRequirements,
 } from "./utils/download.mjs";
 import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
@@ -85,13 +84,7 @@ import ConfigureCmakeCommand, {
 import ImportProjectCommand from "./commands/importProject.mjs";
 import { homedir } from "os";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
-import SwitchBoardCommand, {
-  getBoardFromZephyrProject,
-  ZEPHYR_PICO,
-  ZEPHYR_PICO2,
-  ZEPHYR_PICO2_W,
-  ZEPHYR_PICO_W,
-} from "./commands/switchBoard.mjs";
+import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import UpdateOpenOCDCommand from "./commands/updateOpenOCD.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
@@ -101,6 +94,7 @@ import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
 import {
   downloadAndInstallRust,
+  installLatestRustRequirements,
   rustProjectGetSelectedChip,
 } from "./utils/rustUtil.mjs";
 import State from "./state.mjs";
@@ -112,7 +106,17 @@ import {
 } from "./utils/sharedConstants.mjs";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { unknownErrorToString } from "./utils/errorHelper.mjs";
-import { setupZephyr } from "./utils/setupZephyr.mjs";
+import {
+  getBoardFromZephyrProject,
+  setupZephyr,
+} from "./utils/setupZephyr.mjs";
+import { IMPORT_PROJECT } from "./commands/cmdIds.mjs";
+import {
+  ZEPHYR_PICO,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+  ZEPHYR_PICO_W,
+} from "./models/zephyrBoards.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -436,7 +440,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       );
       if (wantToImport === "Yes") {
         void commands.executeCommand(
-          `${extensionName}.${ImportProjectCommand.id}`,
+          `${extensionName}.${IMPORT_PROJECT}`,
           workspaceFolder.uri
         );
       }

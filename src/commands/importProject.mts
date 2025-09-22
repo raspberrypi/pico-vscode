@@ -1,15 +1,11 @@
 import { CommandWithArgs } from "./command.mjs";
-import Logger from "../logger.mjs";
 import { type Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
+import { IMPORT_PROJECT } from "./cmdIds.mjs";
 
 export default class ImportProjectCommand extends CommandWithArgs {
-  private _logger: Logger = new Logger("ImportProjectCommand");
-
-  public static readonly id = "importProject";
-
   constructor(private readonly _extensionUri: Uri) {
-    super(ImportProjectCommand.id);
+    super(IMPORT_PROJECT);
   }
 
   execute(projectUri?: Uri): void {

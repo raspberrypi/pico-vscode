@@ -38,6 +38,7 @@ import { join as posixJoin } from "path/posix";
 import { NINJA_AUTO_INSTALL_DISABLED } from "../webview/newProjectPanel.mjs";
 import Logger from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
+import { SWITCH_SDK } from "./cmdIds.mjs";
 
 const DEFAULT_PICOTOOL_VERSION = "2.2.0-a4";
 
@@ -56,10 +57,8 @@ export default class SwitchSDKCommand extends Command {
   private _versionBundlesLoader: VersionBundlesLoader;
   private _logger: Logger = new Logger("SwitchSDKCommand");
 
-  public static readonly id = "switchSDK";
-
   constructor(private readonly _ui: UI, extensionUri: Uri) {
-    super(SwitchSDKCommand.id);
+    super(SWITCH_SDK);
 
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
   }

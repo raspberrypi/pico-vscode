@@ -9,10 +9,7 @@ import { HOME_VAR } from "../settings.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import { EXT_USER_AGENT } from "./githubREST.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-
-const GIT_DOWNLOAD_URL_WIN_AMD64 =
-  "https://github.com/git-for-windows/git/releases/download" +
-  "/v2.46.0.windows.1/MinGit-2.46.0-64-bit.zip";
+import { WINDOWS_X86_GIT_DOWNLOAD_URL } from "./sharedConstants.mjs";
 
 /**
  * Downloads and installs a portable version of Git.
@@ -53,7 +50,7 @@ export async function downloadGit(
   await mkdir(targetDirectory, { recursive: true });
 
   // select download url for platform()_arch()
-  const downloadUrl = redirectURL ?? GIT_DOWNLOAD_URL_WIN_AMD64;
+  const downloadUrl = redirectURL ?? WINDOWS_X86_GIT_DOWNLOAD_URL;
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });

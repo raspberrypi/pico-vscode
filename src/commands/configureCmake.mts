@@ -7,14 +7,13 @@ import { join } from "path";
 import { rimraf } from "rimraf";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type UI from "../ui.mjs";
+import { CLEAN_CMAKE, CONFIGURE_CMAKE, SWITCH_BUILD_TYPE } from "./cmdIds.mjs";
 
 export default class ConfigureCmakeCommand extends Command {
   private _logger: Logger = new Logger("ConfigureCmakeCommand");
 
-  public static readonly id = "configureCmake";
-
   constructor() {
-    super(ConfigureCmakeCommand.id);
+    super(CONFIGURE_CMAKE);
   }
 
   async execute(): Promise<void> {
@@ -59,10 +58,8 @@ export default class ConfigureCmakeCommand extends Command {
 export class CleanCMakeCommand extends Command {
   private _logger: Logger = new Logger("CleanCMakeCommand");
 
-  public static readonly id = "cleanCmake";
-
   constructor(private readonly _ui: UI) {
-    super(CleanCMakeCommand.id);
+    super(CLEAN_CMAKE);
   }
 
   async execute(): Promise<void> {
@@ -127,10 +124,8 @@ export class CleanCMakeCommand extends Command {
 export class SwitchBuildTypeCommand extends Command {
   private _logger: Logger = new Logger("SwitchBuildTypeCommand");
 
-  public static readonly id = "switchBuildType";
-
   constructor(private readonly _ui: UI) {
-    super(SwitchBuildTypeCommand.id);
+    super(SWITCH_BUILD_TYPE);
   }
 
   async execute(): Promise<void> {

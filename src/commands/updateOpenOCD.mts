@@ -6,14 +6,13 @@ import { join } from "path";
 import { homedir } from "os";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
+import { UPDATE_OPENOCD } from "./cmdIds.mjs";
 
 export default class UpdateOpenOCDCommand extends Command {
   private _logger: Logger = new Logger("UpdateOpenOCDCommand");
 
-  public static readonly id = "updateOpenOCD";
-
   constructor() {
-    super(UpdateOpenOCDCommand.id);
+    super(UPDATE_OPENOCD);
   }
 
   async execute(): Promise<void> {

@@ -15,15 +15,12 @@ import Logger, { LoggerSource } from "../logger.mjs";
 import { STATUS_CODES } from "http";
 import type { Dispatcher } from "undici";
 import { Client } from "undici";
-import {
-  getSupportedToolchains,
-  type SupportedToolchainVersion,
-} from "./toolchainUtil.mjs";
+import { type SupportedToolchainVersion } from "./toolchainUtil.mjs";
 import { cloneRepository, initSubmodules, ensureGit } from "./gitUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
-import { ProgressLocation, Uri, window, workspace } from "vscode";
+import { Uri, window, workspace } from "vscode";
 import { fileURLToPath } from "url";
 import {
   type GithubReleaseAssetData,
@@ -39,7 +36,6 @@ import {
   githubApiUnauthorized,
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_OK,
-  SDK_REPOSITORY_URL,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
@@ -48,13 +44,10 @@ import { got, type Progress } from "got";
 import { pipeline as streamPipeline } from "node:stream/promises";
 import {
   CURRENT_PYTHON_VERSION,
-  OPENOCD_VERSION,
   WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
-import VersionBundlesLoader from "./versionBundles.mjs";
-import findPython, { showPythonNotFoundError } from "./pythonHelper.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -1415,206 +1408,4 @@ export async function downloadEmbedPython(
   }
 
   return pythonExe;
-}
-
-/**
- * Downloads and installs the latest SDK and toolchains.
- *
- * + OpenOCD + picotool
- * (includes UI feedback)
- *
- * @param extensionUri The URI of the extension
- */
-export async function installLatestRustRequirements(
-  extensionUri: Uri
-): Promise<boolean> {
-  const vb = new VersionBundlesLoader(extensionUri);
-  const latest = await vb.getLatest();
-  if (latest === undefined) {
-    void window.showErrorMessage(
-      "Failed to get latest version bundles. " +
-        "Please try again and check your settings."
-    );
-
-    return false;
-  }
-
-  // install python (if necessary)
-  const python3Path = await findPython();
-  if (!python3Path) {
-    Logger.error(LoggerSource.downloader, "Failed to find Python3 executable.");
-    showPythonNotFoundError();
-
-    return false;
-  }
-
-  let result = await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading and installing SDK",
-      cancellable: false,
-    },
-    async progress2 => {
-      const result = await downloadAndInstallSDK(
-        latest[0],
-        SDK_REPOSITORY_URL,
-        // python3Path is only possible undefined if downloaded and
-        // there is already checked and returned if this happened
-        python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
-      );
-
-      if (!result) {
-        Logger.error(
-          LoggerSource.downloader,
-          "Failed to download and install SDK."
-        );
-        progress2.report({
-          message: "Failed - Make sure all requirements are met.",
-          increment: 100,
-        });
-
-        void window.showErrorMessage(
-          "Failed to download and install SDK. " +
-            "Make sure all requirements are met."
-        );
-
-        return false;
-      }
-
-      return true;
-    }
-  );
-
-  if (!result) {
-    return false;
-  }
-
-  const supportedToolchains = await getSupportedToolchains();
-
-  result = await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: `Downloading ARM Toolchain for debugging...`,
-    },
-    async progress => {
-      const toolchain = supportedToolchains.find(
-        t => t.version === latest[1].toolchain
-      );
-
-      if (toolchain === undefined) {
-        void window.showErrorMessage(
-          "Failed to get default toolchain. " +
-            "Please try again and check your internet connection."
-        );
-
-        return false;
-      }
-
-      let progressState = 0;
-
-      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
-        const percent = prog.percent * 100;
-        progress.report({ increment: percent - progressState });
-        progressState = percent;
-      });
-    }
-  );
-
-  if (!result) {
-    void window.showErrorMessage(
-      "Failed to download ARM Toolchain. " +
-        "Please try again and check your settings."
-    );
-
-    return false;
-  }
-
-  result = await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading RISC-V Toolchain for debugging...",
-    },
-    async progress => {
-      const toolchain = supportedToolchains.find(
-        t => t.version === latest[1].riscvToolchain
-      );
-
-      if (toolchain === undefined) {
-        void window.showErrorMessage(
-          "Failed to get default RISC-V toolchain. " +
-            "Please try again and check your internet connection."
-        );
-
-        return false;
-      }
-
-      let progressState = 0;
-
-      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
-        const percent = prog.percent * 100;
-        progress.report({ increment: percent - progressState });
-        progressState = percent;
-      });
-    }
-  );
-
-  if (!result) {
-    void window.showErrorMessage(
-      "Failed to download RISC-V Toolchain. " +
-        "Please try again and check your internet connection."
-    );
-
-    return false;
-  }
-
-  result = await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading and installing OpenOCD...",
-    },
-    async progress => {
-      let progressState = 0;
-
-      return downloadAndInstallOpenOCD(OPENOCD_VERSION, (prog: Progress) => {
-        const percent = prog.percent * 100;
-        progress.report({ increment: percent - progressState });
-        progressState = percent;
-      });
-    }
-  );
-  if (!result) {
-    void window.showErrorMessage(
-      "Failed to download OpenOCD. " +
-        "Please try again and check your internet connection."
-    );
-
-    return false;
-  }
-
-  result = await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading and installing picotool...",
-    },
-    async progress => {
-      let progressState = 0;
-
-      return downloadAndInstallPicotool(
-        latest[1].picotool,
-        (prog: Progress) => {
-          const percent = prog.percent * 100;
-          progress.report({ increment: percent - progressState });
-          progressState = percent;
-        }
-      );
-    }
-  );
-  if (!result) {
-    void window.showErrorMessage(
-      "Failed to download picotool. " +
-        "Please try again and check your internet connection."
-    );
-  }
-
-  return result;
 }

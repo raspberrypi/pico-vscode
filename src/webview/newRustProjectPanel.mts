@@ -22,9 +22,11 @@ import {
 import { existsSync } from "fs";
 import { join } from "path";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
-import { downloadAndInstallRust } from "../utils/rustUtil.mjs";
+import {
+  downloadAndInstallRust,
+  installLatestRustRequirements,
+} from "../utils/rustUtil.mjs";
 import { generateRustProject } from "../utils/projectGeneration/projectRust.mjs";
-import { installLatestRustRequirements } from "../utils/download.mjs";
 
 interface SubmitMessageValue {
   projectName: string;

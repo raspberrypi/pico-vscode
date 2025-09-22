@@ -3,14 +3,6 @@
 import { join } from "path";
 import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
-import {
-  GetChipUppercaseCommand,
-  GetOpenOCDRootCommand,
-  GetPicotoolPathCommand,
-  GetTargetCommand,
-  GetWestPathCommand,
-  GetZephyrWorkspacePathCommand,
-} from "../../commands/getPaths.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, Uri, window, workspace } from "vscode";
 import {
@@ -36,6 +28,14 @@ import {
   WIFI_WIFI_H,
 } from "./zephyrFiles.mjs";
 import { homedir } from "os";
+import {
+  GET_CHIP_UPPERCASE,
+  GET_OPENOCD_ROOT,
+  GET_PICOTOOL_PATH,
+  GET_TARGET,
+  GET_WEST_PATH,
+  GET_ZEPHYR_WORKSPACE_PATH,
+} from "../../commands/cmdIds.mjs";
 
 // Kconfig snippets
 const spiKconfig: string = "CONFIG_SPI=y";
@@ -149,7 +149,7 @@ async function generateVSCodeConfig(
 
   // TODO: why run, maybe to make sure installed but that should be done before!
   const openOCDPath: string | undefined = await commands.executeCommand(
-    `${extensionName}.${GetOpenOCDRootCommand.id}`
+    `${extensionName}.${GET_OPENOCD_ROOT}`
   );
   if (!openOCDPath) {
     Logger.error(LoggerSource.projectRust, "Failed to get OpenOCD path");
@@ -200,21 +200,19 @@ async function generateVSCodeConfig(
         type: "cortex-debug",
         servertype: "openocd",
         // TODO: maybe svd file
-        serverpath: `\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/openocd`,
-        searchDir: [
-          `\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/scripts`,
-        ],
+        serverpath: `\${command:${extensionName}.${GET_OPENOCD_ROOT}}/openocd`,
+        searchDir: [`\${command:${extensionName}.${GET_OPENOCD_ROOT}}/scripts`],
         toolchainPrefix: "arm-zephyr-eabi",
         armToolchainPath:
           // TODO: maybe just full get zephyr compiler path command
-          `\${command:${extensionName}.${GetZephyrWorkspacePathCommand.id}}/zephyr-sdk/arm-zephyr-eabi/bin`,
+          `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}/zephyr-sdk/arm-zephyr-eabi/bin`,
         // TODO: get chip dynamically maybe: chip: `\${command:${extensionName}.${GetChipCommand.id}}`,
         // meaning only one cfg required
-        device: `\${command:${extensionName}.${GetChipUppercaseCommand.id}}`,
-        svdFile: `\${userHome}/.pico-sdk/sdk/${latestVb[0]}/src/\${command:${extensionName}.getChip}/hardware_regs/\${command:${extensionName}.${GetChipUppercaseCommand.id}}.svd`,
+        device: `\${command:${extensionName}.${GET_CHIP_UPPERCASE}}`,
+        svdFile: `\${userHome}/.pico-sdk/sdk/${latestVb[0]}/src/\${command:${extensionName}.getChip}/hardware_regs/\${command:${extensionName}.${GET_CHIP_UPPERCASE}}.svd`,
         configFiles: [
           "interface/cmsis-dap.cfg",
-          `target/\${command:${extensionName}.${GetTargetCommand.id}}.cfg`,
+          `target/\${command:${extensionName}.${GET_TARGET}}.cfg`,
         ],
         runToEntryPoint: "main",
         // Fix for no_flash binaries, where monitor reset halt doesn't do what is expected
@@ -266,7 +264,7 @@ async function generateVSCodeConfig(
   };
 
   if (ninjaPath.length > 0) {
-    settings["raspberry-pi-pico.ninjaPath"] = ninjaPath.replace(
+    settings[`${extensionName}.ninjaPath`] = ninjaPath.replace(
       homedir().replace("\\", "/"),
       HOME_VAR
     );
@@ -290,7 +288,7 @@ async function generateVSCodeConfig(
     ].PATH = `${pathPosix}:${settings["terminal.integrated.env.linux"].PATH}`;
   } else {
     // assume in PATH
-    settings["raspberry-pi-pico.ninjaPath"] = "ninja";
+    settings[`${extensionName}.ninjaPath`] = "ninja";
   }
 
   if (cmakePath.length > 0) {
@@ -304,7 +302,7 @@ async function generateVSCodeConfig(
       homedir().replace("\\", "/"),
       "${userHome}"
     );
-    settings["raspberry-pi-pico.cmakePath"] = cmakePath.replace(
+    settings[`${extensionName}.cmakePath`] = cmakePath.replace(
       homedir().replace("\\", "/"),
       HOME_VAR
     );
@@ -321,7 +319,7 @@ async function generateVSCodeConfig(
   } else {
     // assume in PATH
     settings["cmake.cmakePath"] = "cmake";
-    settings["raspberry-pi-pico.cmakePath"] = "cmake";
+    settings[`${extensionName}.cmakePath`] = "cmake";
   }
 
   const westArgs = [
@@ -343,8 +341,8 @@ async function generateVSCodeConfig(
 
   westArgs.push(
     "--",
-    `-DOPENOCD=\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/openocd`,
-    `-DOPENOCD_DEFAULT_PATH=\${command:${extensionName}.${GetOpenOCDRootCommand.id}}/scripts`
+    `-DOPENOCD=\${command:${extensionName}.${GET_OPENOCD_ROOT}}/openocd`,
+    `-DOPENOCD_DEFAULT_PATH=\${command:${extensionName}.${GET_OPENOCD_ROOT}}/scripts`
   );
 
   const tasks = {
@@ -353,7 +351,7 @@ async function generateVSCodeConfig(
       {
         label: "Compile Project",
         type: "shell",
-        command: `\${command:${extensionName}.${GetWestPathCommand.id}}`,
+        command: `\${command:${extensionName}.${GET_WEST_PATH}}`,
         args: westArgs,
         group: {
           kind: "build",
@@ -365,7 +363,7 @@ async function generateVSCodeConfig(
         },
         problemMatcher: "$gcc",
         options: {
-          cwd: "${command:raspberry-pi-pico.getZephyrWorkspacePath}",
+          cwd: `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}`,
         },
         windows: {
           options: {
@@ -383,16 +381,16 @@ async function generateVSCodeConfig(
         group: {
           kind: "build",
         },
-        command: "${command:raspberry-pi-pico.getWestPath}",
+        command: `\${command:${extensionName}.${GET_WEST_PATH}}`,
         args: ["flash", "--build-dir", '"${workspaceFolder}"/build'],
         options: {
-          cwd: "${command:raspberry-pi-pico.getZephyrWorkspacePath}",
+          cwd: `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}`,
         },
       },
       {
         label: "Run Project",
         type: "shell",
-        command: `\${command:${extensionName}.${GetPicotoolPathCommand.id}}`,
+        command: `\${command:${extensionName}.${GET_PICOTOOL_PATH}}`,
         // TODO: support for launch target path command
         args: ["load", '"${workspaceFolder}"/build/zephyr/zephyr.elf', "-fx"],
         presentation: {

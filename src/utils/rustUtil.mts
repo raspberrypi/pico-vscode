@@ -5,6 +5,20 @@ import { env, ProgressLocation, Uri, window } from "vscode";
 import { promisify } from "util";
 import { exec } from "child_process";
 import { join } from "path";
+import {
+  downloadAndInstallOpenOCD,
+  downloadAndInstallPicotool,
+  downloadAndInstallSDK,
+  downloadAndInstallToolchain,
+} from "./download.mjs";
+import { getSupportedToolchains } from "./toolchainUtil.mjs";
+import { SDK_REPOSITORY_URL } from "./githubREST.mjs";
+import findPython, { showPythonNotFoundError } from "./pythonHelper.mjs";
+import VersionBundlesLoader from "./versionBundles.mjs";
+import { HOME_VAR } from "../settings.mjs";
+import { homedir } from "os";
+import type { Progress } from "got";
+import { OPENOCD_VERSION } from "./sharedConstants.mjs";
 
 /*const STABLE_INDEX_DOWNLOAD_URL =
   "https://static.rust-lang.org/dist/channel-rust-stable.toml";*/
@@ -16,68 +30,6 @@ export enum FlashMethod {
   elf2Uf2 = 1,
   cargoEmbed = 2,
 }
-
-/*
-interface IndexToml {
-  pkg?: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    "rust-std"?: {
-      target?: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "thumbv6m-none-eabi"?: {
-          available: boolean;
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          xz_url: string;
-        };
-      };
-    };
-    // eslint-disable-next-line @typescript-eslint/naming-convention
-    "rust-analysis"?: {
-      target?: {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        "thumbv6m-none-eabi"?: {
-          available: boolean;
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          xz_url: string;
-        };
-      };
-    };
-  };
-}
-
-function computeDownloadLink(release: string): string {
-  let platform = "";
-  switch (process.platform) {
-    case "darwin":
-      platform = "apple-darwin";
-      break;
-    case "linux":
-      platform = "unknown-linux-gnu";
-      break;
-    case "win32":
-      // maybe gnu in the future and point to arm embedded toolchain
-      platform = "pc-windows-msvc";
-      break;
-    default:
-      throw new Error(`Unsupported platform: ${process.platform}`);
-  }
-  let arch = "";
-  switch (process.arch) {
-    case "x64":
-      arch = "x86_64";
-      break;
-    case "arm64":
-      arch = "aarch64";
-      break;
-    default:
-      throw new Error(`Unsupported architecture: ${process.arch}`);
-  }
-
-  return (
-    "https://static.rust-lang.org/dist" +
-    `/rust-${release}-${arch}-${platform}.tar.xz`
-  );
-}*/
 
 export async function cargoInstall(
   packageName: string,
@@ -411,170 +363,6 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   return true;
 }
 
-/*
-function platformToGithubMatrix(platform: string): string {
-  switch (platform) {
-    case "darwin":
-      return "macos-latest";
-    case "linux":
-      return "ubuntu-latest";
-    case "win32":
-      return "windows-latest";
-    default:
-      throw new Error(`Unsupported platform: ${platform}`);
-  }
-}
-
-function archToGithubMatrix(arch: string): string {
-  switch (arch) {
-    case "x64":
-      return "x86_64";
-    case "arm64":
-      return "aarch64";
-    default:
-      throw new Error(`Unsupported architecture: ${arch}`);
-  }
-}
-
-async function installCargoGenerate(): Promise<boolean> {
-  const release = await getRustToolsReleases();
-  if (!release) {
-    Logger.error(LoggerSource.rustUtil, "Failed to get Rust tools releases");
-
-    return false;
-  }
-
-  const assetName = `cargo-generate-${platformToGithubMatrix(
-    process.platform
-  )}-${archToGithubMatrix(process.arch)}.zip`;
-
-  const tmpLoc = join(tmpdir(), "pico-vscode-rs");
-
-  const result = await downloadAndInstallGithubAsset(
-    release[0],
-    release[0],
-    GithubRepository.rsTools,
-    tmpLoc,
-    "cargo-generate.zip",
-    assetName,
-    "cargo-generate"
-  );
-
-  if (!result) {
-    Logger.error(LoggerSource.rustUtil, "Failed to install cargo-generate");
-
-    return false;
-  }
-
-  const cargoBin = join(homedir(), ".cargo", "bin");
-
-  try {
-    mkdirSync(cargoBin, { recursive: true });
-    renameSync(
-      join(
-        tmpLoc,
-        "cargo-generate" + (process.platform === "win32" ? ".exe" : "")
-      ),
-      join(
-        cargoBin,
-        "cargo-generate" + (process.platform === "win32" ? ".exe" : "")
-      )
-    );
-
-    if (process.platform !== "win32") {
-      await execAsync(`chmod +x ${join(cargoBin, "cargo-generate")}`, {
-        windowsHide: true,
-      });
-    }
-  } catch (error) {
-    Logger.error(
-      LoggerSource.rustUtil,
-      `Failed to move cargo-generate to ~/.cargo/bin: ${unknownErrorToString(
-        error
-      )}`
-    );
-
-    return false;
-  }
-
-  return true;
-}*/
-
-/*
-function flashMethodToArg(fm: FlashMethod): string {
-  switch (fm) {
-    case FlashMethod.cargoEmbed:
-    case FlashMethod.debugProbe:
-      return "probe-rs";
-    case FlashMethod.elf2Uf2:
-      return "elf2uf2-rs";
-  }
-}
-
-
-export async function generateRustProject(
-  projectFolder: string,
-  name: string,
-  flashMethod: FlashMethod
-): Promise<boolean> {
-  try {
-    const valuesFile = join(tmpdir(), "pico-vscode", "values.toml");
-    await workspace.fs.createDirectory(Uri.file(dirname(valuesFile)));
-    await workspace.fs.writeFile(
-      Uri.file(valuesFile),
-      // TODO: make selectable in UI
-      Buffer.from(
-        `[values]\nflash_method="${flashMethodToArg(flashMethod)}"\n`,
-        "utf-8"
-      )
-    );
-
-    // TODO: fix outside function (maybe)
-    let projectRoot = projectFolder.replaceAll("\\", "/");
-    if (projectRoot.endsWith(name)) {
-      projectRoot = projectRoot.slice(0, projectRoot.length - name.length);
-    }
-
-    // cache template and use --path
-    const command =
-      "cargo generate --git " +
-      "https://github.com/rp-rs/rp2040-project-template " +
-      ` --name ${name} --values-file "${valuesFile}" ` +
-      `--destination "${projectRoot}"`;
-
-    const customEnv = { ...process.env };
-    customEnv["PATH"] += `${process.platform === "win32" ? ";" : ":"}${join(
-      homedir(),
-      ".cargo",
-      "bin"
-    )}`;
-    // TODO: add timeout
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { stdout, stderr } = await execAsync(command, {
-      windowsHide: true,
-      env: customEnv,
-    });
-
-    if (stderr) {
-      Logger.error(
-        LoggerSource.rustUtil,
-        `Failed to generate Rust project: ${stderr}`
-      );
-
-      return false;
-    }
-  } catch (error) {
-    Logger.error(
-      LoggerSource.rustUtil,
-      `Failed to generate Rust project: ${unknownErrorToString(error)}`
-    );
-
-    return false;
-  }
-
-  return true;
-}*/
-
 /**
  * Get the selected chip from the .pico-rs file in the workspace folder.
  *
@@ -614,4 +402,206 @@ export function rustProjectGetSelectedChip(
 
     return null;
   }
+}
+
+/**
+ * Downloads and installs the latest SDK and toolchains.
+ *
+ * + OpenOCD + picotool
+ * (includes UI feedback)
+ *
+ * @param extensionUri The URI of the extension
+ */
+export async function installLatestRustRequirements(
+  extensionUri: Uri
+): Promise<boolean> {
+  const vb = new VersionBundlesLoader(extensionUri);
+  const latest = await vb.getLatest();
+  if (latest === undefined) {
+    void window.showErrorMessage(
+      "Failed to get latest version bundles. " +
+        "Please try again and check your settings."
+    );
+
+    return false;
+  }
+
+  // install python (if necessary)
+  const python3Path = await findPython();
+  if (!python3Path) {
+    Logger.error(LoggerSource.downloader, "Failed to find Python3 executable.");
+    showPythonNotFoundError();
+
+    return false;
+  }
+
+  let result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing SDK",
+      cancellable: false,
+    },
+    async progress2 => {
+      const result = await downloadAndInstallSDK(
+        latest[0],
+        SDK_REPOSITORY_URL,
+        // python3Path is only possible undefined if downloaded and
+        // there is already checked and returned if this happened
+        python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
+      );
+
+      if (!result) {
+        Logger.error(
+          LoggerSource.downloader,
+          "Failed to download and install SDK."
+        );
+        progress2.report({
+          message: "Failed - Make sure all requirements are met.",
+          increment: 100,
+        });
+
+        void window.showErrorMessage(
+          "Failed to download and install SDK. " +
+            "Make sure all requirements are met."
+        );
+
+        return false;
+      }
+
+      return true;
+    }
+  );
+
+  if (!result) {
+    return false;
+  }
+
+  const supportedToolchains = await getSupportedToolchains();
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: `Downloading ARM Toolchain for debugging...`,
+    },
+    async progress => {
+      const toolchain = supportedToolchains.find(
+        t => t.version === latest[1].toolchain
+      );
+
+      if (toolchain === undefined) {
+        void window.showErrorMessage(
+          "Failed to get default toolchain. " +
+            "Please try again and check your internet connection."
+        );
+
+        return false;
+      }
+
+      let progressState = 0;
+
+      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download ARM Toolchain. " +
+        "Please try again and check your settings."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading RISC-V Toolchain for debugging...",
+    },
+    async progress => {
+      const toolchain = supportedToolchains.find(
+        t => t.version === latest[1].riscvToolchain
+      );
+
+      if (toolchain === undefined) {
+        void window.showErrorMessage(
+          "Failed to get default RISC-V toolchain. " +
+            "Please try again and check your internet connection."
+        );
+
+        return false;
+      }
+
+      let progressState = 0;
+
+      return downloadAndInstallToolchain(toolchain, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download RISC-V Toolchain. " +
+        "Please try again and check your internet connection."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing OpenOCD...",
+    },
+    async progress => {
+      let progressState = 0;
+
+      return downloadAndInstallOpenOCD(OPENOCD_VERSION, (prog: Progress) => {
+        const percent = prog.percent * 100;
+        progress.report({ increment: percent - progressState });
+        progressState = percent;
+      });
+    }
+  );
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download OpenOCD. " +
+        "Please try again and check your internet connection."
+    );
+
+    return false;
+  }
+
+  result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Downloading and installing picotool...",
+    },
+    async progress => {
+      let progressState = 0;
+
+      return downloadAndInstallPicotool(
+        latest[1].picotool,
+        (prog: Progress) => {
+          const percent = prog.percent * 100;
+          progress.report({ increment: percent - progressState });
+          progressState = percent;
+        }
+      );
+    }
+  );
+  if (!result) {
+    void window.showErrorMessage(
+      "Failed to download picotool. " +
+        "Please try again and check your internet connection."
+    );
+  }
+
+  return result;
 }

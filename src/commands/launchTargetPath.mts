@@ -8,6 +8,12 @@ import { parse as parseToml } from "toml";
 import { join as joinPosix } from "path/posix";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
+import {
+  LAUNCH_TARGET_PATH,
+  LAUNCH_TARGET_PATH_RELEASE,
+  SBOM_TARGET_PATH_DEBUG,
+  SBOM_TARGET_PATH_RELEASE,
+} from "./cmdIds.mjs";
 
 /* ----------------------------- Shared helpers ----------------------------- */
 
@@ -107,9 +113,8 @@ const tryCMakeToolsLaunchPath = async (): Promise<string | null> => {
 /* ------------------------------ Main command ------------------------------ */
 
 export default class LaunchTargetPathCommand extends CommandWithResult<string> {
-  public static readonly id = "launchTargetPath";
   constructor() {
-    super(LaunchTargetPathCommand.id);
+    super(LAUNCH_TARGET_PATH);
   }
 
   async execute(): Promise<string> {
@@ -156,9 +161,8 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
 /* -------------------------- Rust-specific commands ------------------------- */
 
 export class LaunchTargetPathReleaseCommand extends CommandWithResult<string> {
-  public static readonly id = "launchTargetPathRelease";
   constructor() {
-    super(LaunchTargetPathReleaseCommand.id);
+    super(LAUNCH_TARGET_PATH_RELEASE);
   }
 
   execute(): string {
@@ -177,9 +181,8 @@ export class LaunchTargetPathReleaseCommand extends CommandWithResult<string> {
 }
 
 export class SbomTargetPathDebugCommand extends CommandWithResult<string> {
-  public static readonly id = "sbomTargetPathDebug";
   constructor() {
-    super(SbomTargetPathDebugCommand.id);
+    super(SBOM_TARGET_PATH_DEBUG);
   }
 
   execute(): string {
@@ -194,9 +197,8 @@ export class SbomTargetPathDebugCommand extends CommandWithResult<string> {
 }
 
 export class SbomTargetPathReleaseCommand extends CommandWithResult<string> {
-  public static readonly id = "sbomTargetPathRelease";
   constructor() {
-    super(SbomTargetPathReleaseCommand.id);
+    super(SBOM_TARGET_PATH_RELEASE);
   }
 
   execute(): string {

@@ -37,7 +37,9 @@ import {
 import { SDK_REPOSITORY_URL } from "./githubREST.mjs";
 import { vsExists } from "./vsHelpers.mjs";
 import which from "which";
-import { stdoutToString } from "./errorHelper.mjs";
+import { stdoutToString, unknownErrorToString } from "./errorHelper.mjs";
+import { VALID_ZEPHYR_BOARDS } from "../models/zephyrBoards.mjs";
+import type { ITask } from "../models/task.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -1298,4 +1300,91 @@ export async function setupZephyr(
 
     return undefined;
   }
+}
+
+/**
+ * Reads and parses the tasks.json file at the given path.
+ * If a overwriteBoard is provided, it will replace the board in the tasks.json file.
+ *
+ * @param tasksJsonPath The path to the tasks.json file.
+ * @param overwriteBoard The board to overwrite in the tasks.json file.
+ * @returns The current board if found, otherwise undefined.
+ */
+export async function zephyrTouchTasksJson(
+  tasksJsonPath: string,
+  overwriteBoard?: string
+): Promise<string | undefined> {
+  const tasksUri = Uri.file(tasksJsonPath);
+
+  try {
+    await workspace.fs.stat(tasksUri);
+
+    const td = new TextDecoder("utf-8");
+    const tasksJson = JSON.parse(
+      td.decode(await workspace.fs.readFile(tasksUri))
+    ) as { tasks: ITask[] };
+
+    const compileTask = tasksJson.tasks.find(
+      t => t.label === "Compile Project"
+    );
+    if (compileTask === undefined) {
+      return undefined;
+    }
+
+    // find index of -b in the args and then thing after it should match on of the board strings
+    const bIndex = compileTask.args.findIndex(a => a === "-b");
+    if (bIndex === -1 || bIndex === compileTask.args.length - 1) {
+      return undefined;
+    }
+
+    let currentBoard = compileTask.args[bIndex + 1];
+
+    if (overwriteBoard !== undefined) {
+      if (!VALID_ZEPHYR_BOARDS.includes(currentBoard)) {
+        const cont = await window.showWarningMessage(
+          `Current board "${currentBoard}" is not a known ` +
+            "Zephyr board. Do you want to continue?",
+          {
+            modal: true,
+          },
+          "Continue",
+          "Cancel"
+        );
+
+        if (cont !== "Continue") {
+          return;
+        }
+      }
+
+      compileTask.args[bIndex + 1] = overwriteBoard;
+      currentBoard = overwriteBoard;
+      const te = new TextEncoder();
+      await workspace.fs.writeFile(
+        tasksUri,
+        te.encode(JSON.stringify(tasksJson, null, 2))
+      );
+    }
+
+    if (VALID_ZEPHYR_BOARDS.includes(currentBoard)) {
+      return currentBoard;
+    } else {
+      return undefined;
+    }
+  } catch (error) {
+    Logger.log(
+      `Failed to read tasks.json file: ${unknownErrorToString(error)}`
+    );
+    void window.showErrorMessage(
+      "Failed to read tasks.json file. " +
+        "Make sure the file exists and has a Compile Project task."
+    );
+
+    return undefined;
+  }
+}
+
+export async function getBoardFromZephyrProject(
+  tasksJsonPath: string
+): Promise<string | undefined> {
+  return zephyrTouchTasksJson(tasksJsonPath);
 }

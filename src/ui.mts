@@ -3,10 +3,12 @@ import Logger from "./logger.mjs";
 import type { PicoProjectActivityBar } from "./webview/activityBar.mjs";
 import State from "./state.mjs";
 import { extensionName } from "./commands/command.mjs";
-import CompileProjectCommand from "./commands/compileProject.mjs";
-import RunProjectCommand from "./commands/runProject.mjs";
-import SwitchSDKCommand from "./commands/switchSDK.mjs";
-import SwitchBoardCommand from "./commands/switchBoard.mjs";
+import {
+  COMPILE_PROJECT,
+  RUN_PROJECT,
+  SWITCH_BOARD,
+  SWITCH_SDK,
+} from "./commands/cmdIds.mjs";
 
 enum StatusBarItemKey {
   compile = "raspberry-pi-pico.compileProject",
@@ -28,7 +30,7 @@ const STATUS_BAR_ITEMS: {
   [StatusBarItemKey.compile]: {
     // alt. "$(gear) Compile"
     text: "$(file-binary) Compile",
-    command: `${extensionName}.${CompileProjectCommand.id}`,
+    command: `${extensionName}.${COMPILE_PROJECT}`,
     tooltip: "Compile Project",
     rustSupport: true,
     zephyrSupport: true,
@@ -36,14 +38,14 @@ const STATUS_BAR_ITEMS: {
   [StatusBarItemKey.run]: {
     // alt. "$(gear) Compile"
     text: "$(run) Run",
-    command: `${extensionName}.${RunProjectCommand.id}`,
+    command: `${extensionName}.${RUN_PROJECT}`,
     tooltip: "Run Project",
     rustSupport: true,
     zephyrSupport: true,
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
     text: "Pico SDK: <version>",
-    command: `${extensionName}.${SwitchSDKCommand.id}`,
+    command: `${extensionName}.${SWITCH_SDK}`,
     tooltip: "Select Pico SDK",
     rustSupport: false,
     zephyrSupport: false,
@@ -52,7 +54,7 @@ const STATUS_BAR_ITEMS: {
     text: "Board: <board>",
     rustText: "Chip: <chip>",
     // TODO: zephyrCommand option to zwphyr switch borad command or merge them that better
-    command: `${extensionName}.${SwitchBoardCommand.id}`,
+    command: `${extensionName}.${SWITCH_BOARD}`,
     tooltip: "Select Chip",
     rustSupport: true,
     zephyrSupport: true,

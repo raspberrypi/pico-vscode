@@ -13,16 +13,13 @@ import { cp } from "fs/promises";
 import { get } from "https";
 import { isInternetConnected, getDataRoot } from "./downloadHelpers.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
 import { window } from "vscode";
-
-const EXAMPLES_REPOSITORY_URL =
-  "https://github.com/raspberrypi/pico-examples.git";
-const EXAMPLES_JSON_URL =
-  "https://raspberrypi.github.io/pico-vscode/" +
-  `${CURRENT_DATA_VERSION}/examples.json`;
-const EXAMPLES_GITREF = "4c3a3dc0196dd426fddd709616d0da984e027bab";
-const EXAMPLES_TAG = "sdk-2.2.0";
+import {
+  EXAMPLES_GITREF,
+  EXAMPLES_JSON_URL,
+  EXAMPLES_REPOSITORY_URL,
+  EXAMPLES_TAG,
+} from "./sharedConstants.mjs";
 
 export interface Example {
   path: string;

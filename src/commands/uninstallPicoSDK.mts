@@ -5,14 +5,13 @@ import { rimraf } from "rimraf";
 import { join } from "path";
 import { homedir } from "os";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import { UNINSTALL_PICO_SDK } from "./cmdIds.mjs";
 
 export default class UninstallPicoSDKCommand extends Command {
   private _logger: Logger = new Logger("UninstallPicoSDKCommand");
 
-  public static readonly id = "uninstallPicoSDK";
-
   constructor() {
-    super(UninstallPicoSDKCommand.id);
+    super(UNINSTALL_PICO_SDK);
   }
 
   async execute(): Promise<void> {

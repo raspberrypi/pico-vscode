@@ -29,18 +29,31 @@ import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 import {
-  getBoardFromZephyrProject,
+  GET_CHIP,
+  GET_CHIP_UPPERCASE,
+  GET_COMPILER_PATH,
+  GET_CXX_COMPILER_PATH,
+  GET_ENV_PATH,
+  GET_GDB_PATH,
+  GET_OPENOCD_ROOT,
+  GET_PICOTOOL_PATH,
+  GET_PYTHON_PATH,
+  GET_SVD_PATH,
+  GET_TARGET,
+  GET_WEST_PATH,
+  GET_ZEPHYR_WORKSPACE_PATH,
+} from "./cmdIds.mjs";
+import { getBoardFromZephyrProject } from "../utils/setupZephyr.mjs";
+import {
   ZEPHYR_PICO,
   ZEPHYR_PICO2,
   ZEPHYR_PICO2_W,
   ZEPHYR_PICO_W,
-} from "./switchBoard.mjs";
+} from "../models/zephyrBoards.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
-  public static readonly id = "getPythonPath";
-
   constructor() {
-    super(GetPythonPathCommand.id);
+    super(GET_PYTHON_PATH);
   }
 
   async execute(): Promise<string> {
@@ -58,10 +71,8 @@ export class GetPythonPathCommand extends CommandWithResult<string> {
 }
 
 export class GetEnvPathCommand extends CommandWithResult<string> {
-  public static readonly id = "getEnvPath";
-
   constructor() {
-    super(GetEnvPathCommand.id);
+    super(GET_ENV_PATH);
   }
 
   async execute(): Promise<string> {
@@ -79,10 +90,8 @@ export class GetEnvPathCommand extends CommandWithResult<string> {
 }
 
 export class GetGDBPathCommand extends CommandWithResult<string> {
-  public static readonly id = "getGDBPath";
-
   constructor(private readonly _extensionUri: Uri) {
-    super(GetGDBPathCommand.id);
+    super(GET_GDB_PATH);
   }
 
   async execute(): Promise<string> {
@@ -172,10 +181,8 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
 }
 
 export class GetCompilerPathCommand extends CommandWithResult<string> {
-  public static readonly id = "getCompilerPath";
-
   constructor() {
-    super(GetCompilerPathCommand.id);
+    super(GET_COMPILER_PATH);
   }
 
   async execute(): Promise<string> {
@@ -213,10 +220,8 @@ export class GetCompilerPathCommand extends CommandWithResult<string> {
 }
 
 export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
-  public static readonly id = "getCxxCompilerPath";
-
   constructor() {
-    super(GetCxxCompilerPathCommand.id);
+    super(GET_CXX_COMPILER_PATH);
   }
 
   async execute(): Promise<string> {
@@ -256,10 +261,8 @@ export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
 export class GetChipCommand extends CommandWithResult<string> {
   private readonly _logger = new Logger("GetChipCommand");
 
-  public static readonly id = "getChip";
-
   constructor() {
-    super(GetChipCommand.id);
+    super(GET_CHIP);
   }
 
   async execute(): Promise<string> {
@@ -357,10 +360,8 @@ export class GetChipCommand extends CommandWithResult<string> {
 }
 
 export class GetChipUppercaseCommand extends CommandWithResult<string> {
-  public static readonly id = "getChipUppercase";
-
   constructor() {
-    super(GetChipUppercaseCommand.id);
+    super(GET_CHIP_UPPERCASE);
   }
 
   async execute(): Promise<string> {
@@ -372,10 +373,8 @@ export class GetChipUppercaseCommand extends CommandWithResult<string> {
 }
 
 export class GetTargetCommand extends CommandWithResult<string> {
-  public static readonly id = "getTarget";
-
   constructor() {
-    super(GetTargetCommand.id);
+    super(GET_TARGET);
   }
 
   async execute(): Promise<string> {
@@ -455,12 +454,11 @@ export class GetPicotoolPathCommand extends CommandWithResult<
 > {
   private running: boolean = false;
 
-  public static readonly id = "getPicotoolPath";
-
   constructor() {
-    super(GetPicotoolPathCommand.id);
+    super(GET_PICOTOOL_PATH);
   }
 
+  // TODO: add rate limiting and caching
   async execute(): Promise<string | undefined> {
     if (this.running) {
       return undefined;
@@ -505,10 +503,8 @@ export class GetOpenOCDRootCommand extends CommandWithResult<
 > {
   private running: boolean = false;
 
-  public static readonly id = "getOpenOCDRoot";
-
   constructor() {
-    super(GetOpenOCDRootCommand.id);
+    super(GET_OPENOCD_ROOT);
   }
 
   async execute(): Promise<string | undefined> {
@@ -536,10 +532,8 @@ export class GetOpenOCDRootCommand extends CommandWithResult<
  * Currently rust only!
  */
 export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
-  public static readonly id = "getSVDPath";
-
   constructor(private readonly _extensionUri: Uri) {
-    super(GetSVDPathCommand.id);
+    super(GET_SVD_PATH);
   }
 
   async execute(): Promise<string | undefined> {
@@ -582,10 +576,8 @@ export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
 }
 
 export class GetWestPathCommand extends CommandWithResult<string | undefined> {
-  public static readonly id = "getWestPath";
-
   constructor() {
-    super(GetWestPathCommand.id);
+    super(GET_WEST_PATH);
   }
 
   execute(): string | undefined {
@@ -602,10 +594,8 @@ export class GetWestPathCommand extends CommandWithResult<string | undefined> {
 export class GetZephyrWorkspacePathCommand extends CommandWithResult<
   string | undefined
 > {
-  public static readonly id = "getZephyrWorkspacePath";
-
   constructor() {
-    super(GetZephyrWorkspacePathCommand.id);
+    super(GET_ZEPHYR_WORKSPACE_PATH);
   }
 
   execute(): string | undefined {

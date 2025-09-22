@@ -2,14 +2,13 @@ import { CommandWithResult } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { tasks, window } from "vscode";
 import { EventEmitter } from "stream";
+import { FLASH_PROJECT_SWD } from "./cmdIds.mjs";
 
 export default class FlashProjectSWDCommand extends CommandWithResult<boolean> {
   private _logger: Logger = new Logger("FlashProjectSWDCommand");
 
-  public static readonly id = "flashProject";
-
   constructor() {
-    super(FlashProjectSWDCommand.id);
+    super(FLASH_PROJECT_SWD);
   }
 
   async execute(): Promise<boolean> {

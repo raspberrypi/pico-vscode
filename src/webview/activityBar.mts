@@ -9,24 +9,27 @@ import {
 } from "vscode";
 import Logger from "../logger.mjs";
 import { extensionName } from "../commands/command.mjs";
-import NewProjectCommand, { ProjectLang } from "../commands/newProject.mjs";
-import CompileProjectCommand from "../commands/compileProject.mjs";
-import RunProjectCommand from "../commands/runProject.mjs";
-import SwitchSDKCommand from "../commands/switchSDK.mjs";
-import ConditionalDebuggingCommand from "../commands/conditionalDebugging.mjs";
-import DebugLayoutCommand from "../commands/debugLayout.mjs";
-import OpenSdkDocumentationCommand, {
+import {
   DOCUMENTATION_LABEL_BY_ID,
   DocumentationId,
 } from "../commands/openSdkDocumentation.mjs";
-import ConfigureCmakeCommand, {
-  CleanCMakeCommand,
-  SwitchBuildTypeCommand,
-} from "../commands/configureCmake.mjs";
-import ImportProjectCommand from "../commands/importProject.mjs";
-import NewExampleProjectCommand from "../commands/newExampleProject.mjs";
-import SwitchBoardCommand from "../commands/switchBoard.mjs";
-import FlashProjectSWDCommand from "../commands/flashProjectSwd.mjs";
+import {
+  CLEAN_CMAKE,
+  COMPILE_PROJECT,
+  CONDITIONAL_DEBUGGING,
+  CONFIGURE_CMAKE,
+  DEBUG_LAYOUT,
+  FLASH_PROJECT_SWD,
+  IMPORT_PROJECT,
+  NEW_EXAMPLE_PROJECT,
+  NEW_PROJECT,
+  OPEN_SDK_DOCUMENTATION,
+  RUN_PROJECT,
+  SWITCH_BOARD,
+  SWITCH_BUILD_TYPE,
+  SWITCH_SDK,
+} from "../commands/cmdIds.mjs";
+import { ProjectLang } from "../models/projectLang.mjs";
 
 export class QuickAccessCommand extends TreeItem {
   constructor(
@@ -201,7 +204,7 @@ export class PicoProjectActivityBar
           NEW_C_CPP_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${NewProjectCommand.id}`,
+            command: `${extensionName}.${NEW_PROJECT}`,
             title: NEW_C_CPP_PROJECT_LABEL,
             arguments: [ProjectLang.cCpp],
           }
@@ -210,7 +213,7 @@ export class PicoProjectActivityBar
           NEW_MICROPYTHON_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${NewProjectCommand.id}`,
+            command: `${extensionName}.${NEW_PROJECT}`,
             title: NEW_MICROPYTHON_PROJECT_LABEL,
             arguments: [ProjectLang.micropython],
           }
@@ -219,7 +222,7 @@ export class PicoProjectActivityBar
           NEW_RUST_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${NewProjectCommand.id}`,
+            command: `${extensionName}.${NEW_PROJECT}`,
             title: NEW_RUST_PROJECT_LABEL,
             arguments: [ProjectLang.rust],
           }
@@ -228,7 +231,7 @@ export class PicoProjectActivityBar
           NEW_ZEPHYR_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${NewProjectCommand.id}`,
+            command: `${extensionName}.${NEW_PROJECT}`,
             title: NEW_ZEPHYR_PROJECT_LABEL,
             arguments: [ProjectLang.zephyr],
           }
@@ -237,7 +240,7 @@ export class PicoProjectActivityBar
           IMPORT_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${ImportProjectCommand.id}`,
+            command: `${extensionName}.${IMPORT_PROJECT}`,
             title: IMPORT_PROJECT_LABEL,
           }
         ),
@@ -245,7 +248,7 @@ export class PicoProjectActivityBar
           EXAMPLE_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${NewExampleProjectCommand.id}`,
+            command: `${extensionName}.${NEW_EXAMPLE_PROJECT}`,
             title: EXAMPLE_PROJECT_LABEL,
             arguments: [true],
           }
@@ -257,7 +260,7 @@ export class PicoProjectActivityBar
           DEBUG_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${ConditionalDebuggingCommand.id}`,
+            command: `${extensionName}.${CONDITIONAL_DEBUGGING}`,
             title: DEBUG_PROJECT_LABEL,
           }
         ),
@@ -265,7 +268,7 @@ export class PicoProjectActivityBar
           COMPILE_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${CompileProjectCommand.id}`,
+            command: `${extensionName}.${COMPILE_PROJECT}`,
             title: COMPILE_PROJECT_LABEL,
           }
         ),
@@ -273,7 +276,7 @@ export class PicoProjectActivityBar
           RUN_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${RunProjectCommand.id}`,
+            command: `${extensionName}.${RUN_PROJECT}`,
             title: RUN_PROJECT_LABEL,
           }
         ),
@@ -281,7 +284,7 @@ export class PicoProjectActivityBar
           FLASH_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${FlashProjectSWDCommand.id}`,
+            command: `${extensionName}.${FLASH_PROJECT_SWD}`,
             title: FLASH_PROJECT_LABEL,
           }
         ),
@@ -289,7 +292,7 @@ export class PicoProjectActivityBar
           CONFIGURE_CMAKE_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${ConfigureCmakeCommand.id}`,
+            command: `${extensionName}.${CONFIGURE_CMAKE}`,
             title: CONFIGURE_CMAKE_PROJECT_LABEL,
           }
         ),
@@ -297,7 +300,7 @@ export class PicoProjectActivityBar
           CLEAN_CMAKE_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${CleanCMakeCommand.id}`,
+            command: `${extensionName}.${CLEAN_CMAKE}`,
             title: CLEAN_CMAKE_PROJECT_LABEL,
           }
         ),
@@ -305,7 +308,7 @@ export class PicoProjectActivityBar
           SWITCH_BUILD_TYPE_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${SwitchBuildTypeCommand.id}`,
+            command: `${extensionName}.${SWITCH_BUILD_TYPE}`,
             title: SWITCH_BUILD_TYPE_LABEL,
           }
         ),
@@ -313,7 +316,7 @@ export class PicoProjectActivityBar
           SWITCH_SDK_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${SwitchSDKCommand.id}`,
+            command: `${extensionName}.${SWITCH_SDK}`,
             title: SWITCH_SDK_LABEL,
           }
         ),
@@ -321,7 +324,7 @@ export class PicoProjectActivityBar
           SWITCH_BOARD_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${SwitchBoardCommand.id}`,
+            command: `${extensionName}.${SWITCH_BOARD}`,
             title: SWITCH_BOARD_LABEL,
           }
         ),
@@ -329,7 +332,7 @@ export class PicoProjectActivityBar
           DEBUG_LAYOUT_PROJECT_LABEL,
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${DebugLayoutCommand.id}`,
+            command: `${extensionName}.${DEBUG_LAYOUT}`,
             title: DEBUG_LAYOUT_PROJECT_LABEL,
           }
         ),
@@ -340,7 +343,7 @@ export class PicoProjectActivityBar
           DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware],
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
             title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware],
             arguments: [DocumentationId.hardware],
           }
@@ -349,7 +352,7 @@ export class PicoProjectActivityBar
           DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel],
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
             title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel],
             arguments: [DocumentationId.highLevel],
           }
@@ -358,7 +361,7 @@ export class PicoProjectActivityBar
           DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking],
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
             title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking],
             arguments: [DocumentationId.networking],
           }
@@ -367,7 +370,7 @@ export class PicoProjectActivityBar
           DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure],
           TreeItemCollapsibleState.None,
           {
-            command: `${extensionName}.${OpenSdkDocumentationCommand.id}`,
+            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
             title:
               DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure],
             arguments: [DocumentationId.runtimeInfrastructure],

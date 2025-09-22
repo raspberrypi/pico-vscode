@@ -2,7 +2,7 @@ import { Command, extensionName } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { commands, window, workspace, debug } from "vscode";
 import State from "../state.mjs";
-import DebugLayoutCommand from "./debugLayout.mjs";
+import { CONDITIONAL_DEBUGGING, DEBUG_LAYOUT } from "./cmdIds.mjs";
 
 /**
  * Relay command for the default buildin debug select and start command.
@@ -11,10 +11,8 @@ import DebugLayoutCommand from "./debugLayout.mjs";
 export default class ConditionalDebuggingCommand extends Command {
   private _logger: Logger = new Logger("ConditionalDebuggingCommand");
 
-  public static readonly id = "conditionalDebugging";
-
   constructor() {
-    super(ConditionalDebuggingCommand.id);
+    super(CONDITIONAL_DEBUGGING);
   }
 
   async execute(): Promise<void> {
@@ -29,7 +27,7 @@ export default class ConditionalDebuggingCommand extends Command {
         return;
       }
 
-      void commands.executeCommand(`${extensionName}.${DebugLayoutCommand.id}`);
+      void commands.executeCommand(`${extensionName}.${DEBUG_LAYOUT}`);
       void debug.startDebugging(wsFolder, "Pico Debug (probe-rs)");
 
       return;

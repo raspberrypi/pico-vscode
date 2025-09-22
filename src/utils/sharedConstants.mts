@@ -7,6 +7,22 @@ export const CURRENT_PYTHON_VERSION = "3.13.7";
 export const CURRENT_DATA_VERSION = "0.18.0";
 export const OPENOCD_VERSION = "0.12.0+dev";
 
+export const WINDOWS_X86_GIT_DOWNLOAD_URL =
+  "https://github.com/git-for-windows/git/releases/download" +
+  "/v2.46.0.windows.1/MinGit-2.46.0-64-bit.zip";
+
+export const EXAMPLES_REPOSITORY_URL =
+  "https://github.com/raspberrypi/pico-examples.git";
+export const EXAMPLES_JSON_URL =
+  "https://raspberrypi.github.io/pico-vscode/" +
+  `${CURRENT_DATA_VERSION}/examples.json`;
+export const EXAMPLES_GITREF = "4c3a3dc0196dd426fddd709616d0da984e027bab";
+export const EXAMPLES_TAG = "sdk-2.2.0";
+
+export const VERSION_BUNDLES_URL =
+  "https://raspberrypi.github.io/pico-vscode/" +
+  `${CURRENT_DATA_VERSION}/versionBundles.json`;
+
 export const WINDOWS_X86_DTC_DOWNLOAD_URL =
   "https://github.com/oss-winget/oss-winget-storage/raw/" +
   "96ea1b934342f45628a488d3b50d0c37cf06012c/packages/dtc/" +

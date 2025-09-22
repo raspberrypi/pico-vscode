@@ -9,6 +9,7 @@ import {
   type WebviewPanel,
 } from "vscode";
 import { readFileSync } from "fs";
+import { OPEN_SDK_DOCUMENTATION } from "./cmdIds.mjs";
 
 export enum DocumentationId {
   hardware = 0,
@@ -43,11 +44,10 @@ const LOCAL_DOCUMENTATION_URLS_BY_ID: string[] = [
 export default class OpenSdkDocumentationCommand extends CommandWithArgs {
   private _logger: Logger = new Logger("OpenSdkDocumentationCommand");
 
-  public static readonly id = "openSdkDocumentation";
   private _panel: WebviewPanel | undefined = undefined;
 
   constructor(private readonly _extensionUri: Uri) {
-    super(OpenSdkDocumentationCommand.id);
+    super(OPEN_SDK_DOCUMENTATION);
   }
 
   async execute(docId?: DocumentationId, fileName?: string): Promise<void> {

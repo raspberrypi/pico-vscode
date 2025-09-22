@@ -1,36 +1,22 @@
 import { CommandWithArgs } from "./command.mjs";
-import Logger from "../logger.mjs";
 import { window, type Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "../webview/newMicroPythonProjectPanel.mjs";
 import { NewRustProjectPanel } from "../webview/newRustProjectPanel.mjs";
 import { NewZephyrProjectPanel } from "../webview/newZephyrProjectPanel.mjs";
-
-/**
- * Enum for the language of the project.
- * Can be used to specify the language of the project
- * in the `NewProjectCommand` class.
- */
-export enum ProjectLang {
-  cCpp = 1,
-  micropython = 2,
-  rust = 3,
-  zephyr = 5,
-}
+import { NEW_PROJECT } from "./cmdIds.mjs";
+import { ProjectLang } from "../models/projectLang.mjs";
 
 export default class NewProjectCommand extends CommandWithArgs {
-  private readonly _logger: Logger = new Logger("NewProjectCommand");
   private readonly _extensionUri: Uri;
   private static readonly micropythonOption = "MicroPython";
   private static readonly cCppOption = "C/C++";
   private static readonly rustOption = "Rust (experimental)";
   private static readonly zephyrOption = "Zephyr";
 
-  public static readonly id = "newProject";
-
   constructor(extensionUri: Uri) {
-    super(NewProjectCommand.id);
+    super(NEW_PROJECT);
 
     this._extensionUri = extensionUri;
   }
