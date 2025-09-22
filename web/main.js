@@ -19,6 +19,118 @@ var exampleSupportedBoards = [];
 (function () {
   const vscode = acquireVsCodeApi();
 
+  // CMake version selection handling
+  {
+    const modeEl = document.getElementById('cmake-mode');
+    const defaultRow = document.getElementById('cmake-secondary-default');
+    const systemRow = document.getElementById('cmake-secondary-system');
+    const selectRow = document.getElementById('cmake-secondary-select');
+    const customRow = document.getElementById('cmake-secondary-custom');
+
+    const fileInput = document.getElementById('cmake-path-executable');
+    const fileLabel = document.getElementById('cmake-file-label');
+    const fileBox = document.getElementById('cmake-filebox');
+
+    // Update label text when a file is chosen
+    fileInput?.addEventListener('change', () => {
+      const f = fileInput.files && fileInput.files[0];
+      fileLabel.textContent = f ? f.name : 'No file selected';
+    });
+
+    // Make label keyboard-activatable (Enter/Space)
+    fileBox?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput?.click();
+      }
+    });
+
+    function toggleSection(el, show) {
+      if (!el) return;
+      el.classList.toggle('hidden', !show);
+      el.querySelectorAll('input, select, button, textarea').forEach(ctrl => {
+        ctrl.disabled = !show;
+        ctrl.tabIndex = show ? 0 : -1;
+      });
+      // If this is the custom row, also toggle the label interactivity
+      const label = el.querySelector('#cmake-filebox');
+      if (label) {
+        label.setAttribute('aria-disabled', String(!show));
+        label.classList.toggle('pointer-events-none', !show);
+        label.classList.toggle('opacity-60', !show);
+      }
+    }
+
+    function setMode(mode) {
+      toggleSection(defaultRow, mode === 'default');
+      toggleSection(systemRow, mode === 'system');
+      toggleSection(selectRow, mode === 'select');
+      toggleSection(customRow, mode === 'custom');
+    }
+
+    // TODO: add state saving/loading via state.js
+    // modeEl.value = window.savedCmakeMode ?? modeEl.value;
+
+    modeEl.addEventListener('change', e => setMode(e.target.value));
+    setMode(modeEl.value);
+  }
+
+  // Ninja version selection handling
+  {
+    const modeEl = document.getElementById('ninja-mode');
+    const defaultRow = document.getElementById('ninja-secondary-default');
+    const systemRow = document.getElementById('ninja-secondary-system');
+    const selectRow = document.getElementById('ninja-secondary-select');
+    const customRow = document.getElementById('ninja-secondary-custom');
+
+    const fileInput = document.getElementById('ninja-path-executable');
+    const fileLabel = document.getElementById('ninja-file-label');
+    const fileBox = document.getElementById('ninja-filebox');
+
+    // Update label text when a file is chosen
+    fileInput?.addEventListener('change', () => {
+      const f = fileInput.files && fileInput.files[0];
+      fileLabel.textContent = f ? f.name : 'No file selected';
+    });
+
+    // Make label keyboard-activatable (Enter/Space)
+    fileBox?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput?.click();
+      }
+    });
+
+    function toggleSection(el, show) {
+      if (!el) return;
+      el.classList.toggle('hidden', !show);
+      el.querySelectorAll('input, select, button, textarea').forEach(ctrl => {
+        ctrl.disabled = !show;
+        ctrl.tabIndex = show ? 0 : -1;
+      });
+      // If this is the custom row, also toggle the label interactivity
+      const label = el.querySelector('#ninja-filebox');
+      if (label) {
+        label.setAttribute('aria-disabled', String(!show));
+        label.classList.toggle('pointer-events-none', !show);
+        label.classList.toggle('opacity-60', !show);
+      }
+    }
+
+    function setMode(mode) {
+      toggleSection(defaultRow, mode === 'default');
+      toggleSection(systemRow, mode === 'system');
+      toggleSection(selectRow, mode === 'select');
+      toggleSection(customRow, mode === 'custom');
+    }
+
+    // TODO: add state saving/loading via state.js
+    // modeEl.value = window.savedNinjaMode ?? modeEl.value;
+
+    modeEl.addEventListener('change', e => setMode(e.target.value));
+    setMode(modeEl.value);
+  }
+
   // setup state for webview implemented in state.js
   setupStateSystem(vscode);
 
@@ -115,38 +227,39 @@ var exampleSupportedBoards = [];
 
     // TODO: maybe move these duplicate sections for ninja and cmake into a generic helper function
 
-    // selected ninja version
-    const ninjaVersionRadio = document.getElementsByName('ninja-version-radio');
-    let ninjaMode = null;
+    // --- Ninja: collect values from the new controls ---
+    let ninjaMode = null;      // numeric contract: 0..4
     let ninjaPath = null;
-    let ninjaVersion = null;
-    for (let i = 0; i < ninjaVersionRadio.length; i++) {
-      if (ninjaVersionRadio[i].checked) {
-        ninjaMode = Number(ninjaVersionRadio[i].value);
-        break;
-      }
-    }
-    if (ninjaVersionRadio.length === 0) {
-      // default to ninja mode 1 == System version
-      ninjaMode = 1;
+    let ninjaVersion = null;   // string | null
+
+    const ninjaModeSel = document.getElementById('ninja-mode');
+    const selNinja = document.getElementById('sel-ninja');                    // shown in "select" mode
+    const ninjaFileInp = document.getElementById('ninja-path-executable');    // shown in "custom" mode
+
+    // Fallback to "custom" as it should be always available
+    const ninjaModeStr = (ninjaModeSel?.value || 'custom');
+
+    // Map string modes -> numeric API
+    // 0 = default bundle, 1 = system, 2 = select version, 3 = custom path
+    switch (ninjaModeStr) {
+      case 'default': ninjaMode = 0; break;
+      case 'system': ninjaMode = 1; break;
+      case 'select': ninjaMode = 2; break;
+      case 'custom': ninjaMode = 3; break;
+      default:
+        console.debug('Invalid ninja mode string: ' + ninjaModeStr);
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: `Please select a valid Ninja mode (got: ${ninjaModeModeStr}).`
+        });
+        submitted = false;
+        return;
     }
 
-    // if ninja version is null or not a number, smaller than 0 or bigger than 3, set it to 0
-    if (ninjaMode === null || isNaN(ninjaMode) || ninjaMode < 0 || ninjaMode > 4) {
-      ninjaMode = 0;
-      console.debug('Invalid ninja version value: ' + ninjaMode.toString());
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid ninja version."
-      });
-      submitted = false;
-
-      return;
-    }
     if (ninjaMode === 2) {
-      ninjaVersion = document.getElementById('sel-ninja').value;
+      ninjaVersion = selNinja.value;
     } else if (ninjaMode == 3) {
-      const files = document.getElementById('ninja-path-executable').files;
+      const files = ninjaFileInp.files;
 
       if (files.length === 1) {
         ninjaPath = files[0].name;
@@ -162,39 +275,39 @@ var exampleSupportedBoards = [];
       }
     }
 
-    // selected cmake version
-    const cmakeVersionRadio = document.getElementsByName('cmake-version-radio');
-    let cmakeMode = null;
-    let cmakePath = null;
-    let cmakeVersion = null;
-    for (let i = 0; i < cmakeVersionRadio.length; i++) {
-      if (cmakeVersionRadio[i].checked) {
-        cmakeMode = Number(cmakeVersionRadio[i].value);
-        break;
-      }
-    }
-    if (cmakeVersionRadio.length === 0) {
-      // default to cmake mode 1 == System version
-      cmakeMode = 1;
+    // --- CMake: collect values from the new controls ---
+    let cmakeMode = null;      // numeric contract: 0..4
+    let cmakePath = null;      // string | null
+    let cmakeVersion = null;   // string | null
+
+    const cmakeModeSel = document.getElementById('cmake-mode');
+    const selCmake = document.getElementById('sel-cmake');                    // shown in "select" mode
+    const cmakeFileInp = document.getElementById('cmake-path-executable');    // shown in "custom" mode
+
+    // Fallback to "latest" if the select isn't there for some reason
+    const cmakeModeStr = (cmakeModeSel?.value || 'default');
+
+    // Map string modes -> numeric API
+    // 0 = default bundle, 1 = system, 2 = select version, 3 = custom path
+    switch (cmakeModeStr) {
+      case 'default': cmakeMode = 0; break;
+      case 'system': cmakeMode = 1; break;
+      case 'select': cmakeMode = 2; break;
+      case 'custom': cmakeMode = 3; break;
+      default:
+        console.debug('Invalid cmake mode string: ' + cmakeModeStr);
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: `Please select a valid CMake mode (got: ${cmakeModeStr}).`
+        });
+        submitted = false;
+        return;
     }
 
-    // if cmake version is null or not a number, smaller than 0 or bigger than 3, set it to 0
-    if (cmakeMode === null || isNaN(cmakeMode) || cmakeMode < 0 || cmakeMode > 4) {
-      // TODO: first check if default is supported
-      cmakeMode = 0;
-      console.debug('Invalid cmake version value: ' + cmakeMode.toString());
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid cmake version."
-      });
-      submitted = false;
-
-      return;
-    }
     if (cmakeMode === 2) {
-      cmakeVersion = document.getElementById('sel-cmake').value;
+      cmakeVersion = selCmake.value;
     } else if (cmakeMode == 3) {
-      const files = document.getElementById('cmake-path-executable').files;
+      const files = cmakeFileInp.files;
 
       if (files.length === 1) {
         cmakePath = files[0].name;

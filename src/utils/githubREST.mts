@@ -303,11 +303,59 @@ export async function getPicotoolReleases(): Promise<string[]> {
 }
 
 export async function getNinjaReleases(): Promise<string[]> {
-  return getReleases(GithubRepository.ninja);
+  const releases = getReleases(GithubRepository.ninja);
+
+  // sort (they are in form vX.Y.Z) and some are
+  // release-DDMMYYYY (these are the very old ones)
+  return releases.then(rel =>
+    rel.sort((a, b) => {
+      const aParts = a
+        .replace(/^v/, "")
+        .split(/[-.]/)
+        .map(n => parseInt(n, 10));
+      const bParts = b
+        .replace(/^v/, "")
+        .split(/[-.]/)
+        .map(n => parseInt(n, 10));
+      for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+        const aPart = aParts[i] ?? 0;
+        const bPart = bParts[i] ?? 0;
+        if (aPart !== bPart) {
+          return bPart - aPart; // descending order
+        }
+      }
+
+      return 0;
+    })
+  );
 }
 
 export async function getCmakeReleases(): Promise<string[]> {
-  return getReleases(GithubRepository.cmake);
+  const releases = getReleases(GithubRepository.cmake);
+
+  // sort (they are in form vX.Y.Z and some are vX.Y.Z-rcN
+  // -rcN is pre-release so before the normal releases)
+  return releases.then(rel =>
+    rel.sort((a, b) => {
+      const aParts = a
+        .replace(/^v/, "")
+        .split(/[-.]/)
+        .map(n => parseInt(n, 10));
+      const bParts = b
+        .replace(/^v/, "")
+        .split(/[-.]/)
+        .map(n => parseInt(n, 10));
+      for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+        const aPart = aParts[i] ?? 0;
+        const bPart = bParts[i] ?? 0;
+        if (aPart !== bPart) {
+          return bPart - aPart; // descending order
+        }
+      }
+
+      return 0;
+    })
+  );
 }
 
 /**
