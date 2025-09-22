@@ -19,7 +19,6 @@ import {
   getProjectFolderDialogOptions,
   getWebviewOptions,
 } from "./newProjectPanel.mjs";
-import which from "which";
 import { existsSync } from "fs";
 import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";

@@ -1,5 +1,77 @@
 /* eslint-disable max-len */
 
+export const WIFI_PRJ_CONF = `
+# ─────────────────────────────
+# Networking (core + IP + sockets)
+# ─────────────────────────────
+CONFIG_NETWORKING=y
+CONFIG_NET_IPV4=y
+CONFIG_NET_IPV6=n
+CONFIG_NET_SOCKETS=y
+CONFIG_NET_TCP=y
+
+# DHCP client (comment out if using static IP with NET_CONFIG_*)
+CONFIG_NET_DHCPV4=y
+
+# ─────────────────────────────
+# DNS
+# ─────────────────────────────
+CONFIG_DNS_RESOLVER=y
+CONFIG_DNS_SERVER_IP_ADDRESSES=y
+CONFIG_DNS_SERVER1="192.0.2.2"
+CONFIG_DNS_RESOLVER_AI_MAX_ENTRIES=10
+
+# ─────────────────────────────
+# Wi-Fi management
+# ─────────────────────────────
+CONFIG_WIFI=y
+CONFIG_NET_MGMT=y
+CONFIG_NET_MGMT_EVENT=y
+CONFIG_NET_L2_WIFI_MGMT=y
+
+# Event queue tuning (optional, handy in busy environments)
+CONFIG_NET_MGMT_EVENT_QUEUE_SIZE=16
+CONFIG_NET_MGMT_EVENT_QUEUE_TIMEOUT=5000
+
+# Connection manager (helps bring interfaces up/down automatically)
+CONFIG_NET_CONNECTION_MANAGER=y
+
+# ─────────────────────────────
+# Logging & diagnostics
+# ─────────────────────────────
+CONFIG_NET_LOG=y
+CONFIG_INIT_STACKS=y
+CONFIG_NET_STATISTICS=y
+CONFIG_NET_STATISTICS_PERIODIC_OUTPUT=n
+
+# ─────────────────────────────
+# Thread/stack sizes & buffers
+# (tune to your target if needed)
+# ─────────────────────────────
+CONFIG_MAIN_STACK_SIZE=5200
+CONFIG_SHELL_STACK_SIZE=5200
+CONFIG_NET_TX_STACK_SIZE=2048
+CONFIG_NET_RX_STACK_SIZE=2048
+CONFIG_LOG_BUFFER_SIZE=4096
+
+CONFIG_NET_PKT_RX_COUNT=10
+CONFIG_NET_PKT_TX_COUNT=10
+CONFIG_NET_BUF_RX_COUNT=20
+CONFIG_NET_BUF_TX_COUNT=20
+CONFIG_NET_MAX_CONN=10
+CONFIG_NET_MAX_CONTEXTS=10
+
+# ─────────────────────────────
+# Optional clients
+# ─────────────────────────────
+CONFIG_HTTP_CLIENT=y
+
+# ─────────────────────────────
+# Test helpers
+# ─────────────────────────────
+CONFIG_TEST_RANDOM_GENERATOR=y
+`;
+
 export const WIFI_HTTP_C = `#include "http.h"
 
 #include <zephyr/kernel.h>

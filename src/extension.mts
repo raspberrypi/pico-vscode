@@ -117,6 +117,7 @@ import {
   ZEPHYR_PICO2_W,
   ZEPHYR_PICO_W,
 } from "./models/zephyrBoards.mjs";
+import { NewZephyrProjectPanel } from "./webview/newZephyrProjectPanel.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -217,6 +218,18 @@ export async function activate(context: ExtensionContext): Promise<void> {
         // Reset the webview options so we use latest uri for `localResourceRoots`.
         webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
         NewRustProjectPanel.revive(webviewPanel, context.extensionUri);
+      },
+    })
+  );
+
+  // TODO: currently broken
+  context.subscriptions.push(
+    window.registerWebviewPanelSerializer(NewZephyrProjectPanel.viewType, {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+        // Reset the webview options so we use latest uri for `localResourceRoots`.
+        webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+        NewZephyrProjectPanel.revive(webviewPanel, context.extensionUri);
       },
     })
   );
@@ -364,10 +377,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
       // check if build dir is empty and recommend to run a build to
       // get the intellisense working
       // TODO: maybe run cmake configure automatically if build folder empty
+      const buildUri = Uri.file(join(workspaceFolder.uri.fsPath, "build"));
       try {
-        const buildDirContents = await workspace.fs.readDirectory(
-          Uri.file(join(workspaceFolder.uri.fsPath, "build"))
-        );
+        // workaround to stop verbose logging of readDirectory internals even if we catch the error
+        await workspace.fs.stat(buildUri);
+        const buildDirContents = await workspace.fs.readDirectory(buildUri);
 
         if (buildDirContents.length === 0) {
           void window.showWarningMessage(

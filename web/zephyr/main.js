@@ -8,8 +8,6 @@ const CMD_ERROR = "error";
 const CMD_SUBMIT_DENIED = "submitDenied";
 
 var submitted = false;
-var previousTemplate = "simple";
-var previousGpioState = false;
 
 (function () {
   const vscode = acquireVsCodeApi();
@@ -136,29 +134,123 @@ var previousGpioState = false;
   }
 
   {
-    const templateSelector = document.getElementById("sel-template");
-    const gpioCheckbox = document.getElementById("gpio-features-cblist");
-    if (templateSelector) {
-      templateSelector.addEventListener("change", function (event) {
-        try {
-          const template = templateSelector.value;
+    const boardSelector = document.getElementById("sel-board-type");
+    const templateSelect = document.getElementById("sel-template");
+    const wifiOption = document.getElementById("option-template-wifi");
 
-          if (gpioCheckbox) {
-            if (template === "blinky") {
-              previousGpioState = gpioCheckbox.checked;
-              gpioCheckbox.checked = true;
-              gpioCheckbox.disabled = true;
-            } else if (previousTemplate === "blinky") {
-              gpioCheckbox.checked = previousGpioState;
-              gpioCheckbox.disabled = false;
+    const gpioCheckbox = document.getElementById("gpio-features-cblist");
+    const wifiCheckbox = document.getElementById("wifi-features-cblist");
+
+    if (boardSelector && templateSelect && wifiOption) {
+      // Boards whose value ends with 'W' (e.g., picoW, pico2W) support Wi-Fi.
+      // Replace with a whitelist if needed.
+      const boardSupportsWifi = (v) => /w$/i.test(String(v));
+
+      const setOptionDisabled = (opt, disabled) => {
+        opt.disabled = disabled;
+        opt.classList.toggle("opacity-50", disabled);      // optional visuals
+        opt.classList.toggle("cursor-not-allowed", disabled);
+        if (disabled) opt.title = "Not available for the selected board";
+        else opt.removeAttribute("title");
+      };
+
+      const firstEnabledTemplateValue = () =>
+        Array.from(templateSelect.options).find(o => !o.disabled)?.value;
+
+      // Track only **user** choices (don’t record programmatic toggles)
+      let isProgrammatic = false;
+      let previousTemplate = templateSelect.value;
+
+      let userGpioChoice = gpioCheckbox ? gpioCheckbox.checked : false;
+      let userWifiChoice = wifiCheckbox ? wifiCheckbox.checked : false;
+
+      gpioCheckbox?.addEventListener("change", () => {
+        if (!isProgrammatic) userGpioChoice = gpioCheckbox.checked;
+      });
+      wifiCheckbox?.addEventListener("change", () => {
+        if (!isProgrammatic) userWifiChoice = wifiCheckbox.checked;
+      });
+
+      // En/disable templates and Wi-Fi checkbox based on the selected board
+      const applyBoardConstraints = () => {
+        const supportsWifi = boardSupportsWifi(boardSelector.value);
+
+        setOptionDisabled(wifiOption, !supportsWifi);
+
+        if (wifiCheckbox) {
+          isProgrammatic = true;
+          if (!supportsWifi) {
+            // Board forbids Wi-Fi: force off, lock
+            wifiCheckbox.checked = false;
+            wifiCheckbox.disabled = true;
+          } else {
+            // Board allows Wi-Fi: unlock; template may still lock it below
+            wifiCheckbox.disabled = false;
+            if (templateSelect.value !== "wifi") {
+              // Restore **user** choice only when template isn't forcing it
+              wifiCheckbox.checked = userWifiChoice;
             }
           }
-
-          previousTemplate = template;
-        } catch (error) {
-          console.error("[raspberry-pi-pico - new zephyr pico project] Error handling template change:", error);
+          isProgrammatic = false;
         }
+
+        // If Wi-Fi template selected on a non-Wi-Fi board, fall back
+        if (!supportsWifi && templateSelect.value === "wifi") {
+          const fallback = firstEnabledTemplateValue();
+          if (fallback && fallback !== "wifi") {
+            isProgrammatic = true;
+            templateSelect.value = fallback;
+            isProgrammatic = false;
+            templateSelect.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+        return supportsWifi;
+      };
+
+      // Apply template-specific effects (blinky → force GPIO; wifi → force Wi-Fi if board allows)
+      const applyTemplateEffects = () => {
+        const template = templateSelect.value;
+        const supportsWifi = boardSupportsWifi(boardSelector.value);
+
+        if (gpioCheckbox) {
+          isProgrammatic = true;
+          if (template === "blinky") {
+            gpioCheckbox.checked = true;
+            gpioCheckbox.disabled = true;
+          } else {
+            gpioCheckbox.disabled = false;
+            gpioCheckbox.checked = userGpioChoice;
+          }
+          isProgrammatic = false;
+        }
+
+        if (wifiCheckbox) {
+          isProgrammatic = true;
+          if (template === "wifi" && supportsWifi) {
+            wifiCheckbox.checked = true;
+            wifiCheckbox.disabled = true;
+          } else if (supportsWifi) {
+            wifiCheckbox.disabled = false;
+            wifiCheckbox.checked = userWifiChoice; // ← restore USER choice, not prior template lock
+          }
+          // If board doesn't support Wi-Fi, board constraints already forced it off/locked
+          isProgrammatic = false;
+        }
+
+        previousTemplate = template;
+      };
+
+      // Wire up listeners
+      boardSelector.addEventListener("change", () => {
+        applyBoardConstraints();
+        applyTemplateEffects();
       });
+
+      templateSelect.addEventListener("change", applyTemplateEffects);
+
+      // Initial sync on page load
+      applyBoardConstraints();
+      applyTemplateEffects();
     }
   }
 
@@ -504,11 +596,14 @@ var previousGpioState = false;
         wifiFeature: wifiFeature,
         sensorFeature: sensorFeature,
         shellFeature: shellFeature,
-        cmakeMode: Number(cmakeMode),
+        posixFeature: false,
+        jsonFeature: false,
+        debugFeature: false,
+        cmakeMode: cmakeMode,
         cmakePath: cmakePath,
         cmakeVersion: cmakeVersion,
         projectBase: document.getElementById("sel-template").value,
-        ninjaMode: Number(ninjaMode),
+        ninjaMode: ninjaMode,
         ninjaPath: ninjaPath,
         ninjaVersion: ninjaVersion,
       },

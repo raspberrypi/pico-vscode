@@ -68,7 +68,9 @@
     "workspaceContains:./.pico-rs",
     "workspaceContains:./prj.conf",
     "onWebviewPanel:newPicoProject",
-    "onWebviewPanel:newPicoMicroPythonProject"
+    "onWebviewPanel:newPicoMicroPythonProject",
+    "onWebviewPanel:newPicoRustProject",
+    "onWebviewPanel:newPicoZephyrProject"
   ],
   "contributes": {
     "commands": [

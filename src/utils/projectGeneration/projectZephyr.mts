@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { join } from "path";
+import { dirname as dirnamePosix } from "path/posix";
 import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
 import { extensionName } from "../../commands/command.mjs";
@@ -24,6 +25,7 @@ import {
   WIFI_JSON_DEFINITIONS_H,
   WIFI_PING_C,
   WIFI_PING_H,
+  WIFI_PRJ_CONF,
   WIFI_WIFI_C,
   WIFI_WIFI_H,
 } from "./zephyrFiles.mjs";
@@ -38,71 +40,10 @@ import {
 } from "../../commands/cmdIds.mjs";
 
 // Kconfig snippets
-const spiKconfig: string = "CONFIG_SPI=y";
-const i2cKconfig: string = "CONFIG_I2C=y";
-const gpioKconfig: string = "CONFIG_GPIO=y";
-const sensorKconfig: string = "CONFIG_SENSOR=y";
-const shellKconfig: string = "CONFIG_SHELL=y";
-const wifiKconfig: string = `CONFIG_NETWORKING=y
-CONFIG_TEST_RANDOM_GENERATOR=y
-
-CONFIG_MAIN_STACK_SIZE=5200
-CONFIG_SHELL_STACK_SIZE=5200
-CONFIG_NET_TX_STACK_SIZE=2048
-CONFIG_NET_RX_STACK_SIZE=2048
-CONFIG_LOG_BUFFER_SIZE=4096
-
-CONFIG_NET_PKT_RX_COUNT=10
-CONFIG_NET_PKT_TX_COUNT=10
-CONFIG_NET_BUF_RX_COUNT=20
-CONFIG_NET_BUF_TX_COUNT=20
-CONFIG_NET_MAX_CONN=10
-CONFIG_NET_MAX_CONTEXTS=10
-CONFIG_NET_DHCPV4=y
-
-CONFIG_NET_IPV4=y
-CONFIG_NET_IPV6=n
-
-CONFIG_NET_TCP=y
-CONFIG_NET_SOCKETS=y
-
-CONFIG_DNS_RESOLVER=y
-CONFIG_DNS_SERVER_IP_ADDRESSES=y
-CONFIG_DNS_SERVER1="192.0.2.2"
-CONFIG_DNS_RESOLVER_AI_MAX_ENTRIES=10
-
-# Network address config
-CONFIG_NET_CONFIG_AUTO_INIT=n
-CONFIG_NET_CONFIG_SETTINGS=y
-CONFIG_NET_CONFIG_NEED_IPV4=y
-CONFIG_NET_CONFIG_MY_IPV4_ADDR="192.0.2.1"
-CONFIG_NET_CONFIG_PEER_IPV4_ADDR="192.0.2.2"
-CONFIG_NET_CONFIG_MY_IPV4_GW="192.0.2.2"
-
-CONFIG_NET_LOG=y
-CONFIG_INIT_STACKS=y
-
-CONFIG_NET_STATISTICS=y
-CONFIG_NET_STATISTICS_PERIODIC_OUTPUT=n
-
-CONFIG_HTTP_CLIENT=y
-
-CONFIG_WIFI=y
-CONFIG_WIFI_LOG_LEVEL_ERR=y
-# printing of scan results puts pressure on queues in new locking
-# design in net_mgmt. So, use a higher timeout for a crowded
-# environment.
-CONFIG_NET_MGMT_EVENT_QUEUE_TIMEOUT=5000
-CONFIG_NET_MGMT_EVENT_QUEUE_SIZE=16`;
-
-// Shell Kconfig values
-const shellSpiKconfig: string = "CONFIG_SPI_SHELL=y";
-const shellI2CKconfig: string = "CONFIG_I2C_SHELL=y";
-const shellGPIOKconfig: string = "CONFIG_GPIO_SHELL=y";
-const shellSensorKconfig: string = "CONFIG_SENSOR_SHELL=y";
 const shellWifiKconfig: string = `CONFIG_WIFI_LOG_LEVEL_ERR=y
 CONFIG_NET_L2_WIFI_SHELL=y
-CONFIG_NET_SHELL=y`;
+CONFIG_NET_SHELL=y
+`;
 
 /**
  * Convert the enum to the Zephyr board name
@@ -244,14 +185,13 @@ async function generateVSCodeConfig(
     "cmake.cmakePath": "",
     "C_Cpp.debugShortcut": false,
     "terminal.integrated.env.windows": {
-      // TODO: contitionally cmake: \${env:USERPROFILE}/.pico-sdk/cmake/${latestVb.cmake}/bin
-      Path: `\${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION};\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:PATH}`,
+      Path: `\${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION};\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
     },
     "terminal.integrated.env.osx": {
-      PATH: `\${env:HOME}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin:\${env:HOME}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}:\${env:HOME}/.pico-sdk/wget:\${env:PATH}`,
+      PATH: "${env:PATH}:",
     },
     "terminal.integrated.env.linux": {
-      PATH: `\${env:HOME}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin:\${env:HOME}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}:\${env:HOME}/.pico-sdk/wget:\${env:PATH}`,
+      PATH: "${env:PATH}:",
     },
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.useCmakeTools": false,
@@ -263,19 +203,21 @@ async function generateVSCodeConfig(
     },
   };
 
+  const posixHomedir = homedir().replaceAll("\\", "/");
   if (ninjaPath.length > 0) {
-    settings[`${extensionName}.ninjaPath`] = ninjaPath.replace(
-      homedir().replace("\\", "/"),
+    const ninjaDir = dirnamePosix(ninjaPath);
+    settings[`${extensionName}.ninjaPath`] = ninjaDir.replace(
+      posixHomedir,
       HOME_VAR
     );
 
     // Add to PATH
-    const pathWindows = ninjaPath
+    const pathWindows = ninjaDir
       .replace(HOME_VAR, "${env:USERPROFILE}")
-      .replace(homedir().replace("\\", "/"), "${env:USERPROFILE}");
-    const pathPosix = ninjaPath
+      .replace(posixHomedir, "${env:USERPROFILE}");
+    const pathPosix = ninjaDir
       .replace(HOME_VAR, "${env:HOME}")
-      .replace(homedir().replace("\\", "/"), "${env:HOME}");
+      .replace(posixHomedir, "${env:HOME}");
 
     settings[
       "terminal.integrated.env.windows"
@@ -292,20 +234,24 @@ async function generateVSCodeConfig(
   }
 
   if (cmakePath.length > 0) {
-    const pathWindows = cmakePath
-      .replace(HOME_VAR, "${env:USERPROFILE}")
-      .replace(homedir().replace("\\", "/"), "${env:USERPROFILE}");
-    const pathPosix = cmakePath
-      .replace(HOME_VAR, "${env:HOME}")
-      .replace(homedir().replace("\\", "/"), "${env:HOME}");
+    const cmakeDir = dirnamePosix(cmakePath);
+
     settings["cmake.cmakePath"] = cmakePath.replace(
-      homedir().replace("\\", "/"),
+      posixHomedir,
       "${userHome}"
     );
     settings[`${extensionName}.cmakePath`] = cmakePath.replace(
-      homedir().replace("\\", "/"),
+      posixHomedir,
       HOME_VAR
     );
+
+    const pathWindows = cmakeDir
+      .replace(HOME_VAR, "${env:USERPROFILE}")
+      .replace(posixHomedir, "${env:USERPROFILE}");
+    const pathPosix = cmakeDir
+      .replace(HOME_VAR, "${env:HOME}")
+      .replace(posixHomedir, "${env:HOME}");
+
     // add to path
     settings[
       "terminal.integrated.env.windows"
@@ -329,8 +275,7 @@ async function generateVSCodeConfig(
     "-b",
     enumToBoard(data.boardType),
     "-d",
-    // TODO: check! ""
-    '"${workspaceFolder}"/build',
+    '"${workspaceFolder}/build"',
     '"${workspaceFolder}"',
   ];
 
@@ -382,7 +327,7 @@ async function generateVSCodeConfig(
           kind: "build",
         },
         command: `\${command:${extensionName}.${GET_WEST_PATH}}`,
-        args: ["flash", "--build-dir", '"${workspaceFolder}"/build'],
+        args: ["flash", "--build-dir", '"${workspaceFolder}/build"'],
         options: {
           cwd: `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}`,
         },
@@ -392,7 +337,7 @@ async function generateVSCodeConfig(
         type: "shell",
         command: `\${command:${extensionName}.${GET_PICOTOOL_PATH}}`,
         // TODO: support for launch target path command
-        args: ["load", '"${workspaceFolder}"/build/zephyr/zephyr.elf', "-fx"],
+        args: ["load", '"${workspaceFolder}/build/zephyr/zephyr.elf"', "-fx"],
         presentation: {
           reveal: "always",
           panel: "dedicated",
@@ -919,7 +864,7 @@ async function generateCMakeList(
 # SPDX-License-Identifier: Apache-2.0
 #-------------------------------------------------------------------------------
 # NOTE: Please do not remove the #pico-zephyr-project header, it is used by
-# the Raspberry Pi Pico SDK extension to identify the project type.
+# the Raspberry Pi Pico VS Code extension to identify the project type.
 #-------------------------------------------------------------------------------
 
 cmake_minimum_required(VERSION 3.20.0)
@@ -931,7 +876,6 @@ project(${data.projectName} LANGUAGES C)
   const appSources = ["src/main.c"];
 
   if (data.projectBase === ZephyrProjectBase.wifi) {
-    cmakeList = cmakeList.concat("\nFILE(GLOB app_sources src/*.c)\n");
     appSources.push("src/http.c");
     appSources.push("src/ping.c");
     appSources.push("src/wifi.c");
@@ -965,39 +909,137 @@ async function generateConf(
   te: TextEncoder = new TextEncoder(),
   data: ZephyrSubmitMessageValue
 ): Promise<boolean> {
-  let conf = `CONFIG_LOG=y
-CONFIG_LOG_PRINTK=y
-CONFIG_LOG_DEFAULT_LEVEL=3
-`;
-
-  // TODO: already do in UI
+  // Auto-enable feature bundles
   if (prjBase === ZephyrProjectBase.blinky) {
     data.gpioFeature = true;
   }
+  if (prjBase === ZephyrProjectBase.wifi) {
+    data.wifiFeature = true;
+  }
 
-  conf = conf.concat(
-    "\r\n",
-    "\r\n",
-    "# Enable Modules:",
-    "\r\n",
-    data.gpioFeature ? gpioKconfig + "\r\n" : "",
-    data.i2cFeature ? i2cKconfig + "\r\n" : "",
-    data.spiFeature ? spiKconfig + "\r\n" : "",
-    data.sensorFeature ? sensorKconfig + "\r\n" : "",
-    data.wifiFeature ? wifiKconfig + "\r\n" : "",
-    data.shellFeature ? "\r\n" + "# Enabling shells:" + "\r\n" : "",
-    data.shellFeature ? shellKconfig + "\r\n" : "",
-    data.shellFeature && data.gpioFeature ? shellGPIOKconfig + "\r\n" : "",
-    data.shellFeature && data.i2cFeature ? shellI2CKconfig + "\r\n" : "",
-    data.shellFeature && data.spiFeature ? shellSpiKconfig + "\r\n" : "",
-    data.shellFeature && data.sensorFeature ? shellSensorKconfig + "\r\n" : "",
-    data.shellFeature && data.wifiFeature ? shellWifiKconfig + "\r\n" : ""
+  // Wifi bundle implies these QoL features
+  if (data.wifiFeature) {
+    data.posixFeature = true;
+    data.jsonFeature = true;
+    data.debugFeature = true;
+  }
+
+  // Helpers
+  // Keep comments and blank lines; dedupe only CONFIG lines.
+  const dedupeKconfig = (lines: string[]): string[] => {
+    const seen = new Set<string>();
+    const out: string[] = [];
+
+    for (const raw of lines) {
+      const line = raw.replace(/\r/g, ""); // normalize CRLF → LF for processing
+      const trimmed = line.trim();
+
+      // Preserve blank lines
+      if (!trimmed) {
+        out.push("");
+        continue;
+      }
+
+      // Preserve comments (headers, separators, notes)
+      if (trimmed.startsWith("#")) {
+        out.push(line);
+        continue;
+      }
+
+      // Deduplicate only real Kconfig directives
+      const key = trimmed; // could also normalize spaces if you like
+      if (seen.has(key)) {
+        continue;
+      }
+
+      seen.add(key);
+      out.push(line);
+    }
+
+    return out;
+  };
+
+  const section = (title: string, content: string | string[]): string => {
+    const lines = Array.isArray(content) ? content : content.split("\n");
+    const body = dedupeKconfig(lines);
+
+    return body.length ? [`# ${title}`, ...body, ""].join("\r\n") : "";
+  };
+
+  const blocks: string[] = [];
+
+  // Global logging defaults (once)
+  blocks.push(
+    section("Logging (global defaults)", [
+      "CONFIG_LOG=y",
+      "CONFIG_LOG_PRINTK=y",
+      "CONFIG_LOG_DEFAULT_LEVEL=3",
+    ])
   );
+
+  // Core modules
+  const moduleLines: string[] = [];
+  if (data.gpioFeature) {
+    moduleLines.push("CONFIG_GPIO=y");
+  }
+  if (data.i2cFeature) {
+    moduleLines.push("CONFIG_I2C=y");
+  }
+  if (data.spiFeature) {
+    moduleLines.push("CONFIG_SPI=y");
+  }
+  if (data.sensorFeature) {
+    moduleLines.push("CONFIG_SENSOR=y");
+  }
+  if (data.posixFeature) {
+    moduleLines.push("CONFIG_POSIX_API=y");
+  }
+  if (data.jsonFeature) {
+    moduleLines.push("CONFIG_JSON_LIBRARY=y");
+  }
+  if (data.debugFeature) {
+    moduleLines.push("CONFIG_DEBUG=y");
+  }
+
+  if (moduleLines.length) {
+    blocks.push(section("Enabled modules", moduleLines.join("\n")));
+  }
+
+  // Put the Wi-Fi/Networking block as its own section
+  if (data.wifiFeature) {
+    blocks.push(section("Networking & Wi-Fi", WIFI_PRJ_CONF));
+  }
+
+  // Shells (only if requested)
+  if (data.shellFeature) {
+    const shellLines: string[] = ["CONFIG_SHELL=y"];
+    if (data.gpioFeature) {
+      shellLines.push("CONFIG_GPIO_SHELL=y");
+    }
+    if (data.i2cFeature) {
+      shellLines.push("CONFIG_I2C_SHELL=y");
+    }
+    if (data.spiFeature) {
+      shellLines.push("CONFIG_SPI_SHELL=y");
+    }
+    if (data.sensorFeature) {
+      shellLines.push("CONFIG_SENSOR_SHELL=y");
+    }
+    if (data.wifiFeature) {
+      shellLines.push(shellWifiKconfig);
+    }
+    blocks.push(section("Shells", shellLines.join("\n")));
+  }
+
+  const confLf = blocks
+    .filter(Boolean)
+    .join("\n")
+    .replace(/\n{3,}/g, "\n\n"); // collapse >2 blanks to 1
 
   try {
     await workspace.fs.writeFile(
       Uri.file(join(projectRoot, "prj.conf")),
-      te.encode(conf)
+      te.encode(confLf.endsWith("\n") ? confLf : confLf + "\n")
     );
 
     return true;

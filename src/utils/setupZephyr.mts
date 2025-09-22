@@ -335,7 +335,7 @@ async function checkNinja(
         return;
       }
 
-      return joinPosix(buildNinjaPath(ninjaVersion), "bin", "ninja");
+      return joinPosix(buildNinjaPath(ninjaVersion), "ninja");
     case 1:
       // Don't need to add anything to path if already available via system
       return "";

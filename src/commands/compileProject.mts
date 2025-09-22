@@ -16,6 +16,7 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
 
   async execute(): Promise<boolean> {
     const isRustProject = State.getInstance().isRustProject;
+    const isZephyrProject = State.getInstance().isZephyrProject;
 
     // Get the task with the specified name
     const task = (await tasks.fetchTasks()).find(
@@ -76,6 +77,19 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
       this._logger.debug(
         "Task 'Compile Project' completed with code " + code.toString()
       );
+
+      if (isZephyrProject) {
+        const reload = await window.showInformationMessage(
+          "Project compiled. Reload window for IntelliSense to update.",
+          "Reload",
+          "Later"
+        );
+
+        if (reload === "Reload") {
+          // TODO: mark as intentional reload so extension.mts doesn't run setupZephyr again
+          await commands.executeCommand("workbench.action.reloadWindow");
+        }
+      }
 
       return code === 0;
     } else {

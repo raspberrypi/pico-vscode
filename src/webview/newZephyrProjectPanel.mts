@@ -34,12 +34,12 @@ import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;
 
-  public static readonly viewType = "newZephyrProject";
+  public static readonly viewType = "newPicoZephyrProject";
 
   private readonly _panel: WebviewPanel;
   private readonly _extensionUri: Uri;
   private readonly _settings: Settings;
-  private readonly _logger: Logger = new Logger("NewZephyrProjectPanel");
+  private readonly _logger: Logger = new Logger("NewPicoZephyrProjectPanel");
   private _disposables: Disposable[] = [];
 
   private _projectRoot?: Uri;

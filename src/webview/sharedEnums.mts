@@ -24,6 +24,9 @@ export interface ZephyrSubmitMessageValue {
   wifiFeature: boolean;
   sensorFeature: boolean;
   shellFeature: boolean;
+  posixFeature: boolean;
+  jsonFeature: boolean;
+  debugFeature: boolean;
   cmakeMode: number;
   cmakePath: string;
   cmakeVersion: string;
