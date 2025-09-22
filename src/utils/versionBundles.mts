@@ -16,7 +16,7 @@ export interface VersionBundle {
   picotool: string;
   toolchain: string;
   riscvToolchain: string;
-  modifiers: { [triple: string] : {[tool: string]: string}};
+  modifiers: { [triple: string]: { [tool: string]: string } };
 }
 
 export interface VersionBundles {
@@ -108,20 +108,20 @@ export default class VersionBundlesLoader {
         const platformDouble = `${process.platform}_${process.arch}`;
         if (modifiers[platformDouble] !== undefined) {
           chosenBundle.cmake =
-            modifiers[platformDouble]["cmake"] ?? chosenBundle.cmake
+            modifiers[platformDouble]["cmake"] ?? chosenBundle.cmake;
 
           chosenBundle.ninja =
-            modifiers[platformDouble]["ninja"] ?? chosenBundle.ninja
+            modifiers[platformDouble]["ninja"] ?? chosenBundle.ninja;
 
           chosenBundle.picotool =
-            modifiers[platformDouble]["picotool"] ?? chosenBundle.picotool
+            modifiers[platformDouble]["picotool"] ?? chosenBundle.picotool;
 
           chosenBundle.toolchain =
-            modifiers[platformDouble]["toolchain"] ?? chosenBundle.toolchain
+            modifiers[platformDouble]["toolchain"] ?? chosenBundle.toolchain;
 
           chosenBundle.riscvToolchain =
             modifiers[platformDouble]["riscvToolchain"] ??
-              chosenBundle.riscvToolchain
+            chosenBundle.riscvToolchain;
         }
       }
     }

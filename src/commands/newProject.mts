@@ -5,6 +5,7 @@ import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "../webview/newMicroPythonProjectPanel.mjs";
 import { NewRustProjectPanel } from "../webview/newRustProjectPanel.mjs";
+import { NewZephyrProjectPanel } from "../webview/newZephyrProjectPanel.mjs";
 
 /**
  * Enum for the language of the project.
@@ -15,6 +16,7 @@ export enum ProjectLang {
   cCpp = 1,
   micropython = 2,
   rust = 3,
+  zephyr = 5,
 }
 
 export default class NewProjectCommand extends CommandWithArgs {
@@ -23,6 +25,7 @@ export default class NewProjectCommand extends CommandWithArgs {
   private static readonly micropythonOption = "MicroPython";
   private static readonly cCppOption = "C/C++";
   private static readonly rustOption = "Rust (experimental)";
+  private static readonly zephyrOption = "Zephyr";
 
   public static readonly id = "newProject";
 
@@ -39,6 +42,8 @@ export default class NewProjectCommand extends CommandWithArgs {
       ? NewProjectCommand.micropythonOption
       : preSelectedType === ProjectLang.rust
       ? NewProjectCommand.rustOption
+      : preSelectedType === ProjectLang.zephyr
+      ? NewProjectCommand.zephyrOption
       : undefined;
   }
 
@@ -51,6 +56,7 @@ export default class NewProjectCommand extends CommandWithArgs {
           NewProjectCommand.cCppOption,
           NewProjectCommand.micropythonOption,
           NewProjectCommand.rustOption,
+          NewProjectCommand.zephyrOption,
         ],
         {
           placeHolder: "Select which language to use for your new project",
@@ -70,6 +76,9 @@ export default class NewProjectCommand extends CommandWithArgs {
     } else if (lang === NewProjectCommand.rustOption) {
       // create a new project with Rust
       NewRustProjectPanel.createOrShow(this._extensionUri);
+    } else if (lang === NewProjectCommand.zephyrOption) {
+      // create a new project with MicroPython
+      NewZephyrProjectPanel.createOrShow(this._extensionUri);
     } else {
       // show webview where the process of creating a new project is continued
       NewProjectPanel.createOrShow(this._extensionUri);

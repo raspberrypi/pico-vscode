@@ -1,10 +1,10 @@
-import { exec } from "child_process";
-import { workspace, type Uri, window, ProgressLocation } from "vscode";
+import { exec, execFile } from "child_process";
+import { Uri, workspace, window, ProgressLocation, commands } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
 import { dirname, join, resolve } from "path";
 import Settings from "../settings.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
-import { existsSync, readFileSync, rmSync } from "fs";
+import { readFileSync } from "fs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { readFile, writeFile } from "fs/promises";
 import { rimraf, windows as rimrafWindows } from "rimraf";
@@ -12,7 +12,17 @@ import { homedir } from "os";
 import which from "which";
 import { compareLt } from "./semverUtil.mjs";
 import { buildCMakeIncPath } from "./download.mjs";
-import {EOL} from "os";
+import { EOL } from "os";
+import { vsExists } from "./vsHelpers.mjs";
+import State from "../state.mjs";
+import {
+  CURRENT_DTC_VERSION,
+  CURRENT_GPERF_VERSION,
+  CURRENT_WGET_VERSION,
+} from "./sharedConstants.mjs";
+import { extensionName } from "../commands/command.mjs";
+import { GetZephyrWorkspacePathCommand } from "../commands/getPaths.mjs";
+import { getBoardFromZephyrProject } from "../commands/switchBoard.mjs";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -42,6 +52,54 @@ export async function getPythonPath(): Promise<string> {
   return `${pythonPath.replaceAll("\\", "/")}`;
 }
 
+async function findZephyrBinaries(): Promise<string[]> {
+  const isWindows = process.platform === "win32";
+
+  if (isWindows) {
+    // get paths to the latest installed gperf and dtc and wget
+    const wgetPath = join(homedir(), ".pico-sdk", "wget", CURRENT_WGET_VERSION);
+    const gperfPath = join(
+      homedir(),
+      ".pico-sdk",
+      "gperf",
+      CURRENT_GPERF_VERSION
+    );
+    const zipPath = join(homedir(), ".pico-sdk", "7zip");
+    const dtcPath = join(
+      homedir(),
+      ".pico-sdk",
+      "dtc",
+      CURRENT_DTC_VERSION,
+      "bin"
+    );
+
+    const missingTools = [];
+    if (!(await vsExists(wgetPath))) {
+      missingTools.push("wget");
+    }
+    if (!(await vsExists(gperfPath))) {
+      missingTools.push("gperf");
+    }
+    if (!(await vsExists(zipPath))) {
+      missingTools.push("7zip");
+    }
+    if (!(await vsExists(dtcPath))) {
+      missingTools.push("dtc");
+    }
+    if (missingTools.length > 0) {
+      void showRequirementsNotMetErrorMessage(missingTools);
+
+      return [];
+    }
+
+    return [wgetPath, gperfPath, zipPath, dtcPath];
+  }
+
+  // TODO: macOS and linux stuff
+
+  return [];
+}
+
 export async function getPath(): Promise<string> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
@@ -49,6 +107,7 @@ export async function getPath(): Promise<string> {
 
     return "";
   }
+  const isZephyrProject = State.getInstance().isZephyrProject;
 
   const ninjaPath = (
     (await which(
@@ -64,6 +123,9 @@ export async function getPath(): Promise<string> {
       { nothrow: true }
     )) || ""
   ).replaceAll("\\", "/");
+
+  const zephyrBinaries = isZephyrProject ? await findZephyrBinaries() : [];
+
   Logger.debug(
     LoggerSource.cmake,
     "Using python:",
@@ -91,15 +153,24 @@ export async function getPath(): Promise<string> {
 
   const isWindows = process.platform === "win32";
 
-  return `${ninjaPath.includes("/") ? dirname(ninjaPath) : ""}${
+  let result = `${ninjaPath.includes("/") ? dirname(ninjaPath) : ""}${
     cmakePath.includes("/")
       ? `${isWindows ? ";" : ":"}${dirname(cmakePath)}`
       : ""
-  }${
+  }${isWindows ? ";" : ":"}${
     pythonPath.includes("/")
       ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
       : ""
   }`;
+
+  if (zephyrBinaries.length > 0) {
+    result +=
+      (isWindows ? ";" : ":") + zephyrBinaries.join(isWindows ? ";" : ":");
+  }
+
+  Logger.debug(LoggerSource.cmake, "Using PATH:", result);
+
+  return result;
 }
 
 export async function configureCmakeNinja(
@@ -126,7 +197,7 @@ export async function configureCmakeNinja(
     return false;
   }
 
-  if (existsSync(join(folder.fsPath, "build", "CMakeCache.txt"))) {
+  if (await vsExists(join(folder.fsPath, "build", "CMakeCache.txt"))) {
     // check if the build directory has been moved
     const buildDir = join(folder.fsPath, "build");
 
@@ -150,7 +221,7 @@ export async function configureCmakeNinja(
             ` - Deleting CMakeCache.txt and regenerating.`
         );
 
-        rmSync(join(buildDir, "CMakeCache.txt"));
+        await workspace.fs.delete(Uri.file(join(buildDir, "CMakeCache.txt")));
       }
     }
   }
@@ -197,6 +268,8 @@ export async function configureCmakeNinja(
         customEnv[isWindows ? "Path" : "PATH"] =
           customPath + customEnv[isWindows ? "Path" : "PATH"];
         const pythonPath = await getPythonPath();
+        const isZephyrProject = State.getInstance().isZephyrProject;
+        const buildDir = join(folder.fsPath, "build");
 
         const command =
           `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${cmake}" ${
@@ -204,16 +277,41 @@ export async function configureCmakeNinja(
               ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `
               : ""
           }` +
-          `-G Ninja -B ./build "${folder.fsPath}"` +
+          `-G Ninja -B "${buildDir}" "${folder.fsPath}"` +
           (buildType ? ` -DCMAKE_BUILD_TYPE=${buildType}` : "");
+
+        const zephyrWorkspace = await commands.executeCommand<string>(
+          `${extensionName}.${GetZephyrWorkspacePathCommand.id}`
+        );
+        const westExe = isWindows ? "west.exe" : "west";
+        const westPath = join(zephyrWorkspace, "venv", "Scripts", westExe);
+        const zephyrBoard = await getBoardFromZephyrProject(
+          join(folder.fsPath, ".vscode", "tasks.json")
+        );
+        if (isZephyrProject && zephyrBoard === undefined) {
+          void window.showErrorMessage(
+            "Failed to configure CMake for the current Zephyr project. " +
+              "Could not determine the board from .vscode/tasks.json."
+          );
+
+          return false;
+        }
+        const zephyrCommand = `${
+          process.env.ComSpec === "powershell.exe" ? "&" : ""
+        }"${westPath}" build --cmake-only -b ${zephyrBoard} -d "${buildDir}" "${
+          folder.fsPath
+        }"`;
 
         await new Promise<void>((resolve, reject) => {
           // use exec to be able to cancel the process
           const child = exec(
-            command,
+            isZephyrProject ? zephyrCommand : command,
             {
               env: customEnv,
-              cwd: folder.fsPath,
+              cwd: isZephyrProject
+                ? zephyrWorkspace || folder.fsPath
+                : folder.fsPath,
+              windowsHide: false,
             },
             error => {
               progress.report({ increment: 100 });
@@ -351,19 +449,32 @@ export async function cmakeUpdateSDK(
 
     let modifiedContent = content.replace(
       updateSectionRegex,
-      `# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}` + EOL +
-        "if(WIN32)" + EOL +
-        "    set(USERHOME $ENV{USERPROFILE})" + EOL +
-        "else()" + EOL +
-        "    set(USERHOME $ENV{HOME})" + EOL +
-        "endif()" + EOL +
-        `set(sdkVersion ${newSDKVersion})` + EOL +
-        `set(toolchainVersion ${newToolchainVersion})` + EOL +
-        `set(picotoolVersion ${newPicotoolVersion})` + EOL +
-        `set(picoVscode ${buildCMakeIncPath(false)}/pico-vscode.cmake)` + EOL +
-        "if (EXISTS ${picoVscode})" + EOL +
-        "    include(${picoVscode})" + EOL +
-        "endif()" + EOL +
+      `# ${CMAKE_DO_NOT_EDIT_HEADER_PREFIX}` +
+        EOL +
+        "if(WIN32)" +
+        EOL +
+        "    set(USERHOME $ENV{USERPROFILE})" +
+        EOL +
+        "else()" +
+        EOL +
+        "    set(USERHOME $ENV{HOME})" +
+        EOL +
+        "endif()" +
+        EOL +
+        `set(sdkVersion ${newSDKVersion})` +
+        EOL +
+        `set(toolchainVersion ${newToolchainVersion})` +
+        EOL +
+        `set(picotoolVersion ${newPicotoolVersion})` +
+        EOL +
+        `set(picoVscode ${buildCMakeIncPath(false)}/pico-vscode.cmake)` +
+        EOL +
+        "if (EXISTS ${picoVscode})" +
+        EOL +
+        "    include(${picoVscode})" +
+        EOL +
+        "endif()" +
+        EOL +
         // eslint-disable-next-line max-len
         "# ===================================================================================="
     );
@@ -540,4 +651,53 @@ export function cmakeGetPicoVar(
   }
 
   return match[1];
+}
+
+/**
+ * Get the version string of a CMake executable.
+ * Works for both stable releases (e.g. "3.31.5")
+ * and prereleases like "3.31.0-rc4".
+ *
+ * @param cmakePath Path to the cmake executable (absolute or in PATH).
+ * @returns Promise that resolves to the version string (e.g. "3.31.5" or "3.31.0-rc4"),
+ *          or undefined if not found/parse failed.
+ */
+export async function getCmakeVersion(
+  cmakePath: string
+): Promise<string | undefined> {
+  return new Promise(resolve => {
+    execFile(cmakePath, ["--version"], { windowsHide: true }, (err, stdout) => {
+      if (err) {
+        console.error(`Failed to run cmake at ${cmakePath}: ${err.message}`);
+        resolve(undefined);
+
+        return;
+      }
+
+      const firstLine = stdout.split(/\r?\n/)[0].trim();
+      // Expected: "cmake version 3.31.5" or "cmake version 3.31.0-rc4"
+      const prefix = "cmake version ";
+      if (firstLine.toLowerCase().startsWith(prefix)) {
+        const version = firstLine.substring(prefix.length).trim();
+        resolve(version);
+      } else {
+        console.error(`Unexpected cmake --version output: ${firstLine}`);
+        resolve(undefined);
+      }
+    });
+  });
+}
+
+/**
+ * Get the version string of the system-installed CMake (in PATH).
+ * @returns Promise that resolves to a version string (e.g. "3.31.5")
+ * or undefined if cmake not available.
+ */
+export async function getSystemCmakeVersion(): Promise<string | undefined> {
+  const cmakePath = await which("cmake", { nothrow: true });
+  if (!cmakePath) {
+    return undefined;
+  }
+
+  return getCmakeVersion(cmakePath);
 }

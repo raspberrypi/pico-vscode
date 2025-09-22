@@ -1,6 +1,7 @@
 export default class State {
   private static instance?: State;
   public isRustProject = false;
+  public isZephyrProject = false;
 
   public constructor() {}
 

@@ -5,6 +5,8 @@ import {
   type WebviewPanel,
   commands,
   ProgressLocation,
+  Uri,
+  FileSystemError,
 } from "vscode";
 import {
   extensionName,
@@ -50,6 +52,8 @@ import {
   GetPicotoolPathCommand,
   GetOpenOCDRootCommand,
   GetSVDPathCommand,
+  GetWestPathCommand,
+  GetZephyrWorkspacePathCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -81,7 +85,13 @@ import ConfigureCmakeCommand, {
 import ImportProjectCommand from "./commands/importProject.mjs";
 import { homedir } from "os";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
-import SwitchBoardCommand from "./commands/switchBoard.mjs";
+import SwitchBoardCommand, {
+  getBoardFromZephyrProject,
+  ZEPHYR_PICO,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+  ZEPHYR_PICO_W,
+} from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import UpdateOpenOCDCommand from "./commands/updateOpenOCD.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
@@ -96,8 +106,13 @@ import {
 import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
-import { OPENOCD_VERSION } from "./utils/sharedConstants.mjs";
+import {
+  CMAKELISTS_ZEPHYR_HEADER,
+  OPENOCD_VERSION,
+} from "./utils/sharedConstants.mjs";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
+import { unknownErrorToString } from "./utils/errorHelper.mjs";
+import { setupZephyr } from "./utils/setupZephyr.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -136,6 +151,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetPicotoolPathCommand(),
     new GetOpenOCDRootCommand(),
     new GetSVDPathCommand(context.extensionUri),
+    new GetWestPathCommand(),
+    new GetZephyrWorkspacePathCommand(),
     new CompileProjectCommand(),
     new RunProjectCommand(),
     new FlashProjectSWDCommand(),
@@ -251,12 +268,132 @@ export async function activate(context: ExtensionContext): Promise<void> {
       return;
     }
 
+    // Set Pico Zephyr Project false by default
+    await commands.executeCommand(
+      "setContext",
+      ContextKeys.isZephyrProject,
+      false
+    );
+
+    const cmakeListsContents = new TextDecoder().decode(
+      await workspace.fs.readFile(Uri.file(cmakeListsFilePath))
+    );
+
+    // Check for pico_zephyr in CMakeLists.txt
+    if (cmakeListsContents.startsWith(CMAKELISTS_ZEPHYR_HEADER)) {
+      Logger.info(LoggerSource.extension, "Project is of type: Zephyr");
+
+      const vb = new VersionBundlesLoader(context.extensionUri);
+      const latest = await vb.getLatest();
+      if (latest === undefined) {
+        Logger.error(
+          LoggerSource.extension,
+          "Failed to get latest version bundle for Zephyr project."
+        );
+
+        void window.showErrorMessage(
+          "Failed to get latest version bundle for Zephyr project."
+        );
+
+        return;
+      }
+
+      // TODO: read selected ninja and cmake versions from project
+      const result = await setupZephyr({
+        extUri: context.extensionUri,
+        cmakeMode: 4,
+        cmakePath: "",
+        cmakeVersion: latest[1].cmake,
+        ninjaMode: 4,
+        ninjaPath: "",
+        ninjaVersion: latest[1].ninja,
+      });
+      if (result === undefined) {
+        void window.showErrorMessage(
+          "Failed to setup Zephyr Toolchain. See logs for details."
+        );
+
+        return;
+      }
+      void window.showInformationMessage(
+        "Zephyr Toolchain setup done. You can now build your project."
+      );
+
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isPicoProject,
+        true
+      );
+      await commands.executeCommand(
+        "setContext",
+        ContextKeys.isZephyrProject,
+        true
+      );
+      State.getInstance().isZephyrProject = true;
+
+      ui.showStatusBarItems(false, true);
+
+      // Update the board info if it can be found in tasks.json
+      const tasksJsonFilePath = join(
+        workspaceFolder.uri.fsPath,
+        ".vscode",
+        "tasks.json"
+      );
+
+      // Update UI with board description
+      const board = await getBoardFromZephyrProject(tasksJsonFilePath);
+
+      if (board !== undefined) {
+        if (board === ZEPHYR_PICO2_W) {
+          ui.updateBoard("Pico 2W");
+        } else if (board === ZEPHYR_PICO2) {
+          ui.updateBoard("Pico 2");
+        } else if (board === ZEPHYR_PICO_W) {
+          ui.updateBoard("Pico W");
+        } else if (board === ZEPHYR_PICO) {
+          ui.updateBoard("Pico");
+        } else {
+          ui.updateBoard("Other");
+        }
+      }
+
+      // check if build dir is empty and recommend to run a build to
+      // get the intellisense working
+      // TODO: maybe run cmake configure automatically if build folder empty
+      try {
+        const buildDirContents = await workspace.fs.readDirectory(
+          Uri.file(join(workspaceFolder.uri.fsPath, "build"))
+        );
+
+        if (buildDirContents.length === 0) {
+          void window.showWarningMessage(
+            "To get full intellisense support please build the project once."
+          );
+        }
+      } catch (error) {
+        if (error instanceof FileSystemError && error.code === "FileNotFound") {
+          void window.showWarningMessage(
+            "To get full intellisense support please build the project once."
+          );
+
+          Logger.debug(
+            LoggerSource.extension,
+            'No "build" folder found. Intellisense might not work ' +
+              "properly until a build has been done."
+          );
+        } else {
+          Logger.error(
+            LoggerSource.extension,
+            "Error when reading build folder:",
+            unknownErrorToString(error)
+          );
+        }
+      }
+
+      return;
+    }
     // check for pico_sdk_init() in CMakeLists.txt
-    if (
-      !readFileSync(cmakeListsFilePath)
-        .toString("utf-8")
-        .includes("pico_sdk_init()")
-    ) {
+    else if (!cmakeListsContents.includes("pico_sdk_init()")) {
       Logger.warn(
         LoggerSource.extension,
         "No pico_sdk_init() in CMakeLists.txt found."
@@ -816,108 +953,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
     return;
   }
-
-  /*
-  const pythonPath = settings.getString(SettingsKey.python3Path);
-  if (pythonPath && pythonPath.includes("/.pico-sdk/python")) {
-    // check if python path exists
-    if (!existsSync(pythonPath.replace(HOME_VAR, homedir()))) {
-      Logger.warn(
-        LoggerSource.extension,
-        "Python path in settings does not exist.",
-        "Installing Python3 to default path."
-      );
-      const pythonVersion = /\/\.pico-sdk\/python\/([.0-9]+)\//.exec(
-        pythonPath
-      )?.[1];
-      if (pythonVersion === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to get Python version from path."
-        );
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-
-      let result: string | undefined;
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title:
-            "Downloading and installing Python. This may take a long while...",
-          cancellable: false,
-        },
-        async progress => {
-          if (process.platform === "win32") {
-            const versionBundle = await new VersionBundlesLoader(
-              context.extensionUri
-            ).getPythonWindowsAmd64Url(pythonVersion);
-
-            if (versionBundle === undefined) {
-              Logger.error(
-                LoggerSource.extension,
-                "Failed to get Python download url from version bundle."
-              );
-              await commands.executeCommand(
-                "setContext",
-                ContextKeys.isPicoProject,
-                false
-              );
-
-              return;
-            }
-
-            // ! because data.pythonMode === 0 => versionBundle !== undefined
-            result = await downloadEmbedPython(versionBundle);
-          } else if (process.platform === "darwin") {
-            const result1 = await setupPyenv();
-            if (!result1) {
-              progress.report({
-                increment: 100,
-              });
-
-              return;
-            }
-            const result2 = await pyenvInstallPython(pythonVersion);
-
-            if (result2 !== null) {
-              result = result2;
-            }
-          } else {
-            Logger.info(
-              LoggerSource.extension,
-              "Automatic Python installation is only",
-              "supported on Windows and macOS."
-            );
-
-            await window.showErrorMessage(
-              "Automatic Python installation is only " +
-                "supported on Windows and macOS."
-            );
-          }
-          progress.report({
-            increment: 100,
-          });
-        }
-      );
-
-      if (result === undefined) {
-        Logger.error(LoggerSource.extension, "Failed to install Python3.");
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-    }
-  }*/
 
   ui.showStatusBarItems();
   ui.updateSDKVersion(selectedToolchainAndSDKVersions[0]);

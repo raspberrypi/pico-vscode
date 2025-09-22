@@ -13,6 +13,8 @@ import {
   buildPicotoolPath,
   buildSDKPath,
   buildToolchainPath,
+  buildWestPath,
+  buildZephyrWorkspacePath,
   downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
 } from "../utils/download.mjs";
@@ -26,10 +28,19 @@ import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import Logger from "../logger.mjs";
 import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
+import {
+  getBoardFromZephyrProject,
+  ZEPHYR_PICO,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+  ZEPHYR_PICO_W,
+} from "./switchBoard.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getPythonPath";
+
   constructor() {
-    super("getPythonPath");
+    super(GetPythonPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -47,8 +58,10 @@ export class GetPythonPathCommand extends CommandWithResult<string> {
 }
 
 export class GetEnvPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getEnvPath";
+
   constructor() {
-    super("getEnvPath");
+    super(GetEnvPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -66,8 +79,10 @@ export class GetEnvPathCommand extends CommandWithResult<string> {
 }
 
 export class GetGDBPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getGDBPath";
+
   constructor(private readonly _extensionUri: Uri) {
-    super("getGDBPath");
+    super(GetGDBPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -157,8 +172,10 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
 }
 
 export class GetCompilerPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getCompilerPath";
+
   constructor() {
-    super("getCompilerPath");
+    super(GetCompilerPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -196,8 +213,10 @@ export class GetCompilerPathCommand extends CommandWithResult<string> {
 }
 
 export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
+  public static readonly id = "getCxxCompilerPath";
+
   constructor() {
-    super("getCxxCompilerPath");
+    super(GetCxxCompilerPathCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -253,6 +272,37 @@ export class GetChipCommand extends CommandWithResult<string> {
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
     const isRustProject = State.getInstance().isRustProject;
+    const isZephyrProject = State.getInstance().isZephyrProject;
+
+    if (isZephyrProject) {
+      const board = await getBoardFromZephyrProject(
+        join(workspaceFolder.uri.fsPath, ".vscode", "tasks.json")
+      );
+
+      if (board === undefined) {
+        this._logger.error("Failed to read Zephyr board from tasks.json");
+
+        return "";
+      }
+
+      switch (board) {
+        case ZEPHYR_PICO:
+        case ZEPHYR_PICO_W:
+          return "rp2040";
+        case ZEPHYR_PICO2:
+        case ZEPHYR_PICO2_W:
+          return "rp2350";
+        default:
+          this._logger.error(`Unsupported Zephyr board: ${board}`);
+          void window.showErrorMessage(
+            `Unsupported Zephyr board: ${board}. ` +
+              `Supported boards are: ${ZEPHYR_PICO}, ${ZEPHYR_PICO_W}, ` +
+              `${ZEPHYR_PICO2}, ${ZEPHYR_PICO2_W}`
+          );
+
+          return "rp2040";
+      }
+    }
 
     if (isRustProject) {
       // read .pico-rs
@@ -307,8 +357,10 @@ export class GetChipCommand extends CommandWithResult<string> {
 }
 
 export class GetChipUppercaseCommand extends CommandWithResult<string> {
+  public static readonly id = "getChipUppercase";
+
   constructor() {
-    super("getChipUppercase");
+    super(GetChipUppercaseCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -320,8 +372,10 @@ export class GetChipUppercaseCommand extends CommandWithResult<string> {
 }
 
 export class GetTargetCommand extends CommandWithResult<string> {
+  public static readonly id = "getTarget";
+
   constructor() {
-    super("getTarget");
+    super(GetTargetCommand.id);
   }
 
   async execute(): Promise<string> {
@@ -334,7 +388,28 @@ export class GetTargetCommand extends CommandWithResult<string> {
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
     const isRustProject = State.getInstance().isRustProject;
+    const isZephyrProject = State.getInstance().isZephyrProject;
 
+    if (isZephyrProject) {
+      const board = await getBoardFromZephyrProject(
+        join(workspaceFolder.uri.fsPath, ".vscode", "tasks.json")
+      );
+
+      if (board === undefined) {
+        return "rp2040";
+      }
+
+      switch (board) {
+        case ZEPHYR_PICO:
+        case ZEPHYR_PICO_W:
+          return "rp2040";
+        case ZEPHYR_PICO2:
+        case ZEPHYR_PICO2_W:
+          return "rp2350";
+        default:
+          return "rp2040";
+      }
+    }
     if (isRustProject) {
       const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
 
@@ -503,5 +578,43 @@ export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
       "hardware_regs",
       `${theChip.toUpperCase()}.svd`
     );
+  }
+}
+
+export class GetWestPathCommand extends CommandWithResult<string | undefined> {
+  public static readonly id = "getWestPath";
+
+  constructor() {
+    super(GetWestPathCommand.id);
+  }
+
+  execute(): string | undefined {
+    const result = buildWestPath();
+
+    if (result === null || !result) {
+      return undefined;
+    }
+
+    return result;
+  }
+}
+
+export class GetZephyrWorkspacePathCommand extends CommandWithResult<
+  string | undefined
+> {
+  public static readonly id = "getZephyrWorkspacePath";
+
+  constructor() {
+    super(GetZephyrWorkspacePathCommand.id);
+  }
+
+  execute(): string | undefined {
+    const result = buildZephyrWorkspacePath();
+
+    if (result === null || !result) {
+      return undefined;
+    }
+
+    return result;
   }
 }

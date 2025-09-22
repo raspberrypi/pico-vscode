@@ -7,6 +7,7 @@ import {
   rmSync,
 } from "fs";
 import { mkdir } from "fs/promises";
+import { type ExecOptions, exec } from "child_process";
 import { homedir, tmpdir } from "os";
 import { basename, dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
@@ -22,7 +23,7 @@ import { cloneRepository, initSubmodules, ensureGit } from "./gitUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
-import { ProgressLocation, type Uri, window } from "vscode";
+import { ProgressLocation, Uri, window, workspace } from "vscode";
 import { fileURLToPath } from "url";
 import {
   type GithubReleaseAssetData,
@@ -224,6 +225,25 @@ export async function downloadAndReadFile(
   return response.statusCode === HTTP_STATUS_OK ? response.body : undefined;
 }
 
+export function buildWestPath(): string {
+  return joinPosix(
+    homeDirectory.replaceAll("\\", "/"),
+    ".pico-sdk",
+    "zephyr_workspace",
+    "venv",
+    process.platform === "win32" ? "Scripts" : "bin",
+    process.platform === "win32" ? "west.exe" : "west"
+  );
+}
+
+export function buildZephyrWorkspacePath(): string {
+  return joinPosix(
+    homeDirectory.replaceAll("\\", "/"),
+    ".pico-sdk",
+    "zephyr_workspace"
+  );
+}
+
 /**
  * Downloads and installs an archive from a URL.
  *
@@ -415,7 +435,7 @@ async function downloadFileUndici(
   });
 }
 
-async function downloadFileGot(
+export async function downloadFileGot(
   url: URL,
   archiveFilePath: string,
   extraHeaders?: { [key: string]: string },
@@ -1160,6 +1180,29 @@ export async function downloadAndInstallCmake(
   );
 }
 
+function _runCommand(
+  command: string,
+  options: ExecOptions
+): Promise<number | null> {
+  Logger.info(LoggerSource.downloader, command);
+
+  return new Promise<number | null>(resolve => {
+    const generatorProcess = exec(command, options, (error, stdout, stderr) => {
+      Logger.info(LoggerSource.downloader, stdout);
+      Logger.info(LoggerSource.downloader, stderr);
+      if (error) {
+        Logger.error(LoggerSource.downloader, `${error.message}`);
+        resolve(null); // indicate error
+      }
+    });
+
+    generatorProcess.on("exit", code => {
+      // Resolve with exit code or -1 if code is undefined
+      resolve(code);
+    });
+  });
+}
+
 /**
  * Downloads and installs Python3 Embed.
  *
@@ -1295,13 +1338,15 @@ export async function downloadEmbedPython(
       });
   }*/
 
+  let pythonExe;
+
   try {
     // unpack the archive
     const success = unzipFile(archiveFilePath, targetDirectory);
     // delete tmp file
     rmSync(archiveFilePath, { recursive: true, force: true });
 
-    return success ? `${settingsTargetDirectory}/python.exe` : undefined;
+    pythonExe = success ? `${settingsTargetDirectory}/python.exe` : undefined;
   } catch (error) {
     Logger.error(
       LoggerSource.downloader,
@@ -1310,6 +1355,66 @@ export async function downloadEmbedPython(
 
     return;
   }
+
+  // Set up pip for embeddable Python to allow installation of packages
+  if (pythonExe) {
+    const fullPythonExe = `${targetDirectory}/python.exe`;
+
+    const getPipURL = new URL("https://bootstrap.pypa.io/get-pip.py");
+    const success = await downloadFileGot(
+      getPipURL,
+      joinPosix(targetDirectory, "get-pip.py")
+    );
+
+    if (!success) {
+      return undefined;
+    }
+
+    const dllDir = `${targetDirectory}/DLLs`;
+    await workspace.fs.createDirectory(Uri.file(dllDir));
+
+    // Write to *._pth to allow use of installed packages
+    const pthFile = `${targetDirectory}/python312._pth`;
+    let pthContents = (
+      await workspace.fs.readFile(Uri.file(pthFile))
+    ).toString();
+    pthContents += "\nimport site";
+    await workspace.fs.writeFile(Uri.file(pthFile), Buffer.from(pthContents));
+
+    const installPipCommand: string = [
+      `${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${fullPythonExe}"`,
+      "get-pip.py",
+    ].join(" ");
+
+    let commandResult = await _runCommand(installPipCommand, {
+      cwd: targetDirectory,
+      windowsHide: true,
+    });
+
+    if (commandResult !== 0) {
+      return undefined;
+    }
+
+    const installVirtualenvCommand: string = [
+      `${
+        process.env.ComSpec === "powershell.exe" ? "&" : ""
+      }"${fullPythonExe}"`,
+      "-m pip install virtualenv",
+    ].join(" ");
+
+    commandResult = await _runCommand(installVirtualenvCommand, {
+      cwd: targetDirectory,
+      windowsHide: true,
+    });
+
+    if (commandResult !== 0) {
+      return undefined;
+    }
+  }
+
+  return pythonExe;
 }
 
 /**

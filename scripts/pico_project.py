@@ -1159,6 +1159,7 @@ ${{env:PATH}}"
                 ]
             }
 
+            # TODO: use get picotool path command!
             tasks = f"""{{
     "version": "2.0.0",
     "tasks": [

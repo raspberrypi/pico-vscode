@@ -3,9 +3,10 @@ import Logger from "../logger.mjs";
 import {
   commands,
   ProgressLocation,
+  Uri,
   window,
   workspace,
-  type Uri,
+  type WorkspaceFolder,
 } from "vscode";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import {
@@ -29,6 +30,131 @@ import VersionBundlesLoader from "../utils/versionBundles.mjs";
 import State from "../state.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 
+interface IBoardFile {
+  [key: string]: string;
+}
+
+interface ITask {
+  label: string;
+  args: string[];
+}
+
+const PICO_BOARD = "pico";
+const PICO_W_BOARD = "pico_w";
+const PICO2_BOARD = "pico2";
+const PICO2_W_BOARD = "pico2_w";
+export const ZEPHYR_PICO = "rpi_pico";
+export const ZEPHYR_PICO_W = "rpi_pico/rp2040/w";
+export const ZEPHYR_PICO2 = "rpi_pico2/rp2350a/m33";
+export const ZEPHYR_PICO2_W = "rpi_pico2/rp2350a/m33/w";
+const VALID_ZEPHYR_BOARDS = [
+  ZEPHYR_PICO,
+  ZEPHYR_PICO_W,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+];
+
+function stringToZephyrBoard(e: string): string {
+  if (e === PICO_BOARD) {
+    return "rpi_pico";
+  } else if (e === PICO_W_BOARD) {
+    return "rpi_pico/rp2040/w";
+  } else if (e === PICO2_BOARD) {
+    return "rpi_pico2/rp2350a/m33";
+  } else if (e === PICO2_W_BOARD) {
+    return "rpi_pico2/rp2350a/m33/w";
+  } else {
+    throw new Error(`Unknown Board Type: ${e}`);
+  }
+}
+
+/**
+ * Reads and parses the tasks.json file at the given path.
+ * If a overwriteBoard is provided, it will replace the board in the tasks.json file.
+ *
+ * @param tasksJsonPath The path to the tasks.json file.
+ * @param overwriteBoard The board to overwrite in the tasks.json file.
+ * @returns The current board if found, otherwise undefined.
+ */
+async function touchTasksJson(
+  tasksJsonPath: string,
+  overwriteBoard?: string
+): Promise<string | undefined> {
+  const tasksUri = Uri.file(tasksJsonPath);
+
+  try {
+    await workspace.fs.stat(tasksUri);
+
+    const td = new TextDecoder("utf-8");
+    const tasksJson = JSON.parse(
+      td.decode(await workspace.fs.readFile(tasksUri))
+    ) as { tasks: ITask[] };
+
+    const compileTask = tasksJson.tasks.find(
+      t => t.label === "Compile Project"
+    );
+    if (compileTask === undefined) {
+      return undefined;
+    }
+
+    // find index of -b in the args and then thing after it should match on of the board strings
+    const bIndex = compileTask.args.findIndex(a => a === "-b");
+    if (bIndex === -1 || bIndex === compileTask.args.length - 1) {
+      return undefined;
+    }
+
+    let currentBoard = compileTask.args[bIndex + 1];
+
+    if (overwriteBoard !== undefined) {
+      if (!VALID_ZEPHYR_BOARDS.includes(currentBoard)) {
+        const cont = await window.showWarningMessage(
+          `Current board "${currentBoard}" is not a known ` +
+            "Zephyr board. Do you want to continue?",
+          {
+            modal: true,
+          },
+          "Continue",
+          "Cancel"
+        );
+
+        if (cont !== "Continue") {
+          return;
+        }
+      }
+
+      compileTask.args[bIndex + 1] = overwriteBoard;
+      currentBoard = overwriteBoard;
+      const te = new TextEncoder();
+      await workspace.fs.writeFile(
+        tasksUri,
+        te.encode(JSON.stringify(tasksJson, null, 2))
+      );
+    }
+
+    if (VALID_ZEPHYR_BOARDS.includes(currentBoard)) {
+      return currentBoard;
+    } else {
+      return undefined;
+    }
+  } catch (error) {
+    Logger.log(
+      `Failed to read tasks.json file: ${unknownErrorToString(error)}`
+    );
+    void window.showErrorMessage(
+      "Failed to read tasks.json file. " +
+        "Make sure the file exists and has a Compile Project task."
+    );
+
+    return undefined;
+  }
+}
+
+export async function getBoardFromZephyrProject(
+  tasksJsonPath: string
+): Promise<string | undefined> {
+  return touchTasksJson(tasksJsonPath);
+}
+
 export default class SwitchBoardCommand extends Command {
   private _logger: Logger = new Logger("SwitchBoardCommand");
   private _versionBundlesLoader: VersionBundlesLoader;
@@ -41,79 +167,79 @@ export default class SwitchBoardCommand extends Command {
   }
 
   public static async askBoard(
-    sdkVersion: string
+    sdkVersion: string,
+    isZephyrProject = false
   ): Promise<[string, boolean] | undefined> {
-    const quickPickItems: string[] = ["pico", "pico_w"];
+    const quickPickItems: string[] = [PICO_BOARD, PICO_W_BOARD];
     const workspaceFolder = workspace.workspaceFolders?.[0];
 
+    if (workspaceFolder === undefined) {
+      return;
+    }
+
     if (!compareLt(sdkVersion, "2.0.0")) {
-      quickPickItems.push("pico2");
+      quickPickItems.push(PICO2_BOARD);
     }
     if (!compareLt(sdkVersion, "2.1.0")) {
-      quickPickItems.push("pico2_w");
+      quickPickItems.push(PICO2_W_BOARD);
     }
 
-    const sdkPath = buildSDKPath(sdkVersion);
-    const boardHeaderDirList = [];
+    const boardFiles: IBoardFile = {};
 
-    if(workspaceFolder !== undefined) {
+    if (!isZephyrProject) {
+      const sdkPath = buildSDKPath(sdkVersion);
+      const boardHeaderDirList = [];
       const ws = workspaceFolder.uri.fsPath;
-      const cMakeCachePath = join(ws, "build","CMakeCache.txt");
+      const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
 
       let picoBoardHeaderDirs = cmakeGetPicoVar(
         cMakeCachePath,
-        "PICO_BOARD_HEADER_DIRS");
+        "PICO_BOARD_HEADER_DIRS"
+      );
 
-      if(picoBoardHeaderDirs){
-        if(picoBoardHeaderDirs.startsWith("'")){
-          const substrLen = picoBoardHeaderDirs.length-1;
-          picoBoardHeaderDirs = picoBoardHeaderDirs.substring(1,substrLen);
+      if (picoBoardHeaderDirs) {
+        if (picoBoardHeaderDirs.startsWith("'")) {
+          const substrLen = picoBoardHeaderDirs.length - 1;
+          picoBoardHeaderDirs = picoBoardHeaderDirs.substring(1, substrLen);
         }
 
         const picoBoardHeaderDirList = picoBoardHeaderDirs.split(";");
-        picoBoardHeaderDirList.forEach(
-          item => {
-            let boardPath = resolve(item);
-            const normalized = normalize(item);
+        picoBoardHeaderDirList.forEach(item => {
+          let boardPath = resolve(item);
+          const normalized = normalize(item);
 
-            //If path is not absolute, join workspace path
-            if(boardPath !== normalized){
-              boardPath = join(ws,normalized);
-            }
-
-            if(existsSync(boardPath)){
-              boardHeaderDirList.push(boardPath);
-            }
+          //If path is not absolute, join workspace path
+          if (boardPath !== normalized) {
+            boardPath = join(ws, normalized);
           }
-        );
-      }
-    }
 
-    const systemBoardHeaderDir = 
-      join(sdkPath,"src", "boards", "include","boards");
+          if (existsSync(boardPath)) {
+            boardHeaderDirList.push(boardPath);
+          }
+        });
+      }
+
+      const systemBoardHeaderDir = join(
+        sdkPath,
+        "src",
+        "boards",
+        "include",
+        "boards"
+      );
 
       boardHeaderDirList.push(systemBoardHeaderDir);
 
-    interface IBoardFile{
-      [key: string]: string;
-    };
-
-    const boardFiles:IBoardFile = {};
-
-    boardHeaderDirList.forEach(
-      path =>{
-        readdirSync(path).forEach(
-          file => {
-            const fullFilename = join(path, file);
-            if(fullFilename.endsWith(".h")) {
-              const boardName = file.slice(0, -2);  // remove .h
-              boardFiles[boardName] = fullFilename;
-              quickPickItems.push(boardName);
-            }
+      boardHeaderDirList.forEach(path => {
+        readdirSync(path).forEach(file => {
+          const fullFilename = join(path, file);
+          if (fullFilename.endsWith(".h")) {
+            const boardName = file.slice(0, -2); // remove .h
+            boardFiles[boardName] = fullFilename;
+            quickPickItems.push(boardName);
           }
-        )
-      }
-    );
+        });
+      });
+    }
 
     // show quick pick for board type
     const board = await window.showQuickPick(quickPickItems, {
@@ -121,22 +247,24 @@ export default class SwitchBoardCommand extends Command {
     });
 
     if (board === undefined) {
-      return board;
+      return;
+    } else if (isZephyrProject) {
+      return [board, false];
     }
 
     // Check that board doesn't have an RP2040 on it
-    const data = readFileSync(boardFiles[board])
+    const data = readFileSync(boardFiles[board]);
 
     if (data.includes("rp2040")) {
       return [board, false];
     }
 
     const useRiscV = await window.showQuickPick(["No", "Yes"], {
-      placeHolder: "Use Risc-V?",
+      placeHolder: "Use RISC-V?",
     });
 
     if (useRiscV === undefined) {
-      return undefined;
+      return;
     }
 
     return [board, useRiscV === "Yes"];
@@ -145,6 +273,7 @@ export default class SwitchBoardCommand extends Command {
   async execute(): Promise<void> {
     const workspaceFolder = workspace.workspaceFolders?.[0];
     const isRustProject = State.getInstance().isRustProject;
+    const isZephyrProject = State.getInstance().isZephyrProject;
 
     // check it has a CMakeLists.txt
     if (
@@ -204,6 +333,40 @@ export default class SwitchBoardCommand extends Command {
       return;
     }
 
+    if (isZephyrProject) {
+      await this._switchBoardZephyr(workspaceFolder);
+    } else {
+      await this._switchBoardPicoSDK(workspaceFolder);
+    }
+  }
+
+  private async _switchBoardZephyr(wsf: WorkspaceFolder): Promise<void> {
+    const latestSdkVersion = await this._versionBundlesLoader.getLatestSDK();
+    if (latestSdkVersion === undefined) {
+      void window.showErrorMessage(
+        "Failed to get latest SDK version - cannot update board"
+      );
+
+      return;
+    }
+    const boardRes = await SwitchBoardCommand.askBoard(latestSdkVersion, true);
+
+    if (boardRes === undefined) {
+      this._logger.info("User cancelled board type selection.");
+
+      return;
+    }
+
+    const board = stringToZephyrBoard(boardRes[0]);
+    const taskJsonFile = join(wsf.uri.fsPath, ".vscode", "tasks.json");
+    await touchTasksJson(taskJsonFile, board);
+
+    // TODO: maybe reload cmake
+  }
+
+  private async _switchBoardPicoSDK(
+    workspaceFolder: WorkspaceFolder
+  ): Promise<void> {
     const versions = await cmakeGetSelectedToolchainAndSDKVersions(
       workspaceFolder.uri
     );

@@ -66,6 +66,7 @@
   "activationEvents": [
     "workspaceContains:./pico_sdk_import.cmake",
     "workspaceContains:./.pico-rs",
+    "workspaceContains:./prj.conf",
     "onWebviewPanel:newPicoProject",
     "onWebviewPanel:newPicoMicroPythonProject"
   ],
@@ -80,13 +81,13 @@
         "command": "raspberry-pi-pico.switchSDK",
         "title": "Switch Pico SDK",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.switchBoard",
         "title": "Switch Board",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPath",
@@ -159,10 +160,22 @@
         "title": "Get OpenOCD root",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
-      },
+      },      
       {
         "command": "raspberry-pi-pico.getSVDPath",
         "title": "Get SVD Path (rust only)",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getWestPath",
+        "title": "Get West path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getZephyrWorkspacePath",
+        "title": "Get Zephyr workspace path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
       },
@@ -210,7 +223,7 @@
         "command": "raspberry-pi-pico.switchBuildType",
         "title": "Switch Build Type",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.importProject",
@@ -243,12 +256,6 @@
         "title": "Clean CMake",
         "category": "Raspberry Pi Pico",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
-      },
-      {
-        "command": "raspberry-pi-pico.getRTTDecoderPath",
-        "title": "Get RTT Decoder module path",
-        "category": "Raspberry Pi Pico",
-        "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.sbomTargetPathDebug",
