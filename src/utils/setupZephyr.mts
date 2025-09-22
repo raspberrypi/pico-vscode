@@ -618,24 +618,6 @@ async function checkMacosLinuxDeps(isWindows: boolean): Promise<boolean> {
 
     return false;
   }
-  const dtc = await which("dtc", { nothrow: true });
-  if (!dtc) {
-    void window.showErrorMessage(
-      "dtc (Device Tree Compiler) not found in PATH. Please install dtc " +
-        "and make sure it is available in PATH."
-    );
-
-    return false;
-  }
-  const gperf = await which("gperf", { nothrow: true });
-  if (!gperf) {
-    void window.showErrorMessage(
-      "gperf not found in PATH. Please install gperf " +
-        "and make sure it is available in PATH."
-    );
-
-    return false;
-  }
 
   return true;
 }
