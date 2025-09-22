@@ -15,6 +15,7 @@ import type { Progress as GotProgress } from "got";
 
 import {
   buildCMakePath,
+  buildNinjaPath,
   buildZephyrWorkspacePath,
   downloadAndInstallArchive,
   downloadAndInstallCmake,

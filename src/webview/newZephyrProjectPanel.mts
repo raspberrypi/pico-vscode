@@ -14,6 +14,7 @@ import {
 import { join as joinPosix } from "path/posix";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
+import { compare } from "../utils/semverUtil.mjs";
 import type { WebviewMessage } from "./newProjectPanel.mjs";
 import {
   getNonce,
@@ -25,7 +26,7 @@ import { join, dirname } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { setupZephyr } from "../utils/setupZephyr.mjs";
-import { getCmakeReleases } from "../utils/githubREST.mjs";
+import { getCmakeReleases, getNinjaReleases } from "../utils/githubREST.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
 import { generateZephyrProject } from "../utils/projectGeneration/projectZephyr.mjs";
 import {
@@ -53,7 +54,8 @@ export class NewZephyrProjectPanel {
   // CMake, Ninja, Python, etc
   private static createSettingsJson(
     homePath: string,
-    cmakePath: string
+    cmakePath: string,
+    ninjaPath: string
   ): string {
     // Helper functions
     const getDirName = (s: string): string => dirname(joinPosix(s));
@@ -62,6 +64,11 @@ export class NewZephyrProjectPanel {
       cmakePath.replace(homePath, "${userHome}")
     );
     console.log(subbedCmakePath);
+
+    const subbedNinjaPath = getDirName(
+      ninjaPath.replace(homePath, "${userHome}")
+    );
+    console.log(subbedNinjaPath);
 
     const settingsJson = {
       /* eslint-disable @typescript-eslint/naming-convention */
@@ -89,7 +96,8 @@ export class NewZephyrProjectPanel {
         Path:
           "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1/bin;${env:USERPROFILE}/.pico-sdk/picotool/2.1.1/picotool;" +
           `${getDirName(cmakePath.replace(homePath, "${env:USERPROFILE}"))};` +
-          "${env:USERPROFILE}/.pico-sdk/ninja/v1.12.1;${env:PATH}",
+          `${getDirName(ninjaPath.replace(homePath, "${env:USERPROFILE}"))};` +
+          "${env:PATH}",
       },
       "terminal.integrated.env.osx": {
         PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
@@ -97,7 +105,8 @@ export class NewZephyrProjectPanel {
         PATH:
           "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:" +
           `${getDirName(cmakePath.replace(homePath, "{env:HOME}"))}:` +
-          "${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
+          `${getDirName(ninjaPath.replace(homePath, "{env:HOME}"))}:` +
+          "${env:PATH}",
       },
       "terminal.integrated.env.linux": {
         PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
@@ -105,14 +114,17 @@ export class NewZephyrProjectPanel {
         PATH:
           "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:" +
           `${getDirName(cmakePath.replace(homePath, "{env:HOME}"))}:` +
-          "${env:HOME}/.pico-sdk/ninja/v1.12.1:${env:PATH}",
+          `${getDirName(ninjaPath.replace(homePath, "{env:HOME}"))}:` +
+          "${env:PATH}",
       },
       "raspberry-pi-pico.cmakeAutoConfigure": true,
       "raspberry-pi-pico.useCmakeTools": false,
       "raspberry-pi-pico.cmakePath": `${getDirName(
         cmakePath.replace(homePath, "${HOME}")
       )};`,
-      "raspberry-pi-pico.ninjaPath": "${HOME}/.pico-sdk/ninja/v1.12.1/ninja",
+      "raspberry-pi-pico.ninjaPath": `${getDirName(
+        ninjaPath.replace(homePath, "${HOME}")
+      )};`,
     };
 
     /* eslint-enable @typescript-eslint/naming-convention */
@@ -512,6 +524,18 @@ export class NewZephyrProjectPanel {
     //const knownEnvironments = environments?.known;
     //const activeEnv = environments?.getActiveEnvironmentPath();
 
+    let ninjasHtml = "";
+    const ninjaReleases = await getNinjaReleases();
+    console.debug(ninjaReleases);
+    const latestNinjaRelease = ninjaReleases[0];
+    ninjaReleases
+      .sort((a, b) => compare(b.replace("v", ""), a.replace("v", "")))
+      .forEach(ninja => {
+        ninjasHtml += `<option ${
+          ninjasHtml.length === 0 ? "selected " : ""
+        }value="${ninja}">${ninja}</option>`;
+      });
+
     let cmakesHtml = "";
     const cmakeReleases = await getCmakeReleases();
     cmakeReleases.forEach(cmake => {
@@ -839,6 +863,41 @@ export class NewZephyrProjectPanel {
                   </div>
                 </div>
               </fieldset>
+          </div>
+
+          <div class="col-span-2">
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
+            ${
+              latestNinjaRelease !== undefined
+                ? `<div class="flex items-center mb-2">
+                    <input type="radio" id="ninja-radio-default-version" name="ninja-version-radio" value="0" class="mr-1 text-blue-500" checked="checked">
+                    <label id="ninja-radio-latest-version" name=${latestNinjaRelease} for="ninja-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
+                  </div>`
+                : ""
+            }
+
+            ${
+              isNinjaSystemAvailable
+                ? `<div class="flex items-center mb-2" >
+                    <input type="radio" id="ninja-radio-system-version" name="ninja-version-radio" value="1" class="mr-1 text-blue-500">
+                    <label for="ninja-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
+                  </div>`
+                : ""
+            }
+
+            <div class="flex items-center mb-2">
+              <input type="radio" id="ninja-radio-select-version" name="ninja-version-radio" value="2" class="mr-1 text-blue-500">
+              <label for="ninja-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
+              <select id="sel-ninja" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                ${ninjasHtml}
+              </select>
+            </div>
+
+            <div class="flex items-center mb-2">
+              <input type="radio" id="ninja-radio-path-executable" name="ninja-version-radio" value="3" class="mr-1 text-blue-500">
+              <label for="ninja-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
+              <input type="file" id="ninja-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
+            </div>
           </div>
 
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">

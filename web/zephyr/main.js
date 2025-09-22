@@ -367,6 +367,9 @@ var previousGpioState = false;
         cmakePath: cmakePath,
         cmakeVersion: cmakeVersion,
         projectBase: document.getElementById("sel-template").value,
+        ninjaMode: Number(ninjaMode),
+        ninjaPath: ninjaPath,
+        ninjaVersion: ninjaVersion,
       },
     });
   };
