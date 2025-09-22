@@ -19,7 +19,7 @@ import {
   downloadAndInstallSDK,
   downloadFileGot,
 } from "../utils/download.mjs";
-import Settings, { HOME_VAR } from "../settings.mjs";
+import Settings, { HOME_VAR, SettingsKey } from "../settings.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 import { ensureGit } from "../utils/gitUtil.mjs";
 import VersionBundlesLoader, { type VersionBundle } from "./versionBundles.mjs";
@@ -1248,9 +1248,22 @@ export async function setupZephyr(
         },
         async progress2 => {
           // was -b ${zephyrWorkspaceDirectory} which results in zephyr-sdk-<version> in it
-          const westInstallSDKCommand: string =
-            `"${westExe}" sdk install ` +
-            `-t arm-zephyr-eabi -d "${zephyrWorkspaceDirectory}/zephyr-sdk"`;
+          let westInstallSDKCommand: string = `"${westExe}" sdk install `;
+
+          const githubPat = Settings.getInstance()?.getString(
+            SettingsKey.githubToken
+          );
+          if (githubPat && githubPat.length !== 0) {
+            Logger.info(
+              LoggerSource.zephyrSetup,
+              "Found GitHub PAT in extension settings - " +
+                "Using it for Zephyr SDK download."
+            );
+            westInstallSDKCommand += `--personal-access-token ${githubPat} `;
+          }
+          westInstallSDKCommand +=
+            "-t arm-zephyr-eabi " +
+            `-d "${zephyrWorkspaceDirectory}/zephyr-sdk"`;
 
           result = await _runCommand(westInstallSDKCommand, {
             cwd: zephyrWorkspaceDirectory,
