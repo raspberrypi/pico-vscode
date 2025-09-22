@@ -12,6 +12,60 @@ var submitted = false;
 (function () {
   const vscode = acquireVsCodeApi();
 
+  // Python version selection handling
+  {
+    const modeEl = document.getElementById('python-mode');
+    const selectRow = document.getElementById('python-secondary-known');
+    const systemRow = document.getElementById('python-secondary-system');
+    const customRow = document.getElementById('python-secondary-custom');
+
+    const fileInput = document.getElementById('python-path-executable');
+    const fileLabel = document.getElementById('python-file-label');
+    const fileBox = document.getElementById('python-filebox');
+
+    // Update label text when a file is chosen
+    fileInput?.addEventListener('change', () => {
+      const f = fileInput.files && fileInput.files[0];
+      fileLabel.textContent = f ? f.name : 'No file selected';
+    });
+
+    // Make label keyboard-activatable (Enter/Space)
+    fileBox?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput?.click();
+      }
+    });
+
+    function toggleSection(el, show) {
+      if (!el) return;
+      el.classList.toggle('hidden', !show);
+      el.querySelectorAll('input, select, button, textarea').forEach(ctrl => {
+        ctrl.disabled = !show;
+        ctrl.tabIndex = show ? 0 : -1;
+      });
+      // If this is the custom row, also toggle the label interactivity
+      const label = el.querySelector('#python-filebox');
+      if (label) {
+        label.setAttribute('aria-disabled', String(!show));
+        label.classList.toggle('pointer-events-none', !show);
+        label.classList.toggle('opacity-60', !show);
+      }
+    }
+
+    function setMode(mode) {
+      toggleSection(selectRow, mode === 'known');
+      toggleSection(systemRow, mode === 'system');
+      toggleSection(customRow, mode === 'custom');
+    }
+
+    // TODO: add state saving/loading via state.js
+    // modeEl.value = window.savedPythoneMode ?? modeEl.value;
+
+    modeEl.addEventListener('change', e => setMode(e.target.value));
+    setMode(modeEl.value);
+  }
+
   // needed so a element isn't hidden behind the navbar on scroll
   const navbarOffsetHeight = document.getElementById('top-navbar').offsetHeight;
 
@@ -75,38 +129,34 @@ var submitted = false;
       return;
     }
 
+    let pythonMode = null;      // numeric contract: 0..2
+    let pythonPath = null;      // string | null
+
     // selected python version
-    const pythonVersionRadio = document.getElementsByName('python-version-radio');
-    let pythonMode = null;
-    let pythonPath = null;
-    for (let i = 0; i < pythonVersionRadio.length; i++) {
-      if (pythonVersionRadio[i].checked) {
-        pythonMode = Number(pythonVersionRadio[i].value);
-        break;
-      }
-    }
-    if (pythonVersionRadio.length == 0) {
-      // default to python mode 0 == python ext version
-      pythonMode = 0;
+    const pythonModeSel = document.getElementById('python-mode');
+    const selPython = document.getElementById('sel-pyenv-known');                    // shown in "select" mode
+    const pythonFileInp = document.getElementById('python-path-executable');    // shown in "custom" mode
+
+    const pythonModeStr = (pythonModeSel?.value || 'custom');
+
+    switch (pythonModeStr) {
+      case 'known': pythonMode = 0; break;
+      case 'system': pythonMode = 1; break;
+      case 'custom': pythonMode = 2; break;
+      default:
+        console.debug('Invalid python mode string: ' + pythonModeStr);
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: `Please select a valid Python mode (got: ${pythonModeStr}).`
+        });
+        submitted = false;
+        return;
     }
 
-    // if python version is null or not a number, smaller than 0 or bigger than 3, set it to 0
-    if (pythonMode === null || isNaN(pythonMode) || pythonMode < 0 || pythonMode > 3) {
-      pythonMode = 0;
-      console.debug('Invalid python version value: ' + pythonMode.toString());
-      vscode.postMessage({
-        command: CMD_ERROR,
-        value: "Please select a valid python version."
-      });
-      submitted = false;
-
-      return;
-    }
     if (pythonMode === 0) {
-      const pyenvKnownSel = document.getElementById("sel-pyenv-known");
-      pythonPath = pyenvKnownSel.value;
+      pythonPath = selPython.value;
     } else if (pythonMode === 2) {
-      const files = document.getElementById('python-path-executable').files;
+      const files = pythonFileInp.files;
 
       if (files.length == 1) {
         pythonPath = files[0].name;
@@ -127,7 +177,7 @@ var submitted = false;
       command: CMD_SUBMIT,
       value: {
         projectName: projectName,
-        pythonMode: Number(pythonMode),
+        pythonMode: pythonMode,
         pythonPath: pythonPath
       }
     });

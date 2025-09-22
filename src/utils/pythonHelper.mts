@@ -56,14 +56,18 @@ export default async function findPython(): Promise<string | undefined> {
         // check if it actually exists and is a supported version
         if (existsSync(pythonPath) && !checkUnsupportedPython(pythonPath)) {
           try {
-            const version = execSync(`${
-              process.env.ComSpec === "powershell.exe" ? "&" : ""
-            }"${pythonPath}" -V`, {
-              encoding: "utf-8",
-              timeout: 1000,
-              windowsHide: true,
-              maxBuffer: 1024,
-            })
+            // TODO: only apply "" if path contains / or spaces
+            const version = execSync(
+              `${
+                process.env.ComSpec === "powershell.exe" ? "&" : ""
+              }"${pythonPath}" -V`,
+              {
+                encoding: "utf-8",
+                timeout: 1000,
+                windowsHide: true,
+                maxBuffer: 1024,
+              }
+            )
               .trim()
               .split(" ");
             if (version.length === 2 && checkPythonVersionRaw(version[1])) {
@@ -106,11 +110,11 @@ export default async function findPython(): Promise<string | undefined> {
       // Check python extension for any python environments with version >= 3.9
       const awaitFind = findPythonInPythonExtension();
       // Timeout after 30s, as it can stall if there is no python available
-      const onTimeout = new Promise<string>((resolve) => {
+      const onTimeout = new Promise<string>(resolve => {
         setTimeout(resolve, 30000, "timeout");
       });
 
-      await Promise.race([awaitFind, onTimeout]).then((value) => {
+      await Promise.race([awaitFind, onTimeout]).then(value => {
         if (value === "timeout") {
           Logger.warn(
             LoggerSource.pythonHelper,
@@ -305,4 +309,31 @@ export function showPythonNotFoundError(): void {
         );
       }
     });
+}
+
+export function getSystemPythonVersion(): string | undefined {
+  const pythonCommands = ["python3", "python"];
+  if (process.platform === "win32") {
+    pythonCommands.push("py");
+  }
+
+  for (const cmd of pythonCommands) {
+    try {
+      const version = execSync(`${cmd} -V`, {
+        encoding: "utf-8",
+        timeout: 1000,
+        windowsHide: true,
+        maxBuffer: 1024,
+      })
+        .trim()
+        .split(" ");
+      if (version.length === 2 && checkPythonVersionRaw(version[1])) {
+        return version[1];
+      }
+    } catch {
+      // ignore error and try next command
+    }
+  }
+
+  return undefined;
 }

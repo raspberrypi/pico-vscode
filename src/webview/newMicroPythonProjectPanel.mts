@@ -24,6 +24,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import { getSystemPythonVersion } from "../utils/pythonHelper.mjs";
 
 interface SubmitMessageValue {
   projectName: string;
@@ -44,6 +45,7 @@ export class NewMicroPythonProjectPanel {
 
   private _projectRoot?: Uri;
   private _pythonExtensionApi?: PythonExtension;
+  private _systemPythonVersion: string = "unknown";
 
   public static createOrShow(extensionUri: Uri, projectUri?: Uri): void {
     const column = window.activeTextEditor
@@ -377,7 +379,7 @@ print("Finished.")\r\n`;
     if (!this._pythonExtensionApi) {
       this._pythonExtensionApi = await PythonExtension.api();
     }
-    const html = await this._getHtmlForWebview(this._panel.webview);
+    const html = this._getHtmlForWebview(this._panel.webview);
 
     if (html !== "") {
       try {
@@ -435,7 +437,7 @@ print("Finished.")\r\n`;
     }
   }
 
-  private async _getHtmlForWebview(webview: Webview): Promise<string> {
+  private _getHtmlForWebview(webview: Webview): string {
     const mainScriptUri = webview.asWebviewUri(
       Uri.joinPath(this._extensionUri, "web", "mpy", "main.js")
     );
@@ -463,10 +465,14 @@ print("Finished.")\r\n`;
     const knownEnvironments = environments?.known;
     const activeEnv = environments?.getActiveEnvironmentPath();
 
-    // TODO: check python version, workaround, only allow python3 commands on unix
-    const isPythonSystemAvailable =
-      (await which("python3", { nothrow: true })) !== null ||
-      (await which("python", { nothrow: true })) !== null;
+    let isPythonSystemAvailable = false;
+    const sysPyVersion = getSystemPythonVersion();
+    if (sysPyVersion === undefined) {
+      this._systemPythonVersion = "unknown";
+    } else {
+      isPythonSystemAvailable = true;
+      this._systemPythonVersion = sysPyVersion;
+    }
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
@@ -503,7 +509,9 @@ print("Finished.")\r\n`;
 
         </script>
       </head>
-      <body class="scroll-smooth w-screen${defaultTheme === "dark" ? " dark" : ""}">
+      <body class="scroll-smooth w-screen${
+        defaultTheme === "dark" ? " dark" : ""
+      }">
         <div id="above-nav" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-0 z-10 pl-5 h-5">
         </div>
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
@@ -546,56 +554,85 @@ print("Finished.")\r\n`;
                   </p>
                 </div>
 
-                <div class="ms-6">
-                  <div class="col-span-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
+                <fieldset id="python-fieldset" class="ms-6">
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
 
-                    ${
-                      knownEnvironments && knownEnvironments.length > 0
-                        ? `
-                      <div class="flex items-center mb-2">
-                        <input type="radio" id="python-radio-known" name="python-version-radio" value="0" class="mr-1 text-blue-500">
-                        <label for="python-radio-known" class="text-gray-900 dark:text-white">From Python extension</label>
-                        <!-- show a select dropdown with python environments -->
-                        <select id="sel-pyenv-known" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                          ${knownEnvironments
-                            .map(
-                              env =>
-                                `<option value="${env.path}" ${
-                                  (activeEnv?.id ?? "") === env.id
-                                    ? "selected"
-                                    : ""
-                                }>${env.path}</option>`
-                            )
-                            .join("")}
-                        </select>
-                      </div>
-                    `
-                        : ""
-                    }
+                  <div class="flex items-center gap-3 flex-wrap">
+                    <!-- Primary mode selector -->
+                    <select id="python-mode"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                                  focus:ring-blue-500 focus:border-blue-500 p-2.5
+                                  dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                      ${
+                        knownEnvironments && knownEnvironments.length > 0
+                          ? `<option value="known">From Python extension</option>`
+                          : ""
+                      }
+                      ${
+                        isPythonSystemAvailable
+                          ? `<option value="system">Use System version</option>`
+                          : ""
+                      }
+                      <option value="custom">Custom path</option>
+                    </select>
 
-                    ${
-                      process.platform === "darwin" ||
-                      process.platform === "win32"
-                        ? `
-                    ${
-                      isPythonSystemAvailable
-                        ? `<div class="flex items-center mb-2" >
-                            <input type="radio" id="python-radio-system-version" name="python-version-radio" value="1" class="mr-1 text-blue-500">
-                            <label for="python-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
-                          </div>`
-                        : ""
-                    }
+                    <!-- Secondary areas; one shown at a time -->
 
-                    <div class="flex items-center mb-2">
-                      <input type="radio" id="python-radio-path-executable" name="python-version-radio" value="2" class="mr-1 text-blue-500">
-                      <label for="python-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
-                      <input type="file" id="python-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
-                    </div>`
-                        : ""
-                    }
+                    <!-- Shown for "known" -->
+                    <div id="python-secondary-known" class="hidden">
+                      <label for="sel-python" class="sr-only">Select Python environment:</label>
+                      <select id="sel-pyenv-known" data-input data-required="true"
+                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                                    focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
+                                    dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        ${
+                          knownEnvironments && knownEnvironments.length > 0
+                            ? knownEnvironments
+                                .map(
+                                  env =>
+                                    `<option value="${env.path}" ${
+                                      (activeEnv?.id ?? "") === env.id
+                                        ? "selected"
+                                        : ""
+                                    }>${env.path}</option>`
+                                )
+                                .join("")
+                            : ""
+                        }
+                      </select>
+                    </div>
+
+                    <!-- Shown for "system" -->
+                    <div id="python-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
+                      System: <span id="python-system-label">${
+                        this._systemPythonVersion
+                      }</span>
+                    </div>
+
+                    <!-- Shown for "custom" -->
+                    <div id="python-secondary-custom" class="hidden">
+                      <!-- The actual file input is visually hidden, the label is the clickable box -->
+                      <input
+                        type="file"
+                        id="python-path-executable"
+                        data-input
+                        data-required="true"
+                        class="sr-only"
+                      />
+
+                      <!-- Match the select's look & width; make the whole thing clickable -->
+                      <label
+                        for="python-path-executable"
+                        id="python-filebox"
+                        class="inline-flex items-center gap-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2.5 w-44" role="button" tabindex="0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
+                          <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
+                        </svg>
+                        <span id="python-file-label" class="truncate select-none">No file selected</span>
+                      </label>
+                    </div>
                   </div>
-                </div>
+                </fieldset>
 
                 <div class="mt-6 mb-4 col-span-2">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>

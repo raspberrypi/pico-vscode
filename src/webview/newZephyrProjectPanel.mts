@@ -742,7 +742,7 @@ export class NewZephyrProjectPanel {
 
                   <!-- Secondary areas; one shown at a time -->
 
-                  <!-- Shown for "system" (optional) -->
+                  <!-- Shown for "system" -->
                   <div id="cmake-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
                     System: <span id="cmake-system-label">${
                       this._systemCmakeVersion
