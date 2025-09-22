@@ -41,3 +41,13 @@ export function unknownToError(unknown: unknown): Error {
     return new Error("Unknown error");
   }
 }
+
+export function stdoutToString(
+  stdout: string | Buffer<ArrayBufferLike>
+): string {
+  if (typeof stdout === "string") {
+    return stdout;
+  } else {
+    return new TextDecoder().decode(stdout);
+  }
+}

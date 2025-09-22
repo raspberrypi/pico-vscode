@@ -37,6 +37,7 @@ import {
 import { SDK_REPOSITORY_URL } from "./githubREST.mjs";
 import { vsExists } from "./vsHelpers.mjs";
 import which from "which";
+import { stdoutToString } from "./errorHelper.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -157,8 +158,8 @@ function _runCommand(
         : "") + command,
       options,
       (error, stdout, stderr) => {
-        Logger.debug(LoggerSource.zephyrSetup, stdout);
-        Logger.debug(LoggerSource.zephyrSetup, stderr);
+        Logger.debug(LoggerSource.zephyrSetup, stdoutToString(stdout));
+        Logger.debug(LoggerSource.zephyrSetup, stdoutToString(stderr));
         if (error) {
           Logger.error(
             LoggerSource.zephyrSetup,

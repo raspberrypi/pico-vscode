@@ -43,7 +43,7 @@ import {
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
-import { unknownErrorToString } from "./errorHelper.mjs";
+import { stdoutToString, unknownErrorToString } from "./errorHelper.mjs";
 import { got, type Progress } from "got";
 import { pipeline as streamPipeline } from "node:stream/promises";
 import {
@@ -1188,8 +1188,8 @@ function _runCommand(
 
   return new Promise<number | null>(resolve => {
     const generatorProcess = exec(command, options, (error, stdout, stderr) => {
-      Logger.info(LoggerSource.downloader, stdout);
-      Logger.info(LoggerSource.downloader, stderr);
+      Logger.info(LoggerSource.downloader, stdoutToString(stdout));
+      Logger.info(LoggerSource.downloader, stdoutToString(stderr));
       if (error) {
         Logger.error(LoggerSource.downloader, `${error.message}`);
         resolve(null); // indicate error

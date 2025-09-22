@@ -58,7 +58,7 @@ import {
   loadExamples,
   setupExample,
 } from "../utils/examplesUtil.mjs";
-import { unknownErrorToString } from "../utils/errorHelper.mjs";
+import { stdoutToString, unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
@@ -2220,8 +2220,8 @@ export class NewProjectPanel {
         command,
         options,
         (error, stdout, stderr) => {
-          this._logger.debug(stdout);
-          this._logger.info(stderr);
+          this._logger.debug(stdoutToString(stdout));
+          this._logger.info(stdoutToString(stderr));
           if (error) {
             this._logger.error(`Generator Process error: ${error.message}`);
             resolve(null); // indicate error
