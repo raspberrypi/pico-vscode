@@ -1,11 +1,5 @@
 import { existsSync } from "fs";
-import {
-  window,
-  workspace,
-  ProgressLocation,
-  Uri,
-  FileSystemError,
-} from "vscode";
+import { window, workspace, ProgressLocation, Uri } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
@@ -49,10 +43,14 @@ interface ZephyrSetupValue {
   cmakePath: string;
   cmakeVersion: string;
   extUri: Uri;
+  ninjaMode: number;
+  ninjaPath: string;
+  ninjaVersion: string;
 }
 
 interface ZephyrSetupOutputs {
   cmakeExecutable: string;
+  ninjaExecutable: string;
   gitPath: string;
   latestVb: [string, VersionBundle];
 }
@@ -283,44 +281,73 @@ async function checkCmake(
   }
 }
 
-async function checkNinja(latestVb: VersionBundle): Promise<boolean> {
+async function checkNinja(
+  ninjaMode: number,
+  ninjaVersion: string,
+  ninjaPath: string
+): Promise<string | undefined> {
   let progLastState = 0;
+  let installedSuccessfully = false;
 
-  return window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading and installing Ninja",
-      cancellable: false,
-    },
-    async progress => {
-      const result = await downloadAndInstallNinja(
-        latestVb.ninja,
-        (prog: GotProgress) => {
-          const per = prog.percent * 100;
+  switch (ninjaMode) {
+    case 4:
+    case 2:
+      installedSuccessfully = await window.withProgress(
+        {
+          location: ProgressLocation.Notification,
+          title: "Downloading and installing Ninja",
+          cancellable: false,
+        },
+        async progress => {
+          const result = await downloadAndInstallNinja(
+            ninjaVersion,
+            (prog: GotProgress) => {
+              const per = prog.percent * 100;
+              progress.report({
+                increment: per - progLastState,
+              });
+              progLastState = per;
+            }
+          );
+
+          if (!result) {
+            progress.report({
+              message: "Failed",
+              increment: 100,
+            });
+
+            return false;
+          }
+
           progress.report({
-            increment: per - progLastState,
+            message: "Success",
+            increment: 100,
           });
-          progLastState = per;
+
+          return true;
         }
       );
 
-      if (result) {
-        progress.report({
-          message: "Successfully downloaded and installed Ninja.",
-          increment: 100,
-        });
-
-        return true;
-      } else {
-        progress.report({
-          message: "Failed",
-          increment: 100,
-        });
-
-        return false;
+      if (!installedSuccessfully) {
+        return;
       }
-    }
-  );
+
+      return joinPosix(buildNinjaPath(ninjaVersion), "bin", "ninja");
+    case 1:
+      // Don't need to add anything to path if already available via system
+      return "";
+    case 3:
+      // normalize path returned by the os selector to posix path for the settings json
+      // and cross platform compatibility
+      return process.platform === "win32"
+        ? // TODO: maybe use path.sep for split
+          joinPosix(...ninjaPath.split("\\"))
+        : ninjaPath;
+    default:
+      void window.showErrorMessage("Unknown Ninja version selected.");
+
+      return;
+  }
 }
 
 async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
@@ -717,6 +744,7 @@ export async function setupZephyr(
 
   const output: ZephyrSetupOutputs = {
     cmakeExecutable: "",
+    ninjaExecutable: "",
     gitPath: "",
     latestVb,
   };
@@ -760,18 +788,23 @@ export async function setupZephyr(
       }
       output.cmakeExecutable = cmakePath;
 
-      installedSuccessfully = await checkNinja(latestVb[1]);
-      if (!installedSuccessfully) {
+      const ninjaPath = await checkNinja(
+        data.ninjaMode,
+        data.ninjaVersion,
+        data.ninjaPath
+      );
+      if (ninjaPath === undefined) {
         progress.report({
           message: "Failed",
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install Ninja. Cannot continue Zephyr setup."
+          "Failed to install or find Ninja. Cannot continue Zephyr setup."
         );
 
         return false;
       }
+      output.ninjaExecutable = ninjaPath;
 
       installedSuccessfully = await checkPicotool(latestVb[1]);
       if (!installedSuccessfully) {

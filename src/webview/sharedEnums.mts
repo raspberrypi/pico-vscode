@@ -28,4 +28,7 @@ export interface ZephyrSubmitMessageValue {
   cmakePath: string;
   cmakeVersion: string;
   projectBase: ZephyrProjectBase;
+  ninjaMode: number;
+  ninjaPath: string;
+  ninjaVersion: string;
 }

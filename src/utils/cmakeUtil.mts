@@ -4,7 +4,7 @@ import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
 import { dirname, join, resolve } from "path";
 import Settings from "../settings.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
-import { existsSync, readFileSync, rmSync } from "fs";
+import { readFileSync } from "fs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { readFile, writeFile } from "fs/promises";
 import { rimraf, windows as rimrafWindows } from "rimraf";

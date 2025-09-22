@@ -298,11 +298,15 @@ export async function activate(context: ExtensionContext): Promise<void> {
         return;
       }
 
+      // TODO: read selected ninja and cmake versions from project
       const result = await setupZephyr({
         extUri: context.extensionUri,
         cmakeMode: 4,
         cmakePath: "",
         cmakeVersion: latest[1].cmake,
+        ninjaMode: 4,
+        ninjaPath: "",
+        ninjaVersion: latest[1].ninja,
       });
       if (result === undefined) {
         void window.showErrorMessage(

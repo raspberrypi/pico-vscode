@@ -129,6 +129,7 @@ function enumToBoard(e: BoardType): string {
 async function generateVSCodeConfig(
   projectRoot: string,
   latestVb: [string, VersionBundle],
+  ninjaPath: string,
   cmakePath: string,
   te: TextEncoder = new TextEncoder(),
   data: ZephyrSubmitMessageValue
@@ -246,23 +247,51 @@ async function generateVSCodeConfig(
     "C_Cpp.debugShortcut": false,
     "terminal.integrated.env.windows": {
       // TODO: contitionally cmake: \${env:USERPROFILE}/.pico-sdk/cmake/${latestVb.cmake}/bin
-      Path: `\${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION};\${env:USERPROFILE}/.pico-sdk/ninja/${latestVb[1].ninja};\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:PATH}`,
+      Path: `\${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION};\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:PATH}`,
     },
     "terminal.integrated.env.osx": {
-      PATH: `\${env:HOME}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin:\${env:HOME}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}:\${env:HOME}/.pico-sdk/ninja/${latestVb[1].ninja}:\${env:HOME}/.pico-sdk/wget:\${env:PATH}`,
+      PATH: `\${env:HOME}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin:\${env:HOME}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}:\${env:HOME}/.pico-sdk/wget:\${env:PATH}`,
     },
     "terminal.integrated.env.linux": {
-      PATH: `\${env:HOME}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin:\${env:HOME}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}:\${env:HOME}/.pico-sdk/ninja/${latestVb[1].ninja}:\${env:HOME}/.pico-sdk/wget:\${env:PATH}`,
+      PATH: `\${env:HOME}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin:\${env:HOME}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}:\${env:HOME}/.pico-sdk/wget:\${env:PATH}`,
     },
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.useCmakeTools": false,
     "raspberry-pi-pico.cmakePath": "",
-    "raspberry-pi-pico.ninjaPath": `\${HOME}/.pico-sdk/ninja/${latestVb[1].ninja}/ninja`,
+    "raspberry-pi-pico.ninjaPath": "",
     "editor.formatOnSave": true,
     "search.exclude": {
       "build/": true,
     },
   };
+
+  if (ninjaPath.length > 0) {
+    settings["raspberry-pi-pico.ninjaPath"] = ninjaPath.replace(
+      homedir().replace("\\", "/"),
+      HOME_VAR
+    );
+
+    // Add to PATH
+    const pathWindows = ninjaPath
+      .replace(HOME_VAR, "${env:USERPROFILE}")
+      .replace(homedir().replace("\\", "/"), "${env:USERPROFILE}");
+    const pathPosix = ninjaPath
+      .replace(HOME_VAR, "${env:HOME}")
+      .replace(homedir().replace("\\", "/"), "${env:HOME}");
+
+    settings[
+      "terminal.integrated.env.windows"
+    ].Path = `${pathWindows};${settings["terminal.integrated.env.windows"].Path}`;
+    settings[
+      "terminal.integrated.env.osx"
+    ].PATH = `${pathPosix}:${settings["terminal.integrated.env.osx"].PATH}`;
+    settings[
+      "terminal.integrated.env.linux"
+    ].PATH = `${pathPosix}:${settings["terminal.integrated.env.linux"].PATH}`;
+  } else {
+    // assume in PATH
+    settings["raspberry-pi-pico.ninjaPath"] = "ninja";
+  }
 
   if (cmakePath.length > 0) {
     const pathWindows = cmakePath
@@ -1075,6 +1104,7 @@ export async function generateZephyrProject(
   projectFolder: string,
   projectName: string,
   latestVb: [string, VersionBundle],
+  ninjaPath: string,
   cmakePath: string,
   data: ZephyrSubmitMessageValue
 ): Promise<boolean> {
@@ -1147,6 +1177,7 @@ export async function generateZephyrProject(
   result = await generateVSCodeConfig(
     projectRoot,
     latestVb,
+    ninjaPath,
     cmakePath,
     te,
     data

@@ -11,7 +11,6 @@ import {
   ProgressLocation,
   commands,
 } from "vscode";
-import { join as joinPosix } from "path/posix";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
 import { compare } from "../utils/semverUtil.mjs";
@@ -22,18 +21,15 @@ import {
   getWebviewOptions,
 } from "./newProjectPanel.mjs";
 import { existsSync } from "fs";
-import { join, dirname } from "path";
+import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { setupZephyr } from "../utils/setupZephyr.mjs";
 import { getCmakeReleases, getNinjaReleases } from "../utils/githubREST.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
 import { generateZephyrProject } from "../utils/projectGeneration/projectZephyr.mjs";
-import {
-  BoardType,
-  ZephyrProjectBase,
-  type ZephyrSubmitMessageValue,
-} from "./sharedEnums.mjs";
+import { BoardType, type ZephyrSubmitMessageValue } from "./sharedEnums.mjs";
+import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
 
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;
@@ -49,87 +45,7 @@ export class NewZephyrProjectPanel {
   private _projectRoot?: Uri;
   private _pythonExtensionApi?: PythonExtension;
   private _systemCmakeVersion: string | undefined;
-
-  // Create settings.json file with correct subsitution for tools such as
-  // CMake, Ninja, Python, etc
-  private static createSettingsJson(
-    homePath: string,
-    cmakePath: string,
-    ninjaPath: string
-  ): string {
-    // Helper functions
-    const getDirName = (s: string): string => dirname(joinPosix(s));
-
-    const subbedCmakePath = getDirName(
-      cmakePath.replace(homePath, "${userHome}")
-    );
-    console.log(subbedCmakePath);
-
-    const subbedNinjaPath = getDirName(
-      ninjaPath.replace(homePath, "${userHome}")
-    );
-    console.log(subbedNinjaPath);
-
-    const settingsJson = {
-      /* eslint-disable @typescript-eslint/naming-convention */
-      "cmake.options.statusBarVisibility": "hidden",
-      "cmake.options.advanced": {
-        build: {
-          statusBarVisibility: "hidden",
-        },
-        launch: {
-          statusBarVisibility: "hidden",
-        },
-        debug: {
-          statusBarVisibility: "hidden",
-        },
-      },
-      "cmake.configureOnEdit": false,
-      "cmake.automaticReconfigure": false,
-      "cmake.configureOnOpen": false,
-      "cmake.generator": "Ninja",
-      "cmake.cmakePath": `${cmakePath.replace(homePath, "${userHome}")}`,
-      "C_Cpp.debugShortcut": false,
-      "terminal.integrated.env.windows": {
-        PICO_SDK_PATH: "${env:USERPROFILE}/.pico-sdk/sdk/2.1.1",
-        PICO_TOOLCHAIN_PATH: "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1",
-        Path:
-          "${env:USERPROFILE}/.pico-sdk/toolchain/14_2_Rel1/bin;${env:USERPROFILE}/.pico-sdk/picotool/2.1.1/picotool;" +
-          `${getDirName(cmakePath.replace(homePath, "${env:USERPROFILE}"))};` +
-          `${getDirName(ninjaPath.replace(homePath, "${env:USERPROFILE}"))};` +
-          "${env:PATH}",
-      },
-      "terminal.integrated.env.osx": {
-        PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
-        PICO_TOOLCHAIN_PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1",
-        PATH:
-          "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:" +
-          `${getDirName(cmakePath.replace(homePath, "{env:HOME}"))}:` +
-          `${getDirName(ninjaPath.replace(homePath, "{env:HOME}"))}:` +
-          "${env:PATH}",
-      },
-      "terminal.integrated.env.linux": {
-        PICO_SDK_PATH: "${env:HOME}/.pico-sdk/sdk/2.1.1",
-        PICO_TOOLCHAIN_PATH: "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1",
-        PATH:
-          "${env:HOME}/.pico-sdk/toolchain/14_2_Rel1/bin:${env:HOME}/.pico-sdk/picotool/2.1.1/picotool:" +
-          `${getDirName(cmakePath.replace(homePath, "{env:HOME}"))}:` +
-          `${getDirName(ninjaPath.replace(homePath, "{env:HOME}"))}:` +
-          "${env:PATH}",
-      },
-      "raspberry-pi-pico.cmakeAutoConfigure": true,
-      "raspberry-pi-pico.useCmakeTools": false,
-      "raspberry-pi-pico.cmakePath": `${getDirName(
-        cmakePath.replace(homePath, "${HOME}")
-      )};`,
-      "raspberry-pi-pico.ninjaPath": `${getDirName(
-        ninjaPath.replace(homePath, "${HOME}")
-      )};`,
-    };
-
-    /* eslint-enable @typescript-eslint/naming-convention */
-    return JSON.stringify(settingsJson, null, 2);
-  }
+  private _systemNinjaVersion: string | undefined;
 
   public static createOrShow(extensionUri: Uri, projectUri?: Uri): void {
     const column = window.activeTextEditor
@@ -370,6 +286,14 @@ export class NewZephyrProjectPanel {
       void window.showErrorMessage("Unknown cmake version selected.");
 
       return;
+    } else if (data.ninjaMode === 0) {
+      progress.report({
+        message: "Failed",
+        increment: 100,
+      });
+      void window.showErrorMessage("Unknown ninja version selected.");
+
+      return;
     }
 
     // Setup Zephyr before doing anything else
@@ -378,6 +302,9 @@ export class NewZephyrProjectPanel {
       cmakePath: data.cmakePath,
       cmakeVersion: data.cmakeVersion,
       extUri: this._extensionUri,
+      ninjaMode: data.ninjaMode,
+      ninjaPath: data.ninjaPath,
+      ninjaVersion: data.ninjaVersion,
     });
 
     if (zephyrSetupOutputs === undefined) {
@@ -395,6 +322,7 @@ export class NewZephyrProjectPanel {
       projectPath,
       data.projectName,
       zephyrSetupOutputs.latestVb,
+      zephyrSetupOutputs.ninjaExecutable,
       zephyrSetupOutputs.cmakeExecutable,
       data
     );
@@ -526,8 +454,6 @@ export class NewZephyrProjectPanel {
 
     let ninjasHtml = "";
     const ninjaReleases = await getNinjaReleases();
-    console.debug(ninjaReleases);
-    const latestNinjaRelease = ninjaReleases[0];
     ninjaReleases
       .sort((a, b) => compare(b.replace("v", ""), a.replace("v", "")))
       .forEach(ninja => {
@@ -550,6 +476,7 @@ export class NewZephyrProjectPanel {
     //  (await which("python", { nothrow: true })) !== null;
 
     this._systemCmakeVersion = await getSystemCmakeVersion();
+    this._systemNinjaVersion = await getSystemNinjaVersion();
 
     // Restrict the webview to only load specific scripts
     const nonce = getNonce();
@@ -790,8 +717,9 @@ export class NewZephyrProjectPanel {
                   </div>
               </div>
 
+              <div class="snap-end grid gap-2 grid-cols-2">
               <!-- CMake Version -->
-              <fieldset id="cmake-fieldset" class="snap-end">
+              <fieldset id="cmake-fieldset">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">
                   CMake Version:
                 </h3>
@@ -807,7 +735,7 @@ export class NewZephyrProjectPanel {
                         ? `<option value="system">Use system version</option>`
                         : ""
                     }
-                    <option value="latest">Latest</option>
+                    <option value="latest" selected>Latest</option>
                     <option value="select">Select</option>
                     <option value="custom">Custom path</option>
                   </select>
@@ -863,44 +791,84 @@ export class NewZephyrProjectPanel {
                   </div>
                 </div>
               </fieldset>
+
+              <!-- Ninja Version -->
+              <fieldset id="ninja-fieldset">
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">
+                  Ninja Version:
+                </h3>
+
+                <div class="flex items-center gap-3 flex-wrap">
+                  <!-- Primary mode selector -->
+                  <select id="ninja-mode"
+                          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                                focus:ring-blue-500 focus:border-blue-500 p-2.5
+                                dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    ${
+                      this._systemNinjaVersion !== undefined
+                        ? `<option value="system">Use system version</option>`
+                        : ""
+                    }
+                    <option value="latest" selected>Latest</option>
+                    <option value="select">Select</option>
+                    <option value="custom">Custom path</option>
+                  </select>
+
+                  <!-- Secondary areas; one shown at a time -->
+
+                  <!-- Shown for "system" (optional) -->
+                  <div id="ninja-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
+                    System: <span id="ninja-system-label">${
+                      this._systemNinjaVersion
+                    }</span>
+                  </div>
+
+                  <!-- Shown for "latest" -->
+                  <div id="ninja-secondary-latest" class="hidden text-sm text-gray-600 dark:text-gray-300">
+                    Latest: <span id="ninja-latest-label">${
+                      ninjaReleases.length > 0 ? ninjaReleases[0] : "unknown"
+                    }</span>
+                  </div>
+
+                  <!-- Shown for "select" -->
+                  <div id="ninja-secondary-select" class="hidden">
+                    <label for="sel-ninja" class="sr-only">Select Ninja version</label>
+                    <select id="sel-ninja" data-input data-required="true"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
+                                  focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
+                                  dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                      ${ninjasHtml}
+                    </select>
+                  </div>
+
+                  <!-- Shown for "custom" -->
+                  <div id="ninja-secondary-custom" class="hidden">
+                    <!-- The actual file input is visually hidden, the label is the clickable box -->
+                    <input
+                      type="file"
+                      id="ninja-path-executable"
+                      data-input
+                      data-required="true"
+                      class="sr-only"
+                    />
+
+                    <!-- Match the select's look & width; make the whole thing clickable -->
+                    <label
+                      for="ninja-path-executable"
+                      id="ninja-filebox"
+                      class="inline-flex items-center gap-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white px-3 py-2.5 w-44" role="button" tabindex="0">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
+                        <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
+                      </svg>
+                      <span id="ninja-file-label" class="truncate select-none">No file selected</span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+              </div>
           </div>
 
-          <div class="col-span-2">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
-            ${
-              latestNinjaRelease !== undefined
-                ? `<div class="flex items-center mb-2">
-                    <input type="radio" id="ninja-radio-default-version" name="ninja-version-radio" value="0" class="mr-1 text-blue-500" checked="checked">
-                    <label id="ninja-radio-latest-version" name=${latestNinjaRelease} for="ninja-radio-default-version" class="text-gray-900 dark:text-white">Default version</label>
-                  </div>`
-                : ""
-            }
-
-            ${
-              isNinjaSystemAvailable
-                ? `<div class="flex items-center mb-2" >
-                    <input type="radio" id="ninja-radio-system-version" name="ninja-version-radio" value="1" class="mr-1 text-blue-500">
-                    <label for="ninja-radio-system-version" class="text-gray-900 dark:text-white">Use system version</label>
-                  </div>`
-                : ""
-            }
-
-            <div class="flex items-center mb-2">
-              <input type="radio" id="ninja-radio-select-version" name="ninja-version-radio" value="2" class="mr-1 text-blue-500">
-              <label for="ninja-radio-select-version" class="text-gray-900 dark:text-white">Select version:</label>
-              <select id="sel-ninja" class="ml-2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                ${ninjasHtml}
-              </select>
-            </div>
-
-            <div class="flex items-center mb-2">
-              <input type="radio" id="ninja-radio-path-executable" name="ninja-version-radio" value="3" class="mr-1 text-blue-500">
-              <label for="ninja-radio-path-executable" class="text-gray-900 dark:text-white">Path to executable:</label>
-              <input type="file" id="ninja-path-executable" multiple="false" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ms-2">
-            </div>
-          </div>
-
-          <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
+          <div class="bottom-3 mt-14 mb-12 w-full flex justify-end">
               <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
               <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">
                 Create

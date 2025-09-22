@@ -26,7 +26,6 @@ var previousGpioState = false;
     const fileLabel = document.getElementById('cmake-file-label');
     const fileBox = document.getElementById('cmake-filebox');
 
-    // Optional: show the exact latest version, if you have it
     const latestValEl = document.getElementById('cmake-latest-val');
     if (latestValEl && typeof window.latestCmakeVersion === 'string') {
       latestValEl.textContent = `: ${window.latestCmakeVersion}`;
@@ -46,7 +45,6 @@ var previousGpioState = false;
       }
     });
 
-    // In your toggleSection(), also reflect disabled state on the label
     function toggleSection(el, show) {
       if (!el) return;
       el.classList.toggle('hidden', !show);
@@ -72,6 +70,66 @@ var previousGpioState = false;
 
     // TODO: add state saving/loading via state.js
     // modeEl.value = window.savedCmakeMode ?? modeEl.value;
+
+    modeEl.addEventListener('change', e => setMode(e.target.value));
+    setMode(modeEl.value);
+  }
+
+  // Ninja version selection handling
+  {
+    const modeEl = document.getElementById('ninja-mode');
+    const systemRow = document.getElementById('ninja-secondary-system');
+    const latestRow = document.getElementById('ninja-secondary-latest');
+    const selectRow = document.getElementById('ninja-secondary-select');
+    const customRow = document.getElementById('ninja-secondary-custom');
+
+    const fileInput = document.getElementById('ninja-path-executable');
+    const fileLabel = document.getElementById('ninja-file-label');
+    const fileBox = document.getElementById('ninja-filebox');
+
+    const latestValEl = document.getElementById('ninja-latest-val');
+    if (latestValEl && typeof window.latestNinjaVersion === 'string') {
+      latestValEl.textContent = `: ${window.latestNinjaVersion}`;
+    }
+    // Update label text when a file is chosen
+    fileInput?.addEventListener('change', () => {
+      const f = fileInput.files && fileInput.files[0];
+      fileLabel.textContent = f ? f.name : 'No file selected';
+    });
+
+    // Make label keyboard-activatable (Enter/Space)
+    fileBox?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        fileInput?.click();
+      }
+    });
+
+    function toggleSection(el, show) {
+      if (!el) return;
+      el.classList.toggle('hidden', !show);
+      el.querySelectorAll('input, select, button, textarea').forEach(ctrl => {
+        ctrl.disabled = !show;
+        ctrl.tabIndex = show ? 0 : -1;
+      });
+      // If this is the custom row, also toggle the label interactivity
+      const label = el.querySelector('#ninja-filebox');
+      if (label) {
+        label.setAttribute('aria-disabled', String(!show));
+        label.classList.toggle('pointer-events-none', !show);
+        label.classList.toggle('opacity-60', !show);
+      }
+    }
+
+    function setMode(mode) {
+      toggleSection(systemRow, mode === 'system');
+      toggleSection(latestRow, mode === 'latest' || mode === 'default');
+      toggleSection(selectRow, mode === 'select');
+      toggleSection(customRow, mode === 'custom');
+    }
+
+    // TODO: add state saving/loading via state.js
+    // modeEl.value = window.savedNinjaMode ?? modeEl.value;
 
     modeEl.addEventListener('change', e => setMode(e.target.value));
     setMode(modeEl.value);
@@ -340,6 +398,89 @@ var previousGpioState = false;
       return;
     }
     // --- end CMake block ---
+
+    // --- Ninja: collect values from the new controls ---
+    let ninjaMode = null;      // numeric contract: 0..4
+    let ninjaPath = null;
+    let ninjaVersion = null;   // string | null
+
+    const ninjaModeSel = document.getElementById('ninja-mode');
+    const selNinja = document.getElementById('sel-ninja');                    // shown in "select" mode
+    const ninjaFileInp = document.getElementById('ninja-path-executable');    // shown in "custom" mode
+    const latestNinjaVersion = document.getElementById('ninja-latest-label'); // get latest version
+
+    // Fallback to "latest" if the select isn't there for some reason
+    const ninjaModeStr = (ninjaModeSel?.value || 'latest');
+
+    // Map string modes -> numeric API
+    // 0 = default bundle, 1 = system, 2 = select version, 3 = custom path, 4 = latest
+    switch (ninjaModeStr) {
+      // default to latest
+      case 'default': ninjaMode = 4; break;
+      case 'system': ninjaMode = 1; break;
+      case 'select': ninjaMode = 2; break;
+      case 'custom': ninjaMode = 3; break;
+      case 'latest': ninjaMode = 4; break;
+      default:
+        console.debug('Invalid ninja mode string: ' + ninjaModeStr);
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: `Please select a valid Ninja mode (got: ${ninjaModeModeStr}).`
+        });
+        submitted = false;
+        return;
+    }
+
+    // Validate + collect per-mode extras
+    if (ninjaMode === 4) {
+      if (!latestNinjaVersion) {
+        console.error('Latest Ninja version element not found');
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: 'Internal error: latest Ninja version not found.'
+        });
+        submitted = false;
+        return;
+      }
+      ninjaVersion = latestNinjaVersion.textContent.trim();
+    } else if (ninjaMode === 2) {
+      // specific version chosen from dropdown
+      if (!selNinja || !selNinja.value) {
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: 'Please select a Ninja version.'
+        });
+        submitted = false;
+        return;
+      }
+      ninjaVersion = selNinja.value;
+    } else if (ninjaMode === 3) {
+      // custom executable file
+      const files = ninjaFileInp?.files || [];
+      if (files.length !== 1) {
+        console.debug('Please select a valid Ninja executable file');
+        vscode.postMessage({
+          command: CMD_ERROR,
+          value: 'Please select a valid Ninja executable file.'
+        });
+        submitted = false;
+        return;
+      }
+
+      ninjaPath = files[0].name;
+    }
+
+    // Final sanity check: numeric range 1..4
+    if (ninjaMode === null || isNaN(ninjaMode) || ninjaMode < 1 || ninjaMode > 4) {
+      console.debug('Invalid ninja version value: ' + ninjaMode);
+      vscode.postMessage({
+        command: CMD_ERROR,
+        value: 'Please select a valid Ninja version.'
+      });
+      submitted = false;
+      return;
+    }
+    // --- end Ninja block ---
 
     /* Catch silly users who spam the submit button */
     if (submitted) {
