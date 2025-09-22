@@ -311,6 +311,9 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
         return;
       }
+      void window.showInformationMessage(
+        "Zephyr Toolchain setup done. You can now build your project."
+      );
 
       await commands.executeCommand(
         "setContext",
