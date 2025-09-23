@@ -308,25 +308,27 @@ export async function getNinjaReleases(): Promise<string[]> {
   // sort (they are in form vX.Y.Z) and some are
   // release-DDMMYYYY (these are the very old ones)
   return releases.then(rel =>
-    rel.sort((a, b) => {
-      const aParts = a
-        .replace(/^v/, "")
-        .split(/[-.]/)
-        .map(n => parseInt(n, 10));
-      const bParts = b
-        .replace(/^v/, "")
-        .split(/[-.]/)
-        .map(n => parseInt(n, 10));
-      for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
-        const aPart = aParts[i] ?? 0;
-        const bPart = bParts[i] ?? 0;
-        if (aPart !== bPart) {
-          return bPart - aPart; // descending order
+    rel
+      .filter(v => !v.startsWith("release"))
+      .sort((a, b) => {
+        const aParts = a
+          .replace(/^v/, "")
+          .split(/[-.]/)
+          .map(n => parseInt(n, 10));
+        const bParts = b
+          .replace(/^v/, "")
+          .split(/[-.]/)
+          .map(n => parseInt(n, 10));
+        for (let i = 0; i < Math.max(aParts.length, bParts.length); i++) {
+          const aPart = aParts[i] ?? 0;
+          const bPart = bParts[i] ?? 0;
+          if (aPart !== bPart) {
+            return bPart - aPart; // descending order
+          }
         }
-      }
 
-      return 0;
-    })
+        return 0;
+      })
   );
 }
 

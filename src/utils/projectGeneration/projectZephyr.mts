@@ -206,7 +206,7 @@ async function generateVSCodeConfig(
   const posixHomedir = homedir().replaceAll("\\", "/");
   if (ninjaPath.length > 0) {
     const ninjaDir = dirnamePosix(ninjaPath);
-    settings[`${extensionName}.ninjaPath`] = ninjaDir.replace(
+    settings[`${extensionName}.ninjaPath`] = ninjaPath.replace(
       posixHomedir,
       HOME_VAR
     );

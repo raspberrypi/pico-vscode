@@ -259,7 +259,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     return;
   }
 
-  void commands.executeCommand(
+  await commands.executeCommand(
     "setContext",
     ContextKeys.isRustProject,
     isRustProject
@@ -315,15 +315,102 @@ export async function activate(context: ExtensionContext): Promise<void> {
         return;
       }
 
+      const cmakePath = settings.getString(SettingsKey.cmakePath);
+      // TODO: or auto upgrade to latest cmake
+      if (cmakePath === undefined) {
+        Logger.error(
+          LoggerSource.extension,
+          "CMake path not set in settings. Cannot setup Zephyr project."
+        );
+        void window.showErrorMessage(
+          "CMake path not set in settings. Cannot setup Zephyr project."
+        );
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      }
+      let cmakeVersion = "";
+      if (cmakePath && cmakePath.includes("/.pico-sdk/cmake")) {
+        const version = /\/\.pico-sdk\/cmake\/([v.0-9A-Za-z-]+)\//.exec(
+          cmakePath
+        )?.[1];
+
+        if (version === undefined) {
+          Logger.error(
+            LoggerSource.extension,
+            "Failed to get CMake version from path in the settings."
+          );
+          await commands.executeCommand(
+            "setContext",
+            ContextKeys.isPicoProject,
+            false
+          );
+
+          return;
+        }
+
+        cmakeVersion = version;
+      }
+
+      const ninjaPath = settings.getString(SettingsKey.ninjaPath);
+      let ninjaVersion = "";
+      if (ninjaPath === undefined) {
+        Logger.error(
+          LoggerSource.extension,
+          "Ninja path not set in settings. Cannot setup Zephyr project."
+        );
+        void window.showErrorMessage(
+          "Ninja path not set in settings. Cannot setup Zephyr project."
+        );
+        await commands.executeCommand(
+          "setContext",
+          ContextKeys.isPicoProject,
+          false
+        );
+
+        return;
+      } else if (ninjaPath && ninjaPath.includes("/.pico-sdk/ninja")) {
+        const version = /\/\.pico-sdk\/ninja\/([v.0-9]+)\//.exec(
+          ninjaPath
+        )?.[1];
+        if (version === undefined) {
+          Logger.error(
+            LoggerSource.extension,
+            "Failed to get Ninja version from path in the settings."
+          );
+          await commands.executeCommand(
+            "setContext",
+            ContextKeys.isPicoProject,
+            false
+          );
+
+          return;
+        }
+
+        ninjaVersion = version;
+      }
+
       // TODO: read selected ninja and cmake versions from project
       const result = await setupZephyr({
         extUri: context.extensionUri,
-        cmakeMode: 4,
-        cmakePath: "",
-        cmakeVersion: latest[1].cmake,
-        ninjaMode: 4,
-        ninjaPath: "",
-        ninjaVersion: latest[1].ninja,
+        cmakeMode: cmakeVersion !== "" ? 2 : 3,
+        cmakePath:
+          cmakeVersion !== ""
+            ? ""
+            : cmakePath.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ??
+              "",
+        cmakeVersion: cmakeVersion,
+        ninjaMode: ninjaVersion !== "" ? 2 : 3,
+        ninjaPath:
+          ninjaVersion !== ""
+            ? ""
+            : ninjaPath.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ??
+              "",
+        ninjaVersion: ninjaVersion,
       });
       if (result === undefined) {
         void window.showErrorMessage(
