@@ -411,54 +411,54 @@ const char JSON_POST_PATH[] = "/posts";
 
 int main(void)
 {
-	printk("Starting wifi example on %s\\n", CONFIG_BOARD_TARGET);
+    printk("Starting wifi example on %s\\n", CONFIG_BOARD_TARGET);
 
-	wifi_connect(WIFI_SSID, WIFI_PSK);
+    wifi_connect(WIFI_SSID, WIFI_PSK);
 
-	// Ping Google DNS 4 times
-	printk("Pinging 8.8.8.8 to demonstrate connection:\\n");
-    ping("8.8.8.8", 4);
+    // Ping Google DNS 8 times
+    printk("Pinging 8.8.8.8 to demonstrate connection:\\n");
+    ping("8.8.8.8", 8);
 
-	printk("Now performing http GET request to google.com...\\n");
-	http_get_example(HTTP_HOSTNAME, HTTP_PATH);
-	k_sleep(K_SECONDS(1));
+    printk("Now performing http GET request to google.com...\\n");
+    http_get_example(HTTP_HOSTNAME, HTTP_PATH);
+    k_sleep(K_SECONDS(1));
 
-	// Using https://jsonplaceholder.typicode.com/ to demonstrate GET and POST requests with JSON
-	struct json_example_object get_post_result;
-	int json_get_status = json_get_example(JSON_HOSTNAME, JSON_GET_PATH, &get_post_result);
-	if (json_get_status < 0)
-	{
-		LOG_ERR("Error in json_get_example");
-	} else {
-		printk("Got JSON result:\\n");
-		printk("Title: %s\\n", get_post_result.title);
-		printk("Body: %s\\n", get_post_result.body);
-		printk("User ID: %d\\n", get_post_result.userId);
-		printk("ID: %d\\n", get_post_result.id);
-	}
-	k_sleep(K_SECONDS(1));
+    // Using https://jsonplaceholder.typicode.com/ to demonstrate GET and POST requests with JSON
+    struct json_example_object get_post_result;
+    int json_get_status = json_get_example(JSON_HOSTNAME, JSON_GET_PATH, &get_post_result);
+    if (json_get_status < 0)
+    {
+        LOG_ERR("Error in json_get_example");
+    } else {
+        printk("Got JSON result:\\n");
+        printk("Title: %s\\n", get_post_result.title);
+        printk("Body: %s\\n", get_post_result.body);
+        printk("User ID: %d\\n", get_post_result.userId);
+        printk("ID: %d\\n", get_post_result.id);
+    }
+    k_sleep(K_SECONDS(1));
 
-	struct json_example_object new_post_result;
-	struct json_example_payload new_post = { 
-		.body = "RPi",
-		.title = "Pico",
-		.userId = 199
-	};
+    struct json_example_object new_post_result;
+    struct json_example_payload new_post = {
+        .body = "RPi",
+        .title = "Pico",
+        .userId = 199
+    };
 
-	json_get_status = json_post_example(JSON_HOSTNAME, JSON_POST_PATH, &new_post, &new_post_result);
-	if (json_get_status < 0)
-	{
-		LOG_ERR("Error in json_post_example");
-	} else {
-		printk("Got JSON result:\\n");
-		printk("Title: %s\\n", new_post_result.title);
-		printk("Body: %s\\n", new_post_result.body);
-		printk("User ID: %d\\n", new_post_result.userId);
-		printk("ID: %d\\n", new_post_result.id);
-	}
-	k_sleep(K_SECONDS(1));
+    json_get_status = json_post_example(JSON_HOSTNAME, JSON_POST_PATH, &new_post, &new_post_result);
+    if (json_get_status < 0)
+    {
+        LOG_ERR("Error in json_post_example");
+    } else {
+        printk("Got JSON result:\\n");
+        printk("Title: %s\\n", new_post_result.title);
+        printk("Body: %s\\n", new_post_result.body);
+        printk("User ID: %d\\n", new_post_result.userId);
+        printk("ID: %d\\n", new_post_result.id);
+    }
+    k_sleep(K_SECONDS(1));
 
-	return 0;
+    return 0;
 }
 `;
 
@@ -542,12 +542,12 @@ async function generateMainC(
 
   if (isBlinky) {
     const blinkyLoop = `        if (gpio_pin_toggle_dt(&led) < 0) {
-			      return 0;
+            return 0;
         }
 
-		    led_state = !led_state;
-		    printk("LED state: %s\\n", led_state ? "ON" : "OFF");
-    
+        led_state = !led_state;
+        printk("LED state: %s\\n", led_state ? "ON" : "OFF");
+
 `;
     mainC = mainC.concat(blinkyLoop);
   } else {
@@ -556,7 +556,7 @@ async function generateMainC(
     );
   }
 
-  mainC = mainC.concat("        k_sleep(K_MSEC(1000));\n}\n\n");
+  mainC = mainC.concat("        k_sleep(K_MSEC(1000));\n    }\n\n");
   mainC = mainC.concat("    return 0;\n}\n");
 
   // write the file
@@ -650,7 +650,7 @@ async function generateGitIgnore(
   projBase: ZephyrProjectBase
 ): Promise<boolean> {
   let gitIgnore = `/build/
-  
+
 # Created by https://www.toptal.com/developers/gitignore/api/c,cmake,visualstudiocode,ninja,windows,macos,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,cmake,visualstudiocode,ninja,windows,macos,linux
 
