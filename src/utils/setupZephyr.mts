@@ -62,6 +62,8 @@ interface ZephyrSetupOutputs {
 const homeDirectory: string = homedir();
 
 const zephyrManifestContent: string = `
+# Copyright (c) 2021 Nordic Semiconductor ASA
+# SPDX-License-Identifier: Apache-2.0
 manifest:
   self:
     west-commands: scripts/west-commands.yml

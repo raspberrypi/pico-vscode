@@ -651,7 +651,9 @@ async function generateGitIgnore(
   te: TextEncoder = new TextEncoder(),
   projBase: ZephyrProjectBase
 ): Promise<boolean> {
-  let gitIgnore = `# Created by https://www.toptal.com/developers/gitignore/api/c,cmake,visualstudiocode,ninja,windows,macos,linux
+  let gitIgnore = `/build/
+  
+# Created by https://www.toptal.com/developers/gitignore/api/c,cmake,visualstudiocode,ninja,windows,macos,linux
 # Edit at https://www.toptal.com/developers/gitignore?templates=c,cmake,visualstudiocode,ninja,windows,macos,linux
 
 ### C ###
