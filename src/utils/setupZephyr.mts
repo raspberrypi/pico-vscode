@@ -632,25 +632,27 @@ async function checkWindowsDeps(isWindows: boolean): Promise<boolean> {
     return true;
   }
 
-  let installedSuccessfully = await checkDtc();
+  // Would only be required for additional DT output verification
+  /*let installedSuccessfully = await checkDtc();
   if (!installedSuccessfully) {
     void window.showErrorMessage(
       "Failed to install DTC. Cannot continue Zephyr setup."
     );
 
     return false;
-  }
+  }*/
 
-  installedSuccessfully = await checkGperf();
+  // Only required once CONFIG_USERSPACE support is enabled for RP2350
+  /*installedSuccessfully = await checkGperf();
   if (!installedSuccessfully) {
     void window.showErrorMessage(
       "Failed to install gperf. Cannot continue Zephyr setup."
     );
 
     return false;
-  }
+  }*/
 
-  installedSuccessfully = await checkWget();
+  let installedSuccessfully = await checkWget();
   if (!installedSuccessfully) {
     void window.showErrorMessage(
       "Failed to install wget. Cannot continue Zephyr setup."
@@ -1313,10 +1315,11 @@ export async function setupZephyr(
  * @returns The current board if found, otherwise undefined.
  */
 export async function zephyrTouchTasksJson(
-  tasksJsonPath: string,
+  tasksJsonPath: string | Uri,
   overwriteBoard?: string
 ): Promise<string | undefined> {
-  const tasksUri = Uri.file(tasksJsonPath);
+  const tasksUri =
+    typeof tasksJsonPath === "string" ? Uri.file(tasksJsonPath) : tasksJsonPath;
 
   try {
     await workspace.fs.stat(tasksUri);

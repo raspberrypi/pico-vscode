@@ -3,7 +3,7 @@ import Logger from "../logger.mjs";
 import {
   commands,
   ProgressLocation,
-  type Uri,
+  Uri,
   window,
   workspace,
   type WorkspaceFolder,
@@ -257,10 +257,9 @@ export default class SwitchBoardCommand extends Command {
     }
 
     const board = stringToZephyrBoard(boardRes[0]);
-    const taskJsonFile = join(wsf.uri.fsPath, ".vscode", "tasks.json");
+    const taskJsonFile = Uri.joinPath(wsf.uri, ".vscode", "tasks.json");
     await zephyrTouchTasksJson(taskJsonFile, board);
-
-    // TODO: maybe reload cmake
+    this._ui.updateBoard(board);
   }
 
   private async _switchBoardPicoSDK(

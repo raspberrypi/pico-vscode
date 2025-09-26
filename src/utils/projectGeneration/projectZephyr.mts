@@ -6,11 +6,7 @@ import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, Uri, window, workspace } from "vscode";
-import {
-  CURRENT_DTC_VERSION,
-  CURRENT_GPERF_VERSION,
-  CURRENT_WGET_VERSION,
-} from "../sharedConstants.mjs";
+import { CURRENT_WGET_VERSION } from "../sharedConstants.mjs";
 import type { VersionBundle } from "../versionBundles.mjs";
 import { HOME_VAR } from "../../settings.mjs";
 import { TextEncoder } from "util";
@@ -185,7 +181,9 @@ async function generateVSCodeConfig(
     "cmake.cmakePath": "",
     "C_Cpp.debugShortcut": false,
     "terminal.integrated.env.windows": {
-      Path: `\${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION};\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
+      // remove gperf and dtc for now
+      // \${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}
+      Path: `\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
     },
     "terminal.integrated.env.osx": {
       PATH: "${env:PATH}:",
