@@ -267,6 +267,12 @@
         "title": "Get path of the project release SBOM (rust only)",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.getZephyrSDKPath",
+        "title": "Get Zephyr SDK path",
+        "category": "Raspberry Pi Pico",
+        "enablement": "false"
       }
     ],
     "configuration": {

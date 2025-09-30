@@ -1,5 +1,5 @@
 import { CommandWithResult } from "./command.mjs";
-import { commands, type Uri, window, workspace } from "vscode";
+import { commands, FileType, Uri, window, workspace } from "vscode";
 import {
   getPythonPath,
   getPath,
@@ -41,6 +41,7 @@ import {
   GET_SVD_PATH,
   GET_TARGET,
   GET_WEST_PATH,
+  GET_ZEPHYR_SDK_PATH,
   GET_ZEPHYR_WORKSPACE_PATH,
 } from "./cmdIds.mjs";
 import { getBoardFromZephyrProject } from "../utils/setupZephyr.mjs";
@@ -50,6 +51,7 @@ import {
   ZEPHYR_PICO2_W,
   ZEPHYR_PICO_W,
 } from "../models/zephyrBoards.mjs";
+import { compare } from "../utils/semverUtil.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -608,5 +610,39 @@ export class GetZephyrWorkspacePathCommand extends CommandWithResult<
     }
 
     return result;
+  }
+}
+
+export class GetZephyrSDKPathCommand extends CommandWithResult<
+  string | undefined
+> {
+  constructor() {
+    super(GET_ZEPHYR_SDK_PATH);
+  }
+
+  async execute(): Promise<string | undefined> {
+    const result = buildZephyrWorkspacePath();
+
+    if (result === null || !result) {
+      return undefined;
+    }
+    const workspaceUri = Uri.file(result);
+
+    try {
+      await workspace.fs.stat(workspaceUri);
+      const contents = await workspace.fs.readDirectory(workspaceUri);
+      const sdksDirectories = contents
+        .filter(
+          entry =>
+            entry[1] === FileType.Directory &&
+            entry[0].startsWith("zephyr-sdk-")
+        )
+        .map(([name]) => name.replace(/^zephyr-sdk-/, ""))
+        .sort((a, b) => compare(b, a)); // sort descending
+
+      return joinPosix(result, `zephyr-sdk-${sdksDirectories[0]}`);
+    } catch {
+      return undefined;
+    }
   }
 }

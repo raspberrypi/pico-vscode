@@ -62,8 +62,6 @@ interface ZephyrSetupOutputs {
 const homeDirectory: string = homedir();
 
 const zephyrManifestContent: string = `
-# Copyright (c) 2021 Nordic Semiconductor ASA
-# SPDX-License-Identifier: Apache-2.0
 manifest:
   self:
     west-commands: scripts/west-commands.yml
@@ -1240,7 +1238,7 @@ export async function setupZephyr(
           cancellable: false,
         },
         async progress2 => {
-          // was -b ${zephyrWorkspaceDirectory} which results in zephyr-sdk-<version> in it
+          // was  which results in zephyr-sdk-<version> in it
           let westInstallSDKCommand: string = `"${westExe}" sdk install `;
 
           const githubPat = Settings.getInstance()?.getString(
@@ -1254,9 +1252,10 @@ export async function setupZephyr(
             );
             westInstallSDKCommand += `--personal-access-token ${githubPat} `;
           }
+          //`-d "${zephyrWorkspaceDirectory}/zephyr-sdk"`;
           westInstallSDKCommand +=
-            "-t arm-zephyr-eabi " +
-            `-d "${zephyrWorkspaceDirectory}/zephyr-sdk"`;
+            // -b ${} results in zephyr-sdk-<version> folder
+            "-t arm-zephyr-eabi -b ${zephyrWorkspaceDirectory}";
 
           result = await _runCommand(westInstallSDKCommand, {
             cwd: zephyrWorkspaceDirectory,
