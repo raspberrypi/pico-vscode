@@ -47,11 +47,6 @@
     "paulober.pico-w-go",
     "ms-python.python"
   ],
-  "extensionPack": [
-    "ms-vscode.cpptools",
-    "ms-vscode.cpptools-extension-pack",
-    "ms-vscode.vscode-serial-monitor"
-  ],
   "main": "./dist/extension.cjs",
   "markdown": "github",
   "minimumNodeVersion": 20,
