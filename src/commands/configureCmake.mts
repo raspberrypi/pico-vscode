@@ -4,7 +4,7 @@ import { window, workspace } from "vscode";
 import { cmakeGetPicoVar, configureCmakeNinja } from "../utils/cmakeUtil.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 import { join } from "path";
-import { rimraf } from "rimraf";
+import { rm } from "fs/promises";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type UI from "../ui.mjs";
 import { CLEAN_CMAKE, CONFIGURE_CMAKE, SWITCH_BUILD_TYPE } from "./cmdIds.mjs";
@@ -89,7 +89,7 @@ export class CleanCMakeCommand extends Command {
     try {
       // delete build dir if present
       const buildDir = join(workspaceFolder.uri.fsPath, "build");
-      await rimraf(buildDir, { maxRetries: 2 });
+      await rm(buildDir, { recursive: true, force: true, maxRetries: 2 });
     } catch (error) {
       this._logger.error(
         "Error cleaning build directory.",

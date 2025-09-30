@@ -7,6 +7,7 @@ import { readdirSync, statSync, readFileSync } from "fs";
 import { getDataRoot } from "./downloadHelpers.mjs";
 import { isInternetConnected } from "./downloadHelpers.mjs";
 import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import type { Uri } from "vscode";
 
 const iniUrl =
   "https://raspberrypi.github.io/pico-vscode/" +
@@ -57,9 +58,9 @@ function parseIni(data: string): SupportedToolchainVersion[] {
   return supportedToolchains;
 }
 
-export async function getSupportedToolchains(): Promise<
-  SupportedToolchainVersion[]
-> {
+export async function getSupportedToolchains(
+  extensionUri: Uri
+): Promise<SupportedToolchainVersion[]> {
   try {
     if (!(await isInternetConnected())) {
       throw new Error(
@@ -113,9 +114,9 @@ export async function getSupportedToolchains(): Promise<
     try {
       // try to load local supported toolchains list
       const supportedToolchains = parseIni(
-        readFileSync(join(getDataRoot(), "supportedToolchains.ini")).toString(
-          "utf-8"
-        )
+        readFileSync(
+          join(getDataRoot(extensionUri), "supportedToolchains.ini")
+        ).toString("utf-8")
       );
 
       return supportedToolchains;

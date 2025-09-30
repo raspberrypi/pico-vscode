@@ -1,7 +1,7 @@
 import { execSync } from "child_process";
 import Logger from "../logger.mjs";
 import { mkdir } from "fs";
-import { rimrafSync } from "rimraf";
+import { rm } from "fs/promises";
 import { dirname, join } from "path";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -13,11 +13,8 @@ function ensureDir(dirPath: string): Promise<void> {
   });
 }
 
-function removeDir(dirPath: string): Promise<void> {
-  return new Promise(resolve => {
-    rimrafSync(dirPath);
-    resolve();
-  });
+async function removeDir(dirPath: string): Promise<void> {
+  await rm(dirPath, { recursive: true, force: true });
 }
 
 /**

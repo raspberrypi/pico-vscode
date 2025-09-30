@@ -117,7 +117,9 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
         return "";
       }
 
-      const supportedToolchains = await getSupportedToolchains();
+      const supportedToolchains = await getSupportedToolchains(
+        this._extensionUri
+      );
       const latestSupportedToolchain = supportedToolchains.find(
         t => t.version === latestVb[1].toolchain
       );

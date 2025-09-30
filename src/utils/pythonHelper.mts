@@ -156,6 +156,8 @@ export default async function findPython(): Promise<string | undefined> {
                   return pythonPath;
                 }
               }
+
+              return undefined;
             }
           );
           break;
@@ -287,6 +289,8 @@ async function findPythonInPythonExtension(): Promise<string | undefined> {
       break;
     }
   }
+
+  return undefined;
 }
 
 export function showPythonNotFoundError(): void {

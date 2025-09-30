@@ -578,6 +578,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
       },
       async progress => {
         const result = await downloadAndInstallSDK(
+          context.extensionUri,
           latestSDK,
           SDK_REPOSITORY_URL
         );
@@ -656,7 +657,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   }
 
   // get all available toolchains for download link of current selected one
-  const toolchains = await getSupportedToolchains();
+  const toolchains = await getSupportedToolchains(context.extensionUri);
   const selectedToolchain = toolchains.find(
     toolchain => toolchain.version === selectedToolchainAndSDKVersions[1]
   );
@@ -674,6 +675,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     },
     async progress => {
       const result = await downloadAndInstallSDK(
+        context.extensionUri,
         selectedToolchainAndSDKVersions[0],
         SDK_REPOSITORY_URL
       );

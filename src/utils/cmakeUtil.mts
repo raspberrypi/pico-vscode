@@ -7,7 +7,7 @@ import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { readFileSync } from "fs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { readFile, writeFile } from "fs/promises";
-import { rimraf, windows as rimrafWindows } from "rimraf";
+import { rm } from "fs/promises";
 import { homedir } from "os";
 import which from "which";
 import { compareLt } from "./semverUtil.mjs";
@@ -340,6 +340,8 @@ export async function configureCmakeNinja(
             child.kill();
           });
         });
+
+        return true;
       }
     );
 
@@ -388,14 +390,12 @@ export async function cmakeUpdateBoard(
     );
 
     // reconfigure so .build gets updated
-    // TODO: To get a behavior similar to the rm -rf Unix command,
-    // use rmSync with options { recursive: true, force: true }
-    // to remove rimraf requirement
-    if (process.platform === "win32") {
-      await rimrafWindows(join(folder.fsPath, "build"), { maxRetries: 2 });
-    } else {
-      await rimraf(join(folder.fsPath, "build"), { maxRetries: 2 });
-    }
+    await rm(join(folder.fsPath, "build"), {
+      recursive: true,
+      force: true,
+      maxRetries: 2,
+      retryDelay: 100,
+    });
     await configureCmakeNinja(folder);
     Logger.info(LoggerSource.cmake, "Reconfigured CMake successfully.");
 
@@ -524,14 +524,12 @@ export async function cmakeUpdateSDK(
 
     if (reconfigure) {
       // reconfigure so .build gets updated
-      // TODO: To get a behavior similar to the rm -rf Unix command,
-      // use rmSync with options { recursive: true, force: true }
-      // to remove rimraf requirement
-      if (process.platform === "win32") {
-        await rimrafWindows(join(folder.fsPath, "build"), { maxRetries: 2 });
-      } else {
-        await rimraf(join(folder.fsPath, "build"), { maxRetries: 2 });
-      }
+      await rm(join(folder.fsPath, "build"), {
+        recursive: true,
+        force: true,
+        maxRetries: 2,
+        retryDelay: 100,
+      });
       await configureCmakeNinja(folder);
       Logger.info(LoggerSource.cmake, "Reconfigured CMake successfully.");
     }

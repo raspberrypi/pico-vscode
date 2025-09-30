@@ -1,7 +1,7 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { window, commands } from "vscode";
-import { rimraf } from "rimraf";
+import { rm } from "fs/promises";
 import { join } from "path";
 import { homedir } from "os";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
@@ -20,9 +20,9 @@ export default class UpdateOpenOCDCommand extends Command {
     this._logger.info("Updating OpenOCD...");
 
     try {
-      // rimraf ~/.pico-sdk/openocd/$openOCDVersion
-      await rimraf(join(homedir(), ".pico-sdk/openocd", OPENOCD_VERSION), {
-        preserveRoot: false,
+      await rm(join(homedir(), ".pico-sdk/openocd", OPENOCD_VERSION), {
+        recursive: true,
+        force: true,
         maxRetries: 1,
         retryDelay: 1000,
       });

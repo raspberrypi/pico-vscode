@@ -9,7 +9,7 @@ import {
 import { mkdir } from "fs/promises";
 import { type ExecOptions, exec } from "child_process";
 import { homedir, tmpdir } from "os";
-import { basename, dirname, join } from "path";
+import { basename, join } from "path";
 import { join as joinPosix } from "path/posix";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { STATUS_CODES } from "http";
@@ -21,7 +21,6 @@ import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
 import { Uri, window, workspace } from "vscode";
-import { fileURLToPath } from "url";
 import {
   type GithubReleaseAssetData,
   GithubRepository,
@@ -150,12 +149,8 @@ export function buildPicotoolPath(version: string): string {
   );
 }
 
-export function getScriptsRoot(): string {
-  return joinPosix(
-    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
-    "..",
-    "scripts"
-  );
+export function getScriptsRoot(extensionUri: Uri): string {
+  return Uri.joinPath(extensionUri, "scripts").fsPath.replaceAll("\\", "/");
 }
 
 export function buildNinjaPath(version: string): string {
@@ -512,6 +507,7 @@ function cleanupFiles(...filePaths: string[]): void {
  * downloaded and installed, false otherwise
  */
 export async function downloadAndInstallSDK(
+  extensionUri: Uri,
   version: string,
   repositoryUrl: string,
   python3Path?: string
@@ -532,7 +528,7 @@ export async function downloadAndInstallSDK(
   // Install pico-vscode.cmake file - overwrite if it's already there
   await mkdir(buildCMakeIncPath(true), { recursive: true });
   copyFileSync(
-    joinPosix(getScriptsRoot(), "pico-vscode.cmake"),
+    joinPosix(getScriptsRoot(extensionUri), "pico-vscode.cmake"),
     joinPosix(buildCMakeIncPath(true), "pico-vscode.cmake")
   );
 

@@ -13,7 +13,7 @@ import { cp } from "fs/promises";
 import { get } from "https";
 import { isInternetConnected, getDataRoot } from "./downloadHelpers.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { window } from "vscode";
+import { type Uri, window } from "vscode";
 import {
   EXAMPLES_GITREF,
   EXAMPLES_JSON_URL,
@@ -75,7 +75,7 @@ function parseExamplesJson(data: string): Example[] {
  *
  * @returns A promise that resolves with an array of Example objects.
  */
-export async function loadExamples(): Promise<Example[]> {
+export async function loadExamples(extensionUri: Uri): Promise<Example[]> {
   try {
     if (!(await isInternetConnected())) {
       throw new Error(
@@ -128,7 +128,7 @@ export async function loadExamples(): Promise<Example[]> {
 
     try {
       const examplesFile = readFileSync(
-        joinPosix(getDataRoot(), "examples.json")
+        joinPosix(getDataRoot(extensionUri), "examples.json")
       );
 
       return parseExamplesJson(examplesFile.toString("utf-8"));

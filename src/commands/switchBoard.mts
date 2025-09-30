@@ -58,11 +58,13 @@ function stringToZephyrBoard(e: string): string {
 export default class SwitchBoardCommand extends Command {
   private _logger: Logger = new Logger("SwitchBoardCommand");
   private _versionBundlesLoader: VersionBundlesLoader;
+  private _extensionUri: Uri;
 
   constructor(private readonly _ui: UI, extensionUri: Uri) {
     super(SWITCH_BOARD);
 
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
+    this._extensionUri = extensionUri;
   }
 
   public static async askBoard(
@@ -308,7 +310,9 @@ export default class SwitchBoardCommand extends Command {
     const chosenToolchainVersion = useRiscV ? riscvToolchain : armToolchain;
 
     if (chosenToolchainVersion !== versions[1]) {
-      const supportedToolchainVersions = await getSupportedToolchains();
+      const supportedToolchainVersions = await getSupportedToolchains(
+        this._extensionUri
+      );
 
       if (supportedToolchainVersions.length === 0) {
         // internet is not required if locally cached version bundles are available

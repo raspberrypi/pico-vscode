@@ -1,21 +1,19 @@
 import { readdirSync, renameSync, rmdirSync, statSync } from "fs";
-import { dirname, join } from "path";
-import { join as joinPosix } from "path/posix";
+import { join } from "path";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { exec } from "child_process";
 import AdmZip from "adm-zip";
 import { request } from "https";
-import { fileURLToPath } from "url";
 import { unknownErrorToString } from "./errorHelper.mjs";
 import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import { Uri } from "vscode";
 
-export function getDataRoot(): string {
-  return joinPosix(
-    dirname(fileURLToPath(import.meta.url)).replaceAll("\\", "/"),
-    "..",
+export function getDataRoot(extensionUri: Uri): string {
+  return Uri.joinPath(
+    extensionUri,
     "data",
     CURRENT_DATA_VERSION
-  );
+  ).fsPath.replaceAll("\\", "/");
 }
 
 export function tryUnzipFiles(

@@ -1,7 +1,7 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { window } from "vscode";
-import { rimraf } from "rimraf";
+import { rm } from "fs/promises";
 import { join } from "path";
 import { homedir } from "os";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
@@ -36,9 +36,9 @@ export default class UninstallPicoSDKCommand extends Command {
       this._logger.info("Uninstalling Pico SDK...");
 
       try {
-        // rimraf ~/.pico-sdk
-        await rimraf(join(homedir(), ".pico-sdk"), {
-          preserveRoot: false,
+        await rm(join(homedir(), ".pico-sdk"), {
+          recursive: true,
+          force: true,
           maxRetries: 1,
           retryDelay: 1000,
         });

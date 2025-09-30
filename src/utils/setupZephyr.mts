@@ -396,6 +396,7 @@ async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
 }
 
 async function checkSdk(
+  extensionUri: Uri,
   latestVb: [string, VersionBundle],
   python3Path: string
 ): Promise<boolean> {
@@ -407,6 +408,7 @@ async function checkSdk(
     },
     async progress => {
       const result = await downloadAndInstallSDK(
+        extensionUri,
         latestVb[0],
         SDK_REPOSITORY_URL,
         python3Path
@@ -436,6 +438,7 @@ async function checkSdk(
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function checkDtc(): Promise<boolean> {
   return window.withProgress(
     {
@@ -475,6 +478,7 @@ async function checkDtc(): Promise<boolean> {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function checkGperf(): Promise<boolean> {
   return window.withProgress(
     {
@@ -825,7 +829,7 @@ export async function setupZephyr(
       }
 
       // required for svd files
-      const sdk = await checkSdk(latestVb, python3Path);
+      const sdk = await checkSdk(data.extUri, latestVb, python3Path);
       if (!sdk) {
         progress.report({
           message: "Failed",

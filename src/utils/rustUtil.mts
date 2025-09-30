@@ -443,6 +443,7 @@ export async function installLatestRustRequirements(
     },
     async progress2 => {
       const result = await downloadAndInstallSDK(
+        extensionUri,
         latest[0],
         SDK_REPOSITORY_URL,
         // python3Path is only possible undefined if downloaded and
@@ -476,7 +477,7 @@ export async function installLatestRustRequirements(
     return false;
   }
 
-  const supportedToolchains = await getSupportedToolchains();
+  const supportedToolchains = await getSupportedToolchains(extensionUri);
 
   result = await window.withProgress(
     {

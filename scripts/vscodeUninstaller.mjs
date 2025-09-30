@@ -1,11 +1,12 @@
 import { homedir } from "os";
 import { join } from "path";
-import { rimraf } from "rimraf";
+import { rm } from "fs/promises";
 
 const picoSdkRoot = join(homedir(), ".pico-sdk");
 
-rimraf(picoSdkRoot, { glob: false }).then(() => {
+try {
+  await rm(picoSdkRoot, { recursive: true, force: true });
   console.log("Pico SDK has been uninstalled successfully.");
-}).catch((err) => {
+} catch (err) {
   console.error("Error occurred while uninstalling Pico SDK:", err);
-});
+}

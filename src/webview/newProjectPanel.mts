@@ -628,7 +628,7 @@ export class NewProjectPanel {
               }
 
               if (this._examples.length === 0) {
-                this._examples = await loadExamples();
+                this._examples = await loadExamples(this._extensionUri);
               }
 
               const example = this._examples.find(
@@ -874,6 +874,7 @@ export class NewProjectPanel {
         },
         async progress2 => {
           const result = await downloadAndInstallSDK(
+            this._extensionUri,
             selectedSDK,
             SDK_REPOSITORY_URL,
             // python3Path is only possible undefined if downloaded and there is already checked and returned if this happened
@@ -1533,7 +1534,9 @@ export class NewProjectPanel {
 
     try {
       const availableSDKs = await getSDKReleases();
-      const supportedToolchains = await getSupportedToolchains();
+      const supportedToolchains = await getSupportedToolchains(
+        this._extensionUri
+      );
       const ninjaReleases = await getNinjaReleases();
       const cmakeReleases = await getCmakeReleases();
       const picotoolReleases = await getPicotoolReleases();
@@ -1643,7 +1646,7 @@ export class NewProjectPanel {
 
     this._systemCmakeVersion = await getSystemCmakeVersion();
 
-    this._examples = await loadExamples();
+    this._examples = await loadExamples(this._extensionUri);
     this._logger.info(`Loaded ${this._examples.length} examples.`);
 
     // Restrict the webview to only load specific scripts
@@ -2408,7 +2411,7 @@ export class NewProjectPanel {
     const command: string = [
       // TODO: maybe use includes powershell instead of .exe and ===
       `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${pythonExe}"`,
-      `"${joinPosix(getScriptsRoot(), "pico_project.py")}"`,
+      `"${joinPosix(getScriptsRoot(this._extensionUri), "pico_project.py")}"`,
       ...basicNewProjectOptions,
       ...libraryAndCodeGenerationOptions,
       enumToParam(options.debugger),
@@ -2452,7 +2455,7 @@ export class NewProjectPanel {
     // TODO: use exit codes to determine why the project generator failed (if it did)
     // to be able to show the user a more detailed error message
     const generatorExitCode = await this._runGenerator(command, {
-      cwd: getScriptsRoot(),
+      cwd: getScriptsRoot(this._extensionUri),
       windowsHide: true,
     });
     if (

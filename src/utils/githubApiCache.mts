@@ -1,5 +1,5 @@
 // TODO: put defaults into json file, to prevent need for these disables
-import type { ExtensionContext, Memento } from "vscode";
+import type { ExtensionContext, Memento, Uri } from "vscode";
 import type { GithubReleaseResponse, GithubRepository } from "./githubREST.mjs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { getDataRoot } from "./downloadHelpers.mjs";
@@ -59,6 +59,7 @@ function parseCacheJson(data: string): {
 }
 
 export async function defaultCacheOfRepository(
+  extensionUri: Uri,
   repository: GithubRepository,
   dataType: GithubApiCacheEntryDataType,
   tag?: string
@@ -139,7 +140,7 @@ export async function defaultCacheOfRepository(
 
     try {
       const cacheFile = readFileSync(
-        joinPosix(getDataRoot(), "github-cache.json")
+        joinPosix(getDataRoot(extensionUri), "github-cache.json")
       );
       const parsed = parseCacheJson(cacheFile.toString("utf-8"));
       ret.data =
@@ -168,9 +169,11 @@ export async function defaultCacheOfRepository(
 export default class GithubApiCache {
   private static instance?: GithubApiCache;
   private globalState: Memento;
+  private _extUri: Uri;
 
   private constructor(context: ExtensionContext) {
     this.globalState = context.globalState;
+    this._extUri = context.extensionUri;
   }
 
   /**
@@ -281,7 +284,7 @@ export default class GithubApiCache {
           `${tag !== undefined ? "-" + tag : ""}`
       );
     } else {
-      return defaultCacheOfRepository(repository, dataType, tag);
+      return defaultCacheOfRepository(this._extUri, repository, dataType, tag);
     }
   }
 

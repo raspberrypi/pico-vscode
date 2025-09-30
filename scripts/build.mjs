@@ -1,9 +1,9 @@
 import { execSync } from 'child_process';
 
 const buildEnv = process.env.BUILD_ENV || 'production';
-const sourcemap = buildEnv === 'production' ? 'hidden' : 'true';
 
-console.debug("Building with:\nenvironment =", buildEnv, "\nsourcemap =", sourcemap, "(out of order, always true)");
+console.debug("Building with:\nenvironment =", buildEnv);
 
-const command = `rollup -c --environment BUILD:${buildEnv}`;
+const command = `webpack --mode ${buildEnv}`;
 execSync(command, { stdio: 'inherit' });
+console.debug("Build complete.");

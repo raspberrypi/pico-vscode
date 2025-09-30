@@ -55,12 +55,14 @@ interface SwitchSDKOptions {
 
 export default class SwitchSDKCommand extends Command {
   private _versionBundlesLoader: VersionBundlesLoader;
+  private _extUri: Uri;
   private _logger: Logger = new Logger("SwitchSDKCommand");
 
   constructor(private readonly _ui: UI, extensionUri: Uri) {
     super(SWITCH_SDK);
 
     this._versionBundlesLoader = new VersionBundlesLoader(extensionUri);
+    this._extUri = extensionUri;
   }
 
   // TODO: maybe move into UI helper file or something
@@ -126,6 +128,8 @@ export default class SwitchSDKCommand extends Command {
 
         return;
       }
+      default:
+        return;
     }
   }
 
@@ -192,6 +196,8 @@ export default class SwitchSDKCommand extends Command {
 
         return;
       }
+      default:
+        return;
     }
   }
 
@@ -424,7 +430,9 @@ export default class SwitchSDKCommand extends Command {
       return;
     }
 
-    const supportedToolchainVersions = await getSupportedToolchains();
+    const supportedToolchainVersions = await getSupportedToolchains(
+      this._extUri
+    );
 
     if (supportedToolchainVersions.length === 0) {
       // internet is not required if locally cached version bundles are available
@@ -475,6 +483,7 @@ export default class SwitchSDKCommand extends Command {
         // download and install selected SDK
         // TODO: maybe parse python3 path
         const result = await downloadAndInstallSDK(
+          this._extUri,
           selectedSDK.sdk,
           SDK_REPOSITORY_URL
         );
