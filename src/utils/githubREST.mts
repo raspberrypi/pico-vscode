@@ -6,15 +6,15 @@ import GithubApiCache, {
 import { type RequestOptions, request } from "https";
 import { unknownErrorToString, unknownToError } from "./errorHelper.mjs";
 import { window } from "vscode";
-
-// TODO: move into web consts
-export const HTTP_STATUS_OK = 200;
-export const HTTP_STATUS_NOT_MODIFIED = 304;
-export const HTTP_STATUS_UNAUTHORIZED = 401;
-export const HTTP_STATUS_FORBIDDEN = 403;
-export const EXT_USER_AGENT = "Raspberry Pi Pico VS Code Extension";
-export const GITHUB_API_BASE_URL = "https://api.github.com";
-export const GITHUB_API_VERSION = "2022-11-28";
+import {
+  EXT_USER_AGENT,
+  GITHUB_API_BASE_URL,
+  GITHUB_API_VERSION,
+  HTTP_STATUS_FORBIDDEN,
+  HTTP_STATUS_NOT_MODIFIED,
+  HTTP_STATUS_OK,
+  HTTP_STATUS_UNAUTHORIZED,
+} from "./sharedConstants.mjs";
 
 /**
  * Enum containing supported repositories on GitHub.

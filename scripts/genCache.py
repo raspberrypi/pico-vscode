@@ -10,7 +10,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(f"{dir_path}/..")
 
 # Extract js for variables
-with open("dist/extension.cjs", "r") as f:
+with open("dist/utils/sharedConstants.mjs", "r") as f:
     keep = False
     txt = ""
     for line in f.readlines():

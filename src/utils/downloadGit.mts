@@ -7,9 +7,11 @@ import { get } from "https";
 import { exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
-import { EXT_USER_AGENT } from "./githubREST.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { WINDOWS_X86_GIT_DOWNLOAD_URL } from "./sharedConstants.mjs";
+import {
+  EXT_USER_AGENT,
+  WINDOWS_X86_GIT_DOWNLOAD_URL,
+} from "./sharedConstants.mjs";
 
 /**
  * Downloads and installs a portable version of Git.

@@ -40,3 +40,11 @@ export const LICENSE_URL_7ZIP = "https://7-zip.org/license.txt";
 export const WINDOWS_X86_7ZIP_DOWNLOAD_URL = "https://www.7-zip.org/a/7zr.exe";
 
 export const CMAKELISTS_ZEPHYR_HEADER = "#pico-zephyr-project";
+
+export const HTTP_STATUS_OK = 200;
+export const HTTP_STATUS_NOT_MODIFIED = 304;
+export const HTTP_STATUS_UNAUTHORIZED = 401;
+export const HTTP_STATUS_FORBIDDEN = 403;
+export const EXT_USER_AGENT = "Raspberry Pi Pico VS Code Extension";
+export const GITHUB_API_BASE_URL = "https://api.github.com";
+export const GITHUB_API_VERSION = "2022-11-28";

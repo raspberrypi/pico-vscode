@@ -26,15 +26,9 @@ import {
   GithubRepository,
   getGithubReleaseByTag,
   getAuthorizationHeaders,
-  EXT_USER_AGENT,
-  GITHUB_API_BASE_URL,
   ownerOfRepository,
   repoNameOfRepository,
-  GITHUB_API_VERSION,
-  HTTP_STATUS_UNAUTHORIZED,
   githubApiUnauthorized,
-  HTTP_STATUS_FORBIDDEN,
-  HTTP_STATUS_OK,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import type { Writable } from "stream";
@@ -43,6 +37,12 @@ import { got, type Progress } from "got";
 import { pipeline as streamPipeline } from "node:stream/promises";
 import {
   CURRENT_PYTHON_VERSION,
+  EXT_USER_AGENT,
+  GITHUB_API_BASE_URL,
+  GITHUB_API_VERSION,
+  HTTP_STATUS_FORBIDDEN,
+  HTTP_STATUS_OK,
+  HTTP_STATUS_UNAUTHORIZED,
   WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
