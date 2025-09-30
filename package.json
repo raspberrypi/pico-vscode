@@ -5,7 +5,7 @@
   "version": "0.18.0",
   "author": "paulober",
   "publisher": "raspberry-pi",
-  "icon": "./images/extension-icon.png",
+  "icon": "images/extension-icon.png",
   "license": "MPL-2.0",
   "homepage": "https://github.com/raspberrypi/pico-vscode/blob/master/README.md",
   "bugs": {
@@ -47,7 +47,7 @@
     "paulober.pico-w-go",
     "ms-python.python"
   ],
-  "main": "./dist/extension.cjs",
+  "main": "./dist/extension.js",
   "markdown": "github",
   "minimumNodeVersion": 20,
   "capabilities": {

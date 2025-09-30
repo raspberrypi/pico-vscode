@@ -60,11 +60,11 @@ const uninstallerEsm = {
   name: 'uninstaller',
   target: 'node',
   mode: 'production',
-  entry: './scripts/vscodeUninstall.mjs',
+  entry: './scripts/vscodeUninstaller.mjs',
   experiments: { outputModule: true, topLevelAwait: true },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'vscodeUninstall.mjs',
+    filename: 'vscodeUninstaller.mjs',
     library: { type: 'module' },
     chunkFormat: 'module',
     clean: false,
