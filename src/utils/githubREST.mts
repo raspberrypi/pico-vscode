@@ -15,6 +15,7 @@ import {
   HTTP_STATUS_NOT_MODIFIED,
   HTTP_STATUS_OK,
   HTTP_STATUS_UNAUTHORIZED,
+  ownerOfRepository,
 } from "./sharedConstants.mjs";
 
 /**
@@ -35,25 +36,6 @@ export type GithubReleaseAssetData = {
   browser_download_url: string;
   id: number;
 };
-
-/**
- * Get the url friendly owner of a repository on GitHub.
- *
- * @param repository The repository to get the owner of
- * @returns The owner of the repository on GitHub
- */
-export function ownerOfRepository(repository: GithubRepository): string {
-  switch (repository) {
-    case GithubRepository.picoSDK:
-    case GithubRepository.tools:
-    case GithubRepository.picotool:
-      return "raspberrypi";
-    case GithubRepository.cmake:
-      return "Kitware";
-    case GithubRepository.ninja:
-      return "ninja-build";
-  }
-}
 
 /**
  * Convert a GithubRepository enum value to the url friendly name

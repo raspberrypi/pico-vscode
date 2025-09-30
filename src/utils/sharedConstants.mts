@@ -60,6 +60,25 @@ export enum GithubRepository {
   picotool = 4,
 }
 
+/**
+ * Get the url friendly owner of a repository on GitHub.
+ *
+ * @param repository The repository to get the owner of
+ * @returns The owner of the repository on GitHub
+ */
+export function ownerOfRepository(repository: GithubRepository): string {
+  switch (repository) {
+    case GithubRepository.picoSDK:
+    case GithubRepository.tools:
+    case GithubRepository.picotool:
+      return "raspberrypi";
+    case GithubRepository.cmake:
+      return "Kitware";
+    case GithubRepository.ninja:
+      return "ninja-build";
+  }
+}
+
 // NOTE: The primary rate limit for unauthenticated requests is 60 requests per hour.
 export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
 export const NINJA_REPOSITORY_URL = "https://github.com/ninja-build/ninja.git";
