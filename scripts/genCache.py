@@ -22,7 +22,7 @@ with open("dist/utils/sharedConstants.mjs", "r") as f:
             keep = True
 
         if keep:
-            txt += line
+            txt += line.replace("export ", "")
 
         if "const CURRENT_DATA_VERSION =" in line:
             keep = False
