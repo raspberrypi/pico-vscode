@@ -79,6 +79,28 @@ export function ownerOfRepository(repository: GithubRepository): string {
   }
 }
 
+/**
+ * Convert a GithubRepository enum value to the url friendly name
+ * of the repository on GitHub it represents.
+ *
+ * @param repository The repository to get the name of
+ * @returns The name of the repository on GitHub
+ */
+export function repoNameOfRepository(repository: GithubRepository): string {
+  switch (repository) {
+    case GithubRepository.picoSDK:
+      return "pico-sdk";
+    case GithubRepository.cmake:
+      return "CMake";
+    case GithubRepository.ninja:
+      return "ninja";
+    case GithubRepository.tools:
+      return "pico-sdk-tools";
+    case GithubRepository.picotool:
+      return "picotool";
+  }
+}
+
 // NOTE: The primary rate limit for unauthenticated requests is 60 requests per hour.
 export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
 export const NINJA_REPOSITORY_URL = "https://github.com/ninja-build/ninja.git";

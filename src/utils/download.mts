@@ -25,7 +25,6 @@ import {
   type GithubReleaseAssetData,
   getGithubReleaseByTag,
   getAuthorizationHeaders,
-  repoNameOfRepository,
   githubApiUnauthorized,
 } from "./githubREST.mjs";
 import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
@@ -43,6 +42,7 @@ import {
   HTTP_STATUS_OK,
   HTTP_STATUS_UNAUTHORIZED,
   ownerOfRepository,
+  repoNameOfRepository,
   WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";

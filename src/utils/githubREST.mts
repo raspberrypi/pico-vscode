@@ -16,6 +16,7 @@ import {
   HTTP_STATUS_OK,
   HTTP_STATUS_UNAUTHORIZED,
   ownerOfRepository,
+  repoNameOfRepository,
 } from "./sharedConstants.mjs";
 
 /**
@@ -36,28 +37,6 @@ export type GithubReleaseAssetData = {
   browser_download_url: string;
   id: number;
 };
-
-/**
- * Convert a GithubRepository enum value to the url friendly name
- * of the repository on GitHub it represents.
- *
- * @param repository The repository to get the name of
- * @returns The name of the repository on GitHub
- */
-export function repoNameOfRepository(repository: GithubRepository): string {
-  switch (repository) {
-    case GithubRepository.picoSDK:
-      return "pico-sdk";
-    case GithubRepository.cmake:
-      return "CMake";
-    case GithubRepository.ninja:
-      return "ninja";
-    case GithubRepository.tools:
-      return "pico-sdk-tools";
-    case GithubRepository.picotool:
-      return "picotool";
-  }
-}
 
 /**
  * Interface for authorization headers to include in a request.
