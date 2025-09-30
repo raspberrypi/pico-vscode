@@ -348,7 +348,7 @@
     "vscode:uninstall": "node ./dist/vscodeUninstaller.mjs",
     "vscode:prepublish": "npm run package",
     "compile": "tsc --build tsconfig.json",
-    "watch": "tsc --build tsconfig.json --watch",
+    "watch": "webpack --watch --mode development",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "package": "npm run clean && node scripts/build.mjs",
     "lint": "eslint src",
