@@ -6,7 +6,7 @@ import { type WorkspaceConfiguration, workspace } from "vscode";
 import { dirname } from "path/posix";
 import { compareGe } from "./semverUtil.mjs";
 import { extensionName } from "../commands/command.mjs";
-import {EOL} from "os";
+import { EOL } from "os";
 
 interface Configuration {
   includePath: string[];
@@ -63,8 +63,9 @@ async function updateCppPropertiesFile(
     });
 
     // Write the updated JSON back to the file
-    const updatedJsonData =
-      (JSON.stringify(cppProperties, null, 4) + EOL).replace(/\r?\n/g, EOL);
+    const updatedJsonData = (
+      JSON.stringify(cppProperties, null, 4) + EOL
+    ).replace(/\r?\n/g, EOL);
     await writeFile(file, updatedJsonData, "utf8");
 
     console.log("cpp_properties.json file updated successfully.");
@@ -86,8 +87,9 @@ async function updateTasksFile(
     // then replace <version> with the new version
 
     if (content.includes(".pico-sdk/picotool/")) {
-      const oldPicotoolVersion =
-        content.match(/(?<=\.pico-sdk\/picotool\/)([^/]*)(?=\/)/);
+      const oldPicotoolVersion = content.match(
+        /(?<=\.pico-sdk\/picotool\/)([^/]*)(?=\/)/
+      );
       if (oldPicotoolVersion !== null) {
         content = content.replaceAll(
           `.pico-sdk/picotool/${oldPicotoolVersion[0]}`,
@@ -98,8 +100,9 @@ async function updateTasksFile(
 
     if (newNinjaVersion) {
       if (content.includes(".pico-sdk/ninja/")) {
-        const oldNinjaVersion =
-          content.match(/(?<=\.pico-sdk\/ninja\/)(.*)(?=\/)/);
+        const oldNinjaVersion = content.match(
+          /(?<=\.pico-sdk\/ninja\/)(.*)(?=\/)/
+        );
         if (oldNinjaVersion !== null) {
           content = content.replaceAll(
             `.pico-sdk/ninja/${oldNinjaVersion[0]}`,

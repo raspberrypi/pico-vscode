@@ -109,7 +109,9 @@ import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { unknownErrorToString } from "./utils/errorHelper.mjs";
 import {
   getBoardFromZephyrProject,
+  getZephyrVersion,
   setupZephyr,
+  updateZephyrCompilerPath,
 } from "./utils/setupZephyr.mjs";
 import { IMPORT_PROJECT } from "./commands/cmdIds.mjs";
 import {
@@ -438,6 +440,27 @@ export async function activate(context: ExtensionContext): Promise<void> {
       State.getInstance().isZephyrProject = true;
 
       ui.showStatusBarItems(false, true);
+      const selectedZephyrVersion = await getZephyrVersion();
+      if (selectedZephyrVersion === undefined) {
+        Logger.error(
+          LoggerSource.extension,
+          "Failed to get selected system Zephyr version. Defaulting to main."
+        );
+      }
+      ui.updateSDKVersion(selectedZephyrVersion ?? "main");
+
+      const cppCompilerUpdated = await updateZephyrCompilerPath(
+        workspaceFolder.uri,
+        selectedZephyrVersion ?? "main"
+      );
+
+      if (!cppCompilerUpdated) {
+        void window.showErrorMessage(
+          "Failed to update C++ compiler path in c_cpp_properties.json"
+        );
+
+        // TODO: maybe cancel activation
+      }
 
       // Update the board info if it can be found in tasks.json
       const tasksJsonFilePath = join(

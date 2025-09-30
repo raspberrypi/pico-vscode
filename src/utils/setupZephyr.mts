@@ -18,10 +18,10 @@ import {
   downloadAndInstallPicotool,
   downloadAndInstallSDK,
   downloadFileGot,
-} from "../utils/download.mjs";
+} from "./download.mjs";
 import Settings, { HOME_VAR, SettingsKey } from "../settings.mjs";
-import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
-import { ensureGit } from "../utils/gitUtil.mjs";
+import findPython, { showPythonNotFoundError } from "./pythonHelper.mjs";
+import { ensureGit } from "./gitUtil.mjs";
 import VersionBundlesLoader, { type VersionBundle } from "./versionBundles.mjs";
 import {
   CURRENT_DTC_VERSION,
@@ -896,10 +896,15 @@ export async function setupZephyr(
         "west.yml"
       );
 
-      await workspace.fs.writeFile(
-        Uri.file(zephyrManifestFile),
-        Buffer.from(zephyrManifestContent)
-      );
+      // only overwrite if it does not exist
+      try {
+        await workspace.fs.stat(Uri.file(zephyrManifestFile));
+      } catch {
+        await workspace.fs.writeFile(
+          Uri.file(zephyrManifestFile),
+          Buffer.from(zephyrManifestContent)
+        );
+      }
 
       const createVenvCommandVenv: string = `"${pythonExe}" -m venv venv`;
       const createVenvCommandVirtualenv: string =
@@ -1255,7 +1260,7 @@ export async function setupZephyr(
           //`-d "${zephyrWorkspaceDirectory}/zephyr-sdk"`;
           westInstallSDKCommand +=
             // -b ${} results in zephyr-sdk-<version> folder
-            "-t arm-zephyr-eabi -b ${zephyrWorkspaceDirectory}";
+            `-t arm-zephyr-eabi -b "${zephyrWorkspaceDirectory}"`;
 
           result = await _runCommand(westInstallSDKCommand, {
             cwd: zephyrWorkspaceDirectory,
@@ -1395,4 +1400,205 @@ export async function getBoardFromZephyrProject(
   tasksJsonPath: string
 ): Promise<string | undefined> {
   return zephyrTouchTasksJson(tasksJsonPath);
+}
+
+export async function updateZephyrVersion(gitTag: string): Promise<boolean> {
+  const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
+  const zephyrManifestDir: string = joinPosix(
+    zephyrWorkspaceDirectory,
+    "manifest"
+  );
+  const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
+
+  try {
+    await workspace.fs.stat(Uri.file(zephyrManifestFile));
+
+    const td = new TextDecoder("utf-8");
+    const manifest = td.decode(
+      await workspace.fs.readFile(Uri.file(zephyrManifestFile))
+    );
+    const manifestLines = manifest.split("\n");
+    // find <some spaces>revision: <version> kind of line and replace version with gitTag
+    const revLineIndex = manifestLines.findIndex(line =>
+      line.match(/^\s*revision:\s*.*$/)
+    );
+    if (revLineIndex === -1) {
+      Logger.error(
+        LoggerSource.zephyrSetup,
+        "Failed to find revision line in west manifest file."
+      );
+      void window.showErrorMessage(
+        "Failed to find revision line in west manifest file. " +
+          "Cannot update Zephyr version."
+      );
+
+      return false;
+    }
+
+    manifestLines[revLineIndex] = manifestLines[revLineIndex].replace(
+      /(^\s*revision:\s*).*(\s*$)/,
+      `$1${gitTag}$2`
+    );
+
+    const te = new TextEncoder();
+    await workspace.fs.writeFile(
+      Uri.file(zephyrManifestFile),
+      te.encode(manifestLines.join("\n"))
+    );
+
+    return true;
+  } catch (error) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      `Failed to read west manifest file: ${unknownErrorToString(error)}`
+    );
+    void window.showErrorMessage(
+      "Failed to read west manifest file. " +
+        "Make sure the Zephyr workspace is correctly setup."
+    );
+
+    return false;
+  }
+}
+
+export async function getZephyrVersion(): Promise<string | undefined> {
+  const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
+  const zephyrManifestDir: string = joinPosix(
+    zephyrWorkspaceDirectory,
+    "manifest"
+  );
+  const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
+
+  try {
+    await workspace.fs.stat(Uri.file(zephyrManifestFile));
+    const td = new TextDecoder("utf-8");
+    const manifest = td.decode(
+      await workspace.fs.readFile(Uri.file(zephyrManifestFile))
+    );
+    const manifestLines = manifest.split("\n");
+    // find <some spaces>revision: <version> kind of line and get version
+    const revLine = manifestLines.find(line =>
+      line.match(/^\s*revision:\s*.*$/)
+    );
+    if (revLine === undefined) {
+      Logger.error(
+        LoggerSource.zephyrSetup,
+        "Failed to find revision line in west manifest file."
+      );
+      void window.showErrorMessage(
+        "Failed to find revision line in west manifest file. " +
+          "Cannot get Zephyr version."
+      );
+
+      return undefined;
+    }
+    const match = revLine.match(/^\s*revision:\s*(.*)\s*$/);
+    if (match && match[1]) {
+      return match[1];
+    }
+
+    return undefined;
+  } catch (error) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      `Failed to read west manifest file: ${unknownErrorToString(error)}`
+    );
+    void window.showErrorMessage(
+      "Failed to read west manifest file. " +
+        "Make sure the Zephyr workspace is correctly setup."
+    );
+
+    return undefined;
+  }
+}
+
+export async function updateZephyrCompilerPath(
+  workspaceUri: Uri,
+  zephyrVersion: string
+): Promise<boolean> {
+  const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
+  const cppPropertiesUri = Uri.joinPath(
+    workspaceUri,
+    ".vscode",
+    "c_cpp_properties.json"
+  );
+
+  // TODO: read zephyr-<zephyrVersion>/sdk_version
+  const sdkVersionFile = joinPosix(
+    zephyrWorkspaceDirectory,
+    "zephyr",
+    "SDK_VERSION"
+  );
+  try {
+    await workspace.fs.stat(Uri.file(sdkVersionFile));
+    await workspace.fs.stat(cppPropertiesUri);
+
+    const td = new TextDecoder("utf-8");
+    const sdkVersion = td
+      .decode(await workspace.fs.readFile(Uri.file(sdkVersionFile)))
+      .trim();
+
+    const cppProperties = JSON.parse(
+      td.decode(await workspace.fs.readFile(cppPropertiesUri))
+    ) as {
+      configurations: Array<{ name: string; compilerPath: string }>;
+    };
+
+    // check for zerphyr config
+    const zephyrConfig = cppProperties.configurations.find(
+      c => c.name === "Zephyr"
+    );
+    if (zephyrConfig === undefined) {
+      Logger.error(
+        LoggerSource.zephyrSetup,
+        "Failed to find Zephyr configuration in c_cpp_properties.json file."
+      );
+      void window.showErrorMessage(
+        "Failed to find Zephyr configuration in c_cpp_properties.json file. " +
+          "Cannot update Zephyr version."
+      );
+
+      return false;
+    }
+
+    // update /zephyr_workspace/zephyr-sdk-<version>/arm-zephyr-eabi
+    const sdkPathMatch = zephyrConfig.compilerPath.match(
+      /(.*\/zephyr-sdk-)[^/]*(\/arm-zephyr-eabi.*)/
+    );
+    if (!sdkPathMatch || sdkPathMatch.length !== 3) {
+      Logger.error(
+        LoggerSource.zephyrSetup,
+        "Failed to find Zephyr SDK path in c_cpp_properties.json file."
+      );
+      void window.showErrorMessage(
+        "The compiler path in c_cpp_properties.json does not seem to " +
+          "contain a Zephyr SDK path. Cannot update Zephyr version."
+      );
+
+      return false;
+    }
+    zephyrConfig.compilerPath =
+      `${sdkPathMatch[1]}` + `${sdkVersion}${sdkPathMatch[2]}`;
+
+    const te = new TextEncoder();
+    await workspace.fs.writeFile(
+      cppPropertiesUri,
+      te.encode(JSON.stringify(cppProperties, null, 2))
+    );
+
+    return true;
+  } catch (error) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      `Failed to read c_cpp_properties.json file: ${unknownErrorToString(
+        error
+      )}`
+    );
+    void window.showErrorMessage(
+      "Failed to read c_cpp_properties.json file. " +
+        "Make sure the file exists and has a Zephyr configuration."
+    );
+
+    return false;
+  }
 }

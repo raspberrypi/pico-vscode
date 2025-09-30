@@ -5,8 +5,9 @@
 		"lib": [
 			"ES2022"
 		],
-		"sourceMap": false,
-		"inlineSourceMap": true,
+		"sourceMap": true,
+		"inlineSourceMap": false,
+		"noEmit": true,
 		"rootDir": "src",
 		"outDir": "dist",
 		"strict": true,

@@ -5,6 +5,7 @@ import {
   window,
   workspace,
   commands,
+  type WorkspaceFolder,
 } from "vscode";
 import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
@@ -12,6 +13,7 @@ import {
   getCmakeReleases,
   getNinjaReleases,
   getSDKReleases,
+  getZephyrReleases,
 } from "../utils/githubREST.mjs";
 import {
   downloadAndInstallCmake,
@@ -39,6 +41,9 @@ import Logger from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
 import { SWITCH_SDK } from "./cmdIds.mjs";
 import { SDK_REPOSITORY_URL } from "../utils/sharedConstants.mjs";
+import State from "../state.mjs";
+import { compare, compareGe } from "../utils/semverUtil.mjs";
+import { updateZephyrVersion } from "../utils/setupZephyr.mjs";
 
 const DEFAULT_PICOTOOL_VERSION = "2.2.0-a4";
 
@@ -392,6 +397,60 @@ export default class SwitchSDKCommand extends Command {
     };
   }
 
+  private async switchZephyr(): Promise<void> {
+    const releases = await getZephyrReleases();
+    if (releases.length === 0) {
+      void window.showErrorMessage(
+        "Failed to get Zephyr releases. " +
+          "Make sure you are connected to the internet."
+      );
+
+      return;
+    }
+
+    // sort releases and filter out anything older than v4.2.0
+    const core = (v: string): string => v.replace(/^v/, "").split("-")[0];
+    const filtered = releases.filter(v => compareGe(core(v), "4.2.0"));
+
+    // sort DESC newest first
+    const sorted = filtered.sort((a, b) => {
+      const byCore = compare(core(b), core(a)); // flip for descending
+      if (byCore !== 0) {
+        return byCore;
+      }
+      const aPre = a.includes("-");
+      const bPre = b.includes("-");
+      if (aPre !== bPre) {
+        return aPre ? 1 : -1;
+      } // stable before prerelease
+
+      return 0;
+    });
+
+    const selectedVersion = await window.showQuickPick(
+      [{ label: "main" }, ...sorted.map(v => ({ label: v }))],
+      {
+        placeHolder: "Select Zephyr version",
+      }
+    );
+
+    if (selectedVersion === undefined) {
+      return;
+    }
+
+    const result = await updateZephyrVersion(selectedVersion.label);
+    if (result) {
+      this._ui.updateSDKVersion(selectedVersion.label.replace("v", ""));
+      // for reload the window
+      void commands.executeCommand("workbench.action.reloadWindow");
+    } else {
+      void window.showErrorMessage(
+        `Failed to switch to Zephyr version ${selectedVersion.label}. ` +
+          "Make sure all requirements are met."
+      );
+    }
+  }
+
   async execute(): Promise<void> {
     if (
       workspace.workspaceFolders === undefined ||
@@ -403,6 +462,11 @@ export default class SwitchSDKCommand extends Command {
     }
 
     const workspaceFolder = workspace.workspaceFolders[0];
+
+    const isZephyrProject = State.getInstance().isZephyrProject;
+    if (isZephyrProject) {
+      return this.switchZephyr();
+    }
 
     const selectedSDK = await SwitchSDKCommand.askSDKVersion(
       this._versionBundlesLoader

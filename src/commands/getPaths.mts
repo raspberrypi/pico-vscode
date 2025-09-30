@@ -631,6 +631,7 @@ export class GetZephyrSDKPathCommand extends CommandWithResult<
     try {
       await workspace.fs.stat(workspaceUri);
       const contents = await workspace.fs.readDirectory(workspaceUri);
+      // TODO: get zephr version form west manifest and sdk_version from zephyr directory
       const sdksDirectories = contents
         .filter(
           entry =>

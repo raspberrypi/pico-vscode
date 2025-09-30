@@ -58,6 +58,7 @@ export enum GithubRepository {
   ninja = 2,
   tools = 3,
   picotool = 4,
+  zephyr = 5,
 }
 
 /**
@@ -76,6 +77,8 @@ export function ownerOfRepository(repository: GithubRepository): string {
       return "Kitware";
     case GithubRepository.ninja:
       return "ninja-build";
+    case GithubRepository.zephyr:
+      return "zephyrproject-rtos";
   }
 }
 
@@ -98,6 +101,8 @@ export function repoNameOfRepository(repository: GithubRepository): string {
       return "pico-sdk-tools";
     case GithubRepository.picotool:
       return "picotool";
+    case GithubRepository.zephyr:
+      return "zephyr";
   }
 }
 
@@ -106,3 +111,5 @@ export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
 export const NINJA_REPOSITORY_URL = "https://github.com/ninja-build/ninja.git";
 export const CMAKE_REPOSITORY_URL = "https://github.com/Kitware/CMake.git";
 export const PYENV_REPOSITORY_URL = "https://github.com/pyenv/pyenv.git";
+export const ZEPHYR_REPOSITORY_URL =
+  "https://github.com/zephyrproject-rtos/zephyr.git";

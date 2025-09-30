@@ -21,8 +21,10 @@ const STATUS_BAR_ITEMS: {
   [key: string]: {
     text: string;
     rustText?: string;
+    zephyrText?: string;
     command: string;
     tooltip: string;
+    zephyrTooltip?: string;
     rustSupport: boolean;
     zephyrSupport: boolean;
   };
@@ -45,15 +47,16 @@ const STATUS_BAR_ITEMS: {
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
     text: "Pico SDK: <version>",
+    zephyrText: "Zephyr version: <version>",
     command: `${extensionName}.${SWITCH_SDK}`,
     tooltip: "Select Pico SDK",
+    zephyrTooltip: "Select system wide installed zephyr version",
     rustSupport: false,
-    zephyrSupport: false,
+    zephyrSupport: true,
   },
   [StatusBarItemKey.picoBoardQuickPick]: {
     text: "Board: <board>",
     rustText: "Chip: <chip>",
-    // TODO: zephyrCommand option to zwphyr switch borad command or merge them that better
     command: `${extensionName}.${SWITCH_BOARD}`,
     tooltip: "Select Chip",
     rustSupport: true,
@@ -91,13 +94,32 @@ export default class UI {
       .filter(
         item => !isZephyrProject || STATUS_BAR_ITEMS[item.id].zephyrSupport
       )
-      .forEach(item => item.show());
+      .forEach(item => {
+        if (isZephyrProject) {
+          if (STATUS_BAR_ITEMS[item.id].zephyrText) {
+            item.text = STATUS_BAR_ITEMS[item.id].zephyrText!;
+          }
+          if (STATUS_BAR_ITEMS[item.id].zephyrTooltip) {
+            item.tooltip = STATUS_BAR_ITEMS[item.id].zephyrTooltip;
+          }
+        }
+        item.show();
+      });
   }
 
   public updateSDKVersion(version: string): void {
-    this._items[StatusBarItemKey.picoSDKQuickPick].text = STATUS_BAR_ITEMS[
-      StatusBarItemKey.picoSDKQuickPick
-    ].text.replace("<version>", version);
+    const isZephyrProject = State.getInstance().isZephyrProject;
+    let template = STATUS_BAR_ITEMS[StatusBarItemKey.picoSDKQuickPick].text;
+
+    if (isZephyrProject) {
+      template =
+        STATUS_BAR_ITEMS[StatusBarItemKey.picoSDKQuickPick].zephyrText!;
+    }
+
+    this._items[StatusBarItemKey.picoSDKQuickPick].text = template.replace(
+      "<version>",
+      version
+    );
     this._activityBarProvider.refreshSDK(version);
   }
 

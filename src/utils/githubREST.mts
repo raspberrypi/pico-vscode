@@ -239,6 +239,10 @@ async function getReleases(repository: GithubRepository): Promise<string[]> {
   }
 }
 
+export async function getZephyrReleases(): Promise<string[]> {
+  return getReleases(GithubRepository.zephyr);
+}
+
 export async function getSDKReleases(): Promise<string[]> {
   return getReleases(GithubRepository.picoSDK);
 }
