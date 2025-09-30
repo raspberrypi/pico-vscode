@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install Dependencies
         run: |
           pip install pycryptodomex
@@ -47,7 +47,7 @@ jobs:
         with:
           name: examples.json
           path: |
-            data/0.17.0/examples.json
+            data/0.18.0/examples.json
       - name: Print diff
         run: |
-          git diff data/0.17.0/examples.json
+          git diff data/0.18.0/examples.json
