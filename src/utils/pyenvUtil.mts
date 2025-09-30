@@ -1,12 +1,14 @@
 import { homedir } from "os";
 import { cloneRepository } from "./gitUtil.mjs";
-import { PYENV_REPOSITORY_URL } from "./githubREST.mjs";
 import { join as joinPosix } from "path/posix";
 import { exec } from "child_process";
 import { buildPython3Path } from "./download.mjs";
 import { HOME_VAR } from "../settings.mjs";
 import { existsSync, mkdirSync, symlinkSync } from "fs";
-import { CURRENT_PYTHON_VERSION } from "./sharedConstants.mjs";
+import {
+  CURRENT_PYTHON_VERSION,
+  PYENV_REPOSITORY_URL,
+} from "./sharedConstants.mjs";
 
 export function buildPyenvPath(): string {
   // TODO: maybe replace . with _

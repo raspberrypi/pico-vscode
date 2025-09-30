@@ -23,7 +23,6 @@ import which from "which";
 import { Uri, window, workspace } from "vscode";
 import {
   type GithubReleaseAssetData,
-  GithubRepository,
   getGithubReleaseByTag,
   getAuthorizationHeaders,
   ownerOfRepository,
@@ -40,6 +39,7 @@ import {
   EXT_USER_AGENT,
   GITHUB_API_BASE_URL,
   GITHUB_API_VERSION,
+  GithubRepository,
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_OK,
   HTTP_STATUS_UNAUTHORIZED,

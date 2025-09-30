@@ -1,6 +1,6 @@
 // TODO: put defaults into json file, to prevent need for these disables
 import type { ExtensionContext, Memento, Uri } from "vscode";
-import type { GithubReleaseResponse, GithubRepository } from "./githubREST.mjs";
+import type { GithubReleaseResponse } from "./githubREST.mjs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { getDataRoot } from "./downloadHelpers.mjs";
 import { get } from "https";
@@ -8,7 +8,10 @@ import { isInternetConnected } from "./downloadHelpers.mjs";
 import { join as joinPosix } from "path/posix";
 import { readFileSync } from "fs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { CURRENT_DATA_VERSION } from "./sharedConstants.mjs";
+import {
+  CURRENT_DATA_VERSION,
+  type GithubRepository,
+} from "./sharedConstants.mjs";
 
 /**
  * Tells if the stored data is a GithubReleaseResponse (data of a specific release)

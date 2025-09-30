@@ -10,22 +10,12 @@ import {
   EXT_USER_AGENT,
   GITHUB_API_BASE_URL,
   GITHUB_API_VERSION,
+  GithubRepository,
   HTTP_STATUS_FORBIDDEN,
   HTTP_STATUS_NOT_MODIFIED,
   HTTP_STATUS_OK,
   HTTP_STATUS_UNAUTHORIZED,
 } from "./sharedConstants.mjs";
-
-/**
- * Enum containing supported repositories on GitHub.
- */
-export enum GithubRepository {
-  picoSDK = 0,
-  cmake = 1,
-  ninja = 2,
-  tools = 3,
-  picotool = 4,
-}
 
 /**
  * Interface for a response from the GitHub REST API
@@ -45,12 +35,6 @@ export type GithubReleaseAssetData = {
   browser_download_url: string;
   id: number;
 };
-
-// NOTE: The primary rate limit for unauthenticated requests is 60 requests per hour.
-export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
-export const NINJA_REPOSITORY_URL = "https://github.com/ninja-build/ninja.git";
-export const CMAKE_REPOSITORY_URL = "https://github.com/Kitware/CMake.git";
-export const PYENV_REPOSITORY_URL = "https://github.com/pyenv/pyenv.git";
 
 /**
  * Get the url friendly owner of a repository on GitHub.

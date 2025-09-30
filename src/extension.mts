@@ -64,7 +64,6 @@ import {
   downloadAndInstallPicotool,
   downloadAndInstallOpenOCD,
 } from "./utils/download.mjs";
-import { SDK_REPOSITORY_URL } from "./utils/githubREST.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import {
   NewProjectPanel,
@@ -103,6 +102,7 @@ import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
 import {
   CMAKELISTS_ZEPHYR_HEADER,
   OPENOCD_VERSION,
+  SDK_REPOSITORY_URL,
 } from "./utils/sharedConstants.mjs";
 import VersionBundlesLoader from "./utils/versionBundles.mjs";
 import { unknownErrorToString } from "./utils/errorHelper.mjs";

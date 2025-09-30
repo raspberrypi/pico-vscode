@@ -48,3 +48,20 @@ export const HTTP_STATUS_FORBIDDEN = 403;
 export const EXT_USER_AGENT = "Raspberry Pi Pico VS Code Extension";
 export const GITHUB_API_BASE_URL = "https://api.github.com";
 export const GITHUB_API_VERSION = "2022-11-28";
+
+/**
+ * Enum containing supported repositories on GitHub.
+ */
+export enum GithubRepository {
+  picoSDK = 0,
+  cmake = 1,
+  ninja = 2,
+  tools = 3,
+  picotool = 4,
+}
+
+// NOTE: The primary rate limit for unauthenticated requests is 60 requests per hour.
+export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
+export const NINJA_REPOSITORY_URL = "https://github.com/ninja-build/ninja.git";
+export const CMAKE_REPOSITORY_URL = "https://github.com/Kitware/CMake.git";
+export const PYENV_REPOSITORY_URL = "https://github.com/pyenv/pyenv.git";

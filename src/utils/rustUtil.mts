@@ -12,13 +12,12 @@ import {
   downloadAndInstallToolchain,
 } from "./download.mjs";
 import { getSupportedToolchains } from "./toolchainUtil.mjs";
-import { SDK_REPOSITORY_URL } from "./githubREST.mjs";
 import findPython, { showPythonNotFoundError } from "./pythonHelper.mjs";
 import VersionBundlesLoader from "./versionBundles.mjs";
 import { HOME_VAR } from "../settings.mjs";
 import { homedir } from "os";
 import type { Progress } from "got";
-import { OPENOCD_VERSION } from "./sharedConstants.mjs";
+import { OPENOCD_VERSION, SDK_REPOSITORY_URL } from "./sharedConstants.mjs";
 
 /*const STABLE_INDEX_DOWNLOAD_URL =
   "https://static.rust-lang.org/dist/channel-rust-stable.toml";*/

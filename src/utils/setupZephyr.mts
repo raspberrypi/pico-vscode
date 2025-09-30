@@ -29,12 +29,12 @@ import {
   CURRENT_WGET_VERSION,
   LICENSE_URL_7ZIP,
   OPENOCD_VERSION,
+  SDK_REPOSITORY_URL,
   WINDOWS_X86_7ZIP_DOWNLOAD_URL,
   WINDOWS_X86_DTC_DOWNLOAD_URL,
   WINDOWS_X86_GPERF_DOWNLOAD_URL,
   WINDOWS_X86_WGET_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
-import { SDK_REPOSITORY_URL } from "./githubREST.mjs";
 import { vsExists } from "./vsHelpers.mjs";
 import which from "which";
 import { stdoutToString, unknownErrorToString } from "./errorHelper.mjs";

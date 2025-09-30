@@ -9,7 +9,6 @@ import {
 import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";
 import {
-  SDK_REPOSITORY_URL,
   getCmakeReleases,
   getNinjaReleases,
   getSDKReleases,
@@ -39,6 +38,7 @@ import { NINJA_AUTO_INSTALL_DISABLED } from "../webview/newProjectPanel.mjs";
 import Logger from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
 import { SWITCH_SDK } from "./cmdIds.mjs";
+import { SDK_REPOSITORY_URL } from "../utils/sharedConstants.mjs";
 
 const DEFAULT_PICOTOOL_VERSION = "2.2.0-a4";
 

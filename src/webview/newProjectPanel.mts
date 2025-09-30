@@ -25,7 +25,6 @@ import {
   getSupportedToolchains,
 } from "../utils/toolchainUtil.mjs";
 import {
-  SDK_REPOSITORY_URL,
   getCmakeReleases,
   getNinjaReleases,
   getPicotoolReleases,
@@ -60,7 +59,10 @@ import {
 import { stdoutToString, unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
-import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
+import {
+  OPENOCD_VERSION,
+  SDK_REPOSITORY_URL,
+} from "../utils/sharedConstants.mjs";
 import { BoardType } from "./sharedEnums.mjs";
 import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
