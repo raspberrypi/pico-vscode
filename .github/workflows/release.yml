@@ -33,7 +33,7 @@ jobs:
             break
           done
         env:
-          BUILD_ENV: debug
+          BUILD_ENV: development
       - name: Package Extension Production Version
         run: vsce package
         env:
