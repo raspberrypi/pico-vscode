@@ -347,7 +347,7 @@
   "scripts": {
     "vscode:uninstall": "node ./dist/vscodeUninstaller.mjs",
     "vscode:prepublish": "npm run package",
-    "compile": "tsc --build tsconfig.json",
+    "compile": "tsc --build tsconfig.json --noEmit false",
     "watch": "webpack --watch --mode development",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "package": "npm run clean && node scripts/build.mjs",
