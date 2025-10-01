@@ -33,9 +33,6 @@ export const WINDOWS_X86_GPERF_DOWNLOAD_URL =
   "d033d1c0fb054de32043af1d4d3be71b91c38221/packages/" +
   "gperf/3.1/gperf-3.1-win64_x64.zip";
 export const CURRENT_GPERF_VERSION = "3.1";
-export const WINDOWS_X86_WGET_DOWNLOAD_URL =
-  "https:///eternallybored.org/misc/wget/releases/wget-1.21.4-win64.zip";
-export const CURRENT_WGET_VERSION = "1.21.4";
 export const LICENSE_URL_7ZIP = "https://7-zip.org/license.txt";
 export const WINDOWS_X86_7ZIP_DOWNLOAD_URL = "https://www.7-zip.org/a/7zr.exe";
 

@@ -102,11 +102,22 @@ When prompted, select the `Pico` kit in CMake Tools, and set your build and laun
   * **macOS**: `clang`
   * **Windows**: `MSVC`
 
-## Additonal Zephyr Prerequisites (macOS and Linux)
+## Zephyr notes
+
+Unfortunately, the Zephyr project requires numerous external dependencies. Most of these are covered automatically, but for `wget` we were not able to identify a reliable upstream source that provides official binaries for all three supported platforms.
+
+We recommend using package managers such as winget (Windows), Homebrew or MacPorts (macOS), or your system package manager on Linux to install `wget` or consult the [Zephyr documentation](https://docs.zephyrproject.org/latest/getting_started/index.html) for more information.
+
+For further context, see this discussion in the Zephyr project: https://github.com/zephyrproject-rtos/sdk-ng/pull/1016
+
+## Additonal Zephyr Prerequisites
 
 > On Raspberry Pi OS Trixie these come pre-installed.
 
 * **wget** - Required for sdk-ng to download toolchains. Install via your package manager (e.g., `brew install wget` on macOS or `sudo apt install wget` on Debian based Linux distributions).
+
+### Linux and macOS only
+
 * **7-Zip** - Required for sdk-ng to extract toolchains. Install via your package manager (e.g., `brew install p7zip` on macOS or `sudo apt install p7zip-full` on Debian based Linux distributions) or download from [7-zip.org](https://www.7-zip.org/).
 * **python3-venv** - Required to create isolated Python environments. Install via your package manager (e.g., `sudo apt install python3-venv` on Debian based Linux distributions).
 
