@@ -6,7 +6,6 @@ import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
 import { extensionName } from "../../commands/command.mjs";
 import { commands, Uri, window, workspace } from "vscode";
-import { CURRENT_WGET_VERSION } from "../sharedConstants.mjs";
 import type { VersionBundle } from "../versionBundles.mjs";
 import { HOME_VAR } from "../../settings.mjs";
 import { TextEncoder } from "util";
@@ -34,6 +33,7 @@ import {
   GET_WEST_PATH,
   GET_ZEPHYR_WORKSPACE_PATH,
 } from "../../commands/cmdIds.mjs";
+import { getZephyrSDKVersion, getZephyrVersion } from "../setupZephyr.mjs";
 
 // Kconfig snippets
 const shellWifiKconfig: string = `CONFIG_WIFI_LOG_LEVEL_ERR=y
@@ -96,28 +96,49 @@ async function generateVSCodeConfig(
     return false;
   }
 
+  const zephyrVersion = await getZephyrVersion();
+  if (zephyrVersion === undefined) {
+    Logger.error(LoggerSource.projectZephyr, "Failed to get Zephyr version");
+    void window.showErrorMessage(
+      "Failed to detect the currently installed Zephyr version. Please delete `~/.pico-sdk/zephyr_workspace` and try again."
+    );
+
+    return false;
+  }
+
+  const zephyrSdkVersion = await getZephyrSDKVersion(zephyrVersion);
+  if (zephyrSdkVersion === undefined) {
+    Logger.error(
+      LoggerSource.projectZephyr,
+      "Failed to get Zephyr SDK version"
+    );
+    void window.showErrorMessage(
+      "Failed to detect the currently installed Zephyr SDK version. Please delete `~/.pico-sdk/zephyr_workspace` and try again."
+    );
+
+    return false;
+  }
+
   const cppProperties = {
     version: 4,
     configurations: [
       {
         name: "Zephyr",
         intelliSenseMode: "linux-gcc-arm",
-        compilerPath:
-          // TODO: maybe move into command (the part before the executable) / test if not .exe works on win32
-          "${userHome}/.pico-sdk/zephyr_workspace/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+        compilerPath: `\${userHome}/.pico-sdk/zephyr_workspace/zephyr-sdk-${zephyrSdkVersion}/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc`,
         includePath: [
           "${workspaceFolder}/**",
           "${workspaceFolder}/build/zephyr/include",
-          "${userHome}/.pico-sdk/zephyr_workspace/zephyr/include",
-          "${userHome}/.pico-sdk/zephyr_workspace/zephyr/modules/cmsis_6",
-          "${userHome}/.pico-sdk/zephyr_workspace/zephyr/modules/hal_infineon",
-          "${userHome}/.pico-sdk/zephyr_workspace/zephyr/modules/hal_rpi_pico",
+          `\${userHome}/.pico-sdk/zephyr_workspace/zephyr-${zephyrVersion}/include`,
+          `\${userHome}/.pico-sdk/zephyr_workspace/zephyr-${zephyrVersion}/modules/cmsis_6`,
+          `\${userHome}/.pico-sdk/zephyr_workspace/zephyr-${zephyrVersion}/modules/hal_infineon`,
+          `\${userHome}/.pico-sdk/zephyr_workspace/zephyr-${zephyrVersion}/modules/hal_rpi_pico`,
         ],
         compileCommands: "${workspaceFolder}/build/compile_commands.json",
         cppStandard: "gnu++20",
         cStandard: "gnu17",
         forcedInclude: [
-          "${userHome}/.pico-sdk/zephyr_workspace/zephyr/include/zephyr/devicetree.h",
+          `\${userHome}/.pico-sdk/zephyr_workspace/zephyr-${zephyrVersion}/include/zephyr/devicetree.h`,
           "${workspaceFolder}/build/zephyr/include/generated/zephyr/autoconf.h",
           "${workspaceFolder}/build/zephyr/include/generated/zephyr/version.h",
         ],
@@ -183,7 +204,7 @@ async function generateVSCodeConfig(
     "terminal.integrated.env.windows": {
       // remove gperf and dtc for now
       // \${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}
-      Path: `\${env:USERPROFILE}/.pico-sdk/wget/${CURRENT_WGET_VERSION};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
+      Path: `\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
     },
     "terminal.integrated.env.osx": {
       PATH: "${env:PATH}:",
