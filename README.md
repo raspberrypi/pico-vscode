@@ -36,6 +36,8 @@ If you have any issues while installing, please check out the [Troubleshooting](
 - **Offline Documentation**: Access Pico SDK documentation offline.
 - **Quick Project Setup**: Quickly create new Pico projects from the Explorer view when no workspace is open.
 - **MicroPython Support**: Create MicroPython-based Pico projects with support provided through the MicroPico extension.
+- **Rust Support**: Create and develop Rust-based Pico projects based on the [rp-hal](https://github.com/rp-rs/rp-hal) crate.
+- **Zephyr Support**: Create and develop Zephyr-based Pico projects using the official [Zephyr SDK](https://docs.zephyrproject.org/latest/getting_started/index.html).
 
 ## Requirements by OS
 
@@ -57,7 +59,7 @@ This command installs all of the necessary tools, including but not limited to:
 - **Tar** (ensure it's in your PATH)
 
 ### Linux
-- **Python 3.9 or later** (ensure it’s in your PATH or set in settings)
+- **Python 3.10 or later** (ensure it’s in your PATH or set in settings)
 - **Git 2.28 or later** (ensure it’s in your PATH)
 - **Tar** (ensure it’s in your PATH)
 - **\[Optional\]** gdb-multiarch for debugging (x86_64 only)
@@ -91,7 +93,7 @@ For optimal functionality, consider enabling:
 
 When prompted, select the `Pico` kit in CMake Tools, and set your build and launch targets accordingly. Use CMake Tools for compilation, but continue using this extension for debugging, as CMake Tools debugging is not compatible with Pico.
 
-## Rust Prerequisites
+## Additional Rust Prerequisites
 
 * **rustup** – Installs and manages Rust. Get it from [rustup.rs](https://rustup.rs).
 * A C compiler for your system:
@@ -99,6 +101,14 @@ When prompted, select the `Pico` kit in CMake Tools, and set your build and laun
   * **Linux**: `gcc`
   * **macOS**: `clang`
   * **Windows**: `MSVC`
+
+## Additonal Zephyr Prerequisites (macOS and Linux)
+
+> On Raspberry Pi OS Trixie these come pre-installed.
+
+* **wget** - Required for sdk-ng to download toolchains. Install via your package manager (e.g., `brew install wget` on macOS or `sudo apt install wget` on Debian based Linux distributions).
+* **7-Zip** - Required for sdk-ng to extract toolchains. Install via your package manager (e.g., `brew install p7zip` on macOS or `sudo apt install p7zip-full` on Debian based Linux distributions) or download from [7-zip.org](https://www.7-zip.org/).
+* **python3-venv** - Required to create isolated Python environments. Install via your package manager (e.g., `sudo apt install python3-venv` on Debian based Linux distributions).
 
 ## VS Code Profiles
 
