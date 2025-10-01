@@ -30,6 +30,7 @@ import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
 import { generateZephyrProject } from "../utils/projectGeneration/projectZephyr.mjs";
 import { BoardType, type ZephyrSubmitMessageValue } from "./sharedEnums.mjs";
 import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
+import { checkGitWithProgress } from "../utils/gitUtil.mjs";
 
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;
@@ -296,16 +297,33 @@ export class NewZephyrProjectPanel {
       return;
     }
 
+    const gitPath = await checkGitWithProgress();
+    if (gitPath === undefined) {
+      progress.report({
+        message: "Failed",
+        increment: 100,
+      });
+      void window.showErrorMessage(
+        "Git is required to clone the Zephyr repository. " +
+          "Please install Git and try again."
+      );
+
+      return;
+    }
+
     // Setup Zephyr before doing anything else
-    const zephyrSetupOutputs = await setupZephyr({
-      cmakeMode: data.cmakeMode,
-      cmakePath: data.cmakePath,
-      cmakeVersion: data.cmakeVersion,
-      extUri: this._extensionUri,
-      ninjaMode: data.ninjaMode,
-      ninjaPath: data.ninjaPath,
-      ninjaVersion: data.ninjaVersion,
-    });
+    const zephyrSetupOutputs = await setupZephyr(
+      {
+        cmakeMode: data.cmakeMode,
+        cmakePath: data.cmakePath,
+        cmakeVersion: data.cmakeVersion,
+        extUri: this._extensionUri,
+        ninjaMode: data.ninjaMode,
+        ninjaPath: data.ninjaPath,
+        ninjaVersion: data.ninjaVersion,
+      },
+      gitPath
+    );
 
     if (zephyrSetupOutputs === undefined) {
       progress.report({
@@ -324,7 +342,8 @@ export class NewZephyrProjectPanel {
       zephyrSetupOutputs.latestVb,
       zephyrSetupOutputs.ninjaExecutable,
       zephyrSetupOutputs.cmakeExecutable,
-      data
+      data,
+      gitPath
     );
     if (!result) {
       progress.report({

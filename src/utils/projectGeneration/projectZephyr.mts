@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { join } from "path";
+import { dirname, join } from "path";
 import { dirname as dirnamePosix } from "path/posix";
 import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
@@ -69,7 +69,8 @@ async function generateVSCodeConfig(
   ninjaPath: string,
   cmakePath: string,
   te: TextEncoder = new TextEncoder(),
-  data: ZephyrSubmitMessageValue
+  data: ZephyrSubmitMessageValue,
+  gitPath: string
 ): Promise<boolean> {
   const vsc = join(projectRoot, ".vscode");
 
@@ -204,13 +205,15 @@ async function generateVSCodeConfig(
     "terminal.integrated.env.windows": {
       // remove gperf and dtc for now
       // \${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}
-      Path: `\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
+      Path: `\${env:USERPROFILE}/.pico-sdk/wget;${dirname(
+        gitPath
+      )};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
     },
     "terminal.integrated.env.osx": {
-      PATH: "${env:PATH}:",
+      PATH: `\${env:HOME}/.pico-sdk/wget:${dirname(gitPath)}:\${env:PATH}:`,
     },
     "terminal.integrated.env.linux": {
-      PATH: "${env:PATH}:",
+      PATH: `\${env:HOME}/.pico-sdk/wget:${dirname(gitPath)}:\${env:PATH}:`,
     },
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.useCmakeTools": false,
@@ -1167,7 +1170,8 @@ export async function generateZephyrProject(
   latestVb: [string, VersionBundle],
   ninjaPath: string,
   cmakePath: string,
-  data: ZephyrSubmitMessageValue
+  data: ZephyrSubmitMessageValue,
+  gitPath: string
 ): Promise<boolean> {
   const projectRoot = join(projectFolder, projectName);
 
@@ -1241,7 +1245,8 @@ export async function generateZephyrProject(
     ninjaPath,
     cmakePath,
     te,
-    data
+    data,
+    gitPath
   );
   if (!result) {
     Logger.debug(

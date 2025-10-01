@@ -21,7 +21,7 @@ import {
 } from "./download.mjs";
 import Settings, { HOME_VAR, SettingsKey } from "../settings.mjs";
 import findPython, { showPythonNotFoundError } from "./pythonHelper.mjs";
-import { ensureGit } from "./gitUtil.mjs";
+import { checkGitWithProgress } from "./gitUtil.mjs";
 import VersionBundlesLoader, { type VersionBundle } from "./versionBundles.mjs";
 import {
   CURRENT_DTC_VERSION,
@@ -38,6 +38,7 @@ import which from "which";
 import { stdoutToString, unknownErrorToString } from "./errorHelper.mjs";
 import { VALID_ZEPHYR_BOARDS } from "../models/zephyrBoards.mjs";
 import type { ITask } from "../models/task.mjs";
+import { configureCmakeNinja } from "./cmakeUtil.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -106,25 +107,31 @@ function build7ZipPathWin32(): string {
   return join(homeDirectory, ".pico-sdk", "7zip");
 }
 
-function generateCustomEnv(
+export function generateCustomZephyrEnv(
   isWindows: boolean,
-  latestVb: VersionBundle,
   cmakeExe: string,
-  pythonExe: string
+  ninjaExe: string,
+  pythonExe: string,
+  gitExe?: string
 ): NodeJS.ProcessEnv {
   const customEnv = process.env;
 
   const customPath = [
     dirname(cmakeExe),
-    join(homedir(), ".pico-sdk", "dtc", CURRENT_DTC_VERSION, "bin"),
-    // TODO: better git path
-    join(homedir(), ".pico-sdk", "git", "cmd"),
-    join(homedir(), ".pico-sdk", "gperf", CURRENT_GPERF_VERSION, "bin"),
-    join(homedir(), ".pico-sdk", "ninja", latestVb.ninja),
+    //join(homedir(), ".pico-sdk", "dtc", CURRENT_DTC_VERSION, "bin"),
+    gitExe !== undefined
+      ? dirname(gitExe)
+      : join(homedir(), ".pico-sdk", "git", "cmd"),
+    join(homedir(), ".pico-sdk", "wget"),
+    //join(homedir(), ".pico-sdk", "gperf", CURRENT_GPERF_VERSION, "bin"),
+    dirname(ninjaExe),
     dirname(pythonExe),
     join(homedir(), ".pico-sdk", "7zip"),
     "", // Need this to add separator to end
-  ].join(process.platform === "win32" ? ";" : ":");
+  ]
+    // filter out entries that come from paths that ref a bin that is already in PATH
+    .filter(item => item !== ".")
+    .join(isWindows ? ";" : ":");
 
   customEnv[isWindows ? "Path" : "PATH"] =
     customPath + customEnv[isWindows ? "Path" : "PATH"];
@@ -164,42 +171,6 @@ function _runCommand(
       resolve(code);
     });
   });
-}
-
-async function checkGit(): Promise<string | undefined> {
-  const settings = Settings.getInstance();
-  if (settings === undefined) {
-    Logger.error(LoggerSource.zephyrSetup, "Settings not initialized.");
-
-    return;
-  }
-
-  return window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Ensuring Git is available",
-      cancellable: false,
-    },
-    async progress2 => {
-      // TODO: this does take about 2s - may be reduced
-      const gitPath = await ensureGit(settings, { returnPath: true });
-      if (typeof gitPath !== "string" || gitPath.length === 0) {
-        progress2.report({
-          message: "Failed",
-          increment: 100,
-        });
-
-        return;
-      }
-
-      progress2.report({
-        message: "Success",
-        increment: 100,
-      });
-
-      return gitPath;
-    }
-  );
 }
 
 async function checkCmake(
@@ -498,6 +469,33 @@ async function checkGperf(): Promise<boolean> {
   );
 }
 
+async function setupFakeWget(extensionUri: Uri): Promise<boolean> {
+  const wgetUri = Uri.file(join(homeDirectory, ".pico-sdk", "wget"));
+
+  try {
+    await workspace.fs.createDirectory(wgetUri);
+
+    const scriptName = process.platform === "win32" ? "wget.cmd" : "wget.sh";
+    const scriptSource = Uri.joinPath(extensionUri, "scripts", scriptName);
+
+    await workspace.fs.copy(scriptSource, Uri.joinPath(wgetUri, scriptName), {
+      overwrite: true,
+    });
+
+    return true;
+  } catch (e) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      `Failed to create fake wget script: ${unknownErrorToString(e)}`
+    );
+    void window.showErrorMessage(
+      "Failed to create fake wget script. Cannot continue Zephyr setup."
+    );
+
+    return false;
+  }
+}
+
 async function check7Zip(): Promise<boolean> {
   return window.withProgress(
     {
@@ -564,26 +562,43 @@ async function check7Zip(): Promise<boolean> {
   );
 }
 
-async function checkMacosLinuxDeps(isWindows: boolean): Promise<boolean> {
-  if (isWindows) {
+async function showNoWgetError(): Promise<void> {
+  const response = await window.showErrorMessage(
+    "wget not found in Path. Please install wget and ensure " +
+      "it is available in PATH. " +
+      "See the Zephyr notes in the pico-vscode README for guidance.",
+    "Open README"
+  );
+  if (response === "Open README") {
+    await env.openExternal(
+      Uri.parse(
+        // eslint-disable-next-line max-len
+        "https://github.com/raspberrypi/pico-vscode/tree/main?tab=readme-ov-file#zephyr-notes"
+      )
+    );
+  }
+}
+
+async function checkMacosLinuxDeps(extensionUri: Uri): Promise<boolean> {
+  if (process.platform === "win32") {
     return true;
   }
 
-  const wget = await which("wget", { nothrow: true });
-  if (!wget) {
-    void window.showErrorMessage(
-      "wget not found in PATH. Please install wget " +
-        "and make sure it is available in PATH."
-    );
+  const result = await setupFakeWget(extensionUri);
+  if (!result) {
+    const wget = await which("wget", { nothrow: true });
+    if (!wget) {
+      await showNoWgetError();
 
-    return false;
+      return false;
+    }
   }
 
   return true;
 }
 
-async function checkWindowsDeps(isWindows: boolean): Promise<boolean> {
-  if (!isWindows) {
+async function checkWindowsDeps(extensionUri: Uri): Promise<boolean> {
+  if (process.platform !== "win32") {
     return true;
   }
 
@@ -607,25 +622,14 @@ async function checkWindowsDeps(isWindows: boolean): Promise<boolean> {
     return false;
   }*/
 
-  const wget = await which("wget", { nothrow: true });
-  if (!wget) {
-    const response = await window.showErrorMessage(
-      "wget not found in Path. Please install wget and ensure " +
-        "it is available in PATH. " +
-        "See the Zephyr notes in the pico-vscode README for guidance.",
-      "Open README"
-    );
+  const fakeWget = await setupFakeWget(extensionUri);
+  if (!fakeWget) {
+    const wget = await which("wget", { nothrow: true });
+    if (!wget) {
+      await showNoWgetError();
 
-    if (response === "Open README") {
-      await env.openExternal(
-        Uri.parse(
-          // eslint-disable-next-line max-len
-          "https://github.com/raspberrypi/pico-vscode/tree/main?tab=readme-ov-file#zephyr-notes"
-        )
-      );
+      return false;
     }
-
-    return false;
   }
 
   const installedSuccessfully = await check7Zip();
@@ -681,7 +685,8 @@ async function checkOpenOCD(): Promise<boolean> {
 }
 
 export async function setupZephyr(
-  data: ZephyrSetupValue
+  data: ZephyrSetupValue,
+  gitExe?: string
 ): Promise<ZephyrSetupOutputs | undefined> {
   Logger.info(LoggerSource.zephyrSetup, "Setting up Zephyr...");
 
@@ -705,7 +710,6 @@ export async function setupZephyr(
     latestVb,
   };
 
-  let isWindows = false;
   const endResult: boolean = await window.withProgress(
     {
       location: ProgressLocation.Window,
@@ -714,16 +718,20 @@ export async function setupZephyr(
     async progress => {
       let installedSuccessfully = true;
 
-      const gitPath = await checkGit();
-      if (gitPath === undefined) {
-        progress.report({
-          message: "Failed",
-          increment: 100,
-        });
+      if (gitExe === undefined) {
+        const gitPath = await checkGitWithProgress();
+        if (gitPath === undefined) {
+          progress.report({
+            message: "Failed",
+            increment: 100,
+          });
 
-        return false;
+          return false;
+        }
+        output.gitPath = gitPath;
+      } else {
+        output.gitPath = gitExe;
       }
-      output.gitPath = gitPath;
 
       // Handle CMake install
       const cmakePath = await checkCmake(
@@ -805,9 +813,7 @@ export async function setupZephyr(
         return false;
       }
 
-      isWindows = process.platform === "win32";
-
-      installedSuccessfully = await checkWindowsDeps(isWindows);
+      installedSuccessfully = await checkWindowsDeps(data.extUri);
       if (!installedSuccessfully) {
         progress.report({
           message: "Failed",
@@ -817,7 +823,7 @@ export async function setupZephyr(
         return false;
       }
 
-      installedSuccessfully = await checkMacosLinuxDeps(isWindows);
+      installedSuccessfully = await checkMacosLinuxDeps(data.extUri);
       if (!installedSuccessfully) {
         progress.report({
           message: "Failed",
@@ -844,11 +850,12 @@ export async function setupZephyr(
         HOME_VAR,
         homedir().replaceAll("\\", "/")
       );
-      const customEnv = generateCustomEnv(
-        isWindows,
-        latestVb[1],
+      const customEnv = generateCustomZephyrEnv(
+        process.platform === "win32",
         output.cmakeExecutable,
-        pythonExe
+        output.ninjaExecutable,
+        pythonExe,
+        gitExe
       );
 
       const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
@@ -1051,12 +1058,6 @@ export async function setupZephyr(
 
               return false;
             }
-
-            const westConfigFile: string = joinPosix(
-              zephyrWorkspaceDirectory,
-              ".west",
-              "config"
-            );
           }
 
           const westUpdateCommand: string = `"${westExe}" update`;
@@ -1717,5 +1718,80 @@ export async function updateZephyrCompilerPath(
     );
 
     return false;
+  }
+}
+
+export async function zephyrVerifyCMakCache(
+  workspaceUri: Uri,
+  zephyrVersion?: string
+): Promise<void> {
+  const zephyrVer = zephyrVersion ?? (await getZephyrVersion());
+  if (zephyrVer === undefined) {
+    void window.showErrorMessage(
+      "Failed to get Zephyr version. Cannot verify CMake cache."
+    );
+
+    return;
+  }
+
+  const cmakeCacheUri = Uri.joinPath(workspaceUri, "build", "CMakeCache.txt");
+  try {
+    await workspace.fs.stat(cmakeCacheUri);
+
+    const td = new TextDecoder("utf-8");
+    const cmakeCache = td.decode(await workspace.fs.readFile(cmakeCacheUri));
+    const cmakeCacheLines = cmakeCache.split("\n");
+
+    // check if ZEPHYR_BASE:PATH line ends with zephyr_workspace/zephyr-<currentZephyrVersion>
+    // if not remove build folder
+    const zBaseLine = cmakeCacheLines
+      .find(line => line.startsWith("ZEPHYR_BASE:PATH="))
+      ?.trim();
+
+    if (zBaseLine !== undefined) {
+      const match = zBaseLine.match(/ZEPHYR_BASE:PATH=.*(zephyr-.*)$/);
+      if (match && match[1]) {
+        const currentZephyrVersion = match[1].replace("zephyr-", "");
+        if (currentZephyrVersion === zephyrVer) {
+          // only way to not have to drop the build folder
+          return;
+        }
+      }
+    }
+
+    // drop build folder
+    const buildDir = Uri.joinPath(workspaceUri, "build");
+    try {
+      await workspace.fs.stat(buildDir);
+      await workspace.fs.delete(buildDir, { recursive: true, useTrash: false });
+      Logger.info(
+        LoggerSource.zephyrSetup,
+        "Deleted build folder to clear old Zephyr CMake cache."
+      );
+      void window.showInformationMessage(
+        "Deleted build folder to clear old Zephyr CMake cache."
+      );
+
+      if (await configureCmakeNinja(workspaceUri)) {
+        void window.showInformationMessage(
+          "Reconfigured CMake and Ninja for Zephyr project."
+        );
+      } else {
+        void window.showErrorMessage(
+          "Failed to reconfigure CMake and Ninja for Zephyr project."
+        );
+      }
+    } catch {
+      // does not exist
+    }
+
+    return;
+  } catch (error) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      `Failed to read CMake cache file: ${unknownErrorToString(error)}`
+    );
+
+    return;
   }
 }

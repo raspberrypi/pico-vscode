@@ -2,11 +2,11 @@ import { promisify } from "util";
 import { exec } from "child_process";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { unlink } from "fs/promises";
-import type Settings from "../settings.mjs";
+import Settings from "../settings.mjs";
 import { SettingsKey, HOME_VAR } from "../settings.mjs";
 import { homedir } from "os";
 import which from "which";
-import { window } from "vscode";
+import { ProgressLocation, window } from "vscode";
 import { compareGe } from "./semverUtil.mjs";
 import { downloadGit } from "./downloadGit.mjs";
 
@@ -278,4 +278,45 @@ export async function sparseCheckout(
 
     return false;
   }
+}
+
+/**
+ * Wrapper for ensureGit with progress notification.
+ *
+ * @returns The path to the git executable if available, undefined otherwise.
+ */
+export async function checkGitWithProgress(): Promise<string | undefined> {
+  const settings = Settings.getInstance();
+  if (settings === undefined) {
+    Logger.error(LoggerSource.gitUtil, "Settings not initialized.");
+
+    return;
+  }
+
+  return window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: "Ensuring Git is available",
+      cancellable: false,
+    },
+    async progress2 => {
+      // TODO: this does take about 2s - may be reduced
+      const gitPath = await ensureGit(settings, { returnPath: true });
+      if (typeof gitPath !== "string" || gitPath.length === 0) {
+        progress2.report({
+          message: "Failed",
+          increment: 100,
+        });
+
+        return;
+      }
+
+      progress2.report({
+        message: "Success",
+        increment: 100,
+      });
+
+      return gitPath;
+    }
+  );
 }

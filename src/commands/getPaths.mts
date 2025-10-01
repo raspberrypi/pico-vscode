@@ -1,5 +1,5 @@
 import { CommandWithResult } from "./command.mjs";
-import { commands, FileType, Uri, window, workspace } from "vscode";
+import { commands, Uri, window, workspace } from "vscode";
 import {
   getPythonPath,
   getPath,
@@ -44,14 +44,16 @@ import {
   GET_ZEPHYR_SDK_PATH,
   GET_ZEPHYR_WORKSPACE_PATH,
 } from "./cmdIds.mjs";
-import { getBoardFromZephyrProject } from "../utils/setupZephyr.mjs";
+import {
+  getBoardFromZephyrProject,
+  getZephyrSDKVersion,
+} from "../utils/setupZephyr.mjs";
 import {
   ZEPHYR_PICO,
   ZEPHYR_PICO2,
   ZEPHYR_PICO2_W,
   ZEPHYR_PICO_W,
 } from "../models/zephyrBoards.mjs";
-import { compare } from "../utils/semverUtil.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -85,9 +87,10 @@ export class GetEnvPathCommand extends CommandWithResult<string> {
       return "";
     }
 
-    const path = await getPath();
+    const env = await getPath();
+    const pathValue = process.platform === "win32" ? env.Path : env.PATH;
 
-    return path;
+    return JSON.stringify(pathValue ?? "");
   }
 }
 
@@ -603,13 +606,7 @@ export class GetZephyrWorkspacePathCommand extends CommandWithResult<
   }
 
   execute(): string | undefined {
-    const result = buildZephyrWorkspacePath();
-
-    if (result === null || !result) {
-      return undefined;
-    }
-
-    return result;
+    return buildZephyrWorkspacePath();
   }
 }
 
@@ -626,22 +623,12 @@ export class GetZephyrSDKPathCommand extends CommandWithResult<
     if (result === null || !result) {
       return undefined;
     }
-    const workspaceUri = Uri.file(result);
 
     try {
-      await workspace.fs.stat(workspaceUri);
-      const contents = await workspace.fs.readDirectory(workspaceUri);
-      // TODO: get zephr version form west manifest and sdk_version from zephyr directory
-      const sdksDirectories = contents
-        .filter(
-          entry =>
-            entry[1] === FileType.Directory &&
-            entry[0].startsWith("zephyr-sdk-")
-        )
-        .map(([name]) => name.replace(/^zephyr-sdk-/, ""))
-        .sort((a, b) => compare(b, a)); // sort descending
+      await workspace.fs.stat(Uri.file(result));
+      const zephyrSdkVersion = await getZephyrSDKVersion();
 
-      return joinPosix(result, `zephyr-sdk-${sdksDirectories[0]}`);
+      return joinPosix(result, `zephyr-sdk-${zephyrSdkVersion}`);
     } catch {
       return undefined;
     }

@@ -35,6 +35,8 @@ node_modules/**
 !scripts/pico-vscode.cmake
 !scripts/Pico.code-profile
 !scripts/raspberrypi-swd.cfg
+!scripts/wget.cmd
+!scripts/wget.sh
 !data/**
 scripts/*.ps1
 scripts/fix_windows_reg.py

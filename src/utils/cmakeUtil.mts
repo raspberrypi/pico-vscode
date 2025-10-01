@@ -1,5 +1,5 @@
 import { exec, execFile } from "child_process";
-import { Uri, workspace, window, ProgressLocation, commands } from "vscode";
+import { Uri, workspace, window, ProgressLocation } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
 import { dirname, join, resolve } from "path";
 import Settings from "../settings.mjs";
@@ -11,18 +11,14 @@ import { rm } from "fs/promises";
 import { homedir } from "os";
 import which from "which";
 import { compareLt } from "./semverUtil.mjs";
-import { buildCMakeIncPath } from "./download.mjs";
+import { buildCMakeIncPath, buildZephyrWorkspacePath } from "./download.mjs";
 import { EOL } from "os";
 import { vsExists } from "./vsHelpers.mjs";
 import State from "../state.mjs";
 import {
-  CURRENT_DTC_VERSION,
-  CURRENT_GPERF_VERSION,
-  CURRENT_WGET_VERSION,
-} from "./sharedConstants.mjs";
-import { extensionName } from "../commands/command.mjs";
-import { GET_ZEPHYR_WORKSPACE_PATH } from "../commands/cmdIds.mjs";
-import { getBoardFromZephyrProject } from "./setupZephyr.mjs";
+  generateCustomZephyrEnv,
+  getBoardFromZephyrProject,
+} from "./setupZephyr.mjs";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
   // eslint-disable-next-line max-len
@@ -52,60 +48,12 @@ export async function getPythonPath(): Promise<string> {
   return `${pythonPath.replaceAll("\\", "/")}`;
 }
 
-async function findZephyrBinaries(): Promise<string[]> {
-  const isWindows = process.platform === "win32";
-
-  if (isWindows) {
-    // get paths to the latest installed gperf and dtc and wget
-    const wgetPath = join(homedir(), ".pico-sdk", "wget", CURRENT_WGET_VERSION);
-    const gperfPath = join(
-      homedir(),
-      ".pico-sdk",
-      "gperf",
-      CURRENT_GPERF_VERSION
-    );
-    const zipPath = join(homedir(), ".pico-sdk", "7zip");
-    const dtcPath = join(
-      homedir(),
-      ".pico-sdk",
-      "dtc",
-      CURRENT_DTC_VERSION,
-      "bin"
-    );
-
-    const missingTools = [];
-    if (!(await vsExists(wgetPath))) {
-      missingTools.push("wget");
-    }
-    if (!(await vsExists(gperfPath))) {
-      missingTools.push("gperf");
-    }
-    if (!(await vsExists(zipPath))) {
-      missingTools.push("7zip");
-    }
-    if (!(await vsExists(dtcPath))) {
-      missingTools.push("dtc");
-    }
-    if (missingTools.length > 0) {
-      void showRequirementsNotMetErrorMessage(missingTools);
-
-      return [];
-    }
-
-    return [wgetPath, gperfPath, zipPath, dtcPath];
-  }
-
-  // TODO: macOS and linux stuff
-
-  return [];
-}
-
-export async function getPath(): Promise<string> {
+export async function getPath(): Promise<NodeJS.ProcessEnv> {
   const settings = Settings.getInstance();
   if (settings === undefined) {
     Logger.error(LoggerSource.cmake, "Settings not initialized.");
 
-    return "";
+    return process.env;
   }
   const isZephyrProject = State.getInstance().isZephyrProject;
 
@@ -123,8 +71,6 @@ export async function getPath(): Promise<string> {
       { nothrow: true }
     )) || ""
   ).replaceAll("\\", "/");
-
-  const zephyrBinaries = isZephyrProject ? await findZephyrBinaries() : [];
 
   Logger.debug(
     LoggerSource.cmake,
@@ -148,29 +94,38 @@ export async function getPath(): Promise<string> {
     }
     void showRequirementsNotMetErrorMessage(missingTools);
 
-    return "";
+    return process.env;
   }
 
   const isWindows = process.platform === "win32";
 
-  let result = `${ninjaPath.includes("/") ? dirname(ninjaPath) : ""}${
-    cmakePath.includes("/")
-      ? `${isWindows ? ";" : ":"}${dirname(cmakePath)}`
-      : ""
-  }${isWindows ? ";" : ":"}${
-    pythonPath.includes("/")
-      ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
-      : ""
-  }`;
+  const zephyrEnv = isZephyrProject
+    ? generateCustomZephyrEnv(isWindows, cmakePath, ninjaPath, pythonPath)
+    : undefined;
 
-  if (zephyrBinaries.length > 0) {
-    result +=
-      (isWindows ? ";" : ":") + zephyrBinaries.join(isWindows ? ";" : ":");
+  if (zephyrEnv !== undefined) {
+    return zephyrEnv;
+  } else {
+    const pathExtension = `${
+      ninjaPath.includes("/") ? dirname(ninjaPath) : ""
+    }${
+      cmakePath.includes("/")
+        ? `${isWindows ? ";" : ":"}${dirname(cmakePath)}`
+        : ""
+    }${isWindows ? ";" : ":"}${
+      pythonPath.includes("/")
+        ? `${dirname(pythonPath)}${isWindows ? ";" : ":"}`
+        : ""
+    }`;
+
+    const customEnv = process.env;
+    customEnv[isWindows ? "Path" : "PATH"] =
+      pathExtension + customEnv[isWindows ? "Path" : "PATH"];
+
+    Logger.debug(LoggerSource.cmake, "Using PATH:", pathExtension);
+
+    return customEnv;
   }
-
-  Logger.debug(LoggerSource.cmake, "Using PATH:", result);
-
-  return result;
 }
 
 export async function configureCmakeNinja(
@@ -196,8 +151,12 @@ export async function configureCmakeNinja(
 
     return false;
   }
+  const isZephyrProject = State.getInstance().isZephyrProject;
 
-  if (await vsExists(join(folder.fsPath, "build", "CMakeCache.txt"))) {
+  if (
+    !isZephyrProject &&
+    (await vsExists(join(folder.fsPath, "build", "CMakeCache.txt")))
+  ) {
     // check if the build directory has been moved
     const buildDir = join(folder.fsPath, "build");
 
@@ -226,6 +185,7 @@ export async function configureCmakeNinja(
     }
   }
 
+  // TODO: maybe dissregard for zephyr projects?
   if (settings.getBoolean(SettingsKey.useCmakeTools)) {
     // CMake Tools integration is enabled - skip configuration
     Logger.info(
@@ -255,24 +215,16 @@ export async function configureCmakeNinja(
             ?.replace(HOME_VAR, homedir().replaceAll("\\", "/")) || "cmake";
 
         // TODO: analyze command result
-        // all configuration files in build get updates
-        const customEnv = process.env;
-        /*customEnv["PYTHONHOME"] = pythonPath.includes("/")
-          ? resolve(join(dirname(pythonPath), ".."))
-          : "";*/
         const isWindows = process.platform === "win32";
-        const customPath = await getPath();
-        if (!customPath) {
-          return false;
-        }
-        customEnv[isWindows ? "Path" : "PATH"] =
-          customPath + customEnv[isWindows ? "Path" : "PATH"];
+        const customEnv = await getPath();
         const pythonPath = await getPythonPath();
         const isZephyrProject = State.getInstance().isZephyrProject;
         const buildDir = join(folder.fsPath, "build");
 
         const command =
-          `${process.env.ComSpec === "powershell.exe" ? "&" : ""}"${cmake}" ${
+          `${
+            process.env.ComSpec?.endsWith("powershell.exe") ? "&" : ""
+          }"${cmake}" ${
             pythonPath.includes("/")
               ? `-DPython3_EXECUTABLE="${pythonPath.replaceAll("\\", "/")}" `
               : ""
@@ -280,14 +232,14 @@ export async function configureCmakeNinja(
           `-G Ninja -B "${buildDir}" "${folder.fsPath}"` +
           (buildType ? ` -DCMAKE_BUILD_TYPE=${buildType}` : "");
 
-        const zephyrWorkspace = await commands.executeCommand<string>(
-          `${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}`
-        );
+        const zephyrWorkspace = buildZephyrWorkspacePath();
         const westExe = isWindows ? "west.exe" : "west";
         const westPath = join(zephyrWorkspace, "venv", "Scripts", westExe);
-        const zephyrBoard = await getBoardFromZephyrProject(
-          join(folder.fsPath, ".vscode", "tasks.json")
-        );
+        const zephyrBoard = isZephyrProject
+          ? await getBoardFromZephyrProject(
+              join(folder.fsPath, ".vscode", "tasks.json")
+            )
+          : undefined;
         if (isZephyrProject && zephyrBoard === undefined) {
           void window.showErrorMessage(
             "Failed to configure CMake for the current Zephyr project. " +
@@ -297,10 +249,10 @@ export async function configureCmakeNinja(
           return false;
         }
         const zephyrCommand = `${
-          process.env.ComSpec === "powershell.exe" ? "&" : ""
-        }"${westPath}" build --cmake-only -b ${zephyrBoard} -d "${buildDir}" "${
-          folder.fsPath
-        }"`;
+          process.env.ComSpec?.endsWith("powershell.exe") ? "&" : ""
+        }"${westPath}" build --cmake-only -b ${
+          zephyrBoard ?? ""
+        } -d "${buildDir}" "${folder.fsPath}"`;
 
         await new Promise<void>((resolve, reject) => {
           // use exec to be able to cancel the process

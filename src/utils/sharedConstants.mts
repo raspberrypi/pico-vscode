@@ -9,7 +9,7 @@ export const OPENOCD_VERSION = "0.12.0+dev";
 
 export const WINDOWS_X86_GIT_DOWNLOAD_URL =
   "https://github.com/git-for-windows/git/releases/download" +
-  "/v2.46.0.windows.1/MinGit-2.46.0-64-bit.zip";
+  "/v2.51.0.windows.2/MinGit-2.51.0.2-64-bit.zip";
 
 export const EXAMPLES_REPOSITORY_URL =
   "https://github.com/raspberrypi/pico-examples.git";

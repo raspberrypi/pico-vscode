@@ -7,6 +7,7 @@ import {
   ProgressLocation,
   Uri,
   FileSystemError,
+  type WorkspaceFolder,
 } from "vscode";
 import {
   extensionName,
@@ -112,6 +113,7 @@ import {
   getZephyrVersion,
   setupZephyr,
   updateZephyrCompilerPath,
+  zephyrVerifyCMakCache,
 } from "./utils/setupZephyr.mjs";
 import { IMPORT_PROJECT } from "./commands/cmdIds.mjs";
 import {
@@ -398,7 +400,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
         ninjaVersion = version;
       }
 
-      // TODO: read selected ninja and cmake versions from project
       const result = await setupZephyr({
         extUri: context.extensionUri,
         cmakeMode: cmakeVersion !== "" ? 2 : 3,
@@ -462,6 +463,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
         // TODO: maybe cancel activation
       }
 
+      await zephyrVerifyCMakCache(workspaceFolder.uri);
+
       // Update the board info if it can be found in tasks.json
       const tasksJsonFilePath = join(
         workspaceFolder.uri.fsPath,
@@ -486,37 +489,44 @@ export async function activate(context: ExtensionContext): Promise<void> {
         }
       }
 
-      // check if build dir is empty and recommend to run a build to
-      // get the intellisense working
-      // TODO: maybe run cmake configure automatically if build folder empty
-      const buildUri = Uri.file(join(workspaceFolder.uri.fsPath, "build"));
-      try {
-        // workaround to stop verbose logging of readDirectory internals even if we catch the error
-        await workspace.fs.stat(buildUri);
-        const buildDirContents = await workspace.fs.readDirectory(buildUri);
+      if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
+        await cmakeSetupAutoConfigure(workspaceFolder, ui);
+      } else {
+        // check if build dir is empty and recommend to run a build to
+        // get the intellisense working
+        const buildUri = Uri.file(join(workspaceFolder.uri.fsPath, "build"));
+        try {
+          // workaround to stop verbose logging of readDirectory
+          // internals even if we catch the error
+          await workspace.fs.stat(buildUri);
+          const buildDirContents = await workspace.fs.readDirectory(buildUri);
 
-        if (buildDirContents.length === 0) {
-          void window.showWarningMessage(
-            "To get full intellisense support please build the project once."
-          );
-        }
-      } catch (error) {
-        if (error instanceof FileSystemError && error.code === "FileNotFound") {
-          void window.showWarningMessage(
-            "To get full intellisense support please build the project once."
-          );
+          if (buildDirContents.length === 0) {
+            void window.showWarningMessage(
+              "To get full intellisense support please build the project once."
+            );
+          }
+        } catch (error) {
+          if (
+            error instanceof FileSystemError &&
+            error.code === "FileNotFound"
+          ) {
+            void window.showWarningMessage(
+              "To get full intellisense support please build the project once."
+            );
 
-          Logger.debug(
-            LoggerSource.extension,
-            'No "build" folder found. Intellisense might not work ' +
-              "properly until a build has been done."
-          );
-        } else {
-          Logger.error(
-            LoggerSource.extension,
-            "Error when reading build folder:",
-            unknownErrorToString(error)
-          );
+            Logger.debug(
+              LoggerSource.extension,
+              'No "build" folder found. Intellisense might not work ' +
+                "properly until a build has been done."
+            );
+          } else {
+            Logger.error(
+              LoggerSource.extension,
+              "Error when reading build folder:",
+              unknownErrorToString(error)
+            );
+          }
         }
       }
 
@@ -1098,27 +1108,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
   // auto project configuration with cmake
   if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
-    //run `cmake -G Ninja -B ./build ` in the root folder
-    await configureCmakeNinja(workspaceFolder.uri);
-
-    const ws = workspaceFolder.uri.fsPath;
-    const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
-    const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
-    ui.updateBuildType(newBuildType ?? "unknown");
-
-    workspace.onDidChangeTextDocument(event => {
-      // Check if the changed document is the file you are interested in
-      if (basename(event.document.fileName) === "CMakeLists.txt") {
-        // File has changed, do something here
-        // TODO: rerun configure project
-        // TODO: maybe conflicts with cmake extension which also does this
-        Logger.debug(
-          LoggerSource.extension,
-          "File changed:",
-          event.document.fileName
-        );
-      }
-    });
+    await cmakeSetupAutoConfigure(workspaceFolder, ui);
   } else if (settings.getBoolean(SettingsKey.useCmakeTools)) {
     // Ensure the Pico kit is selected
     await cmakeToolsForcePicoKit();
@@ -1129,6 +1119,33 @@ export async function activate(context: ExtensionContext): Promise<void> {
       "or cmakeAutoConfigure disabled."
     );
   }
+}
+
+async function cmakeSetupAutoConfigure(
+  workspaceFolder: WorkspaceFolder,
+  ui: UI
+): Promise<void> {
+  //run `cmake -G Ninja -B ./build ` in the root folder
+  await configureCmakeNinja(workspaceFolder.uri);
+
+  const ws = workspaceFolder.uri.fsPath;
+  const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
+  const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
+  ui.updateBuildType(newBuildType ?? "unknown");
+
+  workspace.onDidChangeTextDocument(event => {
+    // Check if the changed document is the file you are interested in
+    if (basename(event.document.fileName) === "CMakeLists.txt") {
+      // File has changed, do something here
+      // TODO: rerun configure project
+      // TODO: maybe conflicts with cmake extension which also does this
+      Logger.debug(
+        LoggerSource.extension,
+        "File changed:",
+        event.document.fileName
+      );
+    }
+  });
 }
 
 /**
