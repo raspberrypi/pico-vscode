@@ -1363,7 +1363,9 @@ export async function downloadEmbedPython(
     await workspace.fs.createDirectory(Uri.file(dllDir));
 
     // Write to *._pth to allow use of installed packages
-    const pthFile = `${targetDirectory}/python312._pth`;
+    const versionAppend =
+      CURRENT_PYTHON_VERSION.split(".").slice(0, 2).join("");
+    const pthFile = `${targetDirectory}/python${versionAppend}._pth`;
     let pthContents = (
       await workspace.fs.readFile(Uri.file(pthFile))
     ).toString();
