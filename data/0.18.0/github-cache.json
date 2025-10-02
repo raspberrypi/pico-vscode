@@ -1561,5 +1561,18 @@
       }
     ],
     "assetsUrl": "https://api.github.com/repos/raspberrypi/picotool/releases/239908221/assets"
+  },
+  "githubApiCache-5-0": [
+    "v4.2.0"
+  ],
+  "githubApiCache-5-1-v4.2.0": {
+    "assets": [
+      {
+        "id": 274239707,
+        "name": "zephyr-v4.2.0.spdx",
+        "browser_download_url": "https://github.com/zephyrproject-rtos/zephyr/releases/download/v4.2.0/zephyr-v4.2.0.spdx"
+      }
+    ],
+    "assetsUrl": "https://api.github.com/repos/zephyrproject-rtos/zephyr/releases/233637298/assets"
   }
 }
