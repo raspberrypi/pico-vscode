@@ -39,6 +39,8 @@ import { stdoutToString, unknownErrorToString } from "./errorHelper.mjs";
 import { VALID_ZEPHYR_BOARDS } from "../models/zephyrBoards.mjs";
 import type { ITask } from "../models/task.mjs";
 import { configureCmakeNinja } from "./cmakeUtil.mjs";
+import { getWestConfigValue, updateZephyrBase } from "./westConfig.mjs";
+import { addZephyrVariant } from "./westManifest.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -70,7 +72,8 @@ manifest:
       url-base: https://github.com/zephyrproject-rtos
 
   projects:
-    - name: zephyr
+    - name: zephyr-main
+      repo-path: zephyr
       remote: zephyrproject-rtos
       revision: main
       path: zephyr-main
@@ -122,7 +125,7 @@ export function generateCustomZephyrEnv(
     gitExe !== undefined
       ? dirname(gitExe)
       : join(homedir(), ".pico-sdk", "git", "cmd"),
-    join(homedir(), ".pico-sdk", "wget"),
+    //join(homedir(), ".pico-sdk", "wget"),
     //join(homedir(), ".pico-sdk", "gperf", CURRENT_GPERF_VERSION, "bin"),
     dirname(ninjaExe),
     dirname(pythonExe),
@@ -469,13 +472,16 @@ async function checkGperf(): Promise<boolean> {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function setupFakeWget(extensionUri: Uri): Promise<boolean> {
   const wgetUri = Uri.file(join(homeDirectory, ".pico-sdk", "wget"));
 
   try {
     await workspace.fs.createDirectory(wgetUri);
 
-    const scriptName = process.platform === "win32" ? "wget.cmd" : "wget.sh";
+    // wget.cmd does brake setup.cmd because of DeferredExpansion and wget.vbs
+    // will probably get flagged by antivirus
+    const scriptName = process.platform === "win32" ? "wget.vbs" : "wget.sh";
     const scriptSource = Uri.joinPath(extensionUri, "scripts", scriptName);
 
     await workspace.fs.copy(scriptSource, Uri.joinPath(wgetUri, scriptName), {
@@ -565,7 +571,7 @@ async function check7Zip(): Promise<boolean> {
 async function showNoWgetError(): Promise<void> {
   const response = await window.showErrorMessage(
     "wget not found in Path. Please install wget and ensure " +
-      "it is available in PATH. " +
+      "it is available in Path. " +
       "See the Zephyr notes in the pico-vscode README for guidance.",
     "Open README"
   );
@@ -579,25 +585,22 @@ async function showNoWgetError(): Promise<void> {
   }
 }
 
-async function checkMacosLinuxDeps(extensionUri: Uri): Promise<boolean> {
+async function checkMacosLinuxDeps(): Promise<boolean> {
   if (process.platform === "win32") {
     return true;
   }
 
-  const result = await setupFakeWget(extensionUri);
-  if (!result) {
-    const wget = await which("wget", { nothrow: true });
-    if (!wget) {
-      await showNoWgetError();
+  const wget = await which("wget", { nothrow: true });
+  if (!wget) {
+    await showNoWgetError();
 
-      return false;
-    }
+    return false;
   }
 
   return true;
 }
 
-async function checkWindowsDeps(extensionUri: Uri): Promise<boolean> {
+async function checkWindowsDeps(): Promise<boolean> {
   if (process.platform !== "win32") {
     return true;
   }
@@ -622,14 +625,11 @@ async function checkWindowsDeps(extensionUri: Uri): Promise<boolean> {
     return false;
   }*/
 
-  const fakeWget = await setupFakeWget(extensionUri);
-  if (!fakeWget) {
-    const wget = await which("wget", { nothrow: true });
-    if (!wget) {
-      await showNoWgetError();
+  const wget = await which("wget", { nothrow: true });
+  if (!wget) {
+    await showNoWgetError();
 
-      return false;
-    }
+    return false;
   }
 
   const installedSuccessfully = await check7Zip();
@@ -813,7 +813,7 @@ export async function setupZephyr(
         return false;
       }
 
-      installedSuccessfully = await checkWindowsDeps(data.extUri);
+      installedSuccessfully = await checkWindowsDeps();
       if (!installedSuccessfully) {
         progress.report({
           message: "Failed",
@@ -823,7 +823,7 @@ export async function setupZephyr(
         return false;
       }
 
-      installedSuccessfully = await checkMacosLinuxDeps(data.extUri);
+      installedSuccessfully = await checkMacosLinuxDeps();
       if (!installedSuccessfully) {
         progress.report({
           message: "Failed",
@@ -1375,136 +1375,33 @@ export async function getBoardFromZephyrProject(
 }
 
 export async function updateZephyrVersion(gitTag: string): Promise<boolean> {
-  const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
-  const zephyrManifestDir: string = joinPosix(
-    zephyrWorkspaceDirectory,
-    "manifest"
-  );
-  const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
-
   try {
-    await workspace.fs.stat(Uri.file(zephyrManifestFile));
+    await addZephyrVariant(gitTag);
 
-    const td = new TextDecoder("utf-8");
-    const manifest = td.decode(
-      await workspace.fs.readFile(Uri.file(zephyrManifestFile))
-    );
-    const manifestLines = manifest.split("\n");
+    await updateZephyrBase(`zephyr-${gitTag}`);
 
-    // update zephyr git revision to the new git tag
-    const revLineIndex = manifestLines.findIndex(line =>
-      line.match(/^\s*revision:\s*.*$/)
-    );
-    if (revLineIndex === -1) {
-      Logger.error(
-        LoggerSource.zephyrSetup,
-        "Failed to find revision line in west manifest file."
-      );
-      void window.showErrorMessage(
-        "Failed to find revision line in west manifest file. " +
-          "Cannot update Zephyr version."
-      );
-
-      return false;
-    }
-
-    manifestLines[revLineIndex] = manifestLines[revLineIndex].replace(
-      /(^\s*revision:\s*).*(\s*$)/,
-      `$1${gitTag}$2`
-    );
-
-    // update path where to clone zephyr to
-    const pathLineIndex = manifestLines.findIndex(line =>
-      line.match(/^\s*path:\s*zephyr-.*$/)
-    );
-    if (pathLineIndex === -1) {
-      Logger.error(
-        LoggerSource.zephyrSetup,
-        "Failed to find path line in west manifest file."
-      );
-      void window.showErrorMessage(
-        "Failed to find path line in west manifest file. " +
-          "Cannot update Zephyr version."
-      );
-
-      return false;
-    }
-
-    manifestLines[pathLineIndex] = manifestLines[pathLineIndex].replace(
-      /(^\s*path:\s*zephyr-).*(\s*$)/,
-      `$1${gitTag}$2`
-    );
-
-    const te = new TextEncoder();
-    await workspace.fs.writeFile(
-      Uri.file(zephyrManifestFile),
-      te.encode(manifestLines.join("\n"))
-    );
+    return true;
   } catch (error) {
     Logger.error(
       LoggerSource.zephyrSetup,
-      `Failed to read west manifest file: ${unknownErrorToString(error)}`
+      `Failed to update Zephyr version: ${unknownErrorToString(error)}`
     );
     void window.showErrorMessage(
-      "Failed to read west manifest file. " +
+      "Failed to update Zephyr version. " +
         "Make sure the Zephyr workspace is correctly setup."
     );
 
     return false;
   }
-
-  return updateWestConfig(gitTag);
 }
 
 export async function getZephyrVersion(): Promise<string | undefined> {
-  const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
-  const zephyrManifestDir: string = joinPosix(
-    zephyrWorkspaceDirectory,
-    "manifest"
-  );
-  const zephyrManifestFile: string = joinPosix(zephyrManifestDir, "west.yml");
-
-  try {
-    await workspace.fs.stat(Uri.file(zephyrManifestFile));
-    const td = new TextDecoder("utf-8");
-    const manifest = td.decode(
-      await workspace.fs.readFile(Uri.file(zephyrManifestFile))
-    );
-    const manifestLines = manifest.split("\n");
-    // find <some spaces>revision: <version> kind of line and get version
-    const revLine = manifestLines.find(line =>
-      line.match(/^\s*revision:\s*.*$/)
-    );
-    if (revLine === undefined) {
-      Logger.error(
-        LoggerSource.zephyrSetup,
-        "Failed to find revision line in west manifest file."
-      );
-      void window.showErrorMessage(
-        "Failed to find revision line in west manifest file. " +
-          "Cannot get Zephyr version."
-      );
-
-      return undefined;
-    }
-    const match = revLine.match(/^\s*revision:\s*(.*)\s*$/);
-    if (match && match[1]) {
-      return match[1];
-    }
-
-    return undefined;
-  } catch (error) {
-    Logger.error(
-      LoggerSource.zephyrSetup,
-      `Failed to read west manifest file: ${unknownErrorToString(error)}`
-    );
-    void window.showErrorMessage(
-      "Failed to read west manifest file. " +
-        "Make sure the Zephyr workspace is correctly setup."
-    );
-
-    return undefined;
+  const base = await getWestConfigValue("zephyr", "base");
+  if (base && base.startsWith("zephyr-")) {
+    return base.substring(7);
   }
+
+  return undefined;
 }
 
 export async function getZephyrSDKVersion(
@@ -1545,66 +1442,6 @@ export async function getZephyrSDKVersion(
     );
 
     return undefined;
-  }
-}
-
-export async function updateWestConfig(
-  newZephyrVersion: string
-): Promise<boolean> {
-  const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
-  const westConfigFile: string = joinPosix(
-    zephyrWorkspaceDirectory,
-    ".west",
-    "config"
-  );
-
-  try {
-    await workspace.fs.stat(Uri.file(westConfigFile));
-
-    const td = new TextDecoder("utf-8");
-    const westConfig = td.decode(
-      await workspace.fs.readFile(Uri.file(westConfigFile))
-    );
-    const westConfigLines = westConfig.split("\n");
-
-    const baseLineIndex = westConfigLines.findIndex(line =>
-      line.match(/^\s*base\s*=\s*zephyr(-.*)?\s*$/)
-    );
-    if (baseLineIndex === -1) {
-      Logger.error(
-        LoggerSource.zephyrSetup,
-        "Failed to find base line in west config file."
-      );
-      void window.showErrorMessage(
-        "Failed to find base line in west config file. " +
-          "Cannot update Zephyr version."
-      );
-
-      return false;
-    }
-    westConfigLines[baseLineIndex] = westConfigLines[baseLineIndex].replace(
-      /(^\s*base\s*=\s*zephyr)(-.*)?(\s*$)/,
-      `$1-${newZephyrVersion}$3`
-    );
-
-    const te = new TextEncoder();
-    await workspace.fs.writeFile(
-      Uri.file(westConfigFile),
-      te.encode(westConfigLines.join("\n"))
-    );
-
-    return true;
-  } catch (error) {
-    Logger.error(
-      LoggerSource.zephyrSetup,
-      `Failed to read west config file: ${unknownErrorToString(error)}`
-    );
-    void window.showErrorMessage(
-      "Failed to read west config file. " +
-        "Make sure the Zephyr workspace is correctly setup."
-    );
-
-    return false;
   }
 }
 
@@ -1787,7 +1624,7 @@ export async function zephyrVerifyCMakCache(
 
     return;
   } catch (error) {
-    Logger.error(
+    Logger.debug(
       LoggerSource.zephyrSetup,
       `Failed to read CMake cache file: ${unknownErrorToString(error)}`
     );

@@ -205,15 +205,15 @@ async function generateVSCodeConfig(
     "terminal.integrated.env.windows": {
       // remove gperf and dtc for now
       // \${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}
-      Path: `\${env:USERPROFILE}/.pico-sdk/wget;${dirname(
+      Path: `${dirname(
         gitPath
       )};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
     },
     "terminal.integrated.env.osx": {
-      PATH: `\${env:HOME}/.pico-sdk/wget:${dirname(gitPath)}:\${env:PATH}:`,
+      PATH: `${dirname(gitPath)}:\${env:PATH}:`,
     },
     "terminal.integrated.env.linux": {
-      PATH: `\${env:HOME}/.pico-sdk/wget:${dirname(gitPath)}:\${env:PATH}:`,
+      PATH: `${dirname(gitPath)}:\${env:PATH}:`,
     },
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.useCmakeTools": false,

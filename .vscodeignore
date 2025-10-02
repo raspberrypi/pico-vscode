@@ -35,10 +35,11 @@ node_modules/**
 !scripts/pico-vscode.cmake
 !scripts/Pico.code-profile
 !scripts/raspberrypi-swd.cfg
-!scripts/wget.cmd
-!scripts/wget.sh
 !data/**
 scripts/*.ps1
+scripts/*.cmd
+scripts/*.sh
+scripts/*.vbs
 scripts/fix_windows_reg.py
 scripts/vscodeUninstaller.mjs
 scripts/genCache.py
