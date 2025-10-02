@@ -41,7 +41,7 @@ num_repos = 0
 for _ in stuff.GithubRepository:
     num_repos += 0.5
 num_repos = int(num_repos)
-assert num_repos == 5
+assert num_repos == 6
 print("Num repos", num_repos)
 
 
@@ -66,6 +66,7 @@ versions = [
         "v2.2.0-2",
     ],  # pico-sdk-tools
     ["2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.2.0-a4"],  # picotool
+    ["v4.2.0"],  # zephyr
 ]
 
 headers = {
