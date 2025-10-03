@@ -8,6 +8,17 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.18.1] - 2025-10-03
+
+### Fixed
+- Fix copying examples config files (#198)
+- Fix board name parsing with . in name (#201)
+- Fix updating picotool version when switching SDK (#206)
+- Correctly truncate CMakeLists.txt file when importing (#207)
+- Update to pico-sdk-tools release v2.2.0-2 which fixes some shared library issues (#203)
+- Improve Git version parsing (#205)
+- Add modifiers to version bundles to fix Arm toolchain version on Intel MacOS (#137)
+
 ## [0.18.0] - 2025-08-04
 
 ### Added
