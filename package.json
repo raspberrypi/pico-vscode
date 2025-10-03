@@ -348,6 +348,7 @@
     "vscode:uninstall": "node ./dist/vscodeUninstaller.mjs",
     "vscode:prepublish": "npm run package",
     "compile": "tsc --build tsconfig.json --noEmit false",
+    "genCache": "tsc --build genCache.tsconfig.json --noEmit false && python3 scripts/genCache.py",
     "watch": "webpack --watch --mode development",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "package": "npm run clean && node scripts/build.mjs",
