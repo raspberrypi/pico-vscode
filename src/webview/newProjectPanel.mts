@@ -438,6 +438,9 @@ export class NewProjectPanel {
             break;
           case "versionBundleAvailableTest":
             {
+              // for tests to detect when the webview is loaded
+              NewProjectPanel._isLoaded = true;
+
               // test if versionBundle for sdk version is available
               const versionBundle =
                 await this._versionBundlesLoader?.getModuleVersion(
@@ -2395,6 +2398,12 @@ export class NewProjectPanel {
         `Successfully generated new project: ${projectName}`
       );
 
+      // for tests which don't want to change the workspace folder
+      if (NewProjectPanel._noOpenFolder) {
+        NewProjectPanel._isCreated = true;
+        return;
+      }
+
       const folderAlreadyOpen = workspace.workspaceFolders?.some(
         f => f.uri.fsPath === options.projectRoot
       );
@@ -2428,5 +2437,28 @@ export class NewProjectPanel {
         } new project: ${projectName}`
       );
     }
+  }
+
+  // for tests only, to interact with the webview
+  private static _isLoaded: boolean = false;
+  private static _isCreated: boolean = false;
+  public static _noOpenFolder: boolean = false;
+
+  public static async sendTestMessage(message: WebviewMessage): Promise<void> {
+    if (!NewProjectPanel.currentPanel) {
+      throw new Error("NewProjectPanel.currentPanel is undefined");
+    }
+    const result = await NewProjectPanel.currentPanel._panel.webview.postMessage(message);
+    NewProjectPanel.currentPanel._logger.info(`sendTestMessage result: ${result}`);
+  }
+
+  public static testIfLoaded(): boolean {
+    NewProjectPanel._isCreated = false;
+    return NewProjectPanel._isLoaded;
+  }
+
+  public static testIfCreated(): boolean {
+    NewProjectPanel._isLoaded = false;
+    return NewProjectPanel._isCreated;
   }
 }
