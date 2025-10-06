@@ -8,12 +8,12 @@ import * as fs from 'fs';
 // import * as myExtension from '../../extension';
 
 const testNamesFilePath = path.join(__dirname, 'testNames.json');
-const testNames = JSON.parse(fs.readFileSync(testNamesFilePath, 'utf8'));
+const testNames: Record<string, { name: string, boards: string[], runBoards: string[] }> = JSON.parse(fs.readFileSync(testNamesFilePath, 'utf8'));
 
 suite(`Project Creation Test Suite`, function() {
 
-	for (const testName of testNames) {
-		const { name, boards } = testName;
+	for (const testName of Object.values(testNames)) {
+		const { name, boards, runBoards } = testName;
 		for (const board of boards) {
 			test(`New Project ${name} ${board}`, async () => {
 				if (vscode.workspace.workspaceFolders?.[0]?.uri.fsPath.endsWith(name)) {
