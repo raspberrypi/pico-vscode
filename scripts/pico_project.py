@@ -1217,6 +1217,25 @@ ${{env:PATH}}"
             }}
         }},
         {{
+            "label": "Erase Start",
+            "type": "process",
+            "command": "{openocd_path if openocd_path else "openocd"}",
+            "args": [
+                "-s",
+                "{codeOpenOCDPath(openOCDVersion)}/scripts",
+                "-f",
+                "{debugger}",
+                "-f",
+                "target/${{command:raspberry-pi-pico.getTarget}}.cfg",
+                "-c",
+                "adapter speed 5000; init; reset init; flash erase_address 0x10000000 0x1000; reset run; exit"
+            ],
+            "problemMatcher": [],
+            "windows": {{
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+            }}
+        }},
+        {{
             "label": "Rescue Reset",
             "type": "process",
             "command": "{openocd_path if openocd_path else "openocd"}",

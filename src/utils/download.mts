@@ -744,8 +744,7 @@ export async function downloadAndInstallGithubAsset(
         ...headers,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": EXT_USER_AGENT,
-      },
-      maxRedirections: 0, // don't automatically follow redirects
+      }
     };
   } else {
     const urlObj = new URL(url);
@@ -756,8 +755,7 @@ export async function downloadAndInstallGithubAsset(
       headers: {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": EXT_USER_AGENT,
-      },
-      maxRedirections: 0, // don't automatically follow redirects
+      }
     };
   }
 

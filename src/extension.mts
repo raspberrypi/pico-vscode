@@ -14,6 +14,7 @@ import {
   type Command,
   type CommandWithArgs,
   type CommandWithResult,
+  type CommandWithResultAndArgs,
 } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger, { LoggerSource } from "./logger.mjs";
@@ -123,6 +124,7 @@ import {
   ZEPHYR_PICO_W,
 } from "./models/zephyrBoards.mjs";
 import { NewZephyrProjectPanel } from "./webview/newZephyrProjectPanel.mjs";
+import TestCreateProjectCommand, { TestRunTaskCommand } from "./commands/testCommands.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -144,6 +146,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     | CommandWithResult<string | undefined>
     | CommandWithResult<boolean>
     | CommandWithArgs
+    | CommandWithResultAndArgs<string>
   > = [
     new NewProjectCommand(context.extensionUri),
     new SwitchSDKCommand(ui, context.extensionUri),
@@ -180,6 +183,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new UpdateOpenOCDCommand(),
     new SbomTargetPathDebugCommand(),
     new SbomTargetPathReleaseCommand(),
+    new TestCreateProjectCommand(context.extensionUri),
+    new TestRunTaskCommand(),
   ];
 
   // register all command handlers

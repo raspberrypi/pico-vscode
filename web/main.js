@@ -11,6 +11,7 @@ const CMD_SUBMIT_EXAMPLE = 'submitExample';
 const CMD_IMPORT_PROJECT = 'importProject';
 const CMD_CREATE_FROM_EXAMPLE = 'createFromExample';
 const CMD_NOT_CREATE_FROM_EXAMPLE = 'notCreateFromExample';
+const CMD_TEST_CREATE_PROJECT = 'testCreateProject';
 
 var submitted = false;
 var isPicoWireless = false;
@@ -690,6 +691,46 @@ var exampleSupportedBoards = [];
         if (window.toggleCreateFromExampleMode) {
           toggleCreateFromExampleMode(false, true);
         }
+        break;
+      case CMD_TEST_CREATE_PROJECT:
+        console.log("testCreateProject", message.value);
+        if (message.value.name) {
+          document.getElementById('inp-project-name').value = message.value.name;
+          document.getElementById('inp-project-name').dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        if (message.value.board) {
+          const boardSels = document.querySelectorAll('[id^="option-board-type-"]');
+          boardSels.forEach(e => { e.disabled = true });
+
+          console.debug(`[raspberry-pi-pico - new pico project from example] Only enabling ${message.value.board}`);
+          const option = document.getElementById(`option-board-type-${message.value.board}`);
+          if (option) {
+            option.disabled = false;
+          }
+
+          const boardTypeSelector = document.getElementById('sel-board-type');
+
+          if (boardTypeSelector) {
+            // first element could be hidden
+            //document.getElementById('sel-board-type').selectedIndex = 0;
+
+            // select first not hidden option
+            for (let i = 0; i < boardTypeSelector.options.length; i++) {
+              const option = boardTypeSelector.options[i];
+
+              // Check if the option is not hidden
+              if (option.style.display !== 'none' && option.hidden === false && option.disabled === false) {
+                boardTypeSelector.selectedIndex = i;
+                // Create a new change event
+                const event = new CustomEvent('change', { bubbles: true, detail: { doNotFireEvents: false } });
+                // Dispatch the event to trigger the change handler
+                boardTypeSelector.dispatchEvent(event);
+                break;
+              }
+            }
+          }
+        }
+        document.getElementById('btn-create').click();
         break;
       default:
         console.error('Unknown command: ' + message.command);

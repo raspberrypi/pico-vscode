@@ -273,6 +273,18 @@
         "title": "Get Zephyr SDK path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.testCreateProject",
+        "title": "Test create project",
+        "category": "Raspberry Pi Pico Tests",
+        "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.testRunTask",
+        "title": "Test run task",
+        "category": "Raspberry Pi Pico Tests",
+        "enablement": "false"
       }
     ],
     "configuration": {
@@ -347,13 +359,17 @@
   "scripts": {
     "vscode:uninstall": "node ./dist/vscodeUninstaller.mjs",
     "vscode:prepublish": "npm run package",
-    "compile": "tsc --build tsconfig.json --noEmit false",
+    "compile": "webpack --mode development",
     "genCache": "tsc --build genCache.tsconfig.json --noEmit false && python3 scripts/genCache.py",
     "watch": "webpack --watch --mode development",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "package": "npm run clean && node scripts/build.mjs",
     "lint": "eslint src",
-    "test": "npm run lint"
+    "compile-tests": "tsc --build tests.tsconfig.json",
+    "watch-tests": "tsc --build tests.tsconfig.json --watch",
+    "clean-tests": "node -e \"require('fs').rmSync('out',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/sampleWorkspace/projects',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/user-data',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/extensions',{recursive:true,force:true});\"",
+    "pretest": "npm run clean-tests && npm run package && npm run compile-tests",
+    "test": "vscode-test"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
@@ -362,6 +378,8 @@
     "@types/node": "^22.18",
     "@types/vscode": "^1.104.0",
     "@types/which": "^3.0.4",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.4.0",
