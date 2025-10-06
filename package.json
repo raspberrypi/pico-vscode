@@ -400,6 +400,7 @@
     "@types/adm-zip": "^0.5.7",
     "@types/ini": "^4.1.1",
     "@types/node": "^22.19.1",
+    "@types/usb": "^2.0.4",
     "@types/vscode": "^1.105.1",
     "@types/which": "^3.0.4",
     "@vscode/test-cli": "^0.0.11",
@@ -411,6 +412,7 @@
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.48.1",
+    "usb": "^2.16.0",
     "webpack": "^5.103.0",
     "webpack-cli": "^6.0.1"
   },
