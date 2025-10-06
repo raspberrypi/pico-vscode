@@ -9,6 +9,7 @@ import which from "which";
 import { ProgressLocation, window } from "vscode";
 import { compareGe } from "./semverUtil.mjs";
 import { downloadGit } from "./downloadGit.mjs";
+import LastUsedDepsStore from "./lastUsedDeps.mjs";
 
 export const execAsync = promisify(exec);
 
@@ -132,6 +133,10 @@ export async function ensureGit(
             : "")
       );
     }
+  }
+
+  if (gitPath?.includes(".pico-sdk")) {
+    await LastUsedDepsStore.instance.record("git", "latest");
   }
 
   return returnPath ? gitPath || undefined : isGitInstalled;

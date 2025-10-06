@@ -47,6 +47,7 @@ import {
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
+import LastUsedDepsStore from "./lastUsedDeps.mjs";
 
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
@@ -573,8 +574,15 @@ export async function downloadAndInstallSDK(
         `SDK ${version} is missing submodules - installing them now.`
       );
 
-      return initSubmodules(targetDirectory, gitPath);
+      const result = await initSubmodules(targetDirectory, gitPath);
+      if (result) {
+        await LastUsedDepsStore.instance.record("pico-sdk", version);
+      }
+
+      return result;
     } else {
+      await LastUsedDepsStore.instance.record("pico-sdk", version);
+
       return true;
     }
   }
@@ -610,7 +618,12 @@ export async function downloadAndInstallSDK(
       return false;
     }
 
-    return initSubmodules(targetDirectory, gitPath);
+    const result = await initSubmodules(targetDirectory, gitPath);
+    if (result) {
+      await LastUsedDepsStore.instance.record("pico-sdk", version);
+    }
+
+    return result;
   }
 
   return false;
@@ -745,7 +758,6 @@ export async function downloadAndInstallGithubAsset(
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": EXT_USER_AGENT,
       },
-      maxRedirections: 0, // don't automatically follow redirects
     };
   } else {
     const urlObj = new URL(url);
@@ -757,7 +769,6 @@ export async function downloadAndInstallGithubAsset(
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "User-Agent": EXT_USER_AGENT,
       },
-      maxRedirections: 0, // don't automatically follow redirects
     };
   }
 
@@ -934,7 +945,7 @@ export async function downloadAndInstallTools(
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
   const releaseVersion = TOOLS_RELEASES[version] ?? "v" + version + "-0";
 
-  return downloadAndInstallGithubAsset(
+  const result = await downloadAndInstallGithubAsset(
     version,
     releaseVersion,
     GithubRepository.tools,
@@ -946,6 +957,11 @@ export async function downloadAndInstallTools(
     undefined,
     progressCallback
   );
+  if (result) {
+    await LastUsedDepsStore.instance.record("pico-sdk-tools", version);
+  }
+
+  return result;
 }
 
 export async function downloadAndInstallPicotool(
@@ -964,7 +980,7 @@ export async function downloadAndInstallPicotool(
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
   const releaseVersion = PICOTOOL_RELEASES[version] ?? "v" + version + "-0";
 
-  return downloadAndInstallGithubAsset(
+  const result = await downloadAndInstallGithubAsset(
     version,
     releaseVersion,
     GithubRepository.tools,
@@ -976,6 +992,12 @@ export async function downloadAndInstallPicotool(
     undefined,
     progressCallback
   );
+
+  if (result) {
+    await LastUsedDepsStore.instance.record("picotool", version);
+  }
+
+  return result;
 }
 
 export async function downloadAndInstallToolchain(
@@ -999,7 +1021,7 @@ export async function downloadAndInstallToolchain(
 
   const archiveFileName = `${toolchain.version}.${artifactExt}`;
 
-  return downloadAndInstallArchive(
+  const result = await downloadAndInstallArchive(
     downloadUrl,
     targetDirectory,
     archiveFileName,
@@ -1009,6 +1031,16 @@ export async function downloadAndInstallToolchain(
     undefined,
     progressCallback
   );
+  if (result) {
+    await LastUsedDepsStore.instance.record(
+      toolchain.version.toLowerCase().includes("risc")
+        ? "riscv-toolchain"
+        : "arm-toolchain",
+      toolchain.version
+    );
+  }
+
+  return result;
 }
 
 /**
@@ -1032,7 +1064,7 @@ export async function downloadAndInstallNinja(
       : ""
   }.zip`;
 
-  return downloadAndInstallGithubAsset(
+  const result = await downloadAndInstallGithubAsset(
     version,
     version,
     GithubRepository.ninja,
@@ -1044,6 +1076,11 @@ export async function downloadAndInstallNinja(
     undefined,
     progressCallback
   );
+  if (result) {
+    await LastUsedDepsStore.instance.record("ninja", version);
+  }
+
+  return result;
 }
 
 /// Detects if the current system is a Raspberry Pi with Debian
@@ -1102,7 +1139,7 @@ export async function downloadAndInstallOpenOCD(
     }
   };
 
-  return downloadAndInstallGithubAsset(
+  const result = await downloadAndInstallGithubAsset(
     version,
     OPENOCD_RELEASES[version],
     GithubRepository.tools,
@@ -1114,6 +1151,11 @@ export async function downloadAndInstallOpenOCD(
     undefined,
     progressCallback
   );
+  if (result) {
+    await LastUsedDepsStore.instance.record("openocd", version);
+  }
+
+  return result;
 }
 
 /**
@@ -1155,7 +1197,7 @@ export async function downloadAndInstallCmake(
     //chmodSync(join(targetDirectory, "CMake.app", "Contents", "bin", "cmake"), 0o755);
   };
 
-  return downloadAndInstallGithubAsset(
+  const result = await downloadAndInstallGithubAsset(
     version,
     version,
     GithubRepository.cmake,
@@ -1167,6 +1209,11 @@ export async function downloadAndInstallCmake(
     undefined,
     progressCallback
   );
+  if (result) {
+    await LastUsedDepsStore.instance.record("cmake", version);
+  }
+
+  return result;
 }
 
 function _runCommand(
@@ -1363,8 +1410,9 @@ export async function downloadEmbedPython(
     await workspace.fs.createDirectory(Uri.file(dllDir));
 
     // Write to *._pth to allow use of installed packages
-    const versionAppend =
-      CURRENT_PYTHON_VERSION.split(".").slice(0, 2).join("");
+    const versionAppend = CURRENT_PYTHON_VERSION.split(".")
+      .slice(0, 2)
+      .join("");
     const pthFile = `${targetDirectory}/python${versionAppend}._pth`;
     let pthContents = (
       await workspace.fs.readFile(Uri.file(pthFile))
@@ -1404,6 +1452,11 @@ export async function downloadEmbedPython(
       return undefined;
     }
   }
+
+  await LastUsedDepsStore.instance.record(
+    "embedded-python",
+    CURRENT_PYTHON_VERSION
+  );
 
   return pythonExe;
 }

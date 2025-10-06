@@ -41,6 +41,7 @@ import type { ITask } from "../models/task.mjs";
 import { configureCmakeNinja } from "./cmakeUtil.mjs";
 import { getWestConfigValue, updateZephyrBase } from "./westConfig.mjs";
 import { addZephyrVariant } from "./westManifest.mjs";
+import LastUsedDepsStore from "./lastUsedDeps.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -562,6 +563,7 @@ async function check7Zip(): Promise<boolean> {
         message: "Success",
         increment: 100,
       });
+      await LastUsedDepsStore.instance.record("7zip", "latest");
 
       return true;
     }
@@ -1281,6 +1283,10 @@ export async function setupZephyr(
 
   if (endResult) {
     Logger.info(LoggerSource.zephyrSetup, "Zephyr setup complete.");
+    const zephyrVersion = await getZephyrVersion();
+    if (zephyrVersion) {
+      await LastUsedDepsStore.instance.record("zephyr", zephyrVersion);
+    }
 
     return output;
   } else {

@@ -124,6 +124,7 @@ import {
   ZEPHYR_PICO_W,
 } from "./models/zephyrBoards.mjs";
 import { NewZephyrProjectPanel } from "./webview/newZephyrProjectPanel.mjs";
+import LastUsedDepsStore from "./utils/lastUsedDeps.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -134,6 +135,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     context.extension.packageJSON as PackageJSON
   );
   GithubApiCache.createInstance(context);
+  LastUsedDepsStore.instance.setup(context.globalState);
 
   const picoProjectActivityBarProvider = new PicoProjectActivityBar();
   const ui = new UI(picoProjectActivityBarProvider);
