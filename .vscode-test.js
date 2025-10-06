@@ -13,14 +13,14 @@ const testNames = [
   },
 ];
 
-fs.writeFileSync('out/test/projectCreation/testNames.json', JSON.stringify(testNames));
+fs.writeFileSync('out/projectCreation/testNames.json', JSON.stringify(testNames));
 
 function getProjectTestConfigs(name, boards, compileTimeout=10000) {
   const ret = [];
   for (const board of boards) {
     ret.push({
       name: `${name} Project Compilation Test`,
-      files: `out/test/projectCompilation/*.test.js`,
+      files: `out/projectCompilation/*.test.js`,
       workspaceFolder: `.vscode-test/sampleWorkspace/projects/${board}/${name}`,
       mocha: {
         ui: 'tdd',
@@ -34,7 +34,7 @@ function getProjectTestConfigs(name, boards, compileTimeout=10000) {
 const configs = [
   {
     name: `Project Creation Tests`,
-    files: `out/test/projectCreation/*.test.js`,
+    files: `out/projectCreation/*.test.js`,
     workspaceFolder: '.vscode-test/sampleWorkspace',
     mocha: {
       ui: 'tdd',

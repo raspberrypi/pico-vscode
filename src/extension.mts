@@ -124,7 +124,9 @@ import {
   ZEPHYR_PICO_W,
 } from "./models/zephyrBoards.mjs";
 import { NewZephyrProjectPanel } from "./webview/newZephyrProjectPanel.mjs";
-import TestCreateProjectCommand, { TestRunTaskCommand } from "./commands/testCommands.mjs";
+import TestCreateProjectCommand, {
+  TestRunTaskCommand,
+} from "./commands/testCommands.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
