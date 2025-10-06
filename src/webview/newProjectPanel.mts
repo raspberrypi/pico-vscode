@@ -2401,6 +2401,7 @@ export class NewProjectPanel {
       // for tests which don't want to change the workspace folder
       if (NewProjectPanel._noOpenFolder) {
         NewProjectPanel._isCreated = true;
+
         return;
       }
 
@@ -2454,11 +2455,13 @@ export class NewProjectPanel {
 
   public static testIfLoaded(): boolean {
     NewProjectPanel._isCreated = false;
+
     return NewProjectPanel._isLoaded;
   }
 
   public static testIfCreated(): boolean {
     NewProjectPanel._isLoaded = false;
+
     return NewProjectPanel._isCreated;
   }
 }

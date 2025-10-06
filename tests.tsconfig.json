@@ -8,10 +8,10 @@
 		"outDir": "out",
 		"sourceMap": true,
 		"strict": true,
-		"rootDir": "src"
+		"rootDir": "test"
 	},
 	"include": [
-		"src/test/**/*.ts",
+		"test/**/*.ts",
 		"./node_modules/vscode/vscode.d.ts",
 		"./node_modules/vscode/lib/*"
 	]

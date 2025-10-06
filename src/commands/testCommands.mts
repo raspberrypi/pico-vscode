@@ -7,21 +7,22 @@ import { EventEmitter } from "events";
 
 /* ------------------------------ Main command ------------------------------ */
 
-export default class TestCreateProjectCommand extends CommandWithResultAndArgs<string> {
+export default class TestCreateProjectCommand
+    extends CommandWithResultAndArgs<string> {
   constructor(private readonly _extensionUri: Uri) {
     super("testCreateProject");
   }
 
   async execute(example: string, board: string): Promise<string> {
     const projectUri = workspace.workspaceFolders?.[0]?.uri;
-    Logger.log(`Project URI: ${projectUri}`);
     if (!projectUri) {
       return "No project URI";
     }
+    Logger.log(`Project URI: ${projectUri.toString()}`);
     const fspath = projectUri.fsPath;
 
     const fspathUri = Uri.file(fspath + `/projects/${board}`);
-    Logger.log(`fspath URI: ${fspathUri}`);
+    Logger.log(`fspath URI: ${fspathUri.toString()}`);
 
     NewProjectPanel._noOpenFolder = true;
 
@@ -32,7 +33,7 @@ export default class TestCreateProjectCommand extends CommandWithResultAndArgs<s
 
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    NewProjectPanel.sendTestMessage({
+    await NewProjectPanel.sendTestMessage({
       command: "testCreateProject",
       value: {
         name: example,

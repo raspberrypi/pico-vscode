@@ -128,7 +128,9 @@ import { getWebviewOptions } from "./webview/sharedFunctions.mjs";
 import { UninstallerPanel } from "./webview/uninstallerPanel.mjs";
 import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
 import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
-import TestCreateProjectCommand, { TestRunTaskCommand } from "./commands/testCommands.mjs";
+import TestCreateProjectCommand, {
+  TestRunTaskCommand,
+} from "./commands/testCommands.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
