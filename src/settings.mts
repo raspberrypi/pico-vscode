@@ -13,6 +13,7 @@ export enum SettingsKey {
   cmakeAutoConfigure = "cmakeAutoConfigure",
   githubToken = "githubToken",
   useCmakeTools = "useCmakeTools",
+  zephyrVersion = "zephyrVersion",
 }
 
 /**

@@ -44,6 +44,7 @@ import { SDK_REPOSITORY_URL } from "../utils/sharedConstants.mjs";
 import State from "../state.mjs";
 import { compare, compareGe } from "../utils/semverUtil.mjs";
 import { updateZephyrVersion } from "../utils/setupZephyr.mjs";
+import Settings, { SettingsKey } from "../settings.mjs";
 
 const DEFAULT_PICOTOOL_VERSION = "2.2.0-a4";
 
@@ -441,6 +442,21 @@ export default class SwitchSDKCommand extends Command {
     const result = await updateZephyrVersion(selectedVersion.label);
     if (result) {
       this._ui.updateSDKVersion(selectedVersion.label.replace("v", ""));
+
+      const pinVersion = await window.showInformationMessage(
+        "Do you want to pin this Zephyr version for the current project?",
+        { modal: true },
+        "Yes",
+        "No"
+      );
+      if (pinVersion === "Yes") {
+        const settings = Settings.getInstance();
+        await settings?.update(
+          SettingsKey.zephyrVersion,
+          selectedVersion.label
+        );
+      }
+
       // for reload the window
       void commands.executeCommand("workbench.action.reloadWindow");
     } else {

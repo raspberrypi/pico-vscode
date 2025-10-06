@@ -1262,6 +1262,10 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install Zephyr SDK. Cannot continue Zephyr setup. " +
+            "See extension host output for more details."
+        );
 
         return false;
       }
@@ -1558,7 +1562,11 @@ export async function updateZephyrCompilerPath(
   }
 }
 
-export async function zephyrVerifyCMakCache(
+/**
+ * Checks if the current CMakeCache is using the current zephyr version.
+ * If not the build folder will be deleted.
+ */
+export async function zephyrVerifyCMakeCache(
   workspaceUri: Uri,
   zephyrVersion?: string
 ): Promise<void> {
@@ -1599,7 +1607,6 @@ export async function zephyrVerifyCMakCache(
     // drop build folder
     const buildDir = Uri.joinPath(workspaceUri, "build");
     try {
-      await workspace.fs.stat(buildDir);
       await workspace.fs.delete(buildDir, { recursive: true, useTrash: false });
       Logger.info(
         LoggerSource.zephyrSetup,
@@ -1608,16 +1615,6 @@ export async function zephyrVerifyCMakCache(
       void window.showInformationMessage(
         "Deleted build folder to clear old Zephyr CMake cache."
       );
-
-      if (await configureCmakeNinja(workspaceUri)) {
-        void window.showInformationMessage(
-          "Reconfigured CMake and Ninja for Zephyr project."
-        );
-      } else {
-        void window.showErrorMessage(
-          "Failed to reconfigure CMake and Ninja for Zephyr project."
-        );
-      }
     } catch {
       // does not exist
     }

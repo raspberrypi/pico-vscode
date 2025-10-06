@@ -302,17 +302,24 @@
         "raspberry-pi-pico.cmakeAutoConfigure": {
           "type": "boolean",
           "default": true,
-          "markdownDescription": "Automatically run configure when opening a Pico project"
+          "description": "Automatically run configure when opening a Pico project"
         },
         "raspberry-pi-pico.useCmakeTools": {
           "type": "boolean",
           "default": false,
-          "markdownDescription": "Use the CMake Tools extension for CMake configuration, instead of this extension"
+          "description": "Use the CMake Tools extension for CMake configuration, instead of this extension"
         },
         "raspberry-pi-pico.githubToken": {
           "type": "string",
           "default": "",
           "markdownDescription": "A GitHub personal access token (classic) with the `public_repo` scope. Used to check GitHub for available versions of the Pico SDK and other tools."
+        },
+        "raspberry-pi-pico.zephyrVersion": {
+          "type": "string",
+          "default": "",
+          "pattern": "^(?:main|v?\\d+\\.\\d+\\.\\d+(?:-rc\\d+)?)?$",
+          "scope": "resource",
+          "description": "Pin a Zephyr version (e.g. v4.2.0 or 4.2.0) for you project. Leave empty to always use the current system version."
         }
       }
     },

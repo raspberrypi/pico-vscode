@@ -6,6 +6,7 @@ import { homedir } from "os";
 export interface ManifestSection {
   path?: string;
   file?: string;
+  ["project-filter"]?: string;
 }
 
 export interface ZephyrSection {
@@ -39,6 +40,29 @@ function parentUri(uri: Uri): Uri {
   const path = uri.path.replace(/\/[^/]+$/, "");
 
   return uri.with({ path });
+}
+
+/** Escape a string to be used as a literal regex */
+function escapeRegexLiteral(s: string): string {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/** Split a project-filter string into normalized elements */
+function splitProjectFilter(value?: string): string[] {
+  if (!value) {
+    return [];
+  }
+
+  return value
+    .split(",")
+    .map(e => e.trim())
+    .filter(Boolean);
+}
+
+/** Keep only non-zephyr filter elements (so we can rebuild zephyr rules) */
+function keepNonZephyrFilters(elements: string[]): string[] {
+  // Remove any rule that targets zephyr-* (e.g., +zephyr-foo, -zephyr-.*)
+  return elements.filter(e => !/^[+-]\s*zephyr-/.test(e));
 }
 
 /** Read a text file, return undefined if not found */
@@ -78,6 +102,9 @@ export async function saveWestConfig(
   configUri: Uri,
   config: WestConfig
 ): Promise<void> {
+  if (config.zephyr === undefined || Object.keys(config.zephyr).length === 0) {
+    throw new Error("zephyr section is required");
+  }
   const text = ini.stringify(config, { whitespace: true });
   await writeTextFile(configUri, text);
 }
@@ -89,13 +116,67 @@ export async function getZephyrBase(): Promise<string | undefined> {
   return cfg.zephyr?.base;
 }
 
+/** Set `[manifest] project-filter` directly */
+export async function setManifestProjectFilter(value: string): Promise<void> {
+  const cfg = await loadWestConfig(WEST_CONFIG_URI);
+  if (!cfg.manifest) {
+    cfg.manifest = {};
+  }
+  cfg.manifest["project-filter"] = value;
+  await saveWestConfig(WEST_CONFIG_URI, cfg);
+}
+
+/** Get `[manifest] project-filter` */
+export async function getManifestProjectFilter(): Promise<string | undefined> {
+  const cfg = await loadWestConfig(WEST_CONFIG_URI);
+
+  return cfg.manifest?.["project-filter"];
+}
+
+/**
+ * Update `[manifest] project-filter` so that:
+ *  - all `zephyr-*` projects are deactivated, except the active one
+ *  - any non-zephyr rules are preserved
+ */
+function updateProjectFilterForZephyrBase(
+  cfg: WestConfig,
+  activeZephyrProjectName: string
+): void {
+  if (!cfg.manifest) {
+    cfg.manifest = {};
+  }
+
+  const current = cfg.manifest["project-filter"];
+  const existing = splitProjectFilter(current);
+  const kept = keepNonZephyrFilters(existing);
+
+  const escaped = escapeRegexLiteral(activeZephyrProjectName);
+
+  // Order matters; last rule wins.
+  // Deactivate all zephyr-* first, then explicitly re-activate the chosen one.
+  const rebuilt = [...kept, "-zephyr-.*", `+${escaped}`];
+
+  // dedupe while preserving order
+  const final = Array.from(new Set(rebuilt));
+
+  cfg.manifest["project-filter"] = final.join(",");
+}
+
 /** Set `[zephyr] base` */
-export async function updateZephyrBase(newBase: string): Promise<void> {
+export async function updateZephyrBase(
+  newBase: string,
+  updateProjectFilter: boolean = true
+): Promise<void> {
   const cfg = await loadWestConfig(WEST_CONFIG_URI);
   if (!cfg.zephyr) {
     cfg.zephyr = {};
   }
   cfg.zephyr.base = newBase;
+
+  if (updateProjectFilter) {
+    updateProjectFilterForZephyrBase(cfg, newBase);
+  }
+
   await saveWestConfig(WEST_CONFIG_URI, cfg);
 }
 

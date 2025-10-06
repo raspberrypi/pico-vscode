@@ -113,7 +113,8 @@ import {
   getZephyrVersion,
   setupZephyr,
   updateZephyrCompilerPath,
-  zephyrVerifyCMakCache,
+  updateZephyrVersion,
+  zephyrVerifyCMakeCache,
 } from "./utils/setupZephyr.mjs";
 import { IMPORT_PROJECT } from "./commands/cmdIds.mjs";
 import {
@@ -400,6 +401,77 @@ export async function activate(context: ExtensionContext): Promise<void> {
         ninjaVersion = version;
       }
 
+      // check for pinned zephyr version in workspace settings
+      const pinnedVersion = settings.getString(SettingsKey.zephyrVersion);
+      if (pinnedVersion !== undefined && pinnedVersion.length > 0) {
+        const systemVersion = await getZephyrVersion();
+        if (systemVersion === undefined) {
+          Logger.error(
+            LoggerSource.extension,
+            "Failed to get system Zephyr version."
+          );
+          void window.showErrorMessage(
+            "Failed to get system Zephyr version. Cannot setup Zephyr project."
+          );
+          // TODO: instead reset zephyr workspace
+          await commands.executeCommand(
+            "setContext",
+            ContextKeys.isPicoProject,
+            false
+          );
+
+          return;
+        }
+
+        if (systemVersion !== pinnedVersion) {
+          // ask user to switch zephyr version
+          const switchVersion = await window.showInformationMessage(
+            `Project Zephyr version (${pinnedVersion}) differs from system ` +
+              `version (${systemVersion}). ` +
+              `Do you want to switch the system version?`,
+            { modal: true },
+            "Yes",
+            "No - Use system version",
+            "No - Pin to system version"
+          );
+
+          if (switchVersion === "Yes") {
+            const switchResult = await updateZephyrVersion(pinnedVersion);
+            if (!switchResult) {
+              void window.showErrorMessage(
+                `Failed to switch Zephyr version to ${pinnedVersion}. ` +
+                  "Cannot setup Zephyr project."
+              );
+              await commands.executeCommand(
+                "setContext",
+                ContextKeys.isPicoProject,
+                false
+              );
+
+              return;
+            } else {
+              void window.showInformationMessage(
+                `Switched Zephyr version to ${pinnedVersion}.`
+              );
+              Logger.info(
+                LoggerSource.extension,
+                `Switched Zephyr version to ${pinnedVersion}.`
+              );
+            }
+          } else if (switchVersion === "No - Pin to system version") {
+            // update workspace settings
+            await settings.update(SettingsKey.zephyrVersion, systemVersion);
+            void window.showInformationMessage(
+              `Pinned Zephyr version to ${systemVersion}.`
+            );
+            Logger.info(
+              LoggerSource.extension,
+              `Pinned Zephyr version to ${systemVersion}.`
+            );
+          }
+        }
+      }
+
       const result = await setupZephyr({
         extUri: context.extensionUri,
         cmakeMode: cmakeVersion !== "" ? 2 : 3,
@@ -463,8 +535,6 @@ export async function activate(context: ExtensionContext): Promise<void> {
         // TODO: maybe cancel activation
       }
 
-      await zephyrVerifyCMakCache(workspaceFolder.uri);
-
       // Update the board info if it can be found in tasks.json
       const tasksJsonFilePath = join(
         workspaceFolder.uri.fsPath,
@@ -488,6 +558,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
           ui.updateBoard("Other");
         }
       }
+
+      await zephyrVerifyCMakeCache(workspaceFolder.uri);
 
       if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
         await cmakeSetupAutoConfigure(workspaceFolder, ui);
