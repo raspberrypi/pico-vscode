@@ -67,10 +67,7 @@ import {
   downloadAndInstallOpenOCD,
 } from "./utils/download.mjs";
 import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
-import {
-  NewProjectPanel,
-  getWebviewOptions,
-} from "./webview/newProjectPanel.mjs";
+import { NewProjectPanel } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
 import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
 import { ContextKeys } from "./contextKeys.mjs";
@@ -125,6 +122,9 @@ import {
 } from "./models/zephyrBoards.mjs";
 import { NewZephyrProjectPanel } from "./webview/newZephyrProjectPanel.mjs";
 import LastUsedDepsStore from "./utils/lastUsedDeps.mjs";
+import { getWebviewOptions } from "./webview/sharedFunctions.mjs";
+import { UninstallerPanel } from "./webview/uninstallerPanel.mjs";
+import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -183,6 +183,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new UpdateOpenOCDCommand(),
     new SbomTargetPathDebugCommand(),
     new SbomTargetPathReleaseCommand(),
+    new OpenUninstallerCommand(context.extensionUri),
   ];
 
   // register all command handlers
@@ -239,6 +240,17 @@ export async function activate(context: ExtensionContext): Promise<void> {
         // Reset the webview options so we use latest uri for `localResourceRoots`.
         webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
         NewZephyrProjectPanel.revive(webviewPanel, context.extensionUri);
+      },
+    })
+  );
+
+  context.subscriptions.push(
+    window.registerWebviewPanelSerializer(UninstallerPanel.viewType, {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      async deserializeWebviewPanel(webviewPanel: WebviewPanel): Promise<void> {
+        // Reset the webview options so we use latest uri for `localResourceRoots`.
+        webviewPanel.webview.options = getWebviewOptions(context.extensionUri);
+        UninstallerPanel.revive(webviewPanel, context.extensionUri);
       },
     })
   );

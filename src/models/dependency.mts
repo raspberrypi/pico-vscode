@@ -31,4 +31,23 @@ export const ALL_DEPS: DependencyMeta[] = [
   { id: "7zip", label: "7-Zip", platforms: ["win32"], versioned: false },
   { id: "pico-sdk-tools", label: "Pico SDK Tools" },
   { id: "picotool", label: "Picotool" },
+  { id: "zephyr", label: "Zephyr" },
 ];
+
+// version -> YYYY-MM-DD (local)
+export type VersionMap = Record<string, string>;
+// dep -> VersionMap
+export type DepVersionDb = Record<DepId, VersionMap>;
+
+export const INSTALL_ROOT_ALIAS: Partial<Record<DepId, string>> = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "pico-sdk": "sdk",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "pico-sdk-tools": "tools",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "arm-toolchain": "toolchain",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  "riscv-toolchain": "toolchain",
+  zephyr: "zephyr_workspace",
+  // others default to their depId
+};

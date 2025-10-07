@@ -63,68 +63,22 @@ import {
   OPENOCD_VERSION,
   SDK_REPOSITORY_URL,
 } from "../utils/sharedConstants.mjs";
-import { BoardType } from "./sharedEnums.mjs";
+import {
+  BoardType,
+  type ImportProjectMessageValue,
+  type SubmitExampleMessageValue,
+  type SubmitMessageValue,
+  type WebviewMessage,
+} from "./sharedEnums.mjs";
 import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
+import {
+  getNonce,
+  getProjectFolderDialogOptions,
+  getWebviewOptions,
+} from "./sharedFunctions.mjs";
 
 export const NINJA_AUTO_INSTALL_DISABLED = false;
-
-interface ImportProjectMessageValue {
-  selectedSDK: string;
-  selectedToolchain: string;
-  selectedPicotool: string;
-  ninjaMode: number;
-  ninjaPath: string;
-  ninjaVersion: string;
-  cmakeMode: number;
-  cmakePath: string;
-  cmakeVersion: string;
-
-  // debugger
-  debugger: number;
-  useCmakeTools: boolean;
-}
-
-interface SubmitExampleMessageValue extends ImportProjectMessageValue {
-  example: string;
-  boardType: string;
-}
-
-interface SubmitMessageValue extends ImportProjectMessageValue {
-  projectName: string;
-  boardType: string;
-
-  // features (libraries)
-  spiFeature: boolean;
-  pioFeature: boolean;
-  i2cFeature: boolean;
-  dmaFeature: boolean;
-  hwwatchdogFeature: boolean;
-  hwclocksFeature: boolean;
-  hwinterpolationFeature: boolean;
-  hwtimerFeature: boolean;
-
-  // stdio support
-  uartStdioSupport: boolean;
-  usbStdioSupport: boolean;
-
-  // pico wireless options
-  picoWireless: number;
-
-  // code generation options
-  addUartExample: boolean;
-  runFromRAM: boolean;
-  entryPointProjectName: boolean;
-  cpp: boolean;
-  cppRtti: boolean;
-  cppExceptions: boolean;
-}
-
-export interface WebviewMessage {
-  command: string;
-  value: object | string | SubmitMessageValue | boolean;
-  key?: string;
-}
 
 enum ConsoleOption {
   consoleOverUART = "Console over UART",
@@ -282,29 +236,6 @@ interface NewProjectOptions extends ImportProjectOptions {
   consoleOptions: ConsoleOption[];
   libraries: Array<Library | PicoWirelessOption>;
   codeOptions: CodeOption[];
-}
-
-export function getWebviewOptions(extensionUri: Uri): WebviewOptions {
-  return {
-    enableScripts: true,
-    localResourceRoots: [Uri.joinPath(extensionUri, "web")],
-  };
-}
-
-export function getProjectFolderDialogOptions(
-  projectRoot?: Uri,
-  forImport: boolean = false
-): OpenDialogOptions {
-  return {
-    canSelectFiles: false,
-    canSelectFolders: true,
-    canSelectMany: false,
-    openLabel: "Select",
-    title: forImport
-      ? "Select a project folder to import"
-      : "Select a project root to create the new project folder in",
-    defaultUri: projectRoot,
-  };
 }
 
 export class NewProjectPanel {
@@ -2502,15 +2433,4 @@ export class NewProjectPanel {
       );
     }
   }
-}
-
-export function getNonce(): string {
-  let text = "";
-  const possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (let i = 0; i < 32; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-
-  return text;
 }

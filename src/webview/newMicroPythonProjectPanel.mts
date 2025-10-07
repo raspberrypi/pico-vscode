@@ -13,17 +13,17 @@ import {
 } from "vscode";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
-import type { WebviewMessage } from "./newProjectPanel.mjs";
-import {
-  getNonce,
-  getProjectFolderDialogOptions,
-  getWebviewOptions,
-} from "./newProjectPanel.mjs";
 import { existsSync } from "fs";
 import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { getSystemPythonVersion } from "../utils/pythonHelper.mjs";
+import type { WebviewMessage } from "./sharedEnums.mjs";
+import {
+  getNonce,
+  getProjectFolderDialogOptions,
+  getWebviewOptions,
+} from "./sharedFunctions.mjs";
 
 interface SubmitMessageValue {
   projectName: string;

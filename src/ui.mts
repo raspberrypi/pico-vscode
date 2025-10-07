@@ -19,17 +19,20 @@ enum StatusBarItemKey {
 
 const STATUS_BAR_ITEMS: {
   [key: string]: {
+    name: string;
     text: string;
     rustText?: string;
     zephyrText?: string;
     command: string;
     tooltip: string;
+    rustTooltip?: string;
     zephyrTooltip?: string;
     rustSupport: boolean;
     zephyrSupport: boolean;
   };
 } = {
   [StatusBarItemKey.compile]: {
+    name: "Raspberry Pi Pico - Compile Project",
     // alt. "$(gear) Compile"
     text: "$(file-binary) Compile",
     command: `${extensionName}.${COMPILE_PROJECT}`,
@@ -38,6 +41,7 @@ const STATUS_BAR_ITEMS: {
     zephyrSupport: true,
   },
   [StatusBarItemKey.run]: {
+    name: "Raspberry Pi Pico - Run Project",
     // alt. "$(gear) Compile"
     text: "$(run) Run",
     command: `${extensionName}.${RUN_PROJECT}`,
@@ -46,6 +50,7 @@ const STATUS_BAR_ITEMS: {
     zephyrSupport: true,
   },
   [StatusBarItemKey.picoSDKQuickPick]: {
+    name: "Raspberry Pi Pico - Select SDK Version",
     text: "Pico SDK: <version>",
     zephyrText: "Zephyr version: <version>",
     command: `${extensionName}.${SWITCH_SDK}`,
@@ -55,10 +60,12 @@ const STATUS_BAR_ITEMS: {
     zephyrSupport: true,
   },
   [StatusBarItemKey.picoBoardQuickPick]: {
+    name: "Raspberry Pi Pico - Select Board",
     text: "Board: <board>",
     rustText: "Chip: <chip>",
     command: `${extensionName}.${SWITCH_BOARD}`,
-    tooltip: "Select Chip",
+    tooltip: "Select board",
+    rustTooltip: "Select Chip",
     rustSupport: true,
     zephyrSupport: true,
   },
@@ -78,6 +85,7 @@ export default class UI {
     Object.entries(STATUS_BAR_ITEMS).forEach(([key, value]) => {
       this._items[key] = this.createStatusBarItem(
         key,
+        value.name,
         value.text,
         value.command,
         value.tooltip
@@ -101,6 +109,13 @@ export default class UI {
           }
           if (STATUS_BAR_ITEMS[item.id].zephyrTooltip) {
             item.tooltip = STATUS_BAR_ITEMS[item.id].zephyrTooltip;
+          }
+        } else if (isRustProject) {
+          if (STATUS_BAR_ITEMS[item.id].rustText) {
+            item.text = STATUS_BAR_ITEMS[item.id].rustText!;
+          }
+          if (STATUS_BAR_ITEMS[item.id].rustTooltip) {
+            item.tooltip = STATUS_BAR_ITEMS[item.id].rustTooltip;
           }
         }
         item.show();
@@ -160,11 +175,13 @@ export default class UI {
 
   private createStatusBarItem(
     key: string,
+    name: string,
     text: string,
     command: string,
     tooltip: string
   ): StatusBarItem {
     const item = window.createStatusBarItem(key, StatusBarAlignment.Right);
+    item.name = name;
     item.text = text;
     item.command = command;
     item.tooltip = tooltip;
