@@ -9,6 +9,7 @@ import { homedir } from "os";
 import LastUsedDepsStore from "./lastUsedDeps.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
 import Logger, { LoggerSource } from "../logger.mjs";
+import { getZephyrSDKVersion } from "./setupZephyr.mjs";
 
 const SDK_ROOT = Uri.joinPath(Uri.file(homedir()), ".pico-sdk");
 
@@ -68,6 +69,41 @@ export async function uninstallOne(
     );
 
     return;
+  }
+
+  if (depId === "zephyr") {
+    const sdkVersion = await getZephyrSDKVersion(
+      version?.startsWith("zephyr-") ? version.slice(7) : version
+    );
+    if (sdkVersion === undefined) {
+      Logger.warn(
+        LoggerSource.uninstallUtil,
+        `Cannot uninstall zephyr ${version}: matching ` +
+          "zephyr SDK version not found"
+      );
+      void window.showWarningMessage(
+        `Cannot uninstall zephyr ${version}: matching ` +
+          "zephyr SDK version not found"
+      );
+
+      return;
+    }
+
+    const sdkPath = Uri.joinPath(target, "..", "zephyr-sdk-" + sdkVersion);
+    try {
+      await workspace.fs.stat(sdkPath);
+      await workspace.fs.delete(sdkPath, {
+        recursive: true,
+        useTrash: false,
+      });
+    } catch {
+      // ignore errors; maybe it doesn't exist
+      Logger.debug(
+        LoggerSource.uninstallUtil,
+        `Zephyr SDK ${sdkVersion} not found at ${sdkPath.fsPath}, ` +
+          "not deleting or reporting error"
+      );
+    }
   }
 
   // delete folder (prefer hard delete; fall back to trash if needed)

@@ -1,6 +1,10 @@
 /* global acquireVsCodeApi */
 "use strict";
 
+const OVERLAY_MIN_MS = 3000; // keep overlay visible at least this long
+let overlayShownAt = 0;
+let overlayTimerId = null
+
 const vscode = acquireVsCodeApi();
 
 /** @typedef {{ id:string, depId:string, label:string, version:string, installedAt: string, lastUsed:string, path?:string }} Item */
@@ -12,6 +16,8 @@ let state = {
   filter: "",
   selected: new Set(),     // of item.id
   uninstalling: false,
+  overlayVisible: false,
+  pendingRender: false,
 };
 
 const $ = (sel, root = document) => /** @type {HTMLElement|null} */(root.querySelector(sel));
@@ -225,11 +231,15 @@ function renderList() {
   `;
 }
 
-function renderOverlay() {
+function renderOverlay(visible = false) {
   return `
-  <div id="overlay" class="fixed inset-0 hidden items-center justify-center z-50 bg-black/60 backdrop-blur-sm">
-    <div class="flex flex-col items-center gap-4 p-8 rounded-2xl bg-white/90 dark:bg-zinc-900/90 border border-gray-200 dark:border-zinc-800">
-      <div class="h-10 w-10 rounded-full border-4 border-gray-300 dark:border-zinc-700 border-t-transparent animate-spin"></div>
+  <div id="overlay"
+       class="fixed inset-0 ${visible ? '' : 'hidden'} z-50 grid place-items-center bg-black/60 backdrop-blur-sm">
+    <div class="pointer-events-auto flex flex-col items-center gap-4 p-8 rounded-2xl
+                bg-white/90 dark:bg-zinc-900/90 border border-gray-200 dark:border-zinc-800 shadow-lg"
+         role="status" aria-live="polite">
+      <div class="h-10 w-10 rounded-full border-4 border-gray-300 dark:border-zinc-700 border-t-transparent animate-spin"
+           aria-hidden="true"></div>
       <div id="overlay-text" class="text-sm text-gray-700 dark:text-gray-200">Uninstalling…</div>
     </div>
   </div>`;
@@ -252,7 +262,7 @@ function renderFrame() {
       </div>
     </main>
   </div>
-  ${renderOverlay()}
+  ${renderOverlay(state.overlayVisible)}
   `;
   bindEvents();
   updateSelectAllCheckbox();
@@ -400,19 +410,51 @@ function beginUninstall(ids) {
 }
 
 function showOverlay(text) {
+  // reset any previous timer
+  if (overlayTimerId) {
+    clearTimeout(overlayTimerId);
+    overlayTimerId = null;
+  }
+
+  overlayShownAt = Date.now();
+  state.overlayVisible = true;
   const ov = $("#overlay");
   if (!ov) return;
-  $("#overlay-text").textContent = text || "Working…";
+  const ovT = $("#overlay-text");
+  if (!ovT) return;
+  ovT.textContent = text || "Working…";
+
   ov.classList.remove("hidden");
   // prevent interaction underneath
   document.body.style.pointerEvents = "none";
   ov.style.pointerEvents = "auto";
 }
 
+function scheduleHideOverlay() {
+  const now = Date.now();
+  const remain = Math.max(OVERLAY_MIN_MS - (now - overlayShownAt), 0);
+  console.debug(`scheduling overlay hide in ${remain}ms`);
+  if (overlayTimerId) clearTimeout(overlayTimerId);
+
+  const finish = () => {
+    hideOverlay();
+    overlayTimerId = null;
+    if (state.pendingRender) {
+      state.pendingRender = false;
+      update();
+    }
+  };
+
+  overlayTimerId = remain <= 0
+    ? setTimeout(() => requestAnimationFrame(finish), 0) // next frame
+    : setTimeout(finish, remain);
+}
+
 function hideOverlay() {
   const ov = $("#overlay");
   if (!ov) return;
   ov.classList.add("hidden");
+  state.overlayVisible = false;
   document.body.style.pointerEvents = "";
 }
 
@@ -453,13 +495,17 @@ window.addEventListener("message", (event) => {
       state.items = state.items.filter(i => !removedIds.has(i.id));
       for (const id of removedIds) state.selected.delete(id);
       state.uninstalling = false;
-      hideOverlay();
-      update();
+
+      //hideOverlay();
+      // don't flicker: wait until min visible time has passed
+      state.pendingRender = true;
+      scheduleHideOverlay();
       break;
     }
     case "uninstall:error": {
       state.uninstalling = false;
-      hideOverlay();
+      //hideOverlay();
+      scheduleHideOverlay();
       alert(msg.error || "Uninstall failed."); // simple; VS Code shows alerts fine
       break;
     }
@@ -469,7 +515,11 @@ window.addEventListener("message", (event) => {
         state.items = msg.items;
         // prune selection
         state.selected = new Set([...state.selected].filter(id => state.items.some(i => i.id === id)));
-        update();
+        if (state.overlayVisible) {
+          state.pendingRender = true;   // defer while overlay is up
+        } else {
+          update();
+        }
       }
       break;
     }
