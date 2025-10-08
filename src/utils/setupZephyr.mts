@@ -1246,6 +1246,7 @@ export async function setupZephyr(
               message: "Success",
               increment: 100,
             });
+            await LastUsedDepsStore.instance.record("7zip", "latest");
 
             return true;
           } else {
