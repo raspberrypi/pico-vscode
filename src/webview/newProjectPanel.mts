@@ -3,8 +3,6 @@ import {
   Uri,
   window,
   workspace,
-  type WebviewOptions,
-  type OpenDialogOptions,
   type WebviewPanel,
   type Disposable,
   ViewColumn,
