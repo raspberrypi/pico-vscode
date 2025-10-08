@@ -5,7 +5,6 @@ import {
   window,
   workspace,
   commands,
-  type WorkspaceFolder,
 } from "vscode";
 import type UI from "../ui.mjs";
 import { updateVSCodeStaticConfigs } from "../utils/vscodeConfigUtil.mjs";

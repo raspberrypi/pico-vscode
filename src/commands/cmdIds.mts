@@ -44,3 +44,5 @@ export const SWITCH_SDK = "switchSDK";
 export const UNINSTALL_PICO_SDK = "uninstallPicoSDK";
 
 export const UPDATE_OPENOCD = "updateOpenOCD";
+
+export const OPEN_UNINSTALLER = "openUninstaller";

@@ -1,0 +1,20 @@
+/* Minimal extras; Tailwind handles most styling */
+
+/* Hide focus outlines only when using mouse; keep for keyboard */
+:focus:not(:focus-visible) {
+  outline: 0;
+}
+
+/* Smooth font rendering for dark backgrounds */
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
+/* A tiny reset which helps on some platforms */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+/* Fullscreen overlay tweaks handled via Tailwind classes; nothing else needed */

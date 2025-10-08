@@ -14,12 +14,6 @@ import {
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
 import { compare } from "../utils/semverUtil.mjs";
-import type { WebviewMessage } from "./newProjectPanel.mjs";
-import {
-  getNonce,
-  getProjectFolderDialogOptions,
-  getWebviewOptions,
-} from "./newProjectPanel.mjs";
 import { existsSync } from "fs";
 import { join } from "path";
 import { PythonExtension } from "@vscode/python-extension";
@@ -28,9 +22,18 @@ import { setupZephyr } from "../utils/setupZephyr.mjs";
 import { getCmakeReleases, getNinjaReleases } from "../utils/githubREST.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
 import { generateZephyrProject } from "../utils/projectGeneration/projectZephyr.mjs";
-import { BoardType, type ZephyrSubmitMessageValue } from "./sharedEnums.mjs";
+import {
+  BoardType,
+  type WebviewMessage,
+  type ZephyrSubmitMessageValue,
+} from "./sharedEnums.mjs";
 import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
 import { checkGitWithProgress } from "../utils/gitUtil.mjs";
+import {
+  getNonce,
+  getProjectFolderDialogOptions,
+  getWebviewOptions,
+} from "./sharedFunctions.mjs";
 
 export class NewZephyrProjectPanel {
   public static currentPanel: NewZephyrProjectPanel | undefined;

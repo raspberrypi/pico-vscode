@@ -46,6 +46,7 @@ export enum LoggerSource {
   projectRust = "projectRust",
   zephyrSetup = "setupZephyr",
   projectZephyr = "projectZephyr",
+  uninstallUtil = "uninstallUtil",
 }
 
 /**

@@ -13,12 +13,6 @@ import {
 } from "vscode";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
-import type { WebviewMessage } from "./newProjectPanel.mjs";
-import {
-  getNonce,
-  getProjectFolderDialogOptions,
-  getWebviewOptions,
-} from "./newProjectPanel.mjs";
 import { existsSync } from "fs";
 import { join } from "path";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
@@ -27,6 +21,12 @@ import {
   installLatestRustRequirements,
 } from "../utils/rustUtil.mjs";
 import { generateRustProject } from "../utils/projectGeneration/projectRust.mjs";
+import {
+  getNonce,
+  getProjectFolderDialogOptions,
+  getWebviewOptions,
+} from "./sharedFunctions.mjs";
+import type { WebviewMessage } from "./sharedEnums.mjs";
 
 interface SubmitMessageValue {
   projectName: string;

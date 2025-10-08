@@ -67,7 +67,8 @@
     "onWebviewPanel:newPicoProject",
     "onWebviewPanel:newPicoMicroPythonProject",
     "onWebviewPanel:newPicoRustProject",
-    "onWebviewPanel:newPicoZephyrProject"
+    "onWebviewPanel:newPicoZephyrProject",
+    "onWebviewPanel:uninstaller"
   ],
   "contributes": {
     "commands": [
@@ -273,6 +274,11 @@
         "title": "Get Zephyr SDK path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.openUninstaller",
+        "title": "Open Uninstaller",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {
