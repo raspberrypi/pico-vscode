@@ -1182,10 +1182,10 @@ ${{env:PATH}}"
         {{
             "label": "Run Project",
             "type": "process",
-            "command": "{propertiesPicotoolPath(picotoolVersion, force_non_windows=True)}/picotool/picotool",
+            "command": "${{command:raspberry-pi-pico.getPicotoolPath}}",
             "args": [
                 "load",
-                "${{command:raspberry-pi-pico.launchTargetPath}}",
+                "\\"${{command:raspberry-pi-pico.launchTargetPath}}\\"",
                 "-fx"
             ],
             "presentation": {{
@@ -1194,16 +1194,16 @@ ${{env:PATH}}"
             }},
             "problemMatcher": [],
             "windows": {{
-                "command": "{propertiesPicotoolPath(picotoolVersion, force_windows=True)}/picotool/picotool.exe"
+                "command": "\\\\\\\\?\\\\${{command:raspberry-pi-pico.getPicotoolPath}}"
             }}
         }},
         {{
             "label": "Flash",
             "type": "process",
-            "command": "{openocd_path if openocd_path else "openocd"}",
+            "command": "${{command:raspberry-pi-pico.getOpenOCDRoot}}/openocd.exe",
             "args": [
                 "-s",
-                "{codeOpenOCDPath(openOCDVersion)}/scripts",
+                "${{command:raspberry-pi-pico.getOpenOCDRoot}}/scripts",
                 "-f",
                 "{debugger}",
                 "-f",
@@ -1213,16 +1213,16 @@ ${{env:PATH}}"
             ],
             "problemMatcher": [],
             "windows": {{
-                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+                "command": "\\\\\\\\?\\\\${{command:raspberry-pi-pico.getOpenOCDRoot}}/openocd.exe",
             }}
         }},
         {{
             "label": "Rescue Reset",
             "type": "process",
-            "command": "{openocd_path if openocd_path else "openocd"}",
+            "command": "${{command:raspberry-pi-pico.getOpenOCDRoot}}/openocd.exe",
             "args": [
                 "-s",
-                "{codeOpenOCDPath(openOCDVersion)}/scripts",
+                "${{command:raspberry-pi-pico.getOpenOCDRoot}}/scripts",
                 "-f",
                 "{debugger}",
                 "-f",
@@ -1232,16 +1232,16 @@ ${{env:PATH}}"
             ],
             "problemMatcher": [],
             "windows": {{
-                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+                "command": "\\\\\\\\?\\\\${{command:raspberry-pi-pico.getOpenOCDRoot}}/openocd.exe",
             }}
         }},
         {{
-            "label": "Risc-V Reset (RP2350)",
+            "label": "RISC-V Reset (RP2350)",
             "type": "process",
-            "command": "{openocd_path if openocd_path else "openocd"}",
+            "command": "${{command:raspberry-pi-pico.getOpenOCDRoot}}/openocd.exe",
             "args": [
                 "-s",
-                "{codeOpenOCDPath(openOCDVersion)}/scripts",
+                "${{command:raspberry-pi-pico.getOpenOCDRoot}}/scripts",
                 "-c",
                 "set USE_CORE {{ rv0 rv1 cm0 cm1 }}",
                 "-f",
@@ -1257,7 +1257,7 @@ ${{env:PATH}}"
             ],
             "problemMatcher": [],
             "windows": {{
-                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+                "command": "\\\\\\\\?\\\\${{command:raspberry-pi-pico.getOpenOCDRoot}}/openocd.exe",
             }}
         }}
     ]
