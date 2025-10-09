@@ -21,6 +21,7 @@ export const GET_SVD_PATH = "getSVDPath";
 export const GET_WEST_PATH = "getWestPath";
 export const GET_ZEPHYR_WORKSPACE_PATH = "getZephyrWorkspacePath";
 export const GET_ZEPHYR_SDK_PATH = "getZephyrSDKPath";
+export const GET_GIT_PATH = "getGitPath";
 
 export const IMPORT_PROJECT = "importProject";
 

@@ -785,7 +785,10 @@ export async function setupZephyr(
       }
 
       // install python (if necessary)
-      const python3Path = await findPython();
+      const python3Path = (await findPython())?.replace(
+        HOME_VAR,
+        homedir().replaceAll("\\", "/")
+      );
       if (!python3Path) {
         progress.report({
           message: "Failed",
@@ -1059,6 +1062,8 @@ export async function setupZephyr(
 
               return false;
             }
+
+            await updateZephyrBase("zephyr-main", true);
           }
 
           const westUpdateCommand: string = `"${westExe}" update`;
@@ -1429,7 +1434,7 @@ export async function getZephyrSDKVersion(
   const zephyrWorkspaceDirectory = buildZephyrWorkspacePath();
   const sdkVersionFile = joinPosix(
     zephyrWorkspaceDirectory,
-    `zephyr-${zephyrVersion}`,
+    `zephyr-${zVersion}`,
     "SDK_VERSION"
   );
 
