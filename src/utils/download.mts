@@ -74,7 +74,7 @@ const TOOLS_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "2.1.1": "v2.1.1-1",
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.2.0": "v2.2.0-2",
+  "2.2.0": "v2.2.0-3",
 };
 
 /// Release tags for picotool
@@ -88,13 +88,13 @@ const PICOTOOL_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   "2.2.0": "v2.2.0-0",
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "2.2.0-a4": "v2.2.0-2",
+  "2.2.0-a4": "v2.2.0-3",
 };
 
 /// Release tags for openocd
 const OPENOCD_RELEASES: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  "0.12.0+dev": "v2.2.0-2",
+  "0.12.0+dev": "v2.2.0-3",
 };
 
 /// Translate nodejs platform names to cmake platform names
@@ -1119,10 +1119,6 @@ export async function downloadAndInstallOpenOCD(
     process.platform === "linux"
       ? process.arch === "arm64"
         ? "-aarch64"
-        : "-x86_64"
-      : process.platform === "darwin"
-      ? process.arch === "arm64"
-        ? "-arm64"
         : "-x86_64"
       : ""
   }-${TOOLS_PLATFORMS[process.platform]}.${assetExt}`;
