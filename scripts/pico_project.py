@@ -1236,7 +1236,7 @@ ${{env:PATH}}"
             }}
         }},
         {{
-            "label": "Risc-V Reset (RP2350)",
+            "label": "RISC-V Reset (RP2350)",
             "type": "process",
             "command": "{openocd_path if openocd_path else "openocd"}",
             "args": [
