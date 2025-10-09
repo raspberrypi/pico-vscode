@@ -212,7 +212,10 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
 
   try {
     await mkdir(vsc, { recursive: true });
-    await writeFile(join(vsc, "extensions.json"), JSON.stringify(extensions));
+    await writeFile(
+      join(vsc, "extensions.json"),
+      JSON.stringify(extensions, null, 2)
+    );
     await writeFile(join(vsc, "launch.json"), JSON.stringify(launch, null, 2));
     await writeFile(
       join(vsc, "settings.json"),
