@@ -685,6 +685,126 @@ async function checkOpenOCD(): Promise<boolean> {
   );
 }
 
+async function fetchBinaryBlobs(
+  westExe: string,
+  zephyrWorkspaceDirectory: string,
+  customEnv: NodeJS.ProcessEnv
+): Promise<boolean> {
+  const sleep = (ms: number): Promise<void> =>
+    new Promise<void>(res => setTimeout(res, ms));
+
+  const runOnce = async (): Promise<boolean> =>
+    window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Fetching Zephyr binary blobs",
+        cancellable: false,
+      },
+      async progress2 => {
+        const westBlobsFetchCommand: string =
+          `"${westExe}" blobs fetch ` + "hal_infineon";
+
+        const result = await _runCommand(westBlobsFetchCommand, {
+          cwd: zephyrWorkspaceDirectory,
+          windowsHide: true,
+          env: customEnv,
+        });
+
+        if (result === 0) {
+          progress2.report({
+            message: "Success",
+            increment: 100,
+          });
+
+          return true;
+        } else {
+          progress2.report({
+            message: "Failed",
+            increment: 100,
+          });
+
+          return false;
+        }
+      }
+    );
+
+  // first attempt
+  const first = await runOnce();
+  if (first) {
+    return true;
+  }
+
+  // retry once after a brief delay
+  await sleep(1000);
+
+  return runOnce();
+}
+
+async function installWestPyDeps(
+  westExe: string,
+  zephyrWorkspaceDirectory: string,
+  customEnv: NodeJS.ProcessEnv
+): Promise<boolean> {
+  const sleep = (ms: number): Promise<void> =>
+    new Promise<void>(res => setTimeout(res, ms));
+
+  const runOnce = async (): Promise<boolean> =>
+    window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Installing West Python dependencies",
+        cancellable: false,
+      },
+      async progress2 => {
+        const westPipPackagesCommand: string =
+          `"${westExe}" packages ` + "pip --install";
+
+        const result = await _runCommand(westPipPackagesCommand, {
+          cwd: zephyrWorkspaceDirectory,
+          windowsHide: true,
+          env: customEnv,
+        });
+
+        if (result === 0) {
+          Logger.debug(
+            LoggerSource.zephyrSetup,
+            "West Python dependencies installed."
+          );
+          progress2.report({
+            message: "Success",
+            increment: 100,
+          });
+
+          return true;
+        } else {
+          Logger.error(
+            LoggerSource.zephyrSetup,
+            "Error installing West Python dependencies."
+          );
+          progress2.report({
+            message: "Failed",
+            increment: 100,
+          });
+
+          return false;
+        }
+      }
+    );
+
+  const first = await runOnce();
+  if (first) {
+    return true;
+  }
+  Logger.debug(
+    LoggerSource.zephyrSetup,
+    "Retrying installation of West Python dependencies..."
+  );
+
+  await sleep(1000);
+
+  return runOnce();
+}
+
 export async function setupZephyr(
   data: ZephyrSetupValue,
   gitExe?: string
@@ -960,6 +1080,10 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to create Python virtual environment for Zephyr. " +
+            "Cannot continue Zephyr setup."
+        );
 
         return false;
       }
@@ -1006,6 +1130,10 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install West and / or pyelftools in the Zephyr Python " +
+            "virtual environment. Cannot continue Zephyr setup."
+        );
 
         return false;
       }
@@ -1095,6 +1223,10 @@ export async function setupZephyr(
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to setup West workspace and / or download zephyr. " +
+            "Cannot continue Zephyr setup."
+        );
 
         return false;
       }
@@ -1122,94 +1254,40 @@ export async function setupZephyr(
         return false;
       }
 
-      installedSuccessfully = await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Installing West Python dependencies",
-          cancellable: false,
-        },
-        async progress2 => {
-          const westPipPackagesCommand: string =
-            `"${westExe}" packages ` + "pip --install";
-
-          result = await _runCommand(westPipPackagesCommand, {
-            cwd: zephyrWorkspaceDirectory,
-            windowsHide: true,
-            env: customEnv,
-          });
-
-          if (result === 0) {
-            Logger.debug(
-              LoggerSource.zephyrSetup,
-              "West Python dependencies installed."
-            );
-            progress2.report({
-              message: "Success",
-              increment: 100,
-            });
-
-            return true;
-          } else {
-            Logger.error(
-              LoggerSource.zephyrSetup,
-              "Error installing West Python dependencies."
-            );
-            progress2.report({
-              message: "Failed",
-              increment: 100,
-            });
-
-            return false;
-          }
-        }
+      installedSuccessfully = await installWestPyDeps(
+        westExe,
+        zephyrWorkspaceDirectory,
+        customEnv
       );
       if (!installedSuccessfully) {
         progress.report({
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to install West Python dependencies. " +
+            "Cannot continue Zephyr setup. " +
+            "See extension host output for more details."
+        );
 
         return false;
       }
 
-      installedSuccessfully = await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Fetching Zephyr binary blobs",
-          cancellable: false,
-        },
-        async progress2 => {
-          const westBlobsFetchCommand: string =
-            `"${westExe}" blobs fetch ` + "hal_infineon";
-
-          result = await _runCommand(westBlobsFetchCommand, {
-            cwd: zephyrWorkspaceDirectory,
-            windowsHide: true,
-            env: customEnv,
-          });
-
-          if (result === 0) {
-            progress2.report({
-              message: "Success",
-              increment: 100,
-            });
-
-            return true;
-          } else {
-            progress2.report({
-              message: "Failed",
-              increment: 100,
-            });
-
-            return false;
-          }
-        }
+      installedSuccessfully = await fetchBinaryBlobs(
+        westExe,
+        zephyrWorkspaceDirectory,
+        customEnv
       );
       if (!installedSuccessfully) {
         progress.report({
           message: "Failed",
           increment: 100,
         });
+        void window.showErrorMessage(
+          "Failed to fetch Zephyr binary blobs. " +
+            "Cannot continue Zephyr setup. " +
+            "See extension host output for more details."
+        );
 
         return false;
       }
