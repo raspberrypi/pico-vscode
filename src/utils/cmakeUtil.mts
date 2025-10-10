@@ -234,8 +234,12 @@ export async function configureCmakeNinja(
           (buildType ? ` -DCMAKE_BUILD_TYPE=${buildType}` : "");
 
         const zephyrWorkspace = buildZephyrWorkspacePath();
-        const westExe = isWindows ? "west.exe" : "west";
-        const westPath = join(zephyrWorkspace, "venv", "Scripts", westExe);
+        const westPath = join(
+          zephyrWorkspace,
+          "venv",
+          isWindows ? "Scripts" : "bin",
+          isWindows ? "west.exe" : "west"
+        );
         const zephyrBoard = isZephyrProject
           ? await getBoardFromZephyrProject(
               join(folder.fsPath, ".vscode", "tasks.json")
