@@ -374,6 +374,9 @@ async function generateVSCodeConfig(
         problemMatcher: [],
         dependsOrder: "sequence",
         dependsOn: "Compile Project",
+        windows: {
+          command: `"\${command:${extensionName}.${GET_PICOTOOL_PATH}}"`,
+        },
       },
     ],
   };
