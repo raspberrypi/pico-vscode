@@ -136,6 +136,7 @@ var submitted = false;
   {
     const boardSelector = document.getElementById("sel-board-type");
     const templateSelect = document.getElementById("sel-template");
+    const blinkyOption = document.getElementById("option-template-blinky");
     const wifiOption = document.getElementById("option-template-wifi");
 
     const gpioCheckbox = document.getElementById("gpio-features-cblist");
@@ -175,6 +176,8 @@ var submitted = false;
       const applyBoardConstraints = () => {
         const supportsWifi = boardSupportsWifi(boardSelector.value);
 
+        // temporary disable blinky template for wifi boards until supported by zephyr
+        setOptionDisabled(blinkyOption, supportsWifi);
         setOptionDisabled(wifiOption, !supportsWifi);
 
         if (wifiCheckbox) {
@@ -194,9 +197,10 @@ var submitted = false;
           isProgrammatic = false;
         }
 
+        const fallback = firstEnabledTemplateValue();
+
         // If Wi-Fi template selected on a non-Wi-Fi board, fall back
         if (!supportsWifi && templateSelect.value === "wifi") {
-          const fallback = firstEnabledTemplateValue();
           if (fallback && fallback !== "wifi") {
             isProgrammatic = true;
             templateSelect.value = fallback;
@@ -204,6 +208,16 @@ var submitted = false;
             templateSelect.dispatchEvent(new Event("change", { bubbles: true }));
           }
         }
+
+        if (supportsWifi && templateSelect.value === "blinky") {
+          if (fallback && fallback !== "blinky") {
+            isProgrammatic = true;
+            templateSelect.value = fallback;
+            isProgrammatic = false;
+            templateSelect.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+
         return supportsWifi;
       };
 
