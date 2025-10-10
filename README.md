@@ -112,9 +112,9 @@ For further context, see this discussion in the Zephyr project: https://github.c
 
 ## Additonal Zephyr Prerequisites
 
-> On Raspberry Pi OS Trixie these come pre-installed.
+> On Raspberry Pi OS Trixie all of those come pre-installed.
 
-* **wget** - Required for sdk-ng to download toolchains. Install via your package manager (e.g., `brew install wget` on macOS or `sudo apt install wget` on Debian based Linux distributions).
+* **wget** - Required for sdk-ng to download toolchains.
 
 ### Linux and macOS only
 
