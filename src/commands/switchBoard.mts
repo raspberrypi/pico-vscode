@@ -31,6 +31,12 @@ import State from "../state.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { SWITCH_BOARD } from "./cmdIds.mjs";
 import { zephyrTouchTasksJson } from "../utils/setupZephyr.mjs";
+import {
+  ZEPHYR_PICO,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+  ZEPHYR_PICO_W,
+} from "../models/zephyrBoards.mjs";
 
 interface IBoardFile {
   [key: string]: string;
@@ -261,7 +267,21 @@ export default class SwitchBoardCommand extends Command {
     const board = stringToZephyrBoard(boardRes[0]);
     const taskJsonFile = Uri.joinPath(wsf.uri, ".vscode", "tasks.json");
     await zephyrTouchTasksJson(taskJsonFile, board);
-    this._ui.updateBoard(board);
+
+    // TODO: duplicate code with extension move into helper
+    if (board !== undefined) {
+      if (board === ZEPHYR_PICO2_W) {
+        this._ui.updateBoard("Pico 2W");
+      } else if (board === ZEPHYR_PICO2) {
+        this._ui.updateBoard("Pico 2");
+      } else if (board === ZEPHYR_PICO_W) {
+        this._ui.updateBoard("Pico W");
+      } else if (board === ZEPHYR_PICO) {
+        this._ui.updateBoard("Pico");
+      } else {
+        this._ui.updateBoard("Other");
+      }
+    }
   }
 
   private async _switchBoardPicoSDK(

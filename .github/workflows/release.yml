@@ -21,6 +21,7 @@ jobs:
       - name: Install Dependencies
         run: |
           npm install -g npm
+          npm -v
           npm i -g @vscode/vsce ovsx
           npm ci
       - name: Lint Extension
