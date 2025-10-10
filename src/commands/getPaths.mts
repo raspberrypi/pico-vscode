@@ -35,6 +35,7 @@ import {
   GET_CXX_COMPILER_PATH,
   GET_ENV_PATH,
   GET_GDB_PATH,
+  GET_GIT_PATH,
   GET_OPENOCD_ROOT,
   GET_PICOTOOL_PATH,
   GET_PYTHON_PATH,
@@ -54,6 +55,7 @@ import {
   ZEPHYR_PICO2_W,
   ZEPHYR_PICO_W,
 } from "../models/zephyrBoards.mjs";
+import { ensureGit } from "../utils/gitUtil.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -628,9 +630,28 @@ export class GetZephyrSDKPathCommand extends CommandWithResult<
       await workspace.fs.stat(Uri.file(result));
       const zephyrSdkVersion = await getZephyrSDKVersion();
 
-      return joinPosix(result, `zephyr-sdk-${zephyrSdkVersion}`);
+      return joinPosix(result, `zephyr-sdk-${zephyrSdkVersion ?? "unknown"}`);
     } catch {
       return undefined;
     }
+  }
+}
+
+export class GetGitPathCommand extends CommandWithResult<string> {
+  constructor(private readonly _settings: Settings) {
+    super(GET_GIT_PATH);
+  }
+
+  async execute(): Promise<string> {
+    const gitPath = await ensureGit(this._settings, { returnPath: true });
+    if (
+      typeof gitPath !== "string" ||
+      gitPath.length === 0 ||
+      !gitPath.includes("/")
+    ) {
+      return "";
+    }
+
+    return gitPath;
   }
 }

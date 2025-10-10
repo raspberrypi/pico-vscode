@@ -520,6 +520,7 @@ export async function downloadAndInstallSDK(
     return false;
   }
 
+  // TODO: option to parse already resolved path into this function
   // TODO: this does take about 2s - may be reduced
   const gitPath = await ensureGit(settings, { returnPath: true });
   if (typeof gitPath !== "string" || gitPath.length === 0) {

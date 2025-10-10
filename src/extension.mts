@@ -56,6 +56,7 @@ import {
   GetWestPathCommand,
   GetZephyrWorkspacePathCommand,
   GetZephyrSDKPathCommand,
+  GetGitPathCommand,
 } from "./commands/getPaths.mjs";
 import {
   downloadAndInstallCmake,
@@ -184,6 +185,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new SbomTargetPathDebugCommand(),
     new SbomTargetPathReleaseCommand(),
     new OpenUninstallerCommand(context.extensionUri),
+    new GetGitPathCommand(settings),
   ];
 
   // register all command handlers

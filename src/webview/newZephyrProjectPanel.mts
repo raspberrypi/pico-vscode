@@ -345,8 +345,7 @@ export class NewZephyrProjectPanel {
       zephyrSetupOutputs.latestVb,
       zephyrSetupOutputs.ninjaExecutable,
       zephyrSetupOutputs.cmakeExecutable,
-      data,
-      gitPath
+      data
     );
     if (!result) {
       progress.report({

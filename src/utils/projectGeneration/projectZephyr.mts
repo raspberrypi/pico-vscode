@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { dirname, join } from "path";
+import { join } from "path";
 import { dirname as dirnamePosix } from "path/posix";
 import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
@@ -27,10 +27,12 @@ import {
 import { homedir } from "os";
 import {
   GET_CHIP_UPPERCASE,
+  GET_GIT_PATH,
   GET_OPENOCD_ROOT,
   GET_PICOTOOL_PATH,
   GET_TARGET,
   GET_WEST_PATH,
+  GET_ZEPHYR_SDK_PATH,
   GET_ZEPHYR_WORKSPACE_PATH,
 } from "../../commands/cmdIds.mjs";
 import { getZephyrSDKVersion, getZephyrVersion } from "../setupZephyr.mjs";
@@ -69,8 +71,7 @@ async function generateVSCodeConfig(
   ninjaPath: string,
   cmakePath: string,
   te: TextEncoder = new TextEncoder(),
-  data: ZephyrSubmitMessageValue,
-  gitPath: string
+  data: ZephyrSubmitMessageValue
 ): Promise<boolean> {
   const vsc = join(projectRoot, ".vscode");
 
@@ -164,7 +165,7 @@ async function generateVSCodeConfig(
         toolchainPrefix: "arm-zephyr-eabi",
         armToolchainPath:
           // TODO: maybe just full get zephyr compiler path command
-          `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}/zephyr-sdk/arm-zephyr-eabi/bin`,
+          `\${command:${extensionName}.${GET_ZEPHYR_SDK_PATH}}/arm-zephyr-eabi/bin`,
         // TODO: get chip dynamically maybe: chip: `\${command:${extensionName}.${GetChipCommand.id}}`,
         // meaning only one cfg required
         device: `\${command:${extensionName}.${GET_CHIP_UPPERCASE}}`,
@@ -179,6 +180,8 @@ async function generateVSCodeConfig(
         openOCDLaunchCommands: ["adapter speed 5000"],
         // TODO: add zephyr build support to support this.
         rtos: "Zephyr",
+        // TODO: maybe get into launch target path command like in c/c++ projects
+        preLaunchTask: "Compile Project",
       },
     ],
   };
@@ -205,15 +208,13 @@ async function generateVSCodeConfig(
     "terminal.integrated.env.windows": {
       // remove gperf and dtc for now
       // \${env:USERPROFILE}/.pico-sdk/dtc/${CURRENT_DTC_VERSION}/bin;\${env:USERPROFILE}/.pico-sdk/gperf/${CURRENT_GPERF_VERSION}
-      Path: `${dirname(
-        gitPath
-      )};\${env:USERPROFILE}/.pico-sdk/7zip;\${env:Path};`,
+      Path: "${env:USERPROFILE}/.pico-sdk/7zip;${env:Path};",
     },
     "terminal.integrated.env.osx": {
-      PATH: `${dirname(gitPath)}:\${env:PATH}:`,
+      PATH: "${env:PATH}:",
     },
     "terminal.integrated.env.linux": {
-      PATH: `${dirname(gitPath)}:\${env:PATH}:`,
+      PATH: "${env:PATH}:",
     },
     "raspberry-pi-pico.cmakeAutoConfigure": true,
     "raspberry-pi-pico.useCmakeTools": false,
@@ -331,9 +332,15 @@ async function generateVSCodeConfig(
         problemMatcher: "$gcc",
         options: {
           cwd: `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}`,
+          env: {
+            PATH: `\${command:${extensionName}.${GET_GIT_PATH}}:\${env:PATH}:`,
+          },
         },
         windows: {
           options: {
+            env: {
+              Path: `\${command:${extensionName}.${GET_GIT_PATH}};\${env:Path};`,
+            },
             shell: {
               executable: "cmd.exe",
               args: ["/d", "/c"],
@@ -365,6 +372,8 @@ async function generateVSCodeConfig(
           panel: "dedicated",
         },
         problemMatcher: [],
+        dependsOrder: "sequence",
+        dependsOn: "Compile Project",
       },
     ],
   };
@@ -1170,8 +1179,7 @@ export async function generateZephyrProject(
   latestVb: [string, VersionBundle],
   ninjaPath: string,
   cmakePath: string,
-  data: ZephyrSubmitMessageValue,
-  gitPath: string
+  data: ZephyrSubmitMessageValue
 ): Promise<boolean> {
   const projectRoot = join(projectFolder, projectName);
 
@@ -1245,8 +1253,7 @@ export async function generateZephyrProject(
     ninjaPath,
     cmakePath,
     te,
-    data,
-    gitPath
+    data
   );
   if (!result) {
     Logger.debug(
