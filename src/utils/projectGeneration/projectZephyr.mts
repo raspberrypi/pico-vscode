@@ -355,7 +355,7 @@ async function generateVSCodeConfig(
         group: {
           kind: "build",
         },
-        command: `\${command:${extensionName}.${GET_WEST_PATH}}`,
+        command: `"\${command:${extensionName}.${GET_WEST_PATH}}"`,
         args: ["flash", "--build-dir", '"${workspaceFolder}/build"'],
         options: {
           cwd: `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}`,
@@ -364,7 +364,7 @@ async function generateVSCodeConfig(
       {
         label: "Run Project",
         type: "shell",
-        command: `\${command:${extensionName}.${GET_PICOTOOL_PATH}}`,
+        command: `"\${command:${extensionName}.${GET_PICOTOOL_PATH}}"`,
         // TODO: support for launch target path command
         args: ["load", '"${workspaceFolder}/build/zephyr/zephyr.elf"', "-fx"],
         presentation: {
@@ -374,9 +374,6 @@ async function generateVSCodeConfig(
         problemMatcher: [],
         dependsOrder: "sequence",
         dependsOn: "Compile Project",
-        windows: {
-          command: `"\${command:${extensionName}.${GET_PICOTOOL_PATH}}"`,
-        },
       },
     ],
   };
