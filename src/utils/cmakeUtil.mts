@@ -18,6 +18,7 @@ import State from "../state.mjs";
 import {
   generateCustomZephyrEnv,
   getBoardFromZephyrProject,
+  zephyrGetSelectedSnippets,
 } from "./setupZephyr.mjs";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
@@ -248,11 +249,20 @@ export async function configureCmakeNinja(
 
           return false;
         }
-        const zephyrCommand = `${
+        let zephyrCommand = `${
           process.env.ComSpec?.endsWith("powershell.exe") ? "&" : ""
         }"${westPath}" build --cmake-only -b ${
           zephyrBoard ?? ""
         } -d "${buildDir}" "${folder.fsPath}"`;
+
+        // check for selected snippets and include for cmake configuration
+        if (isZephyrProject) {
+          const snippets = await zephyrGetSelectedSnippets(folder);
+
+          for (const snippet of snippets) {
+            zephyrCommand += ` -S ${snippet}`;
+          }
+        }
 
         await new Promise<void>((resolve, reject) => {
           // use exec to be able to cancel the process

@@ -574,6 +574,9 @@ async function showNoWgetError(): Promise<void> {
     "wget not found in Path. Please install wget and ensure " +
       "it is available in Path. " +
       "See the Zephyr notes in the pico-vscode README for guidance.",
+    {
+      modal: true,
+    },
     "Open README"
   );
   if (response === "Open README") {
@@ -593,7 +596,7 @@ async function checkMacosLinuxDeps(): Promise<boolean> {
 
   const wget = await which("wget", { nothrow: true });
   if (!wget) {
-    await showNoWgetError();
+    void showNoWgetError();
 
     return false;
   }
@@ -628,7 +631,7 @@ async function checkWindowsDeps(): Promise<boolean> {
 
   const wget = await which("wget", { nothrow: true });
   if (!wget) {
-    await showNoWgetError();
+    void showNoWgetError();
 
     return false;
   }
@@ -1716,5 +1719,50 @@ export async function zephyrVerifyCMakeCache(
     );
 
     return;
+  }
+}
+
+export async function zephyrGetSelectedSnippets(
+  workspaceUri: Uri
+): Promise<string[]> {
+  const snippetsUri = Uri.joinPath(workspaceUri, ".vscode", "tasks.json");
+
+  // search for "Compile Project" get every i+1 where i is an index and args[i]=="-S" || "--snippet"
+  try {
+    await workspace.fs.stat(snippetsUri);
+
+    const td = new TextDecoder("utf-8");
+    const tasksJson = JSON.parse(
+      td.decode(await workspace.fs.readFile(snippetsUri))
+    ) as { tasks: ITask[] };
+
+    const compileTask = tasksJson.tasks.find(
+      t => t.label === "Compile Project"
+    );
+    if (compileTask === undefined) {
+      return [];
+    }
+
+    const selectedSnippets: string[] = [];
+    for (let i = 0; i < compileTask.args.length; i++) {
+      if (compileTask.args[i] === "-S" || compileTask.args[i] === "--snippet") {
+        if (i + 1 < compileTask.args.length) {
+          selectedSnippets.push(compileTask.args[i + 1]);
+        }
+      }
+    }
+
+    return selectedSnippets;
+  } catch (error) {
+    Logger.warn(
+      LoggerSource.zephyrSetup,
+      `Failed to read tasks.json file: ${unknownErrorToString(error)}`
+    );
+    void window.showWarningMessage(
+      "Failed to read tasks.json file. " +
+        "Make sure the file exists and has a Compile Project task."
+    );
+
+    return [];
   }
 }
