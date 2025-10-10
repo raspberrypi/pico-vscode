@@ -8,6 +8,18 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 - Release 1
 
+## [0.19.0] - 2025-10-10
+
+### Added
+- Rust support by @paulober in (#96)
+- Zephyr support by @MagpieEmbedded and @paulober in (#214, #220, #222)
+- Uninstaller (Manage Components) panel by @paulober in (#218)
+
+### Changed
+- Keep the first 3 numbers from git version by @veblush in (#205)
+- Reduced extension dependencies
+- Update Visual Studio Code minimum requirement to v1.99.3
+
 ## [0.18.1] - 2025-10-03
 
 ### Fixed
