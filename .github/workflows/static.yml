@@ -42,6 +42,7 @@ jobs:
           python-version: '3.11'
       - name: Install Dependencies
         run: |
+          npm install -g npm
           npm ci
           pip install requests js2py
       - name: Generate Cache JSON
