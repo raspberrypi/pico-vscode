@@ -41,6 +41,7 @@ import type { ITask } from "../models/task.mjs";
 import { getWestConfigValue, updateZephyrBase } from "./westConfig.mjs";
 import { addZephyrVariant } from "./westManifest.mjs";
 import LastUsedDepsStore from "./lastUsedDeps.mjs";
+import { geSemverPre } from "./semverUtil.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -1628,6 +1629,78 @@ export async function updateZephyrCompilerPath(
       if (incPathMatch && incPathMatch.length === 3) {
         zephyrConfig.forcedInclude[i] =
           `${incPathMatch[1]}` + `${zephyrVersion}${incPathMatch[2]}`;
+      }
+    }
+
+    // support for v1.0.0 zephyr sdk toolchain location change
+    const launchUri = Uri.joinPath(workspaceUri, ".vscode", "launch.json");
+    if (geSemverPre(sdkVersion, "v1.0.0-beta1")) {
+      zephyrConfig.compilerPath.replace(
+        `${sdkVersion}/arm-zephyr-eabi`,
+        `${sdkVersion}/gnu/arm-zephyr-eabi`
+      );
+
+      try {
+        await workspace.fs.stat(launchUri);
+
+        const launchJson = JSON.parse(
+          td.decode(await workspace.fs.readFile(launchUri))
+        ) as {
+          configurations: Array<{ name: string; armToolchainPath: string }>;
+        };
+
+        const picoDebugConfig = launchJson.configurations.find(
+          c => c.name === "Pico Debug (Zephyr)"
+        );
+        if (picoDebugConfig) {
+          picoDebugConfig.armToolchainPath =
+            picoDebugConfig.armToolchainPath.replace(
+              "}/arm-zephyr-eabi/",
+              "}/gnu/arm-zephyr-eabi/"
+            );
+
+          const te = new TextEncoder();
+          await workspace.fs.writeFile(
+            launchUri,
+            te.encode(JSON.stringify(launchJson, null, 2))
+          );
+        }
+      } catch {
+        // do nothing
+      }
+    } else {
+      zephyrConfig.compilerPath.replace(
+        `${sdkVersion}/gnu/arm-zephyr-eabi`,
+        `${sdkVersion}/arm-zephyr-eabi`
+      );
+
+      try {
+        await workspace.fs.stat(launchUri);
+
+        const launchJson = JSON.parse(
+          td.decode(await workspace.fs.readFile(launchUri))
+        ) as {
+          configurations: Array<{ name: string; armToolchainPath: string }>;
+        };
+
+        const picoDebugConfig = launchJson.configurations.find(
+          c => c.name === "Pico Debug (Zephyr)"
+        );
+        if (picoDebugConfig) {
+          picoDebugConfig.armToolchainPath =
+            picoDebugConfig.armToolchainPath.replace(
+              "}/gnu/arm-zephyr-eabi/",
+              "}/arm-zephyr-eabi/"
+            );
+
+          const te = new TextEncoder();
+          await workspace.fs.writeFile(
+            launchUri,
+            te.encode(JSON.stringify(launchJson, null, 2))
+          );
+        }
+      } catch {
+        // do nothing
       }
     }
 
