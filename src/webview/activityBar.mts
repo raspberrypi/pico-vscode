@@ -24,6 +24,7 @@ import {
   NEW_EXAMPLE_PROJECT,
   NEW_PROJECT,
   OPEN_SDK_DOCUMENTATION,
+  OPEN_UNINSTALLER,
   RUN_PROJECT,
   SWITCH_BOARD,
   SWITCH_BUILD_TYPE,
@@ -61,6 +62,7 @@ const CLEAN_CMAKE_PROJECT_LABEL = "Clean CMake";
 const SWITCH_BUILD_TYPE_LABEL = "Switch Build Type";
 const DEBUG_PROJECT_LABEL = "Debug Project";
 const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
+const MANAGE_COMPONENTS_LABEL = "Manage Components";
 
 export class PicoProjectActivityBar
   implements TreeDataProvider<QuickAccessCommand>
@@ -125,6 +127,9 @@ export class PicoProjectActivityBar
       case EXAMPLE_PROJECT_LABEL:
         // alt. "file-code"
         element.iconPath = new ThemeIcon("file-symlink-directory");
+        break;
+      case MANAGE_COMPONENTS_LABEL:
+        element.iconPath = new ThemeIcon("package");
         break;
 
       case DEBUG_PROJECT_LABEL:
@@ -251,6 +256,14 @@ export class PicoProjectActivityBar
             command: `${extensionName}.${NEW_EXAMPLE_PROJECT}`,
             title: EXAMPLE_PROJECT_LABEL,
             arguments: [true],
+          }
+        ),
+        new QuickAccessCommand(
+          MANAGE_COMPONENTS_LABEL,
+          TreeItemCollapsibleState.None,
+          {
+            command: `${extensionName}.${OPEN_UNINSTALLER}`,
+            title: MANAGE_COMPONENTS_LABEL,
           }
         ),
       ];

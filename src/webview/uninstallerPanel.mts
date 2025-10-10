@@ -45,7 +45,7 @@ export class UninstallerPanel {
 
     const panel = window.createWebviewPanel(
       UninstallerPanel.viewType,
-      "Pico SDK Uninstaller",
+      "Manage Installed Components",
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -176,7 +176,7 @@ export class UninstallerPanel {
   }
 
   private async _update(): Promise<void> {
-    this._panel.title = "Pico SDK Uninstaller";
+    this._panel.title = "Manage Installed Components";
 
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,

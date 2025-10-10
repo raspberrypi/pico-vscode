@@ -41,6 +41,7 @@ import type { ITask } from "../models/task.mjs";
 import { getWestConfigValue, updateZephyrBase } from "./westConfig.mjs";
 import { addZephyrVariant } from "./westManifest.mjs";
 import LastUsedDepsStore from "./lastUsedDeps.mjs";
+import { geSemverPre } from "./semverUtil.mjs";
 
 interface ZephyrSetupValue {
   cmakeMode: number;
@@ -574,6 +575,9 @@ async function showNoWgetError(): Promise<void> {
     "wget not found in Path. Please install wget and ensure " +
       "it is available in Path. " +
       "See the Zephyr notes in the pico-vscode README for guidance.",
+    {
+      modal: true,
+    },
     "Open README"
   );
   if (response === "Open README") {
@@ -593,7 +597,7 @@ async function checkMacosLinuxDeps(): Promise<boolean> {
 
   const wget = await which("wget", { nothrow: true });
   if (!wget) {
-    await showNoWgetError();
+    void showNoWgetError();
 
     return false;
   }
@@ -628,7 +632,7 @@ async function checkWindowsDeps(): Promise<boolean> {
 
   const wget = await which("wget", { nothrow: true });
   if (!wget) {
-    await showNoWgetError();
+    void showNoWgetError();
 
     return false;
   }
@@ -1628,6 +1632,78 @@ export async function updateZephyrCompilerPath(
       }
     }
 
+    // support for v1.0.0 zephyr sdk toolchain location change
+    const launchUri = Uri.joinPath(workspaceUri, ".vscode", "launch.json");
+    if (geSemverPre(sdkVersion, "v1.0.0-beta1")) {
+      zephyrConfig.compilerPath.replace(
+        `${sdkVersion}/arm-zephyr-eabi`,
+        `${sdkVersion}/gnu/arm-zephyr-eabi`
+      );
+
+      try {
+        await workspace.fs.stat(launchUri);
+
+        const launchJson = JSON.parse(
+          td.decode(await workspace.fs.readFile(launchUri))
+        ) as {
+          configurations: Array<{ name: string; armToolchainPath: string }>;
+        };
+
+        const picoDebugConfig = launchJson.configurations.find(
+          c => c.name === "Pico Debug (Zephyr)"
+        );
+        if (picoDebugConfig) {
+          picoDebugConfig.armToolchainPath =
+            picoDebugConfig.armToolchainPath.replace(
+              "}/arm-zephyr-eabi/",
+              "}/gnu/arm-zephyr-eabi/"
+            );
+
+          const te = new TextEncoder();
+          await workspace.fs.writeFile(
+            launchUri,
+            te.encode(JSON.stringify(launchJson, null, 2))
+          );
+        }
+      } catch {
+        // do nothing
+      }
+    } else {
+      zephyrConfig.compilerPath.replace(
+        `${sdkVersion}/gnu/arm-zephyr-eabi`,
+        `${sdkVersion}/arm-zephyr-eabi`
+      );
+
+      try {
+        await workspace.fs.stat(launchUri);
+
+        const launchJson = JSON.parse(
+          td.decode(await workspace.fs.readFile(launchUri))
+        ) as {
+          configurations: Array<{ name: string; armToolchainPath: string }>;
+        };
+
+        const picoDebugConfig = launchJson.configurations.find(
+          c => c.name === "Pico Debug (Zephyr)"
+        );
+        if (picoDebugConfig) {
+          picoDebugConfig.armToolchainPath =
+            picoDebugConfig.armToolchainPath.replace(
+              "}/gnu/arm-zephyr-eabi/",
+              "}/arm-zephyr-eabi/"
+            );
+
+          const te = new TextEncoder();
+          await workspace.fs.writeFile(
+            launchUri,
+            te.encode(JSON.stringify(launchJson, null, 2))
+          );
+        }
+      } catch {
+        // do nothing
+      }
+    }
+
     const te = new TextEncoder();
     await workspace.fs.writeFile(
       cppPropertiesUri,
@@ -1716,5 +1792,50 @@ export async function zephyrVerifyCMakeCache(
     );
 
     return;
+  }
+}
+
+export async function zephyrGetSelectedSnippets(
+  workspaceUri: Uri
+): Promise<string[]> {
+  const snippetsUri = Uri.joinPath(workspaceUri, ".vscode", "tasks.json");
+
+  // search for "Compile Project" get every i+1 where i is an index and args[i]=="-S" || "--snippet"
+  try {
+    await workspace.fs.stat(snippetsUri);
+
+    const td = new TextDecoder("utf-8");
+    const tasksJson = JSON.parse(
+      td.decode(await workspace.fs.readFile(snippetsUri))
+    ) as { tasks: ITask[] };
+
+    const compileTask = tasksJson.tasks.find(
+      t => t.label === "Compile Project"
+    );
+    if (compileTask === undefined) {
+      return [];
+    }
+
+    const selectedSnippets: string[] = [];
+    for (let i = 0; i < compileTask.args.length; i++) {
+      if (compileTask.args[i] === "-S" || compileTask.args[i] === "--snippet") {
+        if (i + 1 < compileTask.args.length) {
+          selectedSnippets.push(compileTask.args[i + 1]);
+        }
+      }
+    }
+
+    return selectedSnippets;
+  } catch (error) {
+    Logger.warn(
+      LoggerSource.zephyrSetup,
+      `Failed to read tasks.json file: ${unknownErrorToString(error)}`
+    );
+    void window.showWarningMessage(
+      "Failed to read tasks.json file. " +
+        "Make sure the file exists and has a Compile Project task."
+    );
+
+    return [];
   }
 }

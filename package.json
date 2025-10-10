@@ -81,7 +81,7 @@
         "command": "raspberry-pi-pico.switchSDK",
         "title": "Switch Pico SDK",
         "category": "Raspberry Pi Pico",
-        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isZephyrProject"
+        "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.switchBoard",
@@ -277,7 +277,7 @@
       },
       {
         "command": "raspberry-pi-pico.openUninstaller",
-        "title": "Open Uninstaller",
+        "title": "Manage Installed Components",
         "category": "Raspberry Pi Pico"
       },
       {

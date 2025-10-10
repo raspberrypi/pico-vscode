@@ -141,3 +141,87 @@ export function compareLtMajor(first: string, second: string): boolean {
   // Compare only the major versions
   return firstMajor < secondMajor;
 }
+
+export type Pre = { tag: "alpha" | "beta" | "rc" | null; num: number };
+
+export type ParsedVer = {
+  major: number;
+  minor: number;
+  patch: number;
+  pre: Pre; // null tag means "final"
+};
+
+function parseVer(input: string): ParsedVer | null {
+  const s = input.trim().toLowerCase().replace(/^v/, "");
+  const [core, preRaw = ""] = s.split("-", 2);
+
+  // allow 2 or 3 core parts; pad missing with 0
+  const parts = core.split(".").map(n => Number(n));
+  if (parts.length < 2 || parts.length > 3) {
+    return null;
+  }
+  const [major, minor, patch = 0] = parts;
+  if (![major, minor, patch].every(n => Number.isInteger(n) && n >= 0)) {
+    return null;
+  }
+
+  let pre: Pre = { tag: null, num: 0 };
+  if (preRaw) {
+    // accept alpha/beta/rc with optional number (default 0)
+    const m = /^(alpha|beta|rc)(\d+)?$/.exec(preRaw);
+    if (!m) {
+      return null;
+    }
+    pre = { tag: m[1] as Pre["tag"], num: m[2] ? Number(m[2]) : 0 };
+  }
+
+  return { major, minor, patch, pre };
+}
+
+const rank: Record<NonNullable<Pre["tag"]> | "final", number> = {
+  alpha: 0,
+  beta: 1,
+  rc: 2,
+  final: 3,
+};
+
+/** Compare a vs b: -1 if a<b, 0 if equal, 1 if a>b */
+export function compareSemverPre(a: string, b: string): number {
+  const A = parseVer(a),
+    B = parseVer(b);
+  if (!A || !B) {
+    throw new Error(`Invalid version: "${a}" or "${b}"`);
+  }
+
+  if (A.major !== B.major) {
+    return A.major < B.major ? -1 : 1;
+  }
+  if (A.minor !== B.minor) {
+    return A.minor < B.minor ? -1 : 1;
+  }
+  if (A.patch !== B.patch) {
+    return A.patch < B.patch ? -1 : 1;
+  }
+
+  // prerelease ranking: alpha < beta < rc < final
+  const rA = rank[A.pre.tag ?? "final"];
+  const rB = rank[B.pre.tag ?? "final"];
+  if (rA !== rB) {
+    return rA < rB ? -1 : 1;
+  }
+
+  // same prerelease tag (or both final)
+  if (A.pre.tag === null) {
+    return 0;
+  } // both final
+  if (A.pre.num !== B.pre.num) {
+    return A.pre.num < B.pre.num ? -1 : 1;
+  }
+
+  return 0;
+}
+
+export const geSemverPre = (a: string, b: string): boolean =>
+  compareSemverPre(a, b) >= 0;
+export const ltSemverPre = (a: string, b: string): boolean =>
+  compareSemverPre(a, b) < 0;
