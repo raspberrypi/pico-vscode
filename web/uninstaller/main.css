@@ -17,4 +17,11 @@ body {
   margin: 0;
 }
 
+.prevent-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 /* Fullscreen overlay tweaks handled via Tailwind classes; nothing else needed */
