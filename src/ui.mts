@@ -153,6 +153,8 @@ export default class UI {
         StatusBarItemKey.picoBoardQuickPick
       ].text.replace("<board>", board);
     }
+
+    this._activityBarProvider.refreshBoard(board);
   }
 
   public updateBuildType(buildType: string): void {
