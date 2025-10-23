@@ -536,10 +536,8 @@ export class NewRustProjectPanel {
                       <button 
                           id="btn-change-project-location"
                           type="button"
-                          class="relative inline-flex items-center justify-center standard-button-size p-1 ml-4 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
-                          <span class="relative px-4 py-2 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
-                              Change
-                          </span>
+                          class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 py-2 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800">
+                          Change
                       </button>
                   </div>
               </div>
