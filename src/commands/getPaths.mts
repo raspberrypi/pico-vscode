@@ -499,7 +499,7 @@ export class GetPicotoolPathCommand extends CommandWithResult<
 
     // TODO: maybe move "picotool" into buildPath or install it so the files
     // are in root of buildPath
-    return join(
+    return joinPosix(
       buildPicotoolPath(picotoolVersion),
       "picotool",
       process.platform === "win32" ? "picotool.exe" : "picotool"
