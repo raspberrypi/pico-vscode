@@ -326,7 +326,7 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   }
 
   // install elf2uf2-rs
-  const elf2uf2Rs = "elf2uf2-rs";
+  /*const elf2uf2Rs = "elf2uf2-rs";
   cargoInstResult = await cargoInstall(elf2uf2Rs, true);
   if (cargoInstResult !== undefined) {
     void window.showErrorMessage(
@@ -335,7 +335,7 @@ export async function downloadAndInstallRust(): Promise<boolean> {
     );
 
     return false;
-  }
+  }*/
 
   // install cargo-sbom
   const cargoSbom = "cargo-sbom";
