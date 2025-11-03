@@ -126,6 +126,7 @@ import LastUsedDepsStore from "./utils/lastUsedDeps.mjs";
 import { getWebviewOptions } from "./webview/sharedFunctions.mjs";
 import { UninstallerPanel } from "./webview/uninstallerPanel.mjs";
 import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
+import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -186,6 +187,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new SbomTargetPathReleaseCommand(),
     new OpenUninstallerCommand(context.extensionUri),
     new GetGitPathCommand(settings),
+    new CleanZephyrCommand(),
   ];
 
   // register all command handlers
