@@ -357,7 +357,7 @@ async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
 }
 
 async function preparePython(python3Path: string): Promise<boolean> {
-  if (!python3Path.includes(".pico-sdk")) {
+  if (!python3Path.includes(".pico-sdk") || process.platform !== "win32") {
     return true;
   }
 

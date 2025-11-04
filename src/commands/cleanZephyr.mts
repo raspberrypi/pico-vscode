@@ -1,6 +1,6 @@
 import { commands, Uri, window, workspace } from "vscode";
 import { CLEAN_ZEPHYR } from "./cmdIds.mjs";
-import { Command, extensionName } from "./command.mjs";
+import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import { homedir } from "os";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
