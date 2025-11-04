@@ -26,6 +26,7 @@ import VersionBundlesLoader, { type VersionBundle } from "./versionBundles.mjs";
 import {
   CURRENT_DTC_VERSION,
   CURRENT_GPERF_VERSION,
+  GET_PIP_URL,
   LICENSE_URL_7ZIP,
   OPENOCD_VERSION,
   SDK_REPOSITORY_URL,
@@ -353,6 +354,84 @@ async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
       }
     }
   );
+}
+
+async function preparePython(python3Path: string): Promise<boolean> {
+  if (!python3Path.includes(".pico-sdk")) {
+    return true;
+  }
+
+  // download get-pip.py and run it
+  const getPipUrl = new URL(GET_PIP_URL);
+  const getPipTarget = join(dirname(python3Path), "get-pip.py");
+
+  const downloadResult = await downloadFileGot(getPipUrl, getPipTarget);
+  if (!downloadResult) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      "Failed to download get-pip.py for Python setup."
+    );
+
+    return false;
+  }
+
+  const pipInstallCommand: string = `"${python3Path}" "${getPipTarget}"`;
+
+  const result = await _runCommand(pipInstallCommand, {
+    windowsHide: true,
+  });
+  if (result !== 0) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      "Failed to install pip for Python setup."
+    );
+
+    return false;
+  }
+
+  // add pip to python path by modifying the ._pth file
+  const dirContents = await workspace.fs.readDirectory(
+    Uri.file(dirname(python3Path))
+  );
+
+  const pthFile = dirContents.find(item => item[0].endsWith("._pth"));
+  if (pthFile === undefined) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      "Failed to find ._pth file for Python setup."
+    );
+
+    return false;
+  }
+
+  const pthFileUri = Uri.file(join(dirname(python3Path), pthFile[0]));
+  let pthFileContents = await workspace.fs.readFile(pthFileUri);
+  let pthFileString = pthFileContents.toString();
+  pthFileString = pthFileString.replace(
+    "#import site",
+    "Lib\\site-packages\nScripts\n.\n\n#import site"
+  );
+  pthFileContents = Buffer.from(pthFileString, "utf-8");
+  await workspace.fs.writeFile(pthFileUri, pthFileContents);
+
+  const pipPathCommand: string =
+    `"${python3Path}" -m pip install --upgrade ` +
+    "pip setuptools wheel virtualenv";
+
+  const pipResult = await _runCommand(pipPathCommand, {
+    windowsHide: true,
+  });
+
+  if (pipResult !== 0) {
+    Logger.error(
+      LoggerSource.zephyrSetup,
+      "Failed to upgrade pip, setuptools, wheel and virtualenv."
+    );
+
+    return false;
+  }
+
+  return true;
 }
 
 async function checkSdk(
@@ -923,6 +1002,18 @@ export async function setupZephyr(
           "Failed to find Python3 executable."
         );
         showPythonNotFoundError();
+
+        return false;
+      }
+      if (!(await preparePython(python3Path))) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+        void window.showErrorMessage(
+          "Failed to prepare Python for Zephyr setup. " +
+            "Cannot continue Zephyr setup."
+        );
 
         return false;
       }
