@@ -101,6 +101,7 @@ import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
 import {
   CMAKELISTS_ZEPHYR_HEADER,
+  CMAKELISTS_ZEPHYR_REGEX,
   OPENOCD_VERSION,
   SDK_REPOSITORY_URL,
 } from "./utils/sharedConstants.mjs";
@@ -319,8 +320,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
       await workspace.fs.readFile(Uri.file(cmakeListsFilePath))
     );
 
-    // Check for pico_zephyr in CMakeLists.txt
-    if (cmakeListsContents.startsWith(CMAKELISTS_ZEPHYR_HEADER)) {
+    // Check for zephyr pico project prefix line in CMakeLists.txt
+    if (cmakeListsContents.trimStart().match(CMAKELISTS_ZEPHYR_REGEX)) {
       Logger.info(LoggerSource.extension, "Project is of type: Zephyr");
 
       const vb = new VersionBundlesLoader(context.extensionUri);
