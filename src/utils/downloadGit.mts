@@ -10,14 +10,15 @@ import { unxzFile, unzipFile } from "./downloadHelpers.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
 import {
   EXT_USER_AGENT,
+  WINDOWS_ARM64_GIT_DOWNLOAD_URL,
   WINDOWS_X86_GIT_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 
 /**
  * Downloads and installs a portable version of Git.
  *
- * Supports Windows x64 and macOS x64 + arm64.
- * But currently only execution on Windows x64 is enabled.
+ * Supports Windows x64 + arm64 and macOS x64 + arm64.
+ * But currently only execution on Windows x64 and Windows arm64 is enabled.
  *
  * @returns The path to the installed Git executable or undefined if the installation failed
  */
@@ -26,7 +27,7 @@ export async function downloadGit(
 ): Promise<string | undefined> {
   if (
     process.platform !== "win32" ||
-    (process.platform === "win32" && process.arch !== "x64")
+    (process.arch !== "x64" && process.arch !== "arm64")
   ) {
     Logger.debug(
       LoggerSource.gitDownloader,
@@ -51,8 +52,12 @@ export async function downloadGit(
   // Ensure the target directory exists
   await mkdir(targetDirectory, { recursive: true });
 
-  // select download url for platform()_arch()
-  const downloadUrl = redirectURL ?? WINDOWS_X86_GIT_DOWNLOAD_URL;
+  // select download url
+  const downloadUrl =
+    redirectURL ??
+    (process.arch === "arm64"
+      ? WINDOWS_ARM64_GIT_DOWNLOAD_URL
+      : WINDOWS_X86_GIT_DOWNLOAD_URL);
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
