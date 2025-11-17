@@ -285,6 +285,11 @@
         "title": "Get git path",
         "category": "Raspberry Pi Pico",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.cleanZephyr",
+        "title": "Remove Zephyr workspace",
+        "category": "Raspberry Pi Pico"
       }
     ],
     "configuration": {
