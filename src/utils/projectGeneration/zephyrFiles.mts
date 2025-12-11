@@ -10,6 +10,9 @@ CONFIG_NET_IPV6=n
 CONFIG_NET_SOCKETS=y
 CONFIG_NET_TCP=y
 
+# Enable POSIX APIs (getaddrinfo, socket(), connect(), read(), write(), etc.)
+CONFIG_POSIX_API=y
+
 # DHCP client (comment out if using static IP with NET_CONFIG_*)
 CONFIG_NET_DHCPV4=y
 
@@ -71,19 +74,23 @@ CONFIG_TEST_RANDOM_GENERATOR=y
 `;
 
 export const WIFI_HTTP_C = `#include "http.h"
+#include "json_definitions.h"
 
 #include <zephyr/kernel.h>
 #include <zephyr/data/json.h>
 #include <zephyr/logging/log.h>
+
+// POSIX APIs
+#include <zephyr/posix/sys/socket.h>
+#include <zephyr/posix/unistd.h>
+#include <zephyr/posix/netdb.h>
+#include <zephyr/posix/arpa/inet.h>
+
 #include <zephyr/net/http/client.h>
 #include <zephyr/net/net_config.h>
 #include <zephyr/net/net_if.h>
 #include <zephyr/net/net_ip.h>
-#include <zephyr/net/socket.h>
 #include <zephyr/net/wifi_mgmt.h>
-#include <zephyr/posix/netdb.h>
-
-#include "json_definitions.h"
 
 LOG_MODULE_REGISTER(http);
 
@@ -103,22 +110,22 @@ char json_payload_buffer[128];
 char json_response_buffer[1024];
 
 // Keeps track of JSON parsing result
-static struct json_example_object * returned_placeholder_post = NULL;
+static struct json_example_object *returned_placeholder_post = NULL;
 static int json_parse_result = -1;
 
-// void http_get(const char * hostname, const char * path);
-
-int connect_socket(const char * hostname)
+int connect_socket(const char *hostname)
 {
-    static struct addrinfo hints;
-    struct addrinfo *res;
+    struct addrinfo hints   = {0};
+    struct addrinfo *res    = NULL;
     int st, sock;
 
     LOG_DBG("Looking up IP addresses:");
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
+
     st = getaddrinfo(hostname, HTTP_PORT, &hints, &res);
-    if (st != 0) {
+    if (st != 0)
+    {
         LOG_ERR("Unable to resolve address, quitting");
         return -1;
     }
@@ -130,15 +137,19 @@ int connect_socket(const char * hostname)
     if (sock < 0)
     {
         LOG_ERR("Issue setting up socket: %d", sock);
+        freeaddrinfo(res);
         return -1;
     }
-    LOG_DBG("sock = %d", sock);
 
+    LOG_DBG("sock = %d", sock);
     LOG_INF("Connecting to server...");
     int connect_result = connect(sock, res->ai_addr, res->ai_addrlen);
+
+    freeaddrinfo(res);
+
     if (connect_result != 0)
     {
-        LOG_ERR("Issue during connect: %d", sock);
+        LOG_ERR("Issue during connect: %d", connect_result);
         return -1;
     }
 
@@ -146,12 +157,13 @@ int connect_socket(const char * hostname)
 }
 
 static int http_response_cb(struct http_response *rsp,
-    enum http_final_call final_data,
-    void *user_data)
+                            enum http_final_call final_data,
+                            void *user_data)
 {
     printk("HTTP Callback: %.*s", rsp->data_len, rsp->recv_buf);
 
-    if (HTTP_DATA_FINAL == final_data){
+    if (HTTP_DATA_FINAL == final_data)
+    {
         printk("\\n");
         k_sem_give(&http_response_complete);
     }
@@ -159,7 +171,7 @@ static int http_response_cb(struct http_response *rsp,
     return 0;
 }
 
-void http_get_example(const char * hostname, const char * path)
+void http_get_example(const char *hostname, const char *path)
 {
     int sock = connect_socket(hostname);
     if (sock < 0)
@@ -170,16 +182,16 @@ void http_get_example(const char * hostname, const char * path)
 
     LOG_INF("Connected. Making HTTP request...");
 
-    struct http_request req = { 0 };
+    struct http_request req = {0};
     int ret;
 
-    req.method = HTTP_GET;
-    req.host = hostname;
-    req.url = path;
-    req.protocol = "HTTP/1.1";
-    req.response = http_response_cb;
-    req.recv_buf = response_buffer;
-    req.recv_buf_len = sizeof(response_buffer);
+    req.method          = HTTP_GET;
+    req.host            = hostname;
+    req.url             = path;
+    req.protocol        = "HTTP/1.1";
+    req.response        = http_response_cb;
+    req.recv_buf        = response_buffer;
+    req.recv_buf_len    = sizeof(response_buffer);
 
     /* sock is a file descriptor referencing a socket that has been connected
     * to the HTTP server.
@@ -195,15 +207,14 @@ void http_get_example(const char * hostname, const char * path)
     k_sem_take(&http_response_complete, K_FOREVER);
 
     LOG_INF("HTTP GET complete");
-
     LOG_INF("Close socket");
 
     (void)close(sock);
 }
 
 static int json_response_cb(struct http_response *rsp,
-    enum http_final_call final_data,
-    void *user_data)
+                            enum http_final_call final_data,
+                            void *user_data)
 {
     LOG_DBG("JSON Callback: %.*s", rsp->data_len, rsp->recv_buf);
 
@@ -234,8 +245,7 @@ static int json_response_cb(struct http_response *rsp,
                 strnlen(json_response_buffer, sizeof(json_response_buffer)),
                 json_example_object_descr,
                 ARRAY_SIZE(json_example_object_descr),
-                returned_placeholder_post
-            );
+                returned_placeholder_post);
 
             if (json_parse_result < 0)
             {
@@ -249,7 +259,9 @@ static int json_response_cb(struct http_response *rsp,
                 LOG_DBG("User ID: %d", returned_placeholder_post->id);
                 LOG_DBG("ID: %d", returned_placeholder_post->userId);
             }
-        } else {
+        }
+        else
+        {
             LOG_ERR("No pointer passed to copy JSON GET result to");
         }
 
@@ -259,7 +271,7 @@ static int json_response_cb(struct http_response *rsp,
     return 0;
 }
 
-int json_get_example(const char * hostname, const char * path, struct json_example_object * result)
+int json_get_example(const char *hostname, const char *path, struct json_example_object *result)
 {
     json_parse_result = -1;
     returned_placeholder_post = result;
@@ -274,16 +286,16 @@ int json_get_example(const char * hostname, const char * path, struct json_examp
 
     LOG_INF("Connected. Get JSON Payload...");
 
-    struct http_request req = { 0 };
+    struct http_request req = {0};
     int ret;
 
-    req.method = HTTP_GET;
-    req.host = hostname;
-    req.url = path;
-    req.protocol = "HTTP/1.1";
-    req.response = json_response_cb;
-    req.recv_buf = response_buffer;
-    req.recv_buf_len = sizeof(response_buffer);
+    req.method          = HTTP_GET;
+    req.host            = hostname;
+    req.url             = path;
+    req.protocol        = "HTTP/1.1";
+    req.response        = json_response_cb;
+    req.recv_buf        = response_buffer;
+    req.recv_buf_len    = sizeof(response_buffer);
 
     /* sock is a file descriptor referencing a socket that has been connected
     * to the HTTP server.
@@ -299,7 +311,6 @@ int json_get_example(const char * hostname, const char * path, struct json_examp
     k_sem_take(&json_response_complete, K_FOREVER);
 
     LOG_INF("JSON Response complete");
-
     LOG_INF("Close socket");
 
     (void)close(sock);
@@ -307,7 +318,7 @@ int json_get_example(const char * hostname, const char * path, struct json_examp
     return json_parse_result;
 }
 
-int json_post_example(const char * hostname, const char * path, struct json_example_payload * payload, struct json_example_object * result)
+int json_post_example(const char *hostname, const char *path, struct json_example_payload *payload, struct json_example_object *result)
 {
     json_parse_result = -1;
     returned_placeholder_post = result;
@@ -326,8 +337,7 @@ int json_post_example(const char * hostname, const char * path, struct json_exam
     int required_buffer_len = json_calc_encoded_len(
         json_example_payload_descr,
         ARRAY_SIZE(json_example_payload_descr),
-        payload
-    );
+        payload);
     if (required_buffer_len > sizeof(json_payload_buffer))
     {
         LOG_ERR("Payload is too large. Increase size of json_payload_buffer in http.c");
@@ -339,8 +349,7 @@ int json_post_example(const char * hostname, const char * path, struct json_exam
         ARRAY_SIZE(json_example_payload_descr),
         payload,
         json_payload_buffer,
-        sizeof(json_payload_buffer)
-    );
+        sizeof(json_payload_buffer));
     if (encode_status < 0)
     {
         LOG_ERR("Error encoding JSON payload: %d", encode_status);
@@ -349,19 +358,19 @@ int json_post_example(const char * hostname, const char * path, struct json_exam
 
     LOG_DBG("%s", json_payload_buffer);
 
-    struct http_request req = { 0 };
+    struct http_request req = {0};
     int ret;
 
-    req.method = HTTP_POST;
-    req.host = hostname;
-    req.url = path;
-    req.header_fields = json_post_headers;
-    req.protocol = "HTTP/1.1";
-    req.response = json_response_cb;
-    req.payload = json_payload_buffer;
-    req.payload_len = strlen(json_payload_buffer);
-    req.recv_buf = response_buffer;
-    req.recv_buf_len = sizeof(response_buffer);
+    req.method          = HTTP_POST;
+    req.host            = hostname;
+    req.url             = path;
+    req.header_fields    = json_post_headers;
+    req.protocol        = "HTTP/1.1";
+    req.response        = json_response_cb;
+    req.payload         = json_payload_buffer;
+    req.payload_len     = strlen(json_payload_buffer);
+    req.recv_buf        = response_buffer;
+    req.recv_buf_len    = sizeof(response_buffer);
 
     ret = http_client_req(sock, &req, 5000, NULL);
     LOG_INF("HTTP Client Request returned: %d", ret);
@@ -374,7 +383,6 @@ int json_post_example(const char * hostname, const char * path, struct json_exam
     k_sem_take(&json_response_complete, K_FOREVER);
 
     LOG_INF("JSON POST complete");
-
     LOG_INF("Close socket");
 
     (void)close(sock);
@@ -400,11 +408,11 @@ export const WIFI_HTTP_H = `#pragma once
 
 void dump_addrinfo(const struct addrinfo *ai);
 
-void http_get_example(const char * hostname, const char * path);
+void http_get_example(const char *hostname, const char *path);
 
-int json_get_example(const char * hostname, const char * path, struct json_example_object * result);
+int json_get_example(const char *hostname, const char *path, struct json_example_object *result);
 
-int json_post_example(const char * hostname, const char * path, struct json_example_payload * payload, struct json_example_object * result);
+int json_post_example(const char *hostname, const char *path, struct json_example_payload *payload, struct json_example_object *result);
 `;
 
 export const WIFI_JSON_DEFINITIONS_H = `#pragma once
@@ -442,43 +450,47 @@ export const WIFI_PING_C = `#include "ping.h"
 
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
+
 #include <zephyr/net/icmp.h>
+#include <zephyr/net/net_ip.h>
+#include <zephyr/net/net_if.h>
 #include <zephyr/net/socket.h>
 
 LOG_MODULE_REGISTER(ping);
 
 int icmp_echo_reply_handler(struct net_icmp_ctx *ctx,
-    struct net_pkt *pkt,
-    struct net_icmp_ip_hdr *hdr,
-    struct net_icmp_hdr *icmp_hdr,
-    void *user_data)
+                            struct net_pkt *pkt,
+                            struct net_icmp_ip_hdr *hdr,
+                            struct net_icmp_hdr *icmp_hdr,
+                            void *user_data)
 {
     uint32_t cycles;
-    char ipv4[INET_ADDRSTRLEN];
-    zsock_inet_ntop(AF_INET, &hdr->ipv4->src, ipv4, INET_ADDRSTRLEN);
+    char ipv4[NET_INET_ADDRSTRLEN];
+    zsock_inet_ntop(NET_AF_INET, &hdr->ipv4->src, ipv4, NET_INET_ADDRSTRLEN);
 
     uint32_t *start_cycles = user_data;
 
     cycles = k_cycle_get_32() - *start_cycles;
 
     LOG_INF("Reply from %s: bytes=%d time=%dms TTL=%d",
-    ipv4,
-    ntohs(hdr->ipv4->len),
-    ((uint32_t)k_cyc_to_ns_floor64(cycles) / 1000000),
-    hdr->ipv4->ttl);
+            ipv4,
+            ntohs(hdr->ipv4->len),
+            ((uint32_t)k_cyc_to_ns_floor64(cycles) / 1000000),
+            hdr->ipv4->ttl);
 
     return 0;
 }
 
-void ping(char* ipv4_addr, uint8_t count)
+void ping(const char *ipv4_addr, uint8_t count)
 {
     uint32_t cycles;
     int ret;
     struct net_icmp_ctx icmp_context;
 
     // Register handler for echo reply
-    ret = net_icmp_init_ctx(&icmp_context, NET_ICMPV4_ECHO_REPLY, 0, icmp_echo_reply_handler);
-    if (ret != 0) {
+    ret = net_icmp_init_ctx(&icmp_context, NET_AF_INET, NET_ICMPV4_ECHO_REPLY, 0, icmp_echo_reply_handler);
+    if (ret != 0)
+    {
         LOG_ERR("Failed to init ping, err: %d", ret);
     }
 
@@ -491,7 +503,8 @@ void ping(char* ipv4_addr, uint8_t count)
     {
         cycles = k_cycle_get_32();
         ret = net_icmp_send_echo_request(&icmp_context, iface, (struct sockaddr *)&dst_addr, NULL, &cycles);
-        if (ret != 0) {
+        if (ret != 0)
+        {
             LOG_ERR("Failed to send ping, err: %d", ret);
         }
         k_sleep(K_SECONDS(1));
@@ -505,44 +518,54 @@ export const WIFI_PING_H = `#pragma once
 
 #include <stdint.h>
 
-void ping(char* ipv4_addr, uint8_t count);
+void ping(const char *ipv4_addr, uint8_t count);
 `;
 
 export const WIFI_WIFI_C = `#include "wifi.h"
 
+#include <string.h>
+
+#include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
+
+#include <zephyr/net/net_if.h>
+#include <zephyr/net/net_mgmt.h>
 #include <zephyr/net/wifi_mgmt.h>
 
 LOG_MODULE_REGISTER(wifi);
 
-void wifi_connect(const char * ssid, const char * psk)
+void wifi_connect(const char *ssid, const char *psk)
 {
     struct net_if *iface = net_if_get_default();
-    struct wifi_connect_req_params cnx_params = { 0 };
+    struct wifi_connect_req_params cnx_params = {0};
 
-    cnx_params.ssid = ssid;
-    cnx_params.ssid_length = strlen(cnx_params.ssid);
-    cnx_params.psk = psk;
-    cnx_params.psk_length = strlen(cnx_params.psk);
-    cnx_params.security = WIFI_SECURITY_TYPE_NONE;
-    cnx_params.band = WIFI_FREQ_BAND_UNKNOWN;
-    cnx_params.channel = WIFI_CHANNEL_ANY;
-    cnx_params.mfp = WIFI_MFP_OPTIONAL;
-    cnx_params.wpa3_ent_mode = WIFI_WPA3_ENTERPRISE_NA;
-    cnx_params.eap_ver = 1;
-    cnx_params.bandwidth = WIFI_FREQ_BANDWIDTH_20MHZ;
-    cnx_params.verify_peer_cert = false;
+    cnx_params.ssid         = ssid;
+    cnx_params.ssid_length  = strlen(cnx_params.ssid);
+    cnx_params.psk          = psk;
+    cnx_params.psk_length   = strlen(cnx_params.psk);
+
+    cnx_params.security     = WIFI_SECURITY_TYPE_PSK;
+    cnx_params.band         = WIFI_FREQ_BAND_2_4_GHZ;
+    cnx_params.channel      = WIFI_CHANNEL_ANY;
+    cnx_params.mfp          = WIFI_MFP_OPTIONAL;
+    cnx_params.bandwidth    = WIFI_FREQ_BANDWIDTH_20MHZ;
 
     int connection_result = 1;
 
-    while (connection_result != 0){
+    while (connection_result != 0)
+    {
         LOG_INF("Attempting to connect to network %s", ssid);
-        connection_result = net_mgmt(NET_REQUEST_WIFI_CONNECT, iface,
-                &cnx_params, sizeof(struct wifi_connect_req_params));
-        if (connection_result) {
+
+        connection_result = net_mgmt(NET_REQUEST_WIFI_CONNECT,
+                                     iface,
+                                     &cnx_params,
+                                     sizeof(struct wifi_connect_req_params));
+
+        if (connection_result != 0)
+        {
             LOG_ERR("Connection request failed with error: %d\\n", connection_result);
+            k_sleep(K_MSEC(1000));
         }
-        k_sleep(K_MSEC(1000));
     }
 
     LOG_INF("Connection succeeded.");
@@ -551,5 +574,5 @@ void wifi_connect(const char * ssid, const char * psk)
 
 export const WIFI_WIFI_H = `#pragma once
 
-void wifi_connect(const char * ssid, const char * psk);
+void wifi_connect(const char *ssid, const char *psk);
 `;
