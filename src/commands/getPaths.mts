@@ -185,7 +185,11 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
       }
     }
 
-    return join(buildToolchainPath(toolchainVersion), "bin", triple + "-gdb");
+    return joinPosix(
+      buildToolchainPath(toolchainVersion),
+      "bin",
+      triple + "-gdb"
+    );
   }
 }
 
@@ -220,7 +224,7 @@ export class GetCompilerPathCommand extends CommandWithResult<string> {
       }
     }
 
-    return join(
+    return joinPosix(
       buildToolchainPath(toolchainVersion),
       "bin",
       triple + `-gcc${process.platform === "win32" ? ".exe" : ""}`
@@ -259,7 +263,7 @@ export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
       }
     }
 
-    return join(
+    return joinPosix(
       buildToolchainPath(toolchainVersion),
       "bin",
       triple + `-g++${process.platform === "win32" ? ".exe" : ""}`
@@ -499,7 +503,7 @@ export class GetPicotoolPathCommand extends CommandWithResult<
 
     // TODO: maybe move "picotool" into buildPath or install it so the files
     // are in root of buildPath
-    return join(
+    return joinPosix(
       buildPicotoolPath(picotoolVersion),
       "picotool",
       process.platform === "win32" ? "picotool.exe" : "picotool"
