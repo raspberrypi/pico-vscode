@@ -92,7 +92,7 @@ export class GetEnvPathCommand extends CommandWithResult<string> {
     const env = await getPath();
     const pathValue = process.platform === "win32" ? env.Path : env.PATH;
 
-    return JSON.stringify(pathValue ?? "");
+    return pathValue ?? "";
   }
 }
 
