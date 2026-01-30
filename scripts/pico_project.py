@@ -1005,6 +1005,7 @@ def generateProjectFiles(
             "servertype": "openocd",\
 {f'{server_path}: "{openocd_path}",' if openocd_path else ""}
             "gdbPath": "${{command:raspberry-pi-pico.getGDBPath}}",
+            "debuggerArgs": ["-ex", "set debug-file-directory /debug"],
             "device": "${{command:raspberry-pi-pico.getChipUppercase}}",
             "configFiles": [
                 "{debugger}",
@@ -1031,6 +1032,7 @@ def generateProjectFiles(
             "servertype": "external",
             "gdbTarget": "localhost:3333",
             "gdbPath": "${{command:raspberry-pi-pico.getGDBPath}}",
+            "debuggerArgs": ["-ex", "set debug-file-directory /debug"],
             "device": "${{command:raspberry-pi-pico.getChipUppercase}}",
             "svdFile": "{codeSdkPath(sdkVersion)}/src/${{command:raspberry-pi-pico.getChip}}/hardware_regs/${{command:raspberry-pi-pico.getChipUppercase}}.svd",
             "runToEntryPoint": "main",
