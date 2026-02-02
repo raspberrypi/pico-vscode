@@ -100,7 +100,6 @@ import State from "./state.mjs";
 import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
 import {
-  CMAKELISTS_ZEPHYR_HEADER,
   CMAKELISTS_ZEPHYR_REGEX,
   OPENOCD_VERSION,
   SDK_REPOSITORY_URL,
