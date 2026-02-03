@@ -1,7 +1,7 @@
 import { CommandWithResultAndArgs } from "./command.mjs";
 import { Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
-import { workspace, tasks, commands } from "vscode";
+import { workspace, tasks } from "vscode";
 import Logger from "../logger.mjs";
 import { EventEmitter } from "events";
 
