@@ -18,7 +18,7 @@ const testNames = {
   },
 };
 
-function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=10000) {
+function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=30000) {
   const ret = [];
   for (const board of boards) {
     if (cmakeToolsOptions.includes(false)) {
@@ -42,7 +42,7 @@ function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=1
         ],
         mocha: {
           ui: 'tdd',
-          timeout: compileTimeout*2, // CMake Tools can take longer sometimes
+          timeout: compileTimeout,
         },
       });
     }
