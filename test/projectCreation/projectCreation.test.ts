@@ -8,22 +8,24 @@ import * as fs from 'fs';
 // import * as myExtension from '../../extension';
 
 const testNamesFilePath = path.join(__dirname, 'testNames.json');
-const testNames: Record<string, { name: string, boards: string[], runBoards: string[] }> = JSON.parse(fs.readFileSync(testNamesFilePath, 'utf8'));
+const testNames: Record<string, { name: string, boards: string[], runBoards: string[], cmakeToolsOptions: boolean[] }> = JSON.parse(fs.readFileSync(testNamesFilePath, 'utf8'));
 
 suite(`Project Creation Test Suite`, function() {
 
 	for (const testName of Object.values(testNames)) {
-		const { name, boards, runBoards } = testName;
+		const { name, boards, runBoards, cmakeToolsOptions } = testName;
 		for (const board of boards) {
-			test(`New Project ${name} ${board}`, async () => {
-				if (vscode.workspace.workspaceFolders?.[0]?.uri.fsPath.endsWith(name)) {
-					throw new Error(`${name} workspace folder already exists`);
-				}
+			for (const cmakeTools of cmakeToolsOptions) {
+				test(`New Project ${name} ${board} ${cmakeTools ? "with CMake Tools" : "without CMake Tools"}`, async () => {
+					if (vscode.workspace.workspaceFolders?.[0]?.uri.fsPath.endsWith(name)) {
+						throw new Error(`${name} workspace folder already exists`);
+					}
 
-				const result = await vscode.commands.executeCommand('raspberry-pi-pico.testCreateProject', name, board) as string;
+					const result = await vscode.commands.executeCommand('raspberry-pi-pico.testCreateProject', name, board, cmakeTools) as string;
 
-				assert.strictEqual(result, "Project created");
-			});
+					assert.strictEqual(result, "Project created");
+				});
+			}
 		}
 	}
 });

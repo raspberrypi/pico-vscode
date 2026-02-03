@@ -8,26 +8,44 @@ const testNames = {
     'name': 'blink',
     'boards': ['pico', 'pico_w', 'pico2', 'pico2_w'],
     'runBoards': [],
+    'cmakeToolsOptions': [true, false],
   },
   'hello_serial': {
     'name': 'hello_serial',
     'boards': ['pico', 'pico_w', 'pico2', 'pico2_w'],
     'runBoards': [],
+    'cmakeToolsOptions': [false],
   },
 };
 
-function getProjectTestConfigs(name, boards, compileTimeout=10000) {
+function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=10000) {
   const ret = [];
   for (const board of boards) {
-    ret.push({
-      name: `${name} Project Compilation Test`,
-      files: `out/projectCompilation/*.test.js`,
-      workspaceFolder: `.vscode-test/sampleWorkspace/projects/${board}/${name}`,
-      mocha: {
-        ui: 'tdd',
-        timeout: compileTimeout
-      },
-    });
+    if (cmakeToolsOptions.includes(false)) {
+      ret.push({
+        name: `${name} Project Compilation Test without CMake Tools`,
+        files: `out/projectCompilation/*.test.js`,
+        workspaceFolder: `.vscode-test/sampleWorkspace/projects/default/${board}/${name}`,
+        mocha: {
+          ui: 'tdd',
+          timeout: compileTimeout
+        },
+      });
+    }
+    if (cmakeToolsOptions.includes(true)) {
+      ret.push({
+        name: `${name} Project Compilation Test with CMake Tools`,
+        files: `out/projectCompilation/*.test.js`,
+        workspaceFolder: `.vscode-test/sampleWorkspace/projects/cmakeTools/${board}/${name}`,
+        installExtensions: [
+          'ms-vscode.cmake-tools',
+        ],
+        mocha: {
+          ui: 'tdd',
+          timeout: compileTimeout*2 // CMake Tools can take longer sometimes
+        },
+      });
+    }
   }
   return ret;
 }
@@ -39,7 +57,7 @@ const configs = [
     workspaceFolder: '.vscode-test/sampleWorkspace',
     mocha: {
       ui: 'tdd',
-      timeout: 10000
+      timeout: 300000 // 5 minutes, as it will download everything
     },
   },
 ];
@@ -85,8 +103,8 @@ if (debugProbe) {
 }
 
 for (const testName of Object.values(testNames)) {
-  const { name, boards, runBoards } = testName;
-  configs.push(...getProjectTestConfigs(name, boards));
+  const { name, boards, runBoards, cmakeToolsOptions } = testName;
+  configs.push(...getProjectTestConfigs(name, boards, cmakeToolsOptions));
 }
 
 fs.writeFileSync('out/projectCreation/testNames.json', JSON.stringify(testNames));

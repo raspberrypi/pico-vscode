@@ -694,6 +694,9 @@ var exampleSupportedBoards = [];
         break;
       case CMD_TEST_CREATE_PROJECT:
         console.log("testCreateProject", message.value);
+        if (message.value.cmakeTools !== undefined) {
+          document.getElementById('use-cmake-tools-cb').checked = message.value.cmakeTools;
+        }
         if (message.value.name) {
           document.getElementById('inp-project-name').value = message.value.name;
           document.getElementById('inp-project-name').dispatchEvent(new Event('input', { bubbles: true }));

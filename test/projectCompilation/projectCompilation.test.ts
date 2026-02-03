@@ -10,6 +10,7 @@ import * as fs from 'fs';
 const projectPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath.split(path.sep);
 const testName = projectPath?.pop();
 const board = projectPath?.pop();
+const type = projectPath?.pop();
 
 const testNamesFilePath = path.join(__dirname, 'testNames.json');
 const testNames = JSON.parse(fs.readFileSync(testNamesFilePath, 'utf8'));
@@ -32,6 +33,12 @@ suite(`${testName} Project Test Suite`, () => {
 	}
 
 	test(`${testName} Compile Project`, async () => {
+		if (type === "cmakeTools") {
+			// Kit selection may not have run yet
+			await vscode.commands.executeCommand("cmake.setKitByName", "Pico");
+			// Select launch target
+			await vscode.commands.executeCommand("cmake.selectLaunchTarget", "", testName);	// takes folder then name, but folder can be empty string
+		}
 		const result = await vscode.commands.executeCommand("raspberry-pi-pico.compileProject") as boolean;
 		assert.strictEqual(result, true);
 	});

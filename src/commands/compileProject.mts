@@ -8,7 +8,7 @@ import {
 } from "vscode";
 import { EventEmitter } from "events";
 import { CommandWithResult } from "./command.mjs";
-import Logger from "../logger.mjs";
+import Logger, { LoggerSource } from "../logger.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 import State from "../state.mjs";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
@@ -16,8 +16,6 @@ import { COMPILE_PROJECT } from "./cmdIds.mjs";
 import { TextDecoder } from "util";
 
 export default class CompileProjectCommand extends CommandWithResult<boolean> {
-  private _logger: Logger = new Logger("CompileProjectCommand");
-
   constructor() {
     super(COMPILE_PROJECT);
   }
@@ -145,7 +143,7 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
       // dispose of callbacks
       end.dispose();
       end2.dispose();
-      this._logger.debug(
+      Logger.debug(LoggerSource.compileProject,
         "Task 'Compile Project' completed with code " + code.toString()
       );
 
@@ -165,7 +163,9 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
       return code === 0;
     } else {
       // Task not found
-      this._logger.error("Task 'Compile Project' not found.");
+      Logger.error(LoggerSource.compileProject,
+        "Task 'Compile Project' not found."
+      );
       void window.showErrorMessage("Task 'Compile Project' not found.");
 
       return false;

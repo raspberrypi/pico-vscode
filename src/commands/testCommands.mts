@@ -1,7 +1,7 @@
 import { CommandWithResultAndArgs } from "./command.mjs";
 import { Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
-import { workspace, tasks } from "vscode";
+import { workspace, tasks, commands } from "vscode";
 import Logger from "../logger.mjs";
 import { EventEmitter } from "events";
 
@@ -13,7 +13,11 @@ export default class TestCreateProjectCommand
     super("testCreateProject");
   }
 
-  async execute(example: string, board: string): Promise<string> {
+  async execute(
+    example: string,
+    board: string,
+    cmakeTools: boolean = false
+  ): Promise<string> {
     const projectUri = workspace.workspaceFolders?.[0]?.uri;
     if (!projectUri) {
       return "No project URI";
@@ -21,7 +25,8 @@ export default class TestCreateProjectCommand
     Logger.log(`Project URI: ${projectUri.toString()}`);
     const fspath = projectUri.fsPath;
 
-    const fspathUri = Uri.file(fspath + `/projects/${board}`);
+    const projectSubdir = `${cmakeTools ? "cmakeTools" : "default"}/${board}`;
+    const fspathUri = Uri.file(fspath + `/projects/${projectSubdir}`);
     Logger.log(`fspath URI: ${fspathUri.toString()}`);
 
     NewProjectPanel._noOpenFolder = true;
@@ -38,6 +43,7 @@ export default class TestCreateProjectCommand
       value: {
         name: example,
         board: board,
+        cmakeTools: cmakeTools,
       },
     });
 
