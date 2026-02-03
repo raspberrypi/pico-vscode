@@ -9,7 +9,10 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -22,5 +25,9 @@ jobs:
         run: |
           npm i -g @vscode/vsce ovsx
           npm ci
-      - name: Test Extension
+      - name: Test Extension (Linux)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a npm run test
+      - name: Test Extension (Others)
+        if: runner.os != 'Linux'
         run: npm run test
