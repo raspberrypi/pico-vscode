@@ -1,4 +1,4 @@
-import { commands, extensions, window, ProgressLocation } from "vscode";
+import { commands, extensions } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
 
 export async function cmakeToolsForcePicoKit(): Promise<void> {
