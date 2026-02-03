@@ -160,3 +160,11 @@ For advanced users who want to build the extension `.vsix` file, follow these st
 5. Build the extension with: `vsce package`
 
 This will generate a `.vsix` file, which you can install in VS Code using `code --install-extension path-to.vsix` or via the GUI: `Extensions > three dots > Install from VSIX`.
+
+## Test Instructions
+
+First follow the build instructions above, then:
+
+1. Create a `.vscode-test/sampleWorkspace/.vscode/settings.json` file in the project directory, containing your GitHub PAT (eg `{ "raspberry-pi-pico.githubToken": "ghp_xxxxxxxxxxxxxxxxxxxx" }`)
+2. (Optional) Connect a single Pico-series device, with a debug probe attached
+3. Run `npm run test`
