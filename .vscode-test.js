@@ -28,7 +28,7 @@ function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=1
         workspaceFolder: `.vscode-test/sampleWorkspace/projects/default/${board}/${name}`,
         mocha: {
           ui: 'tdd',
-          timeout: compileTimeout
+          timeout: compileTimeout,
         },
       });
     }
@@ -42,7 +42,7 @@ function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=1
         ],
         mocha: {
           ui: 'tdd',
-          timeout: compileTimeout*2 // CMake Tools can take longer sometimes
+          timeout: compileTimeout*2, // CMake Tools can take longer sometimes
         },
       });
     }
@@ -57,7 +57,7 @@ const configs = [
     workspaceFolder: '.vscode-test/sampleWorkspace',
     mocha: {
       ui: 'tdd',
-      timeout: 300000 // 5 minutes, as it will download everything
+      timeout: 300000, // 5 minutes, as it will download everything
     },
   },
 ];

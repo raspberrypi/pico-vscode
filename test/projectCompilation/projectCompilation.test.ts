@@ -7,10 +7,11 @@ import * as path from 'path';
 import * as fs from 'fs';
 // import * as myExtension from '../../extension';
 
-const projectPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath.split(path.sep);
-const testName = projectPath?.pop();
-const board = projectPath?.pop();
-const type = projectPath?.pop();
+const projectPath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath ?? "";
+const pathList = projectPath.split(path.sep);
+const testName = pathList.pop();
+const board = pathList.pop();
+const type = pathList.pop();
 
 const testNamesFilePath = path.join(__dirname, 'testNames.json');
 const testNames = JSON.parse(fs.readFileSync(testNamesFilePath, 'utf8'));
@@ -32,7 +33,7 @@ suite(`${testName} Project Test Suite`, () => {
 		});
 	}
 
-	test(`${testName} Compile Project`, async () => {
+	test(`${testName} Compile Project ${type}`, async () => {
 		if (type === "cmakeTools") {
 			// Kit selection may not have run yet
 			await vscode.commands.executeCommand("cmake.setKitByName", "Pico");
@@ -41,6 +42,8 @@ suite(`${testName} Project Test Suite`, () => {
 		}
 		const result = await vscode.commands.executeCommand("raspberry-pi-pico.compileProject") as boolean;
 		assert.strictEqual(result, true);
+		assert.strictEqual(fs.existsSync(path.join(projectPath, "build", `${testName}.elf`)), true);
+		assert.strictEqual(fs.existsSync(path.join(projectPath, "build", `${testName}.uf2`)), true);
 	});
 
 	if (testNames[testName].runBoards.includes(board)) {
