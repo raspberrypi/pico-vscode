@@ -49,6 +49,12 @@ import {
 import { compareGe } from "./semverUtil.mjs";
 import LastUsedDepsStore from "./lastUsedDeps.mjs";
 
+// Translate unsupported toolchain doubles to supported ones
+const TOOLCHAIN_DOUBLE_MAPPING: { [key: string]: string } = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  win32_arm64: "win32_x64",
+};
+
 /// Translate nodejs platform names to ninja platform names
 const NINJA_PLATFORMS: { [key: string]: string } = {
   darwin: "mac",
@@ -1008,7 +1014,10 @@ export async function downloadAndInstallToolchain(
   const targetDirectory = buildToolchainPath(toolchain.version);
 
   // select download url for platform()_arch()
-  const platformDouble = `${process.platform}_${process.arch}`;
+  let platformDouble = `${process.platform}_${process.arch}`;
+  if (TOOLCHAIN_DOUBLE_MAPPING[platformDouble] !== undefined) {
+    platformDouble = TOOLCHAIN_DOUBLE_MAPPING[platformDouble];
+  }
   const downloadUrl = toolchain.downloadUrls[platformDouble];
   const basenameSplit = basename(downloadUrl).split(".");
   let artifactExt = basenameSplit.pop();
