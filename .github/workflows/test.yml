@@ -5,11 +5,12 @@ on:
   pull_request:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -25,6 +26,11 @@ jobs:
         run: |
           npm i -g @vscode/vsce ovsx
           npm ci
+      - name: Set up token
+        shell: bash
+        run: |
+          mkdir -p .vscode-test/sampleWorkspace/.vscode
+          echo "{ \"raspberry-pi-pico.githubToken\": \"${{ secrets.GITHUB_TOKEN }}\" }" > .vscode-test/sampleWorkspace/.vscode/settings.json
       - name: Test Extension (Linux)
         if: runner.os == 'Linux'
         run: xvfb-run -a npm run test
