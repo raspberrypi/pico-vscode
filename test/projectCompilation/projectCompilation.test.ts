@@ -35,11 +35,11 @@ suite(`${testName} Project Test Suite`, () => {
 
 	test(`${testName} Compile Project ${type}`, async () => {
 		if (type === "cmakeTools") {
+			// Wait for a bit
+			await new Promise(resolve => setTimeout(resolve, 5000));
 			// Kit selection may not have run yet
 			await vscode.commands.executeCommand("cmake.setKitByName", "Pico");
-			// Check configure is done
-			await vscode.commands.executeCommand("cmake.configure");	// takes folder then name, but folder can be empty string
-			// Delay to ensure configure is done
+			// Wait for a bit more
 			await new Promise(resolve => setTimeout(resolve, 5000));
 			// Select launch target
 			await vscode.commands.executeCommand("cmake.selectLaunchTarget", "", testName);	// takes folder then name, but folder can be empty string

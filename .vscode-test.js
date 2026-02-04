@@ -42,7 +42,7 @@ function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=3
         ],
         mocha: {
           ui: 'tdd',
-          timeout: compileTimeout,
+          timeout: compileTimeout + 10000,  // 10s of wait time
         },
       });
     }
