@@ -1,7 +1,7 @@
 import { commands, extensions } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
 
-export async function cmakeToolsForcePicoKit(): Promise<void> {
+export async function cmakeToolsActivate(): Promise<boolean> {
   // Check if the CMake Tools extension is installed and active
   let foundCmakeToolsExtension = false;
   for (let i = 0; i < 2; i++) {
@@ -44,15 +44,23 @@ export async function cmakeToolsForcePicoKit(): Promise<void> {
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
 
-  if (!foundCmakeToolsExtension) {
+  return foundCmakeToolsExtension;
+}
+
+
+export async function cmakeToolsForcePicoKit(): Promise<boolean> {
+
+  if (!await cmakeToolsActivate()) {
     // Give up and return, as this function is non-essential
     Logger.warn(LoggerSource.cmake, "cmakeToolsExtension not available yet");
 
-    return;
+    return false;
   }
 
   const cmakeToolsKit = await commands.executeCommand("cmake.buildKit");
   if (cmakeToolsKit !== "Pico") {
     await commands.executeCommand("cmake.setKitByName", "Pico");
   }
+
+  return true;
 }
