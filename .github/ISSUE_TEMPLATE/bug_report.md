@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-_Before filing a bug report, please try to reproduce your issue using the latest debug .vsix file from [GitHub Actions](https://github.com/raspberrypi/pico-vscode/actions/workflows/release.yml?query=branch%3Amain). This will provide more debug information than the release build. You should also try the troubleshooting steps in the [README](https://github.com/raspberrypi/pico-vscode?tab=readme-ov-file#troubleshooting) to fix your issue._
+_Before filing a bug report, please try to reproduce your issue using the latest debug .vsix file from [GitHub Actions](https://github.com/raspberrypi/pico-vscode/actions/workflows/release.yml?query=branch%3Amain) (see [Installing from GitHub Actions](https://github.com/raspberrypi/pico-vscode?tab=readme-ov-file#installing-from-github-actions)). This will provide more debug information than the release build. You should also try the [Troubleshooting steps](https://github.com/raspberrypi/pico-vscode?tab=readme-ov-file#troubleshooting)._
 
 **Describe the bug**
 A clear and concise description of what the bug is.

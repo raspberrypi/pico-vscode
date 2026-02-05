@@ -159,4 +159,14 @@ For advanced users who want to build the extension `.vsix` file, follow these st
 4. Run `npm ci` in the project directory to install dependencies.
 5. Build the extension with: `vsce package`
 
-This will generate a `.vsix` file, which you can install in VS Code using `code --install-extension path-to.vsix` or via the GUI: `Extensions > three dots > Install from VSIX`.
+This will generate a `.vsix` file, which you can install in VS Code using `Ctrl+Shift+P` -> `Extensions: Install from VSIX`.
+
+## Installing from GitHub Actions
+
+To test the latest version of the extension, you can download a `.vsix` file from GitHub Actions (you must be logged into GitHub):
+
+1. Go to [GitHub Actions](https://github.com/raspberrypi/pico-vscode/actions/workflows/release.yml?query=branch%3Amain)
+2. Click on the most recent run
+3. Scroll to the bottom of that page and download the artifact (`raspberry-pi-pico-xxxxxxx`)
+4. Unzip that downloaded file to find the `.vsix` files
+5. Install the chosen `.vsix` file using `Ctrl+Shift+P` -> `Extensions: Install from VSIX`
