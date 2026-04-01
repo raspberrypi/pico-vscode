@@ -41,9 +41,9 @@ If you have any issues while installing, please check out the [Troubleshooting](
 
 ## Requirements by OS
 
-> **Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11 (x86_64), macOS Sonoma (14.0) and newer, Linux x64 and arm64**
+> **Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11, macOS Sonoma (14.0) and newer, Linux x64 and arm64**
 
-- Visual Studio Code v1.99.3 or later
+- Visual Studio Code v1.105.1 or later
 
 ### Raspberry Pi OS and Windows
 
