@@ -1106,11 +1106,17 @@ def generateProjectFiles(
         }},
         "debug": {{
             "statusBarVisibility": "hidden"
+        }},
+        "variant": {{
+            "statusBarVisibility": "{"compact" if useCmakeTools else "hidden"}",
+        }},
+        "buildTarget": {{
+            "statusBarVisibility": "{"visible" if useCmakeTools else "hidden"}",
         }}
     }},
     "cmake.configureOnEdit": {"true" if useCmakeTools else "false"},
     "cmake.automaticReconfigure": {"true" if useCmakeTools else "false"},
-    "cmake.configureOnOpen": {"true" if useCmakeTools else "false"},
+    "cmake.configureOnOpen": {"false"},
     "cmake.generator": "Ninja",
     "cmake.cmakePath": "{cmakePath.replace(user_home, "${userHome}") if use_home_var else cmakePath}",
     "C_Cpp.debugShortcut": false,

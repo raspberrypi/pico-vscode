@@ -1201,7 +1201,21 @@ export async function activate(context: ExtensionContext): Promise<void> {
     await cmakeSetupAutoConfigure(workspaceFolder, ui);
   } else if (settings.getBoolean(SettingsKey.useCmakeTools)) {
     // Ensure the Pico kit is selected
-    await cmakeToolsForcePicoKit();
+    const kitForced = await cmakeToolsForcePicoKit();
+    if (!kitForced) {
+      Logger.warn(LoggerSource.extension,
+        "Failed to force Pico kit in CMake Tools - attempting to do it later"
+      );
+
+      setTimeout(() => {
+        void cmakeToolsForcePicoKit().catch(error => {
+          Logger.error(LoggerSource.extension,
+            "Failed to force Pico kit in CMake Tools on second attempt",
+            unknownErrorToString(error)
+          );
+        });
+      }, 1000);
+    }
   } else {
     Logger.info(
       LoggerSource.extension,
