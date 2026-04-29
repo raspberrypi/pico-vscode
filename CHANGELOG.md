@@ -4,9 +4,30 @@ All notable changes to the "raspberry-pi-pico" extension will be documented in t
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.20.0] - 2026-04-29
 
-- Release 1
+### Added
+- Download Windows x64 toolchain on arm64 to run under emulation (#249)
+- Git updated to v2.51.2.windows.1 with Windows arm64 support (#234)
+- `cleanZephyr` command to remove the Zephyr workspace
+- pip and virtualenv installation for embedded Python on Windows (Zephyr setup)
+
+### Fixed
+- Improve CMake Tools Kit forcing (#252)
+- Ensure local Zephyr snippets are found by setting `SNIPPET_ROOT` (#255)
+- Use `joinPosix` to prevent path issues with Git Bash on Windows (#251)
+- Don't add quotes around path returned by `getEnvPath` command (#245)
+- Fix Zephyr WiFi example for new Zephyr APIs, memory leak, and missing headers (#240)
+- Fix Zephyr CMakeLists project prefix detection (#235)
+- Fix Zephyr component handling (#233)
+- Restrict manual pip install to Windows platforms (Zephyr setup)
+- Fix uninstaller selected count and prevent text selection in UI (#228)
+- Speed up debug startup (#246)
+
+### Changed
+- Update dependencies and minimum VS Code version to 1.105.1
+- Remove elf2uf2-rs install (#230)
+- Switch Windows toolchains to x86_64 where available
 
 ## [0.19.0] - 2025-10-10
 
