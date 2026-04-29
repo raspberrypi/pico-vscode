@@ -20,6 +20,7 @@ jobs:
           cache: 'npm'
       - name: Install Dependencies
         run: |
+          npm install -g npm@10.9.8
           npm install -g npm
           npm -v
           npm i -g @vscode/vsce ovsx
