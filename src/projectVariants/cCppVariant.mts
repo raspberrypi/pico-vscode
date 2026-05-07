@@ -29,9 +29,9 @@ import type {
   UpdateProjectUiInput,
 } from "./types.mjs";
 import {
-  ensureBasePicoDependencies,
   ensureManagedTool,
 } from "./common.mjs";
+import { ensureBasePicoDependencies } from "../utils/picoDependencies.mjs";
 import { cmakeSetupAutoConfigure } from "./cmakeActivation.mjs";
 
 export class CCppProjectVariant implements PicoProjectVariant {

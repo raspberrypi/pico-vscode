@@ -19,7 +19,7 @@ import type {
   ProjectSelections,
   UpdateProjectUiInput,
 } from "./types.mjs";
-import { ensureBasePicoDependencies } from "./common.mjs";
+import { ensureBasePicoDependencies } from "../utils/picoDependencies.mjs";
 
 export class RustProjectVariant implements PicoProjectVariant {
   public readonly id = "rust";
