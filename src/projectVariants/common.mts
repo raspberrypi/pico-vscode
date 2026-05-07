@@ -1,10 +1,12 @@
 import { existsSync } from "fs";
 import { homedir } from "os";
-import { commands, ProgressLocation, window } from "vscode";
+import { commands, ProgressLocation, window, type Uri } from "vscode";
 import type { Progress as GotProgress } from "got";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { ContextKeys } from "../contextKeys.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
+import { downloadAndInstallSDK } from "../utils/download.mjs";
+import { SDK_REPOSITORY_URL } from "../utils/sharedConstants.mjs";
 import type Settings from "../settings.mjs";
 import type { ProjectContextFlags } from "./types.mjs";
 
@@ -54,6 +56,56 @@ export function ensureExe(inp: string): string {
       ? inp
       : `${inp}.exe`
     : inp;
+}
+
+export async function ensurePicoSdkInstalled(input: {
+  extensionUri: Uri;
+  sdkVersion: string;
+  python3Path?: string;
+  title: string;
+  failureMessage: string;
+  logFailurePrefix: string;
+  logSuccessPrefix: string;
+}): Promise<boolean> {
+  const result = await window.withProgress(
+    {
+      location: ProgressLocation.Notification,
+      title: input.title,
+      cancellable: false,
+    },
+    async progress => {
+      const installResult = await downloadAndInstallSDK(
+        input.extensionUri,
+        input.sdkVersion,
+        SDK_REPOSITORY_URL,
+        input.python3Path
+      );
+
+      progress.report({ increment: 100 });
+
+      return installResult;
+    }
+  );
+
+  if (!result) {
+    Logger.error(
+      LoggerSource.extension,
+      input.logFailurePrefix,
+      `version: ${input.sdkVersion}.`,
+      "Make sure all requirements are met."
+    );
+    void window.showErrorMessage(input.failureMessage);
+
+    return false;
+  }
+
+  Logger.info(
+    LoggerSource.extension,
+    input.logSuccessPrefix,
+    `version: ${input.sdkVersion}`
+  );
+
+  return true;
 }
 
 export async function ensureManagedTool(

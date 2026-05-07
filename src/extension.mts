@@ -4,6 +4,7 @@ import {
   window,
   type WebviewPanel,
   commands,
+  type WorkspaceFolder,
 } from "vscode";
 import {
   extensionName,
@@ -71,6 +72,16 @@ import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
 import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
 import { createProjectVariantRegistry } from "./projectVariants/index.mjs";
 import { setProjectContext } from "./projectVariants/common.mjs";
+import type {
+  PicoProjectVariant,
+  ProjectDetectionResult,
+  ProjectSelections,
+} from "./projectVariants/index.mjs";
+
+type UnsupportedProjectDetection = Extract<
+  ProjectDetectionResult,
+  { kind: "unsupported" }
+>;
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -210,80 +221,150 @@ export async function activate(context: ExtensionContext): Promise<void> {
     )
   );
 
+  await activateWorkspaceProject(context, settings, ui);
+}
+
+async function activateWorkspaceProject(
+  context: ExtensionContext,
+  settings: Settings,
+  ui: UI
+): Promise<void> {
   const workspaceFolder = workspace.workspaceFolders?.[0];
   if (workspaceFolder === undefined) {
     Logger.warn(LoggerSource.extension, "No workspace folder found.");
-    await setProjectContext({
-      isPicoProject: false,
-      isRustProject: false,
-      isZephyrProject: false,
-    });
+    await resetProjectContext();
 
     return;
   }
 
-  const registry = createProjectVariantRegistry();
-  const detection = await registry.detect(workspaceFolder);
+  const detection = await detectPicoProject(workspaceFolder);
   if (detection.kind === "unsupported") {
-    Logger.warn(LoggerSource.extension, detection.reason);
-    await setProjectContext({
-      isPicoProject: false,
-      isRustProject: false,
-      isZephyrProject: false,
-    });
-    State.getInstance().isRustProject = false;
-    State.getInstance().isZephyrProject = false;
-
-    if (detection.offerImport) {
-      const wantToImport = await window.showInformationMessage(
-        "Do you want to import this project as Raspberry Pi Pico project?",
-        "Yes",
-        "No"
-      );
-      if (wantToImport === "Yes") {
-        void commands.executeCommand(
-          `${extensionName}.${IMPORT_PROJECT}`,
-          workspaceFolder.uri
-        );
-      }
-    }
+    await handleUnsupportedProject(detection, workspaceFolder);
 
     return;
   }
 
-  const variant = registry.get(detection.variant);
-  await setProjectContext(variant.context);
-  State.getInstance().isRustProject = variant.context.isRustProject;
-  State.getInstance().isZephyrProject = variant.context.isZephyrProject;
+  const variant = createProjectVariantRegistry().get(detection.variant);
+  await setActiveProjectVariant(variant);
 
-  const selections = await variant.readSelections(workspaceFolder);
+  const selections = await readProjectSelections(variant, workspaceFolder);
   if (selections === null) {
     return;
   }
 
-  const dependenciesReady = await variant.ensureDependencies({
+  const dependenciesReady = await ensureProjectDependencies(
+    variant,
+    context,
+    settings,
+    workspaceFolder,
+    selections
+  );
+  if (!dependenciesReady) {
+    return;
+  }
+
+  await updateProjectUi(variant, ui, selections);
+  await finishProjectActivation(
+    variant,
+    context,
+    settings,
+    workspaceFolder,
+    ui,
+    selections
+  );
+}
+
+async function detectPicoProject(
+  workspaceFolder: WorkspaceFolder
+): Promise<ProjectDetectionResult> {
+  return createProjectVariantRegistry().detect(workspaceFolder);
+}
+
+async function handleUnsupportedProject(
+  detection: UnsupportedProjectDetection,
+  workspaceFolder: WorkspaceFolder
+): Promise<void> {
+  Logger.warn(LoggerSource.extension, detection.reason);
+  await resetProjectContext();
+
+  if (detection.kind === "unsupported" && detection.offerImport) {
+    const wantToImport = await window.showInformationMessage(
+      "Do you want to import this project as Raspberry Pi Pico project?",
+      "Yes",
+      "No"
+    );
+    if (wantToImport === "Yes") {
+      void commands.executeCommand(
+        `${extensionName}.${IMPORT_PROJECT}`,
+        workspaceFolder.uri
+      );
+    }
+  }
+}
+
+async function resetProjectContext(): Promise<void> {
+  await setProjectContext({
+    isPicoProject: false,
+    isRustProject: false,
+    isZephyrProject: false,
+  });
+  State.getInstance().isRustProject = false;
+  State.getInstance().isZephyrProject = false;
+}
+
+async function setActiveProjectVariant(
+  variant: PicoProjectVariant
+): Promise<void> {
+  await setProjectContext(variant.context);
+  State.getInstance().isRustProject = variant.context.isRustProject;
+  State.getInstance().isZephyrProject = variant.context.isZephyrProject;
+}
+
+async function readProjectSelections(
+  variant: PicoProjectVariant,
+  workspaceFolder: WorkspaceFolder
+): Promise<ProjectSelections | null> {
+  return variant.readSelections(workspaceFolder);
+}
+
+async function ensureProjectDependencies(
+  variant: PicoProjectVariant,
+  context: ExtensionContext,
+  settings: Settings,
+  workspaceFolder: WorkspaceFolder,
+  selections: ProjectSelections
+): Promise<boolean> {
+  return variant.ensureDependencies({
     context,
     folder: workspaceFolder,
     selections,
     settings,
   });
-  if (!dependenciesReady) {
-    return;
-  }
+}
 
+async function updateProjectUi(
+  variant: PicoProjectVariant,
+  ui: UI,
+  selections: ProjectSelections
+): Promise<void> {
   await variant.updateUi({ ui, selections });
+}
 
-  const activated =
-    (await variant.afterActivation?.({
-      context,
-      folder: workspaceFolder,
-      selections,
-      settings,
-      ui,
-    })) ?? true;
-  if (!activated) {
-    return;
-  }
+async function finishProjectActivation(
+  variant: PicoProjectVariant,
+  context: ExtensionContext,
+  settings: Settings,
+  workspaceFolder: WorkspaceFolder,
+  ui: UI,
+  selections: ProjectSelections
+): Promise<void> {
+  await variant.afterActivation?.({
+    context,
+    folder: workspaceFolder,
+    selections,
+    settings,
+    ui,
+  });
 }
 
 export function deactivate(): void {

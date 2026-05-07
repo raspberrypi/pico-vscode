@@ -8,8 +8,9 @@ import {
   installLatestRustRequirements,
   rustProjectGetSelectedChip,
 } from "../utils/rustUtil.mjs";
-import { downloadAndInstallSDK } from "../utils/download.mjs";
-import { SDK_REPOSITORY_URL } from "../utils/sharedConstants.mjs";
+import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
+import { HOME_VAR } from "../settings.mjs";
+import { homedir } from "os";
 import type {
   EnsureDependenciesInput,
   PicoProjectVariant,
@@ -17,6 +18,7 @@ import type {
   ProjectSelections,
   UpdateProjectUiInput,
 } from "./types.mjs";
+import { ensurePicoSdkInstalled } from "./common.mjs";
 
 export class RustProjectVariant implements PicoProjectVariant {
   public readonly id = "rust";
@@ -66,47 +68,32 @@ export class RustProjectVariant implements PicoProjectVariant {
 
     input.selections.sdkVersion = latestSDK;
 
-    const sdk = await window.withProgress(
-      {
-        location: ProgressLocation.Notification,
-        title:
-          "Downloading and installing latest Pico SDK (" +
-          latestSDK +
-          "). This may take a while...",
-        cancellable: false,
-      },
-      async progress => {
-        const result = await downloadAndInstallSDK(
-          input.context.extensionUri,
-          latestSDK,
-          SDK_REPOSITORY_URL
-        );
+    const python3Path = await findPython();
+    if (!python3Path) {
+      Logger.error(
+        LoggerSource.downloader,
+        "Failed to find Python3 executable."
+      );
+      showPythonNotFoundError();
 
-        progress.report({ increment: 100 });
+      return false;
+    }
 
-        if (!result) {
-          Logger.error(
-            LoggerSource.extension,
-            "Failed to install latest SDK",
-            `version: ${latestSDK}.`,
-            "Make sure all requirements are met."
-          );
-          void window.showErrorMessage(
-            "Failed to install latest SDK version for rust project."
-          );
-
-          return false;
-        }
-
-        Logger.info(
-          LoggerSource.extension,
-          "Found/installed latest SDK",
-          `version: ${latestSDK}`
-        );
-
-        return true;
-      }
-    );
+    const sdk = await ensurePicoSdkInstalled({
+      extensionUri: input.context.extensionUri,
+      sdkVersion: latestSDK,
+      python3Path: python3Path.replace(
+        HOME_VAR,
+        homedir().replaceAll("\\", "/")
+      ),
+      title:
+        "Downloading and installing latest Pico SDK (" +
+        latestSDK +
+        "). This may take a while...",
+      failureMessage: "Failed to install latest SDK version for rust project.",
+      logFailurePrefix: "Failed to install latest SDK",
+      logSuccessPrefix: "Found/installed latest SDK",
+    });
     if (!sdk) {
       return false;
     }
@@ -125,7 +112,9 @@ export class RustProjectVariant implements PicoProjectVariant {
       return false;
     }
 
-    return installLatestRustRequirements(input.context.extensionUri);
+    return installLatestRustRequirements(input.context.extensionUri, {
+      skipSdk: true,
+    });
   }
 
   public updateUi(input: UpdateProjectUiInput): void {

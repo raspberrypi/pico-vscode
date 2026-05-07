@@ -2,7 +2,6 @@ import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import {
   commands,
-  ProgressLocation,
   window,
   type WorkspaceFolder,
 } from "vscode";
@@ -20,16 +19,12 @@ import {
   downloadAndInstallNinja,
   downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
-  downloadAndInstallSDK,
   downloadAndInstallToolchain,
   downloadAndInstallTools,
 } from "../utils/download.mjs";
 import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
-import {
-  OPENOCD_VERSION,
-  SDK_REPOSITORY_URL,
-} from "../utils/sharedConstants.mjs";
+import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type {
@@ -40,7 +35,11 @@ import type {
   ProjectSelections,
   UpdateProjectUiInput,
 } from "./types.mjs";
-import { ensureManagedTool, withDownloadProgress } from "./common.mjs";
+import {
+  ensureManagedTool,
+  ensurePicoSdkInstalled,
+  withDownloadProgress,
+} from "./common.mjs";
 import { cmakeSetupAutoConfigure } from "./cmakeActivation.mjs";
 
 export class CCppProjectVariant implements PicoProjectVariant {
@@ -118,44 +117,16 @@ export class CCppProjectVariant implements PicoProjectVariant {
       return false;
     }
 
-    let installSuccess = true;
-    await window.withProgress(
-      {
-        location: ProgressLocation.Notification,
-        title:
-          "Downloading and installing Pico SDK as selected. " +
-          "This may take a while...",
-        cancellable: false,
-      },
-      async progress => {
-        const result = await downloadAndInstallSDK(
-          context.extensionUri,
-          selections.sdkVersion!,
-          SDK_REPOSITORY_URL
-        );
-
-        progress.report({ increment: 100 });
-
-        if (!result) {
-          installSuccess = false;
-          Logger.error(
-            LoggerSource.extension,
-            "Failed to install project SDK",
-            `version: ${selections.sdkVersion}.`,
-            "Make sure all requirements are met."
-          );
-          void window.showErrorMessage(
-            "Failed to install project SDK version."
-          );
-        } else {
-          Logger.info(
-            LoggerSource.extension,
-            "Found/installed project SDK",
-            `version: ${selections.sdkVersion}`
-          );
-        }
-      }
-    );
+    let installSuccess = await ensurePicoSdkInstalled({
+      extensionUri: context.extensionUri,
+      sdkVersion: selections.sdkVersion,
+      title:
+        "Downloading and installing Pico SDK as selected. " +
+        "This may take a while...",
+      failureMessage: "Failed to install project SDK version.",
+      logFailurePrefix: "Failed to install project SDK",
+      logSuccessPrefix: "Found/installed project SDK",
+    });
     if (!installSuccess) {
       return false;
     }

@@ -13,6 +13,7 @@ export function createProjectVariantRegistry(): DefaultProjectVariantRegistry {
 
 export type {
   PicoProjectVariant,
+  ProjectDetectionResult,
   ProjectSelections,
   ProjectVariantId,
 } from "./types.mjs";
