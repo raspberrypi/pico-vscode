@@ -2,7 +2,6 @@ import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import {
   commands,
-  window,
   type WorkspaceFolder,
 } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
@@ -17,14 +16,8 @@ import {
 import {
   downloadAndInstallCmake,
   downloadAndInstallNinja,
-  downloadAndInstallOpenOCD,
-  downloadAndInstallPicotool,
-  downloadAndInstallToolchain,
-  downloadAndInstallTools,
 } from "../utils/download.mjs";
-import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
-import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type {
@@ -36,9 +29,8 @@ import type {
   UpdateProjectUiInput,
 } from "./types.mjs";
 import {
+  ensureBasePicoDependencies,
   ensureManagedTool,
-  ensurePicoSdkInstalled,
-  withDownloadProgress,
 } from "./common.mjs";
 import { cmakeSetupAutoConfigure } from "./cmakeActivation.mjs";
 
@@ -117,111 +109,18 @@ export class CCppProjectVariant implements PicoProjectVariant {
       return false;
     }
 
-    let installSuccess = await ensurePicoSdkInstalled({
+    const baseDependenciesInstalled = await ensureBasePicoDependencies({
       extensionUri: context.extensionUri,
-      sdkVersion: selections.sdkVersion,
+      selections,
       title:
         "Downloading and installing Pico SDK as selected. " +
         "This may take a while...",
-      failureMessage: "Failed to install project SDK version.",
-      logFailurePrefix: "Failed to install project SDK",
-      logSuccessPrefix: "Found/installed project SDK",
+      sdkFailureMessage: "Failed to install project SDK version.",
+      sdkLogFailurePrefix: "Failed to install project SDK",
+      sdkLogSuccessPrefix: "Found/installed project SDK",
     });
-    if (!installSuccess) {
+    if (!baseDependenciesInstalled) {
       return false;
-    }
-
-    const toolchains = await getSupportedToolchains(context.extensionUri);
-    const selectedToolchain = toolchains.find(
-      toolchain => toolchain.version === selections.toolchainVersion
-    );
-    if (selectedToolchain === undefined) {
-      Logger.error(
-        LoggerSource.extension,
-        "Failed to detect project toolchain version."
-      );
-      void window.showErrorMessage(
-        "Failed to detect project toolchain version."
-      );
-
-      return false;
-    }
-
-    installSuccess = await withDownloadProgress(
-      "Downloading and installing toolchain as selected. " +
-        "This may take a while...",
-      progress => downloadAndInstallToolchain(selectedToolchain, progress)
-    );
-    if (!installSuccess) {
-      Logger.error(
-        LoggerSource.extension,
-        "Failed to install project toolchain",
-        `version: ${selections.toolchainVersion}`
-      );
-      void window.showErrorMessage(
-        "Failed to install project toolchain version."
-      );
-
-      return false;
-    }
-    Logger.info(
-      LoggerSource.extension,
-      "Found/installed project toolchain",
-      `version: ${selections.toolchainVersion}`
-    );
-
-    installSuccess = await withDownloadProgress(
-      "Downloading and installing tools as selected. This may take a while...",
-      progress => downloadAndInstallTools(selections.sdkVersion!, progress)
-    );
-    if (!installSuccess) {
-      Logger.error(
-        LoggerSource.extension,
-        "Failed to install project SDK",
-        `version: ${selections.sdkVersion}.`,
-        "Make sure all requirements are met."
-      );
-      void window.showErrorMessage("Failed to install project SDK version.");
-
-      return false;
-    }
-    Logger.info(
-      LoggerSource.extension,
-      "Found/installed project SDK",
-      `version: ${selections.sdkVersion}`
-    );
-
-    installSuccess = await withDownloadProgress(
-      "Downloading and installing picotool as selected. " +
-        "This may take a while...",
-      progress =>
-        downloadAndInstallPicotool(selections.picotoolVersion!, progress)
-    );
-    if (!installSuccess) {
-      Logger.error(LoggerSource.extension, "Failed to install picotool.");
-      void window.showErrorMessage("Failed to install picotool.");
-
-      return false;
-    }
-    Logger.debug(LoggerSource.extension, "Found/installed picotool.");
-
-    const openOcdInstalled = await withDownloadProgress(
-      "Downloading and installing OpenOCD. This may take a while...",
-      progress => downloadAndInstallOpenOCD(OPENOCD_VERSION, progress)
-    );
-    if (!openOcdInstalled) {
-      Logger.error(
-        LoggerSource.extension,
-        "Failed to download and install OpenOCD."
-      );
-      void window.showWarningMessage(
-        "Failed to download and install OpenOCD."
-      );
-    } else {
-      Logger.debug(LoggerSource.extension, "Found/installed OpenOCD.");
-      void window.showInformationMessage(
-        "OpenOCD found/installed successfully."
-      );
     }
 
     const ninjaInstalled = await ensureManagedTool(

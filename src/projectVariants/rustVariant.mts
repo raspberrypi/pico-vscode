@@ -3,6 +3,7 @@ import { join } from "path";
 import { ProgressLocation, window, type WorkspaceFolder } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
+import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import {
   downloadAndInstallRust,
   installLatestRustRequirements,
@@ -18,7 +19,7 @@ import type {
   ProjectSelections,
   UpdateProjectUiInput,
 } from "./types.mjs";
-import { ensurePicoSdkInstalled } from "./common.mjs";
+import { ensureBasePicoDependencies } from "./common.mjs";
 
 export class RustProjectVariant implements PicoProjectVariant {
   public readonly id = "rust";
@@ -67,6 +68,36 @@ export class RustProjectVariant implements PicoProjectVariant {
     }
 
     input.selections.sdkVersion = latestSDK;
+    const latest = await vb.getLatest();
+    if (latest === undefined) {
+      void window.showErrorMessage(
+        "Failed to get latest version bundles. " +
+          "Please try again and check your settings."
+      );
+
+      return false;
+    }
+
+    const supportedToolchains = await getSupportedToolchains(
+      input.context.extensionUri
+    );
+    const toolchainVersion = input.selections.target?.includes("riscv")
+      ? latest[1].riscvToolchain
+      : latest[1].toolchain;
+    if (
+      supportedToolchains.find(
+        toolchain => toolchain.version === toolchainVersion
+      ) === undefined
+    ) {
+      void window.showErrorMessage(
+        "Failed to get default toolchain. " +
+          "Please try again and check your internet connection."
+      );
+
+      return false;
+    }
+    input.selections.toolchainVersion = toolchainVersion;
+    input.selections.picotoolVersion = latest[1].picotool;
 
     const python3Path = await findPython();
     if (!python3Path) {
@@ -79,9 +110,9 @@ export class RustProjectVariant implements PicoProjectVariant {
       return false;
     }
 
-    const sdk = await ensurePicoSdkInstalled({
+    const baseDependenciesInstalled = await ensureBasePicoDependencies({
       extensionUri: input.context.extensionUri,
-      sdkVersion: latestSDK,
+      selections: input.selections,
       python3Path: python3Path.replace(
         HOME_VAR,
         homedir().replaceAll("\\", "/")
@@ -90,11 +121,12 @@ export class RustProjectVariant implements PicoProjectVariant {
         "Downloading and installing latest Pico SDK (" +
         latestSDK +
         "). This may take a while...",
-      failureMessage: "Failed to install latest SDK version for rust project.",
-      logFailurePrefix: "Failed to install latest SDK",
-      logSuccessPrefix: "Found/installed latest SDK",
+      sdkFailureMessage:
+        "Failed to install latest SDK version for rust project.",
+      sdkLogFailurePrefix: "Failed to install latest SDK",
+      sdkLogSuccessPrefix: "Found/installed latest SDK",
     });
-    if (!sdk) {
+    if (!baseDependenciesInstalled) {
       return false;
     }
 
