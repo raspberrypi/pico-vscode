@@ -12,7 +12,8 @@ export class DefaultProjectVariantRegistry implements ProjectVariantRegistry {
   public async detect(
     folder: WorkspaceFolder
   ): Promise<ProjectDetectionResult> {
-    let firstUnsupported: ProjectDetectionResult | undefined;
+    let fallbackUnsupported: ProjectDetectionResult | undefined;
+    let importCandidate: ProjectDetectionResult | undefined;
 
     for (const variant of this.variants) {
       const result = await variant.detect(folder);
@@ -20,11 +21,15 @@ export class DefaultProjectVariantRegistry implements ProjectVariantRegistry {
         return result;
       }
 
-      firstUnsupported ??= result;
+      fallbackUnsupported = result;
+      if (result.offerImport) {
+        importCandidate = result;
+      }
     }
 
     return (
-      firstUnsupported ?? {
+      importCandidate ??
+      fallbackUnsupported ?? {
         kind: "unsupported",
         reason: "No supported Pico project markers were found.",
       }

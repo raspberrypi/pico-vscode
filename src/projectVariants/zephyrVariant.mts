@@ -36,7 +36,11 @@ import type {
   UpdateProjectUiInput,
 } from "./types.mjs";
 import { cmakeSetupAutoConfigure } from "./cmakeActivation.mjs";
-import { resolveHomePath, selectedManagedToolVersion } from "./common.mjs";
+import {
+  isManagedToolPath,
+  resolveHomePath,
+  selectedManagedToolVersion,
+} from "./common.mjs";
 
 export class ZephyrProjectVariant implements PicoProjectVariant {
   public readonly id = "zephyr";
@@ -118,6 +122,15 @@ export class ZephyrProjectVariant implements PicoProjectVariant {
     }
 
     const cmakeVersion = selectedManagedToolVersion(cmakePath, "cmake") ?? "";
+    if (isManagedToolPath(cmakePath, "cmake") && cmakeVersion === "") {
+      Logger.error(
+        LoggerSource.extension,
+        "Failed to get CMake version from path in the settings."
+      );
+
+      return false;
+    }
+
     const ninjaPath = input.settings.getString(SettingsKey.ninjaPath);
     if (ninjaPath === undefined) {
       Logger.error(
@@ -131,6 +144,14 @@ export class ZephyrProjectVariant implements PicoProjectVariant {
       return false;
     }
     const ninjaVersion = selectedManagedToolVersion(ninjaPath, "ninja") ?? "";
+    if (isManagedToolPath(ninjaPath, "ninja") && ninjaVersion === "") {
+      Logger.error(
+        LoggerSource.extension,
+        "Failed to get Ninja version from path in the settings."
+      );
+
+      return false;
+    }
 
     const pinnedVersion = input.settings.getString(SettingsKey.zephyrVersion);
     if (pinnedVersion !== undefined && pinnedVersion.length > 0) {

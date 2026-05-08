@@ -1,5 +1,5 @@
 import { CommandWithResult } from "./command.mjs";
-import { Uri, window, workspace } from "vscode";
+import { Uri, window, workspace, type WorkspaceFolder } from "vscode";
 import { getPythonPath, getPath } from "../utils/cmakeUtil.mjs";
 import { join as joinPosix } from "path/posix";
 import {
@@ -35,13 +35,19 @@ import {
   GET_ZEPHYR_SDK_PATH,
   GET_ZEPHYR_WORKSPACE_PATH,
 } from "./cmdIds.mjs";
-import {
-  getZephyrSDKVersion,
-} from "../utils/setupZephyr.mjs";
+import { getZephyrSDKVersion } from "../utils/setupZephyr.mjs";
 import { ensureGit } from "../utils/gitUtil.mjs";
 import {
+  ZEPHYR_PICO,
+  ZEPHYR_PICO2,
+  ZEPHYR_PICO2_W,
+  ZEPHYR_PICO_W,
+} from "../models/zephyrBoards.mjs";
+import {
   getActiveProjectChip,
+  getActiveProjectSelections,
   getActiveProjectSdkVersion,
+  getActiveProjectSupportedToolchain,
   getActiveProjectTarget,
   getActiveProjectToolchainVersion,
   getActiveProjectVariant,
@@ -101,14 +107,27 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
-    const toolchainVersion = await getActiveProjectToolchainVersion(
-      workspaceFolder,
-      this._extensionUri
-    );
+    const variant = await getActiveProjectVariant(workspaceFolder);
+    const toolchainVersion =
+      variant?.id === "rust"
+        ? await getActiveProjectSupportedToolchain(
+            workspaceFolder,
+            this._extensionUri
+          )
+        : await getActiveProjectToolchainVersion(
+            workspaceFolder,
+            this._extensionUri
+          );
     if (toolchainVersion === undefined) {
-      void window.showErrorMessage(
-        "No supported toolchain found for this project."
-      );
+      if (variant?.id === "rust") {
+        void window.showErrorMessage(
+          "No supported toolchain found for the latest version."
+        );
+      } else if (variant?.id !== "zephyr") {
+        void window.showErrorMessage(
+          "No supported toolchain found for this project."
+        );
+      }
 
       return "";
     }
@@ -223,12 +242,31 @@ export class GetChipCommand extends CommandWithResult<string> {
     const workspaceFolder = workspace.workspaceFolders?.[0];
     const chip = await getActiveProjectChip(workspaceFolder);
     if (chip === undefined) {
-      this._logger.error("Failed to read active project chip");
+      await this.showProjectChipError(workspaceFolder);
 
       return "rp2040";
     }
 
     return chip;
+  }
+
+  private async showProjectChipError(
+    workspaceFolder: WorkspaceFolder
+  ): Promise<void> {
+    const variant = await getActiveProjectVariant(workspaceFolder);
+    const selections = await getActiveProjectSelections(workspaceFolder);
+    if (variant?.id === "zephyr" && selections?.boardId !== undefined) {
+      this._logger.error(`Unsupported Zephyr board: ${selections.boardId}`);
+      void window.showErrorMessage(
+        `Unsupported Zephyr board: ${selections.boardId}. ` +
+          `Supported boards are: ${ZEPHYR_PICO}, ${ZEPHYR_PICO_W}, ` +
+          `${ZEPHYR_PICO2}, ${ZEPHYR_PICO2_W}`
+      );
+
+      return;
+    }
+
+    this._logger.error("Failed to read active project chip");
   }
 }
 

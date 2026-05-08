@@ -32,7 +32,7 @@ export function selectedManagedToolVersion(
   path: string | undefined,
   tool: "cmake" | "ninja"
 ): string | undefined {
-  if (path === undefined || !path.includes(`/.pico-sdk/${tool}`)) {
+  if (path === undefined || !isManagedToolPath(path, tool)) {
     return undefined;
   }
 
@@ -42,6 +42,13 @@ export function selectedManagedToolVersion(
       : /\/\.pico-sdk\/ninja\/([v.0-9]+)\//;
 
   return regex.exec(path)?.[1];
+}
+
+export function isManagedToolPath(
+  path: string | undefined,
+  tool: "cmake" | "ninja"
+): boolean {
+  return path?.includes(`/.pico-sdk/${tool}`) ?? false;
 }
 
 export function resolveHomePath(path: string): string {
@@ -68,8 +75,21 @@ export async function ensureManagedTool(
     tool === "cmake" ? SettingsKey.cmakePath : SettingsKey.ninjaPath;
   const configuredPath = settings.getString(settingKey);
   const version = selectedManagedToolVersion(configuredPath, tool);
-  if (configuredPath === undefined || version === undefined) {
+  if (
+    configuredPath === undefined ||
+    !isManagedToolPath(configuredPath, tool)
+  ) {
     return true;
+  }
+
+  if (version === undefined) {
+    Logger.error(
+      LoggerSource.extension,
+      `Failed to get ${tool === "cmake" ? "CMake" : "Ninja"} version ` +
+        "from path in the settings."
+    );
+
+    return false;
   }
 
   if (existsSync(ensureExe(configuredPath.replace(HOME_VAR, homedir())))) {
