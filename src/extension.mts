@@ -249,6 +249,8 @@ async function activateWorkspaceProject(
 
   const selections = await readProjectSelections(variant, workspaceFolder);
   if (selections === null) {
+    await resetProjectContext();
+
     return;
   }
 
@@ -260,6 +262,8 @@ async function activateWorkspaceProject(
     selections
   );
   if (!dependenciesReady) {
+    await resetProjectContext();
+
     return;
   }
 
