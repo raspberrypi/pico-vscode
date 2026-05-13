@@ -70,7 +70,7 @@ import { getWebviewOptions } from "./webview/sharedFunctions.mjs";
 import { UninstallerPanel } from "./webview/uninstallerPanel.mjs";
 import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
 import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
-import { createProjectVariantRegistry } from "./projectVariants/index.mjs";
+import { getProjectVariantRegistry } from "./projectVariants/index.mjs";
 import { setProjectContext } from "./projectVariants/common.mjs";
 import type {
   PicoProjectVariant,
@@ -244,7 +244,7 @@ async function activateWorkspaceProject(
     return;
   }
 
-  const variant = createProjectVariantRegistry().get(detection.variant);
+  const variant = getProjectVariantRegistry().get(detection.variant);
   await setActiveProjectVariant(variant);
 
   const selections = await readProjectSelections(variant, workspaceFolder);
@@ -281,7 +281,7 @@ async function activateWorkspaceProject(
 async function detectPicoProject(
   workspaceFolder: WorkspaceFolder
 ): Promise<ProjectDetectionResult> {
-  return createProjectVariantRegistry().detect(workspaceFolder);
+  return getProjectVariantRegistry().detect(workspaceFolder);
 }
 
 async function handleUnsupportedProject(

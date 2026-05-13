@@ -4,7 +4,7 @@ import Settings, { SettingsKey } from "../settings.mjs";
 import { cmakeGetPicoVar } from "../utils/cmakeUtil.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
 import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
-import { createProjectVariantRegistry } from "./index.mjs";
+import { getProjectVariantRegistry } from "./index.mjs";
 import type {
   PicoProjectVariant,
   ProjectSelections,
@@ -13,7 +13,7 @@ import type {
 export async function getActiveProjectVariant(
   folder: WorkspaceFolder
 ): Promise<PicoProjectVariant | undefined> {
-  return createProjectVariantRegistry().getActive(folder);
+  return getProjectVariantRegistry().getActive(folder);
 }
 
 export async function getActiveProjectSelections(

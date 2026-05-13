@@ -7,6 +7,8 @@ import type {
 } from "./types.mjs";
 
 export class DefaultProjectVariantRegistry implements ProjectVariantRegistry {
+  private readonly detectedVariants = new Map<string, ProjectVariantId>();
+
   public constructor(private readonly variants: PicoProjectVariant[]) {}
 
   public async detect(
@@ -48,8 +50,19 @@ export class DefaultProjectVariantRegistry implements ProjectVariantRegistry {
   public async getActive(
     folder: WorkspaceFolder
   ): Promise<PicoProjectVariant | undefined> {
-    const result = await this.detect(folder);
+    const folderUri = folder.uri.toString();
+    const detectedVariant = this.detectedVariants.get(folderUri);
+    if (detectedVariant !== undefined) {
+      return this.get(detectedVariant);
+    }
 
-    return result.kind === "supported" ? this.get(result.variant) : undefined;
+    const result = await this.detect(folder);
+    if (result.kind === "supported") {
+      this.detectedVariants.set(folderUri, result.variant);
+
+      return this.get(result.variant);
+    }
+
+    return undefined;
   }
 }
