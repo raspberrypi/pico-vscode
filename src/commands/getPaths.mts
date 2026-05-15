@@ -1,12 +1,6 @@
 import { CommandWithResult } from "./command.mjs";
-import { commands, Uri, window, workspace } from "vscode";
-import {
-  getPythonPath,
-  getPath,
-  cmakeGetSelectedToolchainAndSDKVersions,
-  cmakeGetPicoVar,
-} from "../utils/cmakeUtil.mjs";
-import { join } from "path";
+import { Uri, window, workspace, type WorkspaceFolder } from "vscode";
+import { getPythonPath, getPath } from "../utils/cmakeUtil.mjs";
 import { join as joinPosix } from "path/posix";
 import {
   buildOpenOCDPath,
@@ -18,15 +12,11 @@ import {
   downloadAndInstallOpenOCD,
   downloadAndInstallPicotool,
 } from "../utils/download.mjs";
-import Settings, { SettingsKey } from "../settings.mjs";
+import type Settings from "../settings.mjs";
 import which from "which";
 import { execSync } from "child_process";
 import { getPicotoolReleases } from "../utils/githubREST.mjs";
-import State from "../state.mjs";
-import VersionBundlesLoader from "../utils/versionBundles.mjs";
-import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
 import Logger from "../logger.mjs";
-import { rustProjectGetSelectedChip } from "../utils/rustUtil.mjs";
 import { OPENOCD_VERSION } from "../utils/sharedConstants.mjs";
 import {
   GET_CHIP,
@@ -45,17 +35,24 @@ import {
   GET_ZEPHYR_SDK_PATH,
   GET_ZEPHYR_WORKSPACE_PATH,
 } from "./cmdIds.mjs";
-import {
-  getBoardFromZephyrProject,
-  getZephyrSDKVersion,
-} from "../utils/setupZephyr.mjs";
+import { getZephyrSDKVersion } from "../utils/setupZephyr.mjs";
+import { ensureGit } from "../utils/gitUtil.mjs";
 import {
   ZEPHYR_PICO,
   ZEPHYR_PICO2,
   ZEPHYR_PICO2_W,
   ZEPHYR_PICO_W,
 } from "../models/zephyrBoards.mjs";
-import { ensureGit } from "../utils/gitUtil.mjs";
+import {
+  getActiveProjectChip,
+  getActiveProjectSelections,
+  getActiveProjectSdkVersion,
+  getActiveProjectSupportedToolchain,
+  getActiveProjectTarget,
+  getActiveProjectToolchainVersion,
+  getActiveProjectVariant,
+  toolchainTriple,
+} from "../projectVariants/selectionHelpers.mjs";
 
 export class GetPythonPathCommand extends CommandWithResult<string> {
   constructor() {
@@ -110,59 +107,33 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
-    const isRustProject = State.getInstance().isRustProject;
-    let toolchainVersion = "";
-
-    if (isRustProject) {
-      // check if latest toolchain is installed
-      const vbl = new VersionBundlesLoader(this._extensionUri);
-      const latestVb = await vbl.getLatest();
-
-      if (!latestVb) {
-        void window.showErrorMessage("No version bundles found.");
-
-        return "";
-      }
-
-      const supportedToolchains = await getSupportedToolchains(
-        this._extensionUri
-      );
-      const latestSupportedToolchain = supportedToolchains.find(
-        t => t.version === latestVb[1].toolchain
-      );
-      if (!latestSupportedToolchain) {
+    const variant = await getActiveProjectVariant(workspaceFolder);
+    const toolchainVersion =
+      variant?.id === "rust"
+        ? await getActiveProjectSupportedToolchain(
+            workspaceFolder,
+            this._extensionUri
+          )
+        : await getActiveProjectToolchainVersion(
+            workspaceFolder,
+            this._extensionUri
+          );
+    if (toolchainVersion === undefined) {
+      if (variant?.id === "rust") {
         void window.showErrorMessage(
           "No supported toolchain found for the latest version."
         );
-
-        return "";
+      } else if (variant?.id !== "zephyr") {
+        void window.showErrorMessage(
+          "No supported toolchain found for this project."
+        );
       }
 
-      const useRISCV = rustProjectGetSelectedChip(
-        workspaceFolder.uri.fsPath
-      )?.includes("riscv");
-
-      toolchainVersion = useRISCV
-        ? latestVb[1].riscvToolchain
-        : latestVb[1].toolchain;
-    } else {
-      const selectedToolchainAndSDKVersions =
-        await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
-      if (selectedToolchainAndSDKVersions === null) {
-        return "";
-      }
-
-      toolchainVersion = selectedToolchainAndSDKVersions[1];
+      return "";
     }
 
-    let triple = "arm-none-eabi";
-    if (toolchainVersion.includes("RISCV")) {
-      if (toolchainVersion.includes("COREV")) {
-        triple = "riscv32-corev-elf";
-      } else {
-        triple = "riscv32-unknown-elf";
-      }
-    } else if (process.platform === "linux") {
+    const triple = toolchainTriple(toolchainVersion);
+    if (triple === "arm-none-eabi" && process.platform === "linux") {
       // Arm toolchains have incorrect libncurses versions on Linux (specifically RPiOS)
       const gdbPath = await which("gdb", { nothrow: true });
       if (gdbPath !== null) {
@@ -207,22 +178,13 @@ export class GetCompilerPathCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
-
-    const selectedToolchainAndSDKVersions =
-      await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
-    if (selectedToolchainAndSDKVersions === null) {
+    const toolchainVersion = await getActiveProjectToolchainVersion(
+      workspaceFolder
+    );
+    if (toolchainVersion === undefined) {
       return "";
     }
-    const toolchainVersion = selectedToolchainAndSDKVersions[1];
-
-    let triple = "arm-none-eabi";
-    if (toolchainVersion.includes("RISCV")) {
-      if (toolchainVersion.includes("COREV")) {
-        triple = "riscv32-corev-elf";
-      } else {
-        triple = "riscv32-unknown-elf";
-      }
-    }
+    const triple = toolchainTriple(toolchainVersion);
 
     return joinPosix(
       buildToolchainPath(toolchainVersion),
@@ -246,22 +208,13 @@ export class GetCxxCompilerPathCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
-
-    const selectedToolchainAndSDKVersions =
-      await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
-    if (selectedToolchainAndSDKVersions === null) {
+    const toolchainVersion = await getActiveProjectToolchainVersion(
+      workspaceFolder
+    );
+    if (toolchainVersion === undefined) {
       return "";
     }
-    const toolchainVersion = selectedToolchainAndSDKVersions[1];
-
-    let triple = "arm-none-eabi";
-    if (toolchainVersion.includes("RISCV")) {
-      if (toolchainVersion.includes("COREV")) {
-        triple = "riscv32-corev-elf";
-      } else {
-        triple = "riscv32-unknown-elf";
-      }
-    }
+    const triple = toolchainTriple(toolchainVersion);
 
     return joinPosix(
       buildToolchainPath(toolchainVersion),
@@ -287,88 +240,33 @@ export class GetChipCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
-    const isRustProject = State.getInstance().isRustProject;
-    const isZephyrProject = State.getInstance().isZephyrProject;
+    const chip = await getActiveProjectChip(workspaceFolder);
+    if (chip === undefined) {
+      await this.showProjectChipError(workspaceFolder);
 
-    if (isZephyrProject) {
-      const board = await getBoardFromZephyrProject(
-        join(workspaceFolder.uri.fsPath, ".vscode", "tasks.json")
-      );
-
-      if (board === undefined) {
-        this._logger.error("Failed to read Zephyr board from tasks.json");
-
-        return "";
-      }
-
-      switch (board) {
-        case ZEPHYR_PICO:
-        case ZEPHYR_PICO_W:
-          return "rp2040";
-        case ZEPHYR_PICO2:
-        case ZEPHYR_PICO2_W:
-          return "rp2350";
-        default:
-          this._logger.error(`Unsupported Zephyr board: ${board}`);
-          void window.showErrorMessage(
-            `Unsupported Zephyr board: ${board}. ` +
-              `Supported boards are: ${ZEPHYR_PICO}, ${ZEPHYR_PICO_W}, ` +
-              `${ZEPHYR_PICO2}, ${ZEPHYR_PICO2_W}`
-          );
-
-          return "rp2040";
-      }
-    }
-
-    if (isRustProject) {
-      // read .pico-rs
-      const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
-      if (chip === null) {
-        this._logger.error("Failed to read .pico-rs");
-
-        return "";
-      }
-
-      switch (chip) {
-        case "rp2040":
-          return "rp2040";
-        case "rp2350":
-        case "rp2350-riscv":
-          return "rp235x";
-        default:
-          return "rp2040";
-      }
-    }
-
-    const settings = Settings.getInstance();
-    let buildDir = join(workspaceFolder.uri.fsPath, "build");
-    if (
-      settings !== undefined &&
-      settings.getBoolean(SettingsKey.useCmakeTools)
-    ) {
-      // Compiling with CMake Tools
-      const cmakeBuildDir: string = await commands.executeCommand(
-        "cmake.buildDirectory"
-      );
-
-      if (cmakeBuildDir) {
-        buildDir = cmakeBuildDir;
-      }
-    }
-
-    const platform = cmakeGetPicoVar(
-      join(buildDir, "CMakeCache.txt"),
-      "PICO_PLATFORM"
-    );
-    if (platform === null) {
       return "rp2040";
     }
 
-    if (platform === "rp2350-arm-s" || platform === "rp2350-riscv") {
-      return "rp2350";
-    } else {
-      return "rp2040";
+    return chip;
+  }
+
+  private async showProjectChipError(
+    workspaceFolder: WorkspaceFolder
+  ): Promise<void> {
+    const variant = await getActiveProjectVariant(workspaceFolder);
+    const selections = await getActiveProjectSelections(workspaceFolder);
+    if (variant?.id === "zephyr" && selections?.boardId !== undefined) {
+      this._logger.error(`Unsupported Zephyr board: ${selections.boardId}`);
+      void window.showErrorMessage(
+        `Unsupported Zephyr board: ${selections.boardId}. ` +
+          `Supported boards are: ${ZEPHYR_PICO}, ${ZEPHYR_PICO_W}, ` +
+          `${ZEPHYR_PICO2}, ${ZEPHYR_PICO2_W}`
+      );
+
+      return;
     }
+
+    this._logger.error("Failed to read active project chip");
   }
 }
 
@@ -399,66 +297,8 @@ export class GetTargetCommand extends CommandWithResult<string> {
     }
 
     const workspaceFolder = workspace.workspaceFolders?.[0];
-    const isRustProject = State.getInstance().isRustProject;
-    const isZephyrProject = State.getInstance().isZephyrProject;
 
-    if (isZephyrProject) {
-      const board = await getBoardFromZephyrProject(
-        join(workspaceFolder.uri.fsPath, ".vscode", "tasks.json")
-      );
-
-      if (board === undefined) {
-        return "rp2040";
-      }
-
-      switch (board) {
-        case ZEPHYR_PICO:
-        case ZEPHYR_PICO_W:
-          return "rp2040";
-        case ZEPHYR_PICO2:
-        case ZEPHYR_PICO2_W:
-          return "rp2350";
-        default:
-          return "rp2040";
-      }
-    }
-    if (isRustProject) {
-      const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
-
-      return chip === null ? "rp2040" : chip.toLowerCase();
-    }
-
-    const settings = Settings.getInstance();
-    let buildDir = join(workspaceFolder.uri.fsPath, "build");
-    if (
-      settings !== undefined &&
-      settings.getBoolean(SettingsKey.useCmakeTools)
-    ) {
-      // Compiling with CMake Tools
-      const cmakeBuildDir: string = await commands.executeCommand(
-        "cmake.buildDirectory"
-      );
-
-      if (cmakeBuildDir) {
-        buildDir = cmakeBuildDir;
-      }
-    }
-
-    const platform = cmakeGetPicoVar(
-      join(buildDir, "CMakeCache.txt"),
-      "PICO_PLATFORM"
-    );
-    if (platform === null) {
-      return "rp2040";
-    }
-
-    if (platform === "rp2350-arm-s") {
-      return "rp2350";
-    } else if (platform === "rp2350-riscv") {
-      return "rp2350-riscv";
-    } else {
-      return "rp2040";
-    }
+    return (await getActiveProjectTarget(workspaceFolder)) ?? "rp2040";
   }
 }
 
@@ -557,26 +397,26 @@ export class GetSVDPathCommand extends CommandWithResult<string | undefined> {
       return "";
     }
 
-    const isRustProject = State.getInstance().isRustProject;
-    if (!isRustProject) {
+    const workspaceFolder = workspace.workspaceFolders[0];
+    const variant = await getActiveProjectVariant(workspaceFolder);
+    if (variant?.id !== "rust") {
       return;
     }
 
-    const vs = new VersionBundlesLoader(this._extensionUri);
-    const latestSDK = await vs.getLatestSDK();
+    const latestSDK = await getActiveProjectSdkVersion(
+      workspaceFolder,
+      this._extensionUri
+    );
     if (!latestSDK) {
       return;
     }
 
-    const chip = rustProjectGetSelectedChip(
-      workspace.workspaceFolders[0].uri.fsPath
-    );
-
-    if (!chip) {
+    const target = await getActiveProjectTarget(workspaceFolder);
+    if (target === undefined) {
       return;
     }
 
-    const theChip = chip === "rp2350-riscv" ? "rp2350" : chip;
+    const theChip = target === "rp2350-riscv" ? "rp2350" : target;
 
     return joinPosix(
       buildSDKPath(latestSDK),
