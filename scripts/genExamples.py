@@ -67,12 +67,12 @@ BUILD_TOOLS = not os.path.exists(os.path.expanduser(f"~/.pico-sdk/sdk/{SDK_VERSI
 if "develop" in SDK_VERSION:
     SDK_BRANCH = "develop"
     PICOTOOL_BRANCH = "develop"
-    EXAMPLES_BRANCH = "develop"
+    EXAMPLES_BRANCH = env_get_default("EXAMPLES_BRANCH", "develop")
     BUILD_TOOLS = True  # Always clone & build the latest when using develop
 else:
     SDK_BRANCH = SDK_VERSION
     PICOTOOL_BRANCH = SDK_VERSION
-    EXAMPLES_BRANCH = f"sdk-{SDK_VERSION}"
+    EXAMPLES_BRANCH = env_get_default("EXAMPLES_BRANCH", f"sdk-{SDK_VERSION}")
 
 # Platform & toolchain setup
 platform = "linux_x64" if platform.machine() == "x86_64" else "linux_arm64"

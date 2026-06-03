@@ -17,6 +17,11 @@ on:
         required: false
         type: string
         default: "default"
+      examples_branch:
+        description: "Override Pico Examples branch"
+        required: false
+        type: string
+        default: "default"
 
 jobs:
   build:
@@ -37,6 +42,7 @@ jobs:
           SDK_VERSION: ${{ inputs.develop && '2-develop' || 'default' }}
           ARM_TOOLCHAIN_VERSION: ${{ inputs.arm_toolchain_version }}
           RISCV_TOOLCHAIN_VERSION: ${{ inputs.riscv_toolchain_version }}
+          EXAMPLES_BRANCH: ${{ inputs.examples_branch }}
         run: |
           python scripts/genExamples.py
       - name: List errors
