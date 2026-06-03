@@ -179,7 +179,7 @@ try:
 except FileNotFoundError:
     pass
 os.system(
-    f"git -c advice.detachedHead=false clone https://github.com/${FORK_NAME}/pico-examples.git --depth=1 --branch {EXAMPLES_BRANCH}"
+    f"git -c advice.detachedHead=false clone https://github.com/{FORK_NAME}/pico-examples.git --depth=1 --branch {EXAMPLES_BRANCH}"
 )
 
 PICO_SDK_PATH = f"~/.pico-sdk/sdk/{SDK_VERSION}"
