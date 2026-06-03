@@ -22,6 +22,11 @@ on:
         required: false
         type: string
         default: "default"
+      fork_name:
+        description: "Set Pico Examples fork"
+        required: false
+        type: string
+        default: "default"
 
 jobs:
   build:
@@ -43,6 +48,7 @@ jobs:
           ARM_TOOLCHAIN_VERSION: ${{ inputs.arm_toolchain_version }}
           RISCV_TOOLCHAIN_VERSION: ${{ inputs.riscv_toolchain_version }}
           EXAMPLES_BRANCH: ${{ inputs.examples_branch }}
+          FORK_NAME: ${{ inputs.fork_name }}
         run: |
           python scripts/genExamples.py
       - name: List errors

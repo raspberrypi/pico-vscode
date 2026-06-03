@@ -58,6 +58,8 @@ RISCV_TOOLCHAIN_VERSION = env_get_default(
     "RISCV_TOOLCHAIN_VERSION", RISCV_TOOLCHAIN_VERSION_DEFAULT
 )
 
+FORK_NAME = env_get_default("FORK_NAME", "raspberrypi")
+
 # To test with develop SDK, uncomment the line below - this will clone the SDK & picotool, and build picotool & pioasm
 # note: the 2- is required due to a VERSION_LESS check in pico-vscode.cmake
 # SDK_VERSION = "2-develop"
@@ -177,7 +179,7 @@ try:
 except FileNotFoundError:
     pass
 os.system(
-    f"git -c advice.detachedHead=false clone https://github.com/raspberrypi/pico-examples.git --depth=1 --branch {EXAMPLES_BRANCH}"
+    f"git -c advice.detachedHead=false clone https://github.com/${FORK_NAME}/pico-examples.git --depth=1 --branch {EXAMPLES_BRANCH}"
 )
 
 PICO_SDK_PATH = f"~/.pico-sdk/sdk/{SDK_VERSION}"
