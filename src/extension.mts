@@ -4,9 +4,6 @@ import {
   window,
   type WebviewPanel,
   commands,
-  ProgressLocation,
-  Uri,
-  FileSystemError,
   type WorkspaceFolder,
 } from "vscode";
 import {
@@ -17,23 +14,9 @@ import {
 } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger, { LoggerSource } from "./logger.mjs";
-import {
-  CMAKE_DO_NOT_EDIT_HEADER_PREFIX,
-  CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD,
-  cmakeGetPicoVar,
-  cmakeGetSelectedBoard,
-  cmakeGetSelectedToolchainAndSDKVersions,
-  configureCmakeNinja,
-} from "./utils/cmakeUtil.mjs";
-import Settings, {
-  SettingsKey,
-  type PackageJSON,
-  HOME_VAR,
-} from "./settings.mjs";
+import Settings, { type PackageJSON } from "./settings.mjs";
 import UI from "./ui.mjs";
 import SwitchSDKCommand from "./commands/switchSDK.mjs";
-import { existsSync, readFileSync } from "fs";
-import { basename, join } from "path";
 import CompileProjectCommand from "./commands/compileProject.mjs";
 import RunProjectCommand from "./commands/runProject.mjs";
 import LaunchTargetPathCommand, {
@@ -58,16 +41,6 @@ import {
   GetZephyrSDKPathCommand,
   GetGitPathCommand,
 } from "./commands/getPaths.mjs";
-import {
-  downloadAndInstallCmake,
-  downloadAndInstallNinja,
-  downloadAndInstallSDK,
-  downloadAndInstallToolchain,
-  downloadAndInstallTools,
-  downloadAndInstallPicotool,
-  downloadAndInstallOpenOCD,
-} from "./utils/download.mjs";
-import { getSupportedToolchains } from "./utils/toolchainUtil.mjs";
 import { NewProjectPanel } from "./webview/newProjectPanel.mjs";
 import GithubApiCache from "./utils/githubApiCache.mjs";
 import ClearGithubApiCacheCommand from "./commands/clearGithubApiCache.mjs";
@@ -81,7 +54,6 @@ import ConfigureCmakeCommand, {
   SwitchBuildTypeCommand,
 } from "./commands/configureCmake.mjs";
 import ImportProjectCommand from "./commands/importProject.mjs";
-import { homedir } from "os";
 import NewExampleProjectCommand from "./commands/newExampleProject.mjs";
 import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
@@ -89,44 +61,27 @@ import UpdateOpenOCDCommand from "./commands/updateOpenOCD.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
 // eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
-import type { Progress as GotProgress } from "got";
-import findPython, { showPythonNotFoundError } from "./utils/pythonHelper.mjs";
-import {
-  downloadAndInstallRust,
-  installLatestRustRequirements,
-  rustProjectGetSelectedChip,
-} from "./utils/rustUtil.mjs";
 import State from "./state.mjs";
-import { cmakeToolsForcePicoKit } from "./utils/cmakeToolsUtil.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
-import {
-  CMAKELISTS_ZEPHYR_REGEX,
-  OPENOCD_VERSION,
-  SDK_REPOSITORY_URL,
-} from "./utils/sharedConstants.mjs";
-import VersionBundlesLoader from "./utils/versionBundles.mjs";
-import { unknownErrorToString } from "./utils/errorHelper.mjs";
-import {
-  getBoardFromZephyrProject,
-  getZephyrVersion,
-  setupZephyr,
-  updateZephyrCompilerPath,
-  updateZephyrVersion,
-  zephyrVerifyCMakeCache,
-} from "./utils/setupZephyr.mjs";
 import { IMPORT_PROJECT } from "./commands/cmdIds.mjs";
-import {
-  ZEPHYR_PICO,
-  ZEPHYR_PICO2,
-  ZEPHYR_PICO2_W,
-  ZEPHYR_PICO_W,
-} from "./models/zephyrBoards.mjs";
 import { NewZephyrProjectPanel } from "./webview/newZephyrProjectPanel.mjs";
 import LastUsedDepsStore from "./utils/lastUsedDeps.mjs";
 import { getWebviewOptions } from "./webview/sharedFunctions.mjs";
 import { UninstallerPanel } from "./webview/uninstallerPanel.mjs";
 import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
 import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
+import { getProjectVariantRegistry } from "./projectVariants/index.mjs";
+import { setProjectContext } from "./projectVariants/common.mjs";
+import type {
+  PicoProjectVariant,
+  ProjectDetectionResult,
+  ProjectSelections,
+} from "./projectVariants/index.mjs";
+
+type UnsupportedProjectDetection = Extract<
+  ProjectDetectionResult,
+  { kind: "unsupported" }
+>;
 
 export async function activate(context: ExtensionContext): Promise<void> {
   Logger.info(LoggerSource.extension, "Extension activation triggered");
@@ -266,1004 +221,154 @@ export async function activate(context: ExtensionContext): Promise<void> {
     )
   );
 
+  await activateWorkspaceProject(context, settings, ui);
+}
+
+async function activateWorkspaceProject(
+  context: ExtensionContext,
+  settings: Settings,
+  ui: UI
+): Promise<void> {
   const workspaceFolder = workspace.workspaceFolders?.[0];
-  const isRustProject = workspaceFolder
-    ? existsSync(join(workspaceFolder.uri.fsPath, ".pico-rs"))
-    : false;
-
-  // check if there is a workspace folder
   if (workspaceFolder === undefined) {
-    // finish activation
     Logger.warn(LoggerSource.extension, "No workspace folder found.");
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
+    await resetProjectContext();
 
     return;
   }
 
-  await commands.executeCommand(
-    "setContext",
-    ContextKeys.isRustProject,
-    isRustProject
+  const detection = await detectPicoProject(workspaceFolder);
+  if (detection.kind === "unsupported") {
+    await handleUnsupportedProject(detection, workspaceFolder);
+
+    return;
+  }
+
+  const variant = getProjectVariantRegistry().get(detection.variant);
+  await setActiveProjectVariant(variant);
+
+  const selections = await readProjectSelections(variant, workspaceFolder);
+  if (selections === null) {
+    await resetProjectContext();
+
+    return;
+  }
+
+  const dependenciesReady = await ensureProjectDependencies(
+    variant,
+    context,
+    settings,
+    workspaceFolder,
+    selections
   );
-  State.getInstance().isRustProject = isRustProject;
-
-  if (!isRustProject) {
-    const cmakeListsFilePath = join(
-      workspaceFolder.uri.fsPath,
-      "CMakeLists.txt"
-    );
-    if (!existsSync(cmakeListsFilePath)) {
-      Logger.warn(
-        LoggerSource.extension,
-        "No CMakeLists.txt in workspace folder has been found."
-      );
-      await commands.executeCommand(
-        "setContext",
-        ContextKeys.isPicoProject,
-        false
-      );
-
-      return;
-    }
-
-    // Set Pico Zephyr Project false by default
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isZephyrProject,
-      false
-    );
-
-    const cmakeListsContents = new TextDecoder().decode(
-      await workspace.fs.readFile(Uri.file(cmakeListsFilePath))
-    );
-
-    // Check for zephyr pico project prefix line in CMakeLists.txt
-    if (cmakeListsContents.trimStart().match(CMAKELISTS_ZEPHYR_REGEX)) {
-      Logger.info(LoggerSource.extension, "Project is of type: Zephyr");
-
-      const vb = new VersionBundlesLoader(context.extensionUri);
-      const latest = await vb.getLatest();
-      if (latest === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to get latest version bundle for Zephyr project."
-        );
-
-        void window.showErrorMessage(
-          "Failed to get latest version bundle for Zephyr project."
-        );
-
-        return;
-      }
-
-      const cmakePath = settings.getString(SettingsKey.cmakePath);
-      // TODO: or auto upgrade to latest cmake
-      if (cmakePath === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "CMake path not set in settings. Cannot setup Zephyr project."
-        );
-        void window.showErrorMessage(
-          "CMake path not set in settings. Cannot setup Zephyr project."
-        );
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-      let cmakeVersion = "";
-      if (cmakePath && cmakePath.includes("/.pico-sdk/cmake")) {
-        const version = /\/\.pico-sdk\/cmake\/([v.0-9A-Za-z-]+)\//.exec(
-          cmakePath
-        )?.[1];
-
-        if (version === undefined) {
-          Logger.error(
-            LoggerSource.extension,
-            "Failed to get CMake version from path in the settings."
-          );
-          await commands.executeCommand(
-            "setContext",
-            ContextKeys.isPicoProject,
-            false
-          );
-
-          return;
-        }
-
-        cmakeVersion = version;
-      }
-
-      const ninjaPath = settings.getString(SettingsKey.ninjaPath);
-      let ninjaVersion = "";
-      if (ninjaPath === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "Ninja path not set in settings. Cannot setup Zephyr project."
-        );
-        void window.showErrorMessage(
-          "Ninja path not set in settings. Cannot setup Zephyr project."
-        );
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      } else if (ninjaPath && ninjaPath.includes("/.pico-sdk/ninja")) {
-        const version = /\/\.pico-sdk\/ninja\/([v.0-9]+)\//.exec(
-          ninjaPath
-        )?.[1];
-        if (version === undefined) {
-          Logger.error(
-            LoggerSource.extension,
-            "Failed to get Ninja version from path in the settings."
-          );
-          await commands.executeCommand(
-            "setContext",
-            ContextKeys.isPicoProject,
-            false
-          );
-
-          return;
-        }
-
-        ninjaVersion = version;
-      }
-
-      // check for pinned zephyr version in workspace settings
-      const pinnedVersion = settings.getString(SettingsKey.zephyrVersion);
-      if (pinnedVersion !== undefined && pinnedVersion.length > 0) {
-        const systemVersion = await getZephyrVersion();
-        if (systemVersion === undefined) {
-          Logger.error(
-            LoggerSource.extension,
-            "Failed to get system Zephyr version."
-          );
-          void window.showErrorMessage(
-            "Failed to get system Zephyr version. Cannot setup Zephyr project."
-          );
-          // TODO: instead reset zephyr workspace
-          await commands.executeCommand(
-            "setContext",
-            ContextKeys.isPicoProject,
-            false
-          );
-
-          return;
-        }
-
-        if (systemVersion !== pinnedVersion) {
-          // ask user to switch zephyr version
-          const switchVersion = await window.showInformationMessage(
-            `Project Zephyr version (${pinnedVersion}) differs from system ` +
-              `version (${systemVersion}). ` +
-              `Do you want to switch the system version?`,
-            { modal: true },
-            "Yes",
-            "No - Use system version",
-            "No - Pin to system version"
-          );
-
-          if (switchVersion === "Yes") {
-            const switchResult = await updateZephyrVersion(pinnedVersion);
-            if (!switchResult) {
-              void window.showErrorMessage(
-                `Failed to switch Zephyr version to ${pinnedVersion}. ` +
-                  "Cannot setup Zephyr project."
-              );
-              await commands.executeCommand(
-                "setContext",
-                ContextKeys.isPicoProject,
-                false
-              );
-
-              return;
-            } else {
-              void window.showInformationMessage(
-                `Switched Zephyr version to ${pinnedVersion}.`
-              );
-              Logger.info(
-                LoggerSource.extension,
-                `Switched Zephyr version to ${pinnedVersion}.`
-              );
-            }
-          } else if (switchVersion === "No - Pin to system version") {
-            // update workspace settings
-            await settings.update(SettingsKey.zephyrVersion, systemVersion);
-            void window.showInformationMessage(
-              `Pinned Zephyr version to ${systemVersion}.`
-            );
-            Logger.info(
-              LoggerSource.extension,
-              `Pinned Zephyr version to ${systemVersion}.`
-            );
-          }
-        }
-      }
-
-      const result = await setupZephyr({
-        extUri: context.extensionUri,
-        cmakeMode: cmakeVersion !== "" ? 2 : 3,
-        cmakePath:
-          cmakeVersion !== ""
-            ? ""
-            : cmakePath.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ??
-              "",
-        cmakeVersion: cmakeVersion,
-        ninjaMode: ninjaVersion !== "" ? 2 : 3,
-        ninjaPath:
-          ninjaVersion !== ""
-            ? ""
-            : ninjaPath.replace(HOME_VAR, homedir().replaceAll("\\", "/")) ??
-              "",
-        ninjaVersion: ninjaVersion,
-      });
-      if (result === undefined) {
-        void window.showErrorMessage(
-          "Failed to setup Zephyr Toolchain. See logs for details."
-        );
-
-        return;
-      }
-      void window.showInformationMessage(
-        "Zephyr Toolchain setup done. You can now build your project."
-      );
-
-      await commands.executeCommand(
-        "setContext",
-        ContextKeys.isPicoProject,
-        true
-      );
-      await commands.executeCommand(
-        "setContext",
-        ContextKeys.isZephyrProject,
-        true
-      );
-      State.getInstance().isZephyrProject = true;
-
-      ui.showStatusBarItems(false, true);
-      const selectedZephyrVersion = await getZephyrVersion();
-      if (selectedZephyrVersion === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to get selected system Zephyr version. Defaulting to main."
-        );
-      }
-      ui.updateSDKVersion(selectedZephyrVersion ?? "main");
-
-      const cppCompilerUpdated = await updateZephyrCompilerPath(
-        workspaceFolder.uri,
-        selectedZephyrVersion ?? "main"
-      );
-
-      if (!cppCompilerUpdated) {
-        void window.showErrorMessage(
-          "Failed to update C++ compiler path in c_cpp_properties.json"
-        );
-
-        // TODO: maybe cancel activation
-      }
-
-      // Update the board info if it can be found in tasks.json
-      const tasksJsonFilePath = join(
-        workspaceFolder.uri.fsPath,
-        ".vscode",
-        "tasks.json"
-      );
-
-      // Update UI with board description
-      const board = await getBoardFromZephyrProject(tasksJsonFilePath);
-
-      if (board !== undefined) {
-        if (board === ZEPHYR_PICO2_W) {
-          ui.updateBoard("Pico 2W");
-        } else if (board === ZEPHYR_PICO2) {
-          ui.updateBoard("Pico 2");
-        } else if (board === ZEPHYR_PICO_W) {
-          ui.updateBoard("Pico W");
-        } else if (board === ZEPHYR_PICO) {
-          ui.updateBoard("Pico");
-        } else {
-          ui.updateBoard("Other");
-        }
-      }
-
-      await zephyrVerifyCMakeCache(workspaceFolder.uri);
-
-      if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
-        await cmakeSetupAutoConfigure(workspaceFolder, ui);
-      } else {
-        // check if build dir is empty and recommend to run a build to
-        // get the intellisense working
-        const buildUri = Uri.file(join(workspaceFolder.uri.fsPath, "build"));
-        try {
-          // workaround to stop verbose logging of readDirectory
-          // internals even if we catch the error
-          await workspace.fs.stat(buildUri);
-          const buildDirContents = await workspace.fs.readDirectory(buildUri);
-
-          if (buildDirContents.length === 0) {
-            void window.showWarningMessage(
-              "To get full intellisense support please build the project once."
-            );
-          }
-        } catch (error) {
-          if (
-            error instanceof FileSystemError &&
-            error.code === "FileNotFound"
-          ) {
-            void window.showWarningMessage(
-              "To get full intellisense support please build the project once."
-            );
-
-            Logger.debug(
-              LoggerSource.extension,
-              'No "build" folder found. Intellisense might not work ' +
-                "properly until a build has been done."
-            );
-          } else {
-            Logger.error(
-              LoggerSource.extension,
-              "Error when reading build folder:",
-              unknownErrorToString(error)
-            );
-          }
-        }
-      }
-
-      return;
-    }
-    // check for pico_sdk_init() in CMakeLists.txt
-    else if (!cmakeListsContents.includes("pico_sdk_init()")) {
-      Logger.warn(
-        LoggerSource.extension,
-        "No pico_sdk_init() in CMakeLists.txt found."
-      );
-      await commands.executeCommand(
-        "setContext",
-        ContextKeys.isPicoProject,
-        false
-      );
-
-      return;
-    }
-
-    // check if it has .vscode folder and cmake donotedit header in CMakelists.txt
-    if (
-      !existsSync(join(workspaceFolder.uri.fsPath, ".vscode")) ||
-      !(
-        readFileSync(cmakeListsFilePath)
-          .toString("utf-8")
-          .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX) ||
-        readFileSync(cmakeListsFilePath)
-          .toString("utf-8")
-          .includes(CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD)
-      )
-    ) {
-      Logger.warn(
-        LoggerSource.extension,
-        "No .vscode folder and/or cmake",
-        '"DO NOT EDIT"-header in CMakelists.txt found.'
-      );
-      await commands.executeCommand(
-        "setContext",
-        ContextKeys.isPicoProject,
-        false
-      );
-      const wantToImport = await window.showInformationMessage(
-        "Do you want to import this project as Raspberry Pi Pico project?",
-        "Yes",
-        "No"
-      );
-      if (wantToImport === "Yes") {
-        void commands.executeCommand(
-          `${extensionName}.${IMPORT_PROJECT}`,
-          workspaceFolder.uri
-        );
-      }
-
-      return;
-    }
-  }
-
-  await commands.executeCommand("setContext", ContextKeys.isPicoProject, true);
-
-  if (isRustProject) {
-    const vs = new VersionBundlesLoader(context.extensionUri);
-    const latestSDK = await vs.getLatestSDK();
-    if (!latestSDK) {
-      Logger.error(
-        LoggerSource.extension,
-        "Failed to get latest Pico SDK version for Rust project."
-      );
-      void window.showErrorMessage(
-        "Failed to get latest Pico SDK version for Rust project."
-      );
-
-      return;
-    }
-
-    const sdk = await window.withProgress(
-      {
-        location: ProgressLocation.Notification,
-        title:
-          "Downloading and installing latest Pico SDK (" +
-          latestSDK +
-          "). This may take a while...",
-        cancellable: false,
-      },
-      async progress => {
-        const result = await downloadAndInstallSDK(
-          context.extensionUri,
-          latestSDK,
-          SDK_REPOSITORY_URL
-        );
-
-        progress.report({
-          increment: 100,
-        });
-
-        if (!result) {
-          installSuccess = false;
-
-          Logger.error(
-            LoggerSource.extension,
-            "Failed to install latest SDK",
-            `version: ${latestSDK}.`,
-            "Make sure all requirements are met."
-          );
-
-          void window.showErrorMessage(
-            "Failed to install latest SDK version for rust project."
-          );
-
-          return false;
-        } else {
-          Logger.info(
-            LoggerSource.extension,
-            "Found/installed latest SDK",
-            `version: ${latestSDK}`
-          );
-
-          return true;
-        }
-      }
-    );
-    if (!sdk) {
-      return;
-    }
-
-    const cargo = await window.withProgress(
-      {
-        location: ProgressLocation.Notification,
-        title: "Downloading and installing Rust. This may take a while...",
-        cancellable: false,
-      },
-      async () => downloadAndInstallRust()
-    );
-    if (!cargo) {
-      void window.showErrorMessage("Failed to install Rust.");
-
-      return;
-    }
-
-    const result = await installLatestRustRequirements(context.extensionUri);
-
-    if (!result) {
-      return;
-    }
-
-    ui.showStatusBarItems(isRustProject);
-
-    const chip = rustProjectGetSelectedChip(workspaceFolder.uri.fsPath);
-    if (chip !== null) {
-      ui.updateBoard(chip.toUpperCase());
-    } else {
-      ui.updateBoard("N/A");
-    }
+  if (!dependenciesReady) {
+    await resetProjectContext();
 
     return;
   }
 
-  // get sdk selected in the project
-  const selectedToolchainAndSDKVersions =
-    await cmakeGetSelectedToolchainAndSDKVersions(workspaceFolder.uri);
-  if (selectedToolchainAndSDKVersions === null) {
-    return;
-  }
-
-  // get all available toolchains for download link of current selected one
-  const toolchains = await getSupportedToolchains(context.extensionUri);
-  const selectedToolchain = toolchains.find(
-    toolchain => toolchain.version === selectedToolchainAndSDKVersions[1]
+  await updateProjectUi(variant, ui, selections);
+  await finishProjectActivation(
+    variant,
+    context,
+    settings,
+    workspaceFolder,
+    ui,
+    selections
   );
+}
 
-  // TODO: for failed installation message add option to change version
-  let installSuccess = true;
-  // install if needed
-  await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title:
-        "Downloading and installing Pico SDK as selected. " +
-        "This may take a while...",
-      cancellable: false,
-    },
-    async progress => {
-      const result = await downloadAndInstallSDK(
-        context.extensionUri,
-        selectedToolchainAndSDKVersions[0],
-        SDK_REPOSITORY_URL
-      );
+async function detectPicoProject(
+  workspaceFolder: WorkspaceFolder
+): Promise<ProjectDetectionResult> {
+  return getProjectVariantRegistry().detect(workspaceFolder);
+}
 
-      progress.report({
-        increment: 100,
-      });
+async function handleUnsupportedProject(
+  detection: UnsupportedProjectDetection,
+  workspaceFolder: WorkspaceFolder
+): Promise<void> {
+  Logger.warn(LoggerSource.extension, detection.reason);
+  await resetProjectContext();
 
-      if (!result) {
-        installSuccess = false;
-
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to install project SDK",
-          `version: ${selectedToolchainAndSDKVersions[0]}.`,
-          "Make sure all requirements are met."
-        );
-
-        void window.showErrorMessage("Failed to install project SDK version.");
-
-        return;
-      } else {
-        Logger.info(
-          LoggerSource.extension,
-          "Found/installed project SDK",
-          `version: ${selectedToolchainAndSDKVersions[0]}`
-        );
-      }
-    }
-  );
-
-  if (!installSuccess) {
-    return;
-  }
-
-  if (selectedToolchain === undefined) {
-    Logger.error(
-      LoggerSource.extension,
-      "Failed to detect project toolchain version."
+  if (detection.kind === "unsupported" && detection.offerImport) {
+    const wantToImport = await window.showInformationMessage(
+      "Do you want to import this project as Raspberry Pi Pico project?",
+      "Yes",
+      "No"
     );
-
-    void window.showErrorMessage("Failed to detect project toolchain version.");
-
-    return;
-  }
-
-  let progressState = 0;
-  await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title:
-        "Downloading and installing toolchain as selected. " +
-        "This may take a while...",
-      cancellable: false,
-    },
-    async progress => {
-      const result = await downloadAndInstallToolchain(
-        selectedToolchain,
-        (prog: GotProgress) => {
-          const percent = prog.percent * 100;
-          progress.report({
-            increment: percent - progressState,
-          });
-          progressState = percent;
-        }
-      );
-
-      progress.report({
-        increment: 100,
-      });
-
-      if (!result) {
-        installSuccess = false;
-
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to install project toolchain",
-          `version: ${selectedToolchainAndSDKVersions[1]}`
-        );
-
-        void window.showErrorMessage(
-          "Failed to install project toolchain version."
-        );
-
-        return;
-      } else {
-        Logger.info(
-          LoggerSource.extension,
-          "Found/installed project toolchain",
-          `version: ${selectedToolchainAndSDKVersions[1]}`
-        );
-      }
-    }
-  );
-
-  if (!installSuccess) {
-    return;
-  }
-
-  progressState = 0;
-  await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title:
-        "Downloading and installing tools as selected. " +
-        "This may take a while...",
-      cancellable: false,
-    },
-    async progress => {
-      const result = await downloadAndInstallTools(
-        selectedToolchainAndSDKVersions[0],
-        (prog: GotProgress) => {
-          const percent = prog.percent * 100;
-          progress.report({
-            increment: percent - progressState,
-          });
-          progressState = percent;
-        }
-      );
-
-      progress.report({
-        increment: 100,
-      });
-
-      if (!result) {
-        installSuccess = false;
-
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to install project SDK",
-          `version: ${selectedToolchainAndSDKVersions[0]}.`,
-          "Make sure all requirements are met."
-        );
-
-        void window.showErrorMessage("Failed to install project SDK version.");
-
-        return;
-      } else {
-        Logger.info(
-          LoggerSource.extension,
-          "Found/installed project SDK",
-          `version: ${selectedToolchainAndSDKVersions[0]}`
-        );
-      }
-    }
-  );
-
-  if (!installSuccess) {
-    return;
-  }
-
-  progressState = 0;
-  await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title:
-        "Downloading and installing picotool as selected. " +
-        "This may take a while...",
-      cancellable: false,
-    },
-    async progress => {
-      const result = await downloadAndInstallPicotool(
-        selectedToolchainAndSDKVersions[2],
-        (prog: GotProgress) => {
-          const percent = prog.percent * 100;
-          progress.report({
-            increment: percent - progressState,
-          });
-          progressState = percent;
-        }
-      );
-
-      progress.report({
-        increment: 100,
-      });
-
-      if (!result) {
-        installSuccess = false;
-        Logger.error(LoggerSource.extension, "Failed to install picotool.");
-
-        void window.showErrorMessage("Failed to install picotool.");
-
-        return;
-      } else {
-        Logger.debug(LoggerSource.extension, "Found/installed picotool.");
-      }
-    }
-  );
-
-  if (!installSuccess) {
-    return;
-  }
-
-  progressState = 0;
-  await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading and installing OpenOCD. This may take a while...",
-      cancellable: false,
-    },
-    async progress => {
-      const result = await downloadAndInstallOpenOCD(
-        OPENOCD_VERSION,
-        (prog: GotProgress) => {
-          const percent = prog.percent * 100;
-          progress.report({
-            increment: percent - progressState,
-          });
-          progressState = percent;
-        }
-      );
-
-      progress.report({
-        increment: 100,
-      });
-
-      if (!result) {
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to download and install OpenOCD."
-        );
-        void window.showWarningMessage(
-          "Failed to download and install OpenOCD."
-        );
-      } else {
-        Logger.debug(LoggerSource.extension, "Found/installed OpenOCD.");
-
-        void window.showInformationMessage(
-          "OpenOCD found/installed successfully."
-        );
-      }
-    }
-  );
-
-  // TODO: move this ninja, cmake and python installs out of extension.mts
-  const ninjaPath = settings.getString(SettingsKey.ninjaPath);
-  if (ninjaPath && ninjaPath.includes("/.pico-sdk/ninja")) {
-    // check if ninja path exists
-    if (!existsSync(ensureExe(ninjaPath.replace(HOME_VAR, homedir())))) {
-      Logger.debug(
-        LoggerSource.extension,
-        "Ninja path in settings does not exist.",
-        "Installing ninja to default path."
-      );
-      const ninjaVersion = /\/\.pico-sdk\/ninja\/([v.0-9]+)\//.exec(
-        ninjaPath
-      )?.[1];
-      if (ninjaVersion === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to get ninja version from path in the settings."
-        );
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-
-      let result = false;
-      progressState = 0;
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Downloading and installing Ninja. This may take a while...",
-          cancellable: false,
-        },
-        async progress => {
-          result = await downloadAndInstallNinja(
-            ninjaVersion,
-            (prog: GotProgress) => {
-              const percent = prog.percent * 100;
-              progress.report({
-                increment: percent - progressState,
-              });
-              progressState = percent;
-            }
-          );
-          progress.report({
-            increment: 100,
-          });
-        }
-      );
-
-      if (!result) {
-        Logger.error(LoggerSource.extension, "Failed to install ninja.");
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-      Logger.debug(
-        LoggerSource.extension,
-        "Installed selected ninja for project."
+    if (wantToImport === "Yes") {
+      void commands.executeCommand(
+        `${extensionName}.${IMPORT_PROJECT}`,
+        workspaceFolder.uri
       );
     }
-  }
-
-  const cmakePath = settings.getString(SettingsKey.cmakePath);
-  if (cmakePath && cmakePath.includes("/.pico-sdk/cmake")) {
-    // check if cmake path exists
-    if (!existsSync(ensureExe(cmakePath.replace(HOME_VAR, homedir())))) {
-      Logger.warn(
-        LoggerSource.extension,
-        "CMake path in settings does not exist.",
-        "Installing CMake to default path."
-      );
-
-      const cmakeVersion = /\/\.pico-sdk\/cmake\/([v.0-9A-Za-z-]+)\//.exec(
-        cmakePath
-      )?.[1];
-      if (cmakeVersion === undefined) {
-        Logger.error(
-          LoggerSource.extension,
-          "Failed to get CMake version from path in the settings."
-        );
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-
-      let result = false;
-      progressState = 0;
-      await window.withProgress(
-        {
-          location: ProgressLocation.Notification,
-          title: "Downloading and installing CMake. This may take a while...",
-          cancellable: false,
-        },
-        async progress => {
-          result = await downloadAndInstallCmake(
-            cmakeVersion,
-            (prog: GotProgress) => {
-              const percent = prog.percent * 100;
-              progress.report({
-                increment: percent - progressState,
-              });
-              progressState = percent;
-            }
-          );
-          progress.report({
-            increment: 100,
-          });
-        }
-      );
-
-      if (!result) {
-        Logger.error(LoggerSource.extension, "Failed to install CMake.");
-        await commands.executeCommand(
-          "setContext",
-          ContextKeys.isPicoProject,
-          false
-        );
-
-        return;
-      }
-      Logger.debug(
-        LoggerSource.extension,
-        "Installed selected cmake for project."
-      );
-    }
-  }
-
-  const pythonPath = await findPython();
-  if (!pythonPath) {
-    Logger.error(LoggerSource.extension, "Failed to find Python3 executable.");
-    await commands.executeCommand(
-      "setContext",
-      ContextKeys.isPicoProject,
-      false
-    );
-    showPythonNotFoundError();
-
-    return;
-  }
-
-  ui.showStatusBarItems();
-  ui.updateSDKVersion(selectedToolchainAndSDKVersions[0]);
-
-  const selectedBoard = cmakeGetSelectedBoard(workspaceFolder.uri);
-  if (selectedBoard !== null) {
-    ui.updateBoard(selectedBoard);
-  } else {
-    ui.updateBoard("unknown");
-  }
-
-  // auto project configuration with cmake
-  if (settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
-    await cmakeSetupAutoConfigure(workspaceFolder, ui);
-  } else if (settings.getBoolean(SettingsKey.useCmakeTools)) {
-    // Ensure the Pico kit is selected
-    const kitForced = await cmakeToolsForcePicoKit();
-    if (!kitForced) {
-      Logger.warn(LoggerSource.extension,
-        "Failed to force Pico kit in CMake Tools - attempting to do it later"
-      );
-
-      setTimeout(() => {
-        void cmakeToolsForcePicoKit().catch(error => {
-          Logger.error(LoggerSource.extension,
-            "Failed to force Pico kit in CMake Tools on second attempt",
-            unknownErrorToString(error)
-          );
-        });
-      }, 1000);
-    }
-  } else {
-    Logger.info(
-      LoggerSource.extension,
-      "No workspace folder for configuration found",
-      "or cmakeAutoConfigure disabled."
-    );
   }
 }
 
-async function cmakeSetupAutoConfigure(
-  workspaceFolder: WorkspaceFolder,
-  ui: UI
+async function resetProjectContext(): Promise<void> {
+  await setProjectContext({
+    isPicoProject: false,
+    isRustProject: false,
+    isZephyrProject: false,
+  });
+  State.getInstance().isRustProject = false;
+  State.getInstance().isZephyrProject = false;
+}
+
+async function setActiveProjectVariant(
+  variant: PicoProjectVariant
 ): Promise<void> {
-  //run `cmake -G Ninja -B ./build ` in the root folder
-  await configureCmakeNinja(workspaceFolder.uri);
+  await setProjectContext(variant.context);
+  State.getInstance().isRustProject = variant.context.isRustProject;
+  State.getInstance().isZephyrProject = variant.context.isZephyrProject;
+}
 
-  const ws = workspaceFolder.uri.fsPath;
-  const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
-  const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
-  ui.updateBuildType(newBuildType ?? "unknown");
+async function readProjectSelections(
+  variant: PicoProjectVariant,
+  workspaceFolder: WorkspaceFolder
+): Promise<ProjectSelections | null> {
+  return variant.readSelections(workspaceFolder);
+}
 
-  workspace.onDidChangeTextDocument(event => {
-    // Check if the changed document is the file you are interested in
-    if (basename(event.document.fileName) === "CMakeLists.txt") {
-      // File has changed, do something here
-      // TODO: rerun configure project
-      // TODO: maybe conflicts with cmake extension which also does this
-      Logger.debug(
-        LoggerSource.extension,
-        "File changed:",
-        event.document.fileName
-      );
-    }
+async function ensureProjectDependencies(
+  variant: PicoProjectVariant,
+  context: ExtensionContext,
+  settings: Settings,
+  workspaceFolder: WorkspaceFolder,
+  selections: ProjectSelections
+): Promise<boolean> {
+  return variant.ensureDependencies({
+    context,
+    folder: workspaceFolder,
+    selections,
+    settings,
   });
 }
 
-/**
- * Make sure the executable has the .exe extension on Windows.
- *
- * @param inp - The input string.
- * @returns The input string with .exe extension if on Windows.
- */
-function ensureExe(inp: string): string {
-  return process.platform === "win32"
-    ? inp.endsWith(".exe")
-      ? inp
-      : `${inp}.exe`
-    : inp;
+async function updateProjectUi(
+  variant: PicoProjectVariant,
+  ui: UI,
+  selections: ProjectSelections
+): Promise<void> {
+  await variant.updateUi({ ui, selections });
+}
+
+async function finishProjectActivation(
+  variant: PicoProjectVariant,
+  context: ExtensionContext,
+  settings: Settings,
+  workspaceFolder: WorkspaceFolder,
+  ui: UI,
+  selections: ProjectSelections
+): Promise<void> {
+  await variant.afterActivation?.({
+    context,
+    folder: workspaceFolder,
+    selections,
+    settings,
+    ui,
+  });
 }
 
 export function deactivate(): void {
