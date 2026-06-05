@@ -1490,28 +1490,6 @@
         ],
         "supportRiscV": true
     },
-    "picow_ble_temp_reader": {
-        "path": "pico_w/bt/standalone/client",
-        "name": "picow_ble_temp_reader",
-        "libPaths": [],
-        "libNames": [],
-        "boards": [
-            "pico_w",
-            "pico2_w"
-        ],
-        "supportRiscV": true
-    },
-    "picow_ble_temp_sensor": {
-        "path": "pico_w/bt/standalone/server",
-        "name": "picow_ble_temp_sensor",
-        "libPaths": [],
-        "libNames": [],
-        "boards": [
-            "pico_w",
-            "pico2_w"
-        ],
-        "supportRiscV": true
-    },
     "dvi_out_hstx_encoder": {
         "path": "hstx/dvi_out_hstx_encoder",
         "name": "dvi_out_hstx_encoder",
@@ -1718,6 +1696,325 @@
         "libPaths": [],
         "libNames": [],
         "boards": [
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_doorbell_client": {
+        "path": "bluetooth/doorbell",
+        "name": "ble_doorbell_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_doorbell_server": {
+        "path": "bluetooth/doorbell",
+        "name": "ble_doorbell_server",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_temp_reader": {
+        "path": "bluetooth/temp_sensor",
+        "name": "ble_temp_reader",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_temp_server": {
+        "path": "bluetooth/temp_sensor",
+        "name": "ble_temp_server",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_wifi_provisioner": {
+        "path": "bluetooth/wifi_provisioner",
+        "name": "ble_wifi_provisioner",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gatt_streamer_server": {
+        "path": "bluetooth/btstack_examples/gatt_streamer_server",
+        "name": "gatt_streamer_server",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hid_mouse_demo": {
+        "path": "bluetooth/btstack_examples/hid_mouse_demo",
+        "name": "hid_mouse_demo",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hog_mouse_demo": {
+        "path": "bluetooth/btstack_examples/hog_mouse_demo",
+        "name": "hog_mouse_demo",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "spp_streamer": {
+        "path": "bluetooth/btstack_examples/spp_streamer",
+        "name": "spp_streamer",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "spp_streamer_with_wifi": {
+        "path": "bluetooth/btstack_examples/spp_streamer_with_wifi",
+        "name": "spp_streamer_with_wifi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hid_host_demo": {
+        "path": "bluetooth/btstack_examples/hid_host_demo",
+        "name": "hid_host_demo",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "le_streamer_client": {
+        "path": "bluetooth/btstack_examples/le_streamer_client",
+        "name": "le_streamer_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hog_host_demo": {
+        "path": "bluetooth/btstack_examples/hog_host_demo",
+        "name": "hog_host_demo",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "spp_counter": {
+        "path": "bluetooth/btstack_examples/spp_counter",
+        "name": "spp_counter",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "sm_pairing_peripheral": {
+        "path": "bluetooth/btstack_examples/sm_pairing_peripheral",
+        "name": "sm_pairing_peripheral",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gatt_streamer_server_with_wifi": {
+        "path": "bluetooth/btstack_examples/gatt_streamer_server_with_wifi",
+        "name": "gatt_streamer_server_with_wifi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gatt_counter": {
+        "path": "bluetooth/btstack_examples/gatt_counter",
+        "name": "gatt_counter",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "spp_streamer_client": {
+        "path": "bluetooth/btstack_examples/spp_streamer_client",
+        "name": "spp_streamer_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gatt_heart_rate_client": {
+        "path": "bluetooth/btstack_examples/gatt_heart_rate_client",
+        "name": "gatt_heart_rate_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hid_keyboard_demo": {
+        "path": "bluetooth/btstack_examples/hid_keyboard_demo",
+        "name": "hid_keyboard_demo",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "pbap_client_demo": {
+        "path": "bluetooth/btstack_examples/pbap_client_demo",
+        "name": "pbap_client_demo",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gap_inquiry": {
+        "path": "bluetooth/btstack_examples/gap_inquiry",
+        "name": "gap_inquiry",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "sm_pairing_central": {
+        "path": "bluetooth/btstack_examples/sm_pairing_central",
+        "name": "sm_pairing_central",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gap_le_advertisements": {
+        "path": "bluetooth/btstack_examples/gap_le_advertisements",
+        "name": "gap_le_advertisements",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "hog_keyboard_demo": {
+        "path": "bluetooth/btstack_examples/hog_keyboard_demo",
+        "name": "hog_keyboard_demo",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gatt_counter_with_wifi": {
+        "path": "bluetooth/btstack_examples/gatt_counter_with_wifi",
+        "name": "gatt_counter_with_wifi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_pointer": {
+        "path": "bluetooth/pointer",
+        "name": "ble_pointer",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_secure_temp_client": {
+        "path": "bluetooth/secure_temp_sensor",
+        "name": "ble_secure_temp_client",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ble_secure_temp_server": {
+        "path": "bluetooth/secure_temp_sensor",
+        "name": "ble_secure_temp_server",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
             "pico2_w"
         ],
         "supportRiscV": true

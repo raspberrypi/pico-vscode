@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
 import os
+import re
 import glob
 import shutil
 import json
 import multiprocessing
+import subprocess
 import configparser
 import platform
 
@@ -196,6 +198,40 @@ os.environ["CXXFLAGS"] = "-Werror=cpp"
 
 updated_examples = set()
 
+
+def copy_btstack_sources(dir, loc):
+    pico_btstack_path = os.path.expanduser(f"{PICO_SDK_PATH}/lib/btstack")
+
+    with open(f"{dir}/CMakeLists.txt", "r") as f:
+        content = f.read()
+
+    def copy_from_block(block_content, include_relative=False):
+        tokens = []
+        for line in block_content.split("\n"):
+            line = line.split("#")[0].strip()
+            tokens.extend(line.split())
+        for src in tokens:
+            if "${PICO_BTSTACK_PATH}" in src:
+                resolved = src.replace("${PICO_BTSTACK_PATH}", pico_btstack_path)
+            elif include_relative and src.startswith(".."):
+                resolved = os.path.normpath(os.path.join(loc, src))
+            else:
+                continue
+            if os.path.exists(resolved):
+                shutil.copy(resolved, dir)
+            else:
+                print(f"Warning: BTStack source file not found: {resolved}")
+
+    match = re.search(r"add_executable\s*\(([^)]+)\)", content, re.DOTALL)
+    if match:
+        copy_from_block(match.group(1), include_relative=True)
+
+    for match in re.finditer(
+        r"pico_btstack_make_gatt_header\s*\(([^)]+)\)", content, re.DOTALL
+    ):
+        copy_from_block(match.group(1))
+
+
 for board in boards:
     for platform in platforms[board]:
         try:
@@ -312,11 +348,15 @@ for board in boards:
                         lib_locs[lib]["loc"].replace("/CMakeLists.txt", ""),
                         f"{dir}/{lib}",
                     )
+            isBTStackExample = "btstack_examples" in loc
+            if isBTStackExample:
+                copy_btstack_sources(dir, loc)
             params = {
                 "projectName": target,
                 "wantOverwrite": True,
                 "wantConvert": True,
                 "wantExample": True,
+                "wantBTStackExample": isBTStackExample,
                 "boardtype": board,
                 "sdkVersion": SDK_VERSION,
                 "toolchainVersion": toolchainVersion,
@@ -331,14 +371,27 @@ for board in boards:
                 f"{dir}/",
             )
 
-            retcmake = os.system(f"cmake -S {dir} -B {dir}-build -GNinja")
-            retbuild = os.system(f"cmake --build {dir}-build")
+            rescmake = subprocess.run(
+                f"cmake -S {dir} -B {dir}-build -GNinja",
+                shell=True,
+                capture_output=True,
+                text=True,
+            )
+            resbuild = subprocess.run(
+                f"cmake --build {dir}-build", shell=True, capture_output=True, text=True
+            )
+            build_output = (
+                rescmake.stdout + rescmake.stderr + resbuild.stdout + resbuild.stderr
+            )
             ret = None
-            if retcmake or retbuild:
-                print(
-                    f"Error occurred with {target} {v} - cmake {retcmake}, build {retbuild}"
-                )
-                shutil.copytree(dir, f"errors-{board}-{platform}/{target}")
+            if rescmake.returncode or resbuild.returncode:
+                if "error: #warning" in build_output:
+                    print(f"Skipping #warning-only failure for {target}")
+                else:
+                    print(
+                        f"Error occurred with {target} {v} - cmake {rescmake.returncode}, build {resbuild.returncode}"
+                    )
+                    shutil.copytree(dir, f"errors-{board}-{platform}/{target}")
             else:
                 ret = (target, v, loc)
 
