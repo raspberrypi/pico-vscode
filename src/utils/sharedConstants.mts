@@ -16,12 +16,12 @@ export const WINDOWS_ARM64_GIT_DOWNLOAD_URL =
   "/v2.51.2.windows.1/MinGit-2.51.2-arm64.zip";
 
 export const EXAMPLES_REPOSITORY_URL =
-  "https://github.com/raspberrypi/pico-examples.git";
+  "https://github.com/peterharperuk/pico-examples.git";
 export const EXAMPLES_JSON_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
-  `${CURRENT_DATA_VERSION}/examples.json`;
-export const EXAMPLES_GITREF = "4c3a3dc0196dd426fddd709616d0da984e027bab";
-export const EXAMPLES_TAG = "sdk-2.2.0";
+  `${CURRENT_DATA_VERSION}/examples.json.use.local.instead`;
+export const EXAMPLES_GITREF = "873fa1ec7b1cde5a42bb61847c28cf5ec5d0e63d";
+export const EXAMPLES_TAG = "fix_bt_examples";
 
 export const VERSION_BUNDLES_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
