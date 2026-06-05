@@ -57,6 +57,8 @@ export async function pyenvInstallPython(): Promise<string | undefined> {
     exec(command, { env: customEnv, cwd: binDirectory }, error => {
       if (error) {
         resolve(undefined);
+
+        return;
       }
 
       const versionFolder = joinPosix(
@@ -75,7 +77,19 @@ export async function pyenvInstallPython(): Promise<string | undefined> {
         joinPosix(pythonVersionPath, "python3.exe")
       );
 
-      resolve(settingsTarget);
+      const pythonExe = joinPosix(pythonVersionPath, "python3.exe");
+      exec(
+        `"${pythonExe}" -m pip install pycryptodomex`,
+        { cwd: targetDirectory },
+        pipError => {
+          if (pipError) {
+            resolve(undefined);
+
+            return;
+          }
+          resolve(settingsTarget);
+        }
+      );
     });
   });
 }

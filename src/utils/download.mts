@@ -1442,14 +1442,15 @@ export async function downloadEmbedPython(
       return undefined;
     }
 
-    const installVirtualenvCommand: string = [
+    // Install virtualenv for Zephyr, and pycryptodomex for BTStack
+    const installPipPackagesCommand: string = [
       `${
         process.env.ComSpec === "powershell.exe" ? "&" : ""
       }"${fullPythonExe}"`,
-      "-m pip install virtualenv",
+      "-m pip install virtualenv pycryptodomex",
     ].join(" ");
 
-    commandResult = await _runCommand(installVirtualenvCommand, {
+    commandResult = await _runCommand(installPipPackagesCommand, {
       cwd: targetDirectory,
       windowsHide: true,
     });
