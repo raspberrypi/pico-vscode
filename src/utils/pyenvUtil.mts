@@ -34,10 +34,12 @@ export async function setupPyenv(): Promise<boolean> {
   return true;
 }
 
-export async function pyenvInstallPython(): Promise<string | undefined> {
+export async function pyenvInstallPython(
+  version: string = CURRENT_PYTHON_VERSION
+): Promise<string | undefined> {
   const targetDirectory = buildPyenvPath();
   const binDirectory = joinPosix(targetDirectory, "bin");
-  const command = `${binDirectory}/pyenv install -s ${CURRENT_PYTHON_VERSION}`;
+  const command = `${binDirectory}/pyenv install -s ${version}`;
 
   const customEnv = { ...process.env };
   customEnv["PYENV_ROOT"] = targetDirectory;
@@ -46,8 +48,8 @@ export async function pyenvInstallPython(): Promise<string | undefined> {
   }${customEnv[process.platform === "win32" ? "Path" : "PATH"]}`;
 
   const settingsTarget =
-    `${HOME_VAR}/.pico-sdk/python` + `/${CURRENT_PYTHON_VERSION}/python.exe`;
-  const pythonVersionPath = buildPython3Path(CURRENT_PYTHON_VERSION);
+    `${HOME_VAR}/.pico-sdk/python` + `/${version}/python.exe`;
+  const pythonVersionPath = buildPython3Path(version);
 
   if (existsSync(pythonVersionPath)) {
     return settingsTarget;
@@ -62,7 +64,7 @@ export async function pyenvInstallPython(): Promise<string | undefined> {
       const versionFolder = joinPosix(
         targetDirectory,
         "versions",
-        CURRENT_PYTHON_VERSION
+        version
       );
       const pyBin = joinPosix(versionFolder, "bin");
       mkdirSync(pythonVersionPath, { recursive: true });

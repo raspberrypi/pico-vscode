@@ -305,13 +305,14 @@ async function generateVSCodeConfig(
   // If console is USB, use the local snippet
   if (data.console === "USB") {
     westArgs.push("-S", "usb_serial_port");
-    westArgs.push("-DSNIPPET_ROOT=${workspaceFolder}");
+    westArgs.push("-D", "SNIPPET_ROOT=${workspaceFolder}");
   }
 
   westArgs.push(
-    "--",
-    `-DOPENOCD=\${command:${extensionName}.${GET_OPENOCD_ROOT}}/openocd`,
-    `-DOPENOCD_DEFAULT_PATH=\${command:${extensionName}.${GET_OPENOCD_ROOT}}/scripts`
+    "-D",
+    `OPENOCD=\${command:${extensionName}.${GET_OPENOCD_ROOT}}/openocd`,
+    "-D",
+    `OPENOCD_DEFAULT_PATH=\${command:${extensionName}.${GET_OPENOCD_ROOT}}/scripts`
   );
 
   const tasks = {
@@ -357,7 +358,11 @@ async function generateVSCodeConfig(
           kind: "build",
         },
         command: `"\${command:${extensionName}.${GET_WEST_PATH}}"`,
-        args: ["flash", "--build-dir", '"${workspaceFolder}/build"'],
+        args: [
+          "flash",
+          "--build-dir",
+          '"${workspaceFolder}/build"',
+        ],
         options: {
           cwd: `\${command:${extensionName}.${GET_ZEPHYR_WORKSPACE_PATH}}`,
         },
