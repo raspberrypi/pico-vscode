@@ -20,7 +20,7 @@ import {
   downloadFileGot,
 } from "./download.mjs";
 import Settings, { HOME_VAR, SettingsKey } from "../settings.mjs";
-import findPython, { showPythonNotFoundError } from "./pythonHelper.mjs";
+import findPython, { showZephyrPythonNotFoundError } from "./pythonHelper.mjs";
 import { checkGitWithProgress } from "./gitUtil.mjs";
 import VersionBundlesLoader, { type VersionBundle } from "./versionBundles.mjs";
 import {
@@ -33,6 +33,7 @@ import {
   WINDOWS_X86_7ZIP_DOWNLOAD_URL,
   WINDOWS_X86_DTC_DOWNLOAD_URL,
   WINDOWS_X86_GPERF_DOWNLOAD_URL,
+  ZEPHYR_PYTHON_VERSION,
 } from "./sharedConstants.mjs";
 import { vsExists } from "./vsHelpers.mjs";
 import which from "which";
@@ -988,7 +989,12 @@ export async function setupZephyr(
       }
 
       // install python (if necessary)
-      const python3Path = (await findPython())?.replace(
+      const python3Path = (await findPython(
+        ZEPHYR_PYTHON_VERSION,
+        "Python 3.12 is strongly recommended for Zephyr. " +
+          "Other versions may fail to install required packages. " +
+          "Consider installing Python 3.12 for full compatibility."
+      ))?.replace(
         HOME_VAR,
         homedir().replaceAll("\\", "/")
       );
@@ -1001,7 +1007,7 @@ export async function setupZephyr(
           LoggerSource.zephyrSetup,
           "Failed to find Python3 executable."
         );
-        showPythonNotFoundError();
+        showZephyrPythonNotFoundError();
 
         return false;
       }

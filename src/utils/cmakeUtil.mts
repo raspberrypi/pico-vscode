@@ -266,6 +266,11 @@ export async function configureCmakeNinja(
           for (const snippet of snippets) {
             zephyrCommand += ` -S ${snippet}`;
           }
+          if (snippets.length > 0) {
+            zephyrCommand +=
+              ` -- -DSNIPPET_ROOT=` +
+              `"${folder.fsPath.replaceAll("\\", "/")}"`;
+          }
         }
 
         await new Promise<void>((resolve, reject) => {
@@ -274,9 +279,7 @@ export async function configureCmakeNinja(
             isZephyrProject ? zephyrCommand : command,
             {
               env: customEnv,
-              cwd: isZephyrProject
-                ? zephyrWorkspace || folder.fsPath
-                : folder.fsPath,
+              cwd: zephyrWorkspace || folder.fsPath,
               windowsHide: false,
             },
             error => {

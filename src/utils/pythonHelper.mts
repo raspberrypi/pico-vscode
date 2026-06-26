@@ -37,7 +37,20 @@ function checkUnsupportedPython(pythonPath: string): boolean {
  * the python path manually in the User (per machine) settings. If the python executable
  * path is returned, it can be in Uri.fsPath format e.g. with backslashes on Windows.
  */
-export default async function findPython(): Promise<string | undefined> {
+export default async function findPython(
+  version?: string,
+  versionFallbackMessage?: string
+): Promise<string | undefined> {
+  let exactVersion: { major: number; minor: number } | undefined;
+  if (version) {
+    const parts = version.split(".");
+    const major = parseInt(parts[0]);
+    const minor = parseInt(parts[1]);
+    if (!isNaN(major) && !isNaN(minor)) {
+      exactVersion = { major, minor };
+    }
+  }
+
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
@@ -57,7 +70,7 @@ export default async function findPython(): Promise<string | undefined> {
         if (existsSync(pythonPath) && !checkUnsupportedPython(pythonPath)) {
           try {
             // TODO: only apply "" if path contains / or spaces
-            const version = execSync(
+            const versionOutput = execSync(
               `${
                 process.env.ComSpec === "powershell.exe" ? "&" : ""
               }"${pythonPath}" -V`,
@@ -70,14 +83,17 @@ export default async function findPython(): Promise<string | undefined> {
             )
               .trim()
               .split(" ");
-            if (version.length === 2 && checkPythonVersionRaw(version[1])) {
+            if (
+              versionOutput.length === 2 &&
+              checkPythonVersionRaw(versionOutput[1], exactVersion)
+            ) {
               return pythonPath;
             } else {
               Logger.warn(
                 LoggerSource.pythonHelper,
                 "Unable to check version of selected " +
                   "python path or it is not supported:",
-                version
+                versionOutput
               );
               // if version is not supported, clear the path
               await Settings.getInstance()?.updateGlobal(
@@ -108,7 +124,7 @@ export default async function findPython(): Promise<string | undefined> {
       }
 
       // Check python extension for any python environments with version >= 3.9
-      const awaitFind = findPythonInPythonExtension();
+      const awaitFind = findPythonInPythonExtension(exactVersion);
       // Timeout after 30s, as it can stall if there is no python available
       const onTimeout = new Promise<string>(resolve => {
         setTimeout(resolve, 30000, "timeout");
@@ -146,7 +162,7 @@ export default async function findPython(): Promise<string | undefined> {
             // TODO: add progress and maybe cancelable
             async () => {
               if (await setupPyenv()) {
-                pythonPath = (await pyenvInstallPython()) ?? undefined;
+                pythonPath = (await pyenvInstallPython(version)) ?? undefined;
                 if (pythonPath) {
                   await Settings.getInstance()?.updateGlobal(
                     SettingsKey.python3Path,
@@ -181,7 +197,8 @@ export default async function findPython(): Promise<string | undefined> {
                 const percent = prog.percent * 100;
                 progress.report({ increment: percent - progressState });
                 progressState = percent;
-              }
+              },
+              version
             );
             if (pythonPath) {
               await Settings.getInstance()?.updateGlobal(
@@ -195,6 +212,36 @@ export default async function findPython(): Promise<string | undefined> {
           break;
       }
 
+      // On platforms with no Python download (Linux/other), if an exact version
+      // was requested but not found, fall back to any valid Python and warn.
+      if (
+        exactVersion &&
+        versionFallbackMessage !== undefined &&
+        process.platform !== "darwin" &&
+        process.platform !== "win32"
+      ) {
+        const awaitFallback = findPythonInPythonExtension(undefined, true);
+        const onFallbackTimeout = new Promise<string>(resolve => {
+          setTimeout(resolve, 30000, "timeout");
+        });
+
+        await Promise.race([awaitFallback, onFallbackTimeout]).then(value => {
+          if (value !== "timeout") {
+            pythonPath = value;
+          }
+        });
+
+        if (pythonPath) {
+          void window.showWarningMessage(versionFallbackMessage);
+          await Settings.getInstance()?.updateGlobal(
+            SettingsKey.python3Path,
+            pythonPath
+          );
+
+          return pythonPath;
+        }
+      }
+
       return undefined;
     }
   );
@@ -206,7 +253,14 @@ function findPythonPathInUserSettings(): string | undefined {
   return settings?.getString(SettingsKey.python3Path);
 }
 
-function checkPythonVersion(mayor: number, minor: number): boolean {
+function checkPythonVersion(
+  mayor: number,
+  minor: number,
+  exactVersion?: { major: number; minor: number }
+): boolean {
+  if (exactVersion) {
+    return mayor === exactVersion.major && minor === exactVersion.minor;
+  }
   if (mayor < 3 || minor < 9) {
     return false;
   }
@@ -214,7 +268,10 @@ function checkPythonVersion(mayor: number, minor: number): boolean {
   return true;
 }
 
-function checkPythonVersionRaw(version: string): boolean {
+function checkPythonVersionRaw(
+  version: string,
+  exactVersion?: { major: number; minor: number }
+): boolean {
   const parts = version.split(".");
   const mayor = parseInt(parts[0]);
   const minor = parseInt(parts[1]);
@@ -229,19 +286,26 @@ function checkPythonVersionRaw(version: string): boolean {
     return false;
   }
 
-  return checkPythonVersion(mayor, minor);
+  return checkPythonVersion(mayor, minor, exactVersion);
 }
 
-async function findPythonInPythonExtension(): Promise<string | undefined> {
+async function findPythonInPythonExtension(
+  exactVersion?: { major: number; minor: number },
+  skipRefresh = false
+): Promise<string | undefined> {
   const pyApi = await PythonExtension.api();
-  await pyApi.environments.refreshEnvironments();
+  if (!skipRefresh) {
+    await pyApi.environments.refreshEnvironments();
+  }
   await pyApi.ready;
 
   const activeEnv = pyApi.environments.getActiveEnvironmentPath();
   const resolved = await pyApi.environments.resolveEnvironment(activeEnv);
   if (
     resolved?.version &&
-    checkPythonVersion(resolved.version.major, resolved.version.minor)
+    checkPythonVersion(
+      resolved.version.major, resolved.version.minor, exactVersion
+    )
   ) {
     if (
       resolved.executable.uri &&
@@ -265,7 +329,9 @@ async function findPythonInPythonExtension(): Promise<string | undefined> {
     const resolved = await pyApi.environments.resolveEnvironment(env.path);
     if (
       resolved?.version &&
-      checkPythonVersion(resolved.version.major, resolved.version.minor)
+      checkPythonVersion(
+        resolved.version.major, resolved.version.minor, exactVersion
+      )
     ) {
       if (
         resolved.executable.uri &&
@@ -293,16 +359,15 @@ async function findPythonInPythonExtension(): Promise<string | undefined> {
   return undefined;
 }
 
-export function showPythonNotFoundError(): void {
+export function showPythonNotFoundError(
+  message =
+    "Failed to find any valid Python installation. " +
+    "Make sure Python >=3.9 is installed. " +
+    "You can set a Python executable directly in your " +
+    "user settings or select in the Python extension."
+): void {
   void window
-    .showErrorMessage(
-      "Failed to find any valid Python installation. " +
-        "Make sure Python >=3.9 is installed. " +
-        "You can set a Python executable directly in your " +
-        "user settings or select in the Python extension.",
-      "Open Python Extension",
-      "Edit Settings"
-    )
+    .showErrorMessage(message, "Open Python Extension", "Edit Settings")
     .then(selected => {
       if (selected === "Open Python Extension") {
         void commands.executeCommand("python.setInterpreter");
@@ -313,6 +378,16 @@ export function showPythonNotFoundError(): void {
         );
       }
     });
+}
+
+export function showZephyrPythonNotFoundError(): void {
+  showPythonNotFoundError(
+    "Failed to find a Python 3.12 installation. " +
+      "Zephyr requires exactly Python 3.12 — " +
+      "other versions are not supported. " +
+      "You can set a Python executable directly in your " +
+      "user settings or select in the Python extension."
+  );
 }
 
 export function getSystemPythonVersion(): string | undefined {
