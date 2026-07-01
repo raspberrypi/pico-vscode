@@ -447,9 +447,13 @@ export async function cmakeUpdateSDK(
 
     const picoBoard = content.match(picoBoardRegex);
     // update the PICO_BOARD variable if it's a pico2 board and the new sdk
-    // version is less than 2.0.0, or pico2_w and new version <2.1.0
+    // version is less than 2.0.0, or pico2_w and new version <2.1.0.
+    // Non-semver versions (e.g. branch names like "develop") are treated as
+    // the latest release and skip this downgrade check entirely.
+    const isSemverVersion = /^\d+\.\d+\.\d+$/.test(newSDKVersion);
     if (
       picoBoard !== null &&
+      isSemverVersion &&
       ((picoBoard[1].includes("pico2") && compareLt(newSDKVersion, "2.0.0")) ||
         (picoBoard[1].includes("pico2_w") && compareLt(newSDKVersion, "2.1.0")))
     ) {

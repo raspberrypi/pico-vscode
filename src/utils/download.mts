@@ -16,7 +16,12 @@ import { STATUS_CODES } from "http";
 import type { Dispatcher } from "undici";
 import { Client } from "undici";
 import { type SupportedToolchainVersion } from "./toolchainUtil.mjs";
-import { cloneRepository, initSubmodules, ensureGit } from "./gitUtil.mjs";
+import {
+  cloneRepository,
+  initSubmodules,
+  pullRepository,
+  ensureGit,
+} from "./gitUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
@@ -42,6 +47,7 @@ import {
   HTTP_STATUS_OK,
   HTTP_STATUS_UNAUTHORIZED,
   ownerOfRepository,
+  SDK_DEVELOP_BRANCH,
   repoNameOfRepository,
   WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
   WINDOWS_X86_PYTHON_DOWNLOAD_URL,
@@ -547,6 +553,28 @@ export async function downloadAndInstallSDK(
     existsSync(targetDirectory) &&
     readdirSync(targetDirectory).length !== 0
   ) {
+    if (version === SDK_DEVELOP_BRANCH) {
+      Logger.info(
+        LoggerSource.downloader,
+        "SDK develop branch already cloned - pulling latest..."
+      );
+      const pulled = await pullRepository(targetDirectory, gitPath);
+      if (!pulled) {
+        Logger.error(
+          LoggerSource.downloader,
+          "Failed to pull SDK develop branch."
+        );
+
+        return false;
+      }
+      const result = await initSubmodules(targetDirectory, gitPath);
+      if (result) {
+        await LastUsedDepsStore.instance.record("pico-sdk", version);
+      }
+
+      return result;
+    }
+
     Logger.info(
       LoggerSource.downloader,
       `SDK ${version} is already installed.`

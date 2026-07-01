@@ -10,9 +10,11 @@ import {
 } from "./download.mjs";
 import {
   OPENOCD_VERSION,
+  SDK_DEVELOP_BRANCH,
   SDK_REPOSITORY_URL,
 } from "./sharedConstants.mjs";
 import { getSupportedToolchains } from "./toolchainUtil.mjs";
+import VersionBundlesLoader from "./versionBundles.mjs";
 
 export interface PicoDependencySelections {
   sdkVersion?: string;
@@ -87,9 +89,17 @@ export async function ensureBasePicoDependencies(input: {
     `version: ${input.selections.toolchainVersion}`
   );
 
+  // For the develop branch there is no matching tools release, so fall back to
+  // the latest released SDK version's tools.
+  const toolsVersion =
+    input.selections.sdkVersion === SDK_DEVELOP_BRANCH
+      ? ((await new VersionBundlesLoader(input.extensionUri).getLatestSDK()) ??
+          input.selections.sdkVersion)
+      : input.selections.sdkVersion;
+
   const toolsInstalled = await withDownloadProgress(
     "Downloading and installing tools as selected. This may take a while...",
-    progress => downloadAndInstallTools(input.selections.sdkVersion!, progress)
+    progress => downloadAndInstallTools(toolsVersion, progress)
   );
   if (!toolsInstalled) {
     Logger.error(

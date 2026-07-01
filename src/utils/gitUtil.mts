@@ -172,6 +172,31 @@ export async function initSubmodules(
   }
 }
 
+export async function pullRepository(
+  directory: string,
+  gitExecutable: string = "git"
+): Promise<boolean> {
+  const command =
+    `cd ${
+      process.env.ComSpec?.endsWith("cmd.exe") ? "/d " : " "
+    }"${directory}" && ` +
+    `${
+      process.env.ComSpec === "powershell.exe" ? "&" : ""
+    }"${gitExecutable}" pull`;
+
+  try {
+    await execAsync(command);
+    Logger.log(`Pulled latest changes in ${directory}.`);
+
+    return true;
+  } catch (error) {
+    const err = error instanceof Error ? error.message : (error as string);
+    Logger.log(`Error while pulling repository: ${err}`);
+
+    return false;
+  }
+}
+
 export async function cloneRepository(
   repository: string,
   branch: string,

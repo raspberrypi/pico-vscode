@@ -39,7 +39,10 @@ import { NINJA_AUTO_INSTALL_DISABLED } from "../webview/newProjectPanel.mjs";
 import Logger from "../logger.mjs";
 import type { Progress as GotProgress } from "got";
 import { SWITCH_SDK } from "./cmdIds.mjs";
-import { SDK_REPOSITORY_URL } from "../utils/sharedConstants.mjs";
+import {
+  SDK_DEVELOP_BRANCH,
+  SDK_REPOSITORY_URL,
+} from "../utils/sharedConstants.mjs";
 import State from "../state.mjs";
 import { compare, compareGe } from "../utils/semverUtil.mjs";
 import { updateZephyrVersion } from "../utils/setupZephyr.mjs";
@@ -262,10 +265,18 @@ export default class SwitchSDKCommand extends Command {
     // TODO: split sdk versions with version bundle and without
     // show quick pick
     const selectedSDK = await window.showQuickPick(
-      sdks.map(sdk => ({
-        label: `v${sdk}`,
-        sdk: sdk,
-      })),
+      [
+        ...sdks.map(sdk => ({
+          label: `v${sdk}`,
+          sdk: sdk,
+          description: undefined,
+        })),
+        {
+          label: SDK_DEVELOP_BRANCH,
+          sdk: SDK_DEVELOP_BRANCH,
+          description: "Latest develop branch — always pulls on activation",
+        },
+      ],
       {
         placeHolder: "Select SDK version",
       }
@@ -497,8 +508,21 @@ export default class SwitchSDKCommand extends Command {
       selectedSDK.label.replace("v", "")
     );
 
+    const latestBundle =
+      selectedSDK.sdk === SDK_DEVELOP_BRANCH
+        ? await this._versionBundlesLoader.getLatest()
+        : undefined;
+    const effectiveBundle = versionBundle ?? latestBundle?.[1];
+
     const selectedPicotool =
-      versionBundle?.picotool ?? DEFAULT_PICOTOOL_VERSION;
+      effectiveBundle?.picotool ?? DEFAULT_PICOTOOL_VERSION;
+
+    // For the develop branch there is no matching tools release; use the
+    // latest released SDK version's tools instead.
+    const toolsVersion =
+      selectedSDK.sdk === SDK_DEVELOP_BRANCH
+        ? (latestBundle?.[0] ?? selectedSDK.sdk)
+        : selectedSDK.sdk;
 
     const configureAdvancedOptions = await window.showQuickPick(["No", "Yes"], {
       title: "Switch Tools",
@@ -659,7 +683,7 @@ export default class SwitchSDKCommand extends Command {
       async progress => {
         // download and install tools
         const result = await downloadAndInstallTools(
-          selectedSDK.sdk,
+          toolsVersion,
           (prog: GotProgress) => {
             const percent = prog.percent * 100;
             progress.report({

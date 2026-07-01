@@ -110,6 +110,7 @@ export function repoNameOfRepository(repository: GithubRepository): string {
 
 // NOTE: The primary rate limit for unauthenticated requests is 60 requests per hour.
 export const SDK_REPOSITORY_URL = "https://github.com/raspberrypi/pico-sdk.git";
+export const SDK_DEVELOP_BRANCH = "develop";
 export const NINJA_REPOSITORY_URL = "https://github.com/ninja-build/ninja.git";
 export const CMAKE_REPOSITORY_URL = "https://github.com/Kitware/CMake.git";
 export const PYENV_REPOSITORY_URL = "https://github.com/pyenv/pyenv.git";
