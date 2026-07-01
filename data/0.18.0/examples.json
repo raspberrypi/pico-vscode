@@ -557,7 +557,9 @@
         "libNames": [],
         "boards": [
             "pico",
-            "pico2"
+            "pico_w",
+            "pico2",
+            "pico2_w"
         ],
         "supportRiscV": true
     },
@@ -1701,7 +1703,7 @@
         "supportRiscV": true
     },
     "ble_doorbell_client": {
-        "path": "bluetooth/doorbell",
+        "path": "bluetooth/ble_doorbell",
         "name": "ble_doorbell_client",
         "libPaths": [],
         "libNames": [],
@@ -1712,7 +1714,7 @@
         "supportRiscV": true
     },
     "ble_doorbell_server": {
-        "path": "bluetooth/doorbell",
+        "path": "bluetooth/ble_doorbell",
         "name": "ble_doorbell_server",
         "libPaths": [],
         "libNames": [],
@@ -1723,7 +1725,7 @@
         "supportRiscV": true
     },
     "ble_temp_reader": {
-        "path": "bluetooth/temp_sensor",
+        "path": "bluetooth/ble_temp_sensor",
         "name": "ble_temp_reader",
         "libPaths": [],
         "libNames": [],
@@ -1734,7 +1736,7 @@
         "supportRiscV": true
     },
     "ble_temp_server": {
-        "path": "bluetooth/temp_sensor",
+        "path": "bluetooth/ble_temp_sensor",
         "name": "ble_temp_server",
         "libPaths": [],
         "libNames": [],
@@ -1745,7 +1747,7 @@
         "supportRiscV": true
     },
     "ble_wifi_provisioner": {
-        "path": "bluetooth/wifi_provisioner",
+        "path": "bluetooth/ble_wifi_provisioner",
         "name": "ble_wifi_provisioner",
         "libPaths": [],
         "libNames": [],
@@ -1987,7 +1989,7 @@
         "supportRiscV": true
     },
     "ble_pointer": {
-        "path": "bluetooth/pointer",
+        "path": "bluetooth/ble_pointer",
         "name": "ble_pointer",
         "libPaths": [],
         "libNames": [],
@@ -1998,7 +2000,7 @@
         "supportRiscV": true
     },
     "ble_secure_temp_client": {
-        "path": "bluetooth/secure_temp_sensor",
+        "path": "bluetooth/ble_secure_temp_sensor",
         "name": "ble_secure_temp_client",
         "libPaths": [],
         "libNames": [],
@@ -2009,12 +2011,236 @@
         "supportRiscV": true
     },
     "ble_secure_temp_server": {
-        "path": "bluetooth/secure_temp_sensor",
+        "path": "bluetooth/ble_secure_temp_sensor",
         "name": "ble_secure_temp_server",
         "libPaths": [],
         "libNames": [],
         "boards": [
             "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "simple_at_time_worker": {
+        "path": "async_context/simple_at_time_worker",
+        "name": "simple_at_time_worker",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ssd1309_spi": {
+        "path": "spi/ssd1309_spi",
+        "name": "ssd1309_spi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ssd1309_stdout_spi": {
+        "path": "spi/ssd1309_stdout_spi",
+        "name": "ssd1309_stdout_spi",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "low_power_sleep_gpio": {
+        "path": "low_power/low_power_sleep",
+        "name": "low_power_sleep_gpio",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "low_power_sleep_timer": {
+        "path": "low_power/low_power_sleep",
+        "name": "low_power_sleep_timer",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "low_power_clksrc": {
+        "path": "low_power/low_power_dormant",
+        "name": "low_power_clksrc",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "low_power_dormant_gpio": {
+        "path": "low_power/low_power_dormant",
+        "name": "low_power_dormant_gpio",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "low_power_dormant_timer": {
+        "path": "low_power/low_power_dormant",
+        "name": "low_power_dormant_timer",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ina260_i2c": {
+        "path": "i2c/ina260_i2c",
+        "name": "ina260_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "gps_uart": {
+        "path": "uart/gps_uart",
+        "name": "gps_uart",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_ntp_system_time": {
+        "path": "pico_w/wifi/ntp_system_time",
+        "name": "picow_ntp_system_time",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "picow_router_solicit": {
+        "path": "pico_w/wifi/router_solicit",
+        "name": "picow_router_solicit",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "AP_provisioning": {
+        "path": "pico_w/wifi/access_point_wifi_provisioning",
+        "name": "AP_provisioning",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico_w",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "low_power_pstate_gpio": {
+        "path": "low_power/low_power_pstate",
+        "name": "low_power_pstate_gpio",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "low_power_pstate_timer": {
+        "path": "low_power/low_power_pstate",
+        "name": "low_power_pstate_timer",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ina228_i2c": {
+        "path": "i2c/ina228_i2c",
+        "name": "ina228_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ina219_i2c": {
+        "path": "i2c/ina219_i2c",
+        "name": "ina219_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
+            "pico2_w"
+        ],
+        "supportRiscV": true
+    },
+    "ina237_i2c": {
+        "path": "i2c/ina237_i2c",
+        "name": "ina237_i2c",
+        "libPaths": [],
+        "libNames": [],
+        "boards": [
+            "pico",
+            "pico_w",
+            "pico2",
             "pico2_w"
         ],
         "supportRiscV": true
