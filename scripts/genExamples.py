@@ -63,8 +63,8 @@ RISCV_TOOLCHAIN_VERSION = env_get_default(
 FORK_NAME = env_get_default("FORK_NAME", "raspberrypi")
 
 # To test with develop SDK, uncomment the line below - this will clone the SDK & picotool, and build picotool & pioasm
-# note: the 2- is required due to a VERSION_LESS check in pico-vscode.cmake
-# SDK_VERSION = "2-develop"
+# note: the 2.3- is required due to VERSION_LESS checks in pico-vscode.cmake
+# SDK_VERSION = "2.3-develop"
 
 BUILD_TOOLS = not os.path.exists(os.path.expanduser(f"~/.pico-sdk/sdk/{SDK_VERSION}"))
 
