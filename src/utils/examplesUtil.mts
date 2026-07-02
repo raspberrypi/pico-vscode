@@ -163,7 +163,9 @@ function parseBTStackSources(exampleDir: string): string[] {
     .split(/\s+/)
     .filter(Boolean)
     .slice(1) // skip target name
-    .filter(src => src.startsWith("..") || src.includes("${PICO_BTSTACK_PATH}"));
+    .filter(
+      src => src.startsWith("..") || src.includes("${PICO_BTSTACK_PATH}")
+    );
 }
 
 export async function setupExample(
@@ -395,7 +397,8 @@ export async function setupExample(
       const filename = repoRelative.split("/").pop()!;
       Logger.debug(
         LoggerSource.examples,
-        `Copying BTStack repo file ${repoRelative} to ${exampleTargetPath}/${filename}`
+        `Copying BTStack repo file ${repoRelative} ` +
+        `to ${exampleTargetPath}/${filename}`
       );
       try {
         await cp(
@@ -446,7 +449,9 @@ export async function copyBTStackSDKSources(
   exampleTargetPath: string,
   sdkPath: string
 ): Promise<void> {
-  const btStackPath = joinPosix(sdkPath.replaceAll("\\", "/"), "lib", "btstack");
+  const btStackPath = joinPosix(
+    sdkPath.replaceAll("\\", "/"), "lib", "btstack"
+  );
 
   const sdkSrcs = [
     ...parseBTStackSources(exampleTargetPath).filter(src =>
