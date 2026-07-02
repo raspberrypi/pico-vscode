@@ -33,12 +33,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
       - name: Install Dependencies
         run: |
           pip install pycryptodomex
       - name: Cache ~/.pico-sdk
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.pico-sdk
           key: pico-sdk-${{ hashFiles('scripts/genExamples.py') }}
@@ -55,7 +55,7 @@ jobs:
         run: |
           ls -la errors-pico* || true
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: examples.json
           path: |
