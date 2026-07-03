@@ -1,4 +1,4 @@
 <map id="_binary_info_ptr_int32_with_name" name="_binary_info_ptr_int32_with_name">
-<area shape="rect" id="node1" title=" " alt="" coords="5,95,172,136"/>
-<area shape="rect" id="node2" href="$struct__binary__info__core.html" title=" " alt="" coords="20,5,157,32"/>
+<area shape="rect" id="node1" title="Binary info entry holding a pointer to a named 32&#45;bit integer variable." alt="" coords="5,95,172,136"/>
+<area shape="rect" id="node2" href="$struct__binary__info__core.html" title="Common header fields shared by all binary info entries." alt="" coords="20,5,157,32"/>
 </map>

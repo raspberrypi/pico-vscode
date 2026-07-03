@@ -1,4 +1,4 @@
 <map id="_binary_info_pins64_with_name" name="_binary_info_pins64_with_name">
-<area shape="rect" id="node1" title=" " alt="" coords="5,95,157,136"/>
-<area shape="rect" id="node2" href="$struct__binary__info__core.html" title=" " alt="" coords="13,5,150,32"/>
+<area shape="rect" id="node1" title="Binary info entry associating a human&#45;readable label with a set of GPIO pins (up to 64)" alt="" coords="5,95,157,136"/>
+<area shape="rect" id="node2" href="$struct__binary__info__core.html" title="Common header fields shared by all binary info entries." alt="" coords="13,5,150,32"/>
 </map>

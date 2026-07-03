@@ -1,4 +1,5 @@
 <map id="include/pico/flash.h" name="include/pico/flash.h">
-<area shape="rect" id="node1" title=" " alt="" coords="17,5,164,32"/>
-<area shape="rect" id="node2" href="$bootrom_8h.html" title=" " alt="" coords="5,80,176,107"/>
+<area shape="rect" id="node1" title=" " alt="" coords="21,5,167,32"/>
+<area shape="rect" id="node2" href="$bootrom_8h.html" title=" " alt="" coords="9,80,179,107"/>
+<area shape="rect" id="node3" href="$cyw43__partition__firmware_8h_source.html" title=" " alt="" coords="5,155,183,196"/>
 </map>

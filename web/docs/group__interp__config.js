@@ -1,5 +1,8 @@
 var group__interp__config =
 [
+    [ "interp_config", "structinterp__config.html", [
+      [ "ctrl", "structinterp__config.html#a484da11fb4b697eb3a87f4ccee584404", null ]
+    ] ],
     [ "interp_config_set_add_raw", "group__interp__config.html#ga881f960275b1e17ff004103640bc0258", null ],
     [ "interp_config_set_blend", "group__interp__config.html#ga494025486e3c301b46f241852dc7af46", null ],
     [ "interp_config_set_clamp", "group__interp__config.html#ga0e94b2b16fb356cfa09703bb0bd0285e", null ],

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -128,6 +128,9 @@ typedef struct <a class="el" href="structpico__sha256__state.html">pico_sha256_s
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:gadcd9545907188bf72482308ea459036f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__sha256.html#gadcd9545907188bf72482308ea459036f">pico_sha256_cleanup</a> (<a class="el" href="group__pico__sha256.html#gadb68f9eb89ce1a5b795463cd083a30a0">pico_sha256_state_t</a> *state)</td></tr>
+<tr class="memdesc:gadcd9545907188bf72482308ea459036f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release the internal lock on the SHA-256 hardware.  <a href="group__pico__sha256.html#gadcd9545907188bf72482308ea459036f">More...</a><br /></td></tr>
+<tr class="separator:gadcd9545907188bf72482308ea459036f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga56a125e51ec616f61082cc63c8599dcb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__sha256.html#ga56a125e51ec616f61082cc63c8599dcb">pico_sha256_try_start</a> (<a class="el" href="group__pico__sha256.html#gadb68f9eb89ce1a5b795463cd083a30a0">pico_sha256_state_t</a> *state, enum <a class="el" href="group__hardware__sha256.html#gaaf3089af3667088256de5d352973d5e6">sha256_endianness</a> endianness, bool use_dma)</td></tr>
 <tr class="memdesc:ga56a125e51ec616f61082cc63c8599dcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a SHA-256 calculation returning immediately with an error if the SHA-256 hardware is not available.  <a href="group__pico__sha256.html#ga56a125e51ec616f61082cc63c8599dcb">More...</a><br /></td></tr>
 <tr class="separator:ga56a125e51ec616f61082cc63c8599dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,9 +166,9 @@ Functions</h2></td></tr>
 <div class="ttc" id="agroup__hardware__sha256_html_ga08a18381a4c5a7c9f7d0d1b6550621a3"><div class="ttname"><a href="group__hardware__sha256.html#ga08a18381a4c5a7c9f7d0d1b6550621a3">SHA256_RESULT_BYTES</a></div><div class="ttdeci">#define SHA256_RESULT_BYTES</div><div class="ttdoc">Size of a sha256 result in bytes.</div><div class="ttdef"><b>Definition:</b> sha256.h:44</div></div>
 <div class="ttc" id="agroup__hardware__sha256_html_ggaaf3089af3667088256de5d352973d5e6a9ed40fa208beaabfc2fc5b8edbd652c1"><div class="ttname"><a href="group__hardware__sha256.html#ggaaf3089af3667088256de5d352973d5e6a9ed40fa208beaabfc2fc5b8edbd652c1">SHA256_BIG_ENDIAN</a></div><div class="ttdeci">@ SHA256_BIG_ENDIAN</div><div class="ttdoc">Big Endian.</div><div class="ttdef"><b>Definition:</b> sha256.h:51</div></div>
 <div class="ttc" id="agroup__pico__base_html_ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd"><div class="ttname"><a href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd">PICO_OK</a></div><div class="ttdeci">@ PICO_OK</div><div class="ttdoc">No error; the operation succeeded.</div><div class="ttdef"><b>Definition:</b> error.h:23</div></div>
-<div class="ttc" id="agroup__pico__sha256_html_ga43c112e22aea468ce0551c5078e155cd"><div class="ttname"><a href="group__pico__sha256.html#ga43c112e22aea468ce0551c5078e155cd">pico_sha256_update</a></div><div class="ttdeci">void pico_sha256_update(pico_sha256_state_t *state, const uint8_t *data, size_t data_size_bytes)</div><div class="ttdoc">Add byte data to be SHA-256 calculation.</div><div class="ttdef"><b>Definition:</b> sha256.c:137</div></div>
-<div class="ttc" id="agroup__pico__sha256_html_ga4eac54bf699dba0067a22ae3ef5ae121"><div class="ttname"><a href="group__pico__sha256.html#ga4eac54bf699dba0067a22ae3ef5ae121">pico_sha256_finish</a></div><div class="ttdeci">void pico_sha256_finish(pico_sha256_state_t *state, sha256_result_t *out)</div><div class="ttdoc">Finish the SHA-256 calculation and return the result.</div><div class="ttdef"><b>Definition:</b> sha256.c:167</div></div>
-<div class="ttc" id="agroup__pico__sha256_html_ga56a125e51ec616f61082cc63c8599dcb"><div class="ttname"><a href="group__pico__sha256.html#ga56a125e51ec616f61082cc63c8599dcb">pico_sha256_try_start</a></div><div class="ttdeci">int pico_sha256_try_start(pico_sha256_state_t *state, enum sha256_endianness endianness, bool use_dma)</div><div class="ttdoc">Start a SHA-256 calculation returning immediately with an error if the SHA-256 hardware is not availa...</div><div class="ttdef"><b>Definition:</b> sha256.c:33</div></div>
+<div class="ttc" id="agroup__pico__sha256_html_ga43c112e22aea468ce0551c5078e155cd"><div class="ttname"><a href="group__pico__sha256.html#ga43c112e22aea468ce0551c5078e155cd">pico_sha256_update</a></div><div class="ttdeci">void pico_sha256_update(pico_sha256_state_t *state, const uint8_t *data, size_t data_size_bytes)</div><div class="ttdoc">Add byte data to be SHA-256 calculation.</div><div class="ttdef"><b>Definition:</b> sha256.c:147</div></div>
+<div class="ttc" id="agroup__pico__sha256_html_ga4eac54bf699dba0067a22ae3ef5ae121"><div class="ttname"><a href="group__pico__sha256.html#ga4eac54bf699dba0067a22ae3ef5ae121">pico_sha256_finish</a></div><div class="ttdeci">void pico_sha256_finish(pico_sha256_state_t *state, sha256_result_t *out)</div><div class="ttdoc">Finish the SHA-256 calculation and return the result.</div><div class="ttdef"><b>Definition:</b> sha256.c:177</div></div>
+<div class="ttc" id="agroup__pico__sha256_html_ga56a125e51ec616f61082cc63c8599dcb"><div class="ttname"><a href="group__pico__sha256.html#ga56a125e51ec616f61082cc63c8599dcb">pico_sha256_try_start</a></div><div class="ttdeci">int pico_sha256_try_start(pico_sha256_state_t *state, enum sha256_endianness endianness, bool use_dma)</div><div class="ttdoc">Start a SHA-256 calculation returning immediately with an error if the SHA-256 hardware is not availa...</div><div class="ttdef"><b>Definition:</b> sha256.c:39</div></div>
 <div class="ttc" id="astructpico__sha256__state_html"><div class="ttname"><a href="structpico__sha256__state.html">pico_sha256_state</a></div><div class="ttdoc">SHA-256 state used by the API.</div><div class="ttdef"><b>Definition:</b> sha256.h:48</div></div>
 <div class="ttc" id="aunionsha256__result__t_html"><div class="ttname"><a href="unionsha256__result__t.html">sha256_result_t</a></div><div class="ttdoc">SHA-256 result generated by the API.</div><div class="ttdef"><b>Definition:</b> sha256.h:57</div></div>
 </div><!-- fragment --><h2><a class="anchor" id="sha256_example"></a>
@@ -258,13 +261,40 @@ Example</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;Success\n&quot;</span>);</div>
 <div class="line">}</div>
 <div class="ttc" id="agroup__hardware__timer_html_ga7bbcd996dbd3dd4adc03a80272fb2fc3"><div class="ttname"><a href="group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3">time_us_64</a></div><div class="ttdeci">uint64_t time_us_64(void)</div><div class="ttdoc">Return the current 64 bit timestamp value in microseconds for the default timer instance.</div><div class="ttdef"><b>Definition:</b> timer.c:125</div></div>
-<div class="ttc" id="agroup__pico__sha256_html_ga9bf8472019386229c3ba3b6d169b9656"><div class="ttname"><a href="group__pico__sha256.html#ga9bf8472019386229c3ba3b6d169b9656">pico_sha256_update_blocking</a></div><div class="ttdeci">void pico_sha256_update_blocking(pico_sha256_state_t *state, const uint8_t *data, size_t data_size_bytes)</div><div class="ttdoc">Add byte data to be SHA-256 calculation.</div><div class="ttdef"><b>Definition:</b> sha256.c:141</div></div>
-<div class="ttc" id="agroup__pico__sha256_html_gaf8fdc6d7438ffed9fcbc124eb134ae6e"><div class="ttname"><a href="group__pico__sha256.html#gaf8fdc6d7438ffed9fcbc124eb134ae6e">pico_sha256_start_blocking</a></div><div class="ttdeci">static int pico_sha256_start_blocking(pico_sha256_state_t *state, enum sha256_endianness endianness, bool use_dma)</div><div class="ttdoc">Start a SHA-256 calculation, blocking forever waiting until the SHA-256 hardware is available.</div><div class="ttdef"><b>Definition:</b> sha256.h:99</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
+<div class="ttc" id="agroup__pico__sha256_html_ga9bf8472019386229c3ba3b6d169b9656"><div class="ttname"><a href="group__pico__sha256.html#ga9bf8472019386229c3ba3b6d169b9656">pico_sha256_update_blocking</a></div><div class="ttdeci">void pico_sha256_update_blocking(pico_sha256_state_t *state, const uint8_t *data, size_t data_size_bytes)</div><div class="ttdoc">Add byte data to be SHA-256 calculation.</div><div class="ttdef"><b>Definition:</b> sha256.c:151</div></div>
+<div class="ttc" id="agroup__pico__sha256_html_gaf8fdc6d7438ffed9fcbc124eb134ae6e"><div class="ttname"><a href="group__pico__sha256.html#gaf8fdc6d7438ffed9fcbc124eb134ae6e">pico_sha256_start_blocking</a></div><div class="ttdeci">static int pico_sha256_start_blocking(pico_sha256_state_t *state, enum sha256_endianness endianness, bool use_dma)</div><div class="ttdoc">Start a SHA-256 calculation, blocking forever waiting until the SHA-256 hardware is available.</div><div class="ttdef"><b>Definition:</b> sha256.h:109</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:207</div></div>
 <div class="ttc" id="arp2__common_2pico__sha256_2include_2pico_2sha256_8h_html"><div class="ttname"><a href="rp2__common_2pico__sha256_2include_2pico_2sha256_8h.html">sha256.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
 </div><!-- fragment --> <h2 class="groupheader">Function Documentation</h2>
+<a id="gadcd9545907188bf72482308ea459036f" name="gadcd9545907188bf72482308ea459036f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gadcd9545907188bf72482308ea459036f">&#9670;&nbsp;</a></span>pico_sha256_cleanup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pico_sha256_cleanup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__pico__sha256.html#gadb68f9eb89ce1a5b795463cd083a30a0">pico_sha256_state_t</a> *&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Release the internal lock on the SHA-256 hardware. </p>
+<p >Release the internal lock on the SHA-256 hardware. Does nothing if the internal lock was not claimed.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">state</td><td>A pointer to a pico_sha256_state_t instance </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga4eac54bf699dba0067a22ae3ef5ae121" name="ga4eac54bf699dba0067a22ae3ef5ae121"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4eac54bf699dba0067a22ae3ef5ae121">&#9670;&nbsp;</a></span>pico_sha256_finish()</h2>
 

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -114,24 +114,25 @@ Include dependency graph for instructions.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="instructions_8h__incl.png" border="0" usemap="#ainclude_2hardware_2hazard3_2instructions_8h" alt=""/></div>
 <map name="ainclude_2hardware_2hazard3_2instructions_8h" id="ainclude_2hardware_2hazard3_2instructions_8h">
-<area shape="rect" title=" " alt="" coords="347,5,537,47"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,169,473,196"/>
-<area shape="rect" href="features_8h.html" title=" " alt="" coords="409,95,619,121"/>
+<area shape="rect" title=" " alt="" coords="443,5,633,47"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="507,169,569,196"/>
+<area shape="rect" href="features_8h.html" title=" " alt="" coords="505,95,715,121"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,393,259,420"/>
-<area shape="rect" title=" " alt="" coords="252,244,365,271"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,244,494,271"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,244,717,271"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,244,836,271"/>
+<area shape="rect" title=" " alt="" coords="348,244,461,271"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="486,244,590,271"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,244,813,271"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,244,932,271"/>
 <area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,468,111,495"/>
 <area shape="rect" title=" " alt="" coords="74,543,157,569"/>
 <area shape="rect" title=" " alt="" coords="211,468,281,495"/>
 <area shape="rect" title=" " alt="" coords="306,468,381,495"/>
 <area shape="rect" title=" " alt="" coords="173,319,337,345"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,319,543,345"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="362,319,543,345"/>
 <area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,319,746,345"/>
 <area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,319,930,345"/>
-<area shape="rect" title=" " alt="" coords="954,319,1165,345"/>
-<area shape="rect" title=" " alt="" coords="1189,319,1340,345"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="955,319,1137,345"/>
+<area shape="rect" title=" " alt="" coords="1162,319,1373,345"/>
+<area shape="rect" title=" " alt="" coords="1397,319,1548,345"/>
 <area shape="rect" title=" " alt="" coords="357,393,548,420"/>
 </map>
 </div>
@@ -152,9 +153,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a6d8ac7d839588d3b7523fa782f803599"><td class="memItemLeft" align="right" valign="top"><a id="a6d8ac7d839588d3b7523fa782f803599" name="a6d8ac7d839588d3b7523fa782f803599"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_bextm</b>(nbits,  rs1,  rs2)&#160;&#160;&#160;(((rs1) &gt;&gt; ((rs2) &amp; 0x1f)) &amp; (0xffu &gt;&gt; (7 - (((nbits) - 1) &amp; 0x7))))</td></tr>
 <tr class="separator:a6d8ac7d839588d3b7523fa782f803599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d8ac7d839588d3b7523fa782f803599"><td class="memItemLeft" align="right" valign="top"><a id="a6d8ac7d839588d3b7523fa782f803599" name="a6d8ac7d839588d3b7523fa782f803599"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_bextm</b>(nbits,  rs1,  rs2)&#160;&#160;&#160;(((rs1) &gt;&gt; ((shamt) &amp; 0x1f)) &amp; (0xffu &gt;&gt; (7 - (((nbits) - 1) &amp; 0x7))))</td></tr>
-<tr class="separator:a6d8ac7d839588d3b7523fa782f803599"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c578741540cd5cf248ba95e0ae4a201"><td class="memItemLeft" align="right" valign="top"><a id="a9c578741540cd5cf248ba95e0ae4a201" name="a9c578741540cd5cf248ba95e0ae4a201"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_bextmi</b>(nbits,  rs1,  rs2)&#160;&#160;&#160;(((rs1) &gt;&gt; ((shamt) &amp; 0x1f)) &amp; (0xffu &gt;&gt; (7 - (((nbits) - 1) &amp; 0x7))))</td></tr>
+<tr class="separator:a9c578741540cd5cf248ba95e0ae4a201"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a176212b3202c09d8393033f92f75c30c"><td class="memItemLeft" align="right" valign="top"><a id="a176212b3202c09d8393033f92f75c30c" name="a176212b3202c09d8393033f92f75c30c"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>__hazard3_block</b>()&#160;&#160;&#160;do {} while (0)</td></tr>
 <tr class="separator:a176212b3202c09d8393033f92f75c30c"><td class="memSeparator" colspan="2">&#160;</td></tr>

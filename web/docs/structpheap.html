@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,44 +104,59 @@ $(document).ready(function(){initNavTree('structpheap.html',''); initResizable()
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">pheap Struct Reference</div></div>
+  <div class="headertitle"><div class="title">pheap Struct Reference<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__util.html">pico_util</a> &raquo; <a class="el" href="group__util__pheap.html">pheap</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>A pairing heap instance.  
+ <a href="structpheap.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="pheap_8h_source.html">pheap.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for pheap:</div>
 <div class="dyncontent">
 <div class="center"><img src="structpheap__coll__graph.png" border="0" usemap="#apheap_coll__map" alt="Collaboration graph"/></div>
 <map name="apheap_coll__map" id="apheap_coll__map">
-<area shape="rect" title=" " alt="" coords="25,95,87,121"/>
-<area shape="rect" href="structpheap__node.html" title=" " alt="" coords="5,5,107,32"/>
+<area shape="rect" title="A pairing heap instance." alt="" coords="25,95,87,121"/>
+<area shape="rect" href="structpheap__node.html" title="A node within a pairing heap." alt="" coords="5,5,107,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:ad0e74f06d047cc033d400ffa7f6eb23c"><td class="memItemLeft" align="right" valign="top"><a id="ad0e74f06d047cc033d400ffa7f6eb23c" name="ad0e74f06d047cc033d400ffa7f6eb23c"></a>
-<a class="el" href="structpheap__node.html">pheap_node_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>nodes</b></td></tr>
+<a class="el" href="group__util__pheap.html#ga55cc841f8c9956ab1facf0c150bcb81a">pheap_node_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>nodes</b></td></tr>
+<tr class="memdesc:ad0e74f06d047cc033d400ffa7f6eb23c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of all nodes, indexed by node id minus one. <br /></td></tr>
 <tr class="separator:ad0e74f06d047cc033d400ffa7f6eb23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3aa169ae7cf984d90cfa57a557417ec6"><td class="memItemLeft" align="right" valign="top"><a id="a3aa169ae7cf984d90cfa57a557417ec6" name="a3aa169ae7cf984d90cfa57a557417ec6"></a>
 <a class="el" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a>&#160;</td><td class="memItemRight" valign="bottom"><b>comparator</b></td></tr>
+<tr class="memdesc:a3aa169ae7cf984d90cfa57a557417ec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Comparator used to determine relative ordering of nodes. <br /></td></tr>
 <tr class="separator:a3aa169ae7cf984d90cfa57a557417ec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae13e252e9848cb7d56063742fd6553f4"><td class="memItemLeft" align="right" valign="top"><a id="ae13e252e9848cb7d56063742fd6553f4" name="ae13e252e9848cb7d56063742fd6553f4"></a>
 void *&#160;</td><td class="memItemRight" valign="bottom"><b>user_data</b></td></tr>
+<tr class="memdesc:ae13e252e9848cb7d56063742fd6553f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">User data pointer passed to the comparator. <br /></td></tr>
 <tr class="separator:ae13e252e9848cb7d56063742fd6553f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa13316020ead98532dd628ce44a17013"><td class="memItemLeft" align="right" valign="top"><a id="aa13316020ead98532dd628ce44a17013" name="aa13316020ead98532dd628ce44a17013"></a>
 pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>max_nodes</b></td></tr>
+<tr class="memdesc:aa13316020ead98532dd628ce44a17013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of nodes the heap can hold. <br /></td></tr>
 <tr class="separator:aa13316020ead98532dd628ce44a17013"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abab17c1d2c7eefe31edc41f29b2e8199"><td class="memItemLeft" align="right" valign="top"><a id="abab17c1d2c7eefe31edc41f29b2e8199" name="abab17c1d2c7eefe31edc41f29b2e8199"></a>
 pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>root_id</b></td></tr>
+<tr class="memdesc:abab17c1d2c7eefe31edc41f29b2e8199"><td class="mdescLeft">&#160;</td><td class="mdescRight">Id of the current root (minimum) node, or 0 if the heap is empty. <br /></td></tr>
 <tr class="separator:abab17c1d2c7eefe31edc41f29b2e8199"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac241454e8e707b87d36f2b166467aaa6"><td class="memItemLeft" align="right" valign="top"><a id="ac241454e8e707b87d36f2b166467aaa6" name="ac241454e8e707b87d36f2b166467aaa6"></a>
 pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>free_head_id</b></td></tr>
+<tr class="memdesc:ac241454e8e707b87d36f2b166467aaa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Id of the first node in the free list, or 0 if none. <br /></td></tr>
 <tr class="separator:ac241454e8e707b87d36f2b166467aaa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a225350befb3bf755f13ef53a5503122b"><td class="memItemLeft" align="right" valign="top"><a id="a225350befb3bf755f13ef53a5503122b" name="a225350befb3bf755f13ef53a5503122b"></a>
 pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>free_tail_id</b></td></tr>
+<tr class="memdesc:a225350befb3bf755f13ef53a5503122b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Id of the last node in the free list, or 0 if none. <br /></td></tr>
 <tr class="separator:a225350befb3bf755f13ef53a5503122b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >A pairing heap instance. </p>
+<p >Maintains the state for a pairing heap. Create with <a class="el" href="group__util__pheap.html#gacde2f3fabd67330b56dbb8473387b272" title="Create a pairing heap, which effectively maintains an efficient sorted ordering of nodes....">ph_create()</a> or initialise statically with <a class="el" href="group__util__pheap.html#ga9b69785185d58a5f82204c9ee3c2a2d5" title="Define a statically allocated pairing heap. This must be initialized by ph_post_alloc_init.">PHEAP_DEFINE_STATIC()</a> and <a class="el" href="group__util__pheap.html#ga5f8a3b950288b90310216126750ae0ef" title="Initialize a statically allocated heap (ph_create() using the C heap). The heap member nodes must be ...">ph_post_alloc_init()</a>. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/util/<a class="el" href="pheap_8h_source.html">pheap.h</a></li>
 </ul>
 </div><!-- contents -->

@@ -1,0 +1,8 @@
+<map id="include/pico/usb_reset.h" name="include/pico/usb_reset.h">
+<area shape="rect" id="node1" title=" " alt="" coords="221,5,399,32"/>
+<area shape="rect" id="node2" href="$usb__reset__interface_8h.html" title=" " alt="" coords="5,80,199,107"/>
+<area shape="rect" id="node3" href="$usb__reset__config_8h_source.html" title=" " alt="" coords="223,80,397,107"/>
+<area shape="rect" id="node4" href="$usb__reset__tusb_8h_source.html" title=" " alt="" coords="422,80,585,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="403,155,473,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="497,155,637,181"/>
+</map>

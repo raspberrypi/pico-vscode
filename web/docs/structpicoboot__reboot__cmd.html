@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,23 +104,34 @@ $(document).ready(function(){initNavTree('structpicoboot__reboot__cmd.html','');
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">picoboot_reboot_cmd Struct Reference</div></div>
+  <div class="headertitle"><div class="title">picoboot_reboot_cmd Struct Reference<div class="ingroups"><a class="el" href="group__misc.html">External API Headers</a> &raquo; <a class="el" href="group__boot__picoboot__headers.html">boot_picoboot_headers</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Parameters for a reboot command (RP2040 only)  
+ <a href="structpicoboot__reboot__cmd.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="picoboot_8h_source.html">picoboot.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a036cfd18586057fe537b78ccdd12b1e2"><td class="memItemLeft" align="right" valign="top"><a id="a036cfd18586057fe537b78ccdd12b1e2" name="a036cfd18586057fe537b78ccdd12b1e2"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dPC</b></td></tr>
+<tr class="memdesc:a036cfd18586057fe537b78ccdd12b1e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Program counter to reboot to; 0 means reset into the regular boot path, otherwise must be a RAM address. <br /></td></tr>
 <tr class="separator:a036cfd18586057fe537b78ccdd12b1e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92c8a6ad6bbf18688de8a615715d2173"><td class="memItemLeft" align="right" valign="top"><a id="a92c8a6ad6bbf18688de8a615715d2173" name="a92c8a6ad6bbf18688de8a615715d2173"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dSP</b></td></tr>
+<tr class="memdesc:a92c8a6ad6bbf18688de8a615715d2173"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stack pointer value at reboot; ignored unless dPC is a RAM address. <br /></td></tr>
 <tr class="separator:a92c8a6ad6bbf18688de8a615715d2173"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1219ef5704b6b715421cd790fca9f6a5"><td class="memItemLeft" align="right" valign="top"><a id="a1219ef5704b6b715421cd790fca9f6a5" name="a1219ef5704b6b715421cd790fca9f6a5"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dDelayMS</b></td></tr>
+<tr class="memdesc:a1219ef5704b6b715421cd790fca9f6a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Delay in milliseconds before rebooting. <br /></td></tr>
 <tr class="separator:a1219ef5704b6b715421cd790fca9f6a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Parameters for a reboot command (RP2040 only) </p>
+<p >Sent as the argument payload of a PC_REBOOT command. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/boot/<a class="el" href="picoboot_8h_source.html">picoboot.h</a></li>
 </ul>
 </div><!-- contents -->

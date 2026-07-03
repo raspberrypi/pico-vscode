@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -123,11 +123,14 @@ $(document).ready(function(){initNavTree('btstack__run__loop__async__context_8h_
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">const</span> btstack_run_loop_t *<a class="code hl_function" href="group__pico__btstack.html#ga9aa9b63d7b500add5590ea2d8a4347ed">btstack_run_loop_async_context_get_instance</a>(<a class="code hl_struct" href="structasync__context.html">async_context_t</a> *context);</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__btstack.html#ga44e9c97ae0456f4a5d1cb9c2c460877d">btstack_run_loop_async_context_deinit</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aasync__context_8h_html"><div class="ttname"><a href="async__context_8h.html">async_context.h</a></div></div>
+<div class="ttc" id="agroup__pico__btstack_html_ga44e9c97ae0456f4a5d1cb9c2c460877d"><div class="ttname"><a href="group__pico__btstack.html#ga44e9c97ae0456f4a5d1cb9c2c460877d">btstack_run_loop_async_context_deinit</a></div><div class="ttdeci">void btstack_run_loop_async_context_deinit(void)</div><div class="ttdoc">Deinitialize the BTstack state to stop it using the async_context API.</div><div class="ttdef"><b>Definition:</b> btstack_run_loop_async_context.c:132</div></div>
 <div class="ttc" id="agroup__pico__btstack_html_ga9aa9b63d7b500add5590ea2d8a4347ed"><div class="ttname"><a href="group__pico__btstack.html#ga9aa9b63d7b500add5590ea2d8a4347ed">btstack_run_loop_async_context_get_instance</a></div><div class="ttdeci">const btstack_run_loop_t * btstack_run_loop_async_context_get_instance(async_context_t *context)</div><div class="ttdoc">Initialize and return the singleton BTstack run loop instance that integrates with the async_context ...</div><div class="ttdef"><b>Definition:</b> btstack_run_loop_async_context.c:125</div></div>
 <div class="ttc" id="astructasync__context_html"><div class="ttname"><a href="structasync__context.html">async_context</a></div><div class="ttdoc">Base structure type of all async_contexts. For details about its use, see pico_async_context.</div><div class="ttdef"><b>Definition:</b> async_context.h:179</div></div>
 </div><!-- fragment --></div><!-- contents -->

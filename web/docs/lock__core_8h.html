@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -122,22 +122,23 @@ Include dependency graph for lock_core.h:</div>
 <area shape="rect" href="pico_8h.html" title=" " alt="" coords="409,244,470,271"/>
 <area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="307,80,401,107"/>
 <area shape="rect" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html" title=" " alt="" coords="537,80,667,107"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="589,468,690,495"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="409,468,510,495"/>
 <area shape="rect" title=" " alt="" coords="235,319,348,345"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="439,319,543,345"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="907,319,1028,345"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="1040,319,1161,345"/>
 <area shape="rect" href="error_8h_source.html" title=" " alt="" coords="116,319,211,345"/>
-<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="436,543,541,569"/>
-<area shape="rect" title=" " alt="" coords="505,617,587,644"/>
-<area shape="rect" title=" " alt="" coords="641,543,712,569"/>
-<area shape="rect" title=" " alt="" coords="737,543,811,569"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="256,543,361,569"/>
+<area shape="rect" title=" " alt="" coords="325,617,407,644"/>
+<area shape="rect" title=" " alt="" coords="461,543,532,569"/>
+<area shape="rect" title=" " alt="" coords="557,543,631,569"/>
 <area shape="rect" title=" " alt="" coords="424,393,588,420"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="973,393,1154,420"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="1178,393,1357,420"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="613,393,773,420"/>
-<area shape="rect" title=" " alt="" coords="1381,393,1591,420"/>
-<area shape="rect" title=" " alt="" coords="797,393,948,420"/>
-<area shape="rect" title=" " alt="" coords="968,468,1159,495"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="613,393,794,420"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="818,393,997,420"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="1021,393,1181,420"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="1205,393,1388,420"/>
+<area shape="rect" title=" " alt="" coords="1587,393,1798,420"/>
+<area shape="rect" title=" " alt="" coords="1412,393,1563,420"/>
+<area shape="rect" title=" " alt="" coords="608,468,799,495"/>
 <area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="218,162,351,189"/>
 <area shape="rect" title=" " alt="" coords="199,244,381,271"/>
 <area shape="rect" title=" " alt="" coords="5,244,175,271"/>
@@ -167,6 +168,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlock__core.html">lock_core</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core state shared by all lock primitives.  <a href="structlock__core.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -174,6 +176,9 @@ Macros</h2></td></tr>
 <tr class="memitem:aeef69533b68696315d8657f42b1af6ed"><td class="memItemLeft" align="right" valign="top"><a id="aeef69533b68696315d8657f42b1af6ed" name="aeef69533b68696315d8657f42b1af6ed"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_LOCK_CORE</b>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:aeef69533b68696315d8657f42b1af6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ed8d5351ea6f0bc22d8ec98077c4b8"><td class="memItemLeft" align="right" valign="top"><a id="a36ed8d5351ea6f0bc22d8ec98077c4b8" name="a36ed8d5351ea6f0bc22d8ec98077c4b8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_SYNC_RP2350_SPIN_LOCK_WORKAROUND</b>&#160;&#160;&#160;PICO_SPIN_LOCK_UNLOCK_CAUSES_SEV</td></tr>
+<tr class="separator:a36ed8d5351ea6f0bc22d8ec98077c4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7e5b614312aabaada704b6a2350d39bc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">lock_owner_id_t</a>&#160;&#160;&#160;int8_t</td></tr>
 <tr class="memdesc:ga7e5b614312aabaada704b6a2350d39bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">type to use to store the 'owner' of a lock.  <a href="group__lock__core.html#ga7e5b614312aabaada704b6a2350d39bc">More...</a><br /></td></tr>
 <tr class="separator:ga7e5b614312aabaada704b6a2350d39bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -213,7 +218,7 @@ Functions</h2></td></tr>
 <tr class="separator:gabc062dfb52c8f7f17ec8427d1c4414d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Base implementation for locking primitives protected by a spin lock. The spin lock is only used to protect access to the remaining lock state (in primitives using <a class="el" href="structlock__core.html">lock_core</a>); it is never left locked outside of the function implementations </p>
+<div class="textblock"><p >Base implementation for locking primitives protected by a spin lock. The spin lock is only used to protect access to the remaining lock state (in primitives using <a class="el" href="structlock__core.html" title="Core state shared by all lock primitives.">lock_core</a>); it is never left locked outside of the function implementations </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 

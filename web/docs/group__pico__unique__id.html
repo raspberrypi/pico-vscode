@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('group__pico__unique__id.html',''); ini
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_unique_id<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
@@ -117,6 +118,12 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpico__unique__board__id__t.html">pico_unique_board_id_t</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unique board identifier.  <a href="structpico__unique__board__id__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga348d303cf3a8e1adfcb539420363a784"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__unique__id.html#ga348d303cf3a8e1adfcb539420363a784">PICO_UNIQUE_BOARD_ID_INIT_PRIORITY</a>&#160;&#160;&#160;1000</td></tr>
+<tr class="memdesc:ga348d303cf3a8e1adfcb539420363a784"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static initialization order.  <a href="group__pico__unique__id.html#ga348d303cf3a8e1adfcb539420363a784">More...</a><br /></td></tr>
+<tr class="separator:ga348d303cf3a8e1adfcb539420363a784"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -133,6 +140,27 @@ Functions</h2></td></tr>
 <p >This library injects a call to the flash_get_unique_id function from the hardware_flash library, to run before main, and stores the result in a static location which can safely be accessed at any time via pico_get_unique_id().</p>
 <p >This avoids some pitfalls of the hardware_flash API, which requires any flash-resident interrupt routines to be disabled when called into. </p>
 <p >On boards using RP2350, the unique identifier is read from OTP memory on boot.  </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga348d303cf3a8e1adfcb539420363a784" name="ga348d303cf3a8e1adfcb539420363a784"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga348d303cf3a8e1adfcb539420363a784">&#9670;&nbsp;</a></span>PICO_UNIQUE_BOARD_ID_INIT_PRIORITY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PICO_UNIQUE_BOARD_ID_INIT_PRIORITY&#160;&#160;&#160;1000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Static initialization order. </p>
+<p >This defines the init_priority of the pico_unique_id. By default, it is 1000. The valid range is from 101-65535. Set it to -1 to set the priority to none, thus putting it after 65535. Changing this value will initialize the unique_id earlier or later in the static initialization order. This is most useful for C++ consumers of the pico-sdk.</p>
+<p >See <a href="https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-constructor-function-attribute">https://gcc.gnu.org/onlinedocs/gcc/Common-Function-Attributes.html#index-constructor-function-attribute</a> and <a href="https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Attributes.html#index-init_005fpriority-variable-attribute">https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Attributes.html#index-init_005fpriority-variable-attribute</a></p>
+<p >Here is an example of C++ static initializers that will run before, and then after, pico_unique_id is loaded: </p><pre class="fragment">    [[gnu::init_priority(500)]] my_class before_instance;
+    [[gnu::init_priority(2000)]] my_class after_instance;
+</pre> 
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaf87ef8a55d8dc2520776e427a605b6fb" name="gaf87ef8a55d8dc2520776e427a605b6fb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf87ef8a55d8dc2520776e427a605b6fb">&#9670;&nbsp;</a></span>pico_get_unique_board_id()</h2>

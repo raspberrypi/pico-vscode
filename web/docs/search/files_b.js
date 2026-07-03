@@ -9,5 +9,6 @@ var searchData=
   ['pll_2eh_6',['pll.h',['../rp2__common_2hardware__pll_2include_2hardware_2pll_8h.html',1,'']]],
   ['powman_2eh_7',['powman.h',['../rp2__common_2hardware__powman_2include_2hardware_2powman_8h.html',1,'']]],
   ['printf_2eh_8',['printf.h',['../printf_8h.html',1,'']]],
-  ['pwm_2eh_9',['pwm.h',['../rp2__common_2hardware__pwm_2include_2hardware_2pwm_8h.html',1,'']]]
+  ['psram_2eh_9',['psram.h',['../psram_8h.html',1,'']]],
+  ['pwm_2eh_10',['pwm.h',['../rp2__common_2hardware__pwm_2include_2hardware_2pwm_8h.html',1,'']]]
 ];

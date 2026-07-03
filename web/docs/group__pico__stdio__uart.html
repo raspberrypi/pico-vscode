@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -122,7 +122,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ga77fc28ecaf14439cdec18ac5a96d50f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__uart.html#ga77fc28ecaf14439cdec18ac5a96d50f4">stdin_uart_init</a> (void)</td></tr>
 <tr class="memdesc:ga77fc28ecaf14439cdec18ac5a96d50f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicitly initialize stdin only (no stdout) over UART and add it to the current set of stdin drivers.  <a href="group__pico__stdio__uart.html#ga77fc28ecaf14439cdec18ac5a96d50f4">More...</a><br /></td></tr>
 <tr class="separator:ga77fc28ecaf14439cdec18ac5a96d50f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2335d6c842d8363cf3df6b215f881919"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__uart.html#ga2335d6c842d8363cf3df6b215f881919">stdio_uart_init_full</a> (uart_inst_t *uart, uint baud_rate, int tx_pin, int rx_pin)</td></tr>
+<tr class="memitem:ga2335d6c842d8363cf3df6b215f881919"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__uart.html#ga2335d6c842d8363cf3df6b215f881919">stdio_uart_init_full</a> (<a class="el" href="group__hardware__uart.html#ga3920e2bf2b198420bbaa5a758a4001aa">uart_inst_t</a> *uart, uint baud_rate, int tx_pin, int rx_pin)</td></tr>
 <tr class="memdesc:ga2335d6c842d8363cf3df6b215f881919"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform custom initialization initialize stdin/stdout over UART and add it to the current set of stdin/stdout drivers.  <a href="group__pico__stdio__uart.html#ga2335d6c842d8363cf3df6b215f881919">More...</a><br /></td></tr>
 <tr class="separator:ga2335d6c842d8363cf3df6b215f881919"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga3f1c7640efd0d3a9f60cf0581b3e5db3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__uart.html#ga3f1c7640efd0d3a9f60cf0581b3e5db3">stdio_uart_deinit</a> (void)</td></tr>
@@ -134,7 +134,7 @@ Functions</h2></td></tr>
 <tr class="memitem:ga83ea2a4916972e370b2faff60895611f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__uart.html#ga83ea2a4916972e370b2faff60895611f">stdin_uart_deinit</a> (void)</td></tr>
 <tr class="memdesc:ga83ea2a4916972e370b2faff60895611f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicitly deinitialize stdin only (no stdout) over UART and remove it from the current set of stdin drivers.  <a href="group__pico__stdio__uart.html#ga83ea2a4916972e370b2faff60895611f">More...</a><br /></td></tr>
 <tr class="separator:ga83ea2a4916972e370b2faff60895611f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab4956585ad29fb33dd08924866209e31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__uart.html#gab4956585ad29fb33dd08924866209e31">stdio_uart_deinit_full</a> (uart_inst_t *uart, int tx_pin, int rx_pin)</td></tr>
+<tr class="memitem:gab4956585ad29fb33dd08924866209e31"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__uart.html#gab4956585ad29fb33dd08924866209e31">stdio_uart_deinit_full</a> (<a class="el" href="group__hardware__uart.html#ga3920e2bf2b198420bbaa5a758a4001aa">uart_inst_t</a> *uart, int tx_pin, int rx_pin)</td></tr>
 <tr class="memdesc:gab4956585ad29fb33dd08924866209e31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform custom deinitialization deinitialize stdin/stdout over UART and remove it from the current set of stdin/stdout drivers.  <a href="group__pico__stdio__uart.html#gab4956585ad29fb33dd08924866209e31">More...</a><br /></td></tr>
 <tr class="separator:gab4956585ad29fb33dd08924866209e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -202,7 +202,7 @@ Functions</h2></td></tr>
 
 <p>Explicitly deinitialize stdin/stdout over UART and remove it from the current set of stdin/stdout drivers. </p>
 <p >This method disables PICO_DEFAULT_UART_TX_PIN for UART output (if defined), PICO_DEFAULT_UART_RX_PIN for input (if defined) and leaves the pads isolated.</p>
-<dl class="section note"><dt>Note</dt><dd>this method is automatically called by <a class="el" href="group__pico__stdio.html#gace6c31545f212bf181718f4fc7587ea7">stdio_deinit_all()</a> if <code>pico_stdio_uart</code> is included in the build </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method is automatically called by <a class="el" href="group__pico__stdio.html#gace6c31545f212bf181718f4fc7587ea7">stdio_deinit_all()</a> if <code>pico_stdio_uart</code> is included in the build </dd></dl>
 
 </div>
 </div>
@@ -215,7 +215,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void stdio_uart_deinit_full </td>
           <td>(</td>
-          <td class="paramtype">uart_inst_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__hardware__uart.html#ga3920e2bf2b198420bbaa5a758a4001aa">uart_inst_t</a> *&#160;</td>
           <td class="paramname"><em>uart</em>, </td>
         </tr>
         <tr>
@@ -268,7 +268,7 @@ Functions</h2></td></tr>
 
 <p>Explicitly initialize stdin/stdout over UART and add it to the current set of stdin/stdout drivers. </p>
 <p >This method sets up PICO_DEFAULT_UART_TX_PIN for UART output (if defined), PICO_DEFAULT_UART_RX_PIN for input (if defined) and configures the baud rate as PICO_DEFAULT_UART_BAUD_RATE.</p>
-<dl class="section note"><dt>Note</dt><dd>this method is automatically called by <a class="el" href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all()</a> if <code>pico_stdio_uart</code> is included in the build </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method is automatically called by <a class="el" href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all()</a> if <code>pico_stdio_uart</code> is included in the build </dd></dl>
 
 </div>
 </div>
@@ -281,7 +281,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void stdio_uart_init_full </td>
           <td>(</td>
-          <td class="paramtype">uart_inst_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__hardware__uart.html#ga3920e2bf2b198420bbaa5a758a4001aa">uart_inst_t</a> *&#160;</td>
           <td class="paramname"><em>uart</em>, </td>
         </tr>
         <tr>

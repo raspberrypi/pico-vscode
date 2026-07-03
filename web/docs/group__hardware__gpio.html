@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -176,6 +176,13 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:ga6347e27da3ab34f1ea65b5ae16ab724f"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPIO Interrupt level definitions (GPIO events)  <a href="group__hardware__gpio.html#ga6347e27da3ab34f1ea65b5ae16ab724f">More...</a><br /></td></tr>
 <tr class="separator:ga6347e27da3ab34f1ea65b5ae16ab724f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga760c408911eb8aaad767d39df9e4e990"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990">gpio_override</a> { <a class="el" href="group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990ab06a7f6c3884d4d4870f5aee7438e130">GPIO_OVERRIDE_NORMAL</a> = 0
+, <a class="el" href="group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990a1d047c6f785ba82c18c3f120841d17b5">GPIO_OVERRIDE_INVERT</a> = 1
+, <a class="el" href="group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990aab4dee7abb67c5d1cc213c810b9447ab">GPIO_OVERRIDE_LOW</a> = 2
+, <a class="el" href="group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990a716e4dd9554b27d65c2c88bcfd6e7dd4">GPIO_OVERRIDE_HIGH</a> = 3
+ }</td></tr>
+<tr class="memdesc:ga760c408911eb8aaad767d39df9e4e990"><td class="mdescLeft">&#160;</td><td class="mdescRight">GPIO override modes.  <a href="group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990">More...</a><br /></td></tr>
+<tr class="separator:ga760c408911eb8aaad767d39df9e4e990"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga72c250c9393043ea5beb56092d26e229"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga72c250c9393043ea5beb56092d26e229">gpio_slew_rate</a> { <a class="el" href="group__hardware__gpio.html#gga72c250c9393043ea5beb56092d26e229a6173e20f5be765a136661c48f9766634">GPIO_SLEW_RATE_SLOW</a> = 0
 , <a class="el" href="group__hardware__gpio.html#gga72c250c9393043ea5beb56092d26e229a44b116ac7ac70a405c952a6054a1eade">GPIO_SLEW_RATE_FAST</a> = 1
  }</td></tr>
@@ -197,9 +204,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga32c1aae77b4b3bf42e9ae554d16284ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga32c1aae77b4b3bf42e9ae554d16284ab">gpio_set_function_masked</a> (uint32_t gpio_mask, <a class="el" href="group__hardware__gpio.html#ga1339fecb25e263eee2a6b9d362c3a946">gpio_function_t</a> fn)</td></tr>
 <tr class="memdesc:ga32c1aae77b4b3bf42e9ae554d16284ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the function for multiple GPIOs.  <a href="group__hardware__gpio.html#ga32c1aae77b4b3bf42e9ae554d16284ab">More...</a><br /></td></tr>
 <tr class="separator:ga32c1aae77b4b3bf42e9ae554d16284ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga83093178ba0ad7d711bff47fc90d361b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga83093178ba0ad7d711bff47fc90d361b">gpio_set_function_masked64</a> (uint64_t gpio_mask, <a class="el" href="group__hardware__gpio.html#ga1339fecb25e263eee2a6b9d362c3a946">gpio_function_t</a> fn)</td></tr>
-<tr class="memdesc:ga83093178ba0ad7d711bff47fc90d361b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the function for multiple GPIOs.  <a href="group__hardware__gpio.html#ga83093178ba0ad7d711bff47fc90d361b">More...</a><br /></td></tr>
-<tr class="separator:ga83093178ba0ad7d711bff47fc90d361b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5135b3956a6dec54794905b55fe99846"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga5135b3956a6dec54794905b55fe99846">gpio_set_function_masked64</a> (uint64_t gpio_mask, <a class="el" href="group__hardware__gpio.html#ga1339fecb25e263eee2a6b9d362c3a946">gpio_function_t</a> fn)</td></tr>
+<tr class="memdesc:ga5135b3956a6dec54794905b55fe99846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Select the function for multiple GPIOs.  <a href="group__hardware__gpio.html#ga5135b3956a6dec54794905b55fe99846">More...</a><br /></td></tr>
+<tr class="separator:ga5135b3956a6dec54794905b55fe99846"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga24dabfcb46dde4daa8938b36df130c31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__hardware__gpio.html#ga1339fecb25e263eee2a6b9d362c3a946">gpio_function_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga24dabfcb46dde4daa8938b36df130c31">gpio_get_function</a> (uint gpio)</td></tr>
 <tr class="memdesc:ga24dabfcb46dde4daa8938b36df130c31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine current GPIO function.  <a href="group__hardware__gpio.html#ga24dabfcb46dde4daa8938b36df130c31">More...</a><br /></td></tr>
 <tr class="separator:ga24dabfcb46dde4daa8938b36df130c31"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -269,9 +276,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gaf2d1208ba7e3b02b23e7385350182583"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a> (uint gpio)</td></tr>
 <tr class="memdesc:gaf2d1208ba7e3b02b23e7385350182583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the current interrupt status (pending events) for the given GPIO.  <a href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">More...</a><br /></td></tr>
 <tr class="separator:gaf2d1208ba7e3b02b23e7385350182583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga091c148a5cfaf2b55e716b6effef6360"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a> (uint gpio, uint32_t event_mask)</td></tr>
-<tr class="memdesc:ga091c148a5cfaf2b55e716b6effef6360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acknowledge a GPIO interrupt for the specified events on the calling core.  <a href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">More...</a><br /></td></tr>
-<tr class="separator:ga091c148a5cfaf2b55e716b6effef6360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gace88fa5550b6c9f10df50ed61378287f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a> (uint gpio, uint32_t event_mask)</td></tr>
+<tr class="memdesc:gace88fa5550b6c9f10df50ed61378287f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acknowledge a GPIO interrupt for the specified events on the calling core.  <a href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">More...</a><br /></td></tr>
+<tr class="separator:gace88fa5550b6c9f10df50ed61378287f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf43d2f09003804f535dc118688a9702c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#gaf43d2f09003804f535dc118688a9702c">gpio_add_raw_irq_handler_with_order_priority_masked</a> (uint32_t gpio_mask, <a class="el" href="group__hardware__irq.html#ga8478ee26cc144e947ccd75b0169059a6">irq_handler_t</a> handler, uint8_t order_priority)</td></tr>
 <tr class="memdesc:gaf43d2f09003804f535dc118688a9702c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a raw GPIO IRQ handler for the specified GPIOs on the current core.  <a href="group__hardware__gpio.html#gaf43d2f09003804f535dc118688a9702c">More...</a><br /></td></tr>
 <tr class="separator:gaf43d2f09003804f535dc118688a9702c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -305,9 +312,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga4df18d737955c17a65c5a94412826674"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga4df18d737955c17a65c5a94412826674">gpio_deinit</a> (uint gpio)</td></tr>
 <tr class="memdesc:ga4df18d737955c17a65c5a94412826674"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resets a GPIO back to the NULL function, i.e. disables it.  <a href="group__hardware__gpio.html#ga4df18d737955c17a65c5a94412826674">More...</a><br /></td></tr>
 <tr class="separator:ga4df18d737955c17a65c5a94412826674"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2f3ccb15297fecd3792359d9cbbf6ed6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga2f3ccb15297fecd3792359d9cbbf6ed6">gpio_init_mask</a> (uint gpio_mask)</td></tr>
-<tr class="memdesc:ga2f3ccb15297fecd3792359d9cbbf6ed6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise multiple GPIOs (enabled I/O and set func to GPIO_FUNC_SIO)  <a href="group__hardware__gpio.html#ga2f3ccb15297fecd3792359d9cbbf6ed6">More...</a><br /></td></tr>
-<tr class="separator:ga2f3ccb15297fecd3792359d9cbbf6ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8537f23d524d3e75daf8fa14857fe454"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga8537f23d524d3e75daf8fa14857fe454">gpio_init_mask</a> (uint32_t gpio_mask)</td></tr>
+<tr class="memdesc:ga8537f23d524d3e75daf8fa14857fe454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise multiple GPIOs (enabled I/O and set func to GPIO_FUNC_SIO)  <a href="group__hardware__gpio.html#ga8537f23d524d3e75daf8fa14857fe454">More...</a><br /></td></tr>
+<tr class="separator:ga8537f23d524d3e75daf8fa14857fe454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga65a6d5ec41d882e7c53a7a2c6a3ac2bb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#ga65a6d5ec41d882e7c53a7a2c6a3ac2bb">gpio_init_mask64</a> (uint64_t gpio_mask)</td></tr>
+<tr class="memdesc:ga65a6d5ec41d882e7c53a7a2c6a3ac2bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise multiple GPIOs (enabled I/O and set func to GPIO_FUNC_SIO)  <a href="group__hardware__gpio.html#ga65a6d5ec41d882e7c53a7a2c6a3ac2bb">More...</a><br /></td></tr>
+<tr class="separator:ga65a6d5ec41d882e7c53a7a2c6a3ac2bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf38c0b39fba06d1a49d1be56ef548d73"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__gpio.html#gaf38c0b39fba06d1a49d1be56ef548d73">gpio_get</a> (uint gpio)</td></tr>
 <tr class="memdesc:gaf38c0b39fba06d1a49d1be56ef548d73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get state of a single specified GPIO.  <a href="group__hardware__gpio.html#gaf38c0b39fba06d1a49d1be56ef548d73">More...</a><br /></td></tr>
 <tr class="separator:gaf38c0b39fba06d1a49d1be56ef548d73"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -403,7 +413,7 @@ Functions</h2></td></tr>
 <p >General Purpose Input/Output (GPIO) API. </p>
 <p >RP-series microcontrollers have two banks of General Purpose Input / Output (GPIO) pins, which are assigned as follows:</p>
 <p >RP2040 has 30 user GPIO pins in bank 0, and 6 QSPI pins in the QSPI bank 1 (QSPI_SS, QSPI_SCLK and QSPI_SD0 to QSPI_SD3). The QSPI pins are used to execute code from an external flash device, leaving the User bank (GPIO0 to GPIO29) for the programmer to use. </p>
-<p >The number of GPIO pins available depends on the package. There are 30 user GPIOs in bank 0 in the QFN-60 package (RP2350A), or 48 user GPIOs in the QFN-80 package. Bank 1 contains the 6 QSPI pins and the USB DP/DM pins. </p>
+<p >The number of GPIO pins available depends on the package. There are 30 user GPIOs in bank 0 in the QFN-60 package (RP2350A), or 48 user GPIOs in the QFN-80 package (RP2350B). Bank 1 contains the 6 QSPI pins and the USB DP/DM pins. </p>
 <p >All GPIOs support digital input and output, but a subset can also be used as inputs to the chip’s Analogue to Digital Converter (ADC). The allocation of GPIO pins to the ADC depends on the packaging.</p>
 <p >RP2040 and RP2350 QFN-60 GPIO, ADC pins are 26-29. RP2350 QFN-80, ADC pins are 40-47.</p>
 <p >Each GPIO can be controlled directly by software running on the processors, or by a number of other functional blocks.</p>
@@ -759,6 +769,33 @@ Function Select Table</h3>
 
 </div>
 </div>
+<a id="ga760c408911eb8aaad767d39df9e4e990" name="ga760c408911eb8aaad767d39df9e4e990"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga760c408911eb8aaad767d39df9e4e990">&#9670;&nbsp;</a></span>gpio_override</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990">gpio_override</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>GPIO override modes. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__gpio.html#ga9788ec1b8306c6bacfb578f0074eb3ad" title="Set GPIO IRQ override.">gpio_set_irqover</a>, <a class="el" href="group__hardware__gpio.html#ga829129eed5d42f3455e9da339219d814" title="Set GPIO output override.">gpio_set_outover</a>, <a class="el" href="group__hardware__gpio.html#ga6037bdaf406a84336043c9a6c40e5073" title="Select GPIO input override.">gpio_set_inover</a>, <a class="el" href="group__hardware__gpio.html#ga250e767769daabb71b5ea8cab49b4463" title="Select GPIO output enable override.">gpio_set_oeover</a> </dd></dl>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga760c408911eb8aaad767d39df9e4e990ab06a7f6c3884d4d4870f5aee7438e130" name="gga760c408911eb8aaad767d39df9e4e990ab06a7f6c3884d4d4870f5aee7438e130"></a>GPIO_OVERRIDE_NORMAL&#160;</td><td class="fielddoc"><p >peripheral signal selected via <a class="el" href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga760c408911eb8aaad767d39df9e4e990a1d047c6f785ba82c18c3f120841d17b5" name="gga760c408911eb8aaad767d39df9e4e990a1d047c6f785ba82c18c3f120841d17b5"></a>GPIO_OVERRIDE_INVERT&#160;</td><td class="fielddoc"><p >invert peripheral signal selected via <a class="el" href="group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4">gpio_set_function</a> </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga760c408911eb8aaad767d39df9e4e990aab4dee7abb67c5d1cc213c810b9447ab" name="gga760c408911eb8aaad767d39df9e4e990aab4dee7abb67c5d1cc213c810b9447ab"></a>GPIO_OVERRIDE_LOW&#160;</td><td class="fielddoc"><p >drive low/disable output </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga760c408911eb8aaad767d39df9e4e990a716e4dd9554b27d65c2c88bcfd6e7dd4" name="gga760c408911eb8aaad767d39df9e4e990a716e4dd9554b27d65c2c88bcfd6e7dd4"></a>GPIO_OVERRIDE_HIGH&#160;</td><td class="fielddoc"><p >drive high/enable output </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="ga72c250c9393043ea5beb56092d26e229" name="ga72c250c9393043ea5beb56092d26e229"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga72c250c9393043ea5beb56092d26e229">&#9670;&nbsp;</a></span>gpio_slew_rate</h2>
 
@@ -783,14 +820,17 @@ Function Select Table</h3>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga091c148a5cfaf2b55e716b6effef6360" name="ga091c148a5cfaf2b55e716b6effef6360"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga091c148a5cfaf2b55e716b6effef6360">&#9670;&nbsp;</a></span>gpio_acknowledge_irq()</h2>
+<a id="gace88fa5550b6c9f10df50ed61378287f" name="gace88fa5550b6c9f10df50ed61378287f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gace88fa5550b6c9f10df50ed61378287f">&#9670;&nbsp;</a></span>gpio_acknowledge_irq()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void gpio_acknowledge_irq </td>
+          <td class="memname">static void gpio_acknowledge_irq </td>
           <td>(</td>
           <td class="paramtype">uint&#160;</td>
           <td class="paramname"><em>gpio</em>, </td>
@@ -807,6 +847,11 @@ Function Select Table</h3>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Acknowledge a GPIO interrupt for the specified events on the calling core. </p>
@@ -864,16 +909,16 @@ Function Select Table</h3>
 <p>Adds a raw GPIO IRQ handler for a specific GPIO on the current core. </p>
 <p >In addition to the default mechanism of a single GPIO IRQ event callback per core (see <a class="el" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>), it is possible to add explicit GPIO IRQ handlers which are called independent of the default event callback.</p>
 <p >This method adds such a callback, and disables the "default" callback for the specified GPIO.</p>
-<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIO, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_IRQ_SHARED_HANDLERS) would be exceeded.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIO, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_SHARED_IRQ_HANDLERS) would be exceeded.</dd></dl>
 <p>A raw handler should check for whichever GPIOs and events it handles, and acknowledge them itself; it might look something like:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> my_irq_handler(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num) &amp; my_gpio_event_mask) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__gpio_html_ga091c148a5cfaf2b55e716b6effef6360"><div class="ttname"><a href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a></div><div class="ttdeci">void gpio_acknowledge_irq(uint gpio, uint32_t events)</div><div class="ttdoc">Acknowledge a GPIO interrupt for the specified events on the calling core.</div><div class="ttdef"><b>Definition:</b> gpio.c:259</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_gaf2d1208ba7e3b02b23e7385350182583"><div class="ttname"><a href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a></div><div class="ttdeci">static uint32_t gpio_get_irq_event_mask(uint gpio)</div><div class="ttdoc">Return the current interrupt status (pending events) for the given GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.h:546</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_gace88fa5550b6c9f10df50ed61378287f"><div class="ttname"><a href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a></div><div class="ttdeci">static void gpio_acknowledge_irq(uint gpio, uint32_t event_mask)</div><div class="ttdoc">Acknowledge a GPIO interrupt for the specified events on the calling core.</div><div class="ttdef"><b>Definition:</b> gpio.h:582</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_gaf2d1208ba7e3b02b23e7385350182583"><div class="ttname"><a href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a></div><div class="ttdeci">static uint32_t gpio_get_irq_event_mask(uint gpio)</div><div class="ttdoc">Return the current interrupt status (pending events) for the given GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.h:561</div></div>
 </div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio</td><td>the GPIO number that will no longer be passed to the default callback for this core </td></tr>
@@ -913,15 +958,15 @@ Function Select Table</h3>
 <p>Adds a raw GPIO IRQ handler for the specified GPIOs on the current core. </p>
 <p >In addition to the default mechanism of a single GPIO IRQ event callback per core (see <a class="el" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>), it is possible to add explicit GPIO IRQ handlers which are called independent of the default event callback.</p>
 <p >This method adds such a callback, and disables the "default" callback for the specified GPIOs.</p>
-<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_IRQ_SHARED_HANDLERS) would be exceeded.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_SHARED_IRQ_HANDLERS) would be exceeded.</dd></dl>
 <p>A raw handler should check for whichever GPIOs and events it handles, and acknowledge them itself; it might look something like:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> my_irq_handler(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num) &amp; my_gpio_event_mask) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num2) &amp; my_gpio_event_mask2) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">}</div>
@@ -964,15 +1009,15 @@ Function Select Table</h3>
 <p>Adds a raw GPIO IRQ handler for the specified GPIOs on the current core. </p>
 <p >In addition to the default mechanism of a single GPIO IRQ event callback per core (see <a class="el" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>), it is possible to add explicit GPIO IRQ handlers which are called independent of the default event callback.</p>
 <p >This method adds such a callback, and disables the "default" callback for the specified GPIOs.</p>
-<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_IRQ_SHARED_HANDLERS) would be exceeded.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_SHARED_IRQ_HANDLERS) would be exceeded.</dd></dl>
 <p>A raw handler should check for whichever GPIOs and events it handles, and acknowledge them itself; it might look something like:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> my_irq_handler(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num) &amp; my_gpio_event_mask) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num2) &amp; my_gpio_event_mask2) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">}</div>
@@ -1029,11 +1074,11 @@ Function Select Table</h3>
 <p>Adds a raw GPIO IRQ handler for a specific GPIO on the current core. </p>
 <p >In addition to the default mechanism of a single GPIO IRQ event callback per core (see <a class="el" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>), it is possible to add explicit GPIO IRQ handlers which are called independent of the default callback. The order relative to the default callback can be controlled via the order_priority parameter(the default callback has the priority GPIO_IRQ_CALLBACK_ORDER_PRIORITY which defaults to the lowest priority with the intention of it running last).</p>
 <p >This method adds such a callback, and disables the "default" callback for the specified GPIO.</p>
-<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIO, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_IRQ_SHARED_HANDLERS) would be exceeded.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIO, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_SHARED_IRQ_HANDLERS) would be exceeded.</dd></dl>
 <p>A raw handler should check for whichever GPIOs and events it handles, and acknowledge them itself; it might look something like:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> my_irq_handler(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num) &amp; my_gpio_event_mask) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">}</div>
@@ -1083,15 +1128,15 @@ Function Select Table</h3>
 <p>Adds a raw GPIO IRQ handler for the specified GPIOs on the current core. </p>
 <p >In addition to the default mechanism of a single GPIO IRQ event callback per core (see <a class="el" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>), it is possible to add explicit GPIO IRQ handlers which are called independent of the default callback. The order relative to the default callback can be controlled via the order_priority parameter (the default callback has the priority GPIO_IRQ_CALLBACK_ORDER_PRIORITY which defaults to the lowest priority with the intention of it running last).</p>
 <p >This method adds such an explicit GPIO IRQ handler, and disables the "default" callback for the specified GPIOs.</p>
-<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_IRQ_SHARED_HANDLERS) would be exceeded.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_SHARED_IRQ_HANDLERS) would be exceeded.</dd></dl>
 <p>A raw handler should check for whichever GPIOs and events it handles, and acknowledge them itself; it might look something like:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> my_irq_handler(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num) &amp; my_gpio_event_mask) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num2) &amp; my_gpio_event_mask2) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">}</div>
@@ -1141,15 +1186,15 @@ Function Select Table</h3>
 <p>Adds a raw GPIO IRQ handler for the specified GPIOs on the current core. </p>
 <p >In addition to the default mechanism of a single GPIO IRQ event callback per core (see <a class="el" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>), it is possible to add explicit GPIO IRQ handlers which are called independent of the default callback. The order relative to the default callback can be controlled via the order_priority parameter (the default callback has the priority GPIO_IRQ_CALLBACK_ORDER_PRIORITY which defaults to the lowest priority with the intention of it running last).</p>
 <p >This method adds such an explicit GPIO IRQ handler, and disables the "default" callback for the specified GPIOs.</p>
-<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_IRQ_SHARED_HANDLERS) would be exceeded.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Multiple raw handlers should not be added for the same GPIOs, and this method will assert if you attempt to. Internally, this function calls <a class="el" href="group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e">irq_add_shared_handler</a>, which will assert if the maximum number of shared handlers (configurable via PICO_MAX_SHARED_IRQ_HANDLERS) would be exceeded.</dd></dl>
 <p>A raw handler should check for whichever GPIOs and events it handles, and acknowledge them itself; it might look something like:</p>
 <div class="fragment"><div class="line"><span class="keywordtype">void</span> my_irq_handler(<span class="keywordtype">void</span>) {</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num) &amp; my_gpio_event_mask) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num, my_gpio_event_mask);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__gpio.html#gaf2d1208ba7e3b02b23e7385350182583">gpio_get_irq_event_mask</a>(my_gpio_num2) &amp; my_gpio_event_mask2) {</div>
-<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
+<div class="line">       <a class="code hl_function" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f">gpio_acknowledge_irq</a>(my_gpio_num2, my_gpio_event_mask2);</div>
 <div class="line">      <span class="comment">// handle the IRQ</span></div>
 <div class="line">    }</div>
 <div class="line">}</div>
@@ -1552,7 +1597,7 @@ Function Select Table</h3>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Bitmask of events that are currently pending for the GPIO. See <a class="el" href="group__hardware__gpio.html#ga6347e27da3ab34f1ea65b5ae16ab724f">gpio_irq_level</a> for details. </dd></dl>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360" title="Acknowledge a GPIO interrupt for the specified events on the calling core.">gpio_acknowledge_irq</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f" title="Acknowledge a GPIO interrupt for the specified events on the calling core.">gpio_acknowledge_irq</a> </dd></dl>
 
 </div>
 </div>
@@ -1648,8 +1693,8 @@ Function Select Table</h3>
 
 </div>
 </div>
-<a id="ga2f3ccb15297fecd3792359d9cbbf6ed6" name="ga2f3ccb15297fecd3792359d9cbbf6ed6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga2f3ccb15297fecd3792359d9cbbf6ed6">&#9670;&nbsp;</a></span>gpio_init_mask()</h2>
+<a id="ga8537f23d524d3e75daf8fa14857fe454" name="ga8537f23d524d3e75daf8fa14857fe454"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8537f23d524d3e75daf8fa14857fe454">&#9670;&nbsp;</a></span>gpio_init_mask()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1657,11 +1702,46 @@ Function Select Table</h3>
         <tr>
           <td class="memname">void gpio_init_mask </td>
           <td>(</td>
-          <td class="paramtype">uint&#160;</td>
+          <td class="paramtype">uint32_t&#160;</td>
           <td class="paramname"><em>gpio_mask</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+<p>Initialise multiple GPIOs (enabled I/O and set func to GPIO_FUNC_SIO) </p>
+<p >Clear the output enable (i.e. set to input). Clear any output value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">gpio_mask</td><td>Mask with 1 bit per GPIO number to initialize </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga65a6d5ec41d882e7c53a7a2c6a3ac2bb" name="ga65a6d5ec41d882e7c53a7a2c6a3ac2bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga65a6d5ec41d882e7c53a7a2c6a3ac2bb">&#9670;&nbsp;</a></span>gpio_init_mask64()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void gpio_init_mask64 </td>
+          <td>(</td>
+          <td class="paramtype">uint64_t&#160;</td>
+          <td class="paramname"><em>gpio_mask</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Initialise multiple GPIOs (enabled I/O and set func to GPIO_FUNC_SIO) </p>
@@ -2209,6 +2289,7 @@ Function Select Table</h3>
 <p>Removes a raw GPIO IRQ handler for the specified GPIOs on the current core. </p>
 <p >In addition to the default mechanism of a single GPIO IRQ event callback per core (see <a class="el" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>), it is possible to add explicit GPIO IRQ handlers which are called independent of the default event callback.</p>
 <p >This method removes such a callback, and enables the "default" callback for the specified GPIOs.</p>
+<dl class="section note"><dt>Note</dt><dd>You should always use the same gpio_mask as you used when you added the raw IRQ handler.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio_mask</td><td>a bit mask of the GPIO numbers that will now be passed to the default callback for this core </td></tr>
@@ -2759,14 +2840,17 @@ Function Select Table</h3>
 
 </div>
 </div>
-<a id="ga83093178ba0ad7d711bff47fc90d361b" name="ga83093178ba0ad7d711bff47fc90d361b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga83093178ba0ad7d711bff47fc90d361b">&#9670;&nbsp;</a></span>gpio_set_function_masked64()</h2>
+<a id="ga5135b3956a6dec54794905b55fe99846" name="ga5135b3956a6dec54794905b55fe99846"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5135b3956a6dec54794905b55fe99846">&#9670;&nbsp;</a></span>gpio_set_function_masked64()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void gpio_set_function_masked64 </td>
+          <td class="memname">static void gpio_set_function_masked64 </td>
           <td>(</td>
           <td class="paramtype">uint64_t&#160;</td>
           <td class="paramname"><em>gpio_mask</em>, </td>
@@ -2783,6 +2867,11 @@ Function Select Table</h3>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 <p>Select the function for multiple GPIOs. </p>
@@ -2827,7 +2916,7 @@ Function Select Table</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio</td><td>GPIO number </td></tr>
-    <tr><td class="paramname">value</td><td>See <a class="el" href="gpio_8h.html#a760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
+    <tr><td class="paramname">value</td><td>See <a class="el" href="group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -3054,8 +3143,8 @@ Function Select Table</h3>
 <div class="line"><a class="code hl_function" href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a>(callback);</div>
 <div class="line"><span class="keywordflow">if</span> (enabled) <a class="code hl_function" href="group__hardware__irq.html#ga7c7167f643c6898b758340ce59d333d9">irq_set_enabled</a>(<a class="code hl_enumvalue" href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae9d0650a36de3bfbad6edc82a613d3c1">IO_IRQ_BANK0</a>, <span class="keyword">true</span>);</div>
 <div class="ttc" id="agroup__hardware__gpio_html_ga08b1f920beba446c4d4385de999cf945"><div class="ttname"><a href="group__hardware__gpio.html#ga08b1f920beba446c4d4385de999cf945">gpio_set_irq_enabled</a></div><div class="ttdeci">void gpio_set_irq_enabled(uint gpio, uint32_t events, bool enabled)</div><div class="ttdoc">Enable or disable specific interrupt events for specified GPIO.</div><div class="ttdef"><b>Definition:</b> gpio.c:186</div></div>
-<div class="ttc" id="agroup__hardware__gpio_html_ga37b23dea291af5926735b5e8c87b7dbb"><div class="ttname"><a href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a></div><div class="ttdeci">void gpio_set_irq_callback(gpio_irq_callback_t callback)</div><div class="ttdoc">Set the generic callback used for GPIO IRQ events for the current core.</div><div class="ttdef"><b>Definition:</b> gpio.c:208</div></div>
-<div class="ttc" id="agroup__hardware__irq_html_ga7c7167f643c6898b758340ce59d333d9"><div class="ttname"><a href="group__hardware__irq.html#ga7c7167f643c6898b758340ce59d333d9">irq_set_enabled</a></div><div class="ttdeci">void irq_set_enabled(uint num, bool enabled)</div><div class="ttdoc">Enable or disable a specific interrupt on the executing core.</div><div class="ttdef"><b>Definition:</b> irq.c:61</div></div>
+<div class="ttc" id="agroup__hardware__gpio_html_ga37b23dea291af5926735b5e8c87b7dbb"><div class="ttname"><a href="group__hardware__gpio.html#ga37b23dea291af5926735b5e8c87b7dbb">gpio_set_irq_callback</a></div><div class="ttdeci">void gpio_set_irq_callback(gpio_irq_callback_t callback)</div><div class="ttdoc">Set the generic callback used for GPIO IRQ events for the current core.</div><div class="ttdef"><b>Definition:</b> gpio.c:206</div></div>
+<div class="ttc" id="agroup__hardware__irq_html_ga7c7167f643c6898b758340ce59d333d9"><div class="ttname"><a href="group__hardware__irq.html#ga7c7167f643c6898b758340ce59d333d9">irq_set_enabled</a></div><div class="ttdeci">void irq_set_enabled(uint num, bool enabled)</div><div class="ttdoc">Enable or disable a specific interrupt on the executing core.</div><div class="ttdef"><b>Definition:</b> irq.c:60</div></div>
 <div class="ttc" id="agroup__hardware__irq_html_gga876b9495995a81dff786f07a1975c3b8ae9d0650a36de3bfbad6edc82a613d3c1"><div class="ttname"><a href="group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8ae9d0650a36de3bfbad6edc82a613d3c1">IO_IRQ_BANK0</a></div><div class="ttdeci">@ IO_IRQ_BANK0</div><div class="ttdoc">Select IO_BANK0's IRQ output.</div><div class="ttdef"><b>Definition:</b> intctrl.h:95</div></div>
 </div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>The IO IRQs are independent per-processor. This method affects only the processor that calls the function.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -3101,7 +3190,7 @@ Function Select Table</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio</td><td>GPIO number </td></tr>
-    <tr><td class="paramname">value</td><td>See <a class="el" href="gpio_8h.html#a760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
+    <tr><td class="paramname">value</td><td>See <a class="el" href="group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -3251,7 +3340,7 @@ Function Select Table</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio</td><td>GPIO number </td></tr>
-    <tr><td class="paramname">value</td><td>See <a class="el" href="gpio_8h.html#a760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
+    <tr><td class="paramname">value</td><td>See <a class="el" href="group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -3288,7 +3377,7 @@ Function Select Table</h3>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">gpio</td><td>GPIO number </td></tr>
-    <tr><td class="paramname">value</td><td>See <a class="el" href="gpio_8h.html#a760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
+    <tr><td class="paramname">value</td><td>See <a class="el" href="group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990">gpio_override</a> </td></tr>
   </table>
   </dd>
 </dl>

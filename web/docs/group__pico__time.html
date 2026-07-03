@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,7 +103,9 @@ $(document).ready(function(){initNavTree('group__pico__time.html',''); initResiz
 
 <div class="header">
   <div class="summary">
-<a href="#groups">Modules</a>  </div>
+<a href="#groups">Modules</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle"><div class="title">pico_time<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
 <div class="contents">
@@ -125,11 +127,41 @@ Modules</h2></td></tr>
 <tr class="memitem:group__repeating__timer"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__repeating__timer.html">repeating_timer</a></td></tr>
 <tr class="memdesc:group__repeating__timer"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repeating Timer functions for simple scheduling of repeated execution. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtimeout__state.html">timeout_state</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">State used to track a timeout condition.  <a href="structtimeout__state.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga9751b09d0b4e9271e9fb467ca3ed470f"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structtimeout__state.html">timeout_state</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__time.html#ga9751b09d0b4e9271e9fb467ca3ed470f">timeout_state_t</a></td></tr>
+<tr class="memdesc:ga9751b09d0b4e9271e9fb467ca3ed470f"><td class="mdescLeft">&#160;</td><td class="mdescRight">State used to track a timeout condition.  <a href="group__pico__time.html#ga9751b09d0b4e9271e9fb467ca3ed470f">More...</a><br /></td></tr>
+<tr class="separator:ga9751b09d0b4e9271e9fb467ca3ed470f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >API for accurate timestamps, sleeping, and time based callbacks. </p>
 <dl class="section note"><dt>Note</dt><dd>The functions defined here provide a much more powerful and user friendly wrapping around the low level hardware timer functionality. For these functions (and any other SDK functionality e.g. timeouts, that relies on them) to work correctly, the hardware timer should not be modified. i.e. it is expected to be monotonically increasing once per microsecond. Fortunately there is no need to modify the hardware timer as any functionality you can think of that isn't already covered here can easily be modelled by adding or subtracting a constant value from the unmodified hardware timer.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__timer.html">hardware_timer</a> </dd></dl>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga9751b09d0b4e9271e9fb467ca3ed470f" name="ga9751b09d0b4e9271e9fb467ca3ed470f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9751b09d0b4e9271e9fb467ca3ed470f">&#9670;&nbsp;</a></span>timeout_state_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structtimeout__state.html">timeout_state</a> <a class="el" href="group__pico__time.html#ga9751b09d0b4e9271e9fb467ca3ed470f">timeout_state_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>State used to track a timeout condition. </p>
+<p >Holds the deadline and an optional per-iteration parameter used by the check_timeout_fn callbacks returned by the init functions. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

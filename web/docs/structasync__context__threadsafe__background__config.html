@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -108,7 +108,7 @@ $(document).ready(function(){initNavTree('structasync__context__threadsafe__back
 </div><!--header-->
 <div class="contents">
 
-<p>Configuration object for <a class="el" href="structasync__context__threadsafe__background.html">async_context_threadsafe_background</a> instances.  
+<p>Configuration object for <a class="el" href="structasync__context__threadsafe__background.html" title="Internal state for an async_context_threadsafe_background instance.">async_context_threadsafe_background</a> instances.  
  <a href="structasync__context__threadsafe__background__config.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="async__context__threadsafe__background_8h_source.html">async_context_threadsafe_background.h</a>&gt;</code></p>
@@ -134,7 +134,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>low_priority_irq_h
 <tr class="separator:a8776bae13027752f07a4f3170b2c47b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Configuration object for <a class="el" href="structasync__context__threadsafe__background.html">async_context_threadsafe_background</a> instances. </p>
+<div class="textblock"><p >Configuration object for <a class="el" href="structasync__context__threadsafe__background.html" title="Internal state for an async_context_threadsafe_background instance.">async_context_threadsafe_background</a> instances. </p>
 </div><h2 class="groupheader">Field Documentation</h2>
 <a id="a8776bae13027752f07a4f3170b2c47b2" name="a8776bae13027752f07a4f3170b2c47b2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8776bae13027752f07a4f3170b2c47b2">&#9670;&nbsp;</a></span>custom_alarm_pool</h2>
@@ -149,7 +149,7 @@ uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>low_priority_irq_h
 </div><div class="memdoc">
 
 <p>a specific alarm pool to use (or NULL to use ta default) </p>
-<dl class="section note"><dt>Note</dt><dd>this alarm pool MUST be on the same core as the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a></dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This alarm pool MUST be on the same core as the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a></dd></dl>
 <p>The default alarm pool used is the "default alarm pool" (see <a class="el" href="group__alarm.html#ga5092ceb879289c0a597a389f34b4815e">alarm_pool_get_default()</a>) if available, and if that is on the same core, otherwise a private <a class="el" href="structalarm__pool.html">alarm_pool</a> instance created during initialization. </p>
 
 </div>

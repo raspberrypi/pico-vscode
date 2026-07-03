@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,16 +104,21 @@ $(document).ready(function(){initNavTree('structpicobin__load__map.html',''); in
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">picobin_load_map Struct Reference</div></div>
+  <div class="headertitle"><div class="title">picobin_load_map Struct Reference<div class="ingroups"><a class="el" href="group__misc.html">External API Headers</a> &raquo; <a class="el" href="group__boot__picobin__headers.html">boot_picobin_headers</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>PICOBIN load map describing regions to copy from storage to RAM.  
+ <a href="structpicobin__load__map.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="picobin_8h_source.html">picobin.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for picobin_load_map:</div>
 <div class="dyncontent">
 <div class="center"><img src="structpicobin__load__map__coll__graph.png" border="0" usemap="#apicobin__load__map_coll__map" alt="Collaboration graph"/></div>
 <map name="apicobin__load__map_coll__map" id="apicobin__load__map_coll__map">
-<area shape="rect" title=" " alt="" coords="26,95,166,121"/>
-<area shape="rect" href="structpicobin__load__map__entry.html" title=" " alt="" coords="5,5,187,32"/>
+<area shape="rect" title="PICOBIN load map describing regions to copy from storage to RAM." alt="" coords="26,95,166,121"/>
+<area shape="rect" href="structpicobin__load__map__entry.html" title="A single entry in a PICOBIN load map." alt="" coords="5,5,187,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -121,12 +126,17 @@ Collaboration diagram for picobin_load_map:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:afda9639805e6ee6055b7a183f4ec94f6"><td class="memItemLeft" align="right" valign="top"><a id="afda9639805e6ee6055b7a183f4ec94f6" name="afda9639805e6ee6055b7a183f4ec94f6"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>header</b></td></tr>
+<tr class="memdesc:afda9639805e6ee6055b7a183f4ec94f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encodes the item type, item size, entry count, and whether addresses are absolute or relative. <br /></td></tr>
 <tr class="separator:afda9639805e6ee6055b7a183f4ec94f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4dcd30f0d38f945cbb8c63e5e8b9096"><td class="memItemLeft" align="right" valign="top"><a id="ad4dcd30f0d38f945cbb8c63e5e8b9096" name="ad4dcd30f0d38f945cbb8c63e5e8b9096"></a>
 <a class="el" href="structpicobin__load__map__entry.html">picobin_load_map_entry</a>&#160;</td><td class="memItemRight" valign="bottom"><b>entries</b> []</td></tr>
+<tr class="memdesc:ad4dcd30f0d38f945cbb8c63e5e8b9096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Array of load map entries. <br /></td></tr>
 <tr class="separator:ad4dcd30f0d38f945cbb8c63e5e8b9096"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >PICOBIN load map describing regions to copy from storage to RAM. </p>
+<p >Contains a header word followed by a variable-length array of load map entries. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/boot/<a class="el" href="picobin_8h_source.html">picobin.h</a></li>
 </ul>
 </div><!-- contents -->

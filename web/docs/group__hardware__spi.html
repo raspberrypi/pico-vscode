@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -125,9 +125,15 @@ Macros</h2></td></tr>
 <tr class="memitem:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">SPI_INSTANCE</a>(num)</td></tr>
 <tr class="memdesc:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the SPI instance with the given SPI number.  <a href="group__hardware__spi.html#gae1d6ac7c86e9f76d5c1a38c6dfd978b9">More...</a><br /></td></tr>
 <tr class="separator:gae1d6ac7c86e9f76d5c1a38c6dfd978b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaee3689ec2b7c83067425b6cf6d89ab43"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaee3689ec2b7c83067425b6cf6d89ab43">SPI_IS_INSTANCE</a>(spi)</td></tr>
+<tr class="memdesc:gaee3689ec2b7c83067425b6cf6d89ab43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the SPI instance is one of the h/w SPI instances.  <a href="group__hardware__spi.html#gaee3689ec2b7c83067425b6cf6d89ab43">More...</a><br /></td></tr>
+<tr class="separator:gaee3689ec2b7c83067425b6cf6d89ab43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaa470b3363ffe872bba90d31814d33baa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa">SPI_DREQ_NUM</a>(spi,  is_tx)</td></tr>
 <tr class="memdesc:gaa470b3363ffe872bba90d31814d33baa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a> used for pacing DMA transfers to or from this SPI instance. If is_tx is true, then it is for transfers to the SPI else for transfers from the SPI.  <a href="group__hardware__spi.html#gaa470b3363ffe872bba90d31814d33baa">More...</a><br /></td></tr>
 <tr class="separator:gaa470b3363ffe872bba90d31814d33baa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa48a23e607a50f868bce58a37c6dca6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaa48a23e607a50f868bce58a37c6dca6f">SPI_RESET_NUM</a>(spi)</td></tr>
+<tr class="memdesc:gaa48a23e607a50f868bce58a37c6dca6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> used to reset a given SPI instance.  <a href="group__hardware__spi.html#gaa48a23e607a50f868bce58a37c6dca6f">More...</a><br /></td></tr>
+<tr class="separator:gaa48a23e607a50f868bce58a37c6dca6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -164,6 +170,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ga88620398eae6e0f66b551be57a279273"><td class="memItemLeft" align="right" valign="top">static uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga88620398eae6e0f66b551be57a279273">spi_get_index</a> (const <a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi)</td></tr>
 <tr class="memdesc:ga88620398eae6e0f66b551be57a279273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert SPI instance to hardware instance number.  <a href="group__hardware__spi.html#ga88620398eae6e0f66b551be57a279273">More...</a><br /></td></tr>
 <tr class="separator:ga88620398eae6e0f66b551be57a279273"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaebc5b45ed48a12f4c0f0679b0dfe84b1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#gaebc5b45ed48a12f4c0f0679b0dfe84b1">spi_get_instance</a> (uint num)</td></tr>
+<tr class="memdesc:gaebc5b45ed48a12f4c0f0679b0dfe84b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the SPI instance from an instance number.  <a href="group__hardware__spi.html#gaebc5b45ed48a12f4c0f0679b0dfe84b1">More...</a><br /></td></tr>
+<tr class="separator:gaebc5b45ed48a12f4c0f0679b0dfe84b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga137168d01d302239d52420ad4f895d44"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__spi.html#ga137168d01d302239d52420ad4f895d44">spi_set_format</a> (<a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> *spi, uint data_bits, <a class="el" href="group__hardware__spi.html#ga49a77d9a0320db6d3451a9dda2b8a24b">spi_cpol_t</a> cpol, <a class="el" href="group__hardware__spi.html#ga9850de61d3f6dcacbfb4e5cc5a7d2951">spi_cpha_t</a> cpha, __unused <a class="el" href="group__hardware__spi.html#gaa9e8effacf4291301048ef7df03d353e">spi_order_t</a> order)</td></tr>
 <tr class="memdesc:ga137168d01d302239d52420ad4f895d44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure SPI.  <a href="group__hardware__spi.html#ga137168d01d302239d52420ad4f895d44">More...</a><br /></td></tr>
 <tr class="separator:ga137168d01d302239d52420ad4f895d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -292,6 +301,27 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="gaee3689ec2b7c83067425b6cf6d89ab43" name="gaee3689ec2b7c83067425b6cf6d89ab43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaee3689ec2b7c83067425b6cf6d89ab43">&#9670;&nbsp;</a></span>SPI_IS_INSTANCE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SPI_IS_INSTANCE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">spi</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns true if the SPI instance is one of the h/w SPI instances. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
 <a id="ga39308f1ccde24d91e0075059b380dd3a" name="ga39308f1ccde24d91e0075059b380dd3a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga39308f1ccde24d91e0075059b380dd3a">&#9670;&nbsp;</a></span>SPI_NUM</h2>
 
@@ -309,6 +339,27 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Returns the SPI number for a SPI instance. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
+<a id="gaa48a23e607a50f868bce58a37c6dca6f" name="gaa48a23e607a50f868bce58a37c6dca6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaa48a23e607a50f868bce58a37c6dca6f">&#9670;&nbsp;</a></span>SPI_RESET_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SPI_RESET_NUM</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">spi</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__resets.html#ga53804b75cce5eb3090d482b0af2a7ce0">reset_num_t</a> used to reset a given SPI instance. </p>
 <p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
 
 </div>
@@ -358,7 +409,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get SPI baudrate. </p>
-<p >Get SPI baudrate which was set by </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__spi.html#ga37f4c04ce4165ac8c129226336a0b66c" title="Set SPI baudrate.">spi_set_baudrate</a></dd></dl>
+<p >Get SPI baudrate which was set by <a class="el" href="group__hardware__spi.html#ga37f4c04ce4165ac8c129226336a0b66c">spi_set_baudrate</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">spi</td><td>SPI instance specifier, either <a class="el" href="group__hardware__spi.html#ga9d931d2e2e5b1dfd8d5f1dea80df4dbd">spi0</a> or <a class="el" href="group__hardware__spi.html#ga3de59ab064bc9405b059edce4366c694">spi1</a> </td></tr>
@@ -446,6 +497,41 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Number of SPI, 0 or 1. </dd></dl>
+
+</div>
+</div>
+<a id="gaebc5b45ed48a12f4c0f0679b0dfe84b1" name="gaebc5b45ed48a12f4c0f0679b0dfe84b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaebc5b45ed48a12f4c0f0679b0dfe84b1">&#9670;&nbsp;</a></span>spi_get_instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9">spi_inst_t</a> * spi_get_instance </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the SPI instance from an instance number. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">num</td><td>Number of SPI, 0 or 1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>SPI instance </dd></dl>
 
 </div>
 </div>

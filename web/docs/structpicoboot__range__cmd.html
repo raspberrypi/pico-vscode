@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,20 +104,30 @@ $(document).ready(function(){initNavTree('structpicoboot__range__cmd.html',''); 
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">picoboot_range_cmd Struct Reference</div></div>
+  <div class="headertitle"><div class="title">picoboot_range_cmd Struct Reference<div class="ingroups"><a class="el" href="group__misc.html">External API Headers</a> &raquo; <a class="el" href="group__boot__picoboot__headers.html">boot_picoboot_headers</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Parameters for a command that operates on an address range.  
+ <a href="structpicoboot__range__cmd.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="picoboot_8h_source.html">picoboot.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a3e4f9e9dcae52a430944e20696d08247"><td class="memItemLeft" align="right" valign="top"><a id="a3e4f9e9dcae52a430944e20696d08247" name="a3e4f9e9dcae52a430944e20696d08247"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dAddr</b></td></tr>
+<tr class="memdesc:a3e4f9e9dcae52a430944e20696d08247"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start address of the range. <br /></td></tr>
 <tr class="separator:a3e4f9e9dcae52a430944e20696d08247"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af39d5d8630e523759ae726de01fb4954"><td class="memItemLeft" align="right" valign="top"><a id="af39d5d8630e523759ae726de01fb4954" name="af39d5d8630e523759ae726de01fb4954"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dSize</b></td></tr>
+<tr class="memdesc:af39d5d8630e523759ae726de01fb4954"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the range in bytes. <br /></td></tr>
 <tr class="separator:af39d5d8630e523759ae726de01fb4954"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Parameters for a command that operates on an address range. </p>
+<p >Sent as the argument payload of PC_READ, PC_WRITE, and PC_FLASH_ERASE commands. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/boot/<a class="el" href="picoboot_8h_source.html">picoboot.h</a></li>
 </ul>
 </div><!-- contents -->

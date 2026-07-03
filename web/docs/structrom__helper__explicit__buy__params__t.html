@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,23 +104,34 @@ $(document).ready(function(){initNavTree('structrom__helper__explicit__buy__para
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">rom_helper_explicit_buy_params_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">rom_helper_explicit_buy_params_t Struct Reference<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a> &raquo; <a class="el" href="group__pico__bootrom.html">pico_bootrom</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Parameters for the explicit buy helper used with flash_safe_execute.  
+ <a href="structrom__helper__explicit__buy__params__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="bootrom_8h_source.html">bootrom.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a16e60f2c25fe670ff9d0452f202ff5de"><td class="memItemLeft" align="right" valign="top"><a id="a16e60f2c25fe670ff9d0452f202ff5de" name="a16e60f2c25fe670ff9d0452f202ff5de"></a>
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b></td></tr>
+<tr class="memdesc:a16e60f2c25fe670ff9d0452f202ff5de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Word-aligned base address of the scratch space buffer. <br /></td></tr>
 <tr class="separator:a16e60f2c25fe670ff9d0452f202ff5de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4932e5ca28c8405bb1ac6f902c6c37d"><td class="memItemLeft" align="right" valign="top"><a id="aa4932e5ca28c8405bb1ac6f902c6c37d" name="aa4932e5ca28c8405bb1ac6f902c6c37d"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_size</b></td></tr>
+<tr class="memdesc:aa4932e5ca28c8405bb1ac6f902c6c37d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the scratch space buffer in bytes (at least 4 KiB) <br /></td></tr>
 <tr class="separator:aa4932e5ca28c8405bb1ac6f902c6c37d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4f2e0f45489601fff200e6da69ee1db"><td class="memItemLeft" align="right" valign="top"><a id="ab4f2e0f45489601fff200e6da69ee1db" name="ab4f2e0f45489601fff200e6da69ee1db"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><b>res</b></td></tr>
+<tr class="memdesc:ab4f2e0f45489601fff200e6da69ee1db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to store the return code from the explicit buy operation. <br /></td></tr>
 <tr class="separator:ab4f2e0f45489601fff200e6da69ee1db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Parameters for the explicit buy helper used with flash_safe_execute. </p>
+<p >Bundles the arguments for rom_explicit_buy so they can be passed through the flash_safe_execute callback interface as a single pointer. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/<a class="el" href="bootrom_8h_source.html">bootrom.h</a></li>
 </ul>
 </div><!-- contents -->

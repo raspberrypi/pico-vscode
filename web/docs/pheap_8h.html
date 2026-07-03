@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -116,23 +116,24 @@ Include dependency graph for pheap.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="pheap_8h__incl.png" border="0" usemap="#ainclude_2pico_2util_2pheap_8h" alt=""/></div>
 <map name="ainclude_2pico_2util_2pheap_8h" id="ainclude_2pico_2util_2pheap_8h">
-<area shape="rect" title=" " alt="" coords="351,5,533,32"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
+<area shape="rect" title=" " alt="" coords="447,5,629,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="507,80,569,107"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
-<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" title=" " alt="" coords="348,155,461,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="486,155,590,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,155,813,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,155,932,181"/>
 <area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
 <area shape="rect" title=" " alt="" coords="74,453,157,480"/>
 <area shape="rect" title=" " alt="" coords="211,379,281,405"/>
 <area shape="rect" title=" " alt="" coords="306,379,381,405"/>
 <area shape="rect" title=" " alt="" coords="173,229,337,256"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="362,229,543,256"/>
 <area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
 <area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
-<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
-<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="955,229,1137,256"/>
+<area shape="rect" title=" " alt="" coords="1162,229,1373,256"/>
+<area shape="rect" title=" " alt="" coords="1397,229,1548,256"/>
 <area shape="rect" title=" " alt="" coords="357,304,548,331"/>
 </map>
 </div>
@@ -142,8 +143,10 @@ Include dependency graph for pheap.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpheap__node.html">pheap_node</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A node within a pairing heap.  <a href="structpheap__node.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpheap.html">pheap</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pairing heap instance.  <a href="structpheap.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -163,64 +166,64 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a0692045973f15c3302c72f623244ed70"><td class="memItemLeft" align="right" valign="top"><a id="a0692045973f15c3302c72f623244ed70" name="a0692045973f15c3302c72f623244ed70"></a>
 typedef uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>pheap_node_id_t</b></td></tr>
 <tr class="separator:a0692045973f15c3302c72f623244ed70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55cc841f8c9956ab1facf0c150bcb81a"><td class="memItemLeft" align="right" valign="top"><a id="a55cc841f8c9956ab1facf0c150bcb81a" name="a55cc841f8c9956ab1facf0c150bcb81a"></a>
-typedef struct <a class="el" href="structpheap__node.html">pheap_node</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pheap_node_t</b></td></tr>
-<tr class="separator:a55cc841f8c9956ab1facf0c150bcb81a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga55cc841f8c9956ab1facf0c150bcb81a"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structpheap__node.html">pheap_node</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga55cc841f8c9956ab1facf0c150bcb81a">pheap_node_t</a></td></tr>
+<tr class="memdesc:ga55cc841f8c9956ab1facf0c150bcb81a"><td class="mdescLeft">&#160;</td><td class="mdescRight">A node within a pairing heap.  <a href="group__util__pheap.html#ga55cc841f8c9956ab1facf0c150bcb81a">More...</a><br /></td></tr>
+<tr class="separator:ga55cc841f8c9956ab1facf0c150bcb81a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0656dff462e9c9b41b60b7c86ba39f09"><td class="memItemLeft" align="right" valign="top">typedef bool(*&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a>) (void *user_data, pheap_node_id_t a, pheap_node_id_t b)</td></tr>
 <tr class="memdesc:ga0656dff462e9c9b41b60b7c86ba39f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">A user comparator function for nodes in a pairing heap.  <a href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">More...</a><br /></td></tr>
 <tr class="separator:ga0656dff462e9c9b41b60b7c86ba39f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08712072a1b1a0c405e0c1807357888f"><td class="memItemLeft" align="right" valign="top"><a id="a08712072a1b1a0c405e0c1807357888f" name="a08712072a1b1a0c405e0c1807357888f"></a>
-typedef struct <a class="el" href="structpheap.html">pheap</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pheap_t</b></td></tr>
-<tr class="separator:a08712072a1b1a0c405e0c1807357888f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga08712072a1b1a0c405e0c1807357888f"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structpheap.html">pheap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a></td></tr>
+<tr class="memdesc:ga08712072a1b1a0c405e0c1807357888f"><td class="mdescLeft">&#160;</td><td class="mdescRight">A pairing heap instance.  <a href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">More...</a><br /></td></tr>
+<tr class="separator:ga08712072a1b1a0c405e0c1807357888f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gacde2f3fabd67330b56dbb8473387b272"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structpheap.html">pheap_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gacde2f3fabd67330b56dbb8473387b272">ph_create</a> (uint max_nodes, <a class="el" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, void *user_data)</td></tr>
+<tr class="memitem:gacde2f3fabd67330b56dbb8473387b272"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gacde2f3fabd67330b56dbb8473387b272">ph_create</a> (uint max_nodes, <a class="el" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, void *user_data)</td></tr>
 <tr class="memdesc:gacde2f3fabd67330b56dbb8473387b272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a pairing heap, which effectively maintains an efficient sorted ordering of nodes. The heap itself stores no user per-node state, it is expected that the user maintains a companion array. A comparator function must be provided so that the heap implementation can determine the relative ordering of nodes.  <a href="group__util__pheap.html#gacde2f3fabd67330b56dbb8473387b272">More...</a><br /></td></tr>
 <tr class="separator:gacde2f3fabd67330b56dbb8473387b272"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1fe718acebd018d31cab37071a65c61b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga1fe718acebd018d31cab37071a65c61b">ph_clear</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap)</td></tr>
+<tr class="memitem:ga1fe718acebd018d31cab37071a65c61b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga1fe718acebd018d31cab37071a65c61b">ph_clear</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap)</td></tr>
 <tr class="memdesc:ga1fe718acebd018d31cab37071a65c61b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes all nodes from the pairing heap.  <a href="group__util__pheap.html#ga1fe718acebd018d31cab37071a65c61b">More...</a><br /></td></tr>
 <tr class="separator:ga1fe718acebd018d31cab37071a65c61b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0ad42a7be2446ffcdbce6c9c3590eb8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga0ad42a7be2446ffcdbce6c9c3590eb8e">ph_destroy</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap)</td></tr>
+<tr class="memitem:ga0ad42a7be2446ffcdbce6c9c3590eb8e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga0ad42a7be2446ffcdbce6c9c3590eb8e">ph_destroy</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap)</td></tr>
 <tr class="memdesc:ga0ad42a7be2446ffcdbce6c9c3590eb8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-allocates a pairing heap.  <a href="group__util__pheap.html#ga0ad42a7be2446ffcdbce6c9c3590eb8e">More...</a><br /></td></tr>
 <tr class="separator:ga0ad42a7be2446ffcdbce6c9c3590eb8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93788bb2795becc23f12e268bdeea213"><td class="memItemLeft" align="right" valign="top"><a id="a93788bb2795becc23f12e268bdeea213" name="a93788bb2795becc23f12e268bdeea213"></a>
-static <a class="el" href="structpheap__node.html">pheap_node_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ph_get_node</b> (<a class="el" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
+static <a class="el" href="group__util__pheap.html#ga55cc841f8c9956ab1facf0c150bcb81a">pheap_node_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>ph_get_node</b> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
 <tr class="separator:a93788bb2795becc23f12e268bdeea213"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a21f776fcd536ab440eed0651a93851"><td class="memItemLeft" align="right" valign="top"><a id="a8a21f776fcd536ab440eed0651a93851" name="a8a21f776fcd536ab440eed0651a93851"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>ph_add_child_node</b> (<a class="el" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t parent_id, pheap_node_id_t child_id)</td></tr>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>ph_add_child_node</b> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, pheap_node_id_t parent_id, pheap_node_id_t child_id)</td></tr>
 <tr class="separator:a8a21f776fcd536ab440eed0651a93851"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac62c59afb18a731e763149c20c03d224"><td class="memItemLeft" align="right" valign="top"><a id="ac62c59afb18a731e763149c20c03d224" name="ac62c59afb18a731e763149c20c03d224"></a>
-static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>ph_merge_nodes</b> (<a class="el" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t a, pheap_node_id_t b)</td></tr>
+static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>ph_merge_nodes</b> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, pheap_node_id_t a, pheap_node_id_t b)</td></tr>
 <tr class="separator:ac62c59afb18a731e763149c20c03d224"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf631622b2fe9dbd39f39d457eef502d0"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gaf631622b2fe9dbd39f39d457eef502d0">ph_new_node</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap)</td></tr>
+<tr class="memitem:gaf631622b2fe9dbd39f39d457eef502d0"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gaf631622b2fe9dbd39f39d457eef502d0">ph_new_node</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap)</td></tr>
 <tr class="memdesc:gaf631622b2fe9dbd39f39d457eef502d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allocate a new node from the unused space in the heap.  <a href="group__util__pheap.html#gaf631622b2fe9dbd39f39d457eef502d0">More...</a><br /></td></tr>
 <tr class="separator:gaf631622b2fe9dbd39f39d457eef502d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab68363a744cae76cf6cce07fc60f4a5c"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gab68363a744cae76cf6cce07fc60f4a5c">ph_insert_node</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
+<tr class="memitem:gab68363a744cae76cf6cce07fc60f4a5c"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gab68363a744cae76cf6cce07fc60f4a5c">ph_insert_node</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
 <tr class="memdesc:gab68363a744cae76cf6cce07fc60f4a5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts a node into the heap.  <a href="group__util__pheap.html#gab68363a744cae76cf6cce07fc60f4a5c">More...</a><br /></td></tr>
 <tr class="separator:gab68363a744cae76cf6cce07fc60f4a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9723f40e88f36de3cd6cd955e3410600"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga9723f40e88f36de3cd6cd955e3410600">ph_peek_head</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap)</td></tr>
+<tr class="memitem:ga9723f40e88f36de3cd6cd955e3410600"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga9723f40e88f36de3cd6cd955e3410600">ph_peek_head</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap)</td></tr>
 <tr class="memdesc:ga9723f40e88f36de3cd6cd955e3410600"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the head node in the heap, i.e. the node which compares first, but without removing it from the heap.  <a href="group__util__pheap.html#ga9723f40e88f36de3cd6cd955e3410600">More...</a><br /></td></tr>
 <tr class="separator:ga9723f40e88f36de3cd6cd955e3410600"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga8ebc494b4ad703fe080bee5f18775fec"><td class="memItemLeft" align="right" valign="top">pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap, bool free)</td></tr>
+<tr class="memitem:ga8ebc494b4ad703fe080bee5f18775fec"><td class="memItemLeft" align="right" valign="top">pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga8ebc494b4ad703fe080bee5f18775fec">ph_remove_head</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, bool free)</td></tr>
 <tr class="memdesc:ga8ebc494b4ad703fe080bee5f18775fec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the head node from the pairing heap. This head node is the node which compares first in the logical ordering provided by the comparator.  <a href="group__util__pheap.html#ga8ebc494b4ad703fe080bee5f18775fec">More...</a><br /></td></tr>
 <tr class="separator:ga8ebc494b4ad703fe080bee5f18775fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaee7c4944ce644b92572b48b7d14fc65e"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gaee7c4944ce644b92572b48b7d14fc65e">ph_remove_and_free_head</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap)</td></tr>
+<tr class="memitem:gaee7c4944ce644b92572b48b7d14fc65e"><td class="memItemLeft" align="right" valign="top">static pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gaee7c4944ce644b92572b48b7d14fc65e">ph_remove_and_free_head</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap)</td></tr>
 <tr class="memdesc:gaee7c4944ce644b92572b48b7d14fc65e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove the head node from the pairing heap. This head node is the node which compares first in the logical ordering provided by the comparator.  <a href="group__util__pheap.html#gaee7c4944ce644b92572b48b7d14fc65e">More...</a><br /></td></tr>
 <tr class="separator:gaee7c4944ce644b92572b48b7d14fc65e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga852301ee2d8d4c3985dd61c14eb820a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga852301ee2d8d4c3985dd61c14eb820a8">ph_remove_and_free_node</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
+<tr class="memitem:ga852301ee2d8d4c3985dd61c14eb820a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga852301ee2d8d4c3985dd61c14eb820a8">ph_remove_and_free_node</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
 <tr class="memdesc:ga852301ee2d8d4c3985dd61c14eb820a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove and free an arbitrary node from the pairing heap. This is a more costly operation than removing the head via <a class="el" href="group__util__pheap.html#gaee7c4944ce644b92572b48b7d14fc65e" title="Remove the head node from the pairing heap. This head node is the node which compares first in the lo...">ph_remove_and_free_head()</a>  <a href="group__util__pheap.html#ga852301ee2d8d4c3985dd61c14eb820a8">More...</a><br /></td></tr>
 <tr class="separator:ga852301ee2d8d4c3985dd61c14eb820a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga799a2b5a1db608401482816d371a02a5"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga799a2b5a1db608401482816d371a02a5">ph_contains_node</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
+<tr class="memitem:ga799a2b5a1db608401482816d371a02a5"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga799a2b5a1db608401482816d371a02a5">ph_contains_node</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
 <tr class="memdesc:ga799a2b5a1db608401482816d371a02a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the heap contains a given node. Note containment refers to whether the node is inserted (<a class="el" href="group__util__pheap.html#gab68363a744cae76cf6cce07fc60f4a5c" title="Inserts a node into the heap.">ph_insert_node()</a>) vs allocated (<a class="el" href="group__util__pheap.html#gaf631622b2fe9dbd39f39d457eef502d0" title="Allocate a new node from the unused space in the heap.">ph_new_node()</a>)  <a href="group__util__pheap.html#ga799a2b5a1db608401482816d371a02a5">More...</a><br /></td></tr>
 <tr class="separator:ga799a2b5a1db608401482816d371a02a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga16d2f59279aad9419ebab05bf15d70b2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga16d2f59279aad9419ebab05bf15d70b2">ph_free_node</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
+<tr class="memitem:ga16d2f59279aad9419ebab05bf15d70b2"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga16d2f59279aad9419ebab05bf15d70b2">ph_free_node</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, pheap_node_id_t id)</td></tr>
 <tr class="memdesc:ga16d2f59279aad9419ebab05bf15d70b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Free a node that is not currently in the heap, but has been allocated.  <a href="group__util__pheap.html#ga16d2f59279aad9419ebab05bf15d70b2">More...</a><br /></td></tr>
 <tr class="separator:ga16d2f59279aad9419ebab05bf15d70b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaaac9dd2a264364a16a5753ba08c268cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gaaac9dd2a264364a16a5753ba08c268cf">ph_dump</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap, void(*dump_key)(pheap_node_id_t id, void *user_data), void *user_data)</td></tr>
+<tr class="memitem:gaaac9dd2a264364a16a5753ba08c268cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#gaaac9dd2a264364a16a5753ba08c268cf">ph_dump</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, void(*dump_key)(pheap_node_id_t id, void *user_data), void *user_data)</td></tr>
 <tr class="memdesc:gaaac9dd2a264364a16a5753ba08c268cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print a representation of the heap for debugging.  <a href="group__util__pheap.html#gaaac9dd2a264364a16a5753ba08c268cf">More...</a><br /></td></tr>
 <tr class="separator:gaaac9dd2a264364a16a5753ba08c268cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga5f8a3b950288b90310216126750ae0ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga5f8a3b950288b90310216126750ae0ef">ph_post_alloc_init</a> (<a class="el" href="structpheap.html">pheap_t</a> *heap, uint max_nodes, <a class="el" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, void *user_data)</td></tr>
+<tr class="memitem:ga5f8a3b950288b90310216126750ae0ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__util__pheap.html#ga5f8a3b950288b90310216126750ae0ef">ph_post_alloc_init</a> (<a class="el" href="group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f">pheap_t</a> *heap, uint max_nodes, <a class="el" href="group__util__pheap.html#ga0656dff462e9c9b41b60b7c86ba39f09">pheap_comparator</a> comparator, void *user_data)</td></tr>
 <tr class="memdesc:ga5f8a3b950288b90310216126750ae0ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize a statically allocated heap (<a class="el" href="group__util__pheap.html#gacde2f3fabd67330b56dbb8473387b272" title="Create a pairing heap, which effectively maintains an efficient sorted ordering of nodes....">ph_create()</a> using the C heap). The heap member <code>nodes</code> must be allocated of size max_nodes.  <a href="group__util__pheap.html#ga5f8a3b950288b90310216126750ae0ef">More...</a><br /></td></tr>
 <tr class="separator:ga5f8a3b950288b90310216126750ae0ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>

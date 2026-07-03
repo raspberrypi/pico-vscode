@@ -1,11 +1,33 @@
 var group__pico__bootrom =
 [
+    [ "rom_helper_flash_op_params_t", "structrom__helper__flash__op__params__t.html", [
+      [ "addr", "structrom__helper__flash__op__params__t.html#ac7c42ff5221f9910a4415809e5126cdd", null ],
+      [ "buf", "structrom__helper__flash__op__params__t.html#a534f1ee7b3055b7640ee05805b5b655a", null ],
+      [ "flags", "structrom__helper__flash__op__params__t.html#ab1b2ae1a4a2f5238afb0ae3b9d3b49b6", null ],
+      [ "res", "structrom__helper__flash__op__params__t.html#a26eeb414ed341328fdb6a89fd3fa3275", null ],
+      [ "size_bytes", "structrom__helper__flash__op__params__t.html#ac443d1986f86328babe89b536afbf7a1", null ]
+    ] ],
+    [ "rom_helper_explicit_buy_params_t", "structrom__helper__explicit__buy__params__t.html", [
+      [ "buffer", "structrom__helper__explicit__buy__params__t.html#a16e60f2c25fe670ff9d0452f202ff5de", null ],
+      [ "buffer_size", "structrom__helper__explicit__buy__params__t.html#aa4932e5ca28c8405bb1ac6f902c6c37d", null ],
+      [ "res", "structrom__helper__explicit__buy__params__t.html#ab4f2e0f45489601fff200e6da69ee1db", null ]
+    ] ],
+    [ "boot_info_t", "structboot__info__t.html", [
+      [ "boot_diagnostic", "structboot__info__t.html#aeb71e33680471183f7eafb3953c06dbb", null ],
+      [ "boot_type", "structboot__info__t.html#acae932d647a4b3121430c24f77a64420", null ],
+      [ "boot_word", "structboot__info__t.html#a4f5ad08893fd8e083e56905e36f4f3d8", null ],
+      [ "diagnostic_partition_index", "structboot__info__t.html#ab28b3bbf222e46618feea2be79e861b4", null ],
+      [ "partition", "structboot__info__t.html#a0ca45681044eac0efbb63c67a48f96b1", null ],
+      [ "reboot_params", "structboot__info__t.html#a59db2ea16c0e54109919a9b98a901c8a", null ],
+      [ "tbyb_and_update_info", "structboot__info__t.html#a65bf0eb18ae5dbaf8f031c5dc303ce89", null ]
+    ] ],
     [ "ROM_TABLE_CODE", "group__pico__bootrom.html#ga5b3c93cbab0054e9938f2aca7261a73e", null ],
     [ "rom_add_flash_runtime_partition", "group__pico__bootrom.html#ga17b99a409a7c1d595c202d0fa0d98c6e", null ],
     [ "rom_bootrom_state_reset", "group__pico__bootrom.html#ga5067c3bfdb2dc2a08b6e84b40281cabd", null ],
     [ "rom_chain_image", "group__pico__bootrom.html#gaf6ccde86cb9eaffb69667c36110ab318", null ],
     [ "rom_connect_internal_flash", "group__pico__bootrom.html#ga3ba1206778b333958c0dae5582d53bc3", null ],
     [ "rom_data_lookup", "group__pico__bootrom.html#gad3e66e7bcbf0448a0a63cf37dfb4b53c", null ],
+    [ "rom_data_lookup_inline", "group__pico__bootrom.html#gab847da57a2e44ee54e3e4b282578714a", null ],
     [ "rom_explicit_buy", "group__pico__bootrom.html#ga3476920d3da9f3882e61eb9ba5ed83f5", null ],
     [ "rom_flash_enter_cmd_xip", "group__pico__bootrom.html#ga44ddf78266c92f7a486712b87a695b45", null ],
     [ "rom_flash_exit_xip", "group__pico__bootrom.html#ga41206eddaf67511768746b947b9c47f6", null ],
@@ -26,6 +48,7 @@ var group__pico__bootrom =
     [ "rom_get_uf2_target_partition", "group__pico__bootrom.html#gad19f4e80f36e015336ef33003d2f2982", null ],
     [ "rom_load_partition_table", "group__pico__bootrom.html#gafc3ac79dba27ea676b281106b84bbfaf", null ],
     [ "rom_pick_ab_partition", "group__pico__bootrom.html#ga1763ac821dcd10d0a6e65cf1cdffb4b5", null ],
+    [ "rom_pick_ab_partition_during_update", "group__pico__bootrom.html#ga1d90d68d70435f3ecdaaa5f68b142c4f", null ],
     [ "rom_reboot", "group__pico__bootrom.html#gadbb1f51a04fd0c27513468996d24f3ce", null ],
     [ "rom_reset_usb_boot", "group__pico__bootrom.html#ga1bbe1c1df02daaa7b68a0c95fb9dc545", null ],
     [ "rom_reset_usb_boot_extra", "group__pico__bootrom.html#gaef5ef9e40f0b55d3e9d6b4ddd6c1b8ee", null ],

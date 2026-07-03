@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -141,9 +141,6 @@ typedef struct <a class="el" href="structmutex.html">mutex</a>&#160;</td><td cla
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga0be65abf0782a68a724bd6d37fd5e010"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga0be65abf0782a68a724bd6d37fd5e010">critical_section_is_initialized</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga0be65abf0782a68a724bd6d37fd5e010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test whether a <a class="el" href="structcritical__section.html">critical_section</a> has been initialized.  <a href="group__mutex.html#ga0be65abf0782a68a724bd6d37fd5e010">More...</a><br /></td></tr>
-<tr class="separator:ga0be65abf0782a68a724bd6d37fd5e010"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabe21d7ce624db2df7afe86c4bba400a2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#gabe21d7ce624db2df7afe86c4bba400a2">mutex_init</a> (<a class="el" href="group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7">mutex_t</a> *mtx)</td></tr>
 <tr class="memdesc:gabe21d7ce624db2df7afe86c4bba400a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a mutex structure.  <a href="group__mutex.html#gabe21d7ce624db2df7afe86c4bba400a2">More...</a><br /></td></tr>
 <tr class="separator:gabe21d7ce624db2df7afe86c4bba400a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -270,41 +267,6 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ga0be65abf0782a68a724bd6d37fd5e010" name="ga0be65abf0782a68a724bd6d37fd5e010"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga0be65abf0782a68a724bd6d37fd5e010">&#9670;&nbsp;</a></span>critical_section_is_initialized()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool critical_section_is_initialized </td>
-          <td>(</td>
-          <td class="paramtype">critical_section_t *&#160;</td>
-          <td class="paramname"><em>crit_sec</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Test whether a <a class="el" href="structcritical__section.html">critical_section</a> has been initialized. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html">critical_section</a> structure </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>true if the critical section is initialized, false otherwise </dd></dl>
-
-</div>
-</div>
 <a id="ga69e2f75f0a38378b20c0f2bf9cc7bbe3" name="ga69e2f75f0a38378b20c0f2bf9cc7bbe3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga69e2f75f0a38378b20c0f2bf9cc7bbe3">&#9670;&nbsp;</a></span>mutex_enter_block_until()</h2>
 

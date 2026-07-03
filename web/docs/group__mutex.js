@@ -1,13 +1,15 @@
 var group__mutex =
 [
     [ "recursive_mutex_t", "structrecursive__mutex__t.html", [
+      [ "core", "structrecursive__mutex__t.html#a198df3efb758b19989cf7815b04bfdac", null ],
       [ "enter_count", "structrecursive__mutex__t.html#a8e45994023c81c6f2933380905fa316e", null ]
     ] ],
-    [ "mutex", "structmutex.html", null ],
+    [ "mutex", "structmutex.html", [
+      [ "core", "structmutex.html#a565cec67c5756833fbb6d4980da56c3f", null ]
+    ] ],
     [ "auto_init_mutex", "group__mutex.html#gaa1b5d9dea897013fc5e40bf102045592", null ],
     [ "auto_init_recursive_mutex", "group__mutex.html#ga3c019cd595a52ee87e06bdf20e427660", null ],
     [ "mutex_t", "group__mutex.html#gac32ff6793a910bc7b48c8b0bb3c47ea7", null ],
-    [ "critical_section_is_initialized", "group__mutex.html#ga0be65abf0782a68a724bd6d37fd5e010", null ],
     [ "mutex_enter_block_until", "group__mutex.html#ga69e2f75f0a38378b20c0f2bf9cc7bbe3", null ],
     [ "mutex_enter_blocking", "group__mutex.html#ga65b1c7af0545f478c80b51513d8f6993", null ],
     [ "mutex_enter_timeout_ms", "group__mutex.html#ga32c6e468289a81a49b4bde50a6280f83", null ],

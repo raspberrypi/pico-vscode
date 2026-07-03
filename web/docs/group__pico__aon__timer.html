@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,7 @@ $(document).ready(function(){initNavTree('group__pico__aon__timer.html',''); ini
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_aon_timer<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
@@ -111,6 +112,12 @@ $(document).ready(function(){initNavTree('group__pico__aon__timer.html',''); ini
 <p>High Level "Always on Timer" Abstraction.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga4cf6f395bc2a5db96fb480d2a652cdc4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__aon__timer.html#ga4cf6f395bc2a5db96fb480d2a652cdc4">AON_TIMER_IRQ_NUM</a>()</td></tr>
+<tr class="memdesc:ga4cf6f395bc2a5db96fb480d2a652cdc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for interrupts for the actual hardware backing the AON timer abstraction.  <a href="group__pico__aon__timer.html#ga4cf6f395bc2a5db96fb480d2a652cdc4">More...</a><br /></td></tr>
+<tr class="separator:ga4cf6f395bc2a5db96fb480d2a652cdc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga32e4d69ae8c5b2048af84cf706b8b997"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__aon__timer.html#ga32e4d69ae8c5b2048af84cf706b8b997">aon_timer_start_with_timeofday</a> (void)</td></tr>
@@ -138,6 +145,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>aon_timer_stop</b> (v
 <tr class="memitem:ga5ed3f772e4fcab66dadb7654f1fa47ef"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__aon__timer.html#ga5ed3f772e4fcab66dadb7654f1fa47ef">aon_timer_get_time_calendar</a> (struct tm *tm)</td></tr>
 <tr class="memdesc:ga5ed3f772e4fcab66dadb7654f1fa47ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current time of the AON timer as a calendar date/time.  <a href="group__pico__aon__timer.html#ga5ed3f772e4fcab66dadb7654f1fa47ef">More...</a><br /></td></tr>
 <tr class="separator:ga5ed3f772e4fcab66dadb7654f1fa47ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8d19976c6d225f77022318f0ca047108"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__aon__timer.html#ga8d19976c6d225f77022318f0ca047108">aon_timer_get_absolute_time</a> (void)</td></tr>
+<tr class="memdesc:ga8d19976c6d225f77022318f0ca047108"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current time of the AON timer as an absolute time.  <a href="group__pico__aon__timer.html#ga8d19976c6d225f77022318f0ca047108">More...</a><br /></td></tr>
+<tr class="separator:ga8d19976c6d225f77022318f0ca047108"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga77151b597642d2f438c2aa5f8805fc77"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__aon__timer.html#ga77151b597642d2f438c2aa5f8805fc77">aon_timer_make_timeout_time_ms</a> (uint32_t ms)</td></tr>
+<tr class="memdesc:ga77151b597642d2f438c2aa5f8805fc77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience method to get the timestamp a number of milliseconds from the current time of the AON timer.  <a href="group__pico__aon__timer.html#ga77151b597642d2f438c2aa5f8805fc77">More...</a><br /></td></tr>
+<tr class="separator:ga77151b597642d2f438c2aa5f8805fc77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6e17d6adde0e3b25c70c04970116ccb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__aon__timer.html#ga6e17d6adde0e3b25c70c04970116ccb8">aon_timer_get_resolution</a> (struct timespec *ts)</td></tr>
 <tr class="memdesc:ga6e17d6adde0e3b25c70c04970116ccb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the resolution of the AON timer.  <a href="group__pico__aon__timer.html#ga6e17d6adde0e3b25c70c04970116ccb8">More...</a><br /></td></tr>
 <tr class="separator:ga6e17d6adde0e3b25c70c04970116ccb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -152,7 +165,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>aon_timer_disable_ala
 <tr class="memdesc:ga20cda0289aab2eb5fda914704a1fc2a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the currently enabled AON timer alarm if any. <br /></td></tr>
 <tr class="separator:ga20cda0289aab2eb5fda914704a1fc2a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga134ec8ae2a5f2a9b29b9bc4fb6c87493"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__aon__timer.html#ga134ec8ae2a5f2a9b29b9bc4fb6c87493">aon_timer_is_running</a> (void)</td></tr>
-<tr class="memdesc:ga134ec8ae2a5f2a9b29b9bc4fb6c87493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the currently enabled AON timer alarm if any.  <a href="group__pico__aon__timer.html#ga134ec8ae2a5f2a9b29b9bc4fb6c87493">More...</a><br /></td></tr>
+<tr class="memdesc:ga134ec8ae2a5f2a9b29b9bc4fb6c87493"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the AON timer is running.  <a href="group__pico__aon__timer.html#ga134ec8ae2a5f2a9b29b9bc4fb6c87493">More...</a><br /></td></tr>
 <tr class="separator:ga134ec8ae2a5f2a9b29b9bc4fb6c87493"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -176,6 +189,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>aon_timer_disable_ala
 <li><a class="el" href="group__pico__aon__timer.html#gabfecbe6df690a2a10194920ba7db8d3f">aon_timer_enable_alarm_calendar</a></li>
 </ul>
 <p >This conversion is handled by the <a class="el" href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">pico_mktime</a> method. By default, this pulls in the C library <code>mktime</code> method which can lead to a big increase in binary size. The default implementation of <code>pico_mktime</code> is weak, so it can be overridden if a better/smaller alternative is available, otherwise you might consider the method variants not ending in <code>_calendar()</code> instead on RP2350.  </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="ga4cf6f395bc2a5db96fb480d2a652cdc4" name="ga4cf6f395bc2a5db96fb480d2a652cdc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga4cf6f395bc2a5db96fb480d2a652cdc4">&#9670;&nbsp;</a></span>AON_TIMER_IRQ_NUM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define AON_TIMER_IRQ_NUM</td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the <a class="el" href="group__hardware__irq.html#gaf30862f51b5994ffd5863176a185d137">irq_num_t</a> for interrupts for the actual hardware backing the AON timer abstraction. </p>
+<p >Note this macro is intended to resolve at compile time, and does no parameter checking </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga39dab1da58c2f8178024b233e335d059" name="ga39dab1da58c2f8178024b233e335d059"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga39dab1da58c2f8178024b233e335d059">&#9670;&nbsp;</a></span>aon_timer_enable_alarm()</h2>
@@ -271,6 +305,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>aon_timer_disable_ala
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>on success the old handler (or NULL if there was none) or PICO_ERROR_INVALID_ARG if internal time format conversion failed </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d" title="localtime_r implementation for use by the pico_util datetime functions">pico_localtime_r</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga8d19976c6d225f77022318f0ca047108" name="ga8d19976c6d225f77022318f0ca047108"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8d19976c6d225f77022318f0ca047108">&#9670;&nbsp;</a></span>aon_timer_get_absolute_time()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> aon_timer_get_absolute_time </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the current time of the AON timer as an absolute time. </p>
+<dl class="section return"><dt>Returns</dt><dd>the current time of the AON timer as an absolute time </dd></dl>
 
 </div>
 </div>
@@ -374,8 +429,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>aon_timer_disable_ala
       </table>
 </div><div class="memdoc">
 
-<p>Disable the currently enabled AON timer alarm if any. </p>
+<p>Check if the AON timer is running. </p>
 <dl class="section return"><dt>Returns</dt><dd>true if the AON timer is running </dd></dl>
+
+</div>
+</div>
+<a id="ga77151b597642d2f438c2aa5f8805fc77" name="ga77151b597642d2f438c2aa5f8805fc77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga77151b597642d2f438c2aa5f8805fc77">&#9670;&nbsp;</a></span>aon_timer_make_timeout_time_ms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> aon_timer_make_timeout_time_ms </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convenience method to get the timestamp a number of milliseconds from the current time of the AON timer. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ms</td><td>the number of milliseconds to add to the current timestamp </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the future timestamp </dd></dl>
 
 </div>
 </div>

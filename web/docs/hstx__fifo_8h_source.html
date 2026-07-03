@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -125,14 +125,14 @@ $(document).ready(function(){initNavTree('hstx__fifo_8h_source.html',''); initRe
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    _REG_(HSTX_FIFO_STAT_OFFSET) <span class="comment">// HSTX_FIFO_STAT</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// FIFO status</span></div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 0x00000400 [10]    WOF          (0) FIFO was written when full</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="comment">// 0x00000200 [9]     EMPTY        (-) </span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// 0x00000100 [8]     FULL         (-) </span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// 0x000000ff [7:0]   LEVEL        (0x00) </span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="comment">// 0x00000200 [9]     EMPTY        (-)</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// 0x00000100 [8]     FULL         (-)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// 0x000000ff [7:0]   LEVEL        (0x00)</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    io_rw_32 <a class="code hl_struct" href="structstat.html">stat</a>;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    _REG_(HSTX_FIFO_FIFO_OFFSET) <span class="comment">// HSTX_FIFO_FIFO</span></div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// Write access to FIFO</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 0xffffffff [31:0]  FIFO         (0x00000000) </span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 0xffffffff [31:0]  FIFO         (0x00000000)</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    io_wo_32 fifo;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>} <a class="code hl_struct" href="structhstx__fifo__hw__t.html">hstx_fifo_hw_t</a>;</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
@@ -140,7 +140,6 @@ $(document).ready(function(){initNavTree('hstx__fifo_8h_source.html',''); initRe
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">static_assert</span>(<span class="keyword">sizeof</span> (<a class="code hl_struct" href="structhstx__fifo__hw__t.html">hstx_fifo_hw_t</a>) == 0x0008, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#endif </span><span class="comment">// _HARDWARE_STRUCTS_HSTX_FIFO_H</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="ttc" id="aaddress__mapped_8h_html"><div class="ttname"><a href="address__mapped_8h.html">address_mapped.h</a></div></div>
 <div class="ttc" id="astructhstx__fifo__hw__t_html"><div class="ttname"><a href="structhstx__fifo__hw__t.html">hstx_fifo_hw_t</a></div><div class="ttdef"><b>Definition:</b> hstx_fifo.h:26</div></div>
 <div class="ttc" id="astructstat_html"><div class="ttname"><a href="structstat.html">stat</a></div><div class="ttdef"><b>Definition:</b> stat.h:12</div></div>

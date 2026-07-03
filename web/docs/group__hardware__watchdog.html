@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -136,8 +136,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>watchdog_disable</b> 
 <tr class="memitem:ga455aa48ca6f11298e184d2ae0e81a085"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">watchdog_enable_caused_reboot</a> (void)</td></tr>
 <tr class="memdesc:ga455aa48ca6f11298e184d2ae0e81a085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Did watchdog_enable cause the last reboot?  <a href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">More...</a><br /></td></tr>
 <tr class="separator:ga455aa48ca6f11298e184d2ae0e81a085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabba4e8fa01f2ff2e5a9fbba4e9d2d86d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#gabba4e8fa01f2ff2e5a9fbba4e9d2d86d">watchdog_get_time_remaining_us</a> (void)</td></tr>
+<tr class="memdesc:gabba4e8fa01f2ff2e5a9fbba4e9d2d86d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of microseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#gabba4e8fa01f2ff2e5a9fbba4e9d2d86d">More...</a><br /></td></tr>
+<tr class="separator:gabba4e8fa01f2ff2e5a9fbba4e9d2d86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">watchdog_get_time_remaining_ms</a> (void)</td></tr>
-<tr class="memdesc:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of microseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">More...</a><br /></td></tr>
+<tr class="memdesc:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of milliseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">More...</a><br /></td></tr>
 <tr class="separator:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -154,7 +157,7 @@ Example</h2>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code hl_function" href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a>();</div>
 <div class="line"> </div>
-<div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__watchdog.html#ga65f5d24169045b8c7dc709e572535d94">watchdog_caused_reboot</a>()) {</div>
+<div class="line">    <span class="keywordflow">if</span> (<a class="code hl_function" href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">watchdog_enable_caused_reboot</a>()) {</div>
 <div class="line">        printf(<span class="stringliteral">&quot;Rebooted by Watchdog!\n&quot;</span>);</div>
 <div class="line">        <span class="keywordflow">return</span> 0;</div>
 <div class="line">    } <span class="keywordflow">else</span> {</div>
@@ -175,9 +178,9 @@ Example</h2>
 <div class="line">    <span class="keywordflow">while</span>(1);</div>
 <div class="line">}</div>
 <div class="ttc" id="agroup__hardware__watchdog_html_ga329b748919954f8b48c58049115a5c54"><div class="ttname"><a href="group__hardware__watchdog.html#ga329b748919954f8b48c58049115a5c54">watchdog_update</a></div><div class="ttdeci">void watchdog_update(void)</div><div class="ttdoc">Reload the watchdog counter with the amount of time set in watchdog_enable.</div><div class="ttdef"><b>Definition:</b> watchdog.c:26</div></div>
-<div class="ttc" id="agroup__hardware__watchdog_html_ga65f5d24169045b8c7dc709e572535d94"><div class="ttname"><a href="group__hardware__watchdog.html#ga65f5d24169045b8c7dc709e572535d94">watchdog_caused_reboot</a></div><div class="ttdeci">bool watchdog_caused_reboot(void)</div><div class="ttdoc">Did the watchdog cause the last reboot?</div><div class="ttdef"><b>Definition:</b> watchdog.c:114</div></div>
-<div class="ttc" id="agroup__hardware__watchdog_html_ga87042933bd6c335c21131991c83c161d"><div class="ttname"><a href="group__hardware__watchdog.html#ga87042933bd6c335c21131991c83c161d">watchdog_enable</a></div><div class="ttdeci">void watchdog_enable(uint32_t delay_ms, bool pause_on_debug)</div><div class="ttdoc">Enable the watchdog.</div><div class="ttdef"><b>Definition:</b> watchdog.c:79</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
+<div class="ttc" id="agroup__hardware__watchdog_html_ga455aa48ca6f11298e184d2ae0e81a085"><div class="ttname"><a href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">watchdog_enable_caused_reboot</a></div><div class="ttdeci">bool watchdog_enable_caused_reboot(void)</div><div class="ttdoc">Did watchdog_enable cause the last reboot?</div><div class="ttdef"><b>Definition:</b> watchdog.c:125</div></div>
+<div class="ttc" id="agroup__hardware__watchdog_html_ga87042933bd6c335c21131991c83c161d"><div class="ttname"><a href="group__hardware__watchdog.html#ga87042933bd6c335c21131991c83c161d">watchdog_enable</a></div><div class="ttdeci">void watchdog_enable(uint32_t delay_ms, bool pause_on_debug)</div><div class="ttdoc">Enable the watchdog.</div><div class="ttdef"><b>Definition:</b> watchdog.c:81</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:207</div></div>
 <div class="ttc" id="arp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h_html"><div class="ttname"><a href="rp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h.html">watchdog.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
@@ -233,12 +236,13 @@ false If there has been no watchdog reboot since the last power on reset. A powe
 
 <p>Enable the watchdog. </p>
 <dl class="section note"><dt>Note</dt><dd>If <a class="el" href="group__hardware__watchdog.html#gaab9cfb964649bc7928c72335d964e425">watchdog_start_tick</a> value does not give a 1MHz clock to the watchdog system, then the <code>delay_ms</code> parameter will not be in milliseconds. See the datasheet for more details.</dd></dl>
-<p>By default the SDK assumes a 12MHz XOSC and sets the <a class="el" href="group__hardware__watchdog.html#gaab9cfb964649bc7928c72335d964e425">watchdog_start_tick</a> appropriately.</p>
+<p>On RP2040 the maximum delay is 8388 milliseconds, which is approximately 8.3 seconds (this is due to RP2040-E1).   On RP2350 the maximum delay is 16777 milliseconds, which is approximately 16.7 seconds. </p>
+<p >By default the SDK assumes a 12MHz XOSC and sets the <a class="el" href="group__hardware__watchdog.html#gaab9cfb964649bc7928c72335d964e425">watchdog_start_tick</a> appropriately.</p>
 <p >This method sets a marker in the watchdog scratch register 4 that is checked by <a class="el" href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">watchdog_enable_caused_reboot</a>. If the device is subsequently reset via a call to watchdog_reboot (including for example by dragging a UF2 onto the RPI-RP2), then this value will be cleared, and so <a class="el" href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">watchdog_enable_caused_reboot</a> will return false.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">delay_ms</td><td>Number of milliseconds before watchdog will reboot without watchdog_update being called. Maximum of 8388, which is approximately 8.3 seconds </td></tr>
-    <tr><td class="paramname">pause_on_debug</td><td>If the watchdog should be paused when the debugger is stepping through code </td></tr>
+    <tr><td class="paramname">delay_ms</td><td>Number of milliseconds before watchdog will reboot without watchdog_update being called </td></tr>
+    <tr><td class="paramname">pause_on_debug</td><td>If the watchdog should be paused when the processor is halted by the debugger </td></tr>
   </table>
   </dd>
 </dl>
@@ -286,7 +290,30 @@ false If there has been no watchdog reboot since the last power on reset, or the
       </table>
 </div><div class="memdoc">
 
+<p>Returns the number of milliseconds before the watchdog will reboot the chip. </p>
+<p >On RP2040 this method returns the last value set instead of the remaining time due to a h/w bug. </p>
+<dl class="section return"><dt>Returns</dt><dd>The number of milliseconds before the watchdog will reboot the chip. </dd></dl>
+
+</div>
+</div>
+<a id="gabba4e8fa01f2ff2e5a9fbba4e9d2d86d" name="gabba4e8fa01f2ff2e5a9fbba4e9d2d86d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabba4e8fa01f2ff2e5a9fbba4e9d2d86d">&#9670;&nbsp;</a></span>watchdog_get_time_remaining_us()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t watchdog_get_time_remaining_us </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 <p>Returns the number of microseconds before the watchdog will reboot the chip. </p>
+<p >On RP2040 this method returns the last value set instead of the remaining time due to a h/w bug. </p>
 <dl class="section return"><dt>Returns</dt><dd>The number of microseconds before the watchdog will reboot the chip. </dd></dl>
 
 </div>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -117,22 +117,23 @@ Include dependency graph for pico.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="pico_8h__incl.png" border="0" usemap="#ainclude_2pico_8h" alt=""/></div>
 <map name="ainclude_2pico_8h" id="ainclude_2pico_8h">
-<area shape="rect" title=" " alt="" coords="386,5,498,32"/>
+<area shape="rect" title=" " alt="" coords="482,5,594,32"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,229,259,256"/>
-<area shape="rect" title=" " alt="" coords="252,80,365,107"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,80,494,107"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,80,717,107"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,80,836,107"/>
+<area shape="rect" title=" " alt="" coords="348,80,461,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="486,80,590,107"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,80,813,107"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,80,932,107"/>
 <area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,304,111,331"/>
 <area shape="rect" title=" " alt="" coords="74,379,157,405"/>
 <area shape="rect" title=" " alt="" coords="211,304,281,331"/>
 <area shape="rect" title=" " alt="" coords="306,304,381,331"/>
 <area shape="rect" title=" " alt="" coords="173,155,337,181"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,155,543,181"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="362,155,543,181"/>
 <area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,155,746,181"/>
 <area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,155,930,181"/>
-<area shape="rect" title=" " alt="" coords="954,155,1165,181"/>
-<area shape="rect" title=" " alt="" coords="1189,155,1340,181"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="955,155,1137,181"/>
+<area shape="rect" title=" " alt="" coords="1162,155,1373,181"/>
+<area shape="rect" title=" " alt="" coords="1397,155,1548,181"/>
 <area shape="rect" title=" " alt="" coords="357,229,548,256"/>
 </map>
 </div>
@@ -150,6 +151,12 @@ Macros</h2></td></tr>
 <tr class="memitem:ae954d356310c497d738db8d8fc57213f"><td class="memItemLeft" align="right" valign="top"><a id="ae954d356310c497d738db8d8fc57213f" name="ae954d356310c497d738db8d8fc57213f"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>__PICO_CONCAT1</b>(x,  y)&#160;&#160;&#160;x ## y</td></tr>
 <tr class="separator:ae954d356310c497d738db8d8fc57213f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabe498a67e230c0ae9d0ab82b878c0c1d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html#gabe498a67e230c0ae9d0ab82b878c0c1d">pico_board_cmake_set</a>(x,  y)</td></tr>
+<tr class="memdesc:gabe498a67e230c0ae9d0ab82b878c0c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A marker used in board headers to specify a CMake variable and value that should be set in the CMake build when the board header is used.  <a href="group__pico__base.html#gabe498a67e230c0ae9d0ab82b878c0c1d">More...</a><br /></td></tr>
+<tr class="separator:gabe498a67e230c0ae9d0ab82b878c0c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga18a37e595035ffa0987953255874bdf5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html#ga18a37e595035ffa0987953255874bdf5">pico_board_cmake_set_default</a>(x,  y)</td></tr>
+<tr class="memdesc:ga18a37e595035ffa0987953255874bdf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A marker used in board headers to specify a CMake variable and value that should be set in the CMake build when the board header is used, if that CMake variable has not already been set.  <a href="group__pico__base.html#ga18a37e595035ffa0987953255874bdf5">More...</a><br /></td></tr>
+<tr class="separator:ga18a37e595035ffa0987953255874bdf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

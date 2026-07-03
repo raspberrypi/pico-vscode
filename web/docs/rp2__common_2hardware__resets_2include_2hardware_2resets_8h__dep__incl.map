@@ -1,7 +1,10 @@
 <map id="include/hardware/resets.h" name="include/hardware/resets.h">
-<area shape="rect" id="node1" title=" " alt="" coords="62,5,253,32"/>
-<area shape="rect" id="node2" href="$rp2__common_2hardware__uart_2include_2hardware_2uart_8h.html" title=" " alt="" coords="69,80,245,107"/>
-<area shape="rect" id="node3" href="$stdio__uart_8h_source.html" title=" " alt="" coords="5,155,141,196"/>
-<area shape="rect" id="node4" href="$stdlib_8h.html" title=" " alt="" coords="165,162,317,189"/>
-<area shape="rect" id="node5" href="$SEGGER__RTT_8h_source.html" title=" " alt="" coords="140,244,343,271"/>
+<area shape="rect" id="node1" title=" " alt="" coords="192,5,383,32"/>
+<area shape="rect" id="node2" href="$rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h.html" title=" " alt="" coords="9,80,179,107"/>
+<area shape="rect" id="node4" href="$rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html" title=" " alt="" coords="203,80,372,107"/>
+<area shape="rect" id="node5" href="$rp2__common_2hardware__uart_2include_2hardware_2uart_8h.html" title=" " alt="" coords="397,80,573,107"/>
+<area shape="rect" id="node3" href="$i2c__slave_8h.html" title=" " alt="" coords="5,162,183,189"/>
+<area shape="rect" id="node6" href="$stdio__uart_8h_source.html" title=" " alt="" coords="333,155,469,196"/>
+<area shape="rect" id="node7" href="$stdlib_8h.html" title=" " alt="" coords="493,162,645,189"/>
+<area shape="rect" id="node8" href="$SEGGER__RTT_8h_source.html" title=" " alt="" coords="467,244,670,271"/>
 </map>

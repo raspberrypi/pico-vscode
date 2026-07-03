@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -114,17 +114,22 @@ $(document).ready(function(){initNavTree('arch__freertos_8h_source.html',''); in
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef _PICO_CYW43_ARCH_ARCH_FREERTOS_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define _PICO_CYW43_ARCH_ARCH_FREERTOS_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// PICO_CONFIG: CYW43_TASK_STACK_SIZE, Stack size for the CYW43 FreeRTOS task in 4-byte words, type=int, default=1024, group=pico_cyw43_arch</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#ifndef CYW43_TASK_STACK_SIZE</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define CYW43_TASK_STACK_SIZE 1024</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">// PICO_CONFIG: CYW43_NO_DEFAULT_TASK_STACK, Disables the default static allocation of the CYW43 FreeRTOS task stack, type=bool, default=0, group=pico_cyw43_arch</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#ifndef CYW43_NO_DEFAULT_TASK_STACK</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#define CYW43_NO_DEFAULT_TASK_STACK 0</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">// PICO_CONFIG: CYW43_TASK_PRIORITY, Priority for the CYW43 FreeRTOS task, type=int, default=tskIDLE_PRIORITY + 4, group=pico_cyw43_arch</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#ifndef CYW43_TASK_PRIORITY</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define CYW43_TASK_PRIORITY (tskIDLE_PRIORITY + 4)</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">// PICO_CONFIG: CYW43_TASK_STACK_SIZE, Stack size for the CYW43 FreeRTOS task in 4-byte words, type=int, default=1024, group=pico_cyw43_arch</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#ifndef CYW43_TASK_STACK_SIZE</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define CYW43_TASK_STACK_SIZE 1024</span></div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">// PICO_CONFIG: CYW43_TASK_PRIORITY, Priority for the CYW43 FreeRTOS task, type=int, default=tskIDLE_PRIORITY + 4, group=pico_cyw43_arch</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#ifndef CYW43_TASK_PRIORITY</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define CYW43_TASK_PRIORITY (tskIDLE_PRIORITY + 4)</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

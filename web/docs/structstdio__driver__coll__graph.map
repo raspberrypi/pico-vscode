@@ -1,3 +1,3 @@
 <map id="stdio_driver" name="stdio_driver">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,104,32"/>
+<area shape="rect" id="node1" title="A stdio driver that can be registered with the pico_stdio subsystem." alt="" coords="5,5,104,32"/>
 </map>

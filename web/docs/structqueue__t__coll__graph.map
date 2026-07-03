@@ -1,4 +1,4 @@
 <map id="queue_t" name="queue_t">
-<area shape="rect" id="node1" title=" " alt="" coords="10,95,85,121"/>
-<area shape="rect" id="node2" href="$structlock__core.html" title=" " alt="" coords="5,5,89,32"/>
+<area shape="rect" id="node1" title="A multi&#45;core and IRQ safe queue instance." alt="" coords="10,95,85,121"/>
+<area shape="rect" id="node2" href="$structlock__core.html" title="Core state shared by all lock primitives." alt="" coords="5,5,89,32"/>
 </map>

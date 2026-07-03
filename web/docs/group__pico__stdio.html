@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('group__pico__stdio.html',''); initResi
 <div class="header">
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_stdio<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
@@ -125,6 +126,12 @@ Modules</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__pico__stdio__usb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio__usb.html">pico_stdio_usb</a></td></tr>
 <tr class="memdesc:group__pico__stdio__usb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Support for stdin/stdout over USB serial (CDC) <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structstdio__driver.html">stdio_driver</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A stdio driver that can be registered with the pico_stdio subsystem.  <a href="structstdio__driver.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -175,30 +182,30 @@ static int&#160;</td><td class="memItemRight" valign="bottom"><b>puts_raw</b> (c
 <tr class="memdesc:ga4b010bf88f65fc5d38a29d5538fa80e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">get notified when there are input characters available  <a href="group__pico__stdio.html#ga4b010bf88f65fc5d38a29d5538fa80e1">More...</a><br /></td></tr>
 <tr class="separator:ga4b010bf88f65fc5d38a29d5538fa80e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7ea974d7cbc7f7e325b4a1b0fe80e4ab"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga7ea974d7cbc7f7e325b4a1b0fe80e4ab">stdio_get_until</a> (char *buf, int len, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
-<tr class="memdesc:ga7ea974d7cbc7f7e325b4a1b0fe80e4ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits until a timeout to reard at least one character into a buffer.  <a href="group__pico__stdio.html#ga7ea974d7cbc7f7e325b4a1b0fe80e4ab">More...</a><br /></td></tr>
+<tr class="memdesc:ga7ea974d7cbc7f7e325b4a1b0fe80e4ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits until a timeout to read at least one character into a buffer.  <a href="group__pico__stdio.html#ga7ea974d7cbc7f7e325b4a1b0fe80e4ab">More...</a><br /></td></tr>
 <tr class="separator:ga7ea974d7cbc7f7e325b4a1b0fe80e4ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga2657ebac5e66ff37d0231b2b94dcd87f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f">stdio_put_string</a> (const char *s, int len, bool newline, bool cr_translation)</td></tr>
-<tr class="memdesc:ga2657ebac5e66ff37d0231b2b94dcd87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a buffer to stdout with optional newline and carriage return insertion.  <a href="group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f">More...</a><br /></td></tr>
+<tr class="memdesc:ga2657ebac5e66ff37d0231b2b94dcd87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prints a buffer to stdout, optionally appending a newline.  <a href="group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f">More...</a><br /></td></tr>
 <tr class="separator:ga2657ebac5e66ff37d0231b2b94dcd87f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac135c621fb85b37ba7ca271ad44cc984"><td class="memItemLeft" align="right" valign="top"><a id="gac135c621fb85b37ba7ca271ad44cc984" name="gac135c621fb85b37ba7ca271ad44cc984"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_getchar</b> (void)</td></tr>
-<tr class="memdesc:gac135c621fb85b37ba7ca271ad44cc984"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for getchar that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="memdesc:gac135c621fb85b37ba7ca271ad44cc984"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for getchar that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0. <br /></td></tr>
 <tr class="separator:gac135c621fb85b37ba7ca271ad44cc984"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5a0417cd80362b585340991cdbe942ad"><td class="memItemLeft" align="right" valign="top"><a id="ga5a0417cd80362b585340991cdbe942ad" name="ga5a0417cd80362b585340991cdbe942ad"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_putchar</b> (int)</td></tr>
-<tr class="memdesc:ga5a0417cd80362b585340991cdbe942ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for putchar that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="memdesc:ga5a0417cd80362b585340991cdbe942ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for putchar that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0. <br /></td></tr>
 <tr class="separator:ga5a0417cd80362b585340991cdbe942ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga37b78b01a1defa869f4b6eae07cbc86e"><td class="memItemLeft" align="right" valign="top"><a id="ga37b78b01a1defa869f4b6eae07cbc86e" name="ga37b78b01a1defa869f4b6eae07cbc86e"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_puts</b> (const char *s)</td></tr>
-<tr class="memdesc:ga37b78b01a1defa869f4b6eae07cbc86e"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for puts that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="memdesc:ga37b78b01a1defa869f4b6eae07cbc86e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for puts that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0. <br /></td></tr>
 <tr class="separator:ga37b78b01a1defa869f4b6eae07cbc86e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaad0147c9744dfa14ffa591007310ad25"><td class="memItemLeft" align="right" valign="top"><a id="gaad0147c9744dfa14ffa591007310ad25" name="gaad0147c9744dfa14ffa591007310ad25"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>stdio_vprintf</b> (const char *format, va_list va)</td></tr>
-<tr class="memdesc:gaad0147c9744dfa14ffa591007310ad25"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for vprintf that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="memdesc:gaad0147c9744dfa14ffa591007310ad25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for vprintf that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0. <br /></td></tr>
 <tr class="separator:gaad0147c9744dfa14ffa591007310ad25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gae9afcfe3e3db353e1bddd5b87d7be454"><td class="memItemLeft" align="right" valign="top"><a id="gae9afcfe3e3db353e1bddd5b87d7be454" name="gae9afcfe3e3db353e1bddd5b87d7be454"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>__printflike</b> (1, 0) stdio_printf(const char *format</td></tr>
-<tr class="memdesc:gae9afcfe3e3db353e1bddd5b87d7be454"><td class="mdescLeft">&#160;</td><td class="mdescRight">stdio_getchar Alias for printf that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0 <br /></td></tr>
+<tr class="memdesc:gae9afcfe3e3db353e1bddd5b87d7be454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias for printf that definitely does not go thru the implementation in the standard C library even when PICO_STDIO_SHORT_CIRCUIT_CLIB_FUNCS == 0. <br /></td></tr>
 <tr class="separator:gae9afcfe3e3db353e1bddd5b87d7be454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -245,7 +252,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>__printflike</b> (1, 0
 </div><div class="memdoc">
 
 <p>Control limiting of output to a single driver. </p>
-<dl class="section note"><dt>Note</dt><dd>this method should always be called on an initialized driver</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method should always be called on an initialized driver</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">driver</td><td>if non-null then output only that driver will be used for input/output (assuming it is in the list of enabled drivers). if NULL then all enabled drivers will be used </td></tr>
@@ -287,7 +294,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>__printflike</b> (1, 0
       </table>
 </div><div class="memdoc">
 
-<p>Waits until a timeout to reard at least one character into a buffer. </p>
+<p>Waits until a timeout to read at least one character into a buffer. </p>
 <p >This method returns as soon as input is available, but more characters may be returned up to the end of the buffer.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -395,18 +402,18 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>__printflike</b> (1, 0
       </table>
 </div><div class="memdoc">
 
-<p>Prints a buffer to stdout with optional newline and carriage return insertion. </p>
-<p >This method returns as soon as input is available, but more characters may be returned up to the end of the buffer.</p>
+<p>Prints a buffer to stdout, optionally appending a newline. </p>
+<p >Writes <code>s</code> to every registered stdio driver. The call returns once each driver has accepted the bytes</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">s</td><td>the characters to print </td></tr>
-    <tr><td class="paramname">len</td><td>the length of s </td></tr>
-    <tr><td class="paramname">newline</td><td>true if a newline should be added after the string </td></tr>
-    <tr><td class="paramname">cr_translation</td><td>true if line feed to carriage return translation should be performed </td></tr>
+    <tr><td class="paramname">len</td><td>the length of <code>s</code>, or <code>-1</code> to compute it with <code>strlen</code> </td></tr>
+    <tr><td class="paramname">newline</td><td>true if a newline should be appended after the string </td></tr>
+    <tr><td class="paramname">cr_translation</td><td>true if line-feed to carriage-return translation should be performed </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>the number of characters written </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of characters from <code>s</code> that were written (excluding any appended newline); <code>0</code> if a concurrent stdout write was in progress and <code>PICO_STDIO_IGNORE_NESTED_STDOUT</code> is set </dd></dl>
 
 </div>
 </div>
@@ -474,7 +481,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>__printflike</b> (1, 0
 </div><div class="memdoc">
 
 <p>Adds or removes a driver from the list of active drivers used for input/output. </p>
-<dl class="section note"><dt>Note</dt><dd>this method should always be called on an initialized driver and is not re-entrant </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method should always be called on an initialized driver and is not re-entrant </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">driver</td><td>the driver </td></tr>
@@ -512,7 +519,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>__printflike</b> (1, 0
 </div><div class="memdoc">
 
 <p>control conversion of line feeds to carriage return on transmissions </p>
-<dl class="section note"><dt>Note</dt><dd>this method should always be called on an initialized driver</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method should always be called on an initialized driver</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">driver</td><td>the driver </td></tr>

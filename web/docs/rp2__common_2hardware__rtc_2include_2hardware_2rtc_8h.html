@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,33 +109,30 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__rtc_2include_2h
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
-<code>#include &quot;hardware/structs/rtc.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for rtc.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h__incl.png" border="0" usemap="#ainclude_2hardware_2rtc_8h" alt=""/></div>
 <map name="ainclude_2hardware_2rtc_8h" id="ainclude_2hardware_2rtc_8h">
-<area shape="rect" title=" " alt="" coords="667,5,833,32"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="649,229,710,256"/>
-<area shape="rect" href="rp2040_2hardware__structs_2include_2hardware_2structs_2rtc_8h_source.html" title=" " alt="" coords="740,80,904,107"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,453,259,480"/>
-<area shape="rect" title=" " alt="" coords="420,304,533,331"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="558,304,662,331"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="687,304,808,331"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="832,304,927,331"/>
-<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,528,111,555"/>
-<area shape="rect" title=" " alt="" coords="74,603,157,629"/>
-<area shape="rect" title=" " alt="" coords="211,528,281,555"/>
-<area shape="rect" title=" " alt="" coords="306,528,381,555"/>
-<area shape="rect" title=" " alt="" coords="173,379,337,405"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,379,543,405"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,379,746,405"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,379,930,405"/>
-<area shape="rect" title=" " alt="" coords="1130,379,1341,405"/>
-<area shape="rect" title=" " alt="" coords="955,379,1105,405"/>
-<area shape="rect" title=" " alt="" coords="357,453,548,480"/>
-<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="717,155,927,181"/>
-<area shape="rect" title=" " alt="" coords="951,155,1099,181"/>
+<area shape="rect" title=" " alt="" coords="455,5,621,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="507,80,569,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
+<area shape="rect" title=" " alt="" coords="348,155,461,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="486,155,590,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,155,813,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,155,932,181"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
+<area shape="rect" title=" " alt="" coords="74,453,157,480"/>
+<area shape="rect" title=" " alt="" coords="211,379,281,405"/>
+<area shape="rect" title=" " alt="" coords="306,379,381,405"/>
+<area shape="rect" title=" " alt="" coords="173,229,337,256"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="362,229,543,256"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="955,229,1137,256"/>
+<area shape="rect" title=" " alt="" coords="1162,229,1373,256"/>
+<area shape="rect" title=" " alt="" coords="1397,229,1548,256"/>
+<area shape="rect" title=" " alt="" coords="357,304,548,331"/>
 </map>
 </div>
 </div>
@@ -173,7 +170,50 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>rtc_enable_alarm</b> 
 void&#160;</td><td class="memItemRight" valign="bottom"><b>rtc_disable_alarm</b> (void)</td></tr>
 <tr class="memdesc:ga718b866eab2ba73221d37f7d15ba9737"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable the RTC alarm (if active) <br /></td></tr>
 <tr class="separator:ga718b866eab2ba73221d37f7d15ba9737"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a609bbd5b3add72d95f9d28607d761390"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h.html#a609bbd5b3add72d95f9d28607d761390">rtc_run_from_external_source</a> (uint32_t src_hz, uint gpio_pin)</td></tr>
+<tr class="memdesc:a609bbd5b3add72d95f9d28607d761390"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the RTC from an external clock source through GPIO.  <a href="rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h.html#a609bbd5b3add72d95f9d28607d761390">More...</a><br /></td></tr>
+<tr class="separator:a609bbd5b3add72d95f9d28607d761390"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a609bbd5b3add72d95f9d28607d761390" name="a609bbd5b3add72d95f9d28607d761390"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a609bbd5b3add72d95f9d28607d761390">&#9670;&nbsp;</a></span>rtc_run_from_external_source()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool rtc_run_from_external_source </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>src_hz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>gpio_pin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run the RTC from an external clock source through GPIO. </p>
+<dl class="section note"><dt>Note</dt><dd>This function will return false if the external clock source is not running.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src_hz</td><td>The frequency of the external clock source </td></tr>
+    <tr><td class="paramname">gpio_pin</td><td>The input pin providing the external clock (GP20 or GP22) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if it is possible to run the RTC from the external clock frequency, false otherwise. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

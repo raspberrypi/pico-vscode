@@ -3,7 +3,7 @@ var searchData=
   ['tick_5fis_5frunning_0',['tick_is_running',['../group__hardware__ticks.html#ga2b4d6531a3f9f261dbd4a24883f752b9',1,'tick_is_running(tick_gen_num_t tick):&#160;ticks.c'],['../group__hardware__ticks.html#ga2b4d6531a3f9f261dbd4a24883f752b9',1,'tick_is_running(tick_gen_num_t tick):&#160;ticks.c']]],
   ['tick_5fstart_1',['tick_start',['../group__hardware__ticks.html#gaea97210ea6cb05be8444eef06c10695a',1,'tick_start(tick_gen_num_t tick, uint cycles):&#160;ticks.c'],['../group__hardware__ticks.html#gaea97210ea6cb05be8444eef06c10695a',1,'tick_start(tick_gen_num_t tick, uint cycles):&#160;ticks.c']]],
   ['tick_5fstop_2',['tick_stop',['../group__hardware__ticks.html#gab09f4714958ebacacafc54856a3169df',1,'tick_stop(tick_gen_num_t tick):&#160;ticks.c'],['../group__hardware__ticks.html#gab09f4714958ebacacafc54856a3169df',1,'tick_stop(tick_gen_num_t tick):&#160;ticks.c']]],
-  ['tight_5floop_5fcontents_3',['tight_loop_contents',['../group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9',1,'platform.h']]],
+  ['tight_5floop_5fcontents_3',['tight_loop_contents',['../group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9',1,'common.h']]],
   ['time_5freached_4',['time_reached',['../group__hardware__timer.html#ga1e41eca96d5c1b3b5e69e3b1a00cdf7d',1,'timer.h']]],
   ['time_5fus_5f32_5',['time_us_32',['../group__hardware__timer.html#gabfffa28d8715f71834934f357e7dc091',1,'timer.h']]],
   ['time_5fus_5f64_6',['time_us_64',['../group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3',1,'time_us_64(void):&#160;timer.c'],['../group__hardware__timer.html#ga7bbcd996dbd3dd4adc03a80272fb2fc3',1,'time_us_64(void):&#160;timer.c']]],
@@ -25,10 +25,11 @@ var searchData=
   ['timer_5ftime_5freached_22',['timer_time_reached',['../group__hardware__timer.html#ga2a8c570e4536f0ceab896475ac5cc5e7',1,'timer.h']]],
   ['timer_5ftime_5fus_5f32_23',['timer_time_us_32',['../group__hardware__timer.html#ga2b3cd8f1226824b3a85fb2bca66e70fd',1,'timer.h']]],
   ['timer_5ftime_5fus_5f64_24',['timer_time_us_64',['../group__hardware__timer.html#ga937b4fb64eb4c7cc59464b38365d72d9',1,'timer_time_us_64(timer_hw_t *timer):&#160;timer.c'],['../group__hardware__timer.html#ga937b4fb64eb4c7cc59464b38365d72d9',1,'timer_time_us_64(timer_hw_t *timer):&#160;timer.c']]],
-  ['to_5fms_5fsince_5fboot_25',['to_ms_since_boot',['../group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59',1,'time.h']]],
-  ['to_5fquotient_5fs32_26',['to_quotient_s32',['../group__hardware__divider.html#ga62820b8678505f5ea007cedd012da0aa',1,'divider.h']]],
-  ['to_5fquotient_5fu32_27',['to_quotient_u32',['../group__hardware__divider.html#ga21752b8ee127370df37cd9a9e4e4050e',1,'divider.h']]],
-  ['to_5fremainder_5fs32_28',['to_remainder_s32',['../group__hardware__divider.html#ga7ca08fd8fd1961ee25233d4587067178',1,'divider.h']]],
-  ['to_5fremainder_5fu32_29',['to_remainder_u32',['../group__hardware__divider.html#gaea3762e4a27f1e42f8e03e6607917462',1,'divider.h']]],
-  ['to_5fus_5fsince_5fboot_30',['to_us_since_boot',['../group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1',1,'types.h']]]
+  ['to_5fms_5f64_5fsince_5fboot_25',['to_ms_64_since_boot',['../group__timestamp.html#ga0f90420f06b30ebeafd22fd82edbfff3',1,'time.h']]],
+  ['to_5fms_5fsince_5fboot_26',['to_ms_since_boot',['../group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59',1,'time.h']]],
+  ['to_5fquotient_5fs32_27',['to_quotient_s32',['../group__hardware__divider.html#ga62820b8678505f5ea007cedd012da0aa',1,'divider.h']]],
+  ['to_5fquotient_5fu32_28',['to_quotient_u32',['../group__hardware__divider.html#ga21752b8ee127370df37cd9a9e4e4050e',1,'divider.h']]],
+  ['to_5fremainder_5fs32_29',['to_remainder_s32',['../group__hardware__divider.html#ga7ca08fd8fd1961ee25233d4587067178',1,'divider.h']]],
+  ['to_5fremainder_5fu32_30',['to_remainder_u32',['../group__hardware__divider.html#gaea3762e4a27f1e42f8e03e6607917462',1,'divider.h']]],
+  ['to_5fus_5fsince_5fboot_31',['to_us_since_boot',['../group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1',1,'types.h']]]
 ];

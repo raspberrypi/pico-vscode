@@ -1,6 +1,9 @@
 var group__lock__core =
 [
     [ "lock_core.h", "lock__core_8h.html", null ],
+    [ "lock_core", "structlock__core.html", [
+      [ "spin_lock", "structlock__core.html#a02e8b640c69a79995e4a5b39ed457852", null ]
+    ] ],
     [ "lock_get_caller_owner_id", "group__lock__core.html#gae28f1d974cf1f1b973127500a764245c", null ],
     [ "lock_internal_spin_unlock_with_best_effort_wait_or_timeout", "group__lock__core.html#ga627a09221ed61634d6dfea6f406e104e", null ],
     [ "lock_internal_spin_unlock_with_notify", "group__lock__core.html#ga298f38f465c9115393f0f35f56c13279", null ],

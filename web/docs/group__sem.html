@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,8 @@ $(document).ready(function(){initNavTree('group__sem.html',''); initResizable();
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">sem<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__sync.html">pico_sync</a></div></div></div>
 </div><!--header-->
@@ -111,33 +113,45 @@ $(document).ready(function(){initNavTree('group__sem.html',''); initResizable();
 <p>Semaphore API for restricting access to a resource.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structsemaphore.html">semaphore</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A semaphore for controlling access to a shared resource.  <a href="structsemaphore.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga7faa1c561b3d822cda7bb84f27ee9448"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structsemaphore.html">semaphore</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a></td></tr>
+<tr class="memdesc:ga7faa1c561b3d822cda7bb84f27ee9448"><td class="mdescLeft">&#160;</td><td class="mdescRight">A semaphore for controlling access to a shared resource.  <a href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">More...</a><br /></td></tr>
+<tr class="separator:ga7faa1c561b3d822cda7bb84f27ee9448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab4e56b5ccfacafd2fb17765e702a21ba">sem_init</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, int16_t initial_permits, int16_t max_permits)</td></tr>
+<tr class="memitem:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab4e56b5ccfacafd2fb17765e702a21ba">sem_init</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem, int16_t initial_permits, int16_t max_permits)</td></tr>
 <tr class="memdesc:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a semaphore structure.  <a href="group__sem.html#gab4e56b5ccfacafd2fb17765e702a21ba">More...</a><br /></td></tr>
 <tr class="separator:gab4e56b5ccfacafd2fb17765e702a21ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gad9e065ef0c0e59309f9bdb5fb74bb7c1">sem_available</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
+<tr class="memitem:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gad9e065ef0c0e59309f9bdb5fb74bb7c1">sem_available</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return number of available permits on the semaphore.  <a href="group__sem.html#gad9e065ef0c0e59309f9bdb5fb74bb7c1">More...</a><br /></td></tr>
 <tr class="separator:gad9e065ef0c0e59309f9bdb5fb74bb7c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaeac89066f5fdbde0c7db2718464dcbde"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem_release</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
+<tr class="memitem:gaeac89066f5fdbde0c7db2718464dcbde"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem_release</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:gaeac89066f5fdbde0c7db2718464dcbde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a permit on a semaphore.  <a href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">More...</a><br /></td></tr>
 <tr class="separator:gaeac89066f5fdbde0c7db2718464dcbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">sem_reset</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, int16_t permits)</td></tr>
+<tr class="memitem:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">sem_reset</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem, int16_t permits)</td></tr>
 <tr class="memdesc:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset semaphore to a specific number of available permits.  <a href="group__sem.html#gab6c128952e4981a95ce2e2d093a8a3ba">More...</a><br /></td></tr>
 <tr class="separator:gab6c128952e4981a95ce2e2d093a8a3ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaefa22667355703497ae883f68a87aacf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaefa22667355703497ae883f68a87aacf">sem_acquire_blocking</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
+<tr class="memitem:gaefa22667355703497ae883f68a87aacf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#gaefa22667355703497ae883f68a87aacf">sem_acquire_blocking</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:gaefa22667355703497ae883f68a87aacf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a permit from the semaphore.  <a href="group__sem.html#gaefa22667355703497ae883f68a87aacf">More...</a><br /></td></tr>
 <tr class="separator:gaefa22667355703497ae883f68a87aacf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga38275bfc4c00e5039028f58860709610"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga38275bfc4c00e5039028f58860709610">sem_acquire_timeout_ms</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, uint32_t timeout_ms)</td></tr>
+<tr class="memitem:ga38275bfc4c00e5039028f58860709610"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga38275bfc4c00e5039028f58860709610">sem_acquire_timeout_ms</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem, uint32_t timeout_ms)</td></tr>
 <tr class="memdesc:ga38275bfc4c00e5039028f58860709610"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a permit from a semaphore, with timeout.  <a href="group__sem.html#ga38275bfc4c00e5039028f58860709610">More...</a><br /></td></tr>
 <tr class="separator:ga38275bfc4c00e5039028f58860709610"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0f5a509fb132e8e764795a66773500ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga0f5a509fb132e8e764795a66773500ad">sem_acquire_timeout_us</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, uint32_t timeout_us)</td></tr>
+<tr class="memitem:ga0f5a509fb132e8e764795a66773500ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga0f5a509fb132e8e764795a66773500ad">sem_acquire_timeout_us</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem, uint32_t timeout_us)</td></tr>
 <tr class="memdesc:ga0f5a509fb132e8e764795a66773500ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a permit from a semaphore, with timeout.  <a href="group__sem.html#ga0f5a509fb132e8e764795a66773500ad">More...</a><br /></td></tr>
 <tr class="separator:ga0f5a509fb132e8e764795a66773500ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga4410f17fc2f35b91e5bcfaf18bcf26ae">sem_acquire_block_until</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
+<tr class="memitem:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga4410f17fc2f35b91e5bcfaf18bcf26ae">sem_acquire_block_until</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem, <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> until)</td></tr>
 <tr class="memdesc:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Wait to acquire a permit from a semaphore until a specific time.  <a href="group__sem.html#ga4410f17fc2f35b91e5bcfaf18bcf26ae">More...</a><br /></td></tr>
 <tr class="separator:ga4410f17fc2f35b91e5bcfaf18bcf26ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">sem_try_acquire</a> (<a class="el" href="structsemaphore.html">semaphore_t</a> *sem)</td></tr>
+<tr class="memitem:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">sem_try_acquire</a> (<a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *sem)</td></tr>
 <tr class="memdesc:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attempt to acquire a permit from a semaphore without blocking.  <a href="group__sem.html#ga25b473ab6f287e4a6a0c9d0288a0a497">More...</a><br /></td></tr>
 <tr class="separator:ga25b473ab6f287e4a6a0c9d0288a0a497"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -146,6 +160,24 @@ Functions</h2></td></tr>
 <p >A semaphore holds a number of available permits. <code>sem_acquire</code> methods will acquire a permit if available (reducing the available count by 1) or block if the number of available permits is 0. <a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem_release()</a> increases the number of available permits by one potentially unblocking a <code>sem_acquire</code> method.</p>
 <p >Note that <a class="el" href="group__sem.html#gaeac89066f5fdbde0c7db2718464dcbde">sem_release()</a> may be called an arbitrary number of times, however the number of available permits is capped to the max_permit value specified during semaphore initialization.</p>
 <p >Although these semaphore related functions can be used from IRQ handlers, it is obviously preferable to only release semaphores from within an IRQ handler (i.e. avoid blocking) </p>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga7faa1c561b3d822cda7bb84f27ee9448" name="ga7faa1c561b3d822cda7bb84f27ee9448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7faa1c561b3d822cda7bb84f27ee9448">&#9670;&nbsp;</a></span>semaphore_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structsemaphore.html">semaphore</a> <a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A semaphore for controlling access to a shared resource. </p>
+<p >Holds the current number of available permits and the maximum permitted count. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga4410f17fc2f35b91e5bcfaf18bcf26ae" name="ga4410f17fc2f35b91e5bcfaf18bcf26ae"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4410f17fc2f35b91e5bcfaf18bcf26ae">&#9670;&nbsp;</a></span>sem_acquire_block_until()</h2>
@@ -156,7 +188,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool sem_acquire_block_until </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em>, </td>
         </tr>
         <tr>
@@ -195,7 +227,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void sem_acquire_blocking </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em></td><td>)</td>
           <td></td>
         </tr>
@@ -222,7 +254,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool sem_acquire_timeout_ms </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em>, </td>
         </tr>
         <tr>
@@ -261,7 +293,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool sem_acquire_timeout_us </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em>, </td>
         </tr>
         <tr>
@@ -300,7 +332,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">int sem_available </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em></td><td>)</td>
           <td></td>
         </tr>
@@ -327,7 +359,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void sem_init </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em>, </td>
         </tr>
         <tr>
@@ -371,7 +403,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool sem_release </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em></td><td>)</td>
           <td></td>
         </tr>
@@ -399,7 +431,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void sem_reset </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em>, </td>
         </tr>
         <tr>
@@ -437,7 +469,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">bool sem_try_acquire </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structsemaphore.html">semaphore_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448">semaphore_t</a> *&#160;</td>
           <td class="paramname"><em>sem</em></td><td>)</td>
           <td></td>
         </tr>

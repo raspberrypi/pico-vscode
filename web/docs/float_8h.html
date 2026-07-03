@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,38 +103,38 @@ $(document).ready(function(){initNavTree('float_8h.html',''); initResizable(); }
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">float.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;math.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
+<code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="float_8h_source.html">float.h</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
-<code>#include &quot;pico/bootrom/sf_table.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for float.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="float_8h__incl.png" border="0" usemap="#ainclude_2pico_2float_8h" alt=""/></div>
 <map name="ainclude_2pico_2float_8h" id="ainclude_2pico_2float_8h">
-<area shape="rect" title=" " alt="" coords="369,7,515,33"/>
-<area shape="rect" title=" " alt="" coords="319,81,387,108"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,81,473,108"/>
-<area shape="rect" href="sf__table_8h_source.html" title=" " alt="" coords="497,81,673,108"/>
+<area shape="rect" title=" " alt="" coords="509,7,655,33"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="507,81,569,108"/>
+<area shape="rect" title=" " alt="" coords="593,81,661,108"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,305,259,332"/>
-<area shape="rect" title=" " alt="" coords="252,156,365,183"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,156,494,183"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,156,717,183"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,156,836,183"/>
+<area shape="rect" title=" " alt="" coords="348,156,461,183"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="486,156,590,183"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,156,813,183"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,156,932,183"/>
 <area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,380,111,407"/>
 <area shape="rect" title=" " alt="" coords="74,455,157,481"/>
 <area shape="rect" title=" " alt="" coords="211,380,281,407"/>
 <area shape="rect" title=" " alt="" coords="306,380,381,407"/>
 <area shape="rect" title=" " alt="" coords="173,231,337,257"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,231,543,257"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="362,231,543,257"/>
 <area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,231,746,257"/>
 <area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,231,930,257"/>
-<area shape="rect" title=" " alt="" coords="954,231,1165,257"/>
-<area shape="rect" title=" " alt="" coords="1189,231,1340,257"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="955,231,1137,257"/>
+<area shape="rect" title=" " alt="" coords="1162,231,1373,257"/>
+<area shape="rect" title=" " alt="" coords="1397,231,1548,257"/>
 <area shape="rect" title=" " alt="" coords="357,305,548,332"/>
 </map>
 </div>
@@ -149,86 +149,193 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="float_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a406b3afe47d3cdf6834dd5c10042c831"><td class="memItemLeft" align="right" valign="top"><a id="a406b3afe47d3cdf6834dd5c10042c831" name="a406b3afe47d3cdf6834dd5c10042c831"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_IN_RAM</b>&#160;&#160;&#160;0</td></tr>
+<tr class="separator:a406b3afe47d3cdf6834dd5c10042c831"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7cff4879540c2f0f9fbe6192a80c959"><td class="memItemLeft" align="right" valign="top"><a id="ac7cff4879540c2f0f9fbe6192a80c959" name="ac7cff4879540c2f0f9fbe6192a80c959"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>__PICO_FLOAT_ARM_OPTIMIZED</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:ac7cff4879540c2f0f9fbe6192a80c959"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8f0b82ac0c1dfcf56438350a1a96cbf"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_INT32_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gad8f0b82ac0c1dfcf56438350a1a96cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#gaf5ff3cc5a0abed97b7318a9b49fef3b3">int2float</a> and <a class="el" href="group__pico__float.html#ga3f7ee9f0e69d1bf767c2c8d077fbc19e">uint2float</a> are available. <br /></td></tr>
+<tr class="separator:gad8f0b82ac0c1dfcf56438350a1a96cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga525eda7b8eeb5e371effb6f7298f84d6"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_INT64_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga525eda7b8eeb5e371effb6f7298f84d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga483e538d7149bc9840110df389bf7031">int642float</a> and <a class="el" href="group__pico__float.html#ga2e474bc80996bfecb7eba8ebafc3db56">uint642float</a> are available. <br /></td></tr>
+<tr class="separator:ga525eda7b8eeb5e371effb6f7298f84d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa100d232b04878d4f0d13b1ca046bb9a"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT32_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gaa100d232b04878d4f0d13b1ca046bb9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#gaf2d7dbed1b96970bf1b5b156236ab16c">float2int_z</a> and <a class="el" href="group__pico__float.html#ga468e72d99010bf3dd05e730ab49bc9de">float2uint_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:gaa100d232b04878d4f0d13b1ca046bb9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10d896bcbfeb9bd617e9efd962b0437d"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT64_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga10d896bcbfeb9bd617e9efd962b0437d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga552efd303436008f6113714500f59f06">float2int64_z</a> and <a class="el" href="group__pico__float.html#ga13b4b67c293a3b2f0c24a8d97504ec7f">float2uint64_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:ga10d896bcbfeb9bd617e9efd962b0437d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga884dd156221d5ef67b13e2d14f70bdee"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FIX32_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga884dd156221d5ef67b13e2d14f70bdee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#gab73484b3762ce2465e0ac186d5d7a360">fix2float</a> and <a class="el" href="group__pico__float.html#ga75a4600125f2789a1bef8b6c8f39e9e3">ufix2float</a> are available. <br /></td></tr>
+<tr class="separator:ga884dd156221d5ef67b13e2d14f70bdee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac11d647c17b0e11830e155f3118c3cb1"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FIX64_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gac11d647c17b0e11830e155f3118c3cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga36c4e10d198c6ba0d05a29625ac9b0ec">fix642float</a> and <a class="el" href="group__pico__float.html#ga97801a17510ac4d7f6f1223ad1f72258">ufix642float</a> are available. <br /></td></tr>
+<tr class="separator:gac11d647c17b0e11830e155f3118c3cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac2048c385c5862656b32ad33ef5edd9d"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX32_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gac2048c385c5862656b32ad33ef5edd9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga289a087519f7bb50cc2993664a406410">float2fix_z</a> and <a class="el" href="group__pico__float.html#ga61f4413f2063e71381cad9920302b765">float2ufix_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:gac2048c385c5862656b32ad33ef5edd9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3c541c273ee3b805ffe9755d96a9c2c2"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX64_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga3c541c273ee3b805ffe9755d96a9c2c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga48c4f205e2e2f59ed5cd687f77cfefac">float2fix64_z</a> and <a class="el" href="group__pico__float.html#ga323b45ef5e2e0a53fcd908479a8da9fe">float2ufix64_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:ga3c541c273ee3b805ffe9755d96a9c2c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab6c6207b355d77613fd3063b26a220f9"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT32_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gab6c6207b355d77613fd3063b26a220f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga99d135e9fc9f4c4f17c6d784a4180602">float2int</a> and <a class="el" href="group__pico__float.html#ga620d63967be6dfe41e7a668a26440fdb">float2uint</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:gab6c6207b355d77613fd3063b26a220f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga80b820d556198c59f26c7e2ca69bf87f"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT64_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga80b820d556198c59f26c7e2ca69bf87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga91f8fa3030c3e88eb3fa2059f1ff8130">float2int64</a> and <a class="el" href="group__pico__float.html#ga83263dbf4197a2e48d44d3562693ca97">float2uint64</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga80b820d556198c59f26c7e2ca69bf87f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64ba3c42bdf891987612fe8b1a0fe66d"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX32_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga64ba3c42bdf891987612fe8b1a0fe66d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga0d7f7ca64b7a23b815186d387fef7ad0">float2fix</a> and <a class="el" href="group__pico__float.html#ga7c80b0ca533f10d2518075b752a52479">float2ufix</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga64ba3c42bdf891987612fe8b1a0fe66d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga854566d8165ebd7c44e81067310f5db3"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX64_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga854566d8165ebd7c44e81067310f5db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga7b4f61ca3312d2185ea7ba31344672c3">float2fix64</a> and <a class="el" href="group__pico__float.html#ga84deb9a111bf9c9a3f9b522a16648154">float2ufix64</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga854566d8165ebd7c44e81067310f5db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2d043533bd49a6943c8e39e68581c654"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FDIV_FAST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga2d043533bd49a6943c8e39e68581c654"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga1fd228c99c70a9e3bedb041a7d82c086">fdiv_fast</a> is available. <br /></td></tr>
+<tr class="separator:ga2d043533bd49a6943c8e39e68581c654"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ed2ea220f8867bf82f010ec7e39a12d"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_SQRTF_FAST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga3ed2ea220f8867bf82f010ec7e39a12d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga300c47a94afab28a20cb976c92196122">sqrtf_fast</a> is available. <br /></td></tr>
+<tr class="separator:ga3ed2ea220f8867bf82f010ec7e39a12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabffad60e1c08cdbe4b7c82141e6eb444"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_POWINTF</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gabffad60e1c08cdbe4b7c82141e6eb444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga81b95ed9ab7e785d760ff609327a68b8">powintf</a> is available. <br /></td></tr>
+<tr class="separator:gabffad60e1c08cdbe4b7c82141e6eb444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a24d342423595e0aaa968428d756293db"><td class="memItemLeft" align="right" valign="top"><a id="a24d342423595e0aaa968428d756293db" name="a24d342423595e0aaa968428d756293db"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>int2float</b> (int32_t f)</td></tr>
-<tr class="separator:a24d342423595e0aaa968428d756293db"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a922a253b263d7563b0337392ab1e1530"><td class="memItemLeft" align="right" valign="top"><a id="a922a253b263d7563b0337392ab1e1530" name="a922a253b263d7563b0337392ab1e1530"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>uint2float</b> (uint32_t f)</td></tr>
-<tr class="separator:a922a253b263d7563b0337392ab1e1530"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83c24f78b804ecf065027f1bb5232894"><td class="memItemLeft" align="right" valign="top"><a id="a83c24f78b804ecf065027f1bb5232894" name="a83c24f78b804ecf065027f1bb5232894"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>int642float</b> (int64_t f)</td></tr>
-<tr class="separator:a83c24f78b804ecf065027f1bb5232894"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd4bec4bea4445de27a14e23367b0b86"><td class="memItemLeft" align="right" valign="top"><a id="acd4bec4bea4445de27a14e23367b0b86" name="acd4bec4bea4445de27a14e23367b0b86"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>uint642float</b> (uint64_t f)</td></tr>
-<tr class="separator:acd4bec4bea4445de27a14e23367b0b86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab73484b3762ce2465e0ac186d5d7a360"><td class="memItemLeft" align="right" valign="top"><a id="ab73484b3762ce2465e0ac186d5d7a360" name="ab73484b3762ce2465e0ac186d5d7a360"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>fix2float</b> (int32_t m, int e)</td></tr>
-<tr class="separator:ab73484b3762ce2465e0ac186d5d7a360"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75a4600125f2789a1bef8b6c8f39e9e3"><td class="memItemLeft" align="right" valign="top"><a id="a75a4600125f2789a1bef8b6c8f39e9e3" name="a75a4600125f2789a1bef8b6c8f39e9e3"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>ufix2float</b> (uint32_t m, int e)</td></tr>
-<tr class="separator:a75a4600125f2789a1bef8b6c8f39e9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36c4e10d198c6ba0d05a29625ac9b0ec"><td class="memItemLeft" align="right" valign="top"><a id="a36c4e10d198c6ba0d05a29625ac9b0ec" name="a36c4e10d198c6ba0d05a29625ac9b0ec"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>fix642float</b> (int64_t m, int e)</td></tr>
-<tr class="separator:a36c4e10d198c6ba0d05a29625ac9b0ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97801a17510ac4d7f6f1223ad1f72258"><td class="memItemLeft" align="right" valign="top"><a id="a97801a17510ac4d7f6f1223ad1f72258" name="a97801a17510ac4d7f6f1223ad1f72258"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>ufix642float</b> (uint64_t m, int e)</td></tr>
-<tr class="separator:a97801a17510ac4d7f6f1223ad1f72258"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d7f7ca64b7a23b815186d387fef7ad0"><td class="memItemLeft" align="right" valign="top"><a id="a0d7f7ca64b7a23b815186d387fef7ad0" name="a0d7f7ca64b7a23b815186d387fef7ad0"></a>
-int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix</b> (float f, int e)</td></tr>
-<tr class="separator:a0d7f7ca64b7a23b815186d387fef7ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c80b0ca533f10d2518075b752a52479"><td class="memItemLeft" align="right" valign="top"><a id="a7c80b0ca533f10d2518075b752a52479" name="a7c80b0ca533f10d2518075b752a52479"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix</b> (float f, int e)</td></tr>
-<tr class="separator:a7c80b0ca533f10d2518075b752a52479"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b4f61ca3312d2185ea7ba31344672c3"><td class="memItemLeft" align="right" valign="top"><a id="a7b4f61ca3312d2185ea7ba31344672c3" name="a7b4f61ca3312d2185ea7ba31344672c3"></a>
-int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix64</b> (float f, int e)</td></tr>
-<tr class="separator:a7b4f61ca3312d2185ea7ba31344672c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84deb9a111bf9c9a3f9b522a16648154"><td class="memItemLeft" align="right" valign="top"><a id="a84deb9a111bf9c9a3f9b522a16648154" name="a84deb9a111bf9c9a3f9b522a16648154"></a>
-uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix64</b> (float f, int e)</td></tr>
-<tr class="separator:a84deb9a111bf9c9a3f9b522a16648154"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99d135e9fc9f4c4f17c6d784a4180602"><td class="memItemLeft" align="right" valign="top"><a id="a99d135e9fc9f4c4f17c6d784a4180602" name="a99d135e9fc9f4c4f17c6d784a4180602"></a>
-int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int</b> (float f)</td></tr>
-<tr class="separator:a99d135e9fc9f4c4f17c6d784a4180602"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a620d63967be6dfe41e7a668a26440fdb"><td class="memItemLeft" align="right" valign="top"><a id="a620d63967be6dfe41e7a668a26440fdb" name="a620d63967be6dfe41e7a668a26440fdb"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint</b> (float f)</td></tr>
-<tr class="separator:a620d63967be6dfe41e7a668a26440fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a91f8fa3030c3e88eb3fa2059f1ff8130"><td class="memItemLeft" align="right" valign="top"><a id="a91f8fa3030c3e88eb3fa2059f1ff8130" name="a91f8fa3030c3e88eb3fa2059f1ff8130"></a>
-int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int64</b> (float f)</td></tr>
-<tr class="separator:a91f8fa3030c3e88eb3fa2059f1ff8130"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83263dbf4197a2e48d44d3562693ca97"><td class="memItemLeft" align="right" valign="top"><a id="a83263dbf4197a2e48d44d3562693ca97" name="a83263dbf4197a2e48d44d3562693ca97"></a>
-uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint64</b> (float f)</td></tr>
-<tr class="separator:a83263dbf4197a2e48d44d3562693ca97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af2d7dbed1b96970bf1b5b156236ab16c"><td class="memItemLeft" align="right" valign="top"><a id="af2d7dbed1b96970bf1b5b156236ab16c" name="af2d7dbed1b96970bf1b5b156236ab16c"></a>
+<tr class="memitem:gaf5ff3cc5a0abed97b7318a9b49fef3b3"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>int2float</b> (int32_t i)</td></tr>
+<tr class="memdesc:gaf5ff3cc5a0abed97b7318a9b49fef3b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 32-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:gaf5ff3cc5a0abed97b7318a9b49fef3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3f7ee9f0e69d1bf767c2c8d077fbc19e"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>uint2float</b> (uint32_t u)</td></tr>
+<tr class="memdesc:ga3f7ee9f0e69d1bf767c2c8d077fbc19e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 32-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:ga3f7ee9f0e69d1bf767c2c8d077fbc19e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga483e538d7149bc9840110df389bf7031"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>int642float</b> (int64_t i)</td></tr>
+<tr class="memdesc:ga483e538d7149bc9840110df389bf7031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 64-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:ga483e538d7149bc9840110df389bf7031"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e474bc80996bfecb7eba8ebafc3db56"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>uint642float</b> (uint64_t u)</td></tr>
+<tr class="memdesc:ga2e474bc80996bfecb7eba8ebafc3db56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 64-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:ga2e474bc80996bfecb7eba8ebafc3db56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf2d7dbed1b96970bf1b5b156236ab16c"><td class="memItemLeft" align="right" valign="top">
 int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int_z</b> (float f)</td></tr>
-<tr class="separator:af2d7dbed1b96970bf1b5b156236ab16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a552efd303436008f6113714500f59f06"><td class="memItemLeft" align="right" valign="top"><a id="a552efd303436008f6113714500f59f06" name="a552efd303436008f6113714500f59f06"></a>
+<tr class="memdesc:gaf2d7dbed1b96970bf1b5b156236ab16c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit integer, rounding towards zero. On Arm this conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:gaf2d7dbed1b96970bf1b5b156236ab16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga468e72d99010bf3dd05e730ab49bc9de"><td class="memItemLeft" align="right" valign="top">
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint_z</b> (float f)</td></tr>
+<tr class="memdesc:ga468e72d99010bf3dd05e730ab49bc9de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit integer, rounding towards zero On Arm this conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga468e72d99010bf3dd05e730ab49bc9de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga552efd303436008f6113714500f59f06"><td class="memItemLeft" align="right" valign="top">
 int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int64_z</b> (float f)</td></tr>
-<tr class="separator:a552efd303436008f6113714500f59f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f498c57105f76cbaa543ca5a65cfa7a"><td class="memItemLeft" align="right" valign="top"><a id="a5f498c57105f76cbaa543ca5a65cfa7a" name="a5f498c57105f76cbaa543ca5a65cfa7a"></a>
-int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint_z</b> (float f)</td></tr>
-<tr class="separator:a5f498c57105f76cbaa543ca5a65cfa7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd9704da1d81b0c7d32a9043fbdb8f06"><td class="memItemLeft" align="right" valign="top"><a id="abd9704da1d81b0c7d32a9043fbdb8f06" name="abd9704da1d81b0c7d32a9043fbdb8f06"></a>
-int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint64_z</b> (float f)</td></tr>
-<tr class="separator:abd9704da1d81b0c7d32a9043fbdb8f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad27f10a0e30a7fe130c18786bf097e4b"><td class="memItemLeft" align="right" valign="top"><a id="ad27f10a0e30a7fe130c18786bf097e4b" name="ad27f10a0e30a7fe130c18786bf097e4b"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>exp10f</b> (float x)</td></tr>
-<tr class="separator:ad27f10a0e30a7fe130c18786bf097e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7cc97892a9c28d67f1019a5544c8dd71"><td class="memItemLeft" align="right" valign="top"><a id="a7cc97892a9c28d67f1019a5544c8dd71" name="a7cc97892a9c28d67f1019a5544c8dd71"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sincosf</b> (float x, float *sinx, float *cosx)</td></tr>
-<tr class="separator:a7cc97892a9c28d67f1019a5544c8dd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a754922dde6f8b09483423b5377cb1fce"><td class="memItemLeft" align="right" valign="top"><a id="a754922dde6f8b09483423b5377cb1fce" name="a754922dde6f8b09483423b5377cb1fce"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>powintf</b> (float x, int y)</td></tr>
-<tr class="separator:a754922dde6f8b09483423b5377cb1fce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48c4f205e2e2f59ed5cd687f77cfefac"><td class="memItemLeft" align="right" valign="top"><a id="a48c4f205e2e2f59ed5cd687f77cfefac" name="a48c4f205e2e2f59ed5cd687f77cfefac"></a>
+<tr class="memdesc:ga552efd303436008f6113714500f59f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit integer, rounding towards zero. On Arm this conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga552efd303436008f6113714500f59f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13b4b67c293a3b2f0c24a8d97504ec7f"><td class="memItemLeft" align="right" valign="top">
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint64_z</b> (float f)</td></tr>
+<tr class="memdesc:ga13b4b67c293a3b2f0c24a8d97504ec7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit integer, rounding towards zero. On Arm this conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga13b4b67c293a3b2f0c24a8d97504ec7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab73484b3762ce2465e0ac186d5d7a360"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>fix2float</b> (int32_t m, int e)</td></tr>
+<tr class="memdesc:gab73484b3762ce2465e0ac186d5d7a360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 32-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +/- Infinity. <br /></td></tr>
+<tr class="separator:gab73484b3762ce2465e0ac186d5d7a360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga75a4600125f2789a1bef8b6c8f39e9e3"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>ufix2float</b> (uint32_t m, int e)</td></tr>
+<tr class="memdesc:ga75a4600125f2789a1bef8b6c8f39e9e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 32-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +Infinity. <br /></td></tr>
+<tr class="separator:ga75a4600125f2789a1bef8b6c8f39e9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga36c4e10d198c6ba0d05a29625ac9b0ec"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>fix642float</b> (int64_t m, int e)</td></tr>
+<tr class="memdesc:ga36c4e10d198c6ba0d05a29625ac9b0ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 64-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +/- Infinity. <br /></td></tr>
+<tr class="separator:ga36c4e10d198c6ba0d05a29625ac9b0ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga97801a17510ac4d7f6f1223ad1f72258"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>ufix642float</b> (uint64_t m, int e)</td></tr>
+<tr class="memdesc:ga97801a17510ac4d7f6f1223ad1f72258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 64-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +Infinity. <br /></td></tr>
+<tr class="separator:ga97801a17510ac4d7f6f1223ad1f72258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga289a087519f7bb50cc2993664a406410"><td class="memItemLeft" align="right" valign="top">
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix_z</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga289a087519f7bb50cc2993664a406410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit fixed-point integer with the given number of fractional bits, rounding towards zero. On Arm this conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga289a087519f7bb50cc2993664a406410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61f4413f2063e71381cad9920302b765"><td class="memItemLeft" align="right" valign="top">
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix_z</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga61f4413f2063e71381cad9920302b765"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit fixed-point integer with the given number of fractional bits, rounding towards zero. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga61f4413f2063e71381cad9920302b765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48c4f205e2e2f59ed5cd687f77cfefac"><td class="memItemLeft" align="right" valign="top">
 int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix64_z</b> (float f, int e)</td></tr>
-<tr class="separator:a48c4f205e2e2f59ed5cd687f77cfefac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1fd228c99c70a9e3bedb041a7d82c086"><td class="memItemLeft" align="right" valign="top"><a id="a1fd228c99c70a9e3bedb041a7d82c086" name="a1fd228c99c70a9e3bedb041a7d82c086"></a>
+<tr class="memdesc:ga48c4f205e2e2f59ed5cd687f77cfefac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit fixed-point integer with the given number of fractional bits, rounding towards zero. On Arm this conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga48c4f205e2e2f59ed5cd687f77cfefac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga323b45ef5e2e0a53fcd908479a8da9fe"><td class="memItemLeft" align="right" valign="top">
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix64_z</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga323b45ef5e2e0a53fcd908479a8da9fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit fixed-point integer with the given number of fractional bits, rounding towards zero. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga323b45ef5e2e0a53fcd908479a8da9fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga99d135e9fc9f4c4f17c6d784a4180602"><td class="memItemLeft" align="right" valign="top">
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int</b> (float f)</td></tr>
+<tr class="memdesc:ga99d135e9fc9f4c4f17c6d784a4180602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit integer, rounding towards -Infinity. This conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga99d135e9fc9f4c4f17c6d784a4180602"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga620d63967be6dfe41e7a668a26440fdb"><td class="memItemLeft" align="right" valign="top">
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint</b> (float f)</td></tr>
+<tr class="memdesc:ga620d63967be6dfe41e7a668a26440fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit integer, rounding towards -Infinity. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga620d63967be6dfe41e7a668a26440fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91f8fa3030c3e88eb3fa2059f1ff8130"><td class="memItemLeft" align="right" valign="top">
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int64</b> (float f)</td></tr>
+<tr class="memdesc:ga91f8fa3030c3e88eb3fa2059f1ff8130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit integer, rounding towards -Infinity. This conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga91f8fa3030c3e88eb3fa2059f1ff8130"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga83263dbf4197a2e48d44d3562693ca97"><td class="memItemLeft" align="right" valign="top">
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint64</b> (float f)</td></tr>
+<tr class="memdesc:ga83263dbf4197a2e48d44d3562693ca97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit integer, rounding towards -Infinity. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga83263dbf4197a2e48d44d3562693ca97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0d7f7ca64b7a23b815186d387fef7ad0"><td class="memItemLeft" align="right" valign="top">
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga0d7f7ca64b7a23b815186d387fef7ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga0d7f7ca64b7a23b815186d387fef7ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7c80b0ca533f10d2518075b752a52479"><td class="memItemLeft" align="right" valign="top">
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga7c80b0ca533f10d2518075b752a52479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga7c80b0ca533f10d2518075b752a52479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b4f61ca3312d2185ea7ba31344672c3"><td class="memItemLeft" align="right" valign="top">
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix64</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga7b4f61ca3312d2185ea7ba31344672c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga7b4f61ca3312d2185ea7ba31344672c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga84deb9a111bf9c9a3f9b522a16648154"><td class="memItemLeft" align="right" valign="top">
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix64</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga84deb9a111bf9c9a3f9b522a16648154"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga84deb9a111bf9c9a3f9b522a16648154"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad27f10a0e30a7fe130c18786bf097e4b"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>exp10f</b> (float x)</td></tr>
+<tr class="memdesc:gad27f10a0e30a7fe130c18786bf097e4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate 10.0f to the power of the given value. <br /></td></tr>
+<tr class="separator:gad27f10a0e30a7fe130c18786bf097e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7cc97892a9c28d67f1019a5544c8dd71"><td class="memItemLeft" align="right" valign="top">
+void&#160;</td><td class="memItemRight" valign="bottom"><b>sincosf</b> (float x, float *sinx, float *cosx)</td></tr>
+<tr class="memdesc:ga7cc97892a9c28d67f1019a5544c8dd71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return both the sine and cosine of an angle efficiently. <br /></td></tr>
+<tr class="separator:ga7cc97892a9c28d67f1019a5544c8dd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81b95ed9ab7e785d760ff609327a68b8"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>powintf</b> (float x, int32_t y)</td></tr>
+<tr class="memdesc:ga81b95ed9ab7e785d760ff609327a68b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raise a floating point number to an integer power. <br /></td></tr>
+<tr class="separator:ga81b95ed9ab7e785d760ff609327a68b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1fd228c99c70a9e3bedb041a7d82c086"><td class="memItemLeft" align="right" valign="top">
 float&#160;</td><td class="memItemRight" valign="bottom"><b>fdiv_fast</b> (float n, float d)</td></tr>
-<tr class="separator:a1fd228c99c70a9e3bedb041a7d82c086"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0bb62dd07ab79b7264a22e775afb37fb"><td class="memItemLeft" align="right" valign="top"><a id="a0bb62dd07ab79b7264a22e775afb37fb" name="a0bb62dd07ab79b7264a22e775afb37fb"></a>
-float&#160;</td><td class="memItemRight" valign="bottom"><b>fsqrt_fast</b> (float f)</td></tr>
-<tr class="separator:a0bb62dd07ab79b7264a22e775afb37fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ga1fd228c99c70a9e3bedb041a7d82c086"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast floating point divide with reduced accuracy. <br /></td></tr>
+<tr class="separator:ga1fd228c99c70a9e3bedb041a7d82c086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga300c47a94afab28a20cb976c92196122"><td class="memItemLeft" align="right" valign="top">
+float&#160;</td><td class="memItemRight" valign="bottom"><b>sqrtf_fast</b> (float f)</td></tr>
+<tr class="memdesc:ga300c47a94afab28a20cb976c92196122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast floating point square-root with reduced accuracy. <br /></td></tr>
+<tr class="separator:ga300c47a94afab28a20cb976c92196122"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

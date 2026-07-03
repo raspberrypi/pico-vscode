@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -142,10 +142,10 @@ Functions</h2></td></tr>
 <tr class="memdesc:ga22f960b66a5693ac4ff19e61ba6ffd45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deactivate the given doorbell on this core.  <a href="group__multicore__doorbell.html#ga22f960b66a5693ac4ff19e61ba6ffd45">More...</a><br /></td></tr>
 <tr class="separator:ga22f960b66a5693ac4ff19e61ba6ffd45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gafdf836e71f55b981d9d6a35ac17007e4"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__doorbell.html#gafdf836e71f55b981d9d6a35ac17007e4">multicore_doorbell_is_set_current_core</a> (uint doorbell_num)</td></tr>
-<tr class="memdesc:gafdf836e71f55b981d9d6a35ac17007e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given doorbell is active on the other core.  <a href="group__multicore__doorbell.html#gafdf836e71f55b981d9d6a35ac17007e4">More...</a><br /></td></tr>
+<tr class="memdesc:gafdf836e71f55b981d9d6a35ac17007e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given doorbell is active on this core.  <a href="group__multicore__doorbell.html#gafdf836e71f55b981d9d6a35ac17007e4">More...</a><br /></td></tr>
 <tr class="separator:gafdf836e71f55b981d9d6a35ac17007e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga03c48727a5b056879961be272a09e45f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__multicore__doorbell.html#ga03c48727a5b056879961be272a09e45f">multicore_doorbell_is_set_other_core</a> (uint doorbell_num)</td></tr>
-<tr class="memdesc:ga03c48727a5b056879961be272a09e45f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given doorbell is active on the this core.  <a href="group__multicore__doorbell.html#ga03c48727a5b056879961be272a09e45f">More...</a><br /></td></tr>
+<tr class="memdesc:ga03c48727a5b056879961be272a09e45f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the given doorbell is active on the other core.  <a href="group__multicore__doorbell.html#ga03c48727a5b056879961be272a09e45f">More...</a><br /></td></tr>
 <tr class="separator:ga03c48727a5b056879961be272a09e45f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -208,7 +208,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>hardware_claiming </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__claim.html" title="Lightweight hardware resource management API.">hardware_claim</a> </dd></dl>
 
 </div>
 </div>
@@ -248,7 +248,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the doorbell number claimed or -1 if required was false, and none are available </dd></dl>
-<dl class="section see"><dt>See also</dt><dd>hardware_claiming </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__claim.html" title="Lightweight hardware resource management API.">hardware_claim</a> </dd></dl>
 
 </div>
 </div>
@@ -344,7 +344,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Determine if the given doorbell is active on the other core. </p>
+<p>Determine if the given doorbell is active on this core. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">doorbell_num</td><td>the doorbell number </td></tr>
@@ -378,7 +378,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Determine if the given doorbell is active on the this core. </p>
+<p>Determine if the given doorbell is active on the other core. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">doorbell_num</td><td>the doorbell number </td></tr>
@@ -490,7 +490,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>hardware_claiming </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__claim.html" title="Lightweight hardware resource management API.">hardware_claim</a> </dd></dl>
 
 </div>
 </div>
