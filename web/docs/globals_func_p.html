@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -123,6 +123,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>pico_localtime_r()&#160;:&#160;<a class="el" href="group__util__datetime.html#ga318f32cb4c8cb86ddb9b8db05b81ea9d">datetime.h</a></li>
 <li>pico_mktime()&#160;:&#160;<a class="el" href="group__util__datetime.html#ga255a6ead98a3f641c09651a14a73f7bb">datetime.h</a></li>
 <li>pico_processor_state_is_nonsecure()&#160;:&#160;<a class="el" href="group__pico__platform.html#ga66edd7569f5a42b0a2da43a5926cf064">platform.h</a></li>
+<li>pico_sha256_cleanup()&#160;:&#160;<a class="el" href="group__pico__sha256.html#gadcd9545907188bf72482308ea459036f">sha256.h</a></li>
 <li>pico_sha256_finish()&#160;:&#160;<a class="el" href="group__pico__sha256.html#ga4eac54bf699dba0067a22ae3ef5ae121">sha256.h</a></li>
 <li>pico_sha256_start_blocking()&#160;:&#160;<a class="el" href="group__pico__sha256.html#gaf8fdc6d7438ffed9fcbc124eb134ae6e">sha256.h</a></li>
 <li>pico_sha256_start_blocking_until()&#160;:&#160;<a class="el" href="group__pico__sha256.html#ga6e6d3e0a3cb87e32a73757bcda88ebc1">sha256.h</a></li>
@@ -133,8 +134,8 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>pio_add_program_at_offset()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga12948478935f817218b64e1db3a8ebad">pio.h</a></li>
 <li>pio_can_add_program()&#160;:&#160;<a class="el" href="group__hardware__pio.html#gaa8aafe966a46f4de9be59f73cae65a4b">pio.h</a></li>
 <li>pio_can_add_program_at_offset()&#160;:&#160;<a class="el" href="group__hardware__pio.html#gaafac789d94b0727bb02ea83a8786897f">pio.h</a></li>
-<li>pio_claim_free_sm_and_add_program()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga03abf744baa28e22a46fcf81452c47cf">pio.h</a></li>
-<li>pio_claim_free_sm_and_add_program_for_gpio_range()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga53c3bbe939b3c58585d0e19ffe91e18e">pio.h</a></li>
+<li>pio_claim_free_sm_and_add_program()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga6bae0759fe5058f584ec586b7563a5df">pio.h</a></li>
+<li>pio_claim_free_sm_and_add_program_for_gpio_range()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga339027f7acb6885a159eb85c114b57f2">pio.h</a></li>
 <li>pio_claim_sm_mask()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga4c25ad61f15a76499997102e126cbdfd">pio.h</a></li>
 <li>pio_claim_unused_sm()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga604c071438065c46c9f4f21bdb61befd">pio.h</a></li>
 <li>pio_clear_instruction_memory()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga850396a2a2925bbcc97247a629ca5bd2">pio.h</a></li>
@@ -156,6 +157,8 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>pio_remove_program_and_unclaim_sm()&#160;:&#160;<a class="el" href="group__hardware__pio.html#gaa8178ef68166e58260da3989bc5f06bd">pio.h</a></li>
 <li>pio_restart_sm_mask()&#160;:&#160;<a class="el" href="group__hardware__pio.html#gae3e115fd41d9ac29c7a13b0c213bc2cd">pio.h</a></li>
 <li>pio_set_gpio_base()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio.h</a></li>
+<li>pio_set_input_sync_bypass_with_mask()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga68ec60b02f0248b4e6f73ee6849e1220">pio.h</a></li>
+<li>pio_set_input_sync_bypass_with_mask64()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga1a8dd59209ed80441f548426c0244984">pio.h</a></li>
 <li>pio_set_irq0_source_enabled()&#160;:&#160;<a class="el" href="group__hardware__pio.html#gafe39a664c508e08ef4c74b7c3c38bc07">pio.h</a></li>
 <li>pio_set_irq0_source_mask_enabled()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga81259bc71fd3bd81b96e47f9f4ea7b67">pio.h</a></li>
 <li>pio_set_irq1_source_enabled()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga4369e665ee8d2db58a83eccad65c917c">pio.h</a></li>
@@ -174,6 +177,7 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>pio_sm_get_pc()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga9c0ea409da4fcb98586120b575921c31">pio.h</a></li>
 <li>pio_sm_get_rx_fifo_level()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga8fa0b87fde0db10be2934de542f9d6c2">pio.h</a></li>
 <li>pio_sm_get_tx_fifo_level()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga009b3f44f112208114972c32546dfddb">pio.h</a></li>
+<li>pio_sm_init()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga8bd15922f2a2f836650ebbda8425b438">pio.h</a></li>
 <li>pio_sm_is_claimed()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga699fb7272e3cb5ab76a84fbf3640325d">pio.h</a></li>
 <li>pio_sm_is_exec_stalled()&#160;:&#160;<a class="el" href="group__hardware__pio.html#gaaa44e504a2abd8ca2c1ee2db91d0652b">pio.h</a></li>
 <li>pio_sm_is_rx_fifo_empty()&#160;:&#160;<a class="el" href="group__hardware__pio.html#gadf404ba44b7f83e79fd6b57b3e2c89df">pio.h</a></li>
@@ -203,6 +207,8 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>pio_sm_unclaim()&#160;:&#160;<a class="el" href="group__hardware__pio.html#ga62328112de918932e4ed0955ce0054ab">pio.h</a></li>
 <li>pll_deinit()&#160;:&#160;<a class="el" href="group__hardware__pll.html#ga4529ac07cbd8575938245850d20aba29">pll.h</a></li>
 <li>pll_init()&#160;:&#160;<a class="el" href="group__hardware__pll.html#ga67cfd74241b25d891f761af9b40d1ac8">pll.h</a></li>
+<li>powint()&#160;:&#160;<a class="el" href="group__pico__double.html#gade4b2c16b4fa72737165b12c2b8231dd">double.h</a></li>
+<li>powintf()&#160;:&#160;<a class="el" href="group__pico__float.html#ga81b95ed9ab7e785d760ff609327a68b8">float.h</a></li>
 <li>powman_clear_alarm()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga4c25eb6c57761d12e74c196082be405d">powman.h</a></li>
 <li>powman_clear_bits()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga5fe0817fd5f0baaefe9e086705e3b4e8">powman.h</a></li>
 <li>powman_configure_wakeup_state()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga8b055fd9bd2a7704c6ada5e903b5eecd">powman.h</a></li>
@@ -222,8 +228,10 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>powman_timer_disable_gpio_1hz_sync()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga5b035f3737ec4d2261414e931c5a8de3">powman.h</a></li>
 <li>powman_timer_enable_alarm_at_ms()&#160;:&#160;<a class="el" href="group__hardware__powman.html#gac8aa99d990fc2e793c2cc3ff680ce41f">powman.h</a></li>
 <li>powman_timer_enable_gpio_1hz_sync()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga4b843b70eaf83fb4b0d2fbee8ce1a015">powman.h</a></li>
+<li>powman_timer_get_lposc_calib_freq()&#160;:&#160;<a class="el" href="group__hardware__powman.html#gaf2fa89cf10739955a38831d1b29cc129">powman.h</a></li>
 <li>powman_timer_get_ms()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga7dc3aafeae8ba5a29f67970454d38046">powman.h</a></li>
 <li>powman_timer_is_running()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga6e2dd3c584d9eb2a40202b6d2dbddccd">powman.h</a></li>
+<li>powman_timer_pause()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga85a60d9febd4b6755e09a17796da2e0e">powman.h</a></li>
 <li>powman_timer_set_1khz_tick_source_gpio()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga7e0048a9fe486dc4e6cc6b9ae7699924">powman.h</a></li>
 <li>powman_timer_set_1khz_tick_source_lposc()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga2659af7a723a142b57a72add489d4f4e">powman.h</a></li>
 <li>powman_timer_set_1khz_tick_source_lposc_with_hz()&#160;:&#160;<a class="el" href="group__hardware__powman.html#gacc08f760516b1b09a58a7121cdfc1f49">powman.h</a></li>
@@ -232,6 +240,15 @@ $(document).ready(function(){initNavTree('globals_func_p.html',''); initResizabl
 <li>powman_timer_set_ms()&#160;:&#160;<a class="el" href="group__hardware__powman.html#gaa2f30fea7e5b78efc2d89cf5e5f215ed">powman.h</a></li>
 <li>powman_timer_start()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga0002ace8105882f2ed726fdf2bd2a284">powman.h</a></li>
 <li>powman_timer_stop()&#160;:&#160;<a class="el" href="group__hardware__powman.html#ga7d6d9931a08e2999606e434ae7681fc6">powman.h</a></li>
+<li>psram_check_address()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga305f6e22ac59bd135692de2c86292a41">psram.h</a></li>
+<li>psram_configure_params()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga8d956e90ed7fc6b40c1eaa9e3babbc6e">psram.h</a></li>
+<li>psram_detect_cs_and_size()&#160;:&#160;<a class="el" href="group__hardware__psram.html#gaa1864f0dfc36b061ee7ee514c4571b01">psram.h</a></li>
+<li>psram_detect_size()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga9ac1f6f3925d2d6a01b66062323f5c44">psram.h</a></li>
+<li>psram_eid_to_size()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga2cc4b61e491bfcf91e9cd773ffde9deb">psram.h</a></li>
+<li>psram_get_size()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga2e5ade588827496a73ebd6c37548c9fc">psram.h</a></li>
+<li>psram_is_available()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga57c359cbb0af07dcfa68c6229c8735b9">psram.h</a></li>
+<li>psram_reinitialize()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga0caa02b912d6e2d8df3799292cebf349">psram.h</a></li>
+<li>psram_set_params()&#160;:&#160;<a class="el" href="group__hardware__psram.html#ga274fb3191a9228ee2849563a22b7d456">psram.h</a></li>
 <li>putchar_raw()&#160;:&#160;<a class="el" href="group__pico__stdio.html#gae67e6fe5e7c87d6f15816797020245ad">stdio.h</a></li>
 <li>puts_raw()&#160;:&#160;<a class="el" href="group__pico__stdio.html#ga9a78025384cd3ce2095d01e09a2c0565">stdio.h</a></li>
 <li>pwm_advance_count()&#160;:&#160;<a class="el" href="group__hardware__pwm.html#ga98a47b25fcc2f28addf0a28ee3234efd">pwm.h</a></li>

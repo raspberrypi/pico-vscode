@@ -10,8 +10,8 @@ var group__runtime =
     [ "pico_clib_interface", "group__pico__clib__interface.html", null ],
     [ "pico_crt0", "group__pico__crt0.html", null ],
     [ "pico_divider", "group__pico__divider.html", "group__pico__divider" ],
-    [ "pico_double", "group__pico__double.html", null ],
-    [ "pico_float", "group__pico__float.html", null ],
+    [ "pico_double", "group__pico__double.html", "group__pico__double" ],
+    [ "pico_float", "group__pico__float.html", "group__pico__float" ],
     [ "pico_int64_ops", "group__pico__int64__ops.html", null ],
     [ "pico_malloc", "group__pico__malloc.html", null ],
     [ "pico_mem_ops", "group__pico__mem__ops.html", null ],
@@ -21,5 +21,6 @@ var group__runtime =
     [ "pico_runtime_init", "group__pico__runtime__init.html", "group__pico__runtime__init" ],
     [ "pico_stdio", "group__pico__stdio.html", "group__pico__stdio" ],
     [ "pico_standard_binary_info", "group__pico__standard__binary__info.html", null ],
-    [ "pico_standard_link", "group__pico__standard__link.html", null ]
+    [ "pico_standard_link", "group__pico__standard__link.html", null ],
+    [ "pico_thread_local", "group__pico__thread__local.html", null ]
 ];

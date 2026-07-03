@@ -53,6 +53,7 @@ import {
   type Example,
   loadExamples,
   setupExample,
+  copyBTStackSDKSources,
 } from "../utils/examplesUtil.mjs";
 import { stdoutToString, unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
@@ -836,6 +837,13 @@ export class NewProjectPanel {
         });
 
         return;
+      }
+
+      if (example !== undefined && example.path.includes("btstack_examples")) {
+        await copyBTStackSDKSources(
+          joinPosix(projectPath.replaceAll("\\", "/"), example.searchKey),
+          buildSDKPath(selectedSDK)
+        );
       }
 
       let prog2LastState = 0;

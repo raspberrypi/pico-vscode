@@ -5,7 +5,6 @@ import sys
 import requests
 import js2py
 
-
 dir_path = os.path.dirname(os.path.realpath(__file__))
 os.chdir(f"{dir_path}/..")
 
@@ -47,9 +46,9 @@ print("Num repos", num_repos)
 
 # Only provide data for these versions
 versions = [
-    ["1.5.1", "2.0.0", "2.1.0", "2.1.1", "2.2.0"],  # SDK
-    ["v3.28.6", "v3.29.6", "v3.29.9", "v3.31.5"],  # CMake
-    ["v1.12.1"],  # Ninja
+    ["1.5.1", "2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.3.0"],  # SDK
+    ["v3.28.6", "v3.29.6", "v3.29.9", "v3.31.5", "v4.3.4"],  # CMake
+    ["v1.12.1", "v1.13.2"],  # Ninja
     [
         "v1.5.1-0",
         "v2.0.0-0",
@@ -65,8 +64,9 @@ versions = [
         "v2.2.0-1",
         "v2.2.0-2",
         "v2.2.0-3",
+        "v2.3.0-0",
     ],  # pico-sdk-tools
-    ["2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.2.0-a4"],  # picotool
+    ["2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.2.0-a4", "2.3.0"],  # picotool
     ["v4.2.0"],  # zephyr
 ]
 

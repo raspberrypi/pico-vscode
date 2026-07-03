@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -102,13 +102,126 @@ $(document).ready(function(){initNavTree('group__boot__picoboot__headers.html','
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">boot_picoboot_headers<div class="ingroups"><a class="el" href="group__misc.html">External API Headers</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>Header file for the PICOBOOT USB interface exposed by an RP2xxx chip in BOOTSEL mode.  
-</p>
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a reboot command (RP2040 only)  <a href="structpicoboot__reboot__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for an extended reboot command (not available on RP2040)  <a href="structpicoboot__reboot2__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a command that operates on a single address (RP2040 only)  <a href="structpicoboot__address__only__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__range__cmd.html">picoboot_range_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a command that operates on an address range.  <a href="structpicoboot__range__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for an exclusive-access command.  <a href="structpicoboot__exclusive__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for an OTP read or write command (not available on RP2040)  <a href="structpicoboot__otp__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a get-info command (not available on RP2040)  <a href="structpicoboot__get__info__cmd.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:ga089aa49590ca8ca8ee50e260d396294f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">picoboot_exclusive_type</a> { <a class="el" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50">NOT_EXCLUSIVE</a> = 0
+, <a class="el" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0">EXCLUSIVE</a>
+, <a class="el" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919">EXCLUSIVE_AND_EJECT</a>
+ }</td></tr>
+<tr class="memdesc:ga089aa49590ca8ca8ee50e260d396294f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exclusivity level for a PC_EXCLUSIVE_ACCESS command.  <a href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">More...</a><br /></td></tr>
+<tr class="separator:ga089aa49590ca8ca8ee50e260d396294f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga53a02b321562de1288a42521cdd886bf"><td class="memItemLeft" align="right" valign="top">struct __packed&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">__aligned</a> (4) picoboot_cmd</td></tr>
+<tr class="memdesc:ga53a02b321562de1288a42521cdd886bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A PICOBOOT command packet sent to the OUT endpoint.  <a href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">More...</a><br /></td></tr>
+<tr class="separator:ga53a02b321562de1288a42521cdd886bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Header file for the PICOBOOT USB interface exposed by an RP2xxx chip in BOOTSEL mode. </p>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ga089aa49590ca8ca8ee50e260d396294f" name="ga089aa49590ca8ca8ee50e260d396294f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga089aa49590ca8ca8ee50e260d396294f">&#9670;&nbsp;</a></span>picoboot_exclusive_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">picoboot_exclusive_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Exclusivity level for a PC_EXCLUSIVE_ACCESS command. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50" name="gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50"></a>NOT_EXCLUSIVE&#160;</td><td class="fielddoc"><p >No restriction on USB Mass Storage operation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0" name="gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0"></a>EXCLUSIVE&#160;</td><td class="fielddoc"><p >Disable USB Mass Storage writes (any active UF2 download will be aborted) </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919" name="gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919"></a>EXCLUSIVE_AND_EJECT&#160;</td><td class="fielddoc"><p >Lock out USB Mass Storage by marking the drive media as not present (eject the drive) </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ga53a02b321562de1288a42521cdd886bf" name="ga53a02b321562de1288a42521cdd886bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga53a02b321562de1288a42521cdd886bf">&#9670;&nbsp;</a></span>__aligned()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct __packed __aligned </td>
+          <td>(</td>
+          <td class="paramtype">4&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A PICOBOOT command packet sent to the OUT endpoint. </p>
+<p >Status response returned by the PICOBOOT_IF_CMD_STATUS control request.</p>
+<p >A 32-byte packet written to the PICOBOOT OUT endpoint to initiate any supported command. After sending this packet, transfer_length bytes are exchanged via the IN or OUT endpoint as appropriate, followed by a zero-length ACK packet.</p>
+<p >A 16-byte structure read back from the device to determine the outcome of the most recently issued command. </p>
+<p >&lt; Must be PICOBOOT_MAGIC</p>
+<p >&lt; Caller-chosen identifier used to correlate this command with its status response</p>
+<p >&lt; Command identifier from picoboot_cmd_id; top bit set indicates an IN transfer</p>
+<p >&lt; Number of valid argument bytes within the args union</p>
+<p >&lt; Reserved; must be zero</p>
+<p >&lt; Length of the subsequent IN/OUT data transfer, or 0 if none</p>
+<p >&lt; Raw argument bytes</p>
+<p >&lt; Arguments for PC_REBOOT</p>
+<p >&lt; Arguments for PC_READ, PC_WRITE, and PC_FLASH_ERASE</p>
+<p >&lt; Arguments for PC_EXEC and PC_VECTORIZE_FLASH</p>
+<p >&lt; Arguments for PC_EXCLUSIVE_ACCESS</p>
+<p >&lt; Arguments for PC_REBOOT2</p>
+<p >&lt; Arguments for PC_OTP_READ and PC_OTP_WRITE</p>
+<p >&lt; Arguments for PC_GET_INFO</p>
+<p >&lt; Token copied from the corresponding picoboot_cmd</p>
+<p >&lt; Result code; one of the picoboot_status values</p>
+<p >&lt; Command identifier of the command this status relates to</p>
+<p >&lt; Non-zero if the command is still being processed</p>
+<p >&lt; Padding to reach 16 bytes</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

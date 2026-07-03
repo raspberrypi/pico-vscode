@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -112,32 +112,44 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__powman_2include
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
 <code>#include &quot;hardware/structs/powman.h&quot;</code><br />
+<code>#include &quot;<a class="el" href="fixed__bitset_8h_source.html">pico/util/fixed_bitset.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for powman.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="rp2__common_2hardware__powman_2include_2hardware_2powman_8h__incl.png" border="0" usemap="#ainclude_2hardware_2powman_8h" alt=""/></div>
 <map name="ainclude_2hardware_2powman_8h" id="ainclude_2hardware_2powman_8h">
-<area shape="rect" title=" " alt="" coords="647,5,853,32"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="649,229,710,256"/>
-<area shape="rect" href="rp2350_2hardware__structs_2include_2hardware_2structs_2powman_8h_source.html" title=" " alt="" coords="721,80,923,107"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,453,259,480"/>
-<area shape="rect" title=" " alt="" coords="420,304,533,331"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="558,304,662,331"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="687,304,808,331"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="832,304,927,331"/>
-<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,528,111,555"/>
-<area shape="rect" title=" " alt="" coords="74,603,157,629"/>
-<area shape="rect" title=" " alt="" coords="211,528,281,555"/>
-<area shape="rect" title=" " alt="" coords="306,528,381,555"/>
-<area shape="rect" title=" " alt="" coords="173,379,337,405"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,379,543,405"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,379,746,405"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,379,930,405"/>
-<area shape="rect" title=" " alt="" coords="1130,379,1341,405"/>
-<area shape="rect" title=" " alt="" coords="955,379,1105,405"/>
-<area shape="rect" title=" " alt="" coords="357,453,548,480"/>
-<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="717,155,927,181"/>
-<area shape="rect" title=" " alt="" coords="951,155,1138,181"/>
+<area shape="rect" title=" " alt="" coords="882,5,1089,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="997,229,1059,256"/>
+<area shape="rect" href="rp2350_2hardware__structs_2include_2hardware_2structs_2powman_8h_source.html" title=" " alt="" coords="745,80,948,107"/>
+<area shape="rect" href="fixed__bitset_8h.html" title=" " alt="" coords="1023,80,1188,107"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="1192,453,1293,480"/>
+<area shape="rect" title=" " alt="" coords="905,304,1018,331"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="1043,304,1147,331"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="646,304,767,331"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="1171,304,1266,331"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="1122,528,1227,555"/>
+<area shape="rect" title=" " alt="" coords="1088,603,1171,629"/>
+<area shape="rect" title=" " alt="" coords="1275,528,1346,555"/>
+<area shape="rect" title=" " alt="" coords="1371,528,1445,555"/>
+<area shape="rect" title=" " alt="" coords="1215,379,1379,405"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="807,379,988,405"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="1012,379,1191,405"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="240,379,400,405"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="425,379,607,405"/>
+<area shape="rect" title=" " alt="" coords="5,379,216,405"/>
+<area shape="rect" title=" " alt="" coords="631,379,782,405"/>
+<area shape="rect" title=" " alt="" coords="802,453,993,480"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="523,155,733,181"/>
+<area shape="rect" title=" " alt="" coords="757,155,944,181"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="rp2__common_2hardware__powman_2include_2hardware_2powman_8h__dep__incl.png" border="0" usemap="#ainclude_2hardware_2powman_8hdep" alt=""/></div>
+<map name="ainclude_2hardware_2powman_8hdep" id="ainclude_2hardware_2powman_8hdep">
+<area shape="rect" title=" " alt="" coords="5,5,212,32"/>
+<area shape="rect" href="low__power_8h.html" title=" " alt="" coords="16,80,201,107"/>
 </map>
 </div>
 </div>
@@ -148,12 +160,24 @@ Macros</h2></td></tr>
 <tr class="memitem:ab4c3eeed9c587f0a7c3d9846fce59e88"><td class="memItemLeft" align="right" valign="top"><a id="ab4c3eeed9c587f0a7c3d9846fce59e88" name="ab4c3eeed9c587f0a7c3d9846fce59e88"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PARAM_ASSERTIONS_ENABLED_HARDWARE_POWMAN</b>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:ab4c3eeed9c587f0a7c3d9846fce59e88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa555022ee2ab46842f2885a0b2715703"><td class="memItemLeft" align="right" valign="top"><a id="aa555022ee2ab46842f2885a0b2715703" name="aa555022ee2ab46842f2885a0b2715703"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_POWMAN_CALIBRATE_LPOSC_FROM_OTP</b>&#160;&#160;&#160;1</td></tr>
+<tr class="separator:aa555022ee2ab46842f2885a0b2715703"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5961dd9679921cdf0b388c1972b9adb3"><td class="memItemLeft" align="right" valign="top"><a id="a5961dd9679921cdf0b388c1972b9adb3" name="a5961dd9679921cdf0b388c1972b9adb3"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_none</b>()&#160;&#160;&#160;<a class="el" href="group__fixed__bitset.html#ga002335eed4b3203a5800509c555abca5">fixed_bitset_with_fill</a>(pstate_bitset_t, POWMAN_POWER_DOMAIN_COUNT, 0)</td></tr>
+<tr class="separator:a5961dd9679921cdf0b388c1972b9adb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f2a4f807228408631089c0b850e5e10"><td class="memItemLeft" align="right" valign="top"><a id="a4f2a4f807228408631089c0b850e5e10" name="a4f2a4f807228408631089c0b850e5e10"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_all</b>()&#160;&#160;&#160;<a class="el" href="group__fixed__bitset.html#ga002335eed4b3203a5800509c555abca5">fixed_bitset_with_fill</a>(pstate_bitset_t, POWMAN_POWER_DOMAIN_COUNT, 1)</td></tr>
+<tr class="separator:a4f2a4f807228408631089c0b850e5e10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3434e4058be242a5651add720801f8ec"><td class="memItemLeft" align="right" valign="top"><a id="a3434e4058be242a5651add720801f8ec" name="a3434e4058be242a5651add720801f8ec"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>POWMAN_POWER_STATE_NONE</b>&#160;&#160;&#160;0</td></tr>
 <tr class="separator:a3434e4058be242a5651add720801f8ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:ae6b6c52c0998fecce75c42c5aa8a07ad"><td class="memItemLeft" align="right" valign="top"><a id="ae6b6c52c0998fecce75c42c5aa8a07ad" name="ae6b6c52c0998fecce75c42c5aa8a07ad"></a>
+typedef enum <a class="el" href="group__hardware__powman.html#gace732bfd97b0762a2903cf7e32606e32">powman_power_domains</a>&#160;</td><td class="memItemRight" valign="bottom"><b>powman_power_domain_t</b></td></tr>
+<tr class="separator:ae6b6c52c0998fecce75c42c5aa8a07ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f51df1273975276d9ef5d44184243a1"><td class="memItemLeft" align="right" valign="top"><a id="a5f51df1273975276d9ef5d44184243a1" name="a5f51df1273975276d9ef5d44184243a1"></a>
 typedef uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>powman_power_state</b></td></tr>
 <tr class="separator:a5f51df1273975276d9ef5d44184243a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,19 +198,20 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga2659af7a723a142b57a72add489d4f4e"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_set_1khz_tick_source_lposc</b> (void)</td></tr>
-<tr class="memdesc:ga2659af7a723a142b57a72add489d4f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the ~32KHz low power oscillator as the powman timer source. <br /></td></tr>
+<tr class="memitem:gaf2fa89cf10739955a38831d1b29cc129"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#gaf2fa89cf10739955a38831d1b29cc129">powman_timer_get_lposc_calib_freq</a> (void)</td></tr>
+<tr class="memdesc:gaf2fa89cf10739955a38831d1b29cc129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the calibrated frequency of the low power oscillator.  <a href="group__hardware__powman.html#gaf2fa89cf10739955a38831d1b29cc129">More...</a><br /></td></tr>
+<tr class="separator:gaf2fa89cf10739955a38831d1b29cc129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2659af7a723a142b57a72add489d4f4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga2659af7a723a142b57a72add489d4f4e">powman_timer_set_1khz_tick_source_lposc</a> (void)</td></tr>
+<tr class="memdesc:ga2659af7a723a142b57a72add489d4f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the ~32KHz low power oscillator as the powman timer source.  <a href="group__hardware__powman.html#ga2659af7a723a142b57a72add489d4f4e">More...</a><br /></td></tr>
 <tr class="separator:ga2659af7a723a142b57a72add489d4f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacc08f760516b1b09a58a7121cdfc1f49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#gacc08f760516b1b09a58a7121cdfc1f49">powman_timer_set_1khz_tick_source_lposc_with_hz</a> (uint32_t lposc_freq_hz)</td></tr>
 <tr class="memdesc:gacc08f760516b1b09a58a7121cdfc1f49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the low power oscillator (specifying frequency) as the powman timer source.  <a href="group__hardware__powman.html#gacc08f760516b1b09a58a7121cdfc1f49">More...</a><br /></td></tr>
 <tr class="separator:gacc08f760516b1b09a58a7121cdfc1f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9ee3b6c28b8b24f3c22022b757082448"><td class="memItemLeft" align="right" valign="top">
-void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_set_1khz_tick_source_xosc</b> (void)</td></tr>
-<tr class="memdesc:ga9ee3b6c28b8b24f3c22022b757082448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator as the powman timer source. <br /></td></tr>
+<tr class="memitem:ga9ee3b6c28b8b24f3c22022b757082448"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga9ee3b6c28b8b24f3c22022b757082448">powman_timer_set_1khz_tick_source_xosc</a> (void)</td></tr>
+<tr class="memdesc:ga9ee3b6c28b8b24f3c22022b757082448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator as the powman timer source.  <a href="group__hardware__powman.html#ga9ee3b6c28b8b24f3c22022b757082448">More...</a><br /></td></tr>
 <tr class="separator:ga9ee3b6c28b8b24f3c22022b757082448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga8fb8797fc3fbc9b7e9c30c6ae316065c">powman_timer_set_1khz_tick_source_xosc_with_hz</a> (uint32_t xosc_freq_hz)</td></tr>
-<tr class="memdesc:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator as the powman timer source.  <a href="group__hardware__powman.html#ga8fb8797fc3fbc9b7e9c30c6ae316065c">More...</a><br /></td></tr>
+<tr class="memdesc:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator (specifying frequency) as the powman timer source.  <a href="group__hardware__powman.html#ga8fb8797fc3fbc9b7e9c30c6ae316065c">More...</a><br /></td></tr>
 <tr class="separator:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7e0048a9fe486dc4e6cc6b9ae7699924"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga7e0048a9fe486dc4e6cc6b9ae7699924">powman_timer_set_1khz_tick_source_gpio</a> (uint32_t gpio)</td></tr>
 <tr class="memdesc:ga7e0048a9fe486dc4e6cc6b9ae7699924"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a 1KHz external tick as the powman timer source.  <a href="group__hardware__powman.html#ga7e0048a9fe486dc4e6cc6b9ae7699924">More...</a><br /></td></tr>
@@ -221,10 +246,13 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_get_
 static bool&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_is_running</b> (void)</td></tr>
 <tr class="memdesc:ga6e2dd3c584d9eb2a40202b6d2dbddccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the powman timer is running. <br /></td></tr>
 <tr class="separator:ga6e2dd3c584d9eb2a40202b6d2dbddccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7d6d9931a08e2999606e434ae7681fc6"><td class="memItemLeft" align="right" valign="top">
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_stop</b> (void)</td></tr>
-<tr class="memdesc:ga7d6d9931a08e2999606e434ae7681fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the powman timer. <br /></td></tr>
+<tr class="memitem:ga7d6d9931a08e2999606e434ae7681fc6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga7d6d9931a08e2999606e434ae7681fc6">powman_timer_stop</a> (void)</td></tr>
+<tr class="memdesc:ga7d6d9931a08e2999606e434ae7681fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the powman timer.  <a href="group__hardware__powman.html#ga7d6d9931a08e2999606e434ae7681fc6">More...</a><br /></td></tr>
 <tr class="separator:ga7d6d9931a08e2999606e434ae7681fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga85a60d9febd4b6755e09a17796da2e0e"><td class="memItemLeft" align="right" valign="top">
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_pause</b> (void)</td></tr>
+<tr class="memdesc:ga85a60d9febd4b6755e09a17796da2e0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pause the powman timer. <br /></td></tr>
+<tr class="separator:ga85a60d9febd4b6755e09a17796da2e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0002ace8105882f2ed726fdf2bd2a284"><td class="memItemLeft" align="right" valign="top">
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_start</b> (void)</td></tr>
 <tr class="memdesc:ga0002ace8105882f2ed726fdf2bd2a284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the powman timer. <br /></td></tr>
@@ -232,6 +260,33 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_s
 <tr class="memitem:ga4c25eb6c57761d12e74c196082be405d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga4c25eb6c57761d12e74c196082be405d">powman_clear_alarm</a> (void)</td></tr>
 <tr class="memdesc:ga4c25eb6c57761d12e74c196082be405d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears the powman alarm.  <a href="group__hardware__powman.html#ga4c25eb6c57761d12e74c196082be405d">More...</a><br /></td></tr>
 <tr class="separator:ga4c25eb6c57761d12e74c196082be405d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb0ed4e76a49ab1bb256e1e0a12cd033"><td class="memItemLeft" align="right" valign="top"><a id="abb0ed4e76a49ab1bb256e1e0a12cd033" name="abb0ed4e76a49ab1bb256e1e0a12cd033"></a>
+typedef&#160;</td><td class="memItemRight" valign="bottom"><b>fixed_bitset_type</b> (POWMAN_POWER_DOMAIN_COUNT) pstate_bitset_t</td></tr>
+<tr class="separator:abb0ed4e76a49ab1bb256e1e0a12cd033"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73f1ff3c659e508c3524aaa36c0c952a"><td class="memItemLeft" align="right" valign="top"><a id="a73f1ff3c659e508c3524aaa36c0c952a" name="a73f1ff3c659e508c3524aaa36c0c952a"></a>
+static pstate_bitset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_remove_all</b> (pstate_bitset_t *domains)</td></tr>
+<tr class="separator:a73f1ff3c659e508c3524aaa36c0c952a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2319fe014382ce01e9142420ddf3509"><td class="memItemLeft" align="right" valign="top"><a id="ab2319fe014382ce01e9142420ddf3509" name="ab2319fe014382ce01e9142420ddf3509"></a>
+static pstate_bitset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_add_all</b> (pstate_bitset_t *domains)</td></tr>
+<tr class="separator:ab2319fe014382ce01e9142420ddf3509"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec935d806bd042bc8da7e7b55654d46b"><td class="memItemLeft" align="right" valign="top"><a id="aec935d806bd042bc8da7e7b55654d46b" name="aec935d806bd042bc8da7e7b55654d46b"></a>
+static pstate_bitset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_add</b> (pstate_bitset_t *domains, powman_power_domain_t domain)</td></tr>
+<tr class="separator:aec935d806bd042bc8da7e7b55654d46b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a748e05abacc9a035a8833f6ca6c28d51"><td class="memItemLeft" align="right" valign="top"><a id="a748e05abacc9a035a8833f6ca6c28d51" name="a748e05abacc9a035a8833f6ca6c28d51"></a>
+static pstate_bitset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_remove</b> (pstate_bitset_t *domains, powman_power_domain_t domain)</td></tr>
+<tr class="separator:a748e05abacc9a035a8833f6ca6c28d51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad89724892daaa1e7c93e99c47c8fc9aa"><td class="memItemLeft" align="right" valign="top"><a id="ad89724892daaa1e7c93e99c47c8fc9aa" name="ad89724892daaa1e7c93e99c47c8fc9aa"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_is_set</b> (pstate_bitset_t *domains, powman_power_domain_t domain)</td></tr>
+<tr class="separator:ad89724892daaa1e7c93e99c47c8fc9aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5b57d73aef07e0f9c0731716fb6621e"><td class="memItemLeft" align="right" valign="top"><a id="ad5b57d73aef07e0f9c0731716fb6621e" name="ad5b57d73aef07e0f9c0731716fb6621e"></a>
+static bool&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_none_set</b> (pstate_bitset_t *domains)</td></tr>
+<tr class="separator:ad5b57d73aef07e0f9c0731716fb6621e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5716d48ef78a05f9a2bd7c670eebe086"><td class="memItemLeft" align="right" valign="top"><a id="a5716d48ef78a05f9a2bd7c670eebe086" name="a5716d48ef78a05f9a2bd7c670eebe086"></a>
+static pstate_bitset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_from_powman_power_state</b> (pstate_bitset_t *domains, powman_power_state pstate)</td></tr>
+<tr class="separator:a5716d48ef78a05f9a2bd7c670eebe086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade83efab0def42a56bf508519b40e9e6"><td class="memItemLeft" align="right" valign="top"><a id="ade83efab0def42a56bf508519b40e9e6" name="ade83efab0def42a56bf508519b40e9e6"></a>
+static powman_power_state&#160;</td><td class="memItemRight" valign="bottom"><b>pstate_bitset_to_powman_power_state</b> (pstate_bitset_t *domains)</td></tr>
+<tr class="separator:ade83efab0def42a56bf508519b40e9e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac665005a92a55a827ac9aafac7a3e42d"><td class="memItemLeft" align="right" valign="top">
 powman_power_state&#160;</td><td class="memItemRight" valign="bottom"><b>powman_get_power_state</b> (void)</td></tr>
 <tr class="memdesc:gac665005a92a55a827ac9aafac7a3e42d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current power state. <br /></td></tr>

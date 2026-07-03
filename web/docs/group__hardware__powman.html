@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -128,19 +128,20 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga2659af7a723a142b57a72add489d4f4e"><td class="memItemLeft" align="right" valign="top"><a id="ga2659af7a723a142b57a72add489d4f4e" name="ga2659af7a723a142b57a72add489d4f4e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_set_1khz_tick_source_lposc</b> (void)</td></tr>
-<tr class="memdesc:ga2659af7a723a142b57a72add489d4f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the ~32KHz low power oscillator as the powman timer source. <br /></td></tr>
+<tr class="memitem:gaf2fa89cf10739955a38831d1b29cc129"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#gaf2fa89cf10739955a38831d1b29cc129">powman_timer_get_lposc_calib_freq</a> (void)</td></tr>
+<tr class="memdesc:gaf2fa89cf10739955a38831d1b29cc129"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the calibrated frequency of the low power oscillator.  <a href="group__hardware__powman.html#gaf2fa89cf10739955a38831d1b29cc129">More...</a><br /></td></tr>
+<tr class="separator:gaf2fa89cf10739955a38831d1b29cc129"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2659af7a723a142b57a72add489d4f4e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga2659af7a723a142b57a72add489d4f4e">powman_timer_set_1khz_tick_source_lposc</a> (void)</td></tr>
+<tr class="memdesc:ga2659af7a723a142b57a72add489d4f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the ~32KHz low power oscillator as the powman timer source.  <a href="group__hardware__powman.html#ga2659af7a723a142b57a72add489d4f4e">More...</a><br /></td></tr>
 <tr class="separator:ga2659af7a723a142b57a72add489d4f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gacc08f760516b1b09a58a7121cdfc1f49"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#gacc08f760516b1b09a58a7121cdfc1f49">powman_timer_set_1khz_tick_source_lposc_with_hz</a> (uint32_t lposc_freq_hz)</td></tr>
 <tr class="memdesc:gacc08f760516b1b09a58a7121cdfc1f49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the low power oscillator (specifying frequency) as the powman timer source.  <a href="group__hardware__powman.html#gacc08f760516b1b09a58a7121cdfc1f49">More...</a><br /></td></tr>
 <tr class="separator:gacc08f760516b1b09a58a7121cdfc1f49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9ee3b6c28b8b24f3c22022b757082448"><td class="memItemLeft" align="right" valign="top"><a id="ga9ee3b6c28b8b24f3c22022b757082448" name="ga9ee3b6c28b8b24f3c22022b757082448"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_set_1khz_tick_source_xosc</b> (void)</td></tr>
-<tr class="memdesc:ga9ee3b6c28b8b24f3c22022b757082448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator as the powman timer source. <br /></td></tr>
+<tr class="memitem:ga9ee3b6c28b8b24f3c22022b757082448"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga9ee3b6c28b8b24f3c22022b757082448">powman_timer_set_1khz_tick_source_xosc</a> (void)</td></tr>
+<tr class="memdesc:ga9ee3b6c28b8b24f3c22022b757082448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator as the powman timer source.  <a href="group__hardware__powman.html#ga9ee3b6c28b8b24f3c22022b757082448">More...</a><br /></td></tr>
 <tr class="separator:ga9ee3b6c28b8b24f3c22022b757082448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga8fb8797fc3fbc9b7e9c30c6ae316065c">powman_timer_set_1khz_tick_source_xosc_with_hz</a> (uint32_t xosc_freq_hz)</td></tr>
-<tr class="memdesc:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator as the powman timer source.  <a href="group__hardware__powman.html#ga8fb8797fc3fbc9b7e9c30c6ae316065c">More...</a><br /></td></tr>
+<tr class="memdesc:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use the crystal oscillator (specifying frequency) as the powman timer source.  <a href="group__hardware__powman.html#ga8fb8797fc3fbc9b7e9c30c6ae316065c">More...</a><br /></td></tr>
 <tr class="separator:ga8fb8797fc3fbc9b7e9c30c6ae316065c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7e0048a9fe486dc4e6cc6b9ae7699924"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga7e0048a9fe486dc4e6cc6b9ae7699924">powman_timer_set_1khz_tick_source_gpio</a> (uint32_t gpio)</td></tr>
 <tr class="memdesc:ga7e0048a9fe486dc4e6cc6b9ae7699924"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use a 1KHz external tick as the powman timer source.  <a href="group__hardware__powman.html#ga7e0048a9fe486dc4e6cc6b9ae7699924">More...</a><br /></td></tr>
@@ -175,10 +176,13 @@ uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_get_
 static bool&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_is_running</b> (void)</td></tr>
 <tr class="memdesc:ga6e2dd3c584d9eb2a40202b6d2dbddccd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if the powman timer is running. <br /></td></tr>
 <tr class="separator:ga6e2dd3c584d9eb2a40202b6d2dbddccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7d6d9931a08e2999606e434ae7681fc6"><td class="memItemLeft" align="right" valign="top"><a id="ga7d6d9931a08e2999606e434ae7681fc6" name="ga7d6d9931a08e2999606e434ae7681fc6"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_stop</b> (void)</td></tr>
-<tr class="memdesc:ga7d6d9931a08e2999606e434ae7681fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the powman timer. <br /></td></tr>
+<tr class="memitem:ga7d6d9931a08e2999606e434ae7681fc6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__powman.html#ga7d6d9931a08e2999606e434ae7681fc6">powman_timer_stop</a> (void)</td></tr>
+<tr class="memdesc:ga7d6d9931a08e2999606e434ae7681fc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stop the powman timer.  <a href="group__hardware__powman.html#ga7d6d9931a08e2999606e434ae7681fc6">More...</a><br /></td></tr>
 <tr class="separator:ga7d6d9931a08e2999606e434ae7681fc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga85a60d9febd4b6755e09a17796da2e0e"><td class="memItemLeft" align="right" valign="top"><a id="ga85a60d9febd4b6755e09a17796da2e0e" name="ga85a60d9febd4b6755e09a17796da2e0e"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_pause</b> (void)</td></tr>
+<tr class="memdesc:ga85a60d9febd4b6755e09a17796da2e0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pause the powman timer. <br /></td></tr>
+<tr class="separator:ga85a60d9febd4b6755e09a17796da2e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0002ace8105882f2ed726fdf2bd2a284"><td class="memItemLeft" align="right" valign="top"><a id="ga0002ace8105882f2ed726fdf2bd2a284" name="ga0002ace8105882f2ed726fdf2bd2a284"></a>
 static void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_timer_start</b> (void)</td></tr>
 <tr class="memdesc:ga0002ace8105882f2ed726fdf2bd2a284"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start the powman timer. <br /></td></tr>
@@ -705,7 +709,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_disable_all_wa
 
 <p>Set the power state. </p>
 <p >Check the desired state is valid. Powman will go to the state if it is valid and there are no pending power up requests.</p>
-<p >Note that if you are turning off the switched core then this function will never return as the processor will have been turned off at the end.</p>
+<p >Note that if you are turning off the switched core then you need to call <a class="el" href="group__hardware__sync.html#gaaf83973c85c4d0987d34f31ff9590ec5" title="Insert a WFI instruction in to the code path.">__wfi()</a> after this function returns, otherwise the transition will not take place.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">state</td><td>the power state to go to </td></tr>
@@ -754,7 +758,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_disable_all_wa
 </div><div class="memdoc">
 
 <p>Set an alarm at an absolute time in ms. </p>
-<p >Note, the timer is stopped and then restarted as part of this function. This only controls the alarm if you want to use the alarm to wake up powman then you should use <a class="el" href="group__hardware__powman.html#ga284eb8137db4f4aa0ef21f52f2cd0f0a">powman_enable_alarm_wakeup_at_ms</a></p>
+<p >Note, the alarm is disabled and then re-enabled as part of this function. This only controls the alarm; if you want to use the alarm to wake up powman then you should use <a class="el" href="group__hardware__powman.html#ga284eb8137db4f4aa0ef21f52f2cd0f0a">powman_enable_alarm_wakeup_at_ms</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">alarm_time_ms</td><td>time at which the alarm will fire </td></tr>
@@ -791,6 +795,29 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_disable_all_wa
 
 </div>
 </div>
+<a id="gaf2fa89cf10739955a38831d1b29cc129" name="gaf2fa89cf10739955a38831d1b29cc129"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf2fa89cf10739955a38831d1b29cc129">&#9670;&nbsp;</a></span>powman_timer_get_lposc_calib_freq()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t powman_timer_get_lposc_calib_freq </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the calibrated frequency of the low power oscillator. </p>
+<p >The frequency returned is the value stored in the OTP, or 0 if there is no OTP value set, the OTP value is out of range, or PICO_POWMAN_CALIBRATE_LPOSC_FROM_OTP is 0</p>
+<dl class="section note"><dt>Note</dt><dd>This is a weak function, so can be overriden to provide a custom calibration method (for example using <a class="el" href="group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53">frequency_count_khz</a>)</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The LPOSC frequency, or 0 if unknown </dd></dl>
+
+</div>
+</div>
 <a id="ga7e0048a9fe486dc4e6cc6b9ae7699924" name="ga7e0048a9fe486dc4e6cc6b9ae7699924"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga7e0048a9fe486dc4e6cc6b9ae7699924">&#9670;&nbsp;</a></span>powman_timer_set_1khz_tick_source_gpio()</h2>
 
@@ -817,6 +844,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_disable_all_wa
 
 </div>
 </div>
+<a id="ga2659af7a723a142b57a72add489d4f4e" name="ga2659af7a723a142b57a72add489d4f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga2659af7a723a142b57a72add489d4f4e">&#9670;&nbsp;</a></span>powman_timer_set_1khz_tick_source_lposc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void powman_timer_set_1khz_tick_source_lposc </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use the ~32KHz low power oscillator as the powman timer source. </p>
+<dl class="section note"><dt>Note</dt><dd>The frequency is set to the value returned by <a class="el" href="group__hardware__powman.html#gaf2fa89cf10739955a38831d1b29cc129">powman_timer_get_lposc_calib_freq</a> </dd></dl>
+
+</div>
+</div>
 <a id="gacc08f760516b1b09a58a7121cdfc1f49" name="gacc08f760516b1b09a58a7121cdfc1f49"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gacc08f760516b1b09a58a7121cdfc1f49">&#9670;&nbsp;</a></span>powman_timer_set_1khz_tick_source_lposc_with_hz()</h2>
 
@@ -836,10 +884,31 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_disable_all_wa
 <p>Use the low power oscillator (specifying frequency) as the powman timer source. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lposc_freq_hz</td><td>specify an exact lposc freq to trim it </td></tr>
+    <tr><td class="paramname">lposc_freq_hz</td><td>specify an exact lposc freq to trim it, or 0 to use the existing value </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga9ee3b6c28b8b24f3c22022b757082448" name="ga9ee3b6c28b8b24f3c22022b757082448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga9ee3b6c28b8b24f3c22022b757082448">&#9670;&nbsp;</a></span>powman_timer_set_1khz_tick_source_xosc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void powman_timer_set_1khz_tick_source_xosc </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Use the crystal oscillator as the powman timer source. </p>
+<dl class="section note"><dt>Note</dt><dd>The frequency is set to the value of XOSC_HZ </dd></dl>
 
 </div>
 </div>
@@ -859,7 +928,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_disable_all_wa
       </table>
 </div><div class="memdoc">
 
-<p>Use the crystal oscillator as the powman timer source. </p>
+<p>Use the crystal oscillator (specifying frequency) as the powman timer source. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xosc_freq_hz</td><td>specify a crystal frequency </td></tr>
@@ -892,6 +961,35 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>powman_disable_all_wa
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga7d6d9931a08e2999606e434ae7681fc6" name="ga7d6d9931a08e2999606e434ae7681fc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7d6d9931a08e2999606e434ae7681fc6">&#9670;&nbsp;</a></span>powman_timer_stop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void powman_timer_stop </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Stop the powman timer. </p>
+<dl class="section note"><dt>Note</dt><dd>On the next start, the timer will resume from the last set time, so if you want to pause the timer and resume from the current time, you should use <a class="el" href="group__hardware__powman.html#ga85a60d9febd4b6755e09a17796da2e0e">powman_timer_pause</a> </dd></dl>
 
 </div>
 </div>

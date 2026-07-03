@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -117,8 +117,8 @@ Collaboration diagram for pico_sha256_state:</div>
 <div class="dyncontent">
 <div class="center"><img src="structpico__sha256__state__coll__graph.png" border="0" usemap="#apico__sha256__state_coll__map" alt="Collaboration graph"/></div>
 <map name="apico__sha256__state_coll__map" id="apico__sha256__state_coll__map">
-<area shape="rect" title="SHA&#45;256 state used by the API." alt="" coords="11,95,154,121"/>
-<area shape="rect" href="structdma__channel__config.html" title=" " alt="" coords="5,5,160,32"/>
+<area shape="rect" title="SHA&#45;256 state used by the API." alt="" coords="17,95,160,121"/>
+<area shape="rect" href="structdma__channel__config__t.html" title="Opaque representation of a DMA channel configuration that can be later applied to a hardware DMA chan..." alt="" coords="5,5,172,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -126,31 +126,40 @@ Collaboration diagram for pico_sha256_state:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:af53ae98362a8d81353e47b21fbcfd6bb"><td class="memItemLeft" align="right" valign="top"><a id="af53ae98362a8d81353e47b21fbcfd6bb" name="af53ae98362a8d81353e47b21fbcfd6bb"></a>
 enum <a class="el" href="group__hardware__sha256.html#gaaf3089af3667088256de5d352973d5e6">sha256_endianness</a>&#160;</td><td class="memItemRight" valign="bottom"><b>endianness</b></td></tr>
+<tr class="memdesc:af53ae98362a8d81353e47b21fbcfd6bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Endianness for data in and data out. <br /></td></tr>
 <tr class="separator:af53ae98362a8d81353e47b21fbcfd6bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5849c32c106e8bff78e63729cd5e4492"><td class="memItemLeft" align="right" valign="top"><a id="a5849c32c106e8bff78e63729cd5e4492" name="a5849c32c106e8bff78e63729cd5e4492"></a>
 int8_t&#160;</td><td class="memItemRight" valign="bottom"><b>channel</b></td></tr>
+<tr class="memdesc:a5849c32c106e8bff78e63729cd5e4492"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA channel in use, or -1 if DMA is not being used. <br /></td></tr>
 <tr class="separator:a5849c32c106e8bff78e63729cd5e4492"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa40bf7e4fc010b27895a9a841c45b553"><td class="memItemLeft" align="right" valign="top"><a id="aa40bf7e4fc010b27895a9a841c45b553" name="aa40bf7e4fc010b27895a9a841c45b553"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>locked</b></td></tr>
+<tr class="memdesc:aa40bf7e4fc010b27895a9a841c45b553"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the SHA-256 hardware lock is currently held. <br /></td></tr>
 <tr class="separator:aa40bf7e4fc010b27895a9a841c45b553"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab172a6ba42982ffe231bea1aa21486a7"><td class="memItemLeft" align="right" valign="top"><a id="ab172a6ba42982ffe231bea1aa21486a7" name="ab172a6ba42982ffe231bea1aa21486a7"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>cache_used</b></td></tr>
+<tr class="memdesc:ab172a6ba42982ffe231bea1aa21486a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of bytes currently stored in the partial-word cache. <br /></td></tr>
 <tr class="separator:ab172a6ba42982ffe231bea1aa21486a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab13f459f95c0a0b9580905a2ce3f5184"><td class="memItemLeft" ><a id="ab13f459f95c0a0b9580905a2ce3f5184" name="ab13f459f95c0a0b9580905a2ce3f5184"></a>
+<tr class="memitem:a4eecda4d3c2b51a9a3e306d4aa0aa64c"><td class="memItemLeft" ><a id="a4eecda4d3c2b51a9a3e306d4aa0aa64c" name="a4eecda4d3c2b51a9a3e306d4aa0aa64c"></a>
 union {</td></tr>
-<tr class="memitem:ade19b2f6f726104dd0acea084c3686f8"><td class="memItemLeft" >
+<tr class="memitem:af0df494c7011c9641b4494879bc7f887"><td class="memItemLeft" >
 &#160;&#160;&#160;uint32_t&#160;&#160;&#160;<b>word</b></td></tr>
-<tr class="separator:ade19b2f6f726104dd0acea084c3686f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf4d51e3d7c5ebecc0e366d30fffac16"><td class="memItemLeft" >
+<tr class="memdesc:af0df494c7011c9641b4494879bc7f887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cache contents as a 32-bit word. <br /></td></tr>
+<tr class="separator:af0df494c7011c9641b4494879bc7f887"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66142f9058bd2254f8640e2972f738ff"><td class="memItemLeft" >
 &#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>bytes</b> [4]</td></tr>
-<tr class="separator:aaf4d51e3d7c5ebecc0e366d30fffac16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab13f459f95c0a0b9580905a2ce3f5184"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><b>cache</b></td></tr>
-<tr class="separator:ab13f459f95c0a0b9580905a2ce3f5184"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a66142f9058bd2254f8640e2972f738ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cache contents as individual bytes. <br /></td></tr>
+<tr class="separator:a66142f9058bd2254f8640e2972f738ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eecda4d3c2b51a9a3e306d4aa0aa64c"><td class="memItemLeft" valign="top">}&#160;</td><td class="memItemRight" valign="bottom"><b>cache</b></td></tr>
+<tr class="memdesc:a4eecda4d3c2b51a9a3e306d4aa0aa64c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partial-word cache for data not yet written to hardware. <br /></td></tr>
+<tr class="separator:a4eecda4d3c2b51a9a3e306d4aa0aa64c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3021d5a85b9bbdb7a76c2ea5e63e5f11"><td class="memItemLeft" align="right" valign="top"><a id="a3021d5a85b9bbdb7a76c2ea5e63e5f11" name="a3021d5a85b9bbdb7a76c2ea5e63e5f11"></a>
-<a class="el" href="structdma__channel__config.html">dma_channel_config</a>&#160;</td><td class="memItemRight" valign="bottom"><b>config</b></td></tr>
+<a class="el" href="structdma__channel__config__t.html">dma_channel_config</a>&#160;</td><td class="memItemRight" valign="bottom"><b>config</b></td></tr>
+<tr class="memdesc:a3021d5a85b9bbdb7a76c2ea5e63e5f11"><td class="mdescLeft">&#160;</td><td class="mdescRight">DMA channel configuration. <br /></td></tr>
 <tr class="separator:a3021d5a85b9bbdb7a76c2ea5e63e5f11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e623939a79c1c436a63bd04afff0b5b"><td class="memItemLeft" align="right" valign="top"><a id="a1e623939a79c1c436a63bd04afff0b5b" name="a1e623939a79c1c436a63bd04afff0b5b"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>total_data_size</b></td></tr>
+<tr class="memdesc:a1e623939a79c1c436a63bd04afff0b5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total number of bytes added to the calculation so far. <br /></td></tr>
 <tr class="separator:a1e623939a79c1c436a63bd04afff0b5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

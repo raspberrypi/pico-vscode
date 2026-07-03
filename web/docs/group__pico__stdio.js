@@ -4,6 +4,13 @@ var group__pico__stdio =
     [ "pico_stdio_uart", "group__pico__stdio__uart.html", "group__pico__stdio__uart" ],
     [ "pico_stdio_rtt", "group__pico__stdio__rtt.html", "group__pico__stdio__rtt" ],
     [ "pico_stdio_usb", "group__pico__stdio__usb.html", "group__pico__stdio__usb" ],
+    [ "stdio_driver", "structstdio__driver.html", [
+      [ "in_chars", "structstdio__driver.html#a20747783c5c0e4663f1fb3366ba1a248", null ],
+      [ "next", "structstdio__driver.html#afb7873836c551bfd89081ca73abba694", null ],
+      [ "out_chars", "structstdio__driver.html#a1afbcb532ec01f08b9c29cc9945f4f05", null ],
+      [ "out_flush", "structstdio__driver.html#a91e48f32e9ec7e6bac79f665728f2159", null ],
+      [ "set_chars_available_callback", "structstdio__driver.html#a98c17c2d1bba7506ca3ece57bb48f448", null ]
+    ] ],
     [ "__printflike", "group__pico__stdio.html#gae9afcfe3e3db353e1bddd5b87d7be454", null ],
     [ "getchar_timeout_us", "group__pico__stdio.html#ga5d24f1a711eba3e0084b6310f6478c1a", null ],
     [ "putchar_raw", "group__pico__stdio.html#gae67e6fe5e7c87d6f15816797020245ad", null ],

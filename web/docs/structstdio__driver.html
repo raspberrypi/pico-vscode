@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,15 +104,20 @@ $(document).ready(function(){initNavTree('structstdio__driver.html',''); initRes
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">stdio_driver Struct Reference</div></div>
+  <div class="headertitle"><div class="title">stdio_driver Struct Reference<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a> &raquo; <a class="el" href="group__pico__stdio.html">pico_stdio</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>A stdio driver that can be registered with the pico_stdio subsystem.  
+ <a href="structstdio__driver.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="driver_8h_source.html">driver.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for stdio_driver:</div>
 <div class="dyncontent">
 <div class="center"><img src="structstdio__driver__coll__graph.png" border="0" usemap="#astdio__driver_coll__map" alt="Collaboration graph"/></div>
 <map name="astdio__driver_coll__map" id="astdio__driver_coll__map">
-<area shape="rect" title=" " alt="" coords="5,5,104,32"/>
+<area shape="rect" title="A stdio driver that can be registered with the pico_stdio subsystem." alt="" coords="5,5,104,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -120,21 +125,29 @@ Collaboration diagram for stdio_driver:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:a1afbcb532ec01f08b9c29cc9945f4f05"><td class="memItemLeft" align="right" valign="top"><a id="a1afbcb532ec01f08b9c29cc9945f4f05" name="a1afbcb532ec01f08b9c29cc9945f4f05"></a>
 void(*&#160;</td><td class="memItemRight" valign="bottom"><b>out_chars</b> )(const char *buf, int len)</td></tr>
+<tr class="memdesc:a1afbcb532ec01f08b9c29cc9945f4f05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output characters to the driver; may be NULL if output is not supported. <br /></td></tr>
 <tr class="separator:a1afbcb532ec01f08b9c29cc9945f4f05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a91e48f32e9ec7e6bac79f665728f2159"><td class="memItemLeft" align="right" valign="top"><a id="a91e48f32e9ec7e6bac79f665728f2159" name="a91e48f32e9ec7e6bac79f665728f2159"></a>
 void(*&#160;</td><td class="memItemRight" valign="bottom"><b>out_flush</b> )(void)</td></tr>
+<tr class="memdesc:a91e48f32e9ec7e6bac79f665728f2159"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush any buffered output; may be NULL. <br /></td></tr>
 <tr class="separator:a91e48f32e9ec7e6bac79f665728f2159"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a20747783c5c0e4663f1fb3366ba1a248"><td class="memItemLeft" align="right" valign="top"><a id="a20747783c5c0e4663f1fb3366ba1a248" name="a20747783c5c0e4663f1fb3366ba1a248"></a>
 int(*&#160;</td><td class="memItemRight" valign="bottom"><b>in_chars</b> )(char *buf, int len)</td></tr>
+<tr class="memdesc:a20747783c5c0e4663f1fb3366ba1a248"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read available input characters; returns the number read, or may be NULL if input is not supported. <br /></td></tr>
 <tr class="separator:a20747783c5c0e4663f1fb3366ba1a248"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98c17c2d1bba7506ca3ece57bb48f448"><td class="memItemLeft" align="right" valign="top"><a id="a98c17c2d1bba7506ca3ece57bb48f448" name="a98c17c2d1bba7506ca3ece57bb48f448"></a>
 void(*&#160;</td><td class="memItemRight" valign="bottom"><b>set_chars_available_callback</b> )(void(*fn)(void *), void *param)</td></tr>
+<tr class="memdesc:a98c17c2d1bba7506ca3ece57bb48f448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Register a callback to be invoked when input characters become available; may be NULL. <br /></td></tr>
 <tr class="separator:a98c17c2d1bba7506ca3ece57bb48f448"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb7873836c551bfd89081ca73abba694"><td class="memItemLeft" align="right" valign="top"><a id="afb7873836c551bfd89081ca73abba694" name="afb7873836c551bfd89081ca73abba694"></a>
 <a class="el" href="structstdio__driver.html">stdio_driver_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>next</b></td></tr>
+<tr class="memdesc:afb7873836c551bfd89081ca73abba694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Next driver in the linked list; managed by the stdio subsystem. <br /></td></tr>
 <tr class="separator:afb7873836c551bfd89081ca73abba694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >A stdio driver that can be registered with the pico_stdio subsystem. </p>
+<p >Drivers are linked into a list and called in turn for each I/O operation. Implement only the callbacks relevant to your driver; unused callbacks may be left as NULL. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/stdio/<a class="el" href="driver_8h_source.html">driver.h</a></li>
 </ul>
 </div><!-- contents -->

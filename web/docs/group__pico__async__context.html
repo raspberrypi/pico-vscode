@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -117,13 +117,13 @@ $(document).ready(function(){initNavTree('group__pico__async__context.html','');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="groups" name="groups"></a>
 Modules</h2></td></tr>
 <tr class="memitem:group__async__context__freertos"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__async__context__freertos.html">async_context_freertos</a></td></tr>
-<tr class="memdesc:group__async__context__freertos"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__freertos.html">async_context_freertos</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that handles asynchronous work in a separate FreeRTOS task. <br /></td></tr>
+<tr class="memdesc:group__async__context__freertos"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__freertos.html" title="Internal state for an async_context_freertos instance.">async_context_freertos</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that handles asynchronous work in a separate FreeRTOS task. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__async__context__poll"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__async__context__poll.html">async_context_poll</a></td></tr>
-<tr class="memdesc:group__async__context__poll"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__poll.html">async_context_poll</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that is intended for use with a simple polling loop on one core. It is not thread safe. <br /></td></tr>
+<tr class="memdesc:group__async__context__poll"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that is intended for use with a simple polling loop on one core. It is not thread safe. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__async__context__threadsafe__background"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__async__context__threadsafe__background.html">async_context_threadsafe_background</a></td></tr>
-<tr class="memdesc:group__async__context__threadsafe__background"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__threadsafe__background.html">async_context_threadsafe_background</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that handles asynchronous work in a low priority IRQ, and there is no need for the user to poll for work <br /></td></tr>
+<tr class="memdesc:group__async__context__threadsafe__background"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structasync__context__threadsafe__background.html" title="Internal state for an async_context_threadsafe_background instance.">async_context_threadsafe_background</a> provides an implementation of <a class="el" href="structasync__context.html">async_context</a> that handles asynchronous work in a low priority IRQ, and there is no need for the user to poll for work <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
@@ -217,7 +217,7 @@ That there is a single logical thread of execution; i.e. that the context does n
 <li>
 That the context always calls workers from the same processor core, as most uses of <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> rely on interaction with IRQs which are themselves core-specific. </li>
 </ol>
-<p >THe <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> provides two mechanisms for asynchronous work:</p>
+<p >The <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> provides two mechanisms for asynchronous work:</p>
 <ul>
 <li><em>when_pending</em> workers, which are processed whenever they have work pending. See <a class="el" href="group__pico__async__context.html#ga9d42179771bcc8c99124c43dcc7b1350">async_context_add_when_pending_worker</a>, <a class="el" href="group__pico__async__context.html#ga72b40c2505cd08cb542c3f1759b9e1d5">async_context_remove_when_pending_worker</a>, and <a class="el" href="group__pico__async__context.html#ga1ca51536a6f0344cfcbd30bd09fbaec2">async_context_set_work_pending</a>, the latter of which can be used from an interrupt handler to signal that servicing work is required to be performed by the worker from the regular <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.</li>
 <li><em>at_time</em> workers, that are executed after at a specific time.</li>
@@ -225,9 +225,9 @@ That the context always calls workers from the same processor core, as most uses
 <p >Note: "when pending" workers with work pending are executed before "at time" workers.</p>
 <p >The <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> provides locking mechanisms, see <a class="el" href="group__pico__async__context.html#ga404d5e6a8ef79159c692dc040f2ded44">async_context_acquire_lock_blocking</a>, <a class="el" href="group__pico__async__context.html#gada9eb6dbc0442ba9cbb44a41526f3b9f">async_context_release_lock</a> and <a class="el" href="group__pico__async__context.html#ga032285b9d1a4aa325813cdbcc1f00a75">async_context_lock_check</a> which can be used by external code to ensure execution of external code does not happen concurrently with worker code. Locked code runs on the calling core, however <a class="el" href="group__pico__async__context.html#gaa4b239c998978b97eabe2aa2ad659720">async_context_execute_sync</a> is provided to synchronously run a function from the core of the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>.</p>
 <p >The SDK ships with the following default async_contexts:</p>
-<p ><a class="el" href="structasync__context__poll.html">async_context_poll</a> - this context is not thread-safe, and the user is responsible for calling <a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll()</a> periodically, and can use <a class="el" href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055" title="Block until work needs to be done or the specified time has been reached.">async_context_wait_for_work_until()</a> to sleep between calls until work is needed if the user has nothing else to do.</p>
-<p ><a class="el" href="structasync__context__threadsafe__background.html">async_context_threadsafe_background</a> - in order to work in the background, a low priority IRQ is used to handle callbacks. Code is usually invoked from this IRQ context, but may be invoked after any other code that uses the async context in another (non-IRQ) context on the same core. Calling <a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll()</a> is not required, and is a no-op. This context implements <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> locking and is thus safe to call from either core, according to the specific notes on each API.</p>
-<p ><a class="el" href="structasync__context__freertos.html">async_context_freertos</a> - Work is performed from a separate "async_context" task, however once again, code may also be invoked after a direct use of the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> on the same core that the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> belongs to. Calling <a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll()</a> is not required, and is a no-op. This context implements <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> locking and is thus safe to call from any task, and from either core, according to the specific notes on each API.</p>
+<p ><a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a> - this context is not thread-safe, and the user is responsible for calling <a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll()</a> periodically, and can use <a class="el" href="group__pico__async__context.html#ga6207f562c0b69c7a75cd81a783eb1055" title="Block until work needs to be done or the specified time has been reached.">async_context_wait_for_work_until()</a> to sleep between calls until work is needed if the user has nothing else to do.</p>
+<p ><a class="el" href="structasync__context__threadsafe__background.html" title="Internal state for an async_context_threadsafe_background instance.">async_context_threadsafe_background</a> - in order to work in the background, a low priority IRQ is used to handle callbacks. Code is usually invoked from this IRQ context, but may be invoked after any other code that uses the async context in another (non-IRQ) context on the same core. Calling <a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll()</a> is not required, and is a no-op. This context implements <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> locking and is thus safe to call from either core, according to the specific notes on each API.</p>
+<p ><a class="el" href="structasync__context__freertos.html" title="Internal state for an async_context_freertos instance.">async_context_freertos</a> - Work is performed from a separate "async_context" task, however once again, code may also be invoked after a direct use of the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> on the same core that the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> belongs to. Calling <a class="el" href="group__pico__async__context.html#gafdb322c3f1043265624988215d3a8df9">async_context_poll()</a> is not required, and is a no-op. This context implements <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> locking and is thus safe to call from any task, and from either core, according to the specific notes on each API.</p>
 <p >Each <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> provides bespoke methods of instantiation which are provided in the corresponding headers (e.g. <a class="el" href="async__context__poll_8h_source.html">async_context_poll.h</a>, <a class="el" href="async__context__threadsafe__background_8h_source.html">async_context_threadsafe_background.h</a>, asycn_context_freertos.h). async_contexts are de-initialized by the common async_context_deint() method.</p>
 <p >Multiple <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> instances can be used by a single application, and they will operate independently. </p>
 <h2 class="groupheader">Typedef Documentation</h2>
@@ -245,9 +245,9 @@ That the context always calls workers from the same processor core, as most uses
 
 <p>A "timeout" instance used by an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>. </p>
 <p >A "timeout" represents some future action that must be taken at a specific time. Its methods are called from the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> under lock at the given time</p>
-<dl class="section see"><dt>See also</dt><dd>async_context_add_worker_at </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3" title="Add an &quot;at time&quot; worker to a context.">async_context_add_at_time_worker_at</a> </dd>
 <dd>
-async_context_add_worker_in_ms </dd></dl>
+<a class="el" href="group__pico__async__context.html#gae0792d86734a6e30b2f043b8eba42438" title="Add an &quot;at time&quot; worker to a context.">async_context_add_at_time_worker_in_ms</a> </dd></dl>
 
 </div>
 </div>
@@ -265,9 +265,9 @@ async_context_add_worker_in_ms </dd></dl>
 
 <p>A "worker" instance used by an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>. </p>
 <p >A "worker" represents some external entity that must do work in response to some external stimulus (usually an IRQ). Its methods are called from the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> under lock at the given time</p>
-<dl class="section see"><dt>See also</dt><dd>async_context_add_worker_at </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__async__context.html#ga8ef9fba4dd680a576d94c82b40b10fc3" title="Add an &quot;at time&quot; worker to a context.">async_context_add_at_time_worker_at</a> </dd>
 <dd>
-async_context_add_worker_in_ms </dd></dl>
+<a class="el" href="group__pico__async__context.html#gae0792d86734a6e30b2f043b8eba42438" title="Add an &quot;at time&quot; worker to a context.">async_context_add_at_time_worker_in_ms</a> </dd></dl>
 
 </div>
 </div>
@@ -299,9 +299,9 @@ async_context_add_worker_in_ms </dd></dl>
 <p>Acquire the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> lock. </p>
 <p >The owner of the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> lock is the logic owner of the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> and other work related to this <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> will not happen concurrently.</p>
 <p >This method may be called in a nested fashion by the the lock owner.</p>
-<dl class="section note"><dt>Note</dt><dd>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> lock is nestable by the same caller, so an internal count is maintained</dd>
+<dl class="section note"><dt>Note</dt><dd>The <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> lock is nestable by the same caller, so an internal count is maintained</dd>
 <dd>
-for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a></td></tr>
@@ -349,7 +349,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 <p>Add an "at time" worker to a context. </p>
 <p >An "at time" worker will run at or after a specific point in time, and is automatically when (just before) it runs.</p>
 <p >The time to fire is specified in the next_time field of the worker.</p>
-<dl class="section note"><dt>Note</dt><dd>for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -404,7 +404,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 <p>Add an "at time" worker to a context. </p>
 <p >An "at time" worker will run at or after a specific point in time, and is automatically when (just before) it runs.</p>
 <p >The time to fire is specified by the at parameter.</p>
-<dl class="section note"><dt>Note</dt><dd>for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -460,7 +460,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 <p>Add an "at time" worker to a context. </p>
 <p >An "at time" worker will run at or after a specific point in time, and is automatically when (just before) it runs.</p>
 <p >The time to fire is specified by a delay via the ms parameter</p>
-<dl class="section note"><dt>Note</dt><dd>for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -510,7 +510,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 <p>Add a "when pending" worker to a context. </p>
 <p >An "when pending" worker will run when it is pending (can be set via <a class="el" href="group__pico__async__context.html#ga1ca51536a6f0344cfcbd30bd09fbaec2">async_context_set_work_pending</a>), and is NOT automatically removed when it runs.</p>
 <p >The time to fire is specified by a delay via the ms parameter</p>
-<dl class="section note"><dt>Note</dt><dd>for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -582,8 +582,8 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>End <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> processing, and free any resources. </p>
-<p >Note the user should clean up any resources associated with workers in the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> themselves.</p>
-<p >Asynchronous (non-polled) async_contexts guarantee that no callback is being called once this method returns.</p>
+<dl class="section note"><dt>Note</dt><dd>The user should clean up any resources associated with workers in the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> themselves.</dd></dl>
+<p>Asynchronous (non-polled) async_contexts guarantee that no callback is being called once this method returns.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -635,7 +635,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 
 <p>Execute work synchronously on the core the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> belongs to. </p>
 <p >This method is intended for code external to the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> (e.g. another thread/task) to execute a function with the same guarantees (single core, logical thread of execution) that <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> workers are called with.</p>
-<dl class="section note"><dt>Note</dt><dd>you should NOT call this method while holding the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>'s lock</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Do NOT call this method while holding the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>'s lock</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -673,7 +673,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>Assert if the caller does not own the lock for the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a>. </p>
-<dl class="section note"><dt>Note</dt><dd>this method is thread-safe</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method is thread-safe</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -744,9 +744,9 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>Release the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> lock. </p>
-<dl class="section note"><dt>Note</dt><dd>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> lock may be called in a nested fashion, so an internal count is maintained. On the outermost release, When the outermost lock is released, a check is made for work which might have been skipped while the lock was held, and any such work may be performed during this call IF the call is made from the same core that the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> belongs to.</dd>
+<dl class="section note"><dt>Note</dt><dd>The <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> lock may be called in a nested fashion, so an internal count is maintained. On the outermost release, When the outermost lock is released, a check is made for work which might have been skipped while the lock was held, and any such work may be performed during this call IF the call is made from the same core that the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> belongs to.</dd>
 <dd>
-for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a></td></tr>
@@ -792,7 +792,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>Remove an "at time" worker from a context. </p>
-<dl class="section note"><dt>Note</dt><dd>for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -839,7 +839,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>Remove a "when pending" worker from a context. </p>
-<dl class="section note"><dt>Note</dt><dd>for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -887,7 +887,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 
 <p>Mark a "when pending" worker as having work pending. </p>
 <p >The worker will be run from the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> at a later time.</p>
-<dl class="section note"><dt>Note</dt><dd>this method may be called from any context including IRQs</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method may be called from any context including IRQs</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -933,7 +933,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>Block until work needs to be done or the specified number of milliseconds have passed. </p>
-<dl class="section note"><dt>Note</dt><dd>this method should not be called from a worker callback</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method should not be called from a worker callback</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -979,7 +979,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>Block until work needs to be done or the specified time has been reached. </p>
-<dl class="section note"><dt>Note</dt><dd>this method should not be called from a worker callback</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method should not be called from a worker callback</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>
@@ -1025,7 +1025,7 @@ for async_contexts that provide locking (not <a class="el" href="structasync__co
 </div><div class="memdoc">
 
 <p>sleep until the specified time in an <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> callback safe way </p>
-<dl class="section note"><dt>Note</dt><dd>for async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html">async_context_poll</a>), this method is threadsafe. and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>For async_contexts that provide locking (not <a class="el" href="structasync__context__poll.html" title="Async context type for a simple single-core polling loop.">async_context_poll</a>), this method is threadsafe and may be called from within any worker method called by the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> or from any other non-IRQ context.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">context</td><td>the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> </td></tr>

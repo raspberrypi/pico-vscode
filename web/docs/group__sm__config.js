@@ -1,6 +1,11 @@
 var group__sm__config =
 [
-    [ "pio_sm_config", "structpio__sm__config.html", null ],
+    [ "pio_sm_config", "structpio__sm__config.html", [
+      [ "clkdiv", "structpio__sm__config.html#aa8baa7b2781b2b62baedccea26d8a117", null ],
+      [ "execctrl", "structpio__sm__config.html#a01ccd79c07de39ddeb3218365e6205fd", null ],
+      [ "pinctrl", "structpio__sm__config.html#ab6aff4b6eac6aab0240f6a5abda75cfc", null ],
+      [ "shiftctrl", "structpio__sm__config.html#aafb2c854aa43b1e17cdb179585e1d01a", null ]
+    ] ],
     [ "pio_get_default_sm_config", "group__sm__config.html#gaf2d2a23b08ba74188160469b3fd09936", null ],
     [ "sm_config_set_clkdiv", "group__sm__config.html#gae8c09c7a4372da95ad777faae51c5a24", null ],
     [ "sm_config_set_clkdiv_int_frac8", "group__sm__config.html#ga8b819db1095ffdf4477ab114f2f1b362", null ],

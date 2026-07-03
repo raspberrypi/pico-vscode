@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -113,6 +113,9 @@ $(document).ready(function(){initNavTree('group__hardware__flash.html',''); init
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:gaf481d0955483111d1769cb84c8fc0969"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__flash.html#gaf481d0955483111d1769cb84c8fc0969">flash_start_xip</a> (void)</td></tr>
+<tr class="memdesc:gaf481d0955483111d1769cb84c8fc0969"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise QSPI interface and external QSPI devices for execute-in-place.  <a href="group__hardware__flash.html#gaf481d0955483111d1769cb84c8fc0969">More...</a><br /></td></tr>
+<tr class="separator:gaf481d0955483111d1769cb84c8fc0969"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga5b88461b126b1c226121146c87d5abe2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a> (uint32_t flash_offs, size_t count)</td></tr>
 <tr class="memdesc:ga5b88461b126b1c226121146c87d5abe2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Erase areas of flash.  <a href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">More...</a><br /></td></tr>
 <tr class="separator:ga5b88461b126b1c226121146c87d5abe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,9 +125,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga5c6452005ad28f1e444698b0b97194d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__flash.html#ga5c6452005ad28f1e444698b0b97194d2">flash_get_unique_id</a> (uint8_t *id_out)</td></tr>
 <tr class="memdesc:ga5c6452005ad28f1e444698b0b97194d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get flash unique 64 bit identifier.  <a href="group__hardware__flash.html#ga5c6452005ad28f1e444698b0b97194d2">More...</a><br /></td></tr>
 <tr class="separator:ga5c6452005ad28f1e444698b0b97194d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9e352de7ea62ffebc579f6449b5b44d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__flash.html#ga9e352de7ea62ffebc579f6449b5b44d3">flash_do_cmd</a> (const uint8_t *txbuf, uint8_t *rxbuf, size_t count)</td></tr>
-<tr class="memdesc:ga9e352de7ea62ffebc579f6449b5b44d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute bidirectional flash command.  <a href="group__hardware__flash.html#ga9e352de7ea62ffebc579f6449b5b44d3">More...</a><br /></td></tr>
-<tr class="separator:ga9e352de7ea62ffebc579f6449b5b44d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1c2169e9eeb01015f4fbe6c83932ff1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__flash.html#ga1c2169e9eeb01015f4fbe6c83932ff1c">flash_do_cmd_cs</a> (const uint8_t *txbuf, uint8_t *rxbuf, size_t count, uint cs)</td></tr>
+<tr class="memdesc:ga1c2169e9eeb01015f4fbe6c83932ff1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute bidirectional QSPI command.  <a href="group__hardware__flash.html#ga1c2169e9eeb01015f4fbe6c83932ff1c">More...</a><br /></td></tr>
+<tr class="separator:ga1c2169e9eeb01015f4fbe6c83932ff1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac79f1ab85ff7e461b42054fe8afe5319"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__flash.html#gac79f1ab85ff7e461b42054fe8afe5319">flash_do_cmd</a> (const uint8_t *txbuf, uint8_t *rxbuf, size_t count)</td></tr>
+<tr class="memdesc:gac79f1ab85ff7e461b42054fe8afe5319"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute bidirectional flash command on chip select 0.  <a href="group__hardware__flash.html#gac79f1ab85ff7e461b42054fe8afe5319">More...</a><br /></td></tr>
+<tr class="separator:gac79f1ab85ff7e461b42054fe8afe5319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Low level flash programming and erase API. </p>
@@ -210,24 +216,27 @@ Example</h2>
 <div class="line">    <span class="keywordflow">else</span></div>
 <div class="line">        printf(<span class="stringliteral">&quot;Programming successful!\n&quot;</span>);</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__flash_html_ga345513fba0951661d012fa20a6441c5f"><div class="ttname"><a href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_program(uint32_t flash_offs, const uint8_t *data, size_t count)</div><div class="ttdoc">Program flash.</div><div class="ttdef"><b>Definition:</b> flash.c:151</div></div>
-<div class="ttc" id="agroup__hardware__flash_html_ga5b88461b126b1c226121146c87d5abe2"><div class="ttname"><a href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_erase(uint32_t flash_offs, size_t count)</div><div class="ttdoc">Erase areas of flash.</div><div class="ttdef"><b>Definition:</b> flash.c:114</div></div>
+<div class="ttc" id="agroup__hardware__flash_html_ga345513fba0951661d012fa20a6441c5f"><div class="ttname"><a href="group__hardware__flash.html#ga345513fba0951661d012fa20a6441c5f">flash_range_program</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_program(uint32_t flash_offs, const uint8_t *data, size_t count)</div><div class="ttdoc">Program flash.</div><div class="ttdef"><b>Definition:</b> flash.c:242</div></div>
+<div class="ttc" id="agroup__hardware__flash_html_ga5b88461b126b1c226121146c87d5abe2"><div class="ttname"><a href="group__hardware__flash.html#ga5b88461b126b1c226121146c87d5abe2">flash_range_erase</a></div><div class="ttdeci">void __no_inline_not_in_flash_func() flash_range_erase(uint32_t flash_offs, size_t count)</div><div class="ttdoc">Erase areas of flash.</div><div class="ttdef"><b>Definition:</b> flash.c:211</div></div>
 <div class="ttc" id="agroup__pico__base_html_ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd"><div class="ttname"><a href="group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd">PICO_OK</a></div><div class="ttdeci">@ PICO_OK</div><div class="ttdoc">No error; the operation succeeded.</div><div class="ttdef"><b>Definition:</b> error.h:23</div></div>
 <div class="ttc" id="agroup__pico__flash_html_ga679076dc10c5beb73d5f1abdb52d6735"><div class="ttname"><a href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a></div><div class="ttdeci">int flash_safe_execute(void(*func)(void *), void *param, uint32_t enter_exit_timeout_ms)</div><div class="ttdoc">Execute a function with IRQs disabled and with the other core also not executing/reading flash.</div><div class="ttdef"><b>Definition:</b> flash.c:75</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:207</div></div>
 <div class="ttc" id="ahardware__flash_2include_2hardware_2flash_8h_html"><div class="ttname"><a href="hardware__flash_2include_2hardware_2flash_8h.html">flash.h</a></div></div>
 <div class="ttc" id="apico__flash_2include_2pico_2flash_8h_html"><div class="ttname"><a href="pico__flash_2include_2pico_2flash_8h.html">flash.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
 </div><!-- fragment --> <h2 class="groupheader">Function Documentation</h2>
-<a id="ga9e352de7ea62ffebc579f6449b5b44d3" name="ga9e352de7ea62ffebc579f6449b5b44d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9e352de7ea62ffebc579f6449b5b44d3">&#9670;&nbsp;</a></span>flash_do_cmd()</h2>
+<a id="gac79f1ab85ff7e461b42054fe8afe5319" name="gac79f1ab85ff7e461b42054fe8afe5319"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac79f1ab85ff7e461b42054fe8afe5319">&#9670;&nbsp;</a></span>flash_do_cmd()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void flash_do_cmd </td>
+          <td class="memname">static void flash_do_cmd </td>
           <td>(</td>
           <td class="paramtype">const uint8_t *&#160;</td>
           <td class="paramname"><em>txbuf</em>, </td>
@@ -250,16 +259,74 @@ Example</h2>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Execute bidirectional flash command. </p>
-<p >Low-level function to execute a serial command on a flash device attached to the QSPI interface. Bytes are simultaneously transmitted and received from txbuf and to rxbuf. Therefore, both buffers must be the same length, count, which is the length of the overall transaction. This is useful for reading metadata from the flash chip, such as device ID or SFDP parameters.</p>
-<p >The XIP cache is flushed following each command, in case flash state has been modified. Like other hardware_flash functions, the flash is not accessible for execute-in-place transfers whilst the command is in progress, so entering a flash-resident interrupt handler or executing flash code on the second core concurrently will be fatal. To avoid these pitfalls it is recommended that this function only be used to extract flash metadata during startup, before the main application begins to run: see the implementation of pico_get_unique_id() for an example of this.</p>
+<p>Execute bidirectional flash command on chip select 0. </p>
+<p >See <a class="el" href="group__hardware__flash.html#ga1c2169e9eeb01015f4fbe6c83932ff1c">flash_do_cmd_cs</a> for more details.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">txbuf</td><td>Pointer to a byte buffer which will be transmitted to the flash </td></tr>
     <tr><td class="paramname">rxbuf</td><td>Pointer to a byte buffer where data received from the flash will be written. txbuf and rxbuf may be the same buffer. </td></tr>
     <tr><td class="paramname">count</td><td>Length in bytes of txbuf and of rxbuf </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga1c2169e9eeb01015f4fbe6c83932ff1c" name="ga1c2169e9eeb01015f4fbe6c83932ff1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1c2169e9eeb01015f4fbe6c83932ff1c">&#9670;&nbsp;</a></span>flash_do_cmd_cs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flash_do_cmd_cs </td>
+          <td>(</td>
+          <td class="paramtype">const uint8_t *&#160;</td>
+          <td class="paramname"><em>txbuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>rxbuf</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>count</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>cs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Execute bidirectional QSPI command. </p>
+<p >Low-level function to execute a serial command on a device attached to the QSPI interface. Bytes are simultaneously transmitted and received from txbuf and to rxbuf. Therefore, both buffers must be the same length, count, which is the length of the overall transaction. This is useful for reading metadata from the chip, such as device ID or SFDP parameters.</p>
+<p >The XIP cache is flushed following each command, in case flash state has been modified. Like other hardware_flash functions, the flash is not accessible for execute-in-place transfers whilst the command is in progress, so entering a flash-resident interrupt handler or executing flash code on the second core concurrently will be fatal. To avoid these pitfalls it is recommended that this function only be used to extract flash metadata during startup, before the main application begins to run: see the implementation of pico_get_unique_id() for an example of this.</p>
+<p >On RP2040 the chip select index is ignored, as there is only one chip select. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">txbuf</td><td>Pointer to a byte buffer which will be transmitted </td></tr>
+    <tr><td class="paramname">rxbuf</td><td>Pointer to a byte buffer where received data will be written. txbuf and rxbuf may be the same buffer. </td></tr>
+    <tr><td class="paramname">count</td><td>Length in bytes of txbuf and of rxbuf </td></tr>
+    <tr><td class="paramname">cs</td><td>Chip select index </td></tr>
   </table>
   </dd>
 </dl>
@@ -373,6 +440,40 @@ Example</h2>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>: Programming a flash page effectively changes some of the bits from one to zero. The only way to change a zero bit back to one is to "erase" the whole sector that the page resides in. So you may need to make sure you have called flash_range_erase before calling flash_range_program. </dd></dl>
+
+</div>
+</div>
+<a id="gaf481d0955483111d1769cb84c8fc0969" name="gaf481d0955483111d1769cb84c8fc0969"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf481d0955483111d1769cb84c8fc0969">&#9670;&nbsp;</a></span>flash_start_xip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void flash_start_xip </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialise QSPI interface and external QSPI devices for execute-in-place. </p>
+<p >This function performs the same first-time flash setup that would normally occur over the course of the bootrom locating a flash binary and booting it, and that flash binary executing the SDK crt0. Specifically:</p>
+<ul>
+<li>Initialise QSPI pads to their default states, and (non-RP2040) disable pad isolation latches</li>
+<li>Issue a hardcoded sequence to attached QSPI devices to return them to a serial command state</li>
+<li>Flush the XIP cache</li>
+<li>Configure the QSPI interface for low-speed 03h reads</li>
+<li>If this is not a PICO_NO_FLASH=1 binary:<ul>
+<li>(RP2040) load a boot2 stage from the first 256 bytes of RAM and execute it</li>
+<li>(non-RP2040) execute an XIP setup function stored in boot RAM by either the bootrom or by crt0</li>
+</ul>
+</li>
+</ul>
+<p >This is mostly useful for initialising flash on a PICO_NO_FLASH=1 binary. (In spite of the name, this binary type really means "preloaded to RAM" and there may still be a flash device.)</p>
+<p >This function does not preserve the QSPI interface state or pad state. This is in contrast to most other functions in this library, which preserve at least the QSPI pad state. However, on RP2350 it does preserve the QMI window 1 configuration if you have not opted into bootrom CS1 support via FLASH_DEVINFO. </p>
 
 </div>
 </div>

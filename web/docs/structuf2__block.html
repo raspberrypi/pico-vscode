@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,44 +104,62 @@ $(document).ready(function(){initNavTree('structuf2__block.html',''); initResiza
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">uf2_block Struct Reference</div></div>
+  <div class="headertitle"><div class="title">uf2_block Struct Reference<div class="ingroups"><a class="el" href="group__misc.html">External API Headers</a> &raquo; <a class="el" href="group__boot__uf2__headers.html">boot_uf2_headers</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>A single 512-byte UF2 block as written to a RP2xxx device in BOOTSEL mode.  
+ <a href="structuf2__block.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="uf2_8h_source.html">uf2.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:aafae30bd8789fb1dca4cbe8456bbb8b2"><td class="memItemLeft" align="right" valign="top"><a id="aafae30bd8789fb1dca4cbe8456bbb8b2" name="aafae30bd8789fb1dca4cbe8456bbb8b2"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>magic_start0</b></td></tr>
+<tr class="memdesc:aafae30bd8789fb1dca4cbe8456bbb8b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">First magic number identifying a UF2 block (UF2_MAGIC_START0) <br /></td></tr>
 <tr class="separator:aafae30bd8789fb1dca4cbe8456bbb8b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad0fb477c461a5aba9f5f7587b85f9551"><td class="memItemLeft" align="right" valign="top"><a id="ad0fb477c461a5aba9f5f7587b85f9551" name="ad0fb477c461a5aba9f5f7587b85f9551"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>magic_start1</b></td></tr>
+<tr class="memdesc:ad0fb477c461a5aba9f5f7587b85f9551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Second magic number identifying a UF2 block (UF2_MAGIC_START1) <br /></td></tr>
 <tr class="separator:ad0fb477c461a5aba9f5f7587b85f9551"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa8162d66e9b3092e3c3eea547466413b"><td class="memItemLeft" align="right" valign="top"><a id="aa8162d66e9b3092e3c3eea547466413b" name="aa8162d66e9b3092e3c3eea547466413b"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>flags</b></td></tr>
+<tr class="memdesc:aa8162d66e9b3092e3c3eea547466413b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Block flags (e.g. UF2_FLAG_FAMILY_ID_PRESENT) <br /></td></tr>
 <tr class="separator:aa8162d66e9b3092e3c3eea547466413b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a87b2b13c483396e556a151bba3dd8b"><td class="memItemLeft" align="right" valign="top"><a id="a9a87b2b13c483396e556a151bba3dd8b" name="a9a87b2b13c483396e556a151bba3dd8b"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>target_addr</b></td></tr>
+<tr class="memdesc:a9a87b2b13c483396e556a151bba3dd8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address in flash or memory at which to write this block's payload. <br /></td></tr>
 <tr class="separator:a9a87b2b13c483396e556a151bba3dd8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae382fa0710052b0631edc58e75e3fda8"><td class="memItemLeft" align="right" valign="top"><a id="ae382fa0710052b0631edc58e75e3fda8" name="ae382fa0710052b0631edc58e75e3fda8"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>payload_size</b></td></tr>
+<tr class="memdesc:ae382fa0710052b0631edc58e75e3fda8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of valid data bytes in the payload field. <br /></td></tr>
 <tr class="separator:ae382fa0710052b0631edc58e75e3fda8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a78e20cc47e3a55bf52715209783036c4"><td class="memItemLeft" align="right" valign="top"><a id="a78e20cc47e3a55bf52715209783036c4" name="a78e20cc47e3a55bf52715209783036c4"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>block_no</b></td></tr>
+<tr class="memdesc:a78e20cc47e3a55bf52715209783036c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Zero-based index of this block within the UF2 file. <br /></td></tr>
 <tr class="separator:a78e20cc47e3a55bf52715209783036c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af052c1f7032b4b92db6e655d9909a19d"><td class="memItemLeft" align="right" valign="top"><a id="af052c1f7032b4b92db6e655d9909a19d" name="af052c1f7032b4b92db6e655d9909a19d"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>num_blocks</b></td></tr>
+<tr class="memdesc:af052c1f7032b4b92db6e655d9909a19d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total number of blocks in the UF2 file. <br /></td></tr>
 <tr class="separator:af052c1f7032b4b92db6e655d9909a19d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ffdb9eea83dbf908cfab71a3fefdf8c"><td class="memItemLeft" align="right" valign="top"><a id="a2ffdb9eea83dbf908cfab71a3fefdf8c" name="a2ffdb9eea83dbf908cfab71a3fefdf8c"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>file_size</b></td></tr>
+<tr class="memdesc:a2ffdb9eea83dbf908cfab71a3fefdf8c"><td class="mdescLeft">&#160;</td><td class="mdescRight">When UF2_FLAG_FAMILY_ID_PRESENT is set in flags, this contains the UF2 family ID. <br /></td></tr>
 <tr class="separator:a2ffdb9eea83dbf908cfab71a3fefdf8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4cd705c751de56c33d6faa64bf09c9b"><td class="memItemLeft" align="right" valign="top"><a id="ae4cd705c751de56c33d6faa64bf09c9b" name="ae4cd705c751de56c33d6faa64bf09c9b"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>data</b> [476]</td></tr>
+<tr class="memdesc:ae4cd705c751de56c33d6faa64bf09c9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raw payload data written to target_addr. <br /></td></tr>
 <tr class="separator:ae4cd705c751de56c33d6faa64bf09c9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a811b6d0366c97dbc0a10458a034b1007"><td class="memItemLeft" align="right" valign="top"><a id="a811b6d0366c97dbc0a10458a034b1007" name="a811b6d0366c97dbc0a10458a034b1007"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>magic_end</b></td></tr>
+<tr class="memdesc:a811b6d0366c97dbc0a10458a034b1007"><td class="mdescLeft">&#160;</td><td class="mdescRight">Magic number marking the end of the block (UF2_MAGIC_END) <br /></td></tr>
 <tr class="separator:a811b6d0366c97dbc0a10458a034b1007"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >A single 512-byte UF2 block as written to a RP2xxx device in BOOTSEL mode. </p>
+<p >Each block forms one sector of a UF2 file and carries up to 476 bytes of payload data along with addressing and sequencing metadata in a fixed 32-byte header. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/boot/<a class="el" href="uf2_8h_source.html">uf2.h</a></li>
 </ul>
 </div><!-- contents -->

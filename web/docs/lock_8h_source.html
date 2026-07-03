@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -114,7 +114,7 @@ $(document).ready(function(){initNavTree('lock_8h_source.html',''); initResizabl
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef _PICO_BOOTROM_LOCK_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define _PICO_BOOTROM_LOCK_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;hardware/boot_lock.h&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="boot__lock_8h.html">hardware/boot_lock.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;pico/bootrom_constants.h&quot;</span></div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">// PICO_CONFIG: PICO_BOOTROM_LOCKING_ENABLED, Enable/disable locking for bootrom functions that use shared resources. If this flag is enabled bootrom lock checking is turned on and BOOT locks are taken around the relevant bootrom functions, type=bool, default=1, group=pico_bootrom</span></div>
@@ -127,7 +127,7 @@ $(document).ready(function(){initNavTree('lock_8h_source.html',''); initResizabl
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> bootrom_try_acquire_lock(uint lock_num) {</div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#if PICO_BOOTROM_LOCKING_ENABLED</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="comment">// unsafe as this is a long term lock (so no irq disable)</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">return</span> boot_try_lock_unsafe(boot_lock_instance(lock_num));</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="group__hardware__sync.html#ga99ca63c784e3c321f3dc58a70a1c56f0">boot_try_lock_unsafe</a>(<a class="code hl_function" href="group__hardware__sync.html#gae18270c387886d80fd84360c768e55a4">boot_lock_instance</a>(lock_num));</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    (void)lock_num;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
@@ -137,7 +137,7 @@ $(document).ready(function(){initNavTree('lock_8h_source.html',''); initResizabl
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> bootrom_acquire_lock_blocking(uint lock_num) {</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#if PICO_BOOTROM_LOCKING_ENABLED</span></div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="comment">// unsafe as this is a long term lock (so no irq disable)</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    boot_lock_unsafe_blocking(boot_lock_instance(lock_num));</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <a class="code hl_function" href="group__hardware__sync.html#gacc6426da00f7bb2fb67dabcba12bbcbc">boot_lock_unsafe_blocking</a>(<a class="code hl_function" href="group__hardware__sync.html#gae18270c387886d80fd84360c768e55a4">boot_lock_instance</a>(lock_num));</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    (void)lock_num;</div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#endif</span></div>
@@ -145,13 +145,18 @@ $(document).ready(function(){initNavTree('lock_8h_source.html',''); initResizabl
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> bootrom_release_lock(uint lock_num) {</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span><span class="preprocessor">#if PICO_BOOTROM_LOCKING_ENABLED</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    boot_unlock_unsafe(boot_lock_instance(lock_num));</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_function" href="group__hardware__sync.html#gad163c0a9d041bf123550abc6b946cdd6">boot_unlock_unsafe</a>(<a class="code hl_function" href="group__hardware__sync.html#gae18270c387886d80fd84360c768e55a4">boot_lock_instance</a>(lock_num));</div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    (void)lock_num;</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aboot__lock_8h_html"><div class="ttname"><a href="boot__lock_8h.html">boot_lock.h</a></div></div>
+<div class="ttc" id="agroup__hardware__sync_html_ga99ca63c784e3c321f3dc58a70a1c56f0"><div class="ttname"><a href="group__hardware__sync.html#ga99ca63c784e3c321f3dc58a70a1c56f0">boot_try_lock_unsafe</a></div><div class="ttdeci">static __force_inline bool boot_try_lock_unsafe(boot_lock_t *lock)</div><div class="ttdoc">try to acquire a boot lock without disabling interrupts (hence unsafe)</div><div class="ttdef"><b>Definition:</b> boot_lock.h:80</div></div>
+<div class="ttc" id="agroup__hardware__sync_html_gacc6426da00f7bb2fb67dabcba12bbcbc"><div class="ttname"><a href="group__hardware__sync.html#gacc6426da00f7bb2fb67dabcba12bbcbc">boot_lock_unsafe_blocking</a></div><div class="ttdeci">static __force_inline void boot_lock_unsafe_blocking(boot_lock_t *lock)</div><div class="ttdoc">Acquire a boot lock without disabling interrupts (hence unsafe)</div><div class="ttdef"><b>Definition:</b> boot_lock.h:65</div></div>
+<div class="ttc" id="agroup__hardware__sync_html_gad163c0a9d041bf123550abc6b946cdd6"><div class="ttname"><a href="group__hardware__sync.html#gad163c0a9d041bf123550abc6b946cdd6">boot_unlock_unsafe</a></div><div class="ttdeci">static __force_inline void boot_unlock_unsafe(boot_lock_t *lock)</div><div class="ttdoc">Release a boot lock without re-enabling interrupts.</div><div class="ttdef"><b>Definition:</b> boot_lock.h:93</div></div>
+<div class="ttc" id="agroup__hardware__sync_html_gae18270c387886d80fd84360c768e55a4"><div class="ttname"><a href="group__hardware__sync.html#gae18270c387886d80fd84360c768e55a4">boot_lock_instance</a></div><div class="ttdeci">static __force_inline boot_lock_t * boot_lock_instance(uint lock_num)</div><div class="ttdoc">Get HW Bootlock instance from number.</div><div class="ttdef"><b>Definition:</b> boot_lock.h:42</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

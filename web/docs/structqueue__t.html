@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,16 +104,21 @@ $(document).ready(function(){initNavTree('structqueue__t.html',''); initResizabl
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">queue_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">queue_t Struct Reference<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__util.html">pico_util</a> &raquo; <a class="el" href="group__queue.html">queue</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>A multi-core and IRQ safe queue instance.  
+ <a href="structqueue__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="queue_8h_source.html">queue.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for queue_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structqueue__t__coll__graph.png" border="0" usemap="#aqueue__t_coll__map" alt="Collaboration graph"/></div>
 <map name="aqueue__t_coll__map" id="aqueue__t_coll__map">
-<area shape="rect" title=" " alt="" coords="10,95,85,121"/>
-<area shape="rect" href="structlock__core.html" title=" " alt="" coords="5,5,89,32"/>
+<area shape="rect" title="A multi&#45;core and IRQ safe queue instance." alt="" coords="10,95,85,121"/>
+<area shape="rect" href="structlock__core.html" title="Core state shared by all lock primitives." alt="" coords="5,5,89,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -121,24 +126,33 @@ Collaboration diagram for queue_t:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:a29e35cf7c8963fba825a7766b8f78e97"><td class="memItemLeft" align="right" valign="top"><a id="a29e35cf7c8963fba825a7766b8f78e97" name="a29e35cf7c8963fba825a7766b8f78e97"></a>
 <a class="el" href="structlock__core.html">lock_core_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>core</b></td></tr>
+<tr class="memdesc:a29e35cf7c8963fba825a7766b8f78e97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core lock state used for synchronisation. <br /></td></tr>
 <tr class="separator:a29e35cf7c8963fba825a7766b8f78e97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab119c14c39bdc8282e6b4d6ad75d82d3"><td class="memItemLeft" align="right" valign="top"><a id="ab119c14c39bdc8282e6b4d6ad75d82d3" name="ab119c14c39bdc8282e6b4d6ad75d82d3"></a>
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>data</b></td></tr>
+<tr class="memdesc:ab119c14c39bdc8282e6b4d6ad75d82d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the backing data buffer. <br /></td></tr>
 <tr class="separator:ab119c14c39bdc8282e6b4d6ad75d82d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af7de3d3a4f5a80899b753083f756f4c6"><td class="memItemLeft" align="right" valign="top"><a id="af7de3d3a4f5a80899b753083f756f4c6" name="af7de3d3a4f5a80899b753083f756f4c6"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>wptr</b></td></tr>
+<tr class="memdesc:af7de3d3a4f5a80899b753083f756f4c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write pointer (index of next slot to write) <br /></td></tr>
 <tr class="separator:af7de3d3a4f5a80899b753083f756f4c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5c03218b9cce418a5c12d33ad00ad2d"><td class="memItemLeft" align="right" valign="top"><a id="ac5c03218b9cce418a5c12d33ad00ad2d" name="ac5c03218b9cce418a5c12d33ad00ad2d"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>rptr</b></td></tr>
+<tr class="memdesc:ac5c03218b9cce418a5c12d33ad00ad2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read pointer (index of next slot to read) <br /></td></tr>
 <tr class="separator:ac5c03218b9cce418a5c12d33ad00ad2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca19eb5596ee923fb432183aced5fbb5"><td class="memItemLeft" align="right" valign="top"><a id="aca19eb5596ee923fb432183aced5fbb5" name="aca19eb5596ee923fb432183aced5fbb5"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>element_size</b></td></tr>
+<tr class="memdesc:aca19eb5596ee923fb432183aced5fbb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size in bytes of each element. <br /></td></tr>
 <tr class="separator:aca19eb5596ee923fb432183aced5fbb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64d6fe7ba382a6841f3f6fbf300582d6"><td class="memItemLeft" align="right" valign="top"><a id="a64d6fe7ba382a6841f3f6fbf300582d6" name="a64d6fe7ba382a6841f3f6fbf300582d6"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>element_count</b></td></tr>
+<tr class="memdesc:a64d6fe7ba382a6841f3f6fbf300582d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum number of elements the queue can hold. <br /></td></tr>
 <tr class="separator:a64d6fe7ba382a6841f3f6fbf300582d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >A multi-core and IRQ safe queue instance. </p>
+<p >Stores a maximum number of elements of a fixed size. All operations are protected by a spinlock, making the queue safe to use from multiple cores and from interrupt handlers. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/util/<a class="el" href="queue_8h_source.html">queue.h</a></li>
 </ul>
 </div><!-- contents -->

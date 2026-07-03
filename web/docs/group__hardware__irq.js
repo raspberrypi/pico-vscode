@@ -29,7 +29,13 @@ var group__hardware__irq =
       [ "ADC_IRQ_FIFO", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a80d34861619c6034c897e829aea93ed4", null ],
       [ "I2C0_IRQ", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae54e6d9ba3c33888744c4ba77a7a4255", null ],
       [ "I2C1_IRQ", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a3d4c9de91954651ee3dee7c066fc3db9", null ],
-      [ "RTC_IRQ", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a758d0e5253474a1224daa5eff0bdb5fc", null ]
+      [ "RTC_IRQ", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a758d0e5253474a1224daa5eff0bdb5fc", null ],
+      [ "SPARE_IRQ_0", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3aad3052d1d06b983df4551cd9ddd739ae", null ],
+      [ "SPARE_IRQ_1", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a1db065c3095a5f7f4c08becc89cc146e", null ],
+      [ "SPARE_IRQ_2", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a8632f943b2645a064df4b4f32be6cfb4", null ],
+      [ "SPARE_IRQ_3", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3a37d25d9bef6f9987f6f0acd1199fdd06", null ],
+      [ "SPARE_IRQ_4", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3ae1e37d639062c9f84055a9137fc29870", null ],
+      [ "SPARE_IRQ_5", "group__hardware__irq.html#ggaf4bf6b287c1a8445fce49ccaa711b3c3af00c937dd1333d2fa5e52d906dd7529b", null ]
     ] ],
     [ "irq_num_rp2350", "group__hardware__irq.html#ga876b9495995a81dff786f07a1975c3b8", [
       [ "TIMER0_IRQ_0", "group__hardware__irq.html#gga876b9495995a81dff786f07a1975c3b8a8aefc9b5ce0307f2983c7cfe9cfcee0e", null ],
@@ -88,8 +94,11 @@ var group__hardware__irq =
     [ "irq_add_shared_handler", "group__hardware__irq.html#gaf02f8599896c66f4579c845a96b2126e", null ],
     [ "irq_clear", "group__hardware__irq.html#ga14fa98b8bec09df3e7409a75cf2f5359", null ],
     [ "irq_get_exclusive_handler", "group__hardware__irq.html#ga42e9cdce7b82ef63c7b2416d32a42361", null ],
+    [ "irq_get_mask", "group__hardware__irq.html#ga0c38518506d6aed9d513d4011e5a88b2", null ],
+    [ "irq_get_mask_n", "group__hardware__irq.html#ga759e88d813f3c244db429a6db17d534d", null ],
     [ "irq_get_priority", "group__hardware__irq.html#ga6bcde7d99ca71abe8dccfd13b4d80b29", null ],
     [ "irq_get_vtable_handler", "group__hardware__irq.html#ga4f9772d9d1781c3a28371623886a0310", null ],
+    [ "irq_has_handler", "group__hardware__irq.html#ga9f9eb24fcf966ef5992c3091bf2989c7", null ],
     [ "irq_has_shared_handler", "group__hardware__irq.html#gae552cab9da1b37a785791f678090f418", null ],
     [ "irq_is_enabled", "group__hardware__irq.html#ga0c54ae4c0593c2a8596b99cd167584e0", null ],
     [ "irq_remove_handler", "group__hardware__irq.html#gadfd3308952d41ee91671ae098b867a90", null ],

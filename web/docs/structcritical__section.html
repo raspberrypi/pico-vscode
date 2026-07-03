@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,20 +104,30 @@ $(document).ready(function(){initNavTree('structcritical__section.html',''); ini
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">critical_section Struct Reference</div></div>
+  <div class="headertitle"><div class="title">critical_section Struct Reference<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__sync.html">pico_sync</a> &raquo; <a class="el" href="group__critical__section.html">critical_section</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Critical section instance.  
+ <a href="structcritical__section.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="critical__section_8h_source.html">critical_section.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:ac5f68987f2766c4d685115f45ae7ec70"><td class="memItemLeft" align="right" valign="top"><a id="ac5f68987f2766c4d685115f45ae7ec70" name="ac5f68987f2766c4d685115f45ae7ec70"></a>
 spin_lock_t *&#160;</td><td class="memItemRight" valign="bottom"><b>spin_lock</b></td></tr>
+<tr class="memdesc:ac5f68987f2766c4d685115f45ae7ec70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spin lock used to prevent concurrent access from the other core. <br /></td></tr>
 <tr class="separator:ac5f68987f2766c4d685115f45ae7ec70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c5bd6cee9491e076cf633dfd33afbc9"><td class="memItemLeft" align="right" valign="top"><a id="a6c5bd6cee9491e076cf633dfd33afbc9" name="a6c5bd6cee9491e076cf633dfd33afbc9"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>save</b></td></tr>
+<tr class="memdesc:a6c5bd6cee9491e076cf633dfd33afbc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saved interrupt state, restored on exit. <br /></td></tr>
 <tr class="separator:a6c5bd6cee9491e076cf633dfd33afbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Critical section instance. </p>
+<p >Structure holding the state for a single critical section, including the associated spin lock and the saved interrupt state. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/<a class="el" href="critical__section_8h_source.html">critical_section.h</a></li>
 </ul>
 </div><!-- contents -->

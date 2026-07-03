@@ -1,5 +1,7 @@
 var group__pico__base =
 [
+    [ "pico_board_cmake_set", "group__pico__base.html#gabe498a67e230c0ae9d0ab82b878c0c1d", null ],
+    [ "pico_board_cmake_set_default", "group__pico__base.html#ga18a37e595035ffa0987953255874bdf5", null ],
     [ "pico_error_codes", "group__pico__base.html#gaddcb20bc9a61ceff479aa87369a862aa", [
       [ "PICO_OK", "group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa9b50bcb755cf2e8295de9ffa52b252fd", null ],
       [ "PICO_ERROR_NONE", "group__pico__base.html#ggaddcb20bc9a61ceff479aa87369a862aaa003b1c62d0c29b014c5f9f78845d230c", null ],

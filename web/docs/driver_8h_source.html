@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -116,21 +116,26 @@ $(document).ready(function(){initNavTree('driver_8h_source.html',''); initResiza
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="stdio_8h.html">pico/stdio.h</a>&quot;</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="structstdio__driver.html">   12</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structstdio__driver.html">stdio_driver</a> {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    void (*out_chars)(<span class="keyword">const</span> <span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> len);</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    void (*out_flush)(void);</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    int (*in_chars)(<span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> len);</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    void (*set_chars_available_callback)(void (*fn)(<span class="keywordtype">void</span>*), <span class="keywordtype">void</span> *param);</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <a class="code hl_struct" href="structstdio__driver.html">stdio_driver_t</a> *next;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#if PICO_STDIO_ENABLE_CRLF_SUPPORT</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordtype">bool</span> last_ended_with_cr;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordtype">bool</span> crlf_enabled;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>};</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structstdio__driver.html">   19</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structstdio__driver.html">stdio_driver</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structstdio__driver.html#a1afbcb532ec01f08b9c29cc9945f4f05">   20</a></span>    void (*<a class="code hl_variable" href="structstdio__driver.html#a1afbcb532ec01f08b9c29cc9945f4f05">out_chars</a>)(<span class="keyword">const</span> <span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> len); </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structstdio__driver.html#a91e48f32e9ec7e6bac79f665728f2159">   21</a></span>    void (*<a class="code hl_variable" href="structstdio__driver.html#a91e48f32e9ec7e6bac79f665728f2159">out_flush</a>)(void); </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structstdio__driver.html#a20747783c5c0e4663f1fb3366ba1a248">   22</a></span>    int (*<a class="code hl_variable" href="structstdio__driver.html#a20747783c5c0e4663f1fb3366ba1a248">in_chars</a>)(<span class="keywordtype">char</span> *buf, <span class="keywordtype">int</span> len); </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structstdio__driver.html#a98c17c2d1bba7506ca3ece57bb48f448">   23</a></span>    void (*<a class="code hl_variable" href="structstdio__driver.html#a98c17c2d1bba7506ca3ece57bb48f448">set_chars_available_callback</a>)(void (*fn)(<span class="keywordtype">void</span>*), <span class="keywordtype">void</span> *param); </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structstdio__driver.html#afb7873836c551bfd89081ca73abba694">   24</a></span>    <a class="code hl_struct" href="structstdio__driver.html">stdio_driver_t</a> *<a class="code hl_variable" href="structstdio__driver.html#afb7873836c551bfd89081ca73abba694">next</a>; </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#if PICO_STDIO_ENABLE_CRLF_SUPPORT</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordtype">bool</span> last_ended_with_cr; </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">bool</span> crlf_enabled; </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
-<div class="ttc" id="astructstdio__driver_html"><div class="ttname"><a href="structstdio__driver.html">stdio_driver</a></div><div class="ttdef"><b>Definition:</b> driver.h:12</div></div>
+<div class="ttc" id="astructstdio__driver_html"><div class="ttname"><a href="structstdio__driver.html">stdio_driver</a></div><div class="ttdoc">A stdio driver that can be registered with the pico_stdio subsystem.</div><div class="ttdef"><b>Definition:</b> driver.h:19</div></div>
+<div class="ttc" id="astructstdio__driver_html_a1afbcb532ec01f08b9c29cc9945f4f05"><div class="ttname"><a href="structstdio__driver.html#a1afbcb532ec01f08b9c29cc9945f4f05">stdio_driver::out_chars</a></div><div class="ttdeci">void(* out_chars)(const char *buf, int len)</div><div class="ttdoc">Output characters to the driver; may be NULL if output is not supported.</div><div class="ttdef"><b>Definition:</b> driver.h:20</div></div>
+<div class="ttc" id="astructstdio__driver_html_a20747783c5c0e4663f1fb3366ba1a248"><div class="ttname"><a href="structstdio__driver.html#a20747783c5c0e4663f1fb3366ba1a248">stdio_driver::in_chars</a></div><div class="ttdeci">int(* in_chars)(char *buf, int len)</div><div class="ttdoc">Read available input characters; returns the number read, or may be NULL if input is not supported.</div><div class="ttdef"><b>Definition:</b> driver.h:22</div></div>
+<div class="ttc" id="astructstdio__driver_html_a91e48f32e9ec7e6bac79f665728f2159"><div class="ttname"><a href="structstdio__driver.html#a91e48f32e9ec7e6bac79f665728f2159">stdio_driver::out_flush</a></div><div class="ttdeci">void(* out_flush)(void)</div><div class="ttdoc">Flush any buffered output; may be NULL.</div><div class="ttdef"><b>Definition:</b> driver.h:21</div></div>
+<div class="ttc" id="astructstdio__driver_html_a98c17c2d1bba7506ca3ece57bb48f448"><div class="ttname"><a href="structstdio__driver.html#a98c17c2d1bba7506ca3ece57bb48f448">stdio_driver::set_chars_available_callback</a></div><div class="ttdeci">void(* set_chars_available_callback)(void(*fn)(void *), void *param)</div><div class="ttdoc">Register a callback to be invoked when input characters become available; may be NULL.</div><div class="ttdef"><b>Definition:</b> driver.h:23</div></div>
+<div class="ttc" id="astructstdio__driver_html_afb7873836c551bfd89081ca73abba694"><div class="ttname"><a href="structstdio__driver.html#afb7873836c551bfd89081ca73abba694">stdio_driver::next</a></div><div class="ttdeci">stdio_driver_t * next</div><div class="ttdoc">Next driver in the linked list; managed by the stdio subsystem.</div><div class="ttdef"><b>Definition:</b> driver.h:24</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

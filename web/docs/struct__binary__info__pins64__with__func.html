@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,16 +104,21 @@ $(document).ready(function(){initNavTree('struct__binary__info__pins64__with__fu
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">_binary_info_pins64_with_func Struct Reference</div></div>
+  <div class="headertitle"><div class="title">_binary_info_pins64_with_func Struct Reference<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a> &raquo; <a class="el" href="group__pico__binary__info.html">pico_binary_info</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Binary info entry describing one or more GPIO pins and their assigned function, supporting pin numbers &lt;256, and up to 7 pins.  
+ <a href="struct__binary__info__pins64__with__func.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="structure_8h_source.html">structure.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for _binary_info_pins64_with_func:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct__binary__info__pins64__with__func__coll__graph.png" border="0" usemap="#a__binary__info__pins64__with__func_coll__map" alt="Collaboration graph"/></div>
 <map name="a__binary__info__pins64__with__func_coll__map" id="a__binary__info__pins64__with__func_coll__map">
-<area shape="rect" title=" " alt="" coords="5,95,157,136"/>
-<area shape="rect" href="struct__binary__info__core.html" title=" " alt="" coords="13,5,150,32"/>
+<area shape="rect" title="Binary info entry describing one or more GPIO pins and their assigned function, supporting pin number..." alt="" coords="5,95,157,136"/>
+<area shape="rect" href="struct__binary__info__core.html" title="Common header fields shared by all binary info entries." alt="" coords="13,5,150,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -121,12 +126,16 @@ Collaboration diagram for _binary_info_pins64_with_func:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:a2c86a2611a80a3217ccb7a14484d8cb8"><td class="memItemLeft" align="right" valign="top"><a id="a2c86a2611a80a3217ccb7a14484d8cb8" name="a2c86a2611a80a3217ccb7a14484d8cb8"></a>
 struct <a class="el" href="struct__binary__info__core.html">_binary_info_core</a>&#160;</td><td class="memItemRight" valign="bottom"><b>core</b></td></tr>
+<tr class="memdesc:a2c86a2611a80a3217ccb7a14484d8cb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common binary info header. <br /></td></tr>
 <tr class="separator:a2c86a2611a80a3217ccb7a14484d8cb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad29b18fb4e4da740e8d54a2a57287b3f"><td class="memItemLeft" align="right" valign="top"><a id="ad29b18fb4e4da740e8d54a2a57287b3f" name="ad29b18fb4e4da740e8d54a2a57287b3f"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>pin_encoding</b></td></tr>
+<tr class="memdesc:ad29b18fb4e4da740e8d54a2a57287b3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encoded pin numbers and function for more than 32 pins (see BI_PINS_ENCODING_* for format) <br /></td></tr>
 <tr class="separator:ad29b18fb4e4da740e8d54a2a57287b3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Binary info entry describing one or more GPIO pins and their assigned function, supporting pin numbers &lt;256, and up to 7 pins. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/binary_info/<a class="el" href="structure_8h_source.html">structure.h</a></li>
 </ul>
 </div><!-- contents -->

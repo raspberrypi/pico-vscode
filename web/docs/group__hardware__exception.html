@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -162,7 +162,7 @@ Functions</h2></td></tr>
 <p >Methods for setting processor exception handlers. </p>
 <p >Exceptions are identified by a <a class="el" href="group__hardware__exception.html#ga504f1c3a5a6959d430665f5d72cf335a">exception_number</a> which is a number from -15 to -1; these are the numbers relative to the index of the first IRQ vector in the vector table. (i.e. vector table index is exception_num plus 16)</p>
 <p >There is one set of exception handlers per core, so the exception handlers for each core as set by these methods are independent.</p>
-<dl class="section note"><dt>Note</dt><dd>That all exception APIs affect the executing core only (i.e. the core calling the function). </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>All exception APIs affect the executing core only (i.e. the core calling the function). </dd></dl>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ga4de8b8ce1d704966edfc547190f73f0b" name="ga4de8b8ce1d704966edfc547190f73f0b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga4de8b8ce1d704966edfc547190f73f0b">&#9670;&nbsp;</a></span>exception_handler_t</h2>
@@ -380,7 +380,7 @@ Functions</h2></td></tr>
 
 <p>Set the exception handler for an exception on the executing core. </p>
 <p >This method will assert if an exception handler has been set for this exception number on this core via this method, without an intervening restore via exception_restore_handler.</p>
-<dl class="section note"><dt>Note</dt><dd>this method may not be used to override an exception handler that was specified at link time by providing a strong replacement for the weakly defined stub exception handlers. It will assert in this case too.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>This method may not be used to override an exception handler that was specified at link time by providing a strong replacement for the weakly defined stub exception handlers. It will assert in this case too.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">num</td><td>Exception number </td></tr>

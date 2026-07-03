@@ -536,6 +536,11 @@ def ParseCommandLine():
         help="Convert an examples folder to standalone project",
     )
     parser.add_argument(
+        "--btstackExample",
+        action="store_true",
+        help="Specify this examples folder is a BTStack example",
+    )
+    parser.add_argument(
         "-p",
         "--project",
         action="append",
@@ -815,6 +820,30 @@ def GenerateCMake(folder, params):
                         cmake_header2 += '\nset(TEST_TCP_SERVER_IP "192.168.1.100") # Change this to your TCP server IP\n'
                     if "MQTT_SERVER" in line and "MQTT_SERVER" not in cmake_header2:
                         cmake_header2 += '\nset(MQTT_SERVER "myMQTTserver") # Change this to the host name of your MQTT server\n'
+
+                if params["wantBTStackExample"]:
+                    """
+                    CMakeLists.txt of the form:
+                    add_executable(a2dp_sink_demo
+                        ../main.c
+                        ../btstack_audio_pico.c
+                        ${PICO_BTSTACK_PATH}/example/a2dp_sink_demo.c # note: this source is in pico-sdk/lib/btstack
+                    )
+
+                    Relevant files should be copied by earlier steps, so this just needs changing to:
+                    add_executable(a2dp_sink_demo
+                        main.c
+                        btstack_audio_pico.c
+                        a2dp_sink_demo.c
+                    )
+                    """
+                    for i, line in enumerate(lines):
+                        if "${PICO_BTSTACK_PATH}/example/" in line:
+                            # Strip path prefix and the now-inaccurate inline comment
+                            lines[i] = re.sub(r"[ \t]*#[^\n]*", "", line.replace("${PICO_BTSTACK_PATH}/example/", "")).rstrip() + "\n"
+                        elif line.strip().startswith("../") and line.strip().split("#")[0].rstrip().endswith(".c"):
+                            lines[i] = line.replace("../", "")
+
                 # Write all headers
                 file.write(cmake_header1)
                 file.write(cmake_header_us)
@@ -1531,6 +1560,7 @@ if __name__ == "__main__":
         "wantOverwrite": args.overwrite,
         "wantConvert": args.convert or args.example,
         "wantExample": args.example,
+        "wantBTStackExample": args.btstackExample,
         "boardtype": args.boardtype,
         "features": args.feature,
         "projects": args.project,

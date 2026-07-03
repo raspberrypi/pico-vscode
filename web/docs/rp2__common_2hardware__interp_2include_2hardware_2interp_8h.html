@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -117,24 +117,25 @@ Include dependency graph for interp.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="rp2__common_2hardware__interp_2include_2hardware_2interp_8h__incl.png" border="0" usemap="#ainclude_2hardware_2interp_8h" alt=""/></div>
 <map name="ainclude_2hardware_2interp_8h" id="ainclude_2hardware_2interp_8h">
-<area shape="rect" title=" " alt="" coords="1071,5,1259,32"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="654,80,715,107"/>
-<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
-<area shape="rect" title=" " alt="" coords="1203,80,1388,107"/>
+<area shape="rect" title=" " alt="" coords="1176,5,1364,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="751,80,813,107"/>
+<area shape="rect" title=" " alt="" coords="1397,229,1548,256"/>
+<area shape="rect" title=" " alt="" coords="1308,80,1493,107"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
-<area shape="rect" title=" " alt="" coords="425,155,539,181"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="563,155,667,181"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,155,813,181"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,155,932,181"/>
+<area shape="rect" title=" " alt="" coords="523,155,636,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="661,155,765,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="789,155,911,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="935,155,1029,181"/>
 <area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
 <area shape="rect" title=" " alt="" coords="74,453,157,480"/>
 <area shape="rect" title=" " alt="" coords="211,379,281,405"/>
 <area shape="rect" title=" " alt="" coords="306,379,381,405"/>
 <area shape="rect" title=" " alt="" coords="173,229,337,256"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="362,229,543,256"/>
 <area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
 <area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
-<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="955,229,1137,256"/>
+<area shape="rect" title=" " alt="" coords="1162,229,1373,256"/>
 <area shape="rect" title=" " alt="" coords="357,304,548,331"/>
 </map>
 </div>
@@ -144,8 +145,10 @@ Include dependency graph for interp.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterp__config.html">interp_config</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the configuration for an interpolator lane.  <a href="structinterp__config.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterp__hw__save__t.html">interp_hw_save_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saved interpolator hardware state.  <a href="structinterp__hw__save__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -187,7 +190,7 @@ static uint&#160;</td><td class="memItemRight" valign="bottom"><b>interp_index</
 <tr class="memdesc:gaf5bfa88632de76db56f01e3f22d705e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if an interpolator lane is claimed.  <a href="group__hardware__interp.html#gaf5bfa88632de76db56f01e3f22d705e0">More...</a><br /></td></tr>
 <tr class="separator:gaf5bfa88632de76db56f01e3f22d705e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga8b6dfe0f72bb43788ff10d25d6b17403">interp_unclaim_lane_mask</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint lane_mask)</td></tr>
-<tr class="memdesc:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release previously claimed interpolator lanes.  <a href="group__hardware__interp.html#ga8b6dfe0f72bb43788ff10d25d6b17403">More...</a><br /></td></tr>
+<tr class="memdesc:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release previously claimed interpolator lanes, see <a class="el" href="group__hardware__interp.html#ga7da3e2eec0075ae39bf648b6a3b6feb9">interp_claim_lane_mask</a>.  <a href="group__hardware__interp.html#ga8b6dfe0f72bb43788ff10d25d6b17403">More...</a><br /></td></tr>
 <tr class="separator:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga30d763b581c679c02cefe2fa90d8c8a7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interp__config.html#ga30d763b581c679c02cefe2fa90d8c8a7">interp_config_set_shift</a> (<a class="el" href="structinterp__config.html">interp_config</a> *c, uint shift)</td></tr>
 <tr class="memdesc:ga30d763b581c679c02cefe2fa90d8c8a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the interpolator shift value.  <a href="group__interp__config.html#ga30d763b581c679c02cefe2fa90d8c8a7">More...</a><br /></td></tr>
@@ -231,12 +234,12 @@ static uint&#160;</td><td class="memItemRight" valign="bottom"><b>interp_index</
 <tr class="memitem:ga35e7824263e623c7e2d54a74b2631c61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga35e7824263e623c7e2d54a74b2631c61">interp_restore</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, <a class="el" href="structinterp__hw__save__t.html">interp_hw_save_t</a> *saver)</td></tr>
 <tr class="memdesc:ga35e7824263e623c7e2d54a74b2631c61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore an interpolator state.  <a href="group__hardware__interp.html#ga35e7824263e623c7e2d54a74b2631c61">More...</a><br /></td></tr>
 <tr class="separator:ga35e7824263e623c7e2d54a74b2631c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa213d0a845f57c719593fa8be01482f1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#gaa213d0a845f57c719593fa8be01482f1">interp_set_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint lane, uint32_t val)</td></tr>
-<tr class="memdesc:gaa213d0a845f57c719593fa8be01482f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the interpolator base register by lane.  <a href="group__hardware__interp.html#gaa213d0a845f57c719593fa8be01482f1">More...</a><br /></td></tr>
-<tr class="separator:gaa213d0a845f57c719593fa8be01482f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1d89466df907cb1515b639813ee34837"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga1d89466df907cb1515b639813ee34837">interp_get_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint lane)</td></tr>
-<tr class="memdesc:ga1d89466df907cb1515b639813ee34837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the content of interpolator base register by lane.  <a href="group__hardware__interp.html#ga1d89466df907cb1515b639813ee34837">More...</a><br /></td></tr>
-<tr class="separator:ga1d89466df907cb1515b639813ee34837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga998bb4da96a95654f4248bafeffd9302"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga998bb4da96a95654f4248bafeffd9302">interp_set_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint index, uint32_t val)</td></tr>
+<tr class="memdesc:ga998bb4da96a95654f4248bafeffd9302"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the interpolator base register by index.  <a href="group__hardware__interp.html#ga998bb4da96a95654f4248bafeffd9302">More...</a><br /></td></tr>
+<tr class="separator:ga998bb4da96a95654f4248bafeffd9302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3795913002b0d380b3d5a5c21c464451"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga3795913002b0d380b3d5a5c21c464451">interp_get_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint index)</td></tr>
+<tr class="memdesc:ga3795913002b0d380b3d5a5c21c464451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the content of interpolator base register by index.  <a href="group__hardware__interp.html#ga3795913002b0d380b3d5a5c21c464451">More...</a><br /></td></tr>
+<tr class="separator:ga3795913002b0d380b3d5a5c21c464451"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga25479c3fa9137c52fc22c1c9a796ab93"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga25479c3fa9137c52fc22c1c9a796ab93">interp_set_base_both</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint32_t val)</td></tr>
 <tr class="memdesc:ga25479c3fa9137c52fc22c1c9a796ab93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the interpolator base registers simultaneously.  <a href="group__hardware__interp.html#ga25479c3fa9137c52fc22c1c9a796ab93">More...</a><br /></td></tr>
 <tr class="separator:ga25479c3fa9137c52fc22c1c9a796ab93"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -1,11 +1,17 @@
 <map id="include/hardware/irq.h" name="include/hardware/irq.h">
-<area shape="rect" id="node1" title=" " alt="" coords="520,5,687,32"/>
-<area shape="rect" id="node2" href="$gpio_8h.html" title=" " alt="" coords="323,95,502,121"/>
-<area shape="rect" id="node8" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="526,80,681,136"/>
-<area shape="rect" id="node9" href="$time__adapter_8h_source.html" title=" " alt="" coords="705,95,907,121"/>
-<area shape="rect" id="node3" href="$cyw43__configport_8h_source.html" title=" " alt="" coords="5,184,204,211"/>
-<area shape="rect" id="node4" href="$rp2__common_2hardware__adc_2include_2hardware_2adc_8h.html" title=" " alt="" coords="229,184,402,211"/>
-<area shape="rect" id="node5" href="$rp2__common_2hardware__pio_2include_2hardware_2pio_8h.html" title=" " alt="" coords="426,184,597,211"/>
-<area shape="rect" id="node6" href="$stdlib_8h.html" title=" " alt="" coords="621,184,773,211"/>
-<area shape="rect" id="node7" href="$SEGGER__RTT_8h_source.html" title=" " alt="" coords="595,259,798,285"/>
+<area shape="rect" id="node1" title=" " alt="" coords="634,5,801,32"/>
+<area shape="rect" id="node2" href="$gpio_8h.html" title=" " alt="" coords="437,95,616,121"/>
+<area shape="rect" id="node14" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="640,80,795,136"/>
+<area shape="rect" id="node15" href="$time__adapter_8h_source.html" title=" " alt="" coords="819,95,1021,121"/>
+<area shape="rect" id="node3" href="$cyw43__configport_8h_source.html" title=" " alt="" coords="21,191,219,218"/>
+<area shape="rect" id="node9" href="$rp2__common_2hardware__adc_2include_2hardware_2adc_8h.html" title=" " alt="" coords="244,191,417,218"/>
+<area shape="rect" id="node10" href="$rp2__common_2hardware__pio_2include_2hardware_2pio_8h.html" title=" " alt="" coords="441,191,612,218"/>
+<area shape="rect" id="node11" href="$status__led_8h.html" title=" " alt="" coords="636,184,780,225"/>
+<area shape="rect" id="node12" href="$stdlib_8h.html" title=" " alt="" coords="804,191,956,218"/>
+<area shape="rect" id="node4" href="$cyw43__config_8h_source.html" title=" " alt="" coords="59,273,181,300"/>
+<area shape="rect" id="node5" href="$cyw43_8h.html" title="CYW43 driver interface." alt="" coords="41,423,117,449"/>
+<area shape="rect" id="node7" href="$cyw43__ll_8h_source.html" title=" " alt="" coords="116,348,207,375"/>
+<area shape="rect" id="node6" href="$cyw43__arch_8h.html" title=" " alt="" coords="5,497,152,539"/>
+<area shape="rect" id="node8" href="$cyw43__btbus_8h.html" title="CYW43 Bluetooth BUS API." alt="" coords="141,423,259,449"/>
+<area shape="rect" id="node13" href="$SEGGER__RTT_8h_source.html" title=" " alt="" coords="779,273,981,300"/>
 </map>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -138,7 +138,7 @@ $(document).ready(function(){initNavTree('common_2pico__base__headers_2include_2
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1">   52</a></span><span class="keyword">static</span> <span class="keyword">inline</span> uint64_t <a class="code hl_function" href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1">to_us_since_boot</a>(<a class="code hl_typedef" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t) {</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#ifdef PICO_DEBUG_ABSOLUTE_TIME_T</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#if PICO_OPAQUE_ABSOLUTE_TIME_T</span></div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">return</span> t._private_us_since_boot;</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">return</span> t;</div>
@@ -146,7 +146,7 @@ $(document).ready(function(){initNavTree('common_2pico__base__headers_2include_2
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968">   67</a></span><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code hl_function" href="group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968">update_us_since_boot</a>(<a class="code hl_typedef" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> *t, uint64_t us_since_boot) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#ifdef PICO_DEBUG_ABSOLUTE_TIME_T</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#if PICO_OPAQUE_ABSOLUTE_TIME_T</span></div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    assert(us_since_boot &lt;= INT64_MAX);</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    t-&gt;_private_us_since_boot = us_since_boot;</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#else</span></div>
@@ -160,7 +160,7 @@ $(document).ready(function(){initNavTree('common_2pico__base__headers_2include_2
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">return</span> t;</div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
 <div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#ifdef NDEBUG</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#if !PICO_OPAQUE_ABSOLUTE_TIME_T</span></div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="preprocessor">#define ABSOLUTE_TIME_INITIALIZED_VAR(name, value) name = value</span></div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#else</span></div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#define ABSOLUTE_TIME_INITIALIZED_VAR(name, value) name = {value}</span></div>

@@ -144,6 +144,30 @@ export async function loadExamples(extensionUri: Uri): Promise<Example[]> {
   }
 }
 
+function parseBTStackSources(exampleDir: string): string[] {
+  const cmakeListsPath = joinPosix(exampleDir, "CMakeLists.txt");
+  if (!existsSync(cmakeListsPath)) {
+    return [];
+  }
+
+  const content = readFileSync(cmakeListsPath, "utf-8");
+  const match = content.match(/add_executable\s*\(([^)]+)\)/s);
+  if (!match) {
+    return [];
+  }
+
+  return match[1]
+    .split("\n")
+    .map(line => line.split("#")[0].trim())
+    .join(" ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(1) // skip target name
+    .filter(
+      src => src.startsWith("..") || src.includes("${PICO_BTSTACK_PATH}")
+    );
+}
+
 export async function setupExample(
   example: Example,
   targetPath: string
@@ -268,6 +292,36 @@ export async function setupExample(
     }
   }
 
+  const isBTStackExample = example.path.includes("btstack_examples");
+  const extraRepoFiles: string[] = [];
+
+  if (isBTStackExample) {
+    for (const src of parseBTStackSources(absoluteExamplePath)) {
+      if (!src.startsWith("..")) {
+        continue;
+      } else {
+        // joinPosix normalises the ../ components
+        const repoRelative = joinPosix(example.path, src);
+        extraRepoFiles.push(repoRelative);
+        Logger.debug(
+          LoggerSource.examples,
+          `Sparse-checkout BTStack extra file: ${repoRelative}`
+        );
+        const extraResult = await sparseCheckout(
+          examplesRepoPath,
+          repoRelative,
+          gitPath
+        );
+        if (!extraResult) {
+          Logger.warn(
+            LoggerSource.examples,
+            `Failed to checkout BTStack extra file: ${repoRelative}`
+          );
+        }
+      }
+    }
+  }
+
   Logger.debug(
     LoggerSource.examples,
     `Copying example from ${absoluteExamplePath} to ${targetPath}`
@@ -336,7 +390,92 @@ export async function setupExample(
     }
   }
 
+  if (isBTStackExample) {
+    const exampleTargetPath = joinPosix(targetPath, example.searchKey);
+
+    for (const repoRelative of extraRepoFiles) {
+      const filename = repoRelative.split("/").pop()!;
+      Logger.debug(
+        LoggerSource.examples,
+        `Copying BTStack repo file ${repoRelative} ` +
+        `to ${exampleTargetPath}/${filename}`
+      );
+      try {
+        await cp(
+          joinPosix(examplesRepoPath, repoRelative),
+          joinPosix(exampleTargetPath, filename)
+        );
+      } catch (error) {
+        Logger.warn(
+          LoggerSource.examples,
+          `Failed to copy BTStack repo file '${filename}':`,
+          unknownErrorToString(error)
+        );
+      }
+    }
+
+  }
+
   Logger.info(LoggerSource.examples, "Done copying example.");
 
   return result;
+}
+
+function parseBTStackGattFiles(exampleDir: string): string[] {
+  const cmakeListsPath = joinPosix(exampleDir, "CMakeLists.txt");
+  if (!existsSync(cmakeListsPath)) {
+    return [];
+  }
+
+  const content = readFileSync(cmakeListsPath, "utf-8");
+  const results: string[] = [];
+  const gattRegex = /pico_btstack_make_gatt_header\s*\(([^)]+)\)/gs;
+  let match;
+
+  while ((match = gattRegex.exec(content)) !== null) {
+    match[1]
+      .split("\n")
+      .map(line => line.split("#")[0].trim())
+      .join(" ")
+      .split(/\s+/)
+      .filter(token => token.includes("${PICO_BTSTACK_PATH}"))
+      .forEach(token => results.push(token));
+  }
+
+  return results;
+}
+
+export async function copyBTStackSDKSources(
+  exampleTargetPath: string,
+  sdkPath: string
+): Promise<void> {
+  const btStackPath = joinPosix(
+    sdkPath.replaceAll("\\", "/"), "lib", "btstack"
+  );
+
+  const sdkSrcs = [
+    ...parseBTStackSources(exampleTargetPath).filter(src =>
+      src.includes("${PICO_BTSTACK_PATH}")
+    ),
+    ...parseBTStackGattFiles(exampleTargetPath),
+  ];
+
+  for (const src of sdkSrcs) {
+    const sdkFile = src.replace("${PICO_BTSTACK_PATH}/", "");
+    const filename = sdkFile.split("/").pop()!;
+    const srcPath = joinPosix(btStackPath, sdkFile);
+    Logger.debug(
+      LoggerSource.examples,
+      `Copying BTStack SDK file ${srcPath} to ${exampleTargetPath}/${filename}`
+    );
+    try {
+      await cp(srcPath, joinPosix(exampleTargetPath, filename));
+    } catch (error) {
+      Logger.warn(
+        LoggerSource.examples,
+        `Failed to copy BTStack SDK file '${filename}':`,
+        unknownErrorToString(error)
+      );
+    }
+  }
 }

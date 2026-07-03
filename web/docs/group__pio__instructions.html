@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -121,13 +121,16 @@ Enumerations</h2></td></tr>
 , <b>pio_null</b> = 3u | 0x20u | 0x80u
 , <br />
 &#160;&#160;<b>pio_pindirs</b> = 4u | 0x08u | 0x40u | 0x80u
+, <b>pio_pindirs_out</b> = 4u | 0x08u | 0x40u | 0x80u
 , <b>pio_exec_mov</b> = 4u | 0x08u | 0x10u | 0x20u | 0x40u
 , <b>pio_status</b> = 5u | 0x08u | 0x10u | 0x20u | 0x80u
-, <b>pio_pc</b> = 5u | 0x08u | 0x20u | 0x40u
 , <br />
-&#160;&#160;<b>pio_isr</b> = 6u | 0x20u
+&#160;&#160;<b>pio_pc</b> = 5u | 0x08u | 0x20u | 0x40u
+, <b>pio_isr</b> = 6u | 0x20u
 , <b>pio_osr</b> = 7u | 0x10u | 0x20u
 , <b>pio_exec_out</b> = 7u | 0x08u | 0x20u | 0x40u | 0x80u
+, <br />
+&#160;&#160;<b>pio_exec</b> = 7u | 0x08u | 0x20u | 0x40u
 <br />
  }</td></tr>
 <tr class="memdesc:ga52f7ffda150c44a085ead5c80a40352f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of values to pass for source/destination args for instruction encoding functions.  <a href="group__pio__instructions.html#ga52f7ffda150c44a085ead5c80a40352f">More...</a><br /></td></tr>
@@ -1258,10 +1261,11 @@ Functions</h2></td></tr>
 
 <p>Encode a WAIT for GPIO pin instruction. </p>
 <p >This is the equivalent of <code>WAIT &lt;polarity&gt; GPIO &lt;gpio&gt;</code></p>
+<dl class="section note"><dt>Note</dt><dd>gpio here refers to the raw instruction encoding, which only supports 32 GPIOs. So, if you had a PIO program with <code>WAIT &lt;polarity&gt; GPIO 42</code> and a GPIO_BASE (see <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>) of 16, then you'd want to do <code>pio_encode_wait_gpio(polarity, 42-16)</code> assuming you are using this function to craft instructions for <a class="el" href="group__hardware__pio.html#ga800d8949b5d04dfe635d4c12241f0cd2">pio_sm_exec</a>.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">polarity</td><td>true for <code>WAIT 1</code>, false for <code>WAIT 0</code> </td></tr>
-    <tr><td class="paramname">gpio</td><td>The real GPIO number 0-31 </td></tr>
+    <tr><td class="paramname">gpio</td><td>The GPIO number 0-31 relative to the state machine's GPIO_BASE (see <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>) </td></tr>
   </table>
   </dd>
 </dl>

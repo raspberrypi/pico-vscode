@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -136,6 +136,9 @@ Functions</h2></td></tr>
 <tr class="memitem:gab12467c48bde27171b552ac4dc8c7d59"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">to_ms_since_boot</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
 <tr class="memdesc:gab12467c48bde27171b552ac4dc8c7d59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a timestamp into a number of milliseconds since boot.  <a href="group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59">More...</a><br /></td></tr>
 <tr class="separator:gab12467c48bde27171b552ac4dc8c7d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0f90420f06b30ebeafd22fd82edbfff3"><td class="memItemLeft" align="right" valign="top">static uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga0f90420f06b30ebeafd22fd82edbfff3">to_ms_64_since_boot</a> (<a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t)</td></tr>
+<tr class="memdesc:ga0f90420f06b30ebeafd22fd82edbfff3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a timestamp into a number of 64-bit milliseconds since boot.  <a href="group__timestamp.html#ga0f90420f06b30ebeafd22fd82edbfff3">More...</a><br /></td></tr>
+<tr class="separator:ga0f90420f06b30ebeafd22fd82edbfff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga729dc88ec38af2d054ba7307214bcf3c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__timestamp.html#ga729dc88ec38af2d054ba7307214bcf3c">delayed_by_us</a> (const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> t, uint64_t us)</td></tr>
 <tr class="memdesc:ga729dc88ec38af2d054ba7307214bcf3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a timestamp value obtained by adding a number of microseconds to another timestamp.  <a href="group__timestamp.html#ga729dc88ec38af2d054ba7307214bcf3c">More...</a><br /></td></tr>
 <tr class="separator:ga729dc88ec38af2d054ba7307214bcf3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -233,7 +236,7 @@ const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257e
 </div><div class="memdoc">
 
 <p>Return the difference in microseconds between two timestamps. </p>
-<dl class="section note"><dt>Note</dt><dd>be careful when diffing against large timestamps (e.g. <a class="el" href="group__timestamp.html#gab375b40e949dce1052298f79c66f7120">at_the_end_of_time</a>) as the signed integer may overflow.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Be careful when diffing against large timestamps (e.g. <a class="el" href="group__timestamp.html#gab375b40e949dce1052298f79c66f7120">at_the_end_of_time</a>) as the signed integer may overflow.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">from</td><td>the first timestamp </td></tr>
@@ -592,6 +595,43 @@ const <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257e
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the future timestamp </dd></dl>
+
+</div>
+</div>
+<a id="ga0f90420f06b30ebeafd22fd82edbfff3" name="ga0f90420f06b30ebeafd22fd82edbfff3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0f90420f06b30ebeafd22fd82edbfff3">&#9670;&nbsp;</a></span>to_ms_64_since_boot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint64_t to_ms_64_since_boot </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td>
+          <td class="paramname"><em>t</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert a timestamp into a number of 64-bit milliseconds since boot. </p>
+<p >fn to_ms_64_since_boot</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>an absolute_time_t value to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the number of milliseconds since boot represented by t </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1" title="convert an absolute_time_t into a number of microseconds since boot.">to_us_since_boot()</a> </dd></dl>
 
 </div>
 </div>

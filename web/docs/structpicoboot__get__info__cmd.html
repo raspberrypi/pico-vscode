@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,26 +104,38 @@ $(document).ready(function(){initNavTree('structpicoboot__get__info__cmd.html','
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">picoboot_get_info_cmd Struct Reference</div></div>
+  <div class="headertitle"><div class="title">picoboot_get_info_cmd Struct Reference<div class="ingroups"><a class="el" href="group__misc.html">External API Headers</a> &raquo; <a class="el" href="group__boot__picoboot__headers.html">boot_picoboot_headers</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Parameters for a get-info command (not available on RP2040)  
+ <a href="structpicoboot__get__info__cmd.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="picoboot_8h_source.html">picoboot.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:adab96f3804baf54b98d786552904f1b8"><td class="memItemLeft" align="right" valign="top"><a id="adab96f3804baf54b98d786552904f1b8" name="adab96f3804baf54b98d786552904f1b8"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>bType</b></td></tr>
+<tr class="memdesc:adab96f3804baf54b98d786552904f1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Info type selector. <br /></td></tr>
 <tr class="separator:adab96f3804baf54b98d786552904f1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07c586862cd7658bb6674a7b01f5f7bf"><td class="memItemLeft" align="right" valign="top"><a id="a07c586862cd7658bb6674a7b01f5f7bf" name="a07c586862cd7658bb6674a7b01f5f7bf"></a>
 uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>bParam</b></td></tr>
+<tr class="memdesc:a07c586862cd7658bb6674a7b01f5f7bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unused. <br /></td></tr>
 <tr class="separator:a07c586862cd7658bb6674a7b01f5f7bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7e08f94f8ca27e2063e692002d7cb8a"><td class="memItemLeft" align="right" valign="top"><a id="aa7e08f94f8ca27e2063e692002d7cb8a" name="aa7e08f94f8ca27e2063e692002d7cb8a"></a>
 uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>wParam</b></td></tr>
+<tr class="memdesc:aa7e08f94f8ca27e2063e692002d7cb8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unused. <br /></td></tr>
 <tr class="separator:aa7e08f94f8ca27e2063e692002d7cb8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a54c8b0c36504db9be1d9cfc9558d7f"><td class="memItemLeft" align="right" valign="top"><a id="a1a54c8b0c36504db9be1d9cfc9558d7f" name="a1a54c8b0c36504db9be1d9cfc9558d7f"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>dParams</b> [3]</td></tr>
+<tr class="memdesc:a1a54c8b0c36504db9be1d9cfc9558d7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Additional parameters for the selected info type. <br /></td></tr>
 <tr class="separator:a1a54c8b0c36504db9be1d9cfc9558d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Parameters for a get-info command (not available on RP2040) </p>
+<p >Sent as the argument payload of a PC_GET_INFO command. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/boot/<a class="el" href="picoboot_8h_source.html">picoboot.h</a></li>
 </ul>
 </div><!-- contents -->
