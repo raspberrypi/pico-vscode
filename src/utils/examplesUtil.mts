@@ -265,7 +265,7 @@ export async function setupExample(
     );
     void window.showErrorMessage(
       `Failed to checkout example: ${example.name}. ` +
-        "Please check the output window for more details."
+        `Please delete ${examplesRepoPath} and try again.`
     );
 
     return result;
@@ -285,7 +285,7 @@ export async function setupExample(
       );
       void window.showErrorMessage(
         `Failed to checkout example required path '${libPath}'. ` +
-          "Please check the output window for more details."
+          `Please delete ${examplesRepoPath} and try again.`
       );
 
       return result;
