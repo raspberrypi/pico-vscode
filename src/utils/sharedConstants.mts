@@ -20,8 +20,8 @@ export const EXAMPLES_REPOSITORY_URL =
 export const EXAMPLES_JSON_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/examples.json`;
-export const EXAMPLES_GITREF = "4c3a3dc0196dd426fddd709616d0da984e027bab";
-export const EXAMPLES_TAG = "sdk-2.2.0";
+export const EXAMPLES_GITREF = "c81c855ffdedc825975a40ba357723a71358ddf0";
+export const EXAMPLES_TAG = "sdk-2.3.0";
 
 export const VERSION_BUNDLES_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
