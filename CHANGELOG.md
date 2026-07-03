@@ -4,6 +4,19 @@ All notable changes to the "raspberry-pi-pico" extension will be documented in t
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.21.0] - 2026-07-03
+
+### Added
+- Update to SDK 2.3.0, including Bluetooth (BTstack) examples support (#261)
+- `MBEDTLS_SHA384` added to mbedtls config
+
+### Fixed
+- Improve error message on failed examples repository clone
+- Remove `runner=` from generated `.cargo/config.toml`, as these settings were unused and relied on unsupported environment variables (#258)
+
+### Changed
+- Refactor Pico project activation around project variants (#260)
+
 ## [0.20.0] - 2026-04-29
 
 ### Added
