@@ -1,6 +1,13 @@
 import { join as joinPosix } from "path/posix";
 import Logger, { LoggerSource } from "../logger.mjs";
-import { existsSync, readFileSync, rmSync } from "fs";
+import {
+  chmodSync,
+  existsSync,
+  lstatSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+} from "fs";
 import { homedir } from "os";
 import {
   ensureGit,
@@ -44,6 +51,62 @@ interface ExamplesFile {
 
 function buildExamplesPath(): string {
   return joinPosix(homedir().replaceAll("\\", "/"), ".pico-sdk", "examples");
+}
+
+/**
+ * Recursively clears the read-only attribute on a file or directory tree.
+ * Git for Windows marks some files as read-only, which causes fs.rmSync
+ * to throw EPERM instead of deleting them, even with { force: true }.
+ */
+function clearReadOnlyRecursive(targetPath: string): void {
+  let stat;
+  try {
+    stat = lstatSync(targetPath);
+  } catch {
+    return;
+  }
+
+  // Skip symlinks - do not follow them, and their target's permissions
+  // are irrelevant to removing the link itself.
+  if (stat.isSymbolicLink()) {
+    return;
+  }
+
+  if (stat.isDirectory()) {
+    try {
+      for (const entry of readdirSync(targetPath)) {
+        clearReadOnlyRecursive(joinPosix(targetPath, entry));
+      }
+    } catch {
+      /* best effort */
+    }
+  }
+
+  try {
+    chmodSync(targetPath, stat.isDirectory() ? 0o777 : 0o666);
+  } catch {
+    /* best effort */
+  }
+}
+
+/**
+ * Removes the examples repository directory.
+ *
+ * @returns True if the directory does not exist anymore, false otherwise.
+ */
+function removeExamplesRepo(examplesRepoPath: string): boolean {
+  clearReadOnlyRecursive(examplesRepoPath);
+  try {
+    rmSync(examplesRepoPath, { recursive: true, force: true });
+  } catch (error) {
+    Logger.warn(
+      LoggerSource.examples,
+      "Failed to remove examples repo.",
+      unknownErrorToString(error)
+    );
+  }
+
+  return !existsSync(examplesRepoPath);
 }
 
 function parseExamplesJson(data: string): Example[] {
@@ -195,6 +258,7 @@ export async function setupExample(
   }
 
   if (existsSync(joinPosix(examplesRepoPath, ".git"))) {
+    let needsRemoval: boolean;
     try {
       const ref = await execAsync(
         `cd ${
@@ -207,35 +271,49 @@ export async function setupExample(
         LoggerSource.examples,
         `Examples git ref is ${ref.stdout}\n`
       );
-      if (ref.stdout.trim() !== EXAMPLES_GITREF) {
-        Logger.debug(LoggerSource.examples, `Removing old examples repo\n`);
-        rmSync(examplesRepoPath, { recursive: true, force: true });
-      }
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      needsRemoval = ref.stdout.trim() !== EXAMPLES_GITREF;
     } catch (error) {
       // Corrupted examples directory
-      Logger.debug(LoggerSource.examples, `Removing corrupted examples repo\n`);
-      try {
-        rmSync(examplesRepoPath, { recursive: true, force: true });
-      } catch (error) {
-        Logger.warn(
+      Logger.debug(
+        LoggerSource.examples,
+        "Failed to read examples git ref, treating repo as corrupted.",
+        unknownErrorToString(error)
+      );
+      needsRemoval = true;
+    }
+
+    if (needsRemoval) {
+      Logger.debug(LoggerSource.examples, `Removing old examples repo\n`);
+      if (!removeExamplesRepo(examplesRepoPath)) {
+        Logger.error(
           LoggerSource.examples,
-          "Failed to remove corrupted examples repo.",
-          unknownErrorToString(error)
+          `Failed to remove outdated/corrupted examples repo at ` +
+            `${examplesRepoPath}.`
         );
+        void window.showErrorMessage(
+          "Failed to update the examples repository - it may be in use " +
+            `by another process. Please close any programs that might be ` +
+            `using files in ${examplesRepoPath} and try again, or delete ` +
+            "this folder manually."
+        );
+
+        return false;
       }
     }
   } else if (existsSync(examplesRepoPath)) {
     // Examples path exists, but does not contain a git repository
     Logger.debug(LoggerSource.examples, `Removing empty examples repo\n`);
-    try {
-      rmSync(examplesRepoPath, { recursive: true, force: true });
-    } catch (error) {
-      Logger.warn(
+    if (!removeExamplesRepo(examplesRepoPath)) {
+      Logger.error(
         LoggerSource.examples,
-        "Failed to remove empty examples repo.",
-        unknownErrorToString(error)
+        `Failed to remove invalid examples repo at ${examplesRepoPath}.`
       );
+      void window.showErrorMessage(
+        `Failed to prepare the examples repository. Please delete ` +
+          `${examplesRepoPath} and try again.`
+      );
+
+      return false;
     }
   }
 
