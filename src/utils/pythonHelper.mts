@@ -29,10 +29,18 @@ function checkUnsupportedPython(pythonPath: string): boolean {
  * Python is loaded in the following order:
  * 1. The python path set in the User (per machine) settings.
  * 2. Check python extension for any python environments with version >= 3.9
- * 3. Download python if OS = macOS or Windows.
+ *    (or matching `version` exactly, if provided).
+ * 3. Download python if OS = macOS or Windows, pinned to `version` if provided.
+ * 4. On platforms with no downloader (e.g. Linux), if an exact `version` was
+ *    requested but not found, fall back to any valid Python and, if
+ *    `versionFallbackMessage` is provided, warn the user via that message.
  *
  * If a python environment is found, it will be set in the User (per machine) settings.
  *
+ * @param version Optional exact major.minor(.patch) version to require/prefer,
+ * e.g. "3.12.10". If omitted, any Python >= 3.9 is accepted.
+ * @param versionFallbackMessage Optional warning shown when falling back to a
+ * non-matching Python version on platforms without a downloader for `version`.
  * @returns If this function returns undefined, it means that the user will have to set
  * the python path manually in the User (per machine) settings. If the python executable
  * path is returned, it can be in Uri.fsPath format e.g. with backslashes on Windows.
@@ -304,7 +312,9 @@ async function findPythonInPythonExtension(
   if (
     resolved?.version &&
     checkPythonVersion(
-      resolved.version.major, resolved.version.minor, exactVersion
+      resolved.version.major,
+      resolved.version.minor,
+      exactVersion
     )
   ) {
     if (
@@ -330,7 +340,9 @@ async function findPythonInPythonExtension(
     if (
       resolved?.version &&
       checkPythonVersion(
-        resolved.version.major, resolved.version.minor, exactVersion
+        resolved.version.major,
+        resolved.version.minor,
+        exactVersion
       )
     ) {
       if (

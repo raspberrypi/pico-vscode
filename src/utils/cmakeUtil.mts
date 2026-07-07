@@ -279,7 +279,9 @@ export async function configureCmakeNinja(
             isZephyrProject ? zephyrCommand : command,
             {
               env: customEnv,
-              cwd: zephyrWorkspace || folder.fsPath,
+              cwd: isZephyrProject
+                ? zephyrWorkspace || folder.fsPath
+                : folder.fsPath,
               windowsHide: false,
             },
             error => {
