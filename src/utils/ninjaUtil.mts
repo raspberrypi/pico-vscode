@@ -91,5 +91,9 @@ export async function getSystemNinjaVersion(): Promise<string | undefined> {
     return undefined;
   }
 
-  return getNinjaVersion(ninjaPath);
+  try {
+    return getNinjaVersion(ninjaPath);
+  } catch {
+    return undefined;
+  }
 }
