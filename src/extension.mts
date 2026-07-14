@@ -77,6 +77,7 @@ import type {
   ProjectDetectionResult,
   ProjectSelections,
 } from "./projectVariants/index.mjs";
+import { unknownErrorToString } from "./utils/errorHelper.mjs";
 
 type UnsupportedProjectDetection = Extract<
   ProjectDetectionResult,
@@ -229,6 +230,24 @@ async function activateWorkspaceProject(
   settings: Settings,
   ui: UI
 ): Promise<void> {
+  try {
+    await activateWorkspaceProjectUnsafe(context, settings, ui);
+  } catch (error) {
+    Logger.error(
+      LoggerSource.extension,
+      "Unexpected error during Pico project activation - " +
+        "project menus have been disabled.",
+      unknownErrorToString(error)
+    );
+    await resetProjectContext();
+  }
+}
+
+async function activateWorkspaceProjectUnsafe(
+  context: ExtensionContext,
+  settings: Settings,
+  ui: UI
+): Promise<void> {
   const workspaceFolder = workspace.workspaceFolders?.[0];
   if (workspaceFolder === undefined) {
     Logger.warn(LoggerSource.extension, "No workspace folder found.");
@@ -249,6 +268,11 @@ async function activateWorkspaceProject(
 
   const selections = await readProjectSelections(variant, workspaceFolder);
   if (selections === null) {
+    Logger.warn(
+      LoggerSource.extension,
+      "Could not read project selections (SDK/toolchain/board) from " +
+        "CMakeLists.txt - project menus have been disabled."
+    );
     await resetProjectContext();
 
     return;
@@ -262,6 +286,12 @@ async function activateWorkspaceProject(
     selections
   );
   if (!dependenciesReady) {
+    Logger.warn(
+      LoggerSource.extension,
+      "Project dependencies could not be verified/installed - " +
+        "project menus have been disabled. See earlier log lines " +
+        "for the specific failure."
+    );
     await resetProjectContext();
 
     return;

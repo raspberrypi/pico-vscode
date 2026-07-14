@@ -4,6 +4,12 @@ All notable changes to the "raspberry-pi-pico" extension will be documented in t
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [Unreleased]
+
+### Fixed
+- Fixed toolchain version parsing when CMakeLists.txt has a trailing comment on the `sdkVersion`/`toolchainVersion`/`picotoolVersion` lines (#274)
+- Guard against a crash when downloading the toolchain if a toolchain has no download URL for the current platform
+
 ## [0.21.0] - 2026-07-03
 
 ### Added

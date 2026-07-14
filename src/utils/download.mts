@@ -1023,6 +1023,15 @@ export async function downloadAndInstallToolchain(
     platformDouble = TOOLCHAIN_DOUBLE_MAPPING[platformDouble];
   }
   const downloadUrl = toolchain.downloadUrls[platformDouble];
+  if (downloadUrl === undefined) {
+    Logger.error(
+      LoggerSource.downloader,
+      `No download URL found for toolchain ${toolchain.version} ` +
+        `on platform "${platformDouble}".`
+    );
+
+    return false;
+  }
   const basenameSplit = basename(downloadUrl).split(".");
   let artifactExt = basenameSplit.pop();
   if (artifactExt === "xz" || artifactExt === "gz") {
