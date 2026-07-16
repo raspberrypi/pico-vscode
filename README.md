@@ -47,6 +47,8 @@ If you have any issues while installing, please check out the [Troubleshooting](
 
 ### Raspberry Pi OS and Windows
 
+> Not including Raspberry Pi OS Lite - see [Other Linux](#other-linux) for that
+
 No additional requirements are needed.
 
 ### macOS
@@ -58,7 +60,7 @@ This command installs all of the necessary tools, including but not limited to:
 - **Git 2.28 or later** (ensure it's in your PATH)
 - **Tar** (ensure it's in your PATH)
 
-### Linux
+### Other Linux
 - **Python 3.10 or later** (ensure it’s in your PATH or set in settings)
 - **Git 2.28 or later** (ensure it’s in your PATH)
 - **Tar** (ensure it’s in your PATH)
