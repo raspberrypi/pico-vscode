@@ -43,8 +43,6 @@ import {
   HTTP_STATUS_UNAUTHORIZED,
   ownerOfRepository,
   repoNameOfRepository,
-  WINDOWS_ARM64_PYTHON_DOWNLOAD_URL,
-  WINDOWS_X86_PYTHON_DOWNLOAD_URL,
 } from "./sharedConstants.mjs";
 import { compareGe } from "./semverUtil.mjs";
 import LastUsedDepsStore from "./lastUsedDeps.mjs";
@@ -1270,7 +1268,8 @@ function _runCommand(
  * @returns
  */
 export async function downloadEmbedPython(
-  progressCallback?: (progress: Progress) => void
+  progressCallback?: (progress: Progress) => void,
+  version: string = CURRENT_PYTHON_VERSION
 ): Promise<string | undefined> {
   if (
     // even tough this function supports downloading python3 on macOS arm64
@@ -1287,9 +1286,9 @@ export async function downloadEmbedPython(
     return;
   }
 
-  const targetDirectory = buildPython3Path(CURRENT_PYTHON_VERSION);
+  const targetDirectory = buildPython3Path(version);
   const settingsTargetDirectory =
-    `${HOME_VAR}/.pico-sdk` + `/python/${CURRENT_PYTHON_VERSION}`;
+    `${HOME_VAR}/.pico-sdk` + `/python/${version}`;
 
   // Check if the Embed Python is already installed
   if (
@@ -1310,16 +1309,16 @@ export async function downloadEmbedPython(
   // select download url
   // process.platform === "darwin" ? versionBundle.python.macos : versionBundle.python.windowsAmd64;
   const downloadUrl = new URL(
-    process.arch === "arm64"
-      ? WINDOWS_ARM64_PYTHON_DOWNLOAD_URL
-      : WINDOWS_X86_PYTHON_DOWNLOAD_URL
+    `https://www.python.org/ftp/python/${version}/python-${version}-embed-${
+      process.arch === "arm64" ? "arm64" : "amd64"
+    }.zip`
   );
 
   const tmpBasePath = join(tmpdir(), "pico-sdk");
   await mkdir(tmpBasePath, { recursive: true });
   const archiveFilePath = join(
     tmpBasePath,
-    `python-${CURRENT_PYTHON_VERSION}.zip`
+    `python-${version}.zip`
   );
 
   const result = await downloadFileGot(
@@ -1429,7 +1428,7 @@ export async function downloadEmbedPython(
     await workspace.fs.createDirectory(Uri.file(dllDir));
 
     // Write to *._pth to allow use of installed packages
-    const versionAppend = CURRENT_PYTHON_VERSION.split(".")
+    const versionAppend = version.split(".")
       .slice(0, 2)
       .join("");
     const pthFile = `${targetDirectory}/python${versionAppend}._pth`;
@@ -1475,7 +1474,7 @@ export async function downloadEmbedPython(
 
   await LastUsedDepsStore.instance.record(
     "embedded-python",
-    CURRENT_PYTHON_VERSION
+    version
   );
 
   return pythonExe;

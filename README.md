@@ -99,7 +99,7 @@ You should continue using this extension for running & debugging, and we recomme
 
 Unfortunately, the Zephyr project requires numerous external dependencies. Most of these are covered automatically, but for `wget` we were not able to identify a reliable upstream source that provides official binaries for all three supported platforms.
 
-We recommend using package managers such as winget (Windows), Homebrew or MacPorts (macOS), or your system package manager on Linux to install `wget` or consult the [Zephyr documentation](https://docs.zephyrproject.org/latest/getting_started/index.html) for more information.
+We recommend using package managers such as winget (Windows), Homebrew or MacPorts (macOS), or your system package manager on Linux to install `wget` or consult the [Zephyr documentation](https://docs.zephyrproject.org/latest/develop/getting_started/index.html) for more information.
 
 For further context, see this discussion in the Zephyr project: https://github.com/zephyrproject-rtos/sdk-ng/pull/1016
 
@@ -109,10 +109,22 @@ For further context, see this discussion in the Zephyr project: https://github.c
 
 * **wget** - Required for sdk-ng to download toolchains.
 
+### Windows only
+
+* Must allow PowerShell script execution to activate the virtual environment - this can be done by running the following commands from an Administrator PowerShell:
+```
+Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
 ### Linux and macOS only
 
 * **7-Zip** - Required for sdk-ng to extract toolchains. Install via your package manager (e.g., `brew install p7zip` on macOS or `sudo apt install p7zip-full` on Debian based Linux distributions) or download from [7-zip.org](https://www.7-zip.org/).
 * **python3-venv** - Required to create isolated Python environments. Install via your package manager (e.g., `sudo apt install python3-venv` on Debian based Linux distributions).
+
+#### Linux only
+
+* **\[Strongly Recommended\]** Python 3.12 - Zephyr states that using a newer Python release may fail on some systems, so strongly recommends using Python 3.12
 
 ## VS Code Profiles
 

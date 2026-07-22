@@ -1,0 +1,24 @@
+diff --git a/src/utils/downloadHelpers.mts b/src/utils/downloadHelpers.mts
+index ce370cc..2510966 100644
+--- a/src/utils/downloadHelpers.mts
++++ b/src/utils/downloadHelpers.mts
+@@ -170,6 +170,7 @@ export async function unxzFile(
+  * @returns True if the internet connection is available, false otherwise.
+  */
+ export async function isInternetConnected(): Promise<boolean> {
++  return false;
+   return new Promise<boolean>(resolve => {
+     const options = {
+       host: "pages.github.com",
+diff --git a/src/utils/githubREST.mts b/src/utils/githubREST.mts
+index 0883564..d928d40 100644
+--- a/src/utils/githubREST.mts
++++ b/src/utils/githubREST.mts
+@@ -141,6 +141,7 @@ async function makeAsyncGetRequest<T>(
+   headers: { etag?: string };
+ }> {
+   return new Promise((resolve, reject) => {
++    reject("Failing all APIs for testing");
+     const urlObj = new URL(url);
+     const options: RequestOptions = {
+       method: "GET",
