@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,23 +104,34 @@ $(document).ready(function(){initNavTree('structpwm__config.html',''); initResiz
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">pwm_config Struct Reference</div></div>
+  <div class="headertitle"><div class="title">pwm_config Struct Reference<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a> &raquo; <a class="el" href="group__hardware__pwm.html">hardware_pwm</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>PWM configuration structure.  
+ <a href="structpwm__config.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="rp2__common_2hardware__pwm_2include_2hardware_2pwm_8h_source.html">pwm.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:af33db96dff3a325bfb8b22308fbf3f27"><td class="memItemLeft" align="right" valign="top"><a id="af33db96dff3a325bfb8b22308fbf3f27" name="af33db96dff3a325bfb8b22308fbf3f27"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>csr</b></td></tr>
+<tr class="memdesc:af33db96dff3a325bfb8b22308fbf3f27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Control and status register value. <br /></td></tr>
 <tr class="separator:af33db96dff3a325bfb8b22308fbf3f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fa6d7e34245350783f1339034efa9b7"><td class="memItemLeft" align="right" valign="top"><a id="a2fa6d7e34245350783f1339034efa9b7" name="a2fa6d7e34245350783f1339034efa9b7"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>div</b></td></tr>
+<tr class="memdesc:a2fa6d7e34245350783f1339034efa9b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clock divider register value. <br /></td></tr>
 <tr class="separator:a2fa6d7e34245350783f1339034efa9b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e70bcde75ac1170144d6f4d98037efd"><td class="memItemLeft" align="right" valign="top"><a id="a4e70bcde75ac1170144d6f4d98037efd" name="a4e70bcde75ac1170144d6f4d98037efd"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>top</b></td></tr>
+<tr class="memdesc:a4e70bcde75ac1170144d6f4d98037efd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Counter wrap (TOP) value. <br /></td></tr>
 <tr class="separator:a4e70bcde75ac1170144d6f4d98037efd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >PWM configuration structure. </p>
+<p >Holds the configuration for a PWM slice. Use <a class="el" href="group__hardware__pwm.html#gad76f94a6dd6133c52284b6be8ae98e16">pwm_get_default_config()</a> to initialise and the pwm_config_set_* functions to modify, then pass to <a class="el" href="group__hardware__pwm.html#ga01d3e90bb7aa9a8b6884eddbfbebc175">pwm_init()</a>. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/hardware/<a class="el" href="rp2__common_2hardware__pwm_2include_2hardware_2pwm_8h_source.html">pwm.h</a></li>
 </ul>
 </div><!-- contents -->

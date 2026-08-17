@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -116,18 +116,18 @@ $(document).ready(function(){initNavTree('picoboot__constants_8h_source.html',''
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#define REBOOT2_TYPE_MASK  0x0f</span></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// note these match REBOOT_TYPE in pico/bootrom_constants.h</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment">// --- note these match BOOT_TYPE_ constants in pico/bootrom_constants.h</span></div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment">// values 0-7 are secure/non-secure</span></div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TYPE_NORMAL       0x0 </span><span class="comment">// param0 = diagnostic partition</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TYPE_BOOTSEL      0x2 </span><span class="comment">// param0 = gpio_pin_number, param1 = flags</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TYPE_BOOTSEL      0x2 </span><span class="comment">// param0 = flags, param1 = gpio_pin_number</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TYPE_RAM_IMAGE    0x3 </span><span class="comment">// param0 = image_region_base, param1 = image_region_size</span></div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TYPE_FLASH_UPDATE 0x4 </span><span class="comment">// param0 = update_base</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">// values 8-15 are secure only</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TYPE_PC_SP        0xd</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TO_ARM            0x10</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TO_RISCV          0x20</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment">// values 8-15 are secure only</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TYPE_PC_SP        0xd</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TO_ARM            0x10</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#define REBOOT2_FLAG_REBOOT_TO_RISCV          0x20</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">// ---</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define REBOOT2_FLAG_NO_RETURN_ON_SUCCESS    0x100</span></div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>

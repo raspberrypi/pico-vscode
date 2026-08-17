@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('group__lock__core.html',''); initResiz
 <div class="header">
   <div class="summary">
 <a href="#files">Files</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">lock_core<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__sync.html">pico_sync</a></div></div></div>
@@ -116,6 +117,12 @@ $(document).ready(function(){initNavTree('group__lock__core.html',''); initResiz
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
 <tr class="memitem:lock__core_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="lock__core_8h.html">lock_core.h</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structlock__core.html">lock_core</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Core state shared by all lock primitives.  <a href="structlock__core.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -153,7 +160,7 @@ Functions</h2></td></tr>
 <p >base synchronization/lock primitive support. </p>
 <p >Most of the pico_sync locking primitives contain a lock_core_t structure member. This currently just holds a spin lock which is used only to protect the contents of the rest of the structure as part of implementing the synchronization primitive. As such, the spin_lock member of lock core is never still held on return from any function for the primitive.</p>
 <p ><a class="el" href="group__critical__section.html">critical_section</a> is an exceptional case in that it does not have a lock_core_t and simply wraps a spin lock, providing methods to lock and unlock said spin lock.</p>
-<p ><a class="el" href="structlock__core.html">lock_core</a> based structures work by locking the spin lock, checking state, and then deciding whether they additionally need to block or notify when the spin lock is released. In the blocking case, they will wake up again in the future, and try the process again.</p>
+<p ><a class="el" href="structlock__core.html" title="Core state shared by all lock primitives.">lock_core</a> based structures work by locking the spin lock, checking state, and then deciding whether they additionally need to block or notify when the spin lock is released. In the blocking case, they will wake up again in the future, and try the process again.</p>
 <p >By default the SDK just uses the processors' events via SEV and WEV for notification and blocking as these are sufficient for cross core, and notification from interrupt handlers. However macros are defined in this file that abstract the wait and notify mechanisms to allow the SDK locking functions to effectively be used within an RTOS or other environment.</p>
 <p >When implementing an RTOS, it is desirable for the SDK synchronization primitives that wait, to block the calling task (and immediately yield), and those that notify, to wake a blocked task which isn't on processor. At least the wait macro implementation needs to be atomic with the protecting spin_lock unlock from the callers point of view; i.e. the task should unlock the spin lock when it starts its wait. Such implementation is up to the RTOS integration, however the macros are defined such that such operations are always combined into a single call (so they can be performed atomically) even though the default implementation does not need this, as a WFE which starts following the corresponding SEV is not missed. </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -219,7 +226,7 @@ Functions</h2></td></tr>
 <p >By default this simply unlocks the spin lock, and then calls <a class="el" href="group__sleep.html#gaedc0ed51a5e908ddd660a5d279009abc">best_effort_wfe_or_timeout</a> but may be overridden (e.g. to actually block the RTOS task with a timeout).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lock</td><td>the <a class="el" href="structlock__core.html">lock_core</a> for the primitive which needs to block </td></tr>
+    <tr><td class="paramname">lock</td><td>the <a class="el" href="structlock__core.html" title="Core state shared by all lock primitives.">lock_core</a> for the primitive which needs to block </td></tr>
     <tr><td class="paramname">save</td><td>the uint32_t value that should be passed to spin_unlock when the spin lock is unlocked. (i.e. the PRIMASK state when the spin lock was acquire) </td></tr>
     <tr><td class="paramname">until</td><td>the <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a> value </td></tr>
   </table>
@@ -261,7 +268,7 @@ Functions</h2></td></tr>
 <p >By default this macro simply unlocks the spin lock, and then performs a SEV, but may be overridden (e.g. to actually un-block RTOS task(s)).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lock</td><td>the <a class="el" href="structlock__core.html">lock_core</a> for the primitive which needs to block </td></tr>
+    <tr><td class="paramname">lock</td><td>the <a class="el" href="structlock__core.html" title="Core state shared by all lock primitives.">lock_core</a> for the primitive which needs to block </td></tr>
     <tr><td class="paramname">save</td><td>the uint32_t value that should be passed to spin_unlock when the spin lock is unlocked. (i.e. the PRIMASK state when the spin lock was acquire) </td></tr>
   </table>
   </dd>
@@ -301,7 +308,7 @@ Functions</h2></td></tr>
 <p >By default this macro simply unlocks the spin lock, and then performs a WFE, but may be overridden (e.g. to actually block the RTOS task).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">lock</td><td>the <a class="el" href="structlock__core.html">lock_core</a> for the primitive which needs to block </td></tr>
+    <tr><td class="paramname">lock</td><td>the <a class="el" href="structlock__core.html" title="Core state shared by all lock primitives.">lock_core</a> for the primitive which needs to block </td></tr>
     <tr><td class="paramname">save</td><td>the uint32_t value that should be passed to spin_unlock when the spin lock is unlocked. (i.e. the <code>PRIMASK</code> state when the spin lock was acquire </td></tr>
   </table>
   </dd>
@@ -385,7 +392,7 @@ Functions</h2></td></tr>
 <p >Inititalize a lock structure, providing the spin lock number to use for protecting internal state.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">core</td><td>Pointer to the <a class="el" href="structlock__core.html">lock_core</a> to initialize </td></tr>
+    <tr><td class="paramname">core</td><td>Pointer to the <a class="el" href="structlock__core.html" title="Core state shared by all lock primitives.">lock_core</a> to initialize </td></tr>
     <tr><td class="paramname">lock_num</td><td>Spin lock number to use for the lock. As the spin lock is only used internally to the locking primitive method implementations, this does not need to be globally unique, however could suffer contention </td></tr>
   </table>
   </dd>

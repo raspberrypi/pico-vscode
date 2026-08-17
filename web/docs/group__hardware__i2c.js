@@ -1,8 +1,14 @@
 var group__hardware__i2c =
 [
+    [ "i2c_inst", "structi2c__inst.html", [
+      [ "hw", "structi2c__inst.html#acf6d0d87f12e555d8037d4944d5163a4", null ],
+      [ "restart_on_next", "structi2c__inst.html#ad97528eac2e95d6e788941bff2aeb7e9", null ]
+    ] ],
     [ "I2C_DREQ_NUM", "group__hardware__i2c.html#ga6e96753676145c21b2165f6fde8e0f2a", null ],
     [ "I2C_INSTANCE", "group__hardware__i2c.html#gaaa18845e47b403a6a54008a776f56b46", null ],
+    [ "I2C_IS_INSTANCE", "group__hardware__i2c.html#ga7ad5b97dd77a28e27750155d1e76bea1", null ],
     [ "I2C_NUM", "group__hardware__i2c.html#ga15780f5c76a6e85e6a9d91dc6ca754bc", null ],
+    [ "I2C_RESET_NUM", "group__hardware__i2c.html#ga0e83b4ef9be9c8eacf475c7f06358ff9", null ],
     [ "i2c_deinit", "group__hardware__i2c.html#ga2e2ac8f345157b0095fc463ac3e584ba", null ],
     [ "i2c_get_dreq", "group__hardware__i2c.html#gacce469d1b8f8dc9548d1932c5838d9d9", null ],
     [ "i2c_get_hw", "group__hardware__i2c.html#gafb868326e8b0bef077a98e1302b0ff9a", null ],

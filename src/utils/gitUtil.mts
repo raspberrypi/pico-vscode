@@ -1,7 +1,7 @@
 import { promisify } from "util";
 import { exec } from "child_process";
 import Logger, { LoggerSource } from "../logger.mjs";
-import { unlink } from "fs/promises";
+import { rm } from "fs/promises";
 import Settings from "../settings.mjs";
 import { SettingsKey, HOME_VAR } from "../settings.mjs";
 import { homedir } from "os";
@@ -193,7 +193,7 @@ export async function cloneRepository(
     return true;
   } catch (error) {
     try {
-      await unlink(targetDirectory);
+      await rm(targetDirectory, { recursive: true, force: true });
     } catch {
       /* */
     }
@@ -239,7 +239,7 @@ export async function sparseCloneRepository(
     return true;
   } catch (error) {
     try {
-      await unlink(targetDirectory);
+      await rm(targetDirectory, { recursive: true, force: true });
     } catch {
       /* */
     }

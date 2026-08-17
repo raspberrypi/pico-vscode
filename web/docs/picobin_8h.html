@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,26 +109,25 @@ $(document).ready(function(){initNavTree('picobin_8h.html',''); initResizable();
   <div class="headertitle"><div class="title">picobin.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="platform_8h_source.html">pico/platform.h</a>&quot;</code><br />
-<code>#include &lt;stdbool.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;stdbool.h&gt;</code><br />
+<code>#include &lt;stdint.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for picobin.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="picobin_8h__incl.png" border="0" usemap="#ainclude_2boot_2picobin_8h" alt=""/></div>
 <map name="ainclude_2boot_2picobin_8h" id="ainclude_2boot_2picobin_8h">
-<area shape="rect" title=" " alt="" coords="679,5,845,32"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="543,80,664,107"/>
-<area shape="rect" title=" " alt="" coords="485,379,567,405"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="10,155,191,181"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="215,155,394,181"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="418,155,578,181"/>
-<area shape="rect" title=" " alt="" coords="602,155,813,181"/>
-<area shape="rect" title=" " alt="" coords="837,155,988,181"/>
-<area shape="rect" title=" " alt="" coords="5,229,196,256"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="475,229,577,256"/>
-<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="359,304,464,331"/>
-<area shape="rect" title=" " alt="" coords="564,304,635,331"/>
-<area shape="rect" title=" " alt="" coords="659,304,734,331"/>
+<area shape="rect" title=" " alt="" coords="15,5,180,32"/>
+<area shape="rect" title=" " alt="" coords="5,80,88,107"/>
+<area shape="rect" title=" " alt="" coords="113,80,183,107"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="picobin_8h__dep__incl.png" border="0" usemap="#ainclude_2boot_2picobin_8hdep" alt=""/></div>
+<map name="ainclude_2boot_2picobin_8hdep" id="ainclude_2boot_2picobin_8hdep">
+<area shape="rect" title=" " alt="" coords="11,5,177,32"/>
+<area shape="rect" href="cyw43__partition__firmware_8h_source.html" title=" " alt="" coords="5,80,183,121"/>
 </map>
 </div>
 </div>
@@ -137,12 +136,17 @@ Include dependency graph for picobin.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicobin__load__map__entry.html">picobin_load_map_entry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A single entry in a PICOBIN load map.  <a href="structpicobin__load__map__entry.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicobin__load__map.html">picobin_load_map</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PICOBIN load map describing regions to copy from storage to RAM.  <a href="structpicobin__load__map.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a207037691ec423aa2b8d074958dfbc43"><td class="memItemLeft" align="right" valign="top"><a id="a207037691ec423aa2b8d074958dfbc43" name="a207037691ec423aa2b8d074958dfbc43"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>_u</b>(x)&#160;&#160;&#160;x ## u</td></tr>
+<tr class="separator:a207037691ec423aa2b8d074958dfbc43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fe3d373f32007d1ed6950a6c3b4fa94"><td class="memItemLeft" align="right" valign="top"><a id="a3fe3d373f32007d1ed6950a6c3b4fa94" name="a3fe3d373f32007d1ed6950a6c3b4fa94"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_BLOCK_MARKER_START</b>&#160;&#160;&#160;_u(0xffffded3)</td></tr>
 <tr class="separator:a3fe3d373f32007d1ed6950a6c3b4fa94"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -260,6 +264,12 @@ Macros</h2></td></tr>
 <tr class="memitem:ad536e40b323203cff8aef582773c736e"><td class="memItemLeft" align="right" valign="top"><a id="ad536e40b323203cff8aef582773c736e" name="ad536e40b323203cff8aef582773c736e"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CPU_AS_BITS</b>(x)&#160;&#160;&#160;_PICOBIN_INDEX_TO_BITS(PICOBIN_IMAGE_TYPE_EXE_CPU, _ ## x)</td></tr>
 <tr class="separator:ad536e40b323203cff8aef582773c736e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e7fc0e0e5a187786b19fc5fe21d2994"><td class="memItemLeft" align="right" valign="top"><a id="a7e7fc0e0e5a187786b19fc5fe21d2994" name="a7e7fc0e0e5a187786b19fc5fe21d2994"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_EXTRA_SECURITY_LSB</b>&#160;&#160;&#160;_u(11)</td></tr>
+<tr class="separator:a7e7fc0e0e5a187786b19fc5fe21d2994"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f998334f0f6513db9842da5e5e3e6a2"><td class="memItemLeft" align="right" valign="top"><a id="a5f998334f0f6513db9842da5e5e3e6a2" name="a5f998334f0f6513db9842da5e5e3e6a2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_EXTRA_SECURITY_BITS</b>&#160;&#160;&#160;_u(0x0800)</td></tr>
+<tr class="separator:a5f998334f0f6513db9842da5e5e3e6a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2043bf993c564faca1959417f8ea8a15"><td class="memItemLeft" align="right" valign="top"><a id="a2043bf993c564faca1959417f8ea8a15" name="a2043bf993c564faca1959417f8ea8a15"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PICOBIN_IMAGE_TYPE_EXE_CHIP_LSB</b>&#160;&#160;&#160;_u(12)</td></tr>
 <tr class="separator:a2043bf993c564faca1959417f8ea8a15"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,15 +104,20 @@ $(document).ready(function(){initNavTree('structi2c__inst.html',''); initResizab
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">i2c_inst Struct Reference</div></div>
+  <div class="headertitle"><div class="title">i2c_inst Struct Reference<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a> &raquo; <a class="el" href="group__hardware__i2c.html">hardware_i2c</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>I2C controller instance.  
+ <a href="structi2c__inst.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h_source.html">i2c.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for i2c_inst:</div>
 <div class="dyncontent">
 <div class="center"><img src="structi2c__inst__coll__graph.png" border="0" usemap="#ai2c__inst_coll__map" alt="Collaboration graph"/></div>
 <map name="ai2c__inst_coll__map" id="ai2c__inst_coll__map">
-<area shape="rect" title=" " alt="" coords="9,95,81,121"/>
+<area shape="rect" title="I2C controller instance." alt="" coords="9,95,81,121"/>
 <area shape="rect" href="structi2c__hw__t.html" title=" " alt="" coords="5,5,84,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -121,12 +126,17 @@ Collaboration diagram for i2c_inst:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:acf6d0d87f12e555d8037d4944d5163a4"><td class="memItemLeft" align="right" valign="top"><a id="acf6d0d87f12e555d8037d4944d5163a4" name="acf6d0d87f12e555d8037d4944d5163a4"></a>
 <a class="el" href="structi2c__hw__t.html">i2c_hw_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>hw</b></td></tr>
+<tr class="memdesc:acf6d0d87f12e555d8037d4944d5163a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the I2C hardware registers. <br /></td></tr>
 <tr class="separator:acf6d0d87f12e555d8037d4944d5163a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad97528eac2e95d6e788941bff2aeb7e9"><td class="memItemLeft" align="right" valign="top"><a id="ad97528eac2e95d6e788941bff2aeb7e9" name="ad97528eac2e95d6e788941bff2aeb7e9"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>restart_on_next</b></td></tr>
+<tr class="memdesc:ad97528eac2e95d6e788941bff2aeb7e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">If true, the next transfer will begin with a Restart rather than a Start. <br /></td></tr>
 <tr class="separator:ad97528eac2e95d6e788941bff2aeb7e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >I2C controller instance. </p>
+<p >Represents a single I2C hardware controller instance, containing a pointer to the hardware registers and transfer state. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/hardware/<a class="el" href="rp2__common_2hardware__i2c_2include_2hardware_2i2c_8h_source.html">i2c.h</a></li>
 </ul>
 </div><!-- contents -->

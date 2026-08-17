@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('group__hardware__interp.html',''); ini
 <div class="header">
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">hardware_interp<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
@@ -116,6 +117,12 @@ $(document).ready(function(){initNavTree('group__hardware__interp.html',''); ini
 Modules</h2></td></tr>
 <tr class="memitem:group__interp__config"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interp__config.html">interp_config</a></td></tr>
 <tr class="memdesc:group__interp__config"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interpolator configuration. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterp__hw__save__t.html">interp_hw_save_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saved interpolator hardware state.  <a href="structinterp__hw__save__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -133,7 +140,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:gaf5bfa88632de76db56f01e3f22d705e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if an interpolator lane is claimed.  <a href="group__hardware__interp.html#gaf5bfa88632de76db56f01e3f22d705e0">More...</a><br /></td></tr>
 <tr class="separator:gaf5bfa88632de76db56f01e3f22d705e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga8b6dfe0f72bb43788ff10d25d6b17403">interp_unclaim_lane_mask</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint lane_mask)</td></tr>
-<tr class="memdesc:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release previously claimed interpolator lanes.  <a href="group__hardware__interp.html#ga8b6dfe0f72bb43788ff10d25d6b17403">More...</a><br /></td></tr>
+<tr class="memdesc:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release previously claimed interpolator lanes, see <a class="el" href="group__hardware__interp.html#ga7da3e2eec0075ae39bf648b6a3b6feb9">interp_claim_lane_mask</a>.  <a href="group__hardware__interp.html#ga8b6dfe0f72bb43788ff10d25d6b17403">More...</a><br /></td></tr>
 <tr class="separator:ga8b6dfe0f72bb43788ff10d25d6b17403"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga839a103a740e190e7dc1b1313afb11a3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga839a103a740e190e7dc1b1313afb11a3">interp_set_force_bits</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint lane, uint bits)</td></tr>
 <tr class="memdesc:ga839a103a740e190e7dc1b1313afb11a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Directly set the force bits on a specified lane.  <a href="group__hardware__interp.html#ga839a103a740e190e7dc1b1313afb11a3">More...</a><br /></td></tr>
@@ -144,12 +151,12 @@ Functions</h2></td></tr>
 <tr class="memitem:ga35e7824263e623c7e2d54a74b2631c61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga35e7824263e623c7e2d54a74b2631c61">interp_restore</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, <a class="el" href="structinterp__hw__save__t.html">interp_hw_save_t</a> *saver)</td></tr>
 <tr class="memdesc:ga35e7824263e623c7e2d54a74b2631c61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore an interpolator state.  <a href="group__hardware__interp.html#ga35e7824263e623c7e2d54a74b2631c61">More...</a><br /></td></tr>
 <tr class="separator:ga35e7824263e623c7e2d54a74b2631c61"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaa213d0a845f57c719593fa8be01482f1"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#gaa213d0a845f57c719593fa8be01482f1">interp_set_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint lane, uint32_t val)</td></tr>
-<tr class="memdesc:gaa213d0a845f57c719593fa8be01482f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the interpolator base register by lane.  <a href="group__hardware__interp.html#gaa213d0a845f57c719593fa8be01482f1">More...</a><br /></td></tr>
-<tr class="separator:gaa213d0a845f57c719593fa8be01482f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1d89466df907cb1515b639813ee34837"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga1d89466df907cb1515b639813ee34837">interp_get_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint lane)</td></tr>
-<tr class="memdesc:ga1d89466df907cb1515b639813ee34837"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the content of interpolator base register by lane.  <a href="group__hardware__interp.html#ga1d89466df907cb1515b639813ee34837">More...</a><br /></td></tr>
-<tr class="separator:ga1d89466df907cb1515b639813ee34837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga998bb4da96a95654f4248bafeffd9302"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga998bb4da96a95654f4248bafeffd9302">interp_set_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint index, uint32_t val)</td></tr>
+<tr class="memdesc:ga998bb4da96a95654f4248bafeffd9302"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the interpolator base register by index.  <a href="group__hardware__interp.html#ga998bb4da96a95654f4248bafeffd9302">More...</a><br /></td></tr>
+<tr class="separator:ga998bb4da96a95654f4248bafeffd9302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3795913002b0d380b3d5a5c21c464451"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga3795913002b0d380b3d5a5c21c464451">interp_get_base</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint index)</td></tr>
+<tr class="memdesc:ga3795913002b0d380b3d5a5c21c464451"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the content of interpolator base register by index.  <a href="group__hardware__interp.html#ga3795913002b0d380b3d5a5c21c464451">More...</a><br /></td></tr>
+<tr class="separator:ga3795913002b0d380b3d5a5c21c464451"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga25479c3fa9137c52fc22c1c9a796ab93"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__interp.html#ga25479c3fa9137c52fc22c1c9a796ab93">interp_set_base_both</a> (<a class="el" href="structinterp__hw__t.html">interp_hw_t</a> *interp, uint32_t val)</td></tr>
 <tr class="memdesc:ga25479c3fa9137c52fc22c1c9a796ab93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the interpolator base registers simultaneously.  <a href="group__hardware__interp.html#ga25479c3fa9137c52fc22c1c9a796ab93">More...</a><br /></td></tr>
 <tr class="separator:ga25479c3fa9137c52fc22c1c9a796ab93"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -359,8 +366,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ga1d89466df907cb1515b639813ee34837" name="ga1d89466df907cb1515b639813ee34837"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga1d89466df907cb1515b639813ee34837">&#9670;&nbsp;</a></span>interp_get_base()</h2>
+<a id="ga3795913002b0d380b3d5a5c21c464451" name="ga3795913002b0d380b3d5a5c21c464451"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3795913002b0d380b3d5a5c21c464451">&#9670;&nbsp;</a></span>interp_get_base()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -378,7 +385,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint&#160;</td>
-          <td class="paramname"><em>lane</em>&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -393,15 +400,15 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Gets the content of interpolator base register by lane. </p>
+<p>Gets the content of interpolator base register by index. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">interp</td><td>Interpolator instance, interp0 or interp1. </td></tr>
-    <tr><td class="paramname">lane</td><td>The lane number, 0 or 1 or 2 </td></tr>
+    <tr><td class="paramname">lane</td><td>The base register index, 0 or 1 or 2 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The current content of the lane base register </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The current content of the base register </dd></dl>
 
 </div>
 </div>
@@ -440,7 +447,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get raw lane value. </p>
-<p >Returns the raw shift and mask value from the specified lane, BASE0 is NOT added</p>
+<p >Returns the raw shift and mask value from the specified lane, BASE0/BASE1 is NOT added</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">interp</td><td>Interpolator instance, interp0 or interp1. </td></tr>
@@ -782,8 +789,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="gaa213d0a845f57c719593fa8be01482f1" name="gaa213d0a845f57c719593fa8be01482f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gaa213d0a845f57c719593fa8be01482f1">&#9670;&nbsp;</a></span>interp_set_base()</h2>
+<a id="ga998bb4da96a95654f4248bafeffd9302" name="ga998bb4da96a95654f4248bafeffd9302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga998bb4da96a95654f4248bafeffd9302">&#9670;&nbsp;</a></span>interp_set_base()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -801,7 +808,7 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint&#160;</td>
-          <td class="paramname"><em>lane</em>, </td>
+          <td class="paramname"><em>index</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -822,11 +829,11 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Sets the interpolator base register by lane. </p>
+<p>Sets the interpolator base register by index. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">interp</td><td>Interpolator instance, interp0 or interp1. </td></tr>
-    <tr><td class="paramname">lane</td><td>The lane number, 0 or 1 or 2 </td></tr>
+    <tr><td class="paramname">index</td><td>The base register index, 0 or 1 or 2 </td></tr>
     <tr><td class="paramname">val</td><td>The value to apply to the register </td></tr>
   </table>
   </dd>
@@ -869,7 +876,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Sets the interpolator base registers simultaneously. </p>
-<p >The lower 16 bits go to BASE0, upper bits to BASE1 simultaneously. Each half is sign-extended to 32 bits if that lane’s SIGNED flag is set.</p>
+<p >The lower 16 bits go to BASE0, upper bits to BASE1 simultaneously. Each half is sign-extended to 32 bits if that lane's SIGNED flag is set.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">interp</td><td>Interpolator instance, interp0 or interp1. </td></tr>
@@ -997,8 +1004,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Release previously claimed interpolator lanes. </p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__interp.html#ga7da3e2eec0075ae39bf648b6a3b6feb9" title="Claim the interpolator lanes specified in the mask.">interp_claim_lane_mask</a></dd></dl>
+<p>Release previously claimed interpolator lanes, see <a class="el" href="group__hardware__interp.html#ga7da3e2eec0075ae39bf648b6a3b6feb9">interp_claim_lane_mask</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">interp</td><td>Interpolator on which to release lanes. interp0 or interp1 </td></tr>

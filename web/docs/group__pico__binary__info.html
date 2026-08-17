@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,7 +103,9 @@ $(document).ready(function(){initNavTree('group__pico__binary__info.html',''); i
 
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a>  </div>
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
   <div class="headertitle"><div class="title">pico_binary_info<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
@@ -111,6 +113,51 @@ $(document).ready(function(){initNavTree('group__pico__binary__info.html',''); i
 <p>Binary info is intended for embedding machine readable information with the binary in FLASH.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__core.html">_binary_info_core</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common header fields shared by all binary info entries.  <a href="struct__binary__info__core.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__raw__data.html">_binary_info_raw_data</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry carrying raw, uninterpreted byte data.  <a href="struct__binary__info__raw__data.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__sized__data.html">_binary_info_sized_data</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry carrying a length-prefixed byte buffer.  <a href="struct__binary__info__sized__data.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__list__zero__terminated.html">_binary_info_list_zero_terminated</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry holding a null-terminated list of binary info pointers.  <a href="struct__binary__info__list__zero__terminated.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__id__and__int.html">_binary_info_id_and_int</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a 32-bit integer value with an ID.  <a href="struct__binary__info__id__and__int.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__id__and__string.html">_binary_info_id_and_string</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a string value with an ID.  <a href="struct__binary__info__id__and__string.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__ptr__int32__with__name.html">_binary_info_ptr_int32_with_name</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry holding a pointer to a named 32-bit integer variable.  <a href="struct__binary__info__ptr__int32__with__name.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__ptr__string__with__name.html">_binary_info_ptr_string_with_name</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry holding a pointer to a named string variable.  <a href="struct__binary__info__ptr__string__with__name.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__block__device.html">_binary_info_block_device</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry describing a block device in the binary.  <a href="struct__binary__info__block__device.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__pins__with__func.html">_binary_info_pins_with_func</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry describing one or more GPIO pins and their assigned function, supporting pin numbers &lt;32, and up to 5 pins.  <a href="struct__binary__info__pins__with__func.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__pins64__with__func.html">_binary_info_pins64_with_func</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry describing one or more GPIO pins and their assigned function, supporting pin numbers &lt;256, and up to 7 pins.  <a href="struct__binary__info__pins64__with__func.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__pins__with__name.html">_binary_info_pins_with_name</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a human-readable label with a set of GPIO pins.  <a href="struct__binary__info__pins__with__name.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__pins64__with__name.html">_binary_info_pins64_with_name</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a human-readable label with a set of GPIO pins (up to 64)  <a href="struct__binary__info__pins64__with__name.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct__binary__info__named__group.html">_binary_info_named_group</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry defining a named group of related binary info entries.  <a href="struct__binary__info__named__group.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:ga758f119659f2491c89e8e2955d647e9a"><td class="memItemLeft" align="right" valign="top"><a id="ga758f119659f2491c89e8e2955d647e9a" name="ga758f119659f2491c89e8e2955d647e9a"></a>
@@ -121,6 +168,63 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>bi_decl_if_func_used</b>(_decl)&#160;&#160;&#160;({__bi_mark_enclosure _decl; __bi_decl(__bi_ptr_lineno_var_name, &amp;__bi_lineno_var_name.core, &quot;.binary_info.&quot;, ); *(const volatile uint8_t *)&amp;__bi_ptr_lineno_var_name;});</td></tr>
 <tr class="memdesc:ga448b6eaeefd68be7031086e7dfcaf96e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Declare some binary information that will be included if the function containing the decl is linked into the binary. The SDK uses &ndash;gc-sections, so functions that are never called will be removed by the linker, and any associated binary information declared this way will also be stripped. <br /></td></tr>
 <tr class="separator:ga448b6eaeefd68be7031086e7dfcaf96e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gad839d12d62251eae6587dc57b51e19fb"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__binary__info__core.html">_binary_info_core</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__binary__info.html#gad839d12d62251eae6587dc57b51e19fb">binary_info_core_t</a></td></tr>
+<tr class="memdesc:gad839d12d62251eae6587dc57b51e19fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common header fields shared by all binary info entries.  <a href="group__pico__binary__info.html#gad839d12d62251eae6587dc57b51e19fb">More...</a><br /></td></tr>
+<tr class="separator:gad839d12d62251eae6587dc57b51e19fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga59c3b0740c211c76ad1b6649add2e56a"><td class="memItemLeft" align="right" valign="top"><a id="ga59c3b0740c211c76ad1b6649add2e56a" name="ga59c3b0740c211c76ad1b6649add2e56a"></a>
+typedef struct <a class="el" href="struct__binary__info__raw__data.html">_binary_info_raw_data</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_raw_data_t</b></td></tr>
+<tr class="memdesc:ga59c3b0740c211c76ad1b6649add2e56a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry carrying raw, uninterpreted byte data. <br /></td></tr>
+<tr class="separator:ga59c3b0740c211c76ad1b6649add2e56a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac089df7faec0baa6c3edd975fb7c898a"><td class="memItemLeft" align="right" valign="top"><a id="gac089df7faec0baa6c3edd975fb7c898a" name="gac089df7faec0baa6c3edd975fb7c898a"></a>
+typedef struct <a class="el" href="struct__binary__info__sized__data.html">_binary_info_sized_data</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_sized_data_t</b></td></tr>
+<tr class="memdesc:gac089df7faec0baa6c3edd975fb7c898a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry carrying a length-prefixed byte buffer. <br /></td></tr>
+<tr class="separator:gac089df7faec0baa6c3edd975fb7c898a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga49592404283444f548b42c24db4efac7"><td class="memItemLeft" align="right" valign="top"><a id="ga49592404283444f548b42c24db4efac7" name="ga49592404283444f548b42c24db4efac7"></a>
+typedef struct <a class="el" href="struct__binary__info__list__zero__terminated.html">_binary_info_list_zero_terminated</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_list_zero_terminated_t</b></td></tr>
+<tr class="memdesc:ga49592404283444f548b42c24db4efac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry holding a null-terminated list of binary info pointers. <br /></td></tr>
+<tr class="separator:ga49592404283444f548b42c24db4efac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga77473a64967b075858aa37d13c43744f"><td class="memItemLeft" align="right" valign="top"><a id="ga77473a64967b075858aa37d13c43744f" name="ga77473a64967b075858aa37d13c43744f"></a>
+typedef struct <a class="el" href="struct__binary__info__id__and__int.html">_binary_info_id_and_int</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_id_and_int_t</b></td></tr>
+<tr class="memdesc:ga77473a64967b075858aa37d13c43744f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a 32-bit integer value with an ID. <br /></td></tr>
+<tr class="separator:ga77473a64967b075858aa37d13c43744f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac7bae901d5b83eeaadb406ffaf8c8d14"><td class="memItemLeft" align="right" valign="top"><a id="gac7bae901d5b83eeaadb406ffaf8c8d14" name="gac7bae901d5b83eeaadb406ffaf8c8d14"></a>
+typedef struct <a class="el" href="struct__binary__info__id__and__string.html">_binary_info_id_and_string</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_id_and_string_t</b></td></tr>
+<tr class="memdesc:gac7bae901d5b83eeaadb406ffaf8c8d14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a string value with an ID. <br /></td></tr>
+<tr class="separator:gac7bae901d5b83eeaadb406ffaf8c8d14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7141ea2f5688cfdb3ed2e8f0df8efd3d"><td class="memItemLeft" align="right" valign="top"><a id="ga7141ea2f5688cfdb3ed2e8f0df8efd3d" name="ga7141ea2f5688cfdb3ed2e8f0df8efd3d"></a>
+typedef struct <a class="el" href="struct__binary__info__ptr__int32__with__name.html">_binary_info_ptr_int32_with_name</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_ptr_int32_with_name_t</b></td></tr>
+<tr class="memdesc:ga7141ea2f5688cfdb3ed2e8f0df8efd3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry holding a pointer to a named 32-bit integer variable. <br /></td></tr>
+<tr class="separator:ga7141ea2f5688cfdb3ed2e8f0df8efd3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga799e1c45eb976a84e162e662efbf31ff"><td class="memItemLeft" align="right" valign="top"><a id="ga799e1c45eb976a84e162e662efbf31ff" name="ga799e1c45eb976a84e162e662efbf31ff"></a>
+typedef struct <a class="el" href="struct__binary__info__ptr__string__with__name.html">_binary_info_ptr_string_with_name</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_ptr_string_with_name_t</b></td></tr>
+<tr class="memdesc:ga799e1c45eb976a84e162e662efbf31ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry holding a pointer to a named string variable. <br /></td></tr>
+<tr class="separator:ga799e1c45eb976a84e162e662efbf31ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5b691ff728ebeab5c0a5ebf7bdb88cbf"><td class="memItemLeft" align="right" valign="top"><a id="ga5b691ff728ebeab5c0a5ebf7bdb88cbf" name="ga5b691ff728ebeab5c0a5ebf7bdb88cbf"></a>
+typedef struct <a class="el" href="struct__binary__info__block__device.html">_binary_info_block_device</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_block_device_t</b></td></tr>
+<tr class="memdesc:ga5b691ff728ebeab5c0a5ebf7bdb88cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry describing a block device in the binary. <br /></td></tr>
+<tr class="separator:ga5b691ff728ebeab5c0a5ebf7bdb88cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga96678e48f4fbbe611feb22103238eecb"><td class="memItemLeft" align="right" valign="top"><a id="ga96678e48f4fbbe611feb22103238eecb" name="ga96678e48f4fbbe611feb22103238eecb"></a>
+typedef struct <a class="el" href="struct__binary__info__pins__with__func.html">_binary_info_pins_with_func</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_pins_with_func_t</b></td></tr>
+<tr class="memdesc:ga96678e48f4fbbe611feb22103238eecb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry describing one or more GPIO pins and their assigned function, supporting pin numbers &lt;32, and up to 5 pins. <br /></td></tr>
+<tr class="separator:ga96678e48f4fbbe611feb22103238eecb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaced3c06637e180502add5f2d9b6114ca"><td class="memItemLeft" align="right" valign="top"><a id="gaced3c06637e180502add5f2d9b6114ca" name="gaced3c06637e180502add5f2d9b6114ca"></a>
+typedef struct <a class="el" href="struct__binary__info__pins64__with__func.html">_binary_info_pins64_with_func</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_pins64_with_func_t</b></td></tr>
+<tr class="memdesc:gaced3c06637e180502add5f2d9b6114ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry describing one or more GPIO pins and their assigned function, supporting pin numbers &lt;256, and up to 7 pins. <br /></td></tr>
+<tr class="separator:gaced3c06637e180502add5f2d9b6114ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadc399bfda0fedbe699e8cbc3d46d8bfd"><td class="memItemLeft" align="right" valign="top"><a id="gadc399bfda0fedbe699e8cbc3d46d8bfd" name="gadc399bfda0fedbe699e8cbc3d46d8bfd"></a>
+typedef struct <a class="el" href="struct__binary__info__pins__with__name.html">_binary_info_pins_with_name</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_pins_with_name_t</b></td></tr>
+<tr class="memdesc:gadc399bfda0fedbe699e8cbc3d46d8bfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a human-readable label with a set of GPIO pins. <br /></td></tr>
+<tr class="separator:gadc399bfda0fedbe699e8cbc3d46d8bfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaea9ac162ca90e31cdcb736f2b5b2bd1"><td class="memItemLeft" align="right" valign="top"><a id="gaaea9ac162ca90e31cdcb736f2b5b2bd1" name="gaaea9ac162ca90e31cdcb736f2b5b2bd1"></a>
+typedef struct <a class="el" href="struct__binary__info__pins64__with__name.html">_binary_info_pins64_with_name</a>&#160;</td><td class="memItemRight" valign="bottom"><b>binary_info_pins64_with_name_t</b></td></tr>
+<tr class="memdesc:gaaea9ac162ca90e31cdcb736f2b5b2bd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry associating a human-readable label with a set of GPIO pins (up to 64) <br /></td></tr>
+<tr class="separator:gaaea9ac162ca90e31cdcb736f2b5b2bd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1a4be4e79071e72c61d40db542c5696e"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="struct__binary__info__named__group.html">_binary_info_named_group</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__binary__info.html#ga1a4be4e79071e72c61d40db542c5696e">binary_info_named_group_t</a></td></tr>
+<tr class="memdesc:ga1a4be4e79071e72c61d40db542c5696e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary info entry defining a named group of related binary info entries.  <a href="group__pico__binary__info.html#ga1a4be4e79071e72c61d40db542c5696e">More...</a><br /></td></tr>
+<tr class="separator:ga1a4be4e79071e72c61d40db542c5696e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Binary info is intended for embedding machine readable information with the binary in FLASH. </p>
@@ -131,6 +235,41 @@ Macros</h2></td></tr>
 <li>Included features</li>
 <li>Identifying flash regions used as block devices/storage </li>
 </ul>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="gad839d12d62251eae6587dc57b51e19fb" name="gad839d12d62251eae6587dc57b51e19fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad839d12d62251eae6587dc57b51e19fb">&#9670;&nbsp;</a></span>binary_info_core_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct__binary__info__core.html">_binary_info_core</a> <a class="el" href="group__pico__binary__info.html#gad839d12d62251eae6587dc57b51e19fb">binary_info_core_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Common header fields shared by all binary info entries. </p>
+<p >Every binary info structure begins with this core header, which identifies the entry type and the tag namespace it belongs to. </p>
+
+</div>
+</div>
+<a id="ga1a4be4e79071e72c61d40db542c5696e" name="ga1a4be4e79071e72c61d40db542c5696e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga1a4be4e79071e72c61d40db542c5696e">&#9670;&nbsp;</a></span>binary_info_named_group_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="struct__binary__info__named__group.html">_binary_info_named_group</a> <a class="el" href="group__pico__binary__info.html#ga1a4be4e79071e72c61d40db542c5696e">binary_info_named_group_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Binary info entry defining a named group of related binary info entries. </p>
+<p >Named groups allow tools to present related binary info entries together under a common label, with configurable display behaviour. </p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

@@ -45,11 +45,17 @@ var group__hardware__gpio =
       [ "GPIO_IRQ_EDGE_FALL", "group__hardware__gpio.html#gga6347e27da3ab34f1ea65b5ae16ab724fa1967e44a20619945c86b6fd73e3b0a59", null ],
       [ "GPIO_IRQ_EDGE_RISE", "group__hardware__gpio.html#gga6347e27da3ab34f1ea65b5ae16ab724fa1341b53a6f9d3f6fb65f57f3d16d289e", null ]
     ] ],
+    [ "gpio_override", "group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990", [
+      [ "GPIO_OVERRIDE_NORMAL", "group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990ab06a7f6c3884d4d4870f5aee7438e130", null ],
+      [ "GPIO_OVERRIDE_INVERT", "group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990a1d047c6f785ba82c18c3f120841d17b5", null ],
+      [ "GPIO_OVERRIDE_LOW", "group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990aab4dee7abb67c5d1cc213c810b9447ab", null ],
+      [ "GPIO_OVERRIDE_HIGH", "group__hardware__gpio.html#gga760c408911eb8aaad767d39df9e4e990a716e4dd9554b27d65c2c88bcfd6e7dd4", null ]
+    ] ],
     [ "gpio_slew_rate", "group__hardware__gpio.html#ga72c250c9393043ea5beb56092d26e229", [
       [ "GPIO_SLEW_RATE_SLOW", "group__hardware__gpio.html#gga72c250c9393043ea5beb56092d26e229a6173e20f5be765a136661c48f9766634", null ],
       [ "GPIO_SLEW_RATE_FAST", "group__hardware__gpio.html#gga72c250c9393043ea5beb56092d26e229a44b116ac7ac70a405c952a6054a1eade", null ]
     ] ],
-    [ "gpio_acknowledge_irq", "group__hardware__gpio.html#ga091c148a5cfaf2b55e716b6effef6360", null ],
+    [ "gpio_acknowledge_irq", "group__hardware__gpio.html#gace88fa5550b6c9f10df50ed61378287f", null ],
     [ "gpio_add_raw_irq_handler", "group__hardware__gpio.html#ga2e78fcd487a3a2e173322c6502fe9419", null ],
     [ "gpio_add_raw_irq_handler_masked", "group__hardware__gpio.html#gaf745f0bcdaf049d2e060aa8971352a55", null ],
     [ "gpio_add_raw_irq_handler_masked64", "group__hardware__gpio.html#ga24e5e9eed83f48ffe77f732b800f1405", null ],
@@ -71,7 +77,8 @@ var group__hardware__gpio =
     [ "gpio_get_out_level", "group__hardware__gpio.html#ga0a818ceaa50e3e2317fbb0856d47eaef", null ],
     [ "gpio_get_slew_rate", "group__hardware__gpio.html#ga4422d9c09199d199e8fe736b3c29ae49", null ],
     [ "gpio_init", "group__hardware__gpio.html#ga8aa4741d93dc40bc728dbd3e41813ad1", null ],
-    [ "gpio_init_mask", "group__hardware__gpio.html#ga2f3ccb15297fecd3792359d9cbbf6ed6", null ],
+    [ "gpio_init_mask", "group__hardware__gpio.html#ga8537f23d524d3e75daf8fa14857fe454", null ],
+    [ "gpio_init_mask64", "group__hardware__gpio.html#ga65a6d5ec41d882e7c53a7a2c6a3ac2bb", null ],
     [ "gpio_is_dir_out", "group__hardware__gpio.html#gaa0dbc5c65103d483217a190b72ed26dc", null ],
     [ "gpio_is_input_hysteresis_enabled", "group__hardware__gpio.html#gac451f3251c0d0bea97aa535f65974ec8", null ],
     [ "gpio_is_pulled_down", "group__hardware__gpio.html#ga54c35d7beb7025aa001ae5b93d38935b", null ],
@@ -100,7 +107,7 @@ var group__hardware__gpio =
     [ "gpio_set_drive_strength", "group__hardware__gpio.html#ga0ffe0ddabcd081b513731275df97e7ca", null ],
     [ "gpio_set_function", "group__hardware__gpio.html#ga22f6b90c4c7e0013b4b5341de0a44fc4", null ],
     [ "gpio_set_function_masked", "group__hardware__gpio.html#ga32c1aae77b4b3bf42e9ae554d16284ab", null ],
-    [ "gpio_set_function_masked64", "group__hardware__gpio.html#ga83093178ba0ad7d711bff47fc90d361b", null ],
+    [ "gpio_set_function_masked64", "group__hardware__gpio.html#ga5135b3956a6dec54794905b55fe99846", null ],
     [ "gpio_set_inover", "group__hardware__gpio.html#ga6037bdaf406a84336043c9a6c40e5073", null ],
     [ "gpio_set_input_enabled", "group__hardware__gpio.html#ga74a8c3e55185581bc3df335aea1d0fb8", null ],
     [ "gpio_set_input_hysteresis_enabled", "group__hardware__gpio.html#ga1f52eecc12d4348ef8bd1e17bdb4b107", null ],

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -307,9 +307,9 @@ When the default alarm pool is disabled, <em>sleep_</em> methods and timeouts ar
 </div><div class="memdoc">
 
 <p>The identifier for an alarm. </p>
-<dl class="section note"><dt>Note</dt><dd>this identifier is signed because &lt;0 is used as an error condition when creating alarms</dd>
+<dl class="section note"><dt>Note</dt><dd>This identifier is signed because &lt;0 is used as an error condition when creating alarms</dd>
 <dd>
-alarm ids may be reused, however for convenience the implementation makes an attempt to defer reusing as long as possible. You should certainly expect it to be hundreds of ids before one is reused, although in most cases it is more. Nonetheless care must still be taken when cancelling alarms or other functionality based on alarms when the alarm may have expired, as eventually the alarm id may be reused for another alarm.</dd></dl>
+Alarm IDs may be reused, however for convenience the implementation makes an attempt to defer reusing as long as possible. You should certainly expect it to be hundreds of IDs before one is reused, although in most cases it is more. Nonetheless, care must still be taken when cancelling alarms or other functionality based on alarms when the alarm may have expired, as eventually the alarm id may be reused for another alarm.</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__base.html#gaddcb20bc9a61ceff479aa87369a862aa" title="Common return codes from pico_sdk methods that return a status.">pico_error_codes</a> </dd></dl>
 
 </div>
@@ -894,7 +894,7 @@ alarm ids may be reused, however for convenience the implementation makes an att
 <dl class="section note"><dt>Note</dt><dd>For implementation reasons this is limited to PICO_PHEAP_MAX_ENTRIES which defaults to 255 </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__alarm.html#ga5092ceb879289c0a597a389f34b4815e" title="The default alarm pool used when alarms are added without specifying an alarm pool,...">alarm_pool_get_default()</a> </dd>
 <dd>
-hardware_claiming </dd></dl>
+<a class="el" href="group__hardware__claim.html" title="Lightweight hardware resource management API.">hardware_claim</a> </dd></dl>
 
 </div>
 </div>
@@ -935,7 +935,7 @@ hardware_claiming </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>For implementation reasons this is limited to PICO_PHEAP_MAX_ENTRIES which defaults to 255 </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__alarm.html#ga5092ceb879289c0a597a389f34b4815e" title="The default alarm pool used when alarms are added without specifying an alarm pool,...">alarm_pool_get_default()</a> </dd>
 <dd>
-hardware_claiming </dd></dl>
+<a class="el" href="group__hardware__claim.html" title="Lightweight hardware resource management API.">hardware_claim</a> </dd></dl>
 
 </div>
 </div>
@@ -1177,7 +1177,6 @@ hardware_claiming </dd></dl>
 <p>Return the time remaining before the next trigger of an alarm. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">pool</td><td>the <a class="el" href="structalarm__pool.html">alarm_pool</a> containing the alarm </td></tr>
     <tr><td class="paramname">alarm_id</td><td>the alarm</td></tr>
   </table>
   </dd>

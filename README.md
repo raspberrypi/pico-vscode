@@ -41,11 +41,13 @@ If you have any issues while installing, please check out the [Troubleshooting](
 
 ## Requirements by OS
 
-> **Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11 (x86_64), macOS Sonoma (14.0) and newer, Linux x64 and arm64**
+> **Supported Platforms: Raspberry Pi OS (64-bit), Windows 10/11, macOS Sonoma (14.0) and newer, Linux x64 and arm64**
 
-- Visual Studio Code v1.99.3 or later
+- Visual Studio Code v1.105.1 or later
 
 ### Raspberry Pi OS and Windows
+
+> Not including Raspberry Pi OS Lite - see [Other Linux](#other-linux) for that
 
 No additional requirements are needed.
 
@@ -58,7 +60,7 @@ This command installs all of the necessary tools, including but not limited to:
 - **Git 2.28 or later** (ensure it's in your PATH)
 - **Tar** (ensure it's in your PATH)
 
-### Linux
+### Other Linux
 - **Python 3.10 or later** (ensure it’s in your PATH or set in settings)
 - **Git 2.28 or later** (ensure it’s in your PATH)
 - **Tar** (ensure it’s in your PATH)
@@ -80,18 +82,9 @@ This extension provides the following settings:
 
 ## CMake Tools Extension Integration
 
-For more complex projects, such as those with multiple executables or when the project name is defined as a variable, this extension can integrate with the CMake Tools extension to enhance CMake parsing. You can enable the CMake Tools Extension integration during project generation, using the checkbox at the bottom of the page. To enable it for an existing project, just re-import the project with the option selected. Alternatively, to manually enable it, adjust the following settings in your `settings.json`:
+For more complex projects, such as those with multiple executables or when the project name is defined as a variable, this extension can integrate with the CMake Tools extension to enhance CMake parsing. You can enable the CMake Tools Extension integration during project generation, using the checkbox at the bottom of the page. To enable it for an existing project, you should re-import the project with the option selected, which will update the relevant files.
 
-- `raspberry-pi-pico.cmakeAutoConfigure`: Set from `true` to `false`.
-- `raspberry-pi-pico.useCmakeTools`: Set from `false` to `true`.
-
-For optimal functionality, consider enabling:
-
-- `cmake.configureOnEdit`: true
-- `cmake.automaticReconfigure`: true
-- `cmake.configureOnOpen`: true
-
-When prompted, select the `Pico` kit in CMake Tools, and set your build and launch targets accordingly. Use CMake Tools for compilation, but continue using this extension for debugging, as CMake Tools debugging is not compatible with Pico.
+You should continue using this extension for running & debugging, and we recommend still using the buttons from this extension for compilation too, only using the CMake Tools extension for configuration. If prompted, select the `Pico` kit in CMake Tools.
 
 ## Additional Rust Prerequisites
 
@@ -159,7 +152,17 @@ For advanced users who want to build the extension `.vsix` file, follow these st
 4. Run `npm ci` in the project directory to install dependencies.
 5. Build the extension with: `vsce package`
 
-This will generate a `.vsix` file, which you can install in VS Code using `code --install-extension path-to.vsix` or via the GUI: `Extensions > three dots > Install from VSIX`.
+This will generate a `.vsix` file, which you can install in VS Code using `Ctrl+Shift+P` -> `Extensions: Install from VSIX`.
+
+## Installing from GitHub Actions
+
+To test the latest version of the extension, you can download a `.vsix` file from GitHub Actions (you must be logged into GitHub):
+
+1. Go to [GitHub Actions](https://github.com/raspberrypi/pico-vscode/actions/workflows/release.yml?query=branch%3Amain)
+2. Click on the most recent run
+3. Scroll to the bottom of that page and download the artifact (`raspberry-pi-pico-xxxxxxx`)
+4. Unzip that downloaded file to find the `.vsix` files
+5. Install the chosen `.vsix` file using `Ctrl+Shift+P` -> `Extensions: Install from VSIX`
 
 ## Test Instructions
 

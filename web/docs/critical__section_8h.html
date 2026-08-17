@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,38 +109,40 @@ $(document).ready(function(){initNavTree('critical__section_8h.html',''); initRe
   <div class="headertitle"><div class="title">critical_section.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="lock__core_8h_source.html">pico/lock_core.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="pico_8h_source.html">pico.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="lock__core_8h_source.html">pico/lock_core.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for critical_section.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="critical__section_8h__incl.png" border="0" usemap="#ainclude_2pico_2critical__section_8h" alt=""/></div>
 <map name="ainclude_2pico_2critical__section_8h" id="ainclude_2pico_2critical__section_8h">
-<area shape="rect" title=" " alt="" coords="365,5,513,47"/>
-<area shape="rect" href="lock__core_8h.html" title=" " alt="" coords="376,95,503,121"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="409,333,470,360"/>
-<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="307,169,401,196"/>
-<area shape="rect" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html" title=" " alt="" coords="537,169,667,196"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="589,557,690,584"/>
-<area shape="rect" title=" " alt="" coords="235,408,348,435"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="439,408,543,435"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="907,408,1028,435"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="116,408,211,435"/>
-<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="436,632,541,659"/>
-<area shape="rect" title=" " alt="" coords="505,707,587,733"/>
-<area shape="rect" title=" " alt="" coords="641,632,712,659"/>
-<area shape="rect" title=" " alt="" coords="737,632,811,659"/>
-<area shape="rect" title=" " alt="" coords="424,483,588,509"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="973,483,1154,509"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="1178,483,1357,509"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="613,483,773,509"/>
-<area shape="rect" title=" " alt="" coords="1381,483,1591,509"/>
-<area shape="rect" title=" " alt="" coords="797,483,948,509"/>
-<area shape="rect" title=" " alt="" coords="968,557,1159,584"/>
-<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="218,251,351,278"/>
-<area shape="rect" title=" " alt="" coords="199,333,381,360"/>
-<area shape="rect" title=" " alt="" coords="5,333,175,360"/>
-<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="701,251,911,278"/>
-<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="528,244,676,285"/>
+<area shape="rect" title=" " alt="" coords="595,5,743,47"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="737,333,798,360"/>
+<area shape="rect" href="lock__core_8h.html" title=" " alt="" coords="700,95,827,121"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="327,557,429,584"/>
+<area shape="rect" title=" " alt="" coords="803,408,916,435"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="51,408,155,435"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="657,408,779,435"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="940,408,1035,435"/>
+<area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="257,632,363,659"/>
+<area shape="rect" title=" " alt="" coords="223,707,306,733"/>
+<area shape="rect" title=" " alt="" coords="411,632,481,659"/>
+<area shape="rect" title=" " alt="" coords="506,632,581,659"/>
+<area shape="rect" title=" " alt="" coords="5,483,169,509"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="627,483,809,509"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="833,483,1011,509"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="1035,483,1195,509"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="245,483,428,509"/>
+<area shape="rect" title=" " alt="" coords="1219,483,1430,509"/>
+<area shape="rect" title=" " alt="" coords="452,483,603,509"/>
+<area shape="rect" title=" " alt="" coords="623,557,813,584"/>
+<area shape="rect" href="common_2pico__time_2include_2pico_2time_8h.html" title=" " alt="" coords="908,169,1003,196"/>
+<area shape="rect" href="rp2__common_2hardware__sync_2include_2hardware_2sync_8h.html" title=" " alt="" coords="755,169,884,196"/>
+<area shape="rect" href="rp2__common_2hardware__timer_2include_2hardware_2timer_8h.html" title=" " alt="" coords="1215,251,1349,278"/>
+<area shape="rect" title=" " alt="" coords="1174,333,1355,360"/>
+<area shape="rect" title=" " alt="" coords="1380,333,1549,360"/>
+<area shape="rect" href="address__mapped_8h.html" title=" " alt="" coords="981,251,1191,278"/>
+<area shape="rect" href="spin__lock_8h_source.html" title=" " alt="" coords="757,244,905,285"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -159,33 +161,34 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcritical__section.html">critical_section</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Critical section instance.  <a href="structcritical__section.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:a0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="memItemLeft" align="right" valign="top"><a id="a0b3d29c6f161f9975ed60d9aab8e6d3a" name="a0b3d29c6f161f9975ed60d9aab8e6d3a"></a>
-typedef struct __packed_aligned <a class="el" href="structcritical__section.html">critical_section</a>&#160;</td><td class="memItemRight" valign="bottom"><b>critical_section_t</b></td></tr>
-<tr class="separator:a0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="memItemLeft" align="right" valign="top">typedef struct __packed_aligned <a class="el" href="structcritical__section.html">critical_section</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a></td></tr>
+<tr class="memdesc:ga0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Critical section instance.  <a href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">More...</a><br /></td></tr>
+<tr class="separator:ga0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga22cd2722a96179036820e87b29209cfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">critical_section_init</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga22cd2722a96179036820e87b29209cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html">critical_section</a> structure allowing the system to assign a spin lock number.  <a href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">More...</a><br /></td></tr>
+<tr class="memitem:ga22cd2722a96179036820e87b29209cfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">critical_section_init</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga22cd2722a96179036820e87b29209cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure allowing the system to assign a spin lock number.  <a href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">More...</a><br /></td></tr>
 <tr class="separator:ga22cd2722a96179036820e87b29209cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">critical_section_init_with_lock_num</a> (critical_section_t *crit_sec, uint lock_num)</td></tr>
-<tr class="memdesc:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html">critical_section</a> structure assigning a specific spin lock number.  <a href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">More...</a><br /></td></tr>
+<tr class="memitem:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">critical_section_init_with_lock_num</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec, uint lock_num)</td></tr>
+<tr class="memdesc:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure assigning a specific spin lock number.  <a href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">More...</a><br /></td></tr>
 <tr class="separator:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga15e4552b4e1419faad51eba026a39aad"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga15e4552b4e1419faad51eba026a39aad">critical_section_enter_blocking</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga15e4552b4e1419faad51eba026a39aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enter a <a class="el" href="structcritical__section.html">critical_section</a>.  <a href="group__critical__section.html#ga15e4552b4e1419faad51eba026a39aad">More...</a><br /></td></tr>
-<tr class="separator:ga15e4552b4e1419faad51eba026a39aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab57fcee3973b26dced4601e6018a227c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#gab57fcee3973b26dced4601e6018a227c">critical_section_exit</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:gab57fcee3973b26dced4601e6018a227c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a <a class="el" href="structcritical__section.html">critical_section</a>.  <a href="group__critical__section.html#gab57fcee3973b26dced4601e6018a227c">More...</a><br /></td></tr>
-<tr class="separator:gab57fcee3973b26dced4601e6018a227c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga08444ba7879fae8813dd5573a13f0351"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">critical_section_deinit</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga08444ba7879fae8813dd5573a13f0351"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-Initialise a <a class="el" href="structcritical__section.html">critical_section</a> created by the critical_section_init method.  <a href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">More...</a><br /></td></tr>
+<tr class="memitem:ga5e5dff66b0268ab178cb0591b0ceb417"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga5e5dff66b0268ab178cb0591b0ceb417">critical_section_enter_blocking</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga5e5dff66b0268ab178cb0591b0ceb417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enter a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a>.  <a href="group__critical__section.html#ga5e5dff66b0268ab178cb0591b0ceb417">More...</a><br /></td></tr>
+<tr class="separator:ga5e5dff66b0268ab178cb0591b0ceb417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c7bd4ac78c014821274efe81412cbfd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga8c7bd4ac78c014821274efe81412cbfd">critical_section_exit</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga8c7bd4ac78c014821274efe81412cbfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a>.  <a href="group__critical__section.html#ga8c7bd4ac78c014821274efe81412cbfd">More...</a><br /></td></tr>
+<tr class="separator:ga8c7bd4ac78c014821274efe81412cbfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga08444ba7879fae8813dd5573a13f0351"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">critical_section_deinit</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga08444ba7879fae8813dd5573a13f0351"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> created by the critical_section_init method.  <a href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">More...</a><br /></td></tr>
 <tr class="separator:ga08444ba7879fae8813dd5573a13f0351"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga0be65abf0782a68a724bd6d37fd5e010"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__mutex.html#ga0be65abf0782a68a724bd6d37fd5e010">critical_section_is_initialized</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga0be65abf0782a68a724bd6d37fd5e010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test whether a <a class="el" href="structcritical__section.html">critical_section</a> has been initialized.  <a href="group__mutex.html#ga0be65abf0782a68a724bd6d37fd5e010">More...</a><br /></td></tr>
+<tr class="memitem:ga0be65abf0782a68a724bd6d37fd5e010"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga0be65abf0782a68a724bd6d37fd5e010">critical_section_is_initialized</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga0be65abf0782a68a724bd6d37fd5e010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test whether a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> has been initialized.  <a href="group__critical__section.html#ga0be65abf0782a68a724bd6d37fd5e010">More...</a><br /></td></tr>
 <tr class="separator:ga0be65abf0782a68a724bd6d37fd5e010"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->

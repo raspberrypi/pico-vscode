@@ -531,9 +531,11 @@ export async function cmakeGetSelectedToolchainAndSDKVersions(
   const oldMatch2 = content.match(toolchainPathRegex);
 
   // Current
-  const sdkVersionRegex = /^set\(sdkVersion\s+([^)]+)\)$/m;
-  const toolchainVersionRegex = /^set\(toolchainVersion\s+([^)]+)\)$/m;
-  const picotoolVersionRegex = /^set\(picotoolVersion\s+([^)]+)\)$/m;
+  // Note: no `$` anchor after the closing paren, as these lines may have a
+  // trailing comment (e.g. `set(toolchainVersion 13_3_Rel1) # pinned`).
+  const sdkVersionRegex = /^set\(sdkVersion\s+([^)]+)\)/m;
+  const toolchainVersionRegex = /^set\(toolchainVersion\s+([^)]+)\)/m;
+  const picotoolVersionRegex = /^set\(picotoolVersion\s+([^)]+)\)/m;
   const match = content.match(sdkVersionRegex);
   const match2 = content.match(toolchainVersionRegex);
   const match3 = content.match(picotoolVersionRegex);

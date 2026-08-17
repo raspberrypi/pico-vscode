@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,23 +104,34 @@ $(document).ready(function(){initNavTree('structpheap__node.html',''); initResiz
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">pheap_node Struct Reference</div></div>
+  <div class="headertitle"><div class="title">pheap_node Struct Reference<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__util.html">pico_util</a> &raquo; <a class="el" href="group__util__pheap.html">pheap</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>A node within a pairing heap.  
+ <a href="structpheap__node.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="pheap_8h_source.html">pheap.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:ad50edeb7b6ae2f1c4cab75cf54e28c65"><td class="memItemLeft" align="right" valign="top"><a id="ad50edeb7b6ae2f1c4cab75cf54e28c65" name="ad50edeb7b6ae2f1c4cab75cf54e28c65"></a>
 pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>child</b></td></tr>
+<tr class="memdesc:ad50edeb7b6ae2f1c4cab75cf54e28c65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Id of the first child node, or 0 if none. <br /></td></tr>
 <tr class="separator:ad50edeb7b6ae2f1c4cab75cf54e28c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3dc66be236b60b0a963b090c0a250d7"><td class="memItemLeft" align="right" valign="top"><a id="ad3dc66be236b60b0a963b090c0a250d7" name="ad3dc66be236b60b0a963b090c0a250d7"></a>
 pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>sibling</b></td></tr>
+<tr class="memdesc:ad3dc66be236b60b0a963b090c0a250d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Id of the next sibling node, or 0 if none. <br /></td></tr>
 <tr class="separator:ad3dc66be236b60b0a963b090c0a250d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9b4fe1574e86bd16e09162df0003b5e"><td class="memItemLeft" align="right" valign="top"><a id="ad9b4fe1574e86bd16e09162df0003b5e" name="ad9b4fe1574e86bd16e09162df0003b5e"></a>
 pheap_node_id_t&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
+<tr class="memdesc:ad9b4fe1574e86bd16e09162df0003b5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Id of the parent node, or 0 if this is the root. <br /></td></tr>
 <tr class="separator:ad9b4fe1574e86bd16e09162df0003b5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >A node within a pairing heap. </p>
+<p >Stores the linkage indices for a single node in the heap tree. User state for each node is maintained separately in a companion array. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/util/<a class="el" href="pheap_8h_source.html">pheap.h</a></li>
 </ul>
 </div><!-- contents -->

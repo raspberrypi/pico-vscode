@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -119,6 +119,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9aa9b63d7b500add5590ea2d8a4347ed"><td class="memItemLeft" align="right" valign="top">const btstack_run_loop_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__btstack.html#ga9aa9b63d7b500add5590ea2d8a4347ed">btstack_run_loop_async_context_get_instance</a> (<a class="el" href="structasync__context.html">async_context_t</a> *context)</td></tr>
 <tr class="memdesc:ga9aa9b63d7b500add5590ea2d8a4347ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize and return the singleton BTstack run loop instance that integrates with the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> API.  <a href="group__pico__btstack.html#ga9aa9b63d7b500add5590ea2d8a4347ed">More...</a><br /></td></tr>
 <tr class="separator:ga9aa9b63d7b500add5590ea2d8a4347ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga44e9c97ae0456f4a5d1cb9c2c460877d"><td class="memItemLeft" align="right" valign="top"><a id="ga44e9c97ae0456f4a5d1cb9c2c460877d" name="ga44e9c97ae0456f4a5d1cb9c2c460877d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>btstack_run_loop_async_context_deinit</b> (void)</td></tr>
+<tr class="memdesc:ga44e9c97ae0456f4a5d1cb9c2c460877d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deinitialize the BTstack state to stop it using the <a class="el" href="structasync__context.html" title="Base structure type of all async_contexts. For details about its use, see pico_async_context.">async_context</a> API. <br /></td></tr>
+<tr class="separator:ga44e9c97ae0456f4a5d1cb9c2c460877d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga739fcedddb9214a7c86995677b31c09a"><td class="memItemLeft" align="right" valign="top"><a id="ga739fcedddb9214a7c86995677b31c09a" name="ga739fcedddb9214a7c86995677b31c09a"></a>
 const btstack_chipset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>btstack_chipset_cyw43_instance</b> (void)</td></tr>
 <tr class="memdesc:ga739fcedddb9214a7c86995677b31c09a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the singleton BTstack chipset CY43 API instance. <br /></td></tr>
@@ -129,7 +133,7 @@ const btstack_chipset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>
 <p >A supplemental license for BTstack (in addition to the stock BTstack licensing terms) is provided <a href="https://github.com/raspberrypi/pico-sdk/blob/master/src/rp2_common/pico_btstack/LICENSE.RP">here</a>.</p>
 <p >The <code><b>pico_btstack_ble</b> library</code> adds the support needed for Bluetooth Low Energy (BLE). The <code><b>pico_btstack_classic</b> library</code> adds the support needed for Bluetooth Classic. You can link to either library individually, or to both libraries thus enabling dual-mode support provided by BTstack.</p>
 <p >To use BTstack you need to provide a <code>btstack_config.h</code> file in your source tree and add its location to your include path. The BTstack configuration macros <code>ENABLE_CLASSIC</code> and <code>ENABLE_BLE</code> are defined for you when you link the <code>pico_btstack_classic</code> and <code>pico_btstack_ble</code> libraries respectively, so you should not define them yourself.</p>
-<p >For more details, see <a href="https://bluekitchen-gmbh.com/btstack/develop/#how_to/">How to configure BTstack</a> and the relevant <a href="https://github.com/raspberrypi/pico-examples#pico-w-bluetooth">pico-examples</a>.</p>
+<p >For more details, see <a href="https://bluekitchen-gmbh.com/btstack/develop/#how_to/">How to configure BTstack</a> and the relevant <a href="https://github.com/raspberrypi/pico-examples#pico-bluetooth">pico-examples</a>.</p>
 <p >The follow libraries are provided for you to link.</p><ul>
 <li><code><b>pico_btstack_ble</b> -</code> Adds Bluetooth Low Energy (LE) support.</li>
 <li><code><b>pico_btstack_classic</b> -</code> Adds Bluetooth Classic support.</li>
@@ -186,7 +190,7 @@ const btstack_chipset_t *&#160;</td><td class="memItemRight" valign="bottom"><b>
 </div><div class="memdoc">
 
 <p>Return the singleton BTstack HAL flash instance, used for non-volatile storage. </p>
-<dl class="section note"><dt>Note</dt><dd>By default two sectors at the end of flash are used (see <code>PICO_FLASH_BANK_STORAGE_OFFSET</code> and <code>PICO_FLASH_BANK_TOTAL_SIZE</code>) </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>By default, two sectors near the end of flash are used. For RP2350 when PICO_RP2350_A2_SUPPORTED is true, two sectors that are three sectors from the end of flash are used. This keeps the last sector free for a workaround for chip errata RP2350-E10. See the RP2350 datasheet for more details about this. Otherwise, two sectors directly at the end of flash are used. See <code>PICO_FLASH_BANK_STORAGE_OFFSET</code> and <code>PICO_FLASH_BANK_TOTAL_SIZE</code>) </dd></dl>
 
 </div>
 </div>

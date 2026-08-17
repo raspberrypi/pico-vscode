@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,6 +104,7 @@ $(document).ready(function(){initNavTree('group__hardware__sync.html',''); initR
 <div class="header">
   <div class="summary">
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">hardware_sync<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a></div></div></div>
 </div><!--header-->
@@ -119,8 +120,46 @@ Macros</h2></td></tr>
 <tr class="memdesc:gae73045822d06a1733a5bbfbda7895998"><td class="mdescLeft">&#160;</td><td class="mdescRight">A spin lock identifier. <br /></td></tr>
 <tr class="separator:gae73045822d06a1733a5bbfbda7895998"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gaca222ef970d26ec9612d13315dff2cec"><td class="memItemLeft" align="right" valign="top"><a id="gaca222ef970d26ec9612d13315dff2cec" name="gaca222ef970d26ec9612d13315dff2cec"></a>
+typedef volatile uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>boot_lock_t</b></td></tr>
+<tr class="memdesc:gaca222ef970d26ec9612d13315dff2cec"><td class="mdescLeft">&#160;</td><td class="mdescRight">A boot lock identifier. <br /></td></tr>
+<tr class="separator:gaca222ef970d26ec9612d13315dff2cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:gae18270c387886d80fd84360c768e55a4"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gae18270c387886d80fd84360c768e55a4">boot_lock_instance</a> (uint lock_num)</td></tr>
+<tr class="memdesc:gae18270c387886d80fd84360c768e55a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get HW Bootlock instance from number.  <a href="group__hardware__sync.html#gae18270c387886d80fd84360c768e55a4">More...</a><br /></td></tr>
+<tr class="separator:gae18270c387886d80fd84360c768e55a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64375553049eda0322c369bfdac344c8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga64375553049eda0322c369bfdac344c8">boot_lock_get_num</a> (<a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *lock)</td></tr>
+<tr class="memdesc:ga64375553049eda0322c369bfdac344c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get HW Bootlock number from instance.  <a href="group__hardware__sync.html#ga64375553049eda0322c369bfdac344c8">More...</a><br /></td></tr>
+<tr class="separator:ga64375553049eda0322c369bfdac344c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacc6426da00f7bb2fb67dabcba12bbcbc"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gacc6426da00f7bb2fb67dabcba12bbcbc">boot_lock_unsafe_blocking</a> (<a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *lock)</td></tr>
+<tr class="memdesc:gacc6426da00f7bb2fb67dabcba12bbcbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a boot lock without disabling interrupts (hence unsafe)  <a href="group__hardware__sync.html#gacc6426da00f7bb2fb67dabcba12bbcbc">More...</a><br /></td></tr>
+<tr class="separator:gacc6426da00f7bb2fb67dabcba12bbcbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga99ca63c784e3c321f3dc58a70a1c56f0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga99ca63c784e3c321f3dc58a70a1c56f0">boot_try_lock_unsafe</a> (<a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *lock)</td></tr>
+<tr class="memdesc:ga99ca63c784e3c321f3dc58a70a1c56f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">try to acquire a boot lock without disabling interrupts (hence unsafe)  <a href="group__hardware__sync.html#ga99ca63c784e3c321f3dc58a70a1c56f0">More...</a><br /></td></tr>
+<tr class="separator:ga99ca63c784e3c321f3dc58a70a1c56f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad163c0a9d041bf123550abc6b946cdd6"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gad163c0a9d041bf123550abc6b946cdd6">boot_unlock_unsafe</a> (<a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *lock)</td></tr>
+<tr class="memdesc:gad163c0a9d041bf123550abc6b946cdd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a boot lock without re-enabling interrupts.  <a href="group__hardware__sync.html#gad163c0a9d041bf123550abc6b946cdd6">More...</a><br /></td></tr>
+<tr class="separator:gad163c0a9d041bf123550abc6b946cdd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae9dba40a58a1662eaccec31949701482"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gae9dba40a58a1662eaccec31949701482">boot_lock_blocking</a> (<a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *lock)</td></tr>
+<tr class="memdesc:gae9dba40a58a1662eaccec31949701482"><td class="mdescLeft">&#160;</td><td class="mdescRight">Acquire a boot lock safely.  <a href="group__hardware__sync.html#gae9dba40a58a1662eaccec31949701482">More...</a><br /></td></tr>
+<tr class="separator:gae9dba40a58a1662eaccec31949701482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga387434548cbc32390b1bc82a979faf5f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga387434548cbc32390b1bc82a979faf5f">is_boot_locked</a> (<a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *lock)</td></tr>
+<tr class="memdesc:ga387434548cbc32390b1bc82a979faf5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check to see if a bootlock is currently acquired elsewhere.  <a href="group__hardware__sync.html#ga387434548cbc32390b1bc82a979faf5f">More...</a><br /></td></tr>
+<tr class="separator:ga387434548cbc32390b1bc82a979faf5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad088c76c65d956849e16bc69f4a4660e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#gad088c76c65d956849e16bc69f4a4660e">boot_unlock</a> (<a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *lock, uint32_t saved_irq)</td></tr>
+<tr class="memdesc:gad088c76c65d956849e16bc69f4a4660e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a boot lock safely.  <a href="group__hardware__sync.html#gad088c76c65d956849e16bc69f4a4660e">More...</a><br /></td></tr>
+<tr class="separator:gad088c76c65d956849e16bc69f4a4660e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3591995a99469da4c4333ca6435ac1c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga3591995a99469da4c4333ca6435ac1c5">boot_lock_init</a> (uint lock_num)</td></tr>
+<tr class="memdesc:ga3591995a99469da4c4333ca6435ac1c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a boot lock.  <a href="group__hardware__sync.html#ga3591995a99469da4c4333ca6435ac1c5">More...</a><br /></td></tr>
+<tr class="separator:ga3591995a99469da4c4333ca6435ac1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaab3f7da71920af454c380717acf38dce"><td class="memItemLeft" align="right" valign="top"><a id="gaab3f7da71920af454c380717acf38dce" name="gaab3f7da71920af454c380717acf38dce"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>boot_locks_reset</b> (void)</td></tr>
+<tr class="memdesc:gaab3f7da71920af454c380717acf38dce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release all boot locks. <br /></td></tr>
+<tr class="separator:gaab3f7da71920af454c380717acf38dce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga9442d73d817ec600c67a632edf8c6668"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga9442d73d817ec600c67a632edf8c6668">__nop</a> (void)</td></tr>
 <tr class="memdesc:ga9442d73d817ec600c67a632edf8c6668"><td class="mdescLeft">&#160;</td><td class="mdescRight">Insert a NOP instruction in to the code path.  <a href="group__hardware__sync.html#ga9442d73d817ec600c67a632edf8c6668">More...</a><br /></td></tr>
 <tr class="separator:ga9442d73d817ec600c67a632edf8c6668"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,14 +189,22 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>__mem_fence_release</b> (void)</td></tr>
 <tr class="memdesc:ga1a9f3cba87fe49a3907a1535b9adfa3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a memory fence. <br /></td></tr>
 <tr class="separator:ga1a9f3cba87fe49a3907a1535b9adfa3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10ec042d3589056d60029e02f12ae63f"><td class="memItemLeft" align="right" valign="top"><a id="ga10ec042d3589056d60029e02f12ae63f" name="ga10ec042d3589056d60029e02f12ae63f"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>disable_interrupts</b> (void)</td></tr>
+<tr class="memdesc:ga10ec042d3589056d60029e02f12ae63f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicitly disable interrupts on the calling core. <br /></td></tr>
+<tr class="separator:ga10ec042d3589056d60029e02f12ae63f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga63a1a5aed9c07d4a23c627a6a47f94f5"><td class="memItemLeft" align="right" valign="top"><a id="ga63a1a5aed9c07d4a23c627a6a47f94f5" name="ga63a1a5aed9c07d4a23c627a6a47f94f5"></a>
+static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><b>enable_interrupts</b> (void)</td></tr>
+<tr class="memdesc:ga63a1a5aed9c07d4a23c627a6a47f94f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Explicitly enable interrupts on the calling core. <br /></td></tr>
+<tr class="separator:ga63a1a5aed9c07d4a23c627a6a47f94f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga15ada9cfb92615e5bb05a29aa3fc7ad8"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8">save_and_disable_interrupts</a> (void)</td></tr>
-<tr class="memdesc:ga15ada9cfb92615e5bb05a29aa3fc7ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save and disable interrupts.  <a href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8">More...</a><br /></td></tr>
+<tr class="memdesc:ga15ada9cfb92615e5bb05a29aa3fc7ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Disable interrupts on the calling core, returning the previous interrupt state.  <a href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8">More...</a><br /></td></tr>
 <tr class="separator:ga15ada9cfb92615e5bb05a29aa3fc7ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga863cdac424a18c8ebfcc62107a4c2ad2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2">restore_interrupts</a> (uint32_t status)</td></tr>
-<tr class="memdesc:ga863cdac424a18c8ebfcc62107a4c2ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore interrupts to a specified state.  <a href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2">More...</a><br /></td></tr>
+<tr class="memdesc:ga863cdac424a18c8ebfcc62107a4c2ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore interrupts to a specified state on the calling core.  <a href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2">More...</a><br /></td></tr>
 <tr class="separator:ga863cdac424a18c8ebfcc62107a4c2ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga4bb69d1717ab90105ea05b82291fc0c7"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">restore_interrupts_from_disabled</a> (uint32_t status)</td></tr>
-<tr class="memdesc:ga4bb69d1717ab90105ea05b82291fc0c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore interrupts to a specified state with restricted transitions.  <a href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">More...</a><br /></td></tr>
+<tr class="memdesc:ga4bb69d1717ab90105ea05b82291fc0c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restore interrupts to a specified state on the calling core with restricted transitions.  <a href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">More...</a><br /></td></tr>
 <tr class="separator:ga4bb69d1717ab90105ea05b82291fc0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga8f4578aa492d4d37dfbdab5c99ab5b1c"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__sync.html#ga8f4578aa492d4d37dfbdab5c99ab5b1c">next_striped_spin_lock_num</a> (void)</td></tr>
 <tr class="memdesc:ga8f4578aa492d4d37dfbdab5c99ab5b1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a spin lock number from the <em>striped</em> range.  <a href="group__hardware__sync.html#ga8f4578aa492d4d37dfbdab5c99ab5b1c">More...</a><br /></td></tr>
@@ -430,6 +477,323 @@ Spin Locks</h2>
 
 </div>
 </div>
+<a id="gae9dba40a58a1662eaccec31949701482" name="gae9dba40a58a1662eaccec31949701482"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae9dba40a58a1662eaccec31949701482">&#9670;&nbsp;</a></span>boot_lock_blocking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint32_t boot_lock_blocking </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td>
+          <td class="paramname"><em>lock</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Acquire a boot lock safely. </p>
+<p >This function will disable interrupts prior to acquiring the bootlock</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock</td><td>Bootlock instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>interrupt status to be used when unlocking, to restore to original state </dd></dl>
+
+</div>
+</div>
+<a id="ga64375553049eda0322c369bfdac344c8" name="ga64375553049eda0322c369bfdac344c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga64375553049eda0322c369bfdac344c8">&#9670;&nbsp;</a></span>boot_lock_get_num()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> uint boot_lock_get_num </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td>
+          <td class="paramname"><em>lock</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get HW Bootlock number from instance. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock</td><td>The Bootlock instance </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The Bootlock ID </dd></dl>
+
+</div>
+</div>
+<a id="ga3591995a99469da4c4333ca6435ac1c5" name="ga3591995a99469da4c4333ca6435ac1c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga3591995a99469da4c4333ca6435ac1c5">&#9670;&nbsp;</a></span>boot_lock_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> * boot_lock_init </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>lock_num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialise a boot lock. </p>
+<p >The boot lock is initially unlocked</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock_num</td><td>The boot lock number </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The boot lock instance </dd></dl>
+
+</div>
+</div>
+<a id="gae18270c387886d80fd84360c768e55a4" name="gae18270c387886d80fd84360c768e55a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae18270c387886d80fd84360c768e55a4">&#9670;&nbsp;</a></span>boot_lock_instance()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> * boot_lock_instance </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>lock_num</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get HW Bootlock instance from number. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock_num</td><td>Bootlock ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The bootlock instance </dd></dl>
+
+</div>
+</div>
+<a id="gacc6426da00f7bb2fb67dabcba12bbcbc" name="gacc6426da00f7bb2fb67dabcba12bbcbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gacc6426da00f7bb2fb67dabcba12bbcbc">&#9670;&nbsp;</a></span>boot_lock_unsafe_blocking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void boot_lock_unsafe_blocking </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td>
+          <td class="paramname"><em>lock</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Acquire a boot lock without disabling interrupts (hence unsafe) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock</td><td>Bootlock instance </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga99ca63c784e3c321f3dc58a70a1c56f0" name="ga99ca63c784e3c321f3dc58a70a1c56f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga99ca63c784e3c321f3dc58a70a1c56f0">&#9670;&nbsp;</a></span>boot_try_lock_unsafe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> bool boot_try_lock_unsafe </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td>
+          <td class="paramname"><em>lock</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>try to acquire a boot lock without disabling interrupts (hence unsafe) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock</td><td>Bootlock instance </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gad088c76c65d956849e16bc69f4a4660e" name="gad088c76c65d956849e16bc69f4a4660e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad088c76c65d956849e16bc69f4a4660e">&#9670;&nbsp;</a></span>boot_unlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void boot_unlock </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td>
+          <td class="paramname"><em>lock</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>saved_irq</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Release a boot lock safely. </p>
+<p >This function will re-enable interrupts according to the parameters.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock</td><td>Bootlock instance </td></tr>
+    <tr><td class="paramname">saved_irq</td><td>Return value from the <a class="el" href="group__hardware__sync.html#gae9dba40a58a1662eaccec31949701482">boot_lock_blocking()</a> function.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__sync.html#gae9dba40a58a1662eaccec31949701482" title="Acquire a boot lock safely.">boot_lock_blocking()</a> </dd></dl>
+
+</div>
+</div>
+<a id="gad163c0a9d041bf123550abc6b946cdd6" name="gad163c0a9d041bf123550abc6b946cdd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gad163c0a9d041bf123550abc6b946cdd6">&#9670;&nbsp;</a></span>boot_unlock_unsafe()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void boot_unlock_unsafe </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td>
+          <td class="paramname"><em>lock</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Release a boot lock without re-enabling interrupts. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock</td><td>Bootlock instance </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga387434548cbc32390b1bc82a979faf5f" name="ga387434548cbc32390b1bc82a979faf5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga387434548cbc32390b1bc82a979faf5f">&#9670;&nbsp;</a></span>is_boot_locked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool is_boot_locked </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__hardware__sync.html#gaca222ef970d26ec9612d13315dff2cec">boot_lock_t</a> *&#160;</td>
+          <td class="paramname"><em>lock</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check to see if a bootlock is currently acquired elsewhere. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">lock</td><td>Bootlock instance </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="gada2be3ad9fabcda77e8bec99e12333fd" name="gada2be3ad9fabcda77e8bec99e12333fd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gada2be3ad9fabcda77e8bec99e12333fd">&#9670;&nbsp;</a></span>is_spin_locked()</h2>
 
@@ -517,10 +881,10 @@ PICO_SPINLOCK_ID_STRIPED_LAST </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Restore interrupts to a specified state. </p>
+<p>Restore interrupts to a specified state on the calling core. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">status</td><td>Previous interrupt status from <a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8" title="Save and disable interrupts.">save_and_disable_interrupts()</a> </td></tr>
+    <tr><td class="paramname">status</td><td>Previous interrupt status from <a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8" title="Disable interrupts on the calling core, returning the previous interrupt state.">save_and_disable_interrupts()</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -551,11 +915,11 @@ PICO_SPINLOCK_ID_STRIPED_LAST </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Restore interrupts to a specified state with restricted transitions. </p>
-<p >This method should only be used when the interrupt state is known to be disabled, e.g. when paired with <a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8">save_and_disable_interrupts()</a></p>
+<p>Restore interrupts to a specified state on the calling core with restricted transitions. </p>
+<p >This method should only be used when the current interrupt state is known to be disabled, e.g. when paired with <a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8">save_and_disable_interrupts()</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">status</td><td>Previous interrupt status from <a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8" title="Save and disable interrupts.">save_and_disable_interrupts()</a> </td></tr>
+    <tr><td class="paramname">status</td><td>Previous interrupt status from <a class="el" href="group__hardware__sync.html#ga15ada9cfb92615e5bb05a29aa3fc7ad8" title="Disable interrupts on the calling core, returning the previous interrupt state.">save_and_disable_interrupts()</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -586,8 +950,9 @@ PICO_SPINLOCK_ID_STRIPED_LAST </dd></dl>
 </table>
 </div><div class="memdoc">
 
-<p>Save and disable interrupts. </p>
-<dl class="section return"><dt>Returns</dt><dd>The prior interrupt enable status for restoration later via <a class="el" href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2" title="Restore interrupts to a specified state.">restore_interrupts()</a> </dd></dl>
+<p>Disable interrupts on the calling core, returning the previous interrupt state. </p>
+<p >This method is commonly paired with <a class="el" href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">restore_interrupts_from_disabled()</a> to temporarily disable interrupts around a piece of code, without needing to care whether interrupts were previously enabled</p>
+<dl class="section return"><dt>Returns</dt><dd>The prior interrupt enable status for restoration later via <a class="el" href="group__hardware__sync.html#ga4bb69d1717ab90105ea05b82291fc0c7">restore_interrupts_from_disabled()</a> or <a class="el" href="group__hardware__sync.html#ga863cdac424a18c8ebfcc62107a4c2ad2">restore_interrupts()</a> </dd></dl>
 
 </div>
 </div>

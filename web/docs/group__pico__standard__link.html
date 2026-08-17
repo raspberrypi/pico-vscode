@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -109,11 +109,30 @@ $(document).ready(function(){initNavTree('group__pico__standard__link.html','');
 <p>Setup for link options for a standard SDK executable.  
 </p>
 <p >Setup for link options for a standard SDK executable. </p>
-<p >This includes</p><ul>
+<p >This includes:</p><ul>
 <li>C runtime initialization</li>
-<li>Linker scripts for 'default', 'no_flash', 'blocked_ram' and 'copy_to_ram' binaries</li>
+<li>Linker scripts for <code>default</code>, <code>no_flash</code>, <code>blocked_ram</code> and <code>copy_to_ram</code> binaries</li>
 <li>'Binary Information' support</li>
-<li>Linker option control </li>
+<li>Linker option control</li>
+</ul>
+<p >The default linker scripts comprise of a base <code>memmap_*.ld</code> file, and a series of <code>.incl</code> files that are included by it.</p>
+<p >The base <code>memmap_*.ld</code> files are located in the <code>pico_platform</code> directory of the target chip. Each file has a tree showing the files that are included by it.</p>
+<p >To override any included files, place the overriding files in a directory, and pass that directory to the pico_add_linker_script_override_path CMake function. The usual files to override when making a custom linker script are:</p><ul>
+<li><code>memory_extra.incl</code>, to add extra memory regions</li>
+<li><code>section_extra_*.incl</code> files, to add extra sections to the binary - see the comments in the files for more details</li>
+<li><code>default_*_excludes.incl</code> files, to change what is placed in RAM for flash binary types (eg <code>default</code>, <code>blocked_ram</code>)</li>
+</ul>
+<p >You can also set variables in the linker script using the pico_set_linker_script_var CMake function, to change the location and size of default memory regions. The available variables are:</p><ul>
+<li><code>HEAP_LOC</code>, to set the heap location</li>
+<li><code>HEAP_LIMIT</code>, to set the heap limit</li>
+<li><code>RAM_ORIGIN</code>, to set the origin of RAM</li>
+<li><code>RAM_LENGTH</code>, to set the length of RAM</li>
+<li><code>XIP_RAM_ORIGIN</code>, to set the origin of XIP RAM</li>
+<li><code>XIP_RAM_LENGTH</code>, to set the length of XIP RAM</li>
+<li><code>SCRATCH_X_ORIGIN</code>, to set the origin of scratch x</li>
+<li><code>SCRATCH_X_LENGTH</code>, to set the length of scratch x</li>
+<li><code>SCRATCH_Y_ORIGIN</code>, to set the origin of scratch y</li>
+<li><code>SCRATCH_Y_LENGTH</code>, to set the length of scratch y </li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

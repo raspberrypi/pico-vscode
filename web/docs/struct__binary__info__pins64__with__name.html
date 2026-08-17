@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,16 +104,21 @@ $(document).ready(function(){initNavTree('struct__binary__info__pins64__with__na
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">_binary_info_pins64_with_name Struct Reference</div></div>
+  <div class="headertitle"><div class="title">_binary_info_pins64_with_name Struct Reference<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a> &raquo; <a class="el" href="group__pico__binary__info.html">pico_binary_info</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Binary info entry associating a human-readable label with a set of GPIO pins (up to 64)  
+ <a href="struct__binary__info__pins64__with__name.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="structure_8h_source.html">structure.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for _binary_info_pins64_with_name:</div>
 <div class="dyncontent">
 <div class="center"><img src="struct__binary__info__pins64__with__name__coll__graph.png" border="0" usemap="#a__binary__info__pins64__with__name_coll__map" alt="Collaboration graph"/></div>
 <map name="a__binary__info__pins64__with__name_coll__map" id="a__binary__info__pins64__with__name_coll__map">
-<area shape="rect" title=" " alt="" coords="5,95,157,136"/>
-<area shape="rect" href="struct__binary__info__core.html" title=" " alt="" coords="13,5,150,32"/>
+<area shape="rect" title="Binary info entry associating a human&#45;readable label with a set of GPIO pins (up to 64)" alt="" coords="5,95,157,136"/>
+<area shape="rect" href="struct__binary__info__core.html" title="Common header fields shared by all binary info entries." alt="" coords="13,5,150,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -121,15 +126,20 @@ Collaboration diagram for _binary_info_pins64_with_name:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:abaebe0859fa0e719b5e36e695bba9a19"><td class="memItemLeft" align="right" valign="top"><a id="abaebe0859fa0e719b5e36e695bba9a19" name="abaebe0859fa0e719b5e36e695bba9a19"></a>
 struct <a class="el" href="struct__binary__info__core.html">_binary_info_core</a>&#160;</td><td class="memItemRight" valign="bottom"><b>core</b></td></tr>
+<tr class="memdesc:abaebe0859fa0e719b5e36e695bba9a19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Common binary info header. <br /></td></tr>
 <tr class="separator:abaebe0859fa0e719b5e36e695bba9a19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae71fca505ea5acd7b5fe01a70d344b81"><td class="memItemLeft" align="right" valign="top"><a id="ae71fca505ea5acd7b5fe01a70d344b81" name="ae71fca505ea5acd7b5fe01a70d344b81"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>pin_mask</b></td></tr>
+<tr class="memdesc:ae71fca505ea5acd7b5fe01a70d344b81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitmask of GPIO pins covered by this entry (up to 64 pins) <br /></td></tr>
 <tr class="separator:ae71fca505ea5acd7b5fe01a70d344b81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a844bbd5b48968f6fabc7cb4b37e7cec4"><td class="memItemLeft" align="right" valign="top"><a id="a844bbd5b48968f6fabc7cb4b37e7cec4" name="a844bbd5b48968f6fabc7cb4b37e7cec4"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>label</b></td></tr>
+<tr class="memdesc:a844bbd5b48968f6fabc7cb4b37e7cec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to the null-terminated pin label. <br /></td></tr>
 <tr class="separator:a844bbd5b48968f6fabc7cb4b37e7cec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Binary info entry associating a human-readable label with a set of GPIO pins (up to 64) </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/binary_info/<a class="el" href="structure_8h_source.html">structure.h</a></li>
 </ul>
 </div><!-- contents -->

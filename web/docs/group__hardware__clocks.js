@@ -1,5 +1,6 @@
 var group__hardware__clocks =
 [
+    [ "GPIO_TO_GPOUT_CLOCK_HANDLE", "group__hardware__clocks.html#ga47efb159334bb5e029b02829f5f18884", null ],
     [ "clock_dest_num_t", "group__hardware__clocks.html#ga9191dff316e7d1c4753f6dff2a72ce77", null ],
     [ "clock_dest_num_t", "group__hardware__clocks.html#ga316b881883b0533cc32883b31f8a08e3", null ],
     [ "clock_num_t", "group__hardware__clocks.html#gae5b3d4a25ed3bb4916782746a6279507", null ],
@@ -148,6 +149,7 @@ var group__hardware__clocks =
     [ "clock_configure", "group__hardware__clocks.html#ga4da87f338212a24bbebce4dd570b81bb", null ],
     [ "clock_configure_gpin", "group__hardware__clocks.html#gae15228c0d8298d19d883a453334a4d40", null ],
     [ "clock_configure_int_divider", "group__hardware__clocks.html#ga097a126a24cec137d4cc6c01a388f8a5", null ],
+    [ "clock_configure_mhz", "group__hardware__clocks.html#ga3483b876f84590b55edfee6967b302d2", null ],
     [ "clock_configure_undivided", "group__hardware__clocks.html#ga6b3cc59b3628108d77b2b1b548ec8053", null ],
     [ "clock_get_hz", "group__hardware__clocks.html#gaa2e43d722ca3375f53cb65513275a625", null ],
     [ "clock_gpio_init", "group__hardware__clocks.html#ga76d69b8d84158f8c2e99ae84b82ca0a1", null ],
@@ -157,6 +159,8 @@ var group__hardware__clocks =
     [ "clock_stop", "group__hardware__clocks.html#ga33862124558abcae451a0607df8d19bc", null ],
     [ "clocks_enable_resus", "group__hardware__clocks.html#ga614700afaa5ee6767ef2cf662e63f84c", null ],
     [ "frequency_count_khz", "group__hardware__clocks.html#gaeb4a4f07e66523304837a6498276dd53", null ],
+    [ "frequency_count_mhz", "group__hardware__clocks.html#ga0c358b3ea86aa09a8734a7a7a6842179", null ],
+    [ "gpio_to_gpout_clock_handle", "group__hardware__clocks.html#gad75fa73a4ca20bec9d9268338f09f99d", null ],
     [ "set_sys_clock_48mhz", "group__hardware__clocks.html#ga89efe34eab0b8b96954eb0e19a38c8be", null ],
     [ "set_sys_clock_hz", "group__hardware__clocks.html#ga28d65a360d9c9423fe5549b216b79683", null ],
     [ "set_sys_clock_khz", "group__hardware__clocks.html#gab3a273e837ba1947bb5fd8fc97cf47e5", null ],

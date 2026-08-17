@@ -1,14 +1,18 @@
 <map id="include/hardware/sync.h" name="include/hardware/sync.h">
-<area shape="rect" id="node1" title=" " alt="" coords="228,5,408,32"/>
-<area shape="rect" id="node2" href="$claim_8h.html" title=" " alt="" coords="23,87,210,114"/>
-<area shape="rect" id="node3" href="$spin__lock_8h_source.html" title=" " alt="" coords="234,80,402,121"/>
-<area shape="rect" id="node4" href="$lock__core_8h.html" title=" " alt="" coords="426,87,605,114"/>
-<area shape="rect" id="node12" href="$queue_8h.html" title=" " alt="" coords="614,177,795,203"/>
-<area shape="rect" id="node5" href="$critical__section_8h.html" title=" " alt="" coords="441,169,589,211"/>
-<area shape="rect" id="node8" href="$mutex_8h.html" title=" " alt="" coords="259,177,417,203"/>
-<area shape="rect" id="node10" href="$sem_8h.html" title=" " alt="" coords="90,177,234,203"/>
-<area shape="rect" id="node6" href="$common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="351,273,498,300"/>
-<area shape="rect" id="node7" href="$multicore_8h.html" title=" " alt="" coords="335,363,514,389"/>
-<area shape="rect" id="node9" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="173,259,327,315"/>
-<area shape="rect" id="node11" href="$async__context__poll_8h_source.html" title=" " alt="" coords="5,266,148,307"/>
+<area shape="rect" id="node1" title=" " alt="" coords="407,5,587,32"/>
+<area shape="rect" id="node2" href="$boot__lock_8h.html" title=" " alt="" coords="11,80,177,121"/>
+<area shape="rect" id="node6" href="$claim_8h.html" title=" " alt="" coords="202,87,389,114"/>
+<area shape="rect" id="node7" href="$spin__lock_8h_source.html" title=" " alt="" coords="413,80,581,121"/>
+<area shape="rect" id="node8" href="$lock__core_8h.html" title=" " alt="" coords="605,87,783,114"/>
+<area shape="rect" id="node16" href="$queue_8h.html" title=" " alt="" coords="793,177,974,203"/>
+<area shape="rect" id="node3" href="$lock_8h_source.html" title=" " alt="" coords="15,169,173,211"/>
+<area shape="rect" id="node4" href="$bootrom_8h.html" title=" " alt="" coords="9,273,179,300"/>
+<area shape="rect" id="node5" href="$cyw43__partition__firmware_8h_source.html" title=" " alt="" coords="5,363,183,404"/>
+<area shape="rect" id="node9" href="$critical__section_8h.html" title=" " alt="" coords="620,169,768,211"/>
+<area shape="rect" id="node12" href="$mutex_8h.html" title=" " alt="" coords="437,177,596,203"/>
+<area shape="rect" id="node14" href="$sem_8h.html" title=" " alt="" coords="269,177,413,203"/>
+<area shape="rect" id="node10" href="$common_2pico__sync_2include_2pico_2sync_8h.html" title=" " alt="" coords="582,273,729,300"/>
+<area shape="rect" id="node11" href="$multicore_8h.html" title=" " alt="" coords="566,370,745,397"/>
+<area shape="rect" id="node13" href="$async__context__threadsafe__background_8h_source.html" title=" " alt="" coords="403,259,558,315"/>
+<area shape="rect" id="node15" href="$async__context__poll_8h_source.html" title=" " alt="" coords="236,266,379,307"/>
 </map>

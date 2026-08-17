@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -217,18 +217,18 @@ Functions</h2></td></tr>
 <tr class="memitem:gaea9779624aa168697879f1f70d46b4cf"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a> (uint32_t bits)</td></tr>
 <tr class="memdesc:gaea9779624aa168697879f1f70d46b4cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bring specified HW blocks out of reset and wait for completion.  <a href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">More...</a><br /></td></tr>
 <tr class="separator:gaea9779624aa168697879f1f70d46b4cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab4ade7bf4b70f31099fa113215d7d1b5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a> (uint32_t block_num)</td></tr>
-<tr class="memdesc:gab4ade7bf4b70f31099fa113215d7d1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW block.  <a href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">More...</a><br /></td></tr>
-<tr class="separator:gab4ade7bf4b70f31099fa113215d7d1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga53301718277cacd11e241809786d2569"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#ga53301718277cacd11e241809786d2569">unreset_block_num</a> (uint block_num)</td></tr>
-<tr class="memdesc:ga53301718277cacd11e241809786d2569"><td class="mdescLeft">&#160;</td><td class="mdescRight">bring specified HW block out of reset  <a href="group__hardware__resets.html#ga53301718277cacd11e241809786d2569">More...</a><br /></td></tr>
-<tr class="separator:ga53301718277cacd11e241809786d2569"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae6cc36bc1b58ebcd68b5ba189fdceb9d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a> (uint block_num)</td></tr>
-<tr class="memdesc:gae6cc36bc1b58ebcd68b5ba189fdceb9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bring specified HW block out of reset and wait for completion.  <a href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">More...</a><br /></td></tr>
-<tr class="separator:gae6cc36bc1b58ebcd68b5ba189fdceb9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae077af002bf9e567048bcbe28f1e82b8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">reset_unreset_block_num_wait_blocking</a> (uint block_num)</td></tr>
-<tr class="memdesc:gae077af002bf9e567048bcbe28f1e82b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW block, and then bring at back out of reset and wait for completion.  <a href="group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8">More...</a><br /></td></tr>
-<tr class="separator:gae077af002bf9e567048bcbe28f1e82b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga095fe55485a0d3cbae20dd5f14595cfa"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#ga095fe55485a0d3cbae20dd5f14595cfa">reset_block_num</a> (<a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a> block_num)</td></tr>
+<tr class="memdesc:ga095fe55485a0d3cbae20dd5f14595cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW block.  <a href="group__hardware__resets.html#ga095fe55485a0d3cbae20dd5f14595cfa">More...</a><br /></td></tr>
+<tr class="separator:ga095fe55485a0d3cbae20dd5f14595cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga440d2d295c763a1e1e1eec6964b910e8"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#ga440d2d295c763a1e1e1eec6964b910e8">unreset_block_num</a> (<a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a> block_num)</td></tr>
+<tr class="memdesc:ga440d2d295c763a1e1e1eec6964b910e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">bring specified HW block out of reset  <a href="group__hardware__resets.html#ga440d2d295c763a1e1e1eec6964b910e8">More...</a><br /></td></tr>
+<tr class="separator:ga440d2d295c763a1e1e1eec6964b910e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga410ecffd9aea6a8df3b35345ac77a5a4"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#ga410ecffd9aea6a8df3b35345ac77a5a4">unreset_block_num_wait_blocking</a> (<a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a> block_num)</td></tr>
+<tr class="memdesc:ga410ecffd9aea6a8df3b35345ac77a5a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bring specified HW block out of reset and wait for completion.  <a href="group__hardware__resets.html#ga410ecffd9aea6a8df3b35345ac77a5a4">More...</a><br /></td></tr>
+<tr class="separator:ga410ecffd9aea6a8df3b35345ac77a5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5de2f63e48f488e59bc2d88c6c6e4f3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__resets.html#gab5de2f63e48f488e59bc2d88c6c6e4f3">reset_unreset_block_num_wait_blocking</a> (<a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a> block_num)</td></tr>
+<tr class="memdesc:gab5de2f63e48f488e59bc2d88c6c6e4f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the specified HW block, and then bring at back out of reset and wait for completion.  <a href="group__hardware__resets.html#gab5de2f63e48f488e59bc2d88c6c6e4f3">More...</a><br /></td></tr>
+<tr class="separator:gab5de2f63e48f488e59bc2d88c6c6e4f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Hardware Reset API. </p>
@@ -236,7 +236,7 @@ Functions</h2></td></tr>
 <h3><a class="anchor" id="reset_bitmask"></a>
 reset_bitmask</h3>
 <p >Multiple blocks are referred to using a bitmask as follows:</p>
-<table class="markdownTable">
+<p >For RP2040: </p><table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Block to reset   </th><th class="markdownTableHeadNone">Bit    </th></tr>
 <tr class="markdownTableRowOdd">
@@ -272,17 +272,79 @@ reset_bitmask</h3>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Pads - QSPI   </td><td class="markdownTableBodyNone">9    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Pads - bank 0   </td><td class="markdownTableBodyNone">8    </td></tr>
+<td class="markdownTableBodyNone">Pads - Bank 0   </td><td class="markdownTableBodyNone">8    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">JTAG   </td><td class="markdownTableBodyNone">7    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">IO Bank 1   </td><td class="markdownTableBodyNone">6    </td></tr>
+<td class="markdownTableBodyNone">IO QSPI   </td><td class="markdownTableBodyNone">6    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">IO Bank 0   </td><td class="markdownTableBodyNone">5    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">I2C 1   </td><td class="markdownTableBodyNone">4    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">I2C 0   </td><td class="markdownTableBodyNone">3    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">DMA   </td><td class="markdownTableBodyNone">2    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Bus Control   </td><td class="markdownTableBodyNone">1    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">ADC 0   </td><td class="markdownTableBodyNone">0   </td></tr>
+</table>
+<p >For RP2350: </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Block to reset   </th><th class="markdownTableHeadNone">Bit    </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">USB   </td><td class="markdownTableBodyNone">28    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">UART 1   </td><td class="markdownTableBodyNone">27    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">UART 0   </td><td class="markdownTableBodyNone">26    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">TRNG   </td><td class="markdownTableBodyNone">25    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Timer 1   </td><td class="markdownTableBodyNone">24    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Timer 0   </td><td class="markdownTableBodyNone">23    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">TB Manager   </td><td class="markdownTableBodyNone">22    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">SysInfo   </td><td class="markdownTableBodyNone">21    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">System Config   </td><td class="markdownTableBodyNone">20    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">SPI 1   </td><td class="markdownTableBodyNone">19    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">SPI 0   </td><td class="markdownTableBodyNone">18    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">SHA256   </td><td class="markdownTableBodyNone">17    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">PWM   </td><td class="markdownTableBodyNone">16    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">PLL USB   </td><td class="markdownTableBodyNone">15    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">PLL System   </td><td class="markdownTableBodyNone">14    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">PIO 2   </td><td class="markdownTableBodyNone">13    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">PIO 1   </td><td class="markdownTableBodyNone">12    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">PIO 0   </td><td class="markdownTableBodyNone">11    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Pads - QSPI   </td><td class="markdownTableBodyNone">10    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Pads - Bank 0   </td><td class="markdownTableBodyNone">9    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">JTAG   </td><td class="markdownTableBodyNone">8    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">IO QSPI   </td><td class="markdownTableBodyNone">7    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">IO Bank 0   </td><td class="markdownTableBodyNone">6    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">I2C 1   </td><td class="markdownTableBodyNone">5    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">I2C 0   </td><td class="markdownTableBodyNone">4    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">HSTX   </td><td class="markdownTableBodyNone">3    </td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">DMA   </td><td class="markdownTableBodyNone">2    </td></tr>
 <tr class="markdownTableRowEven">
@@ -303,10 +365,10 @@ Example</h2>
 <div class="line">    printf(<span class="stringliteral">&quot;Hello, reset!\n&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put the PWM block into reset</span></div>
-<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a>(<a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#ga095fe55485a0d3cbae20dd5f14595cfa">reset_block_num</a>(<a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// And bring it out</span></div>
-<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a>(<a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>);</div>
+<div class="line">    <a class="code hl_function" href="group__hardware__resets.html#ga410ecffd9aea6a8df3b35345ac77a5a4">unreset_block_num_wait_blocking</a>(<a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// Put the PWM and ADC block into reset</span></div>
 <div class="line">    <a class="code hl_function" href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a>((1u &lt;&lt; <a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a>) | (1u &lt;&lt; <a class="code hl_enumvalue" href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455ae878f20914c5790ef9bb04bec2a2ac59">RESET_ADC</a>));</div>
@@ -316,13 +378,13 @@ Example</h2>
 <div class="line"> </div>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
-<div class="ttc" id="agroup__hardware__resets_html_gab4ade7bf4b70f31099fa113215d7d1b5"><div class="ttname"><a href="group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5">reset_block_num</a></div><div class="ttdeci">static void reset_block_num(uint32_t block_num)</div><div class="ttdoc">Reset the specified HW block.</div><div class="ttdef"><b>Definition:</b> resets.h:139</div></div>
-<div class="ttc" id="agroup__hardware__resets_html_gab94a1dac99356f6b632be0b60d1acd63"><div class="ttname"><a href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a></div><div class="ttdeci">static __force_inline void reset_block_mask(uint32_t bits)</div><div class="ttdoc">Reset the specified HW blocks.</div><div class="ttdef"><b>Definition:</b> resets.h:92</div></div>
-<div class="ttc" id="agroup__hardware__resets_html_gae6cc36bc1b58ebcd68b5ba189fdceb9d"><div class="ttname"><a href="group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d">unreset_block_num_wait_blocking</a></div><div class="ttdeci">static void unreset_block_num_wait_blocking(uint block_num)</div><div class="ttdoc">Bring specified HW block out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:158</div></div>
-<div class="ttc" id="agroup__hardware__resets_html_gaea9779624aa168697879f1f70d46b4cf"><div class="ttname"><a href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a></div><div class="ttdeci">static __force_inline void unreset_block_mask_wait_blocking(uint32_t bits)</div><div class="ttdoc">Bring specified HW blocks out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:110</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_ga095fe55485a0d3cbae20dd5f14595cfa"><div class="ttname"><a href="group__hardware__resets.html#ga095fe55485a0d3cbae20dd5f14595cfa">reset_block_num</a></div><div class="ttdeci">static void reset_block_num(reset_num_t block_num)</div><div class="ttdoc">Reset the specified HW block.</div><div class="ttdef"><b>Definition:</b> resets.h:179</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_ga410ecffd9aea6a8df3b35345ac77a5a4"><div class="ttname"><a href="group__hardware__resets.html#ga410ecffd9aea6a8df3b35345ac77a5a4">unreset_block_num_wait_blocking</a></div><div class="ttdeci">static void unreset_block_num_wait_blocking(reset_num_t block_num)</div><div class="ttdoc">Bring specified HW block out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:199</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gab94a1dac99356f6b632be0b60d1acd63"><div class="ttname"><a href="group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63">reset_block_mask</a></div><div class="ttdeci">static __force_inline void reset_block_mask(uint32_t bits)</div><div class="ttdoc">Reset the specified HW blocks.</div><div class="ttdef"><b>Definition:</b> resets.h:132</div></div>
+<div class="ttc" id="agroup__hardware__resets_html_gaea9779624aa168697879f1f70d46b4cf"><div class="ttname"><a href="group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf">unreset_block_mask_wait_blocking</a></div><div class="ttdeci">static __force_inline void unreset_block_mask_wait_blocking(uint32_t bits)</div><div class="ttdoc">Bring specified HW blocks out of reset and wait for completion.</div><div class="ttdef"><b>Definition:</b> resets.h:150</div></div>
 <div class="ttc" id="agroup__hardware__resets_html_gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef"><div class="ttname"><a href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455a5282174c02e8e9dc3cac7387cf891bef">RESET_PWM</a></div><div class="ttdeci">@ RESET_PWM</div><div class="ttdoc">Select PWM to be reset.</div><div class="ttdef"><b>Definition:</b> resets.h:44</div></div>
 <div class="ttc" id="agroup__hardware__resets_html_gga75518d371584c608bc559b6b6b002455ae878f20914c5790ef9bb04bec2a2ac59"><div class="ttname"><a href="group__hardware__resets.html#gga75518d371584c608bc559b6b6b002455ae878f20914c5790ef9bb04bec2a2ac59">RESET_ADC</a></div><div class="ttdeci">@ RESET_ADC</div><div class="ttdoc">Select ADC to be reset.</div><div class="ttdef"><b>Definition:</b> resets.h:30</div></div>
-<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:200</div></div>
+<div class="ttc" id="agroup__pico__stdio_html_ga0e604311fb226dae91ff4eb17a19d67a"><div class="ttname"><a href="group__pico__stdio.html#ga0e604311fb226dae91ff4eb17a19d67a">stdio_init_all</a></div><div class="ttdeci">bool stdio_init_all(void)</div><div class="ttdoc">Initialize all of the present standard stdio types that are linked into the binary.</div><div class="ttdef"><b>Definition:</b> stdio.c:207</div></div>
 <div class="ttc" id="arp2__common_2hardware__resets_2include_2hardware_2resets_8h_html"><div class="ttname"><a href="rp2__common_2hardware__resets_2include_2hardware_2resets_8h.html">resets.h</a></div></div>
 <div class="ttc" id="astdio_8h_html"><div class="ttname"><a href="stdio_8h.html">stdio.h</a></div></div>
 <div class="ttc" id="astdlib_8h_html"><div class="ttname"><a href="stdlib_8h.html">stdlib.h</a></div></div>
@@ -506,8 +568,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="gab4ade7bf4b70f31099fa113215d7d1b5" name="gab4ade7bf4b70f31099fa113215d7d1b5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab4ade7bf4b70f31099fa113215d7d1b5">&#9670;&nbsp;</a></span>reset_block_num()</h2>
+<a id="ga095fe55485a0d3cbae20dd5f14595cfa" name="ga095fe55485a0d3cbae20dd5f14595cfa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga095fe55485a0d3cbae20dd5f14595cfa">&#9670;&nbsp;</a></span>reset_block_num()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -518,7 +580,7 @@ Example</h2>
         <tr>
           <td class="memname">static void reset_block_num </td>
           <td>(</td>
-          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramtype"><a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a>&#160;</td>
           <td class="paramname"><em>block_num</em></td><td>)</td>
           <td></td>
         </tr>
@@ -540,8 +602,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="gae077af002bf9e567048bcbe28f1e82b8" name="gae077af002bf9e567048bcbe28f1e82b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae077af002bf9e567048bcbe28f1e82b8">&#9670;&nbsp;</a></span>reset_unreset_block_num_wait_blocking()</h2>
+<a id="gab5de2f63e48f488e59bc2d88c6c6e4f3" name="gab5de2f63e48f488e59bc2d88c6c6e4f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gab5de2f63e48f488e59bc2d88c6c6e4f3">&#9670;&nbsp;</a></span>reset_unreset_block_num_wait_blocking()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -552,7 +614,7 @@ Example</h2>
         <tr>
           <td class="memname">static void reset_unreset_block_num_wait_blocking </td>
           <td>(</td>
-          <td class="paramtype">uint&#160;</td>
+          <td class="paramtype"><a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a>&#160;</td>
           <td class="paramname"><em>block_num</em></td><td>)</td>
           <td></td>
         </tr>
@@ -642,8 +704,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="ga53301718277cacd11e241809786d2569" name="ga53301718277cacd11e241809786d2569"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga53301718277cacd11e241809786d2569">&#9670;&nbsp;</a></span>unreset_block_num()</h2>
+<a id="ga440d2d295c763a1e1e1eec6964b910e8" name="ga440d2d295c763a1e1e1eec6964b910e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga440d2d295c763a1e1e1eec6964b910e8">&#9670;&nbsp;</a></span>unreset_block_num()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -654,7 +716,7 @@ Example</h2>
         <tr>
           <td class="memname">static void unreset_block_num </td>
           <td>(</td>
-          <td class="paramtype">uint&#160;</td>
+          <td class="paramtype"><a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a>&#160;</td>
           <td class="paramname"><em>block_num</em></td><td>)</td>
           <td></td>
         </tr>
@@ -676,8 +738,8 @@ Example</h2>
 
 </div>
 </div>
-<a id="gae6cc36bc1b58ebcd68b5ba189fdceb9d" name="gae6cc36bc1b58ebcd68b5ba189fdceb9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gae6cc36bc1b58ebcd68b5ba189fdceb9d">&#9670;&nbsp;</a></span>unreset_block_num_wait_blocking()</h2>
+<a id="ga410ecffd9aea6a8df3b35345ac77a5a4" name="ga410ecffd9aea6a8df3b35345ac77a5a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga410ecffd9aea6a8df3b35345ac77a5a4">&#9670;&nbsp;</a></span>unreset_block_num_wait_blocking()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -688,7 +750,7 @@ Example</h2>
         <tr>
           <td class="memname">static void unreset_block_num_wait_blocking </td>
           <td>(</td>
-          <td class="paramtype">uint&#160;</td>
+          <td class="paramtype"><a class="el" href="group__hardware__resets.html#ga329b703b37e2e7506c74f7eaa19468e4">reset_num_t</a>&#160;</td>
           <td class="paramname"><em>block_num</em></td><td>)</td>
           <td></td>
         </tr>

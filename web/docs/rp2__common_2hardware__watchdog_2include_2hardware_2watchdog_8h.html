@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -115,24 +115,25 @@ Include dependency graph for watchdog.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="rp2__common_2hardware__watchdog_2include_2hardware_2watchdog_8h__incl.png" border="0" usemap="#ainclude_2hardware_2watchdog_8h" alt=""/></div>
 <map name="ainclude_2hardware_2watchdog_8h" id="ainclude_2hardware_2watchdog_8h">
-<area shape="rect" title=" " alt="" coords="415,5,629,32"/>
-<area shape="rect" href="pico_8h.html" title=" " alt="" coords="411,80,473,107"/>
-<area shape="rect" title=" " alt="" coords="497,80,707,107"/>
+<area shape="rect" title=" " alt="" coords="511,5,725,32"/>
+<area shape="rect" href="pico_8h.html" title=" " alt="" coords="507,80,569,107"/>
+<area shape="rect" title=" " alt="" coords="593,80,803,107"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="158,304,259,331"/>
-<area shape="rect" title=" " alt="" coords="252,155,365,181"/>
-<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="390,155,494,181"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="596,155,717,181"/>
-<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="741,155,836,181"/>
+<area shape="rect" title=" " alt="" coords="348,155,461,181"/>
+<area shape="rect" href="common_2pico__base__headers_2include_2pico_2config_8h_source.html" title=" " alt="" coords="486,155,590,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="692,155,813,181"/>
+<area shape="rect" href="error_8h_source.html" title=" " alt="" coords="837,155,932,181"/>
 <area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="5,379,111,405"/>
 <area shape="rect" title=" " alt="" coords="74,453,157,480"/>
 <area shape="rect" title=" " alt="" coords="211,379,281,405"/>
 <area shape="rect" title=" " alt="" coords="306,379,381,405"/>
 <area shape="rect" title=" " alt="" coords="173,229,337,256"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="362,229,543,256"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="362,229,543,256"/>
 <area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="567,229,746,256"/>
 <area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="770,229,930,256"/>
-<area shape="rect" title=" " alt="" coords="954,229,1165,256"/>
-<area shape="rect" title=" " alt="" coords="1189,229,1340,256"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="955,229,1137,256"/>
+<area shape="rect" title=" " alt="" coords="1162,229,1373,256"/>
+<area shape="rect" title=" " alt="" coords="1397,229,1548,256"/>
 <area shape="rect" title=" " alt="" coords="357,304,548,331"/>
 </map>
 </div>
@@ -179,8 +180,11 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>watchdog_disable</b> 
 <tr class="memitem:ga455aa48ca6f11298e184d2ae0e81a085"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">watchdog_enable_caused_reboot</a> (void)</td></tr>
 <tr class="memdesc:ga455aa48ca6f11298e184d2ae0e81a085"><td class="mdescLeft">&#160;</td><td class="mdescRight">Did watchdog_enable cause the last reboot?  <a href="group__hardware__watchdog.html#ga455aa48ca6f11298e184d2ae0e81a085">More...</a><br /></td></tr>
 <tr class="separator:ga455aa48ca6f11298e184d2ae0e81a085"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabba4e8fa01f2ff2e5a9fbba4e9d2d86d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#gabba4e8fa01f2ff2e5a9fbba4e9d2d86d">watchdog_get_time_remaining_us</a> (void)</td></tr>
+<tr class="memdesc:gabba4e8fa01f2ff2e5a9fbba4e9d2d86d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of microseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#gabba4e8fa01f2ff2e5a9fbba4e9d2d86d">More...</a><br /></td></tr>
+<tr class="separator:gabba4e8fa01f2ff2e5a9fbba4e9d2d86d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">watchdog_get_time_remaining_ms</a> (void)</td></tr>
-<tr class="memdesc:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of microseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">More...</a><br /></td></tr>
+<tr class="memdesc:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of milliseconds before the watchdog will reboot the chip.  <a href="group__hardware__watchdog.html#ga536c4f5fbb5a967852b4fc8c4d2020bb">More...</a><br /></td></tr>
 <tr class="separator:ga536c4f5fbb5a967852b4fc8c4d2020bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a204f67175e557e8dfc63ac79baec3e8b"><td class="memItemLeft" align="right" valign="top"><a id="a204f67175e557e8dfc63ac79baec3e8b" name="a204f67175e557e8dfc63ac79baec3e8b"></a>
 static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>watchdog_get_count</b> (void)</td></tr>

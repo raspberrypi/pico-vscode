@@ -1,4 +1,20 @@
 var searchData=
 [
-  ['hour_0',['hour',['../structdatetime__t.html#a17dd24536ca75eeeb5c2dc9c4b434962',1,'datetime_t']]]
+  ['daddr_0',['dAddr',['../structpicoboot__range__cmd.html#a3e4f9e9dcae52a430944e20696d08247',1,'picoboot_range_cmd::dAddr()'],['../structpicoboot__address__only__cmd.html#a8cb1987a99580070751af75781e62995',1,'picoboot_address_only_cmd::dAddr()']]],
+  ['data_1',['data',['../structuf2__block.html#ae4cd705c751de56c33d6faa64bf09c9b',1,'uf2_block::data()'],['../structqueue__t.html#ab119c14c39bdc8282e6b4d6ad75d82d3',1,'queue_t::data()']]],
+  ['day_2',['day',['../structdatetime__t.html#a05df8ea065455af228d01595ec169866',1,'datetime_t']]],
+  ['ddelayms_3',['dDelayMS',['../structpicoboot__reboot__cmd.html#a1219ef5704b6b715421cd790fca9f6a5',1,'picoboot_reboot_cmd::dDelayMS()'],['../structpicoboot__reboot2__cmd.html#a44ad53254a94c8c88974e5a3d8aa6994',1,'picoboot_reboot2_cmd::dDelayMS()']]],
+  ['deinit_4',['deinit',['../structasync__context__type.html#a2c91ce8adb366019a575da1683094864',1,'async_context_type']]],
+  ['delay_5fus_5',['delay_us',['../structrepeating__timer.html#ac6f32dc9de4badf18887fa0304d1dedb',1,'repeating_timer']]],
+  ['dflags_6',['dFlags',['../structpicoboot__reboot2__cmd.html#a7dbfa58d422f4fbf8a944a947e06377e',1,'picoboot_reboot2_cmd']]],
+  ['diagnostic_5fpartition_5findex_7',['diagnostic_partition_index',['../structboot__info__t.html#ab28b3bbf222e46618feea2be79e861b4',1,'boot_info_t']]],
+  ['div_8',['div',['../structpwm__config.html#a2fa6d7e34245350783f1339034efa9b7',1,'pwm_config']]],
+  ['do_5fwork_9',['do_work',['../structasync__work__on__timeout.html#a01235aef0d013ca28c820df4809c505b',1,'async_work_on_timeout::do_work()'],['../structasync__when__pending__worker.html#a4111ccb1e1ec6e19bf36d23c86b83e0d',1,'async_when_pending_worker::do_work()']]],
+  ['dotw_10',['dotw',['../structdatetime__t.html#aa0db9feec0b9788ccf413d63ce4f63a5',1,'datetime_t']]],
+  ['dparam0_11',['dParam0',['../structpicoboot__reboot2__cmd.html#ab721f30fb4bf3cf983f19b211f72e288',1,'picoboot_reboot2_cmd']]],
+  ['dparam1_12',['dParam1',['../structpicoboot__reboot2__cmd.html#acb000622c986a2ffd672e4ab8f1afe7b',1,'picoboot_reboot2_cmd']]],
+  ['dparams_13',['dParams',['../structpicoboot__get__info__cmd.html#a1a54c8b0c36504db9be1d9cfc9558d7f',1,'picoboot_get_info_cmd']]],
+  ['dpc_14',['dPC',['../structpicoboot__reboot__cmd.html#a036cfd18586057fe537b78ccdd12b1e2',1,'picoboot_reboot_cmd']]],
+  ['dsize_15',['dSize',['../structpicoboot__range__cmd.html#af39d5d8630e523759ae726de01fb4954',1,'picoboot_range_cmd']]],
+  ['dsp_16',['dSP',['../structpicoboot__reboot__cmd.html#a92c8a6ad6bbf18688de8a615715d2173',1,'picoboot_reboot_cmd']]]
 ];

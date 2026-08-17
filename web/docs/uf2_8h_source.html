@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -127,35 +127,53 @@ $(document).ready(function(){initNavTree('uf2_8h_source.html',''); initResizable
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define UF2_FLAG_MD5_PRESENT             0x00004000u</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#define UF2_FLAG_EXTENSION_FLAGS_PRESENT 0x00008000u</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#define RP2040_FAMILY_ID            0xe48bff56u</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define ABSOLUTE_FAMILY_ID          0xe48bff57u</span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#define DATA_FAMILY_ID              0xe48bff58u</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#define RP2350_ARM_S_FAMILY_ID      0xe48bff59u</span></div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#define RP2350_RISCV_FAMILY_ID      0xe48bff5au</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#define RP2350_ARM_NS_FAMILY_ID     0xe48bff5bu</span></div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#define FAMILY_ID_MAX               0xe48bff5bu</span></div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">// 04 e3 57 99</span></div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#define UF2_EXTENSION_RP2_IGNORE_BLOCK 0x9957e304</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="structuf2__block.html">   40</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structuf2__block.html">uf2_block</a> {</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// 32 byte header</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    uint32_t magic_start0;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    uint32_t magic_start1;</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    uint32_t flags;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    uint32_t target_addr;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    uint32_t payload_size;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    uint32_t block_no;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    uint32_t num_blocks;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    uint32_t file_size; <span class="comment">// or familyID;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    uint8_t  data[476];</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    uint32_t magic_end;</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>};</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">static_assert</span>(<span class="keyword">sizeof</span>(<span class="keyword">struct </span><a class="code hl_struct" href="structuf2__block.html">uf2_block</a>) == 512, <span class="stringliteral">&quot;uf2_block not sector sized&quot;</span>);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="astructuf2__block_html"><div class="ttname"><a href="structuf2__block.html">uf2_block</a></div><div class="ttdef"><b>Definition:</b> uf2.h:40</div></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="comment">// Extra family IDs</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#define CYW43_FIRMWARE_FAMILY_ID    0xe48bff55u</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="comment">// Bootrom supported family IDs</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#define RP2040_FAMILY_ID            0xe48bff56u</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="preprocessor">#define ABSOLUTE_FAMILY_ID          0xe48bff57u</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#define DATA_FAMILY_ID              0xe48bff58u</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#define RP2350_ARM_S_FAMILY_ID      0xe48bff59u</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#define RP2350_RISCV_FAMILY_ID      0xe48bff5au</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#define RP2350_ARM_NS_FAMILY_ID     0xe48bff5bu</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#define BOOTROM_FAMILY_ID_MIN       RP2040_FAMILY_ID</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#define BOOTROM_FAMILY_ID_MAX       RP2350_ARM_NS_FAMILY_ID</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// Defined for backwards compatibility</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="preprocessor">#define FAMILY_ID_MAX               BOOTROM_FAMILY_ID_MAX</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">// 04 e3 57 99</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#define UF2_EXTENSION_RP2_IGNORE_BLOCK 0x9957e304</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="structuf2__block.html">   54</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structuf2__block.html">uf2_block</a> {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// 32 byte header</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="structuf2__block.html#aafae30bd8789fb1dca4cbe8456bbb8b2">   56</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#aafae30bd8789fb1dca4cbe8456bbb8b2">magic_start0</a>; </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="structuf2__block.html#ad0fb477c461a5aba9f5f7587b85f9551">   57</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#ad0fb477c461a5aba9f5f7587b85f9551">magic_start1</a>; </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="structuf2__block.html#aa8162d66e9b3092e3c3eea547466413b">   58</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#aa8162d66e9b3092e3c3eea547466413b">flags</a>;        </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="structuf2__block.html#a9a87b2b13c483396e556a151bba3dd8b">   59</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#a9a87b2b13c483396e556a151bba3dd8b">target_addr</a>;  </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="structuf2__block.html#ae382fa0710052b0631edc58e75e3fda8">   60</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#ae382fa0710052b0631edc58e75e3fda8">payload_size</a>; </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structuf2__block.html#a78e20cc47e3a55bf52715209783036c4">   61</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#a78e20cc47e3a55bf52715209783036c4">block_no</a>;     </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structuf2__block.html#af052c1f7032b4b92db6e655d9909a19d">   62</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#af052c1f7032b4b92db6e655d9909a19d">num_blocks</a>;   </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structuf2__block.html#a2ffdb9eea83dbf908cfab71a3fefdf8c">   63</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#a2ffdb9eea83dbf908cfab71a3fefdf8c">file_size</a>;    </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="structuf2__block.html#ae4cd705c751de56c33d6faa64bf09c9b">   64</a></span>    uint8_t  <a class="code hl_variable" href="structuf2__block.html#ae4cd705c751de56c33d6faa64bf09c9b">data</a>[476];    </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="structuf2__block.html#a811b6d0366c97dbc0a10458a034b1007">   65</a></span>    uint32_t <a class="code hl_variable" href="structuf2__block.html#a811b6d0366c97dbc0a10458a034b1007">magic_end</a>;    </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>};</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">static_assert</span>(<span class="keyword">sizeof</span>(<span class="keyword">struct </span><a class="code hl_struct" href="structuf2__block.html">uf2_block</a>) == 512, <span class="stringliteral">&quot;uf2_block not sector sized&quot;</span>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="astructuf2__block_html"><div class="ttname"><a href="structuf2__block.html">uf2_block</a></div><div class="ttdoc">A single 512-byte UF2 block as written to a RP2xxx device in BOOTSEL mode.</div><div class="ttdef"><b>Definition:</b> uf2.h:54</div></div>
+<div class="ttc" id="astructuf2__block_html_a2ffdb9eea83dbf908cfab71a3fefdf8c"><div class="ttname"><a href="structuf2__block.html#a2ffdb9eea83dbf908cfab71a3fefdf8c">uf2_block::file_size</a></div><div class="ttdeci">uint32_t file_size</div><div class="ttdoc">When UF2_FLAG_FAMILY_ID_PRESENT is set in flags, this contains the UF2 family ID.</div><div class="ttdef"><b>Definition:</b> uf2.h:63</div></div>
+<div class="ttc" id="astructuf2__block_html_a78e20cc47e3a55bf52715209783036c4"><div class="ttname"><a href="structuf2__block.html#a78e20cc47e3a55bf52715209783036c4">uf2_block::block_no</a></div><div class="ttdeci">uint32_t block_no</div><div class="ttdoc">Zero-based index of this block within the UF2 file.</div><div class="ttdef"><b>Definition:</b> uf2.h:61</div></div>
+<div class="ttc" id="astructuf2__block_html_a811b6d0366c97dbc0a10458a034b1007"><div class="ttname"><a href="structuf2__block.html#a811b6d0366c97dbc0a10458a034b1007">uf2_block::magic_end</a></div><div class="ttdeci">uint32_t magic_end</div><div class="ttdoc">Magic number marking the end of the block (UF2_MAGIC_END)</div><div class="ttdef"><b>Definition:</b> uf2.h:65</div></div>
+<div class="ttc" id="astructuf2__block_html_a9a87b2b13c483396e556a151bba3dd8b"><div class="ttname"><a href="structuf2__block.html#a9a87b2b13c483396e556a151bba3dd8b">uf2_block::target_addr</a></div><div class="ttdeci">uint32_t target_addr</div><div class="ttdoc">Address in flash or memory at which to write this block's payload.</div><div class="ttdef"><b>Definition:</b> uf2.h:59</div></div>
+<div class="ttc" id="astructuf2__block_html_aa8162d66e9b3092e3c3eea547466413b"><div class="ttname"><a href="structuf2__block.html#aa8162d66e9b3092e3c3eea547466413b">uf2_block::flags</a></div><div class="ttdeci">uint32_t flags</div><div class="ttdoc">Block flags (e.g. UF2_FLAG_FAMILY_ID_PRESENT)</div><div class="ttdef"><b>Definition:</b> uf2.h:58</div></div>
+<div class="ttc" id="astructuf2__block_html_aafae30bd8789fb1dca4cbe8456bbb8b2"><div class="ttname"><a href="structuf2__block.html#aafae30bd8789fb1dca4cbe8456bbb8b2">uf2_block::magic_start0</a></div><div class="ttdeci">uint32_t magic_start0</div><div class="ttdoc">First magic number identifying a UF2 block (UF2_MAGIC_START0)</div><div class="ttdef"><b>Definition:</b> uf2.h:56</div></div>
+<div class="ttc" id="astructuf2__block_html_ad0fb477c461a5aba9f5f7587b85f9551"><div class="ttname"><a href="structuf2__block.html#ad0fb477c461a5aba9f5f7587b85f9551">uf2_block::magic_start1</a></div><div class="ttdeci">uint32_t magic_start1</div><div class="ttdoc">Second magic number identifying a UF2 block (UF2_MAGIC_START1)</div><div class="ttdef"><b>Definition:</b> uf2.h:57</div></div>
+<div class="ttc" id="astructuf2__block_html_ae382fa0710052b0631edc58e75e3fda8"><div class="ttname"><a href="structuf2__block.html#ae382fa0710052b0631edc58e75e3fda8">uf2_block::payload_size</a></div><div class="ttdeci">uint32_t payload_size</div><div class="ttdoc">Number of valid data bytes in the payload field.</div><div class="ttdef"><b>Definition:</b> uf2.h:60</div></div>
+<div class="ttc" id="astructuf2__block_html_ae4cd705c751de56c33d6faa64bf09c9b"><div class="ttname"><a href="structuf2__block.html#ae4cd705c751de56c33d6faa64bf09c9b">uf2_block::data</a></div><div class="ttdeci">uint8_t data[476]</div><div class="ttdoc">Raw payload data written to target_addr.</div><div class="ttdef"><b>Definition:</b> uf2.h:64</div></div>
+<div class="ttc" id="astructuf2__block_html_af052c1f7032b4b92db6e655d9909a19d"><div class="ttname"><a href="structuf2__block.html#af052c1f7032b4b92db6e655d9909a19d">uf2_block::num_blocks</a></div><div class="ttdeci">uint32_t num_blocks</div><div class="ttdoc">Total number of blocks in the UF2 file.</div><div class="ttdef"><b>Definition:</b> uf2.h:62</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

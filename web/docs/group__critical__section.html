@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,8 @@ $(document).ready(function(){initNavTree('group__critical__section.html',''); in
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">critical_section<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__sync.html">pico_sync</a></div></div></div>
 </div><!--header-->
@@ -111,28 +113,61 @@ $(document).ready(function(){initNavTree('group__critical__section.html',''); in
 <p>Critical Section API for short-lived mutual exclusion safe for IRQ and multi-core.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcritical__section.html">critical_section</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Critical section instance.  <a href="structcritical__section.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="memItemLeft" align="right" valign="top">typedef struct __packed_aligned <a class="el" href="structcritical__section.html">critical_section</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a></td></tr>
+<tr class="memdesc:ga0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Critical section instance.  <a href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">More...</a><br /></td></tr>
+<tr class="separator:ga0b3d29c6f161f9975ed60d9aab8e6d3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga22cd2722a96179036820e87b29209cfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">critical_section_init</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga22cd2722a96179036820e87b29209cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html">critical_section</a> structure allowing the system to assign a spin lock number.  <a href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">More...</a><br /></td></tr>
+<tr class="memitem:ga22cd2722a96179036820e87b29209cfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">critical_section_init</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga22cd2722a96179036820e87b29209cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure allowing the system to assign a spin lock number.  <a href="group__critical__section.html#ga22cd2722a96179036820e87b29209cfd">More...</a><br /></td></tr>
 <tr class="separator:ga22cd2722a96179036820e87b29209cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">critical_section_init_with_lock_num</a> (critical_section_t *crit_sec, uint lock_num)</td></tr>
-<tr class="memdesc:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html">critical_section</a> structure assigning a specific spin lock number.  <a href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">More...</a><br /></td></tr>
+<tr class="memitem:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">critical_section_init_with_lock_num</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec, uint lock_num)</td></tr>
+<tr class="memdesc:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure assigning a specific spin lock number.  <a href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">More...</a><br /></td></tr>
 <tr class="separator:gae1b4eb5dcab9ac679970ac43d618de2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga15e4552b4e1419faad51eba026a39aad"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga15e4552b4e1419faad51eba026a39aad">critical_section_enter_blocking</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga15e4552b4e1419faad51eba026a39aad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enter a <a class="el" href="structcritical__section.html">critical_section</a>.  <a href="group__critical__section.html#ga15e4552b4e1419faad51eba026a39aad">More...</a><br /></td></tr>
-<tr class="separator:ga15e4552b4e1419faad51eba026a39aad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab57fcee3973b26dced4601e6018a227c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#gab57fcee3973b26dced4601e6018a227c">critical_section_exit</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:gab57fcee3973b26dced4601e6018a227c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a <a class="el" href="structcritical__section.html">critical_section</a>.  <a href="group__critical__section.html#gab57fcee3973b26dced4601e6018a227c">More...</a><br /></td></tr>
-<tr class="separator:gab57fcee3973b26dced4601e6018a227c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga08444ba7879fae8813dd5573a13f0351"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">critical_section_deinit</a> (critical_section_t *crit_sec)</td></tr>
-<tr class="memdesc:ga08444ba7879fae8813dd5573a13f0351"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-Initialise a <a class="el" href="structcritical__section.html">critical_section</a> created by the critical_section_init method.  <a href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">More...</a><br /></td></tr>
+<tr class="memitem:ga5e5dff66b0268ab178cb0591b0ceb417"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga5e5dff66b0268ab178cb0591b0ceb417">critical_section_enter_blocking</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga5e5dff66b0268ab178cb0591b0ceb417"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enter a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a>.  <a href="group__critical__section.html#ga5e5dff66b0268ab178cb0591b0ceb417">More...</a><br /></td></tr>
+<tr class="separator:ga5e5dff66b0268ab178cb0591b0ceb417"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8c7bd4ac78c014821274efe81412cbfd"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga8c7bd4ac78c014821274efe81412cbfd">critical_section_exit</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga8c7bd4ac78c014821274efe81412cbfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Release a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a>.  <a href="group__critical__section.html#ga8c7bd4ac78c014821274efe81412cbfd">More...</a><br /></td></tr>
+<tr class="separator:ga8c7bd4ac78c014821274efe81412cbfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga08444ba7879fae8813dd5573a13f0351"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">critical_section_deinit</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga08444ba7879fae8813dd5573a13f0351"><td class="mdescLeft">&#160;</td><td class="mdescRight">De-Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> created by the critical_section_init method.  <a href="group__critical__section.html#ga08444ba7879fae8813dd5573a13f0351">More...</a><br /></td></tr>
 <tr class="separator:ga08444ba7879fae8813dd5573a13f0351"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0be65abf0782a68a724bd6d37fd5e010"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__critical__section.html#ga0be65abf0782a68a724bd6d37fd5e010">critical_section_is_initialized</a> (<a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *crit_sec)</td></tr>
+<tr class="memdesc:ga0be65abf0782a68a724bd6d37fd5e010"><td class="mdescLeft">&#160;</td><td class="mdescRight">Test whether a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> has been initialized.  <a href="group__critical__section.html#ga0be65abf0782a68a724bd6d37fd5e010">More...</a><br /></td></tr>
+<tr class="separator:ga0be65abf0782a68a724bd6d37fd5e010"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Critical Section API for short-lived mutual exclusion safe for IRQ and multi-core. </p>
 <p >A critical section is non-reentrant, and provides mutual exclusion using a spin-lock to prevent access from the other core, and from (higher priority) interrupts on the same core. It does the former using a spin lock and the latter by disabling interrupts on the calling core.</p>
-<p >Because interrupts are disabled when a <a class="el" href="structcritical__section.html">critical_section</a> is owned, uses of the <a class="el" href="structcritical__section.html">critical_section</a> should be as short as possible. </p>
+<p >Because interrupts are disabled when a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> is owned, uses of the <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> should be as short as possible. </p>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga0b3d29c6f161f9975ed60d9aab8e6d3a" name="ga0b3d29c6f161f9975ed60d9aab8e6d3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0b3d29c6f161f9975ed60d9aab8e6d3a">&#9670;&nbsp;</a></span>critical_section_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct __packed_aligned <a class="el" href="structcritical__section.html">critical_section</a> <a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Critical section instance. </p>
+<p >Structure holding the state for a single critical section, including the associated spin lock and the saved interrupt state. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga08444ba7879fae8813dd5573a13f0351" name="ga08444ba7879fae8813dd5573a13f0351"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga08444ba7879fae8813dd5573a13f0351">&#9670;&nbsp;</a></span>critical_section_deinit()</h2>
@@ -143,26 +178,26 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void critical_section_deinit </td>
           <td>(</td>
-          <td class="paramtype">critical_section_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *&#160;</td>
           <td class="paramname"><em>crit_sec</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>De-Initialise a <a class="el" href="structcritical__section.html">critical_section</a> created by the critical_section_init method. </p>
+<p>De-Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> created by the critical_section_init method. </p>
 <p >This method is only used to free the associated spin lock allocated via the critical_section_init method (it should not be used to de-initialize a spin lock created via critical_section_init_with_lock_num). After this call, the critical section is invalid</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html">critical_section</a> structure </td></tr>
+    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="ga15e4552b4e1419faad51eba026a39aad" name="ga15e4552b4e1419faad51eba026a39aad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga15e4552b4e1419faad51eba026a39aad">&#9670;&nbsp;</a></span>critical_section_enter_blocking()</h2>
+<a id="ga5e5dff66b0268ab178cb0591b0ceb417" name="ga5e5dff66b0268ab178cb0591b0ceb417"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5e5dff66b0268ab178cb0591b0ceb417">&#9670;&nbsp;</a></span>critical_section_enter_blocking()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -171,33 +206,33 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void critical_section_enter_blocking </td>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void critical_section_enter_blocking </td>
           <td>(</td>
-          <td class="paramtype">critical_section_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *&#160;</td>
           <td class="paramname"><em>crit_sec</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Enter a <a class="el" href="structcritical__section.html">critical_section</a>. </p>
+<p>Enter a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a>. </p>
 <p >If the spin lock associated with this critical section is in use, then this method will block until it is released.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html">critical_section</a> structure </td></tr>
+    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="gab57fcee3973b26dced4601e6018a227c" name="gab57fcee3973b26dced4601e6018a227c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gab57fcee3973b26dced4601e6018a227c">&#9670;&nbsp;</a></span>critical_section_exit()</h2>
+<a id="ga8c7bd4ac78c014821274efe81412cbfd" name="ga8c7bd4ac78c014821274efe81412cbfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8c7bd4ac78c014821274efe81412cbfd">&#9670;&nbsp;</a></span>critical_section_exit()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -206,24 +241,24 @@ Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void critical_section_exit </td>
+          <td class="memname">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void critical_section_exit </td>
           <td>(</td>
-          <td class="paramtype">critical_section_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *&#160;</td>
           <td class="paramname"><em>crit_sec</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Release a <a class="el" href="structcritical__section.html">critical_section</a>. </p>
+<p>Release a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html">critical_section</a> structure </td></tr>
+    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -239,18 +274,18 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void critical_section_init </td>
           <td>(</td>
-          <td class="paramtype">critical_section_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *&#160;</td>
           <td class="paramname"><em>crit_sec</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialise a <a class="el" href="structcritical__section.html">critical_section</a> structure allowing the system to assign a spin lock number. </p>
+<p>Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure allowing the system to assign a spin lock number. </p>
 <p >The critical section is initialized ready for use, and will use a (possibly shared) spin lock number assigned by the system. Note that in general it is unlikely that you would be nesting critical sections, however if you do so you <em>must</em> use <a class="el" href="group__critical__section.html#gae1b4eb5dcab9ac679970ac43d618de2c">critical_section_init_with_lock_num</a> to ensure that the spin locks used are different.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html">critical_section</a> structure </td></tr>
+    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure </td></tr>
   </table>
   </dd>
 </dl>
@@ -266,7 +301,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void critical_section_init_with_lock_num </td>
           <td>(</td>
-          <td class="paramtype">critical_section_t *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *&#160;</td>
           <td class="paramname"><em>crit_sec</em>, </td>
         </tr>
         <tr>
@@ -283,14 +318,49 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Initialise a <a class="el" href="structcritical__section.html">critical_section</a> structure assigning a specific spin lock number. </p>
+<p>Initialise a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure assigning a specific spin lock number. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html">critical_section</a> structure </td></tr>
+    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure </td></tr>
     <tr><td class="paramname">lock_num</td><td>the specific spin lock number to use </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a id="ga0be65abf0782a68a724bd6d37fd5e010" name="ga0be65abf0782a68a724bd6d37fd5e010"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0be65abf0782a68a724bd6d37fd5e010">&#9670;&nbsp;</a></span>critical_section_is_initialized()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool critical_section_is_initialized </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__critical__section.html#ga0b3d29c6f161f9975ed60d9aab8e6d3a">critical_section_t</a> *&#160;</td>
+          <td class="paramname"><em>crit_sec</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Test whether a <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> has been initialized. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">crit_sec</td><td>Pointer to <a class="el" href="structcritical__section.html" title="Critical section instance.">critical_section</a> structure </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the critical section is initialized, false otherwise </dd></dl>
 
 </div>
 </div>

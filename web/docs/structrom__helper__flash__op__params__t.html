@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,15 +104,20 @@ $(document).ready(function(){initNavTree('structrom__helper__flash__op__params__
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">rom_helper_flash_op_params_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">rom_helper_flash_op_params_t Struct Reference<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a> &raquo; <a class="el" href="group__pico__bootrom.html">pico_bootrom</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Parameters for the flash operation helper used with flash_safe_execute.  
+ <a href="structrom__helper__flash__op__params__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="bootrom_8h_source.html">bootrom.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for rom_helper_flash_op_params_t:</div>
 <div class="dyncontent">
 <div class="center"><img src="structrom__helper__flash__op__params__t__coll__graph.png" border="0" usemap="#arom__helper__flash__op__params__t_coll__map" alt="Collaboration graph"/></div>
 <map name="arom__helper__flash__op__params__t_coll__map" id="arom__helper__flash__op__params__t_coll__map">
-<area shape="rect" title=" " alt="" coords="5,95,163,136"/>
+<area shape="rect" title="Parameters for the flash operation helper used with flash_safe_execute." alt="" coords="5,95,163,136"/>
 <area shape="rect" href="structcflash__flags.html" title=" " alt="" coords="35,5,133,32"/>
 </map>
 <center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
@@ -121,21 +126,29 @@ Collaboration diagram for rom_helper_flash_op_params_t:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:ab1b2ae1a4a2f5238afb0ae3b9d3b49b6"><td class="memItemLeft" align="right" valign="top"><a id="ab1b2ae1a4a2f5238afb0ae3b9d3b49b6" name="ab1b2ae1a4a2f5238afb0ae3b9d3b49b6"></a>
 <a class="el" href="structcflash__flags.html">cflash_flags_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>flags</b></td></tr>
+<tr class="memdesc:ab1b2ae1a4a2f5238afb0ae3b9d3b49b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flags controlling the security level, address space, and flash operation. <br /></td></tr>
 <tr class="separator:ab1b2ae1a4a2f5238afb0ae3b9d3b49b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7c42ff5221f9910a4415809e5126cdd"><td class="memItemLeft" align="right" valign="top"><a id="ac7c42ff5221f9910a4415809e5126cdd" name="ac7c42ff5221f9910a4415809e5126cdd"></a>
 uintptr_t&#160;</td><td class="memItemRight" valign="bottom"><b>addr</b></td></tr>
+<tr class="memdesc:ac7c42ff5221f9910a4415809e5126cdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Address of the first flash byte to be accessed. <br /></td></tr>
 <tr class="separator:ac7c42ff5221f9910a4415809e5126cdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac443d1986f86328babe89b536afbf7a1"><td class="memItemLeft" align="right" valign="top"><a id="ac443d1986f86328babe89b536afbf7a1" name="ac443d1986f86328babe89b536afbf7a1"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>size_bytes</b></td></tr>
+<tr class="memdesc:ac443d1986f86328babe89b536afbf7a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the buffer in bytes. <br /></td></tr>
 <tr class="separator:ac443d1986f86328babe89b536afbf7a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a534f1ee7b3055b7640ee05805b5b655a"><td class="memItemLeft" align="right" valign="top"><a id="a534f1ee7b3055b7640ee05805b5b655a" name="a534f1ee7b3055b7640ee05805b5b655a"></a>
 uint8_t *&#160;</td><td class="memItemRight" valign="bottom"><b>buf</b></td></tr>
+<tr class="memdesc:a534f1ee7b3055b7640ee05805b5b655a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Buffer for data to be written to or read from flash. <br /></td></tr>
 <tr class="separator:a534f1ee7b3055b7640ee05805b5b655a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26eeb414ed341328fdb6a89fd3fa3275"><td class="memItemLeft" align="right" valign="top"><a id="a26eeb414ed341328fdb6a89fd3fa3275" name="a26eeb414ed341328fdb6a89fd3fa3275"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><b>res</b></td></tr>
+<tr class="memdesc:a26eeb414ed341328fdb6a89fd3fa3275"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pointer to store the return code from the flash operation. <br /></td></tr>
 <tr class="separator:a26eeb414ed341328fdb6a89fd3fa3275"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Parameters for the flash operation helper used with flash_safe_execute. </p>
+<p >Bundles the arguments for rom_flash_op so they can be passed through the flash_safe_execute callback interface as a single pointer. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/<a class="el" href="bootrom_8h_source.html">bootrom.h</a></li>
 </ul>
 </div><!-- contents -->

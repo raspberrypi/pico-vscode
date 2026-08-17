@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -124,7 +124,7 @@ $(document).ready(function(){initNavTree('xip__aux_8h_source.html',''); initResi
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structxip__aux__hw__t.html">   26</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    _REG_(XIP_AUX_STREAM_OFFSET) <span class="comment">// XIP_AUX_STREAM</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// Read the XIP stream FIFO (fast bus access to XIP_CTRL_STREAM_FIFO)</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 0xffffffff [31:0]  STREAM       (0x00000000) </span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 0xffffffff [31:0]  STREAM       (0x00000000)</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    io_ro_32 stream;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    _REG_(XIP_AUX_QMI_DIRECT_TX_OFFSET) <span class="comment">// XIP_AUX_QMI_DIRECT_TX</span></div>
@@ -146,7 +146,6 @@ $(document).ready(function(){initNavTree('xip__aux_8h_source.html',''); initResi
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">static_assert</span>(<span class="keyword">sizeof</span> (<a class="code hl_struct" href="structxip__aux__hw__t.html">xip_aux_hw_t</a>) == 0x000c, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="preprocessor">#endif </span><span class="comment">// _HARDWARE_STRUCTS_XIP_AUX_H</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
 <div class="ttc" id="aaddress__mapped_8h_html"><div class="ttname"><a href="address__mapped_8h.html">address_mapped.h</a></div></div>
 <div class="ttc" id="astructxip__aux__hw__t_html"><div class="ttname"><a href="structxip__aux__hw__t.html">xip_aux_hw_t</a></div><div class="ttdef"><b>Definition:</b> xip_aux.h:26</div></div>
 </div><!-- fragment --></div><!-- contents -->

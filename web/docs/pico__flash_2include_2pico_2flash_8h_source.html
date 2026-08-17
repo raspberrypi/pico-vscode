@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -148,32 +148,35 @@ $(document).ready(function(){initNavTree('pico__flash_2include_2pico_2flash_8h_s
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">// PICO_CONFIG: PICO_FLASH_SAFE_EXECUTE_PICO_SUPPORT_MULTICORE_LOCKOUT, Support using multicore_lockout functions to make the other core safe during flash_safe_execute, type=bool, default=1 when using pico_multicore, group=pico_flash</span></div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#ifndef PICO_FLASH_SAFE_EXECUTE_PICO_SUPPORT_MULTICORE_LOCKOUT</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#if LIB_PICO_MULTICORE</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#define PICO_FLASH_SAFE_EXECUTE_PICO_SUPPORT_MULTICORE_LOCKOUT 1</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="structflash__safety__helper__t.html">  118</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    bool (*core_init_deinit)(<span class="keywordtype">bool</span> init);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    int (*enter_safe_zone_timeout_ms)(uint32_t timeout_ms);</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    int (*exit_safe_zone_timeout_ms)(uint32_t timeout_ms);</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>} <a class="code hl_struct" href="structflash__safety__helper__t.html">flash_safety_helper_t</a>;</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><a class="code hl_struct" href="structflash__safety__helper__t.html">flash_safety_helper_t</a> *<a class="code hl_function" href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">get_flash_safety_helper</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">// PICO_CONFIG: PICO_FLASH_SAFE_EXECUTE_SUPPORT_MULTICORE_LOCKOUT, Support using multicore_lockout functions to make the other core safe during flash_safe_execute, type=bool, default=1 when using pico_multicore, group=pico_flash</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#ifndef PICO_FLASH_SAFE_EXECUTE_SUPPORT_MULTICORE_LOCKOUT</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="preprocessor">#ifdef PICO_FLASH_SAFE_EXECUTE_PICO_SUPPORT_MULTICORE_LOCKOUT</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">// support old misspelling</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="preprocessor">#define PICO_FLASH_SAFE_EXECUTE_SUPPORT_MULTICORE_LOCKOUT PICO_FLASH_SAFE_EXECUTE_PICO_SUPPORT_MULTICORE_LOCKOUT</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="preprocessor">#elif LIB_PICO_MULTICORE</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="preprocessor">#define PICO_FLASH_SAFE_EXECUTE_SUPPORT_MULTICORE_LOCKOUT 1</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="structflash__safety__helper__t.html">  127</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno"><a class="line" href="structflash__safety__helper__t.html#a5e40db457290aaae872e830c5c953a43">  128</a></span>    bool (*core_init_deinit)(<span class="keywordtype">bool</span> init); </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="structflash__safety__helper__t.html#acf1194c908ab8cd78ca7b7c1e9e2233a">  129</a></span>    int (*enter_safe_zone_timeout_ms)(uint32_t timeout_ms); </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="structflash__safety__helper__t.html#a62846cbf886aecc021172127975da443">  130</a></span>    int (*exit_safe_zone_timeout_ms)(uint32_t timeout_ms); </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>} <a class="code hl_struct" href="structflash__safety__helper__t.html">flash_safety_helper_t</a>;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><a class="code hl_struct" href="structflash__safety__helper__t.html">flash_safety_helper_t</a> *<a class="code hl_function" href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">get_flash_safety_helper</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>}</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="agroup__pico__flash_html_ga2ad3247806ca16dec03e655eaec1775f"><div class="ttname"><a href="group__pico__flash.html#ga2ad3247806ca16dec03e655eaec1775f">flash_safe_execute_core_init</a></div><div class="ttdeci">bool flash_safe_execute_core_init(void)</div><div class="ttdoc">Initialize a core such that the other core can lock it out during flash_safe_execute.</div><div class="ttdef"><b>Definition:</b> flash.c:65</div></div>
 <div class="ttc" id="agroup__pico__flash_html_ga679076dc10c5beb73d5f1abdb52d6735"><div class="ttname"><a href="group__pico__flash.html#ga679076dc10c5beb73d5f1abdb52d6735">flash_safe_execute</a></div><div class="ttdeci">int flash_safe_execute(void(*func)(void *), void *param, uint32_t enter_exit_timeout_ms)</div><div class="ttdoc">Execute a function with IRQs disabled and with the other core also not executing/reading flash.</div><div class="ttdef"><b>Definition:</b> flash.c:75</div></div>
 <div class="ttc" id="agroup__pico__flash_html_gaed14b762cb5fd483995bd36fc8ad338d"><div class="ttname"><a href="group__pico__flash.html#gaed14b762cb5fd483995bd36fc8ad338d">flash_safe_execute_core_deinit</a></div><div class="ttdeci">bool flash_safe_execute_core_deinit(void)</div><div class="ttdoc">De-initialize work done by flash_safe_execute_core_init.</div><div class="ttdef"><b>Definition:</b> flash.c:70</div></div>
 <div class="ttc" id="agroup__pico__flash_html_gaee44bd9bc42463f0521535825e8d90b2"><div class="ttname"><a href="group__pico__flash.html#gaee44bd9bc42463f0521535825e8d90b2">get_flash_safety_helper</a></div><div class="ttdeci">flash_safety_helper_t * get_flash_safety_helper(void)</div><div class="ttdoc">Internal method to return the flash safety helper implementation.</div><div class="ttdef"><b>Definition:</b> flash.c:61</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
-<div class="ttc" id="astructflash__safety__helper__t_html"><div class="ttname"><a href="structflash__safety__helper__t.html">flash_safety_helper_t</a></div><div class="ttdef"><b>Definition:</b> flash.h:118</div></div>
+<div class="ttc" id="astructflash__safety__helper__t_html"><div class="ttname"><a href="structflash__safety__helper__t.html">flash_safety_helper_t</a></div><div class="ttdoc">Helper interface for coordinating safe flash access across cores.</div><div class="ttdef"><b>Definition:</b> flash.h:127</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

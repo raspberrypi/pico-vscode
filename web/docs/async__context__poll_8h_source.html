@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -121,24 +121,27 @@ $(document).ready(function(){initNavTree('async__context__poll_8h_source.html','
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structasync__context__poll.html">   28</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structasync__context__poll.html">async_context_poll</a> {</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_struct" href="structasync__context.html">async_context_t</a> core;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_struct" href="structsemaphore.html">semaphore_t</a> sem;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>} <a class="code hl_struct" href="structasync__context__poll.html">async_context_poll_t</a>;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__async__context__poll.html#ga4ee772d4efa94ec03e2b2ae2f775837d">async_context_poll_init_with_defaults</a>(<a class="code hl_struct" href="structasync__context__poll.html">async_context_poll_t</a> *self);</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structasync__context__poll.html">   34</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="structasync__context__poll.html">async_context_poll</a> {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structasync__context__poll.html#a5616b7a0e38fedd0ba0b9df33d9a2781">   35</a></span>    <a class="code hl_struct" href="structasync__context.html">async_context_t</a> <a class="code hl_variable" href="structasync__context__poll.html#a5616b7a0e38fedd0ba0b9df33d9a2781">core</a>; </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structasync__context__poll.html#ad6f52e5b8f1deaa2b3f9a76343b552b6">   36</a></span>    <a class="code hl_struct" href="structsemaphore.html">semaphore_t</a> <a class="code hl_variable" href="structasync__context__poll.html#ad6f52e5b8f1deaa2b3f9a76343b552b6">sem</a>; </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="group__async__context__poll.html#gade166f670c874c4e7e40e7337a2fd1ec">   37</a></span>} <a class="code hl_typedef" href="group__async__context__poll.html#gade166f670c874c4e7e40e7337a2fd1ec">async_context_poll_t</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__async__context__poll.html#ga4ee772d4efa94ec03e2b2ae2f775837d">async_context_poll_init_with_defaults</a>(<a class="code hl_struct" href="structasync__context__poll.html">async_context_poll_t</a> *self);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aasync__context_8h_html"><div class="ttname"><a href="async__context_8h.html">async_context.h</a></div></div>
 <div class="ttc" id="agroup__async__context__poll_html_ga4ee772d4efa94ec03e2b2ae2f775837d"><div class="ttname"><a href="group__async__context__poll.html#ga4ee772d4efa94ec03e2b2ae2f775837d">async_context_poll_init_with_defaults</a></div><div class="ttdeci">bool async_context_poll_init_with_defaults(async_context_poll_t *self)</div><div class="ttdoc">Initialize an async_context_poll instance with default values.</div><div class="ttdef"><b>Definition:</b> async_context_poll.c:16</div></div>
+<div class="ttc" id="agroup__async__context__poll_html_gade166f670c874c4e7e40e7337a2fd1ec"><div class="ttname"><a href="group__async__context__poll.html#gade166f670c874c4e7e40e7337a2fd1ec">async_context_poll_t</a></div><div class="ttdeci">struct async_context_poll async_context_poll_t</div><div class="ttdoc">Async context type for a simple single-core polling loop.</div></div>
 <div class="ttc" id="asem_8h_html"><div class="ttname"><a href="sem_8h.html">sem.h</a></div></div>
-<div class="ttc" id="astructasync__context__poll_html"><div class="ttname"><a href="structasync__context__poll.html">async_context_poll</a></div><div class="ttdef"><b>Definition:</b> async_context_poll.h:28</div></div>
+<div class="ttc" id="astructasync__context__poll_html"><div class="ttname"><a href="structasync__context__poll.html">async_context_poll</a></div><div class="ttdoc">Async context type for a simple single-core polling loop.</div><div class="ttdef"><b>Definition:</b> async_context_poll.h:34</div></div>
+<div class="ttc" id="astructasync__context__poll_html_a5616b7a0e38fedd0ba0b9df33d9a2781"><div class="ttname"><a href="structasync__context__poll.html#a5616b7a0e38fedd0ba0b9df33d9a2781">async_context_poll::core</a></div><div class="ttdeci">async_context_t core</div><div class="ttdoc">Core async context state shared by all implementations.</div><div class="ttdef"><b>Definition:</b> async_context_poll.h:35</div></div>
+<div class="ttc" id="astructasync__context__poll_html_ad6f52e5b8f1deaa2b3f9a76343b552b6"><div class="ttname"><a href="structasync__context__poll.html#ad6f52e5b8f1deaa2b3f9a76343b552b6">async_context_poll::sem</a></div><div class="ttdeci">semaphore_t sem</div><div class="ttdoc">Semaphore used to signal that work is pending.</div><div class="ttdef"><b>Definition:</b> async_context_poll.h:36</div></div>
 <div class="ttc" id="astructasync__context_html"><div class="ttname"><a href="structasync__context.html">async_context</a></div><div class="ttdoc">Base structure type of all async_contexts. For details about its use, see pico_async_context.</div><div class="ttdef"><b>Definition:</b> async_context.h:179</div></div>
-<div class="ttc" id="astructsemaphore_html"><div class="ttname"><a href="structsemaphore.html">semaphore</a></div><div class="ttdef"><b>Definition:</b> sem.h:31</div></div>
+<div class="ttc" id="astructsemaphore_html"><div class="ttname"><a href="structsemaphore.html">semaphore</a></div><div class="ttdoc">A semaphore for controlling access to a shared resource.</div><div class="ttdef"><b>Definition:</b> sem.h:37</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

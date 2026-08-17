@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,7 @@ $(document).ready(function(){initNavTree('group__interp__config.html',''); initR
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">interp_config<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a> &raquo; <a class="el" href="group__hardware__interp.html">hardware_interp</a></div></div></div>
 </div><!--header-->
@@ -111,6 +112,12 @@ $(document).ready(function(){initNavTree('group__interp__config.html',''); initR
 <p>Interpolator configuration.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structinterp__config.html">interp_config</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds the configuration for an interpolator lane.  <a href="structinterp__config.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ga30d763b581c679c02cefe2fa90d8c8a7"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__interp__config.html#ga30d763b581c679c02cefe2fa90d8c8a7">interp_config_set_shift</a> (<a class="el" href="structinterp__config.html">interp_config</a> *c, uint shift)</td></tr>
@@ -376,7 +383,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Enable cross results. </p>
-<p >Allows feeding of the other lane’s result into this lane’s accumulator on a POP operation.</p>
+<p >Allows feeding of the other lane's result into this lane's accumulator on a POP operation.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to interpolation config </td></tr>

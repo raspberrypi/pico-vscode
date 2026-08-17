@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -194,13 +194,14 @@ Functions</h2></td></tr>
 <p >On RP2350A, pin numbers may always be specified from 0-31.</p>
 <p >On RP2350B, there are 48 pins but each PIO instance can only address 32 pins (the PIO instance either addresses pins 0-31 or 16-47 based on <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>). The <code>sm_config_</code> state machine configuration always take <em>real</em> pin numbers in the full range, however:</p>
 <ul>
-<li>If <code>PICO_PIO_USE_GPIO_BASE != 1</code> then the 5th bit of the pin number is ignored. This is done so that programs compiled for boards with RP2350A do not incur the extra overhead of dealing with higher pins that don't exist. Effectively these functions behave exactly like RP2040 in this case. Note that <code>PICO_PIO_USE_GPIO_BASE</code> is defaulted to 0 if <code>PICO_RP2350A</code> is 1</li>
+<li>If <code>PICO_PIO_USE_GPIO_BASE != 1</code> then bit 5 of the pin number is ignored. This is done so that programs compiled for boards with RP2350A do not incur the extra overhead of dealing with higher pins that don't exist. Effectively these functions behave exactly like RP2040 in this case. Note that <code>PICO_PIO_USE_GPIO_BASE</code> is defaulted to 0 if <code>PICO_RP2350A</code> is 1</li>
 <li><p class="startli">If <code>PICO_PIO_USE_GPIO_BASE == 1</code> then the state machine configuration stores the actual pin numbers in the range 0-47. Of course in this scenario, it is possible to make an invalid configuration (one which uses pins in both the ranges 0-15 and 32-47).</p>
-<p class="startli"><a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> (or pio_sm_init which calls it) attempts to apply the configuration to a particular PIO's state machine, and will return PICO_ERROR_BAD_ALIGNMENT if the configuration cannot be applied due to the above problem, or if the PIO's GPIO base (see <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>) does not allow access to the required pins.</p>
-<p class="startli">To be clear, <a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> does not change the PIO's GPIO base for you; you must configre the PIO's GPIO base before calling the method, however you can use <a class="el" href="group__hardware__pio.html#ga53c3bbe939b3c58585d0e19ffe91e18e">pio_claim_free_sm_and_add_program_for_gpio_range</a> to find/configure a PIO instance suitable for a partiular GPIO range.</p>
+<p class="startli"><a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> (or <a class="el" href="group__hardware__pio.html#ga8bd15922f2a2f836650ebbda8425b438">pio_sm_init</a> which calls it) attempts to apply the configuration to a particular PIO's state machine, and will return PICO_ERROR_BAD_ALIGNMENT if the configuration cannot be applied due to the above problem, or if the PIO's GPIO base (see <a class="el" href="group__hardware__pio.html#ga332210f0e594b24bf64f4bb1c8f49be3">pio_set_gpio_base</a>) does not allow access to the required pins.</p>
+<p class="startli">To be clear, <a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> does not change the PIO's GPIO base for you; you must configure the PIO's GPIO base before calling the method, however you can use <a class="el" href="group__hardware__pio.html#ga339027f7acb6885a159eb85c114b57f2">pio_claim_free_sm_and_add_program_for_gpio_range</a> to find/configure a PIO instance suitable for a particular GPIO range.</p>
 </li>
 </ul>
-<p >You can set <code>PARAM_ASSERTIONS_ENABLED_HARDWARE_PIO = 1</code> to enable parameter checking to debug pin (or other) issues with hardware_pio methods.  </p>
+<dl class="section note"><dt>Note</dt><dd>When <code>PICO_PIO_USE_GPIO_BASE == 1</code> <a class="el" href="group__hardware__pio.html#ga28e9a84f3332ebf088f665d4b676117b">pio_sm_set_config</a> ignores fields which haven't had the corresponding <code>sm_config_</code> pin function called, so that you don't have to move settings for unused pin sets into the correct pin range. Therefore, it is always a best practice to explicitly configure a pin range starting at pin zero via the corresponding sm_config_ function (e.g. <code>sm_config_set_out_pin_base(config, 0)</code>), as the default values for pin ranges from <a class="el" href="group__sm__config.html#gaf2d2a23b08ba74188160469b3fd09936">pio_get_default_sm_config</a> are now <code>GPIO_BASE + 0</code> not 0 on RP2350B.</dd></dl>
+<p>You can set <code>PARAM_ASSERTIONS_ENABLED_HARDWARE_PIO = 1</code> to enable parameter checking to debug pin (or other) issues with hardware_pio methods.  </p>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="gaf2d2a23b08ba74188160469b3fd09936" name="gaf2d2a23b08ba74188160469b3fd09936"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaf2d2a23b08ba74188160469b3fd09936">&#9670;&nbsp;</a></span>pio_get_default_sm_config()</h2>
@@ -231,28 +232,32 @@ Functions</h2></td></tr>
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Setting   </th><th class="markdownTableHeadNone">Default    </th></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Out Pins   </td><td class="markdownTableBodyNone">32 starting at 0    </td></tr>
+<td class="markdownTableBodyNone">Clock Divider   </td><td class="markdownTableBodyNone">1    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Set Pins   </td><td class="markdownTableBodyNone">0 starting at 0    </td></tr>
+<td class="markdownTableBodyNone">Out Pins   </td><td class="markdownTableBodyNone">0 starting at 0 (see note below)    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">In Pins   </td><td class="markdownTableBodyNone">32 starting at 0    </td></tr>
+<td class="markdownTableBodyNone">Set Pins   </td><td class="markdownTableBodyNone">0 starting at 0 (see note below)    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Side Set Pins (base)   </td><td class="markdownTableBodyNone">0    </td></tr>
+<td class="markdownTableBodyNone">In Pins   </td><td class="markdownTableBodyNone">32 starting at 0 (see note below)    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Side Set Pins (base)   </td><td class="markdownTableBodyNone">0 (see note below)    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Side Set   </td><td class="markdownTableBodyNone">disabled    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Wrap   </td><td class="markdownTableBodyNone">wrap=31, wrap_to=0    </td></tr>
-<tr class="markdownTableRowOdd">
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">In Shift   </td><td class="markdownTableBodyNone">shift_direction=right, autopush=false, push_threshold=32    </td></tr>
-<tr class="markdownTableRowEven">
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone">Out Shift   </td><td class="markdownTableBodyNone">shift_direction=right, autopull=false, pull_threshold=32    </td></tr>
-<tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone">Jmp Pin   </td><td class="markdownTableBodyNone">0    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone">Out Special   </td><td class="markdownTableBodyNone">sticky=false, has_enable_pin=false, enable_pin_index=0    </td></tr>
+<td class="markdownTableBodyNone">Jmp Pin   </td><td class="markdownTableBodyNone">0 (see note below)    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Out Special   </td><td class="markdownTableBodyNone">sticky=false, has_enable_pin=false, enable_pin_index=0    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone">Mov Status   </td><td class="markdownTableBodyNone">status_sel=STATUS_TX_LESSTHAN, n=0   </td></tr>
 </table>
+<dl class="section note"><dt>Note</dt><dd>On RP2350B with PICO_PIO_USE_GPIO_BASE = 1, the default Out/Set/In/Side Set pin bases are actually 0 relative to the GPIO_BASE of the PIO instance the <a class="el" href="structpio__sm__config.html" title="PIO Configuration structure.">pio_sm_config</a> is applied to, so that any pin bases which aren't explicitly specified are not included in logic related to choosing a compatible PIO instance.</dd></dl>
+<p>Therefore, for example, if you intend to use Out pins starting at pin 0 on RP2350B, you should call <code>sm_config_set_out_pin_base(config, 0)</code>, or <code>sm_config_set_out_pins(config, 0, count)</code> explicitly.</p>
 <dl class="section return"><dt>Returns</dt><dd>the default state machine configuration which can then be modified. </dd></dl>
 
 </div>
@@ -395,11 +400,10 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">join</td><td>Specifies the join type. </td></tr>
+    <tr><td class="paramname">join</td><td>Specifies the join type. See <a class="el" href="group__hardware__pio.html#ga7d415b966abbc1c25315d0775d093356">pio_fifo_join</a> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section see"><dt>See also</dt><dd>enum <a class="el" href="group__hardware__pio.html#ga7d415b966abbc1c25315d0775d093356" title="FIFO join states.">pio_fifo_join</a> </dd></dl>
 
 </div>
 </div>
@@ -690,13 +694,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">c</td><td>Pointer to the configuration structure to modify </td></tr>
-    <tr><td class="paramname">status_sel</td><td>the status operation selector. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd>enum <a class="el" href="group__hardware__pio.html#ga356b3f4974cd31fdc4a2de381aceea5e" title="MOV status types.">pio_mov_status_type</a> </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
+    <tr><td class="paramname">status_sel</td><td>the status operation selector. See <a class="el" href="group__hardware__pio.html#ga356b3f4974cd31fdc4a2de381aceea5e">pio_mov_status_type</a> </td></tr>
     <tr><td class="paramname">status_n</td><td>parameter for the mov status operation (currently a bit count) </td></tr>
   </table>
   </dd>

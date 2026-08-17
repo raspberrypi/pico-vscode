@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -114,61 +114,316 @@ $(document).ready(function(){initNavTree('float_8h_source.html',''); initResizab
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifndef _PICO_FLOAT_H</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define _PICO_FLOAT_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;math.h&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;<a class="code" href="float_8h.html">float.h</a>&gt;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="pico_8h.html">pico.h</a>&quot;</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;pico/bootrom/sf_table.h&quot;</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">// None of these functions are available on RISC-V:</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#if !defined(__riscv) || PICO_COMBINED_DOCS</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="keywordtype">float</span> int2float(int32_t f);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keywordtype">float</span> uint2float(uint32_t f);</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="keywordtype">float</span> int642float(int64_t f);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keywordtype">float</span> uint642float(uint64_t f);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">float</span> fix2float(int32_t m, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keywordtype">float</span> ufix2float(uint32_t m, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="keywordtype">float</span> fix642float(int64_t m, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="keywordtype">float</span> ufix642float(uint64_t m, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="comment">// These methods round towards -Infinity.</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>int32_t float2fix(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>uint32_t float2ufix(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>int64_t float2fix64(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>uint64_t float2ufix64(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>int32_t float2int(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>uint32_t float2uint(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>int64_t float2int64(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>uint64_t float2uint64(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="comment">// These methods round towards 0.</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>int32_t float2int_z(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>int64_t float2int64_z(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>int32_t float2uint_z(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>int64_t float2uint64_z(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="keywordtype">float</span> exp10f(<span class="keywordtype">float</span> x);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span><span class="keywordtype">void</span> sincosf(<span class="keywordtype">float</span> x, <span class="keywordtype">float</span> *sinx, <span class="keywordtype">float</span> *cosx);</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span><span class="keywordtype">float</span> powintf(<span class="keywordtype">float</span> x, <span class="keywordtype">int</span> y);</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#if !PICO_RP2040 || PICO_COMBINED_DOCS</span></div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>int64_t float2fix64_z(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="keywordtype">float</span> fdiv_fast(<span class="keywordtype">float</span> n, <span class="keywordtype">float</span> d);</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span><span class="keywordtype">float</span> fsqrt_fast(<span class="keywordtype">float</span> f);</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="preprocessor">#include &quot;<a class="code" href="pico_8h.html">pico.h</a>&quot;</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="comment">// PICO_CONFIG: PICO_FLOAT_IN_RAM, Force placement of SDK provided single-precision floating point code into RAM, type=bool, default=0, group=pico_float</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="preprocessor">#ifndef PICO_FLOAT_IN_RAM</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#define PICO_FLOAT_IN_RAM 0</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span><span class="preprocessor">#if !(LIB_PICO_FLOAT_COMPILER || defined(__riscv)) || PICO_DOCS</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span><span class="comment">// private define to simplify this header only - it is undefined at the end</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="preprocessor">#define __PICO_FLOAT_ARM_OPTIMIZED 1</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="comment">// we always define these for C code, but they are inline</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="comment">// funcs except for __PICO_FLOAT_ARM_OPTIMIZED so wouldn&#39;t</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="comment">// be callable for assembly</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="preprocessor">#if __PICO_FLOAT_ARM_OPTIMIZED || !defined(__ASSEMBLER__)</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="group__pico__float.html#gad8f0b82ac0c1dfcf56438350a1a96cbf">  169</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_INT32_TO_FLOAT_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga525eda7b8eeb5e371effb6f7298f84d6">  171</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_INT64_TO_FLOAT_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="group__pico__float.html#gaa100d232b04878d4f0d13b1ca046bb9a">  173</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_INT32_Z_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga10d896bcbfeb9bd617e9efd962b0437d">  175</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_INT64_Z_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="preprocessor">#if __PICO_FLOAT_ARM_OPTIMIZED</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga884dd156221d5ef67b13e2d14f70bdee">  180</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FIX32_TO_FLOAT_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="group__pico__float.html#gac11d647c17b0e11830e155f3118c3cb1">  182</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FIX64_TO_FLOAT_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno"><a class="line" href="group__pico__float.html#gac2048c385c5862656b32ad33ef5edd9d">  184</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_FIX32_Z_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga3c541c273ee3b805ffe9755d96a9c2c2">  186</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_FIX64_Z_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno"><a class="line" href="group__pico__float.html#gab6c6207b355d77613fd3063b26a220f9">  189</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_INT32_M_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga80b820d556198c59f26c7e2ca69bf87f">  191</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_INT64_M_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga64ba3c42bdf891987612fe8b1a0fe66d">  194</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_FIX32_M_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga854566d8165ebd7c44e81067310f5db3">  196</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FLOAT_TO_FIX64_M_CONVERSIONS 1</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="preprocessor">#if (PICO_RP2350 &amp;&amp; LIB_PICO_FLOAT_PICO_DCP) || PICO_DOCS</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga2d043533bd49a6943c8e39e68581c654">  201</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_FDIV_FAST 1</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga3ed2ea220f8867bf82f010ec7e39a12d">  203</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_SQRTF_FAST 1</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="preprocessor">#if __PICO_FLOAT_ARM_OPTIMIZED || __builtin_powif || PICO_DOCS</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="group__pico__float.html#gabffad60e1c08cdbe4b7c82141e6eb444">  208</a></span><span class="preprocessor">#define PICO_FLOAT_HAS_POWINTF 1</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#ifndef __ASSEMBLER__</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="preprocessor">#include &lt;<a class="code" href="float_8h.html">float.h</a>&gt;</span></div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="preprocessor">#if PICO_FLOAT_HAS_INT32_TO_FLOAT_CONVERSIONS</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="preprocessor">#if LIB_PICO_FLOAT_PICO_VFP || !__PICO_FLOAT_ARM_OPTIMIZED</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="comment">// for VFP the C cast is an assembly instruction anyway, so we prefer that over a function call</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="comment">// for non Arm-optimized we may as well provide the function and let the compiler handle it</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#gaf5ff3cc5a0abed97b7318a9b49fef3b3">int2float</a>(int32_t i) { <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)i; }</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga3f7ee9f0e69d1bf767c2c8d077fbc19e">uint2float</a>(uint32_t u) { <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)u; }</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="group__pico__float.html#gaf5ff3cc5a0abed97b7318a9b49fef3b3">  230</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#gaf5ff3cc5a0abed97b7318a9b49fef3b3">int2float</a>(int32_t i);</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga3f7ee9f0e69d1bf767c2c8d077fbc19e">  232</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga3f7ee9f0e69d1bf767c2c8d077fbc19e">uint2float</a>(uint32_t u);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="preprocessor">#if PICO_FLOAT_HAS_INT64_TO_FLOAT_CONVERSIONS</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="preprocessor">#if !__PICO_FLOAT_ARM_OPTIMIZED</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="comment">// for non Arm-optimized we may as well provide the function and let the compiler handle it</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga483e538d7149bc9840110df389bf7031">int642float</a>(int64_t i) { <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)i; }</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga2e474bc80996bfecb7eba8ebafc3db56">uint642float</a>(uint64_t u) { <span class="keywordflow">return</span> (<span class="keywordtype">float</span>)u; }</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga483e538d7149bc9840110df389bf7031">  243</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga483e538d7149bc9840110df389bf7031">int642float</a>(int64_t i);</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga2e474bc80996bfecb7eba8ebafc3db56">  245</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga2e474bc80996bfecb7eba8ebafc3db56">uint642float</a>(uint64_t u);</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span> </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_INT32_Z_CONVERSIONS</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="preprocessor">#if !__PICO_FLOAT_ARM_OPTIMIZED</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="comment">// for non Arm-optimized we may as well provide the function and let the compiler handle it</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keyword">static</span> <span class="keyword">inline</span> int32_t <a class="code hl_function" href="group__pico__float.html#gaf2d7dbed1b96970bf1b5b156236ab16c">float2int_z</a>(<span class="keywordtype">float</span> f) { <span class="keywordflow">return</span> (int32_t)f; }</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    <span class="keyword">static</span> <span class="keyword">inline</span> uint32_t <a class="code hl_function" href="group__pico__float.html#ga468e72d99010bf3dd05e730ab49bc9de">float2uint_z</a>(<span class="keywordtype">float</span> f) { <span class="keywordflow">return</span> (uint32_t)f; }</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="group__pico__float.html#gaf2d7dbed1b96970bf1b5b156236ab16c">  257</a></span>    int32_t <a class="code hl_function" href="group__pico__float.html#gaf2d7dbed1b96970bf1b5b156236ab16c">float2int_z</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga468e72d99010bf3dd05e730ab49bc9de">  260</a></span>    uint32_t <a class="code hl_function" href="group__pico__float.html#ga468e72d99010bf3dd05e730ab49bc9de">float2uint_z</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_INT64_Z_CONVERSIONS</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="preprocessor">#if !__PICO_FLOAT_ARM_OPTIMIZED</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="comment">// for non Arm-optimized we may as well provide the function and let the compiler handle it</span></div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keyword">static</span> <span class="keyword">inline</span> int64_t <a class="code hl_function" href="group__pico__float.html#ga552efd303436008f6113714500f59f06">float2int64_z</a>(<span class="keywordtype">float</span> f) { <span class="keywordflow">return</span> (int64_t)f; }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keyword">static</span> <span class="keyword">inline</span> uint64_t <a class="code hl_function" href="group__pico__float.html#ga13b4b67c293a3b2f0c24a8d97504ec7f">float2uint64_z</a>(<span class="keywordtype">float</span> f) { <span class="keywordflow">return</span> (uint64_t)f; }</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga552efd303436008f6113714500f59f06">  272</a></span>    int64_t <a class="code hl_function" href="group__pico__float.html#ga552efd303436008f6113714500f59f06">float2int64_z</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga13b4b67c293a3b2f0c24a8d97504ec7f">  275</a></span>    uint64_t <a class="code hl_function" href="group__pico__float.html#ga13b4b67c293a3b2f0c24a8d97504ec7f">float2uint64_z</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="preprocessor">#if PICO_FLOAT_HAS_FIX32_TO_FLOAT_CONVERSIONS</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="group__pico__float.html#gab73484b3762ce2465e0ac186d5d7a360">  282</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#gab73484b3762ce2465e0ac186d5d7a360">fix2float</a>(int32_t m, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga75a4600125f2789a1bef8b6c8f39e9e3">  285</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga75a4600125f2789a1bef8b6c8f39e9e3">ufix2float</a>(uint32_t m, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="preprocessor">#if PICO_FLOAT_HAS_FIX64_TO_FLOAT_CONVERSIONS</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga36c4e10d198c6ba0d05a29625ac9b0ec">  291</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga36c4e10d198c6ba0d05a29625ac9b0ec">fix642float</a>(int64_t m, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga97801a17510ac4d7f6f1223ad1f72258">  294</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga97801a17510ac4d7f6f1223ad1f72258">ufix642float</a>(uint64_t m, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_FIX32_Z_CONVERSIONS</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga289a087519f7bb50cc2993664a406410">  300</a></span>int32_t <a class="code hl_function" href="group__pico__float.html#ga289a087519f7bb50cc2993664a406410">float2fix_z</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga61f4413f2063e71381cad9920302b765">  303</a></span>uint32_t <a class="code hl_function" href="group__pico__float.html#ga61f4413f2063e71381cad9920302b765">float2ufix_z</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span> </div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_FIX64_Z_CONVERSIONS</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga48c4f205e2e2f59ed5cd687f77cfefac">  309</a></span>int64_t <a class="code hl_function" href="group__pico__float.html#ga48c4f205e2e2f59ed5cd687f77cfefac">float2fix64_z</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga323b45ef5e2e0a53fcd908479a8da9fe">  312</a></span>uint64_t <a class="code hl_function" href="group__pico__float.html#ga323b45ef5e2e0a53fcd908479a8da9fe">float2ufix64_z</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="comment">// These methods round towards -Infinity - which IS NOT the C way for negative numbers;</span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="comment">// as such the naming is not ideal, however is kept for backwards compatibility</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_INT32_M_CONVERSIONS</span></div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga99d135e9fc9f4c4f17c6d784a4180602">  320</a></span>int32_t <a class="code hl_function" href="group__pico__float.html#ga99d135e9fc9f4c4f17c6d784a4180602">float2int</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga620d63967be6dfe41e7a668a26440fdb">  323</a></span>uint32_t <a class="code hl_function" href="group__pico__float.html#ga620d63967be6dfe41e7a668a26440fdb">float2uint</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span> </div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_INT64_M_CONVERSIONS</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga91f8fa3030c3e88eb3fa2059f1ff8130">  329</a></span>int64_t <a class="code hl_function" href="group__pico__float.html#ga91f8fa3030c3e88eb3fa2059f1ff8130">float2int64</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga83263dbf4197a2e48d44d3562693ca97">  332</a></span>uint64_t <a class="code hl_function" href="group__pico__float.html#ga83263dbf4197a2e48d44d3562693ca97">float2uint64</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_FIX32_M_CONVERSIONS</span></div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga0d7f7ca64b7a23b815186d387fef7ad0">  338</a></span>int32_t <a class="code hl_function" href="group__pico__float.html#ga0d7f7ca64b7a23b815186d387fef7ad0">float2fix</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga7c80b0ca533f10d2518075b752a52479">  341</a></span>uint32_t <a class="code hl_function" href="group__pico__float.html#ga7c80b0ca533f10d2518075b752a52479">float2ufix</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_FIX64_M_CONVERSIONS</span></div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga7b4f61ca3312d2185ea7ba31344672c3">  347</a></span>int64_t <a class="code hl_function" href="group__pico__float.html#ga7b4f61ca3312d2185ea7ba31344672c3">float2fix64</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga84deb9a111bf9c9a3f9b522a16648154">  350</a></span>uint64_t <a class="code hl_function" href="group__pico__float.html#ga84deb9a111bf9c9a3f9b522a16648154">float2ufix64</a>(<span class="keywordtype">float</span> f, <span class="keywordtype">int</span> e);</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span><span class="preprocessor">#if LIB_PICO_FLOAT_PICO_VFP</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span><span class="comment">// special handling of fixed-point conversions for VFP - we want to inline calls with fixed exponents</span></div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span><span class="comment">// between 1 and 32, because they can use an assembly instruction. we leave the function in place</span></div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span><span class="comment">// with its original name, however make a #define which will either do the inline instruction</span></div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span><span class="comment">// or call the original function</span></div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span><span class="preprocessor">#if PICO_FLOAT_HAS_FIX32_TO_FLOAT_CONVERSIONS</span></div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="comment">// a bit of a hack to inline VFP fixed-point conversion when exponent is constant and in range 1-32</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span><span class="preprocessor">#define fix2float(m, e) (__builtin_constant_p(e) &amp;&amp; (e) &gt;= 1 &amp;&amp; (e) &lt;= 32 ? _fix2float_inline(m, e) : fix2 ## float(m, e))</span></div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span><span class="preprocessor">#define ufix2float(m, e) (__builtin_constant_p(e) &amp;&amp; (e) &gt;= 1 &amp;&amp; (e) &lt;= 32 ? _ufix2float_inline(m, e) : ufix2 ## float(m, e))</span></div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span><span class="preprocessor">#define _fix2float_inline(m, e) ({ \</span></div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span><span class="preprocessor">    int32_t _m = m; \</span></div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span><span class="preprocessor">    float f; \</span></div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span><span class="preprocessor">    pico_default_asm( \</span></div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span><span class="preprocessor">        &quot;vmov %0, %1\n&quot;</span> \</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        &quot;vcvt.f32.s32 %0, %0, %2\n&quot; \</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        : &quot;=t&quot; (f) \</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        : &quot;r&quot; (_m), &quot;i&quot; (e) \</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    ); \</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    f; \</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>})</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span><span class="preprocessor">#define _ufix2float_inline(m, e) ({ \</span></div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span><span class="preprocessor">    uint32_t _m = m; \</span></div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span><span class="preprocessor">    float f; \</span></div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span><span class="preprocessor">    pico_default_asm( \</span></div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span><span class="preprocessor">        &quot;vmov %0, %1\n&quot;</span> \</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        &quot;vcvt.f32.u32 %0, %0, %2\n&quot; \</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        : &quot;=t&quot; (f) \</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>        : &quot;r&quot; (_m), &quot;i&quot; (e) \</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    ); \</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>    f; \</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>})</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span> </div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_FIX32_Z_CONVERSIONS</span></div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span><span class="preprocessor">#define float2fix_z(f, e) (__builtin_constant_p(e) &amp;&amp; (e) &gt;= 1 &amp;&amp; (e) &lt;= 32 ? _float2fix_z_inline(f, e) : float2 ## fix_z(f, e))</span></div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span><span class="preprocessor">#define float2ufix_z(f, e) (__builtin_constant_p(e) &amp;&amp; (e) &gt;= 1 &amp;&amp; (e) &lt;= 32 ? _float2ufix_z_inline(f, e) : float2 ## ufix_z(f, e))</span></div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span> </div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span><span class="preprocessor">#define _float2fix_z_inline(f, e) ({ \</span></div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span><span class="preprocessor">    int32_t _m; \</span></div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span><span class="preprocessor">    float _f = (f); \</span></div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span><span class="preprocessor">    pico_default_asm( \</span></div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span><span class="preprocessor">        &quot;vcvt.s32.f32 %0, %0, %2\n&quot;</span> \</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>        &quot;vmov %1, %0\n&quot; \</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>        : &quot;+t&quot; (_f), &quot;=r&quot; (_m) \</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        : &quot;i&quot; (e) \</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>    ); \</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>    _m; \</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>})</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span><span class="preprocessor">#define _float2ufix_z_inline(f, e) ({ \</span></div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span><span class="preprocessor">    uint32_t _m; \</span></div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span><span class="preprocessor">    float _f = (f); \</span></div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span><span class="preprocessor">    pico_default_asm( \</span></div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span><span class="preprocessor">        &quot;vcvt.u32.f32 %0, %0, %2\n&quot;</span> \</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>        &quot;vmov %1, %0\n&quot; \</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>        : &quot;+t&quot; (_f), &quot;=r&quot; (_m) \</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>        : &quot;i&quot; (e) \</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    ); \</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>    _m; \</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>})</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span> </div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span><span class="preprocessor">#if PICO_FLOAT_HAS_FLOAT_TO_FIX32_M_CONVERSIONS</span></div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span><span class="preprocessor">#define float2fix(f, e) (__builtin_constant_p(e) &amp;&amp; (e) &gt;= 1 &amp;&amp; (e) &lt;= 32 ? _float2fix_inline(f, e) : float2 ## fix(f, e))</span></div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span><span class="preprocessor">#define float2ufix(f, e) (__builtin_constant_p(e) &amp;&amp; (e) &gt;= 1 &amp;&amp; (e) &lt;= 32 ? _float2ufix_inline(f, e) : float2 ## ufix(f, e))</span></div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span> </div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span><span class="preprocessor">#define _float2fix_inline(f, e) ({ \</span></div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span><span class="preprocessor">    union { float _f; int32_t _i; } _u; \</span></div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span><span class="preprocessor">    _u._f = (f); \</span></div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span><span class="preprocessor">    uint rc, tmp; \</span></div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span><span class="preprocessor">    pico_default_asm( \</span></div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span><span class="preprocessor">        &quot;vcvt.s32.f32 %0, %0, %4\n&quot;</span> \</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>        &quot;vmov %2, %0\n&quot; \</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>        &quot;lsls %1, #1\n&quot; \</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>        &quot;bls 2f\n&quot; <span class="comment">/* positive or zero or -zero are ok with the result we have */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span><span class="preprocessor">        &quot;lsrs %3, %1, #24\n&quot;</span> \</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>        &quot;subs %3, #0x7f - %c4\n&quot; \</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>        &quot;bcc 1f\n&quot; <span class="comment">/* 0 &lt; abs(f) &lt; 1 ^ e, so need to round down */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span><span class="preprocessor">        </span><span class="comment">/* mask off all but fractional bits */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span><span class="preprocessor">        &quot;lsls %1, %3\n&quot;</span> \</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>        &quot;lsls %1, #8\n&quot; \</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>        &quot;beq 2f\n&quot; <span class="comment">/* integers can round towards zero */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span><span class="preprocessor">        &quot;1:\n&quot;</span> \</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>        <span class="comment">/* need to subtract 1 from the result to round towards -infinity... */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span><span class="preprocessor">        </span><span class="comment">/* this will never cause an overflow, because to get here we must have had a non integer/infinite value which */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span><span class="preprocessor">        </span><span class="comment">/* therefore cannot have been equal to INT64_MIN when rounded towards zero */</span><span class="preprocessor"> \</span></div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span><span class="preprocessor">        &quot;subs %2, #1\n&quot;</span> \</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>        &quot;2:\n&quot; \</div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>        : &quot;+t&quot; (_u._f), &quot;+r&quot; (_u._i), &quot;=r&quot; (rc), &quot;=r&quot; (tmp) \</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>        : &quot;i&quot; (e) \</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>    ); \</div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    rc; \</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>})</div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span><span class="preprocessor">#define _float2ufix_inline(f, e) _float2ufix_z_inline((f), (e))</span></div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span> </div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    <span class="comment">// exp10f doesn&#39;t always appear in math.h but is present on all our platforms even for LIB_PICO_FLOAT_COMPILER</span></div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>    <span class="comment">// so we declare it here always</span></div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span> </div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>    <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#gad27f10a0e30a7fe130c18786bf097e4b">exp10f</a>(<span class="keywordtype">float</span> x);</div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span> </div>
+<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>    <span class="comment">// sincosf doesn&#39;t always appear in math.h but is present on all our platforms even for LIB_PICO_FLOAT_COMPILER</span></div>
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>    <span class="comment">// so we declare it here always</span></div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span><span class="preprocessor">#if __PICO_FLOAT_ARM_OPTIMIZED &amp;&amp; PICO_C_COMPILER_IS_CLANG</span></div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    <span class="comment">// clang unhelpfully splits sincosf into explict calls to sin &amp; cos</span></div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    <span class="keyword">extern</span> <span class="keywordtype">void</span> WRAPPER_FUNC(<a class="code hl_function" href="group__pico__float.html#ga7cc97892a9c28d67f1019a5544c8dd71">sincosf</a>)(<span class="keywordtype">float</span> x, <span class="keywordtype">float</span> *sinx, <span class="keywordtype">float</span> *cosx);</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span><span class="preprocessor">    #define sincosf(x, sinx, cosx) WRAPPER_FUNC(sincosf)(x, sinx, cosx)</span></div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga7cc97892a9c28d67f1019a5544c8dd71">  464</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="group__pico__float.html#ga7cc97892a9c28d67f1019a5544c8dd71">sincosf</a>(<span class="keywordtype">float</span> x, <span class="keywordtype">float</span> *sinx, <span class="keywordtype">float</span> *cosx);</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span> </div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span><span class="preprocessor">#if PICO_FLOAT_HAS_POWINTF</span></div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span><span class="preprocessor">#if !__PICO_FLOAT_ARM_OPTIMIZED &amp;&amp; __has_builtin(__builtin_powif)</span></div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    <span class="keyword">static</span> <a class="code hl_define" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga81b95ed9ab7e785d760ff609327a68b8">powintf</a>(<span class="keywordtype">float</span> f, int32_t p) {</div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>        <span class="keywordflow">return</span> __builtin_powif(f, p);</div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>    }</div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga81b95ed9ab7e785d760ff609327a68b8">  474</a></span>    <span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga81b95ed9ab7e785d760ff609327a68b8">powintf</a>(<span class="keywordtype">float</span> x, int32_t y);</div>
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span> </div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span><span class="preprocessor">#if PICO_FLOAT_HAS_FDIV_FAST</span></div>
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga1fd228c99c70a9e3bedb041a7d82c086">  480</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga1fd228c99c70a9e3bedb041a7d82c086">fdiv_fast</a>(<span class="keywordtype">float</span> n, <span class="keywordtype">float</span> d);</div>
+<div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00482" name="l00482"></a><span class="lineno">  482</span> </div>
+<div class="line"><a id="l00483" name="l00483"></a><span class="lineno">  483</span><span class="preprocessor">#if PICO_FLOAT_HAS_SQRTF_FAST</span></div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno"><a class="line" href="group__pico__float.html#ga300c47a94afab28a20cb976c92196122">  485</a></span><span class="keywordtype">float</span> <a class="code hl_function" href="group__pico__float.html#ga300c47a94afab28a20cb976c92196122">sqrtf_fast</a>(<span class="keywordtype">float</span> f);</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span> </div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span><span class="preprocessor">#undef __PICO_FLOAT_ARM_OPTIMIZED</span></div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span> </div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>}</div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span> </div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span> </div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="afloat_8h_html"><div class="ttname"><a href="float_8h.html">float.h</a></div></div>
+<div class="ttc" id="agroup__pico__float_html_ga0d7f7ca64b7a23b815186d387fef7ad0"><div class="ttname"><a href="group__pico__float.html#ga0d7f7ca64b7a23b815186d387fef7ad0">float2fix</a></div><div class="ttdeci">int32_t float2fix(float f, int e)</div><div class="ttdoc">Convert a float to a signed 32-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga13b4b67c293a3b2f0c24a8d97504ec7f"><div class="ttname"><a href="group__pico__float.html#ga13b4b67c293a3b2f0c24a8d97504ec7f">float2uint64_z</a></div><div class="ttdeci">uint64_t float2uint64_z(float f)</div><div class="ttdoc">Convert a float to an unsigned 64-bit integer, rounding towards zero. On Arm this conversion is satur...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga1fd228c99c70a9e3bedb041a7d82c086"><div class="ttname"><a href="group__pico__float.html#ga1fd228c99c70a9e3bedb041a7d82c086">fdiv_fast</a></div><div class="ttdeci">float fdiv_fast(float n, float d)</div><div class="ttdoc">Perform a fast floating point divide with reduced accuracy.</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga289a087519f7bb50cc2993664a406410"><div class="ttname"><a href="group__pico__float.html#ga289a087519f7bb50cc2993664a406410">float2fix_z</a></div><div class="ttdeci">int32_t float2fix_z(float f, int e)</div><div class="ttdoc">Convert a float to a signed 32-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga2e474bc80996bfecb7eba8ebafc3db56"><div class="ttname"><a href="group__pico__float.html#ga2e474bc80996bfecb7eba8ebafc3db56">uint642float</a></div><div class="ttdeci">float uint642float(uint64_t u)</div><div class="ttdoc">Convert an unsigned 64-bit integer to the nearest float.</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga300c47a94afab28a20cb976c92196122"><div class="ttname"><a href="group__pico__float.html#ga300c47a94afab28a20cb976c92196122">sqrtf_fast</a></div><div class="ttdeci">float sqrtf_fast(float f)</div><div class="ttdoc">Perform a fast floating point square-root with reduced accuracy.</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga323b45ef5e2e0a53fcd908479a8da9fe"><div class="ttname"><a href="group__pico__float.html#ga323b45ef5e2e0a53fcd908479a8da9fe">float2ufix64_z</a></div><div class="ttdeci">uint64_t float2ufix64_z(float f, int e)</div><div class="ttdoc">Convert a float to an unsigned 64-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga36c4e10d198c6ba0d05a29625ac9b0ec"><div class="ttname"><a href="group__pico__float.html#ga36c4e10d198c6ba0d05a29625ac9b0ec">fix642float</a></div><div class="ttdeci">float fix642float(int64_t m, int e)</div><div class="ttdoc">Convert a signed 64-bit fixed-point integer with the given number of fractional bits to the nearest f...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga3f7ee9f0e69d1bf767c2c8d077fbc19e"><div class="ttname"><a href="group__pico__float.html#ga3f7ee9f0e69d1bf767c2c8d077fbc19e">uint2float</a></div><div class="ttdeci">float uint2float(uint32_t u)</div><div class="ttdoc">Convert an unsigned 32-bit integer to the nearest float.</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga468e72d99010bf3dd05e730ab49bc9de"><div class="ttname"><a href="group__pico__float.html#ga468e72d99010bf3dd05e730ab49bc9de">float2uint_z</a></div><div class="ttdeci">uint32_t float2uint_z(float f)</div><div class="ttdoc">Convert a float to an unsigned 32-bit integer, rounding towards zero On Arm this conversion is satura...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga483e538d7149bc9840110df389bf7031"><div class="ttname"><a href="group__pico__float.html#ga483e538d7149bc9840110df389bf7031">int642float</a></div><div class="ttdeci">float int642float(int64_t i)</div><div class="ttdoc">Convert a signed 64-bit integer to the nearest float.</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga48c4f205e2e2f59ed5cd687f77cfefac"><div class="ttname"><a href="group__pico__float.html#ga48c4f205e2e2f59ed5cd687f77cfefac">float2fix64_z</a></div><div class="ttdeci">int64_t float2fix64_z(float f, int e)</div><div class="ttdoc">Convert a float to a signed 64-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga552efd303436008f6113714500f59f06"><div class="ttname"><a href="group__pico__float.html#ga552efd303436008f6113714500f59f06">float2int64_z</a></div><div class="ttdeci">int64_t float2int64_z(float f)</div><div class="ttdoc">Convert a float to a signed 64-bit integer, rounding towards zero. On Arm this conversion is saturati...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga61f4413f2063e71381cad9920302b765"><div class="ttname"><a href="group__pico__float.html#ga61f4413f2063e71381cad9920302b765">float2ufix_z</a></div><div class="ttdeci">uint32_t float2ufix_z(float f, int e)</div><div class="ttdoc">Convert a float to an unsigned 32-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga620d63967be6dfe41e7a668a26440fdb"><div class="ttname"><a href="group__pico__float.html#ga620d63967be6dfe41e7a668a26440fdb">float2uint</a></div><div class="ttdeci">uint32_t float2uint(float f)</div><div class="ttdoc">Convert a float to an unsigned 32-bit integer, rounding towards -Infinity. This conversion is saturat...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga75a4600125f2789a1bef8b6c8f39e9e3"><div class="ttname"><a href="group__pico__float.html#ga75a4600125f2789a1bef8b6c8f39e9e3">ufix2float</a></div><div class="ttdeci">float ufix2float(uint32_t m, int e)</div><div class="ttdoc">Convert an unsigned 32-bit fixed-point integer with the given number of fractional bits to the neares...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga7b4f61ca3312d2185ea7ba31344672c3"><div class="ttname"><a href="group__pico__float.html#ga7b4f61ca3312d2185ea7ba31344672c3">float2fix64</a></div><div class="ttdeci">int64_t float2fix64(float f, int e)</div><div class="ttdoc">Convert a float to a signed 64-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga7c80b0ca533f10d2518075b752a52479"><div class="ttname"><a href="group__pico__float.html#ga7c80b0ca533f10d2518075b752a52479">float2ufix</a></div><div class="ttdeci">uint32_t float2ufix(float f, int e)</div><div class="ttdoc">Convert a float to an unsigned 32-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga7cc97892a9c28d67f1019a5544c8dd71"><div class="ttname"><a href="group__pico__float.html#ga7cc97892a9c28d67f1019a5544c8dd71">sincosf</a></div><div class="ttdeci">void sincosf(float x, float *sinx, float *cosx)</div><div class="ttdoc">Return both the sine and cosine of an angle efficiently.</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga81b95ed9ab7e785d760ff609327a68b8"><div class="ttname"><a href="group__pico__float.html#ga81b95ed9ab7e785d760ff609327a68b8">powintf</a></div><div class="ttdeci">float powintf(float x, int32_t y)</div><div class="ttdoc">Raise a floating point number to an integer power.</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga83263dbf4197a2e48d44d3562693ca97"><div class="ttname"><a href="group__pico__float.html#ga83263dbf4197a2e48d44d3562693ca97">float2uint64</a></div><div class="ttdeci">uint64_t float2uint64(float f)</div><div class="ttdoc">Convert a float to an unsigned 64-bit integer, rounding towards -Infinity. This conversion is saturat...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga84deb9a111bf9c9a3f9b522a16648154"><div class="ttname"><a href="group__pico__float.html#ga84deb9a111bf9c9a3f9b522a16648154">float2ufix64</a></div><div class="ttdeci">uint64_t float2ufix64(float f, int e)</div><div class="ttdoc">Convert a float to an unsigned 64-bit fixed-point integer with the given number of fractional bits,...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga91f8fa3030c3e88eb3fa2059f1ff8130"><div class="ttname"><a href="group__pico__float.html#ga91f8fa3030c3e88eb3fa2059f1ff8130">float2int64</a></div><div class="ttdeci">int64_t float2int64(float f)</div><div class="ttdoc">Convert a float to a signed 64-bit integer, rounding towards -Infinity. This conversion is saturating...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga97801a17510ac4d7f6f1223ad1f72258"><div class="ttname"><a href="group__pico__float.html#ga97801a17510ac4d7f6f1223ad1f72258">ufix642float</a></div><div class="ttdeci">float ufix642float(uint64_t m, int e)</div><div class="ttdoc">Convert an unsigned 64-bit fixed-point integer with the given number of fractional bits to the neares...</div></div>
+<div class="ttc" id="agroup__pico__float_html_ga99d135e9fc9f4c4f17c6d784a4180602"><div class="ttname"><a href="group__pico__float.html#ga99d135e9fc9f4c4f17c6d784a4180602">float2int</a></div><div class="ttdeci">int32_t float2int(float f)</div><div class="ttdoc">Convert a float to a signed 32-bit integer, rounding towards -Infinity. This conversion is saturating...</div></div>
+<div class="ttc" id="agroup__pico__float_html_gab73484b3762ce2465e0ac186d5d7a360"><div class="ttname"><a href="group__pico__float.html#gab73484b3762ce2465e0ac186d5d7a360">fix2float</a></div><div class="ttdeci">float fix2float(int32_t m, int e)</div><div class="ttdoc">Convert a signed 32-bit fixed-point integer with the given number of fractional bits to the nearest f...</div></div>
+<div class="ttc" id="agroup__pico__float_html_gad27f10a0e30a7fe130c18786bf097e4b"><div class="ttname"><a href="group__pico__float.html#gad27f10a0e30a7fe130c18786bf097e4b">exp10f</a></div><div class="ttdeci">float exp10f(float x)</div><div class="ttdoc">Evaluate 10.0f to the power of the given value.</div><div class="ttdef"><b>Definition:</b> float_math.c:329</div></div>
+<div class="ttc" id="agroup__pico__float_html_gaf2d7dbed1b96970bf1b5b156236ab16c"><div class="ttname"><a href="group__pico__float.html#gaf2d7dbed1b96970bf1b5b156236ab16c">float2int_z</a></div><div class="ttdeci">int32_t float2int_z(float f)</div><div class="ttdoc">Convert a float to a signed 32-bit integer, rounding towards zero. On Arm this conversion is saturati...</div></div>
+<div class="ttc" id="agroup__pico__float_html_gaf5ff3cc5a0abed97b7318a9b49fef3b3"><div class="ttname"><a href="group__pico__float.html#gaf5ff3cc5a0abed97b7318a9b49fef3b3">int2float</a></div><div class="ttdeci">float int2float(int32_t i)</div><div class="ttdoc">Convert a signed 32-bit integer to the nearest float.</div></div>
+<div class="ttc" id="agroup__pico__platform_html_ga23eadd8d1642fb8fe4600708c36e116a"><div class="ttname"><a href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a></div><div class="ttdeci">#define __force_inline</div><div class="ttdoc">Attribute to force inlining of a function regardless of optimization level.</div><div class="ttdef"><b>Definition:</b> compiler.h:128</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

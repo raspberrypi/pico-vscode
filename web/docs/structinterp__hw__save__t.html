@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,23 +104,34 @@ $(document).ready(function(){initNavTree('structinterp__hw__save__t.html',''); i
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">interp_hw_save_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">interp_hw_save_t Struct Reference<div class="ingroups"><a class="el" href="group__hardware.html">Hardware APIs</a> &raquo; <a class="el" href="group__hardware__interp.html">hardware_interp</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Saved interpolator hardware state.  
+ <a href="structinterp__hw__save__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="rp2__common_2hardware__interp_2include_2hardware_2interp_8h_source.html">interp.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a7ce2a20f58201afef5bc3c27b545e1c7"><td class="memItemLeft" align="right" valign="top"><a id="a7ce2a20f58201afef5bc3c27b545e1c7" name="a7ce2a20f58201afef5bc3c27b545e1c7"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>accum</b> [2]</td></tr>
+<tr class="memdesc:a7ce2a20f58201afef5bc3c27b545e1c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saved accumulator values for lanes 0 and 1. <br /></td></tr>
 <tr class="separator:a7ce2a20f58201afef5bc3c27b545e1c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8048193596292b1c586dc06065a289a6"><td class="memItemLeft" align="right" valign="top"><a id="a8048193596292b1c586dc06065a289a6" name="a8048193596292b1c586dc06065a289a6"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>base</b> [3]</td></tr>
+<tr class="memdesc:a8048193596292b1c586dc06065a289a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saved base register values. <br /></td></tr>
 <tr class="separator:a8048193596292b1c586dc06065a289a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fbeb726143a614a369e981fefff75e3"><td class="memItemLeft" align="right" valign="top"><a id="a8fbeb726143a614a369e981fefff75e3" name="a8fbeb726143a614a369e981fefff75e3"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>ctrl</b> [2]</td></tr>
+<tr class="memdesc:a8fbeb726143a614a369e981fefff75e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Saved control register values for lanes 0 and 1. <br /></td></tr>
 <tr class="separator:a8fbeb726143a614a369e981fefff75e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Saved interpolator hardware state. </p>
+<p >Holds a snapshot of all interpolator registers so that the interpolator state can be saved and restored around code that needs to use it for a different purpose. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/hardware/<a class="el" href="rp2__common_2hardware__interp_2include_2hardware_2interp_8h_source.html">interp.h</a></li>
 </ul>
 </div><!-- contents -->

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -137,6 +137,13 @@ typedef enum <a class="el" href="group__hardware__dma.html#ga6f0a19defc495cfa607
 typedef enum <a class="el" href="group__hardware__dma.html#ga864c3313155ab20116b62a64bf78df6d">dreq_num_rp2040</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dreq_num_t</b></td></tr>
 <tr class="memdesc:ga8def0ea481095c94f3a0dd0b4fed999e"><td class="mdescLeft">&#160;</td><td class="mdescRight">DREQ numbers for DMA pacing on RP2040 (used as typedef <a class="el" href="group__hardware__dma.html#ga8def0ea481095c94f3a0dd0b4fed999e">dreq_num_t</a>) <br /></td></tr>
 <tr class="separator:ga8def0ea481095c94f3a0dd0b4fed999e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae9f337fb83c41e2fd262a39ed20b5174"><td class="memItemLeft" align="right" valign="top">typedef enum <a class="el" href="group__hardware__dma.html#gaccecdff367b06a019373e9a55d4f3e01">dma_channel_transfer_size</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gae9f337fb83c41e2fd262a39ed20b5174">dma_channel_transfer_size_t</a></td></tr>
+<tr class="memdesc:gae9f337fb83c41e2fd262a39ed20b5174"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of available DMA channel transfer sizes.  <a href="group__hardware__dma.html#gae9f337fb83c41e2fd262a39ed20b5174">More...</a><br /></td></tr>
+<tr class="separator:gae9f337fb83c41e2fd262a39ed20b5174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga192c7d6987793fe4aac2d77b97c649c1"><td class="memItemLeft" align="right" valign="top"><a id="ga192c7d6987793fe4aac2d77b97c649c1" name="ga192c7d6987793fe4aac2d77b97c649c1"></a>
+typedef enum <a class="el" href="group__hardware__dma.html#ga0a0cc999960744ae8647fc3ae1c31bf4">dma_address_update_type</a>&#160;</td><td class="memItemRight" valign="bottom"><b>dma_address_update_type_t</b></td></tr>
+<tr class="memdesc:ga192c7d6987793fe4aac2d77b97c649c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of types of updates that can be made to the DMA read or write address after each transfer. <br /></td></tr>
+<tr class="separator:ga192c7d6987793fe4aac2d77b97c649c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -289,6 +296,11 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:gaccecdff367b06a019373e9a55d4f3e01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of available DMA channel transfer sizes.  <a href="group__hardware__dma.html#gaccecdff367b06a019373e9a55d4f3e01">More...</a><br /></td></tr>
 <tr class="separator:gaccecdff367b06a019373e9a55d4f3e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a0cc999960744ae8647fc3ae1c31bf4"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga0a0cc999960744ae8647fc3ae1c31bf4">dma_address_update_type</a> { <a class="el" href="group__hardware__dma.html#gga0a0cc999960744ae8647fc3ae1c31bf4aa6623fbfce43ec9cb0ccf2a01ff55934">DMA_ADDRESS_UPDATE_NONE</a> = 0
+, <a class="el" href="group__hardware__dma.html#gga0a0cc999960744ae8647fc3ae1c31bf4abaebd9dec9c0ffbf963cd9583a167f77">DMA_ADDRESS_UPDATE_INCREMENT</a> = 1
+ }</td></tr>
+<tr class="memdesc:ga0a0cc999960744ae8647fc3ae1c31bf4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enumeration of types of updates that can be made to the DMA read or write address after each transfer.  <a href="group__hardware__dma.html#ga0a0cc999960744ae8647fc3ae1c31bf4">More...</a><br /></td></tr>
+<tr class="separator:ga0a0cc999960744ae8647fc3ae1c31bf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -310,27 +322,36 @@ Functions</h2></td></tr>
 <tr class="memitem:ga9aadb81f53b979bde1c1a81164d1eff2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga9aadb81f53b979bde1c1a81164d1eff2">dma_channel_is_claimed</a> (uint channel)</td></tr>
 <tr class="memdesc:ga9aadb81f53b979bde1c1a81164d1eff2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine if a dma channel is claimed.  <a href="group__hardware__dma.html#ga9aadb81f53b979bde1c1a81164d1eff2">More...</a><br /></td></tr>
 <tr class="separator:ga9aadb81f53b979bde1c1a81164d1eff2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga7449b659efb178a408f42f7f8f7b02f9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga7449b659efb178a408f42f7f8f7b02f9">dma_channel_set_config</a> (uint channel, const <a class="el" href="structdma__channel__config.html">dma_channel_config</a> *config, bool trigger)</td></tr>
-<tr class="memdesc:ga7449b659efb178a408f42f7f8f7b02f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a channel configuration.  <a href="group__hardware__dma.html#ga7449b659efb178a408f42f7f8f7b02f9">More...</a><br /></td></tr>
-<tr class="separator:ga7449b659efb178a408f42f7f8f7b02f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga37dad37eadeffcd597e8ca2f1dfc48e3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga37dad37eadeffcd597e8ca2f1dfc48e3">dma_channel_set_config</a> (uint channel, const <a class="el" href="structdma__channel__config__t.html">dma_channel_config_t</a> *config, bool trigger)</td></tr>
+<tr class="memdesc:ga37dad37eadeffcd597e8ca2f1dfc48e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a channel configuration.  <a href="group__hardware__dma.html#ga37dad37eadeffcd597e8ca2f1dfc48e3">More...</a><br /></td></tr>
+<tr class="separator:ga37dad37eadeffcd597e8ca2f1dfc48e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gabf6f6ffe56fa42dcb105032f110589ae"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gabf6f6ffe56fa42dcb105032f110589ae">dma_channel_set_read_addr</a> (uint channel, const volatile void *read_addr, bool trigger)</td></tr>
 <tr class="memdesc:gabf6f6ffe56fa42dcb105032f110589ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the DMA initial read address.  <a href="group__hardware__dma.html#gabf6f6ffe56fa42dcb105032f110589ae">More...</a><br /></td></tr>
 <tr class="separator:gabf6f6ffe56fa42dcb105032f110589ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf0156609fe51c07d07118b2aeb4e9ae6"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gaf0156609fe51c07d07118b2aeb4e9ae6">dma_channel_set_write_addr</a> (uint channel, volatile void *write_addr, bool trigger)</td></tr>
 <tr class="memdesc:gaf0156609fe51c07d07118b2aeb4e9ae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the DMA initial write address.  <a href="group__hardware__dma.html#gaf0156609fe51c07d07118b2aeb4e9ae6">More...</a><br /></td></tr>
 <tr class="separator:gaf0156609fe51c07d07118b2aeb4e9ae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga16c0e08eda636f13053d8c8b0f81e821"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga16c0e08eda636f13053d8c8b0f81e821">dma_channel_set_trans_count</a> (uint channel, uint32_t trans_count, bool trigger)</td></tr>
-<tr class="memdesc:ga16c0e08eda636f13053d8c8b0f81e821"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of bus transfers the channel will do.  <a href="group__hardware__dma.html#ga16c0e08eda636f13053d8c8b0f81e821">More...</a><br /></td></tr>
-<tr class="separator:ga16c0e08eda636f13053d8c8b0f81e821"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga971d077ac39b2d7f7c6b45e2ddc5d190"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga971d077ac39b2d7f7c6b45e2ddc5d190">dma_channel_configure</a> (uint channel, const <a class="el" href="structdma__channel__config.html">dma_channel_config</a> *config, volatile void *write_addr, const volatile void *read_addr, uint transfer_count, bool trigger)</td></tr>
-<tr class="memdesc:ga971d077ac39b2d7f7c6b45e2ddc5d190"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure all DMA parameters and optionally start transfer.  <a href="group__hardware__dma.html#ga971d077ac39b2d7f7c6b45e2ddc5d190">More...</a><br /></td></tr>
-<tr class="separator:ga971d077ac39b2d7f7c6b45e2ddc5d190"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabf64c461a405a8114591105d9dc53575"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gabf64c461a405a8114591105d9dc53575">dma_channel_transfer_from_buffer_now</a> (uint channel, const volatile void *read_addr, uint32_t transfer_count)</td></tr>
-<tr class="memdesc:gabf64c461a405a8114591105d9dc53575"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a DMA transfer from a buffer immediately.  <a href="group__hardware__dma.html#gabf64c461a405a8114591105d9dc53575">More...</a><br /></td></tr>
-<tr class="separator:gabf64c461a405a8114591105d9dc53575"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9110135d8161fc268d87dfb040d0f854"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga9110135d8161fc268d87dfb040d0f854">dma_channel_transfer_to_buffer_now</a> (uint channel, volatile void *write_addr, uint32_t transfer_count)</td></tr>
-<tr class="memdesc:ga9110135d8161fc268d87dfb040d0f854"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a DMA transfer to a buffer immediately.  <a href="group__hardware__dma.html#ga9110135d8161fc268d87dfb040d0f854">More...</a><br /></td></tr>
-<tr class="separator:ga9110135d8161fc268d87dfb040d0f854"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga98857a75db216e7333c33f2037d8df89"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga98857a75db216e7333c33f2037d8df89">dma_encode_transfer_count</a> (uint transfer_count)</td></tr>
+<tr class="memdesc:ga98857a75db216e7333c33f2037d8df89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode the specified transfer length into an "encoded_transfer_length" value suitable for the referenced methods.  <a href="group__hardware__dma.html#ga98857a75db216e7333c33f2037d8df89">More...</a><br /></td></tr>
+<tr class="separator:ga98857a75db216e7333c33f2037d8df89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5c4bb9b40ab8e0b5098940c8308b5fe3"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga5c4bb9b40ab8e0b5098940c8308b5fe3">dma_encode_transfer_count_with_self_trigger</a> (uint transfer_count)</td></tr>
+<tr class="memdesc:ga5c4bb9b40ab8e0b5098940c8308b5fe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode the specified transfer length, along with a flag to indicate the DMA transfer should be self-triggering, into an "encoded_transfer_length" value suitable for the referenced methods.  <a href="group__hardware__dma.html#ga5c4bb9b40ab8e0b5098940c8308b5fe3">More...</a><br /></td></tr>
+<tr class="separator:ga5c4bb9b40ab8e0b5098940c8308b5fe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8b07f0a9691d4158bf7177d70655b98f"><td class="memItemLeft" align="right" valign="top">static uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga8b07f0a9691d4158bf7177d70655b98f">dma_encode_endless_transfer_count</a> (void)</td></tr>
+<tr class="memdesc:ga8b07f0a9691d4158bf7177d70655b98f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return an endless transfer as an "encoded_transfer_length" value suitable for the referenced methods.  <a href="group__hardware__dma.html#ga8b07f0a9691d4158bf7177d70655b98f">More...</a><br /></td></tr>
+<tr class="separator:ga8b07f0a9691d4158bf7177d70655b98f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga12c2b16488b64c8f05202d5ec93f7898"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga12c2b16488b64c8f05202d5ec93f7898">dma_channel_set_transfer_count</a> (uint channel, uint32_t encoded_transfer_count, bool trigger)</td></tr>
+<tr class="memdesc:ga12c2b16488b64c8f05202d5ec93f7898"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the number of bus transfers the channel will do.  <a href="group__hardware__dma.html#ga12c2b16488b64c8f05202d5ec93f7898">More...</a><br /></td></tr>
+<tr class="separator:ga12c2b16488b64c8f05202d5ec93f7898"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaec04adb0c0aa511d17918423ffdfa1dc"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gaec04adb0c0aa511d17918423ffdfa1dc">dma_channel_configure</a> (uint channel, const <a class="el" href="structdma__channel__config__t.html">dma_channel_config_t</a> *config, volatile void *write_addr, const volatile void *read_addr, uint32_t encoded_transfer_count, bool trigger)</td></tr>
+<tr class="memdesc:gaec04adb0c0aa511d17918423ffdfa1dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Configure all DMA parameters and optionally start transfer.  <a href="group__hardware__dma.html#gaec04adb0c0aa511d17918423ffdfa1dc">More...</a><br /></td></tr>
+<tr class="separator:gaec04adb0c0aa511d17918423ffdfa1dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac437172147d4fbc98878dc8e4c11fe3e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gac437172147d4fbc98878dc8e4c11fe3e">dma_channel_transfer_from_buffer_now</a> (uint channel, const volatile void *read_addr, uint32_t encoded_transfer_count)</td></tr>
+<tr class="memdesc:gac437172147d4fbc98878dc8e4c11fe3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a DMA transfer from a buffer immediately.  <a href="group__hardware__dma.html#gac437172147d4fbc98878dc8e4c11fe3e">More...</a><br /></td></tr>
+<tr class="separator:gac437172147d4fbc98878dc8e4c11fe3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac24990b880e7ec8c9db44d3d911334d5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#gac24990b880e7ec8c9db44d3d911334d5">dma_channel_transfer_to_buffer_now</a> (uint channel, volatile void *write_addr, uint32_t encoded_transfer_count)</td></tr>
+<tr class="memdesc:gac24990b880e7ec8c9db44d3d911334d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start a DMA transfer to a buffer immediately.  <a href="group__hardware__dma.html#gac24990b880e7ec8c9db44d3d911334d5">More...</a><br /></td></tr>
+<tr class="separator:gac24990b880e7ec8c9db44d3d911334d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga6407f7763b533c98e23f65e35c5e48ee"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__hardware__dma.html#ga6407f7763b533c98e23f65e35c5e48ee">dma_start_channel_mask</a> (uint32_t chan_mask)</td></tr>
 <tr class="memdesc:ga6407f7763b533c98e23f65e35c5e48ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Start one or more channels simultaneously.  <a href="group__hardware__dma.html#ga6407f7763b533c98e23f65e35c5e48ee">More...</a><br /></td></tr>
 <tr class="separator:ga6407f7763b533c98e23f65e35c5e48ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -460,7 +481,47 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 
 </div>
 </div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="gae9f337fb83c41e2fd262a39ed20b5174" name="gae9f337fb83c41e2fd262a39ed20b5174"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gae9f337fb83c41e2fd262a39ed20b5174">&#9670;&nbsp;</a></span>dma_channel_transfer_size_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="group__hardware__dma.html#gaccecdff367b06a019373e9a55d4f3e01">dma_channel_transfer_size</a> <a class="el" href="group__hardware__dma.html#gae9f337fb83c41e2fd262a39ed20b5174">dma_channel_transfer_size_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumeration of available DMA channel transfer sizes. </p>
+<p >Names indicate the number of bits. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="ga0a0cc999960744ae8647fc3ae1c31bf4" name="ga0a0cc999960744ae8647fc3ae1c31bf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0a0cc999960744ae8647fc3ae1c31bf4">&#9670;&nbsp;</a></span>dma_address_update_type</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="group__hardware__dma.html#ga0a0cc999960744ae8647fc3ae1c31bf4">dma_address_update_type</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Enumeration of types of updates that can be made to the DMA read or write address after each transfer. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="gga0a0cc999960744ae8647fc3ae1c31bf4aa6623fbfce43ec9cb0ccf2a01ff55934" name="gga0a0cc999960744ae8647fc3ae1c31bf4aa6623fbfce43ec9cb0ccf2a01ff55934"></a>DMA_ADDRESS_UPDATE_NONE&#160;</td><td class="fielddoc"><p >The address remains the same after each transfer. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="gga0a0cc999960744ae8647fc3ae1c31bf4abaebd9dec9c0ffbf963cd9583a167f77" name="gga0a0cc999960744ae8647fc3ae1c31bf4abaebd9dec9c0ffbf963cd9583a167f77"></a>DMA_ADDRESS_UPDATE_INCREMENT&#160;</td><td class="fielddoc"><p >The address is incremented by the transfer size after each transfer. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="gaccecdff367b06a019373e9a55d4f3e01" name="gaccecdff367b06a019373e9a55d4f3e01"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaccecdff367b06a019373e9a55d4f3e01">&#9670;&nbsp;</a></span>dma_channel_transfer_size</h2>
 
@@ -582,9 +643,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 </td></tr>
 <tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da49bb6d90479edbff257068afd1a5bfe1" name="gga864c3313155ab20116b62a64bf78df6da49bb6d90479edbff257068afd1a5bfe1"></a>DREQ_DMA_TIMER0&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da11c9291490c2ddf45df69f45a2f83dcf" name="gga864c3313155ab20116b62a64bf78df6da11c9291490c2ddf45df69f45a2f83dcf"></a>DREQ_DMA_TIMER1&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da11c9291490c2ddf45df69f45a2f83dcf" name="gga864c3313155ab20116b62a64bf78df6da11c9291490c2ddf45df69f45a2f83dcf"></a>DREQ_DMA_TIMER1&#160;</td><td class="fielddoc"><p >Select DMA_TIMER1 as DREQ. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dabb60a9d9038192f9db081b51b9c23f65" name="gga864c3313155ab20116b62a64bf78df6dabb60a9d9038192f9db081b51b9c23f65"></a>DREQ_DMA_TIMER2&#160;</td><td class="fielddoc"><p >Select DMA_TIMER1 as DREQ. </p>
+<tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6dabb60a9d9038192f9db081b51b9c23f65" name="gga864c3313155ab20116b62a64bf78df6dabb60a9d9038192f9db081b51b9c23f65"></a>DREQ_DMA_TIMER2&#160;</td><td class="fielddoc"><p >Select DMA_TIMER2 as DREQ. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga864c3313155ab20116b62a64bf78df6da86d08425822a129c3eaa1479e920c67c" name="gga864c3313155ab20116b62a64bf78df6da86d08425822a129c3eaa1479e920c67c"></a>DREQ_DMA_TIMER3&#160;</td><td class="fielddoc"><p >Select DMA_TIMER3 as DREQ. </p>
 </td></tr>
@@ -692,9 +753,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 </td></tr>
 <tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a8d7bd836d3ba015fc800e227b6408f73" name="gga6f0a19defc495cfa6078364122266014a8d7bd836d3ba015fc800e227b6408f73"></a>DREQ_PWM_WRAP9&#160;</td><td class="fielddoc"><p >Select PWM Counter 9's Wrap Value as DREQ. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ad17feaa0e6a99ccf14b5d7285ab363d1" name="gga6f0a19defc495cfa6078364122266014ad17feaa0e6a99ccf14b5d7285ab363d1"></a>DREQ_PWM_WRAP10&#160;</td><td class="fielddoc"><p >Select PWM Counter 0's Wrap Value as DREQ. </p>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ad17feaa0e6a99ccf14b5d7285ab363d1" name="gga6f0a19defc495cfa6078364122266014ad17feaa0e6a99ccf14b5d7285ab363d1"></a>DREQ_PWM_WRAP10&#160;</td><td class="fielddoc"><p >Select PWM Counter 10's Wrap Value as DREQ. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a14ba987e523bd38f813f93322d053a4c" name="gga6f0a19defc495cfa6078364122266014a14ba987e523bd38f813f93322d053a4c"></a>DREQ_PWM_WRAP11&#160;</td><td class="fielddoc"><p >Select PWM Counter 1's Wrap Value as DREQ. </p>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a14ba987e523bd38f813f93322d053a4c" name="gga6f0a19defc495cfa6078364122266014a14ba987e523bd38f813f93322d053a4c"></a>DREQ_PWM_WRAP11&#160;</td><td class="fielddoc"><p >Select PWM Counter 11's Wrap Value as DREQ. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014ab51c1095a1fec8ad39050cf49fd01835" name="gga6f0a19defc495cfa6078364122266014ab51c1095a1fec8ad39050cf49fd01835"></a>DREQ_I2C0_TX&#160;</td><td class="fielddoc"><p >Select I2C0's TX FIFO as DREQ. </p>
 </td></tr>
@@ -720,9 +781,9 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 </td></tr>
 <tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a49bb6d90479edbff257068afd1a5bfe1" name="gga6f0a19defc495cfa6078364122266014a49bb6d90479edbff257068afd1a5bfe1"></a>DREQ_DMA_TIMER0&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a11c9291490c2ddf45df69f45a2f83dcf" name="gga6f0a19defc495cfa6078364122266014a11c9291490c2ddf45df69f45a2f83dcf"></a>DREQ_DMA_TIMER1&#160;</td><td class="fielddoc"><p >Select DMA_TIMER0 as DREQ. </p>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a11c9291490c2ddf45df69f45a2f83dcf" name="gga6f0a19defc495cfa6078364122266014a11c9291490c2ddf45df69f45a2f83dcf"></a>DREQ_DMA_TIMER1&#160;</td><td class="fielddoc"><p >Select DMA_TIMER1 as DREQ. </p>
 </td></tr>
-<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014abb60a9d9038192f9db081b51b9c23f65" name="gga6f0a19defc495cfa6078364122266014abb60a9d9038192f9db081b51b9c23f65"></a>DREQ_DMA_TIMER2&#160;</td><td class="fielddoc"><p >Select DMA_TIMER1 as DREQ. </p>
+<tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014abb60a9d9038192f9db081b51b9c23f65" name="gga6f0a19defc495cfa6078364122266014abb60a9d9038192f9db081b51b9c23f65"></a>DREQ_DMA_TIMER2&#160;</td><td class="fielddoc"><p >Select DMA_TIMER2 as DREQ. </p>
 </td></tr>
 <tr><td class="fieldname"><a id="gga6f0a19defc495cfa6078364122266014a86d08425822a129c3eaa1479e920c67c" name="gga6f0a19defc495cfa6078364122266014a86d08425822a129c3eaa1479e920c67c"></a>DREQ_DMA_TIMER3&#160;</td><td class="fielddoc"><p >Select DMA_TIMER3 as DREQ. </p>
 </td></tr>
@@ -771,10 +832,10 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 <div class="line"><a class="code hl_function" href="group__hardware__dma.html#gafefe50f20c44bcfa7f729829a5d494f4">dma_channel_acknowledge_irq0</a>(channel);</div>
 <div class="line"><span class="comment">// re-enable the channel on IRQ0</span></div>
 <div class="line"><a class="code hl_function" href="group__hardware__dma.html#gaf60011d46676c87b7139f37188eaa4b9">dma_channel_set_irq0_enabled</a>(channel, <span class="keyword">true</span>);</div>
-<div class="ttc" id="agroup__hardware__dma_html_ga735e7c6c136c078689ead70790f4edb2"><div class="ttname"><a href="group__hardware__dma.html#ga735e7c6c136c078689ead70790f4edb2">dma_channel_abort</a></div><div class="ttdeci">static void dma_channel_abort(uint channel)</div><div class="ttdoc">Stop a DMA transfer.</div><div class="ttdef"><b>Definition:</b> dma.h:544</div></div>
-<div class="ttc" id="agroup__hardware__dma_html_gaf60011d46676c87b7139f37188eaa4b9"><div class="ttname"><a href="group__hardware__dma.html#gaf60011d46676c87b7139f37188eaa4b9">dma_channel_set_irq0_enabled</a></div><div class="ttdeci">static void dma_channel_set_irq0_enabled(uint channel, bool enabled)</div><div class="ttdoc">Enable single DMA channel's interrupt via DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:558</div></div>
-<div class="ttc" id="agroup__hardware__dma_html_gafefe50f20c44bcfa7f729829a5d494f4"><div class="ttname"><a href="group__hardware__dma.html#gafefe50f20c44bcfa7f729829a5d494f4">dma_channel_acknowledge_irq0</a></div><div class="ttdeci">static void dma_channel_acknowledge_irq0(uint channel)</div><div class="ttdoc">Acknowledge a channel IRQ, resetting it as the cause of DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:682</div></div>
-</div><!-- fragment --><p >RP2350 only: Due to errata RP12350-E5 (see the RP2350 datasheet for further detail), it is necessary to clear the enable bit of the aborted channel and any chained channels prior to the abort to prevent re-triggering. </p>
+<div class="ttc" id="agroup__hardware__dma_html_ga735e7c6c136c078689ead70790f4edb2"><div class="ttname"><a href="group__hardware__dma.html#ga735e7c6c136c078689ead70790f4edb2">dma_channel_abort</a></div><div class="ttdeci">static void dma_channel_abort(uint channel)</div><div class="ttdoc">Stop a DMA transfer.</div><div class="ttdef"><b>Definition:</b> dma.h:759</div></div>
+<div class="ttc" id="agroup__hardware__dma_html_gaf60011d46676c87b7139f37188eaa4b9"><div class="ttname"><a href="group__hardware__dma.html#gaf60011d46676c87b7139f37188eaa4b9">dma_channel_set_irq0_enabled</a></div><div class="ttdeci">static void dma_channel_set_irq0_enabled(uint channel, bool enabled)</div><div class="ttdoc">Enable single DMA channel's interrupt via DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:773</div></div>
+<div class="ttc" id="agroup__hardware__dma_html_gafefe50f20c44bcfa7f729829a5d494f4"><div class="ttname"><a href="group__hardware__dma.html#gafefe50f20c44bcfa7f729829a5d494f4">dma_channel_acknowledge_irq0</a></div><div class="ttdeci">static void dma_channel_acknowledge_irq0(uint channel)</div><div class="ttdoc">Acknowledge a channel IRQ, resetting it as the cause of DMA_IRQ_0.</div><div class="ttdef"><b>Definition:</b> dma.h:897</div></div>
+</div><!-- fragment --><p >RP2350 only: Due to errata RP2350-E5 (see the RP2350 datasheet for further detail), it is necessary to clear the enable bit of the aborted channel and any chained channels prior to the abort to prevent re-triggering. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">channel</td><td>DMA channel </td></tr>
@@ -913,8 +974,8 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 
 </div>
 </div>
-<a id="ga971d077ac39b2d7f7c6b45e2ddc5d190" name="ga971d077ac39b2d7f7c6b45e2ddc5d190"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga971d077ac39b2d7f7c6b45e2ddc5d190">&#9670;&nbsp;</a></span>dma_channel_configure()</h2>
+<a id="gaec04adb0c0aa511d17918423ffdfa1dc" name="gaec04adb0c0aa511d17918423ffdfa1dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaec04adb0c0aa511d17918423ffdfa1dc">&#9670;&nbsp;</a></span>dma_channel_configure()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -931,7 +992,7 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structdma__channel__config.html">dma_channel_config</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structdma__channel__config__t.html">dma_channel_config_t</a> *&#160;</td>
           <td class="paramname"><em>config</em>, </td>
         </tr>
         <tr>
@@ -949,8 +1010,8 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">uint&#160;</td>
-          <td class="paramname"><em>transfer_count</em>, </td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>encoded_transfer_count</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -978,7 +1039,14 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
     <tr><td class="paramname">config</td><td>Pointer to DMA config structure </td></tr>
     <tr><td class="paramname">write_addr</td><td>Initial write address </td></tr>
     <tr><td class="paramname">read_addr</td><td>Initial read address </td></tr>
-    <tr><td class="paramname">transfer_count</td><td>Number of transfers to perform </td></tr>
+    <tr><td class="paramname">encoded_transfer_count</td><td>The encoded transfer count</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>On RP2040 this is just the number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) from 0 -&gt; 2^32 - 1. </p>
+<p >On RP2350 the low 28 bits are used to encode a number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) and non-zero values of the top 4 bits are used to specify other options. </p>
+<p >The best practice is always to use either <a class="el" href="group__hardware__dma.html#ga98857a75db216e7333c33f2037d8df89">dma_encode_transfer_count</a>, <a class="el" href="group__hardware__dma.html#ga5c4bb9b40ab8e0b5098940c8308b5fe3">dma_encode_transfer_count_with_self_trigger</a>, or <a class="el" href="group__hardware__dma.html#ga8b07f0a9691d4158bf7177d70655b98f">dma_encode_endless_transfer_count</a> to generate a value to pass for this argument </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
     <tr><td class="paramname">trigger</td><td>True to start the transfer immediately </td></tr>
   </table>
   </dd>
@@ -1117,12 +1185,12 @@ static void&#160;</td><td class="memItemRight" valign="bottom"><b>dma_sniffer_di
 <dl class="section return"><dt>Returns</dt><dd>true if the channel is claimed, false otherwise </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__dma.html#gae1b3c916746b3d2052f21b7dda34aab9" title="Mark a dma channel as used.">dma_channel_claim</a> </dd>
 <dd>
-dma_channel_claim_mask </dd></dl>
+<a class="el" href="group__hardware__dma.html#gaa430bc53dc2b36d727ad976f6348c8b3" title="Mark multiple dma channels as used.">dma_claim_mask</a> </dd></dl>
 
 </div>
 </div>
-<a id="ga7449b659efb178a408f42f7f8f7b02f9" name="ga7449b659efb178a408f42f7f8f7b02f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga7449b659efb178a408f42f7f8f7b02f9">&#9670;&nbsp;</a></span>dma_channel_set_config()</h2>
+<a id="ga37dad37eadeffcd597e8ca2f1dfc48e3" name="ga37dad37eadeffcd597e8ca2f1dfc48e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga37dad37eadeffcd597e8ca2f1dfc48e3">&#9670;&nbsp;</a></span>dma_channel_set_config()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1139,7 +1207,7 @@ dma_channel_claim_mask </dd></dl>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="structdma__channel__config.html">dma_channel_config</a> *&#160;</td>
+          <td class="paramtype">const <a class="el" href="structdma__channel__config__t.html">dma_channel_config_t</a> *&#160;</td>
           <td class="paramname"><em>config</em>, </td>
         </tr>
         <tr>
@@ -1315,8 +1383,8 @@ dma_channel_claim_mask </dd></dl>
 
 </div>
 </div>
-<a id="ga16c0e08eda636f13053d8c8b0f81e821" name="ga16c0e08eda636f13053d8c8b0f81e821"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga16c0e08eda636f13053d8c8b0f81e821">&#9670;&nbsp;</a></span>dma_channel_set_trans_count()</h2>
+<a id="ga12c2b16488b64c8f05202d5ec93f7898" name="ga12c2b16488b64c8f05202d5ec93f7898"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga12c2b16488b64c8f05202d5ec93f7898">&#9670;&nbsp;</a></span>dma_channel_set_transfer_count()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1325,7 +1393,7 @@ dma_channel_claim_mask </dd></dl>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void dma_channel_set_trans_count </td>
+          <td class="memname">static void dma_channel_set_transfer_count </td>
           <td>(</td>
           <td class="paramtype">uint&#160;</td>
           <td class="paramname"><em>channel</em>, </td>
@@ -1334,7 +1402,7 @@ dma_channel_claim_mask </dd></dl>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>trans_count</em>, </td>
+          <td class="paramname"><em>encoded_transfer_count</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -1359,7 +1427,14 @@ dma_channel_claim_mask </dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">channel</td><td>DMA channel </td></tr>
-    <tr><td class="paramname">trans_count</td><td>The number of transfers (not NOT bytes, see channel_config_set_transfer_data_size) </td></tr>
+    <tr><td class="paramname">encoded_transfer_count</td><td>The encoded transfer count</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>On RP2040 this is just the number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) from 0 -&gt; 2^32 - 1. </p>
+<p >On RP2350 the low 28 bits are used to encode a number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) and non-zero values of the top 4 bits are used to specify other options. </p>
+<p >The best practice is always to use either <a class="el" href="group__hardware__dma.html#ga98857a75db216e7333c33f2037d8df89">dma_encode_transfer_count</a>, <a class="el" href="group__hardware__dma.html#ga5c4bb9b40ab8e0b5098940c8308b5fe3">dma_encode_transfer_count_with_self_trigger</a>, or <a class="el" href="group__hardware__dma.html#ga8b07f0a9691d4158bf7177d70655b98f">dma_encode_endless_transfer_count</a> to generate a value to pass for this argument </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
     <tr><td class="paramname">trigger</td><td>True to start the transfer immediately </td></tr>
   </table>
   </dd>
@@ -1453,8 +1528,8 @@ dma_channel_claim_mask </dd></dl>
 
 </div>
 </div>
-<a id="gabf64c461a405a8114591105d9dc53575" name="gabf64c461a405a8114591105d9dc53575"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gabf64c461a405a8114591105d9dc53575">&#9670;&nbsp;</a></span>dma_channel_transfer_from_buffer_now()</h2>
+<a id="gac437172147d4fbc98878dc8e4c11fe3e" name="gac437172147d4fbc98878dc8e4c11fe3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac437172147d4fbc98878dc8e4c11fe3e">&#9670;&nbsp;</a></span>dma_channel_transfer_from_buffer_now()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1478,7 +1553,7 @@ dma_channel_claim_mask </dd></dl>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>transfer_count</em>&#160;</td>
+          <td class="paramname"><em>encoded_transfer_count</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1498,15 +1573,18 @@ dma_channel_claim_mask </dd></dl>
   <table class="params">
     <tr><td class="paramname">channel</td><td>DMA channel </td></tr>
     <tr><td class="paramname">read_addr</td><td>Sets the initial read address </td></tr>
-    <tr><td class="paramname">transfer_count</td><td>Number of transfers to make. Not bytes, but the number of transfers of <a class="el" href="group__channel__config.html#gad1a02fcee90d21f133460006b025bac0" title="Set the size of each DMA bus transfer in a channel configuration object.">channel_config_set_transfer_data_size()</a> to be sent. </td></tr>
+    <tr><td class="paramname">encoded_transfer_count</td><td>The encoded transfer count</td></tr>
   </table>
   </dd>
 </dl>
+<p>On RP2040 this is just the number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) from 0 -&gt; 2^32 - 1. </p>
+<p >On RP2350 the low 28 bits are used to encode a number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) and non-zero values of the top 4 bits are used to specify other options. </p>
+<p >The best practice is always to use either <a class="el" href="group__hardware__dma.html#ga98857a75db216e7333c33f2037d8df89">dma_encode_transfer_count</a>, <a class="el" href="group__hardware__dma.html#ga5c4bb9b40ab8e0b5098940c8308b5fe3">dma_encode_transfer_count_with_self_trigger</a>, or <a class="el" href="group__hardware__dma.html#ga8b07f0a9691d4158bf7177d70655b98f">dma_encode_endless_transfer_count</a> to generate a value to pass for this argument </p>
 
 </div>
 </div>
-<a id="ga9110135d8161fc268d87dfb040d0f854" name="ga9110135d8161fc268d87dfb040d0f854"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ga9110135d8161fc268d87dfb040d0f854">&#9670;&nbsp;</a></span>dma_channel_transfer_to_buffer_now()</h2>
+<a id="gac24990b880e7ec8c9db44d3d911334d5" name="gac24990b880e7ec8c9db44d3d911334d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gac24990b880e7ec8c9db44d3d911334d5">&#9670;&nbsp;</a></span>dma_channel_transfer_to_buffer_now()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1530,7 +1608,7 @@ dma_channel_claim_mask </dd></dl>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>transfer_count</em>&#160;</td>
+          <td class="paramname"><em>encoded_transfer_count</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1550,10 +1628,13 @@ dma_channel_claim_mask </dd></dl>
   <table class="params">
     <tr><td class="paramname">channel</td><td>DMA channel </td></tr>
     <tr><td class="paramname">write_addr</td><td>Sets the initial write address </td></tr>
-    <tr><td class="paramname">transfer_count</td><td>Number of transfers to make. Not bytes, but the number of transfers of <a class="el" href="group__channel__config.html#gad1a02fcee90d21f133460006b025bac0" title="Set the size of each DMA bus transfer in a channel configuration object.">channel_config_set_transfer_data_size()</a> to be sent. </td></tr>
+    <tr><td class="paramname">encoded_transfer_count</td><td>The encoded transfer count</td></tr>
   </table>
   </dd>
 </dl>
+<p>On RP2040 this is just the number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) from 0 -&gt; 2^32 - 1. </p>
+<p >On RP2350 the low 28 bits are used to encode a number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>) and non-zero values of the top 4 bits are used to specify other options. </p>
+<p >The best practice is always to use either <a class="el" href="group__hardware__dma.html#ga98857a75db216e7333c33f2037d8df89">dma_encode_transfer_count</a>, <a class="el" href="group__hardware__dma.html#ga5c4bb9b40ab8e0b5098940c8308b5fe3">dma_encode_transfer_count_with_self_trigger</a>, or <a class="el" href="group__hardware__dma.html#ga8b07f0a9691d4158bf7177d70655b98f">dma_encode_endless_transfer_count</a> to generate a value to pass for this argument </p>
 
 </div>
 </div>
@@ -1695,6 +1776,128 @@ dma_channel_claim_mask </dd></dl>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>the dma timer number or -1 if required was false, and none were free </dd></dl>
+
+</div>
+</div>
+<a id="ga8b07f0a9691d4158bf7177d70655b98f" name="ga8b07f0a9691d4158bf7177d70655b98f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8b07f0a9691d4158bf7177d70655b98f">&#9670;&nbsp;</a></span>dma_encode_endless_transfer_count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t dma_encode_endless_transfer_count </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return an endless transfer as an "encoded_transfer_length" value suitable for the referenced methods. </p>
+<p >On RP2040 endless DMA transfers are not supported, so this method should not be used  </p><dl class="section return"><dt>Returns</dt><dd>the encoded_transfer_count </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__dma.html#ga12c2b16488b64c8f05202d5ec93f7898" title="Set the number of bus transfers the channel will do.">dma_channel_set_transfer_count</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gaec04adb0c0aa511d17918423ffdfa1dc" title="Configure all DMA parameters and optionally start transfer.">dma_channel_configure</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gac437172147d4fbc98878dc8e4c11fe3e" title="Start a DMA transfer from a buffer immediately.">dma_channel_transfer_from_buffer_now</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gac24990b880e7ec8c9db44d3d911334d5" title="Start a DMA transfer to a buffer immediately.">dma_channel_transfer_to_buffer_now</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga98857a75db216e7333c33f2037d8df89" name="ga98857a75db216e7333c33f2037d8df89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98857a75db216e7333c33f2037d8df89">&#9670;&nbsp;</a></span>dma_encode_transfer_count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t dma_encode_transfer_count </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>transfer_count</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Encode the specified transfer length into an "encoded_transfer_length" value suitable for the referenced methods. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transfer_count</td><td>the number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>On RP2040 the valid range is 0 -&gt; 2^32 - 1 </p>
+<p >On RP2350 the valid range is 0 -&gt; 2^28 - 1  </p><dl class="section return"><dt>Returns</dt><dd>the encoded_transfer_count </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__dma.html#ga12c2b16488b64c8f05202d5ec93f7898" title="Set the number of bus transfers the channel will do.">dma_channel_set_transfer_count</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gaec04adb0c0aa511d17918423ffdfa1dc" title="Configure all DMA parameters and optionally start transfer.">dma_channel_configure</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gac437172147d4fbc98878dc8e4c11fe3e" title="Start a DMA transfer from a buffer immediately.">dma_channel_transfer_from_buffer_now</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gac24990b880e7ec8c9db44d3d911334d5" title="Start a DMA transfer to a buffer immediately.">dma_channel_transfer_to_buffer_now</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga5c4bb9b40ab8e0b5098940c8308b5fe3" name="ga5c4bb9b40ab8e0b5098940c8308b5fe3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga5c4bb9b40ab8e0b5098940c8308b5fe3">&#9670;&nbsp;</a></span>dma_encode_transfer_count_with_self_trigger()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint32_t dma_encode_transfer_count_with_self_trigger </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>transfer_count</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Encode the specified transfer length, along with a flag to indicate the DMA transfer should be self-triggering, into an "encoded_transfer_length" value suitable for the referenced methods. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">transfer_count</td><td>the number of transfers (NOT bytes, see <a class="el" href="group__channel__config.html#ga11a5df549958cce849ed4813f7b251d6">channel_config_set_transfer_data_size</a>)</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>On RP2040 self-triggering DMA is not supported, so this method should not be used </p>
+<p >On RP2350 the valid range is 0 -&gt; 2^28 - 1  </p><dl class="section return"><dt>Returns</dt><dd>the encoded_transfer_count </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__hardware__dma.html#ga12c2b16488b64c8f05202d5ec93f7898" title="Set the number of bus transfers the channel will do.">dma_channel_set_transfer_count</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gaec04adb0c0aa511d17918423ffdfa1dc" title="Configure all DMA parameters and optionally start transfer.">dma_channel_configure</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gac437172147d4fbc98878dc8e4c11fe3e" title="Start a DMA transfer from a buffer immediately.">dma_channel_transfer_from_buffer_now</a> </dd>
+<dd>
+<a class="el" href="group__hardware__dma.html#gac24990b880e7ec8c9db44d3d911334d5" title="Start a DMA transfer to a buffer immediately.">dma_channel_transfer_to_buffer_now</a> </dd></dl>
 
 </div>
 </div>
@@ -2176,7 +2379,7 @@ dma_channel_claim_mask </dd></dl>
 
 <p>Enable the Sniffer byte swap function. </p>
 <p >Locally perform a byte reverse on the sniffed data, before feeding into checksum.</p>
-<p >Note that the sniff hardware is downstream of the DMA channel byteswap performed in the read master: if <a class="el" href="group__channel__config.html#ga43c3a2dd43fe7e962b1de0e90a46bb9e" title="Set DMA byte swapping config in a channel configuration object.">channel_config_set_bswap()</a> and <a class="el" href="group__hardware__dma.html#gac3b250d97550527a584de9d3f770acea" title="Enable the Sniffer byte swap function.">dma_sniffer_set_byte_swap_enabled()</a> are both enabled, their effects cancel from the sniffer’s point of view.</p>
+<p >Note that the sniff hardware is downstream of the DMA channel byteswap performed in the read master: if <a class="el" href="group__channel__config.html#ga19b0ce8dc411c6386afa5632f3c92c4d" title="Set DMA byte swapping config in a channel configuration object.">channel_config_set_bswap()</a> and <a class="el" href="group__hardware__dma.html#gac3b250d97550527a584de9d3f770acea" title="Enable the Sniffer byte swap function.">dma_sniffer_set_byte_swap_enabled()</a> are both enabled, their effects cancel from the sniffer’s point of view.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">swap</td><td>Set true to enable byte swapping </td></tr>

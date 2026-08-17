@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['tick_5fgen_5fnum_5ft_0',['tick_gen_num_t',['../group__hardware__ticks.html#gaea457044b65d6af680787206c06faa39',1,'tick_gen_num_t():&#160;ticks.h'],['../group__hardware__ticks.html#gabd515d04e9260f97a63ed0a1415ef4c2',1,'tick_gen_num_t():&#160;ticks.h']]]
+  ['semaphore_5ft_0',['semaphore_t',['../group__sem.html#ga7faa1c561b3d822cda7bb84f27ee9448',1,'sem.h']]],
+  ['spi_5finst_5ft_1',['spi_inst_t',['../rp2__common_2hardware__spi_2include_2hardware_2spi_8h.html#a9b7b2428cfc34b20c3857980811b51a9',1,'spi.h']]]
 ];

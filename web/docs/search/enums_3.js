@@ -5,6 +5,6 @@ var searchData=
   ['gpio_5ffunction_5frp2040_2',['gpio_function_rp2040',['../group__hardware__gpio.html#gaf91b38a4d4e96c343bd16927c34936e0',1,'io_bank0.h']]],
   ['gpio_5ffunction_5frp2350_3',['gpio_function_rp2350',['../group__hardware__gpio.html#ga6bad9a66b67d755a63a2bb8843932752',1,'io_bank0.h']]],
   ['gpio_5firq_5flevel_4',['gpio_irq_level',['../group__hardware__gpio.html#ga6347e27da3ab34f1ea65b5ae16ab724f',1,'gpio.h']]],
-  ['gpio_5foverride_5',['gpio_override',['../gpio_8h.html#a760c408911eb8aaad767d39df9e4e990',1,'gpio.h']]],
+  ['gpio_5foverride_5',['gpio_override',['../group__hardware__gpio.html#ga760c408911eb8aaad767d39df9e4e990',1,'gpio.h']]],
   ['gpio_5fslew_5frate_6',['gpio_slew_rate',['../group__hardware__gpio.html#ga72c250c9393043ea5beb56092d26e229',1,'gpio.h']]]
 ];

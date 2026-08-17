@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -127,18 +127,23 @@ Collaboration diagram for repeating_timer:</div>
 Data Fields</h2></td></tr>
 <tr class="memitem:ac6f32dc9de4badf18887fa0304d1dedb"><td class="memItemLeft" align="right" valign="top"><a id="ac6f32dc9de4badf18887fa0304d1dedb" name="ac6f32dc9de4badf18887fa0304d1dedb"></a>
 int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>delay_us</b></td></tr>
+<tr class="memdesc:ac6f32dc9de4badf18887fa0304d1dedb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The delay in microseconds between callbacks (negative if measured between starts) <br /></td></tr>
 <tr class="separator:ac6f32dc9de4badf18887fa0304d1dedb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a146fdd941c45f9e683af543173585bb9"><td class="memItemLeft" align="right" valign="top"><a id="a146fdd941c45f9e683af543173585bb9" name="a146fdd941c45f9e683af543173585bb9"></a>
 <a class="el" href="structalarm__pool.html">alarm_pool_t</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pool</b></td></tr>
+<tr class="memdesc:a146fdd941c45f9e683af543173585bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The alarm pool used to back this repeating timer. <br /></td></tr>
 <tr class="separator:a146fdd941c45f9e683af543173585bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa7a02b4b0221ce1d251dadee96562cd5"><td class="memItemLeft" align="right" valign="top"><a id="aa7a02b4b0221ce1d251dadee96562cd5" name="aa7a02b4b0221ce1d251dadee96562cd5"></a>
 <a class="el" href="group__alarm.html#gaa593548569c182a0d65d2e06a9c3493b">alarm_id_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>alarm_id</b></td></tr>
+<tr class="memdesc:aa7a02b4b0221ce1d251dadee96562cd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">The alarm id of the underlying alarm backing this repeating timer. <br /></td></tr>
 <tr class="separator:aa7a02b4b0221ce1d251dadee96562cd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3a0d529f15347303d455d9fd5b5b719"><td class="memItemLeft" align="right" valign="top"><a id="ae3a0d529f15347303d455d9fd5b5b719" name="ae3a0d529f15347303d455d9fd5b5b719"></a>
 <a class="el" href="group__repeating__timer.html#ga028fe2b7d00c1927c24131aae7c375f3">repeating_timer_callback_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>callback</b></td></tr>
+<tr class="memdesc:ae3a0d529f15347303d455d9fd5b5b719"><td class="mdescLeft">&#160;</td><td class="mdescRight">The callback to call each time the repeating timer fires. <br /></td></tr>
 <tr class="separator:ae3a0d529f15347303d455d9fd5b5b719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac025d56f3a3503abd1e9d7688790c20c"><td class="memItemLeft" align="right" valign="top"><a id="ac025d56f3a3503abd1e9d7688790c20c" name="ac025d56f3a3503abd1e9d7688790c20c"></a>
 void *&#160;</td><td class="memItemRight" valign="bottom"><b>user_data</b></td></tr>
+<tr class="memdesc:ac025d56f3a3503abd1e9d7688790c20c"><td class="mdescLeft">&#160;</td><td class="mdescRight">User data passed to the callback. <br /></td></tr>
 <tr class="separator:ac025d56f3a3503abd1e9d7688790c20c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>

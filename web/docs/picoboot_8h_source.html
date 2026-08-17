@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -147,143 +147,156 @@ $(document).ready(function(){initNavTree('picoboot_8h_source.html',''); initResi
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="keyword">enum</span> picoboot_cmd_id {</div>
 <div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    PC_EXCLUSIVE_ACCESS = 0x1,</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    PC_REBOOT = 0x2,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    PC_REBOOT = 0x2, <span class="comment">// RP2040 only</span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    PC_FLASH_ERASE = 0x3,</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    PC_READ = 0x84, <span class="comment">// either RAM or FLASH</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    PC_READ = 0x84, <span class="comment">// either ROM or RAM or FLASH</span></div>
 <div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    PC_WRITE = 0x5, <span class="comment">// either RAM or FLASH (does no erase)</span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    PC_EXIT_XIP = 0x6,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    PC_ENTER_CMD_XIP = 0x7,</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    PC_EXEC = 0x8,</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    PC_VECTORIZE_FLASH = 0x9,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    PC_EXIT_XIP = 0x6, <span class="comment">// has no additional parameters (bCmdSize == 0)</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    PC_ENTER_CMD_XIP = 0x7, <span class="comment">// has no additional parameters (bCmdSize == 0)</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    PC_EXEC = 0x8, <span class="comment">// RP2040 only</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    PC_VECTORIZE_FLASH = 0x9, <span class="comment">// RP2040 only</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// RP2350 only below here</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    PC_REBOOT2 = 0xa,</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    PC_GET_INFO = 0x8b,</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    PC_OTP_READ = 0x8c,</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    PC_OTP_WRITE = 0xd,</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="comment">//PC_EXEC2 = 0xe, // currently unused</span></div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>};</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keyword">enum</span> picoboot_status {</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    PICOBOOT_OK = 0,</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    PICOBOOT_UNKNOWN_CMD = 1,</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    PICOBOOT_INVALID_CMD_LENGTH = 2,</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    PICOBOOT_INVALID_TRANSFER_LENGTH = 3,</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    PICOBOOT_INVALID_ADDRESS = 4,</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    PICOBOOT_BAD_ALIGNMENT = 5,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    PICOBOOT_INTERLEAVED_WRITE = 6,</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    PICOBOOT_REBOOTING = 7,</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    PICOBOOT_UNKNOWN_ERROR = 8,</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    PICOBOOT_INVALID_STATE = 9,</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    PICOBOOT_NOT_PERMITTED = 10,</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    PICOBOOT_INVALID_ARG = 11,</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    PICOBOOT_BUFFER_TOO_SMALL = 12,</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    PICOBOOT_PRECONDITION_NOT_MET = 13,</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    PICOBOOT_MODIFIED_DATA = 14,</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    PICOBOOT_INVALID_DATA = 15,</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    PICOBOOT_NOT_FOUND = 16,</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    PICOBOOT_UNSUPPORTED_MODIFICATION = 17,</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>};</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="structpicoboot__reboot__cmd.html">   86</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a> {</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    uint32_t dPC; <span class="comment">// 0 means reset into regular boot path</span></div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    uint32_t dSP;</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    uint32_t dDelayMS;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>};</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment">// note this (with pc_sp) union member has the same layout as picoboot_reboot_cmd except with extra dFlags</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="structpicoboot__reboot2__cmd.html">   94</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a> {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    uint32_t dFlags;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    uint32_t dDelayMS;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    uint32_t dParam0;</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    uint32_t dParam1;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>};</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span><span class="comment">// used for EXEC, VECTORIZE_FLASH</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="structpicoboot__address__only__cmd.html">  102</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a> {</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    uint32_t dAddr;</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>};</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="comment">// used for READ, WRITE, FLASH_ERASE</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="structpicoboot__range__cmd.html">  107</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__range__cmd.html">picoboot_range_cmd</a> {</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    uint32_t dAddr;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    uint32_t dSize;</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>};</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="structpicoboot__exec2__cmd.html">  112</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__exec2__cmd.html">picoboot_exec2_cmd</a> {</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    uint32_t image_base;</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    uint32_t image_size;</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    uint32_t workarea_base;</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    uint32_t workarea_size;</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>};</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keyword">enum</span> picoboot_exclusive_type {</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    NOT_EXCLUSIVE = 0,</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    EXCLUSIVE,</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    EXCLUSIVE_AND_EJECT</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>};</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="structpicoboot__exclusive__cmd.html">  125</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a> {</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    uint8_t bExclusive;</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>};</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="structpicoboot__otp__cmd.html">  129</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a> {</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    uint16_t wRow; <span class="comment">// OTP row</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    uint16_t wRowCount; <span class="comment">// number of rows to transfer</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    uint8_t bEcc; <span class="comment">// use error correction (16 bit per register vs 24 (stored as 32) bit raw)</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>};</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="structpicoboot__get__info__cmd.html">  136</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a> {</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    uint8_t bType;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    uint8_t bParam;</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    uint16_t wParam;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    uint32_t dParams[3];</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>};</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment">// little endian</span></div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="keyword">struct </span>__packed __aligned(4) picoboot_cmd {</div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    uint32_t dMagic;</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    uint32_t dToken; <span class="comment">// an identifier for this token to correlate with a status response</span></div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    uint8_t bCmdId; <span class="comment">// top bit set for IN</span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    uint8_t bCmdSize; <span class="comment">// bytes of actual data in the arg part of this structure</span></div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    uint16_t _unused;</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    uint32_t dTransferLength; <span class="comment">// length of IN/OUT transfer (or 0) if none</span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keyword">union </span>{</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        uint8_t args[16];</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a> reboot_cmd;</div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__range__cmd.html">picoboot_range_cmd</a> range_cmd;</div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a> address_only_cmd;</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a> exclusive_cmd;</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a> reboot2_cmd;</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a> <a class="code hl_struct" href="structotp__cmd.html">otp_cmd</a>;</div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a> get_info_cmd;</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__exec2__cmd.html">picoboot_exec2_cmd</a> exec2_cmd;</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    };</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>};</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span><span class="keyword">static_assert</span>(32 == <span class="keyword">sizeof</span>(<span class="keyword">struct </span>picoboot_cmd), &quot;picoboot_cmd must be 32 bytes big&quot;);</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="keyword">struct </span>__packed __aligned(4) picoboot_cmd_status {</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    uint32_t dToken;</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    uint32_t dStatusCode;</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    uint8_t bCmdId;</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    uint8_t bInProgress;</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    uint8_t _pad[6];</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>};</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="keyword">static_assert</span>(16 == <span class="keyword">sizeof</span>(<span class="keyword">struct </span>picoboot_cmd_status), &quot;picoboot_cmd_status must be 16 bytes big&quot;);</div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>};</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">enum</span> picoboot_status {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    PICOBOOT_OK = 0,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    PICOBOOT_UNKNOWN_CMD = 1,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    PICOBOOT_INVALID_CMD_LENGTH = 2,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    PICOBOOT_INVALID_TRANSFER_LENGTH = 3,</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    PICOBOOT_INVALID_ADDRESS = 4,</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    PICOBOOT_BAD_ALIGNMENT = 5,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    PICOBOOT_INTERLEAVED_WRITE = 6,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    PICOBOOT_REBOOTING = 7,</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    PICOBOOT_UNKNOWN_ERROR = 8,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    PICOBOOT_INVALID_STATE = 9,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    PICOBOOT_NOT_PERMITTED = 10,</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    PICOBOOT_INVALID_ARG = 11,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    PICOBOOT_BUFFER_TOO_SMALL = 12,</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    PICOBOOT_PRECONDITION_NOT_MET = 13,</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    PICOBOOT_MODIFIED_DATA = 14,</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    PICOBOOT_INVALID_DATA = 15,</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    PICOBOOT_NOT_FOUND = 16,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    PICOBOOT_UNSUPPORTED_MODIFICATION = 17,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>};</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="structpicoboot__reboot__cmd.html">   90</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a> {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="structpicoboot__reboot__cmd.html#a036cfd18586057fe537b78ccdd12b1e2">   91</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__reboot__cmd.html#a036cfd18586057fe537b78ccdd12b1e2">dPC</a>; </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="structpicoboot__reboot__cmd.html#a92c8a6ad6bbf18688de8a615715d2173">   92</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__reboot__cmd.html#a92c8a6ad6bbf18688de8a615715d2173">dSP</a>; </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="structpicoboot__reboot__cmd.html#a1219ef5704b6b715421cd790fca9f6a5">   93</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__reboot__cmd.html#a1219ef5704b6b715421cd790fca9f6a5">dDelayMS</a>; </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>};</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="structpicoboot__reboot2__cmd.html">  101</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a> {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="structpicoboot__reboot2__cmd.html#a7dbfa58d422f4fbf8a944a947e06377e">  102</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__reboot2__cmd.html#a7dbfa58d422f4fbf8a944a947e06377e">dFlags</a>; </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="structpicoboot__reboot2__cmd.html#a44ad53254a94c8c88974e5a3d8aa6994">  103</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__reboot2__cmd.html#a44ad53254a94c8c88974e5a3d8aa6994">dDelayMS</a>; </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="structpicoboot__reboot2__cmd.html#ab721f30fb4bf3cf983f19b211f72e288">  104</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__reboot2__cmd.html#ab721f30fb4bf3cf983f19b211f72e288">dParam0</a>; </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="structpicoboot__reboot2__cmd.html#acb000622c986a2ffd672e4ab8f1afe7b">  105</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__reboot2__cmd.html#acb000622c986a2ffd672e4ab8f1afe7b">dParam1</a>; </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>};</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="structpicoboot__address__only__cmd.html">  114</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a> {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="structpicoboot__address__only__cmd.html#a8cb1987a99580070751af75781e62995">  115</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__address__only__cmd.html#a8cb1987a99580070751af75781e62995">dAddr</a>; </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>};</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="structpicoboot__range__cmd.html">  123</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__range__cmd.html">picoboot_range_cmd</a> {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="structpicoboot__range__cmd.html#a3e4f9e9dcae52a430944e20696d08247">  124</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__range__cmd.html#a3e4f9e9dcae52a430944e20696d08247">dAddr</a>; </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="structpicoboot__range__cmd.html#af39d5d8630e523759ae726de01fb4954">  125</a></span>    uint32_t <a class="code hl_variable" href="structpicoboot__range__cmd.html#af39d5d8630e523759ae726de01fb4954">dSize</a>; </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>};</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment">// remains defined for backwards compatibility with RP2350 bootrom builds</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="structpicoboot__exec2__cmd.html">  129</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__exec2__cmd.html">picoboot_exec2_cmd</a> {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    uint32_t dummy;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>};</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">  136</a></span><span class="keyword">enum</span> <a class="code hl_enumeration" href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">picoboot_exclusive_type</a> {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50">  137</a></span>    <a class="code hl_enumvalue" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50">NOT_EXCLUSIVE</a> = 0,   </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0">  138</a></span>    <a class="code hl_enumvalue" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0">EXCLUSIVE</a>,           </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <a class="code hl_enumvalue" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919">EXCLUSIVE_AND_EJECT</a>  </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919">  140</a></span>};</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="structpicoboot__exclusive__cmd.html">  147</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a> {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="structpicoboot__exclusive__cmd.html#a6b1012919d217e862a60f1a62982ca19">  148</a></span>    uint8_t <a class="code hl_variable" href="structpicoboot__exclusive__cmd.html#a6b1012919d217e862a60f1a62982ca19">bExclusive</a>; </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>};</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="structpicoboot__otp__cmd.html">  156</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a> {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="structpicoboot__otp__cmd.html#aa63ed60612a0b851b13480737988a66f">  157</a></span>    uint16_t <a class="code hl_variable" href="structpicoboot__otp__cmd.html#aa63ed60612a0b851b13480737988a66f">wRow</a>; </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="structpicoboot__otp__cmd.html#aad0b815b9ee105fcaa2df5d1bddf44a8">  158</a></span>    uint16_t <a class="code hl_variable" href="structpicoboot__otp__cmd.html#aad0b815b9ee105fcaa2df5d1bddf44a8">wRowCount</a>; </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="structpicoboot__otp__cmd.html#a4976df1bb3f39a74a99a3295ff314c35">  159</a></span>    uint8_t <a class="code hl_variable" href="structpicoboot__otp__cmd.html#a4976df1bb3f39a74a99a3295ff314c35">bEcc</a>; </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>};</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="structpicoboot__get__info__cmd.html">  167</a></span><span class="keyword">struct </span>__packed <a class="code hl_struct" href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a> {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="structpicoboot__get__info__cmd.html#adab96f3804baf54b98d786552904f1b8">  168</a></span>    uint8_t <a class="code hl_variable" href="structpicoboot__get__info__cmd.html#adab96f3804baf54b98d786552904f1b8">bType</a>; </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="structpicoboot__get__info__cmd.html#a07c586862cd7658bb6674a7b01f5f7bf">  169</a></span>    uint8_t <a class="code hl_variable" href="structpicoboot__get__info__cmd.html#a07c586862cd7658bb6674a7b01f5f7bf">bParam</a>; </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="structpicoboot__get__info__cmd.html#aa7e08f94f8ca27e2063e692002d7cb8a">  170</a></span>    uint16_t <a class="code hl_variable" href="structpicoboot__get__info__cmd.html#aa7e08f94f8ca27e2063e692002d7cb8a">wParam</a>; </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno"><a class="line" href="structpicoboot__get__info__cmd.html#a1a54c8b0c36504db9be1d9cfc9558d7f">  171</a></span>    uint32_t dParams[3]; </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>};</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="comment">// little endian</span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno"><a class="line" href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">  183</a></span><span class="comment"></span><span class="keyword">struct </span>__packed <a class="code hl_function" href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">__aligned</a>(4) picoboot_cmd {</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    uint32_t dMagic; </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    uint32_t dToken; </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    uint8_t bCmdId; </div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    uint8_t bCmdSize; </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    uint16_t _unused; </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    uint32_t dTransferLength; </div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keyword">union </span>{</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        uint8_t args[16]; </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a> reboot_cmd; </div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__range__cmd.html">picoboot_range_cmd</a> range_cmd; </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a> address_only_cmd; </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a> exclusive_cmd; </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a> reboot2_cmd; </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a> <a class="code hl_struct" href="structotp__cmd.html">otp_cmd</a>; </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="keyword">struct </span><a class="code hl_struct" href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a> get_info_cmd; </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    };</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>};</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="keyword">static_assert</span>(32 == <span class="keyword">sizeof</span>(<span class="keyword">struct </span>picoboot_cmd), &quot;picoboot_cmd must be 32 bytes big&quot;);</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="keyword">struct </span>__packed <a class="code hl_function" href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">__aligned</a>(4) picoboot_cmd_status {</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    uint32_t dToken; </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    uint32_t dStatusCode; </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    uint8_t bCmdId; </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    uint8_t bInProgress; </div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    uint8_t _pad[6]; </div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>};</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span><span class="keyword">static_assert</span>(16 == <span class="keyword">sizeof</span>(<span class="keyword">struct </span>picoboot_cmd_status), &quot;picoboot_cmd_status must be 16 bytes big&quot;);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span> </div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__boot__picoboot__headers_html_ga089aa49590ca8ca8ee50e260d396294f"><div class="ttname"><a href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">picoboot_exclusive_type</a></div><div class="ttdeci">picoboot_exclusive_type</div><div class="ttdoc">Exclusivity level for a PC_EXCLUSIVE_ACCESS command.</div><div class="ttdef"><b>Definition:</b> picoboot.h:136</div></div>
+<div class="ttc" id="agroup__boot__picoboot__headers_html_ga53a02b321562de1288a42521cdd886bf"><div class="ttname"><a href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">__aligned</a></div><div class="ttdeci">struct __packed __aligned(4) picoboot_cmd</div><div class="ttdoc">A PICOBOOT command packet sent to the OUT endpoint.</div><div class="ttdef"><b>Definition:</b> picoboot.h:183</div></div>
+<div class="ttc" id="agroup__boot__picoboot__headers_html_gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0"><div class="ttname"><a href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0">EXCLUSIVE</a></div><div class="ttdeci">@ EXCLUSIVE</div><div class="ttdoc">Disable USB Mass Storage writes (any active UF2 download will be aborted)</div><div class="ttdef"><b>Definition:</b> picoboot.h:138</div></div>
+<div class="ttc" id="agroup__boot__picoboot__headers_html_gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919"><div class="ttname"><a href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919">EXCLUSIVE_AND_EJECT</a></div><div class="ttdeci">@ EXCLUSIVE_AND_EJECT</div><div class="ttdoc">Lock out USB Mass Storage by marking the drive media as not present (eject the drive)</div><div class="ttdef"><b>Definition:</b> picoboot.h:139</div></div>
+<div class="ttc" id="agroup__boot__picoboot__headers_html_gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50"><div class="ttname"><a href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50">NOT_EXCLUSIVE</a></div><div class="ttdeci">@ NOT_EXCLUSIVE</div><div class="ttdoc">No restriction on USB Mass Storage operation.</div><div class="ttdef"><b>Definition:</b> picoboot.h:137</div></div>
 <div class="ttc" id="aplatform_8h_html"><div class="ttname"><a href="platform_8h.html">platform.h</a></div></div>
-<div class="ttc" id="astructotp__cmd_html"><div class="ttname"><a href="structotp__cmd.html">otp_cmd</a></div><div class="ttdef"><b>Definition:</b> bootrom_constants.h:275</div></div>
-<div class="ttc" id="astructpicoboot__address__only__cmd_html"><div class="ttname"><a href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:102</div></div>
-<div class="ttc" id="astructpicoboot__exclusive__cmd_html"><div class="ttname"><a href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:125</div></div>
-<div class="ttc" id="astructpicoboot__exec2__cmd_html"><div class="ttname"><a href="structpicoboot__exec2__cmd.html">picoboot_exec2_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:112</div></div>
-<div class="ttc" id="astructpicoboot__get__info__cmd_html"><div class="ttname"><a href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:136</div></div>
-<div class="ttc" id="astructpicoboot__otp__cmd_html"><div class="ttname"><a href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:129</div></div>
-<div class="ttc" id="astructpicoboot__range__cmd_html"><div class="ttname"><a href="structpicoboot__range__cmd.html">picoboot_range_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:107</div></div>
-<div class="ttc" id="astructpicoboot__reboot2__cmd_html"><div class="ttname"><a href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:94</div></div>
-<div class="ttc" id="astructpicoboot__reboot__cmd_html"><div class="ttname"><a href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:86</div></div>
+<div class="ttc" id="astructotp__cmd_html"><div class="ttname"><a href="structotp__cmd.html">otp_cmd</a></div><div class="ttdef"><b>Definition:</b> bootrom_constants.h:282</div></div>
+<div class="ttc" id="astructpicoboot__address__only__cmd_html"><div class="ttname"><a href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a></div><div class="ttdoc">Parameters for a command that operates on a single address (RP2040 only)</div><div class="ttdef"><b>Definition:</b> picoboot.h:114</div></div>
+<div class="ttc" id="astructpicoboot__address__only__cmd_html_a8cb1987a99580070751af75781e62995"><div class="ttname"><a href="structpicoboot__address__only__cmd.html#a8cb1987a99580070751af75781e62995">picoboot_address_only_cmd::dAddr</a></div><div class="ttdeci">uint32_t dAddr</div><div class="ttdoc">Target address.</div><div class="ttdef"><b>Definition:</b> picoboot.h:115</div></div>
+<div class="ttc" id="astructpicoboot__exclusive__cmd_html"><div class="ttname"><a href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a></div><div class="ttdoc">Parameters for an exclusive-access command.</div><div class="ttdef"><b>Definition:</b> picoboot.h:147</div></div>
+<div class="ttc" id="astructpicoboot__exclusive__cmd_html_a6b1012919d217e862a60f1a62982ca19"><div class="ttname"><a href="structpicoboot__exclusive__cmd.html#a6b1012919d217e862a60f1a62982ca19">picoboot_exclusive_cmd::bExclusive</a></div><div class="ttdeci">uint8_t bExclusive</div><div class="ttdoc">Exclusivity level; one of the picoboot_exclusive_type values.</div><div class="ttdef"><b>Definition:</b> picoboot.h:148</div></div>
+<div class="ttc" id="astructpicoboot__exec2__cmd_html"><div class="ttname"><a href="structpicoboot__exec2__cmd.html">picoboot_exec2_cmd</a></div><div class="ttdef"><b>Definition:</b> picoboot.h:129</div></div>
+<div class="ttc" id="astructpicoboot__get__info__cmd_html"><div class="ttname"><a href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a></div><div class="ttdoc">Parameters for a get-info command (not available on RP2040)</div><div class="ttdef"><b>Definition:</b> picoboot.h:167</div></div>
+<div class="ttc" id="astructpicoboot__get__info__cmd_html_a07c586862cd7658bb6674a7b01f5f7bf"><div class="ttname"><a href="structpicoboot__get__info__cmd.html#a07c586862cd7658bb6674a7b01f5f7bf">picoboot_get_info_cmd::bParam</a></div><div class="ttdeci">uint8_t bParam</div><div class="ttdoc">Unused.</div><div class="ttdef"><b>Definition:</b> picoboot.h:169</div></div>
+<div class="ttc" id="astructpicoboot__get__info__cmd_html_aa7e08f94f8ca27e2063e692002d7cb8a"><div class="ttname"><a href="structpicoboot__get__info__cmd.html#aa7e08f94f8ca27e2063e692002d7cb8a">picoboot_get_info_cmd::wParam</a></div><div class="ttdeci">uint16_t wParam</div><div class="ttdoc">Unused.</div><div class="ttdef"><b>Definition:</b> picoboot.h:170</div></div>
+<div class="ttc" id="astructpicoboot__get__info__cmd_html_adab96f3804baf54b98d786552904f1b8"><div class="ttname"><a href="structpicoboot__get__info__cmd.html#adab96f3804baf54b98d786552904f1b8">picoboot_get_info_cmd::bType</a></div><div class="ttdeci">uint8_t bType</div><div class="ttdoc">Info type selector.</div><div class="ttdef"><b>Definition:</b> picoboot.h:168</div></div>
+<div class="ttc" id="astructpicoboot__otp__cmd_html"><div class="ttname"><a href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a></div><div class="ttdoc">Parameters for an OTP read or write command (not available on RP2040)</div><div class="ttdef"><b>Definition:</b> picoboot.h:156</div></div>
+<div class="ttc" id="astructpicoboot__otp__cmd_html_a4976df1bb3f39a74a99a3295ff314c35"><div class="ttname"><a href="structpicoboot__otp__cmd.html#a4976df1bb3f39a74a99a3295ff314c35">picoboot_otp_cmd::bEcc</a></div><div class="ttdeci">uint8_t bEcc</div><div class="ttdoc">Non-zero to use ECC (16-bit per register); zero for raw 24-bit access (stored as 32-bit)</div><div class="ttdef"><b>Definition:</b> picoboot.h:159</div></div>
+<div class="ttc" id="astructpicoboot__otp__cmd_html_aa63ed60612a0b851b13480737988a66f"><div class="ttname"><a href="structpicoboot__otp__cmd.html#aa63ed60612a0b851b13480737988a66f">picoboot_otp_cmd::wRow</a></div><div class="ttdeci">uint16_t wRow</div><div class="ttdoc">OTP row index to start from.</div><div class="ttdef"><b>Definition:</b> picoboot.h:157</div></div>
+<div class="ttc" id="astructpicoboot__otp__cmd_html_aad0b815b9ee105fcaa2df5d1bddf44a8"><div class="ttname"><a href="structpicoboot__otp__cmd.html#aad0b815b9ee105fcaa2df5d1bddf44a8">picoboot_otp_cmd::wRowCount</a></div><div class="ttdeci">uint16_t wRowCount</div><div class="ttdoc">Number of rows to transfer.</div><div class="ttdef"><b>Definition:</b> picoboot.h:158</div></div>
+<div class="ttc" id="astructpicoboot__range__cmd_html"><div class="ttname"><a href="structpicoboot__range__cmd.html">picoboot_range_cmd</a></div><div class="ttdoc">Parameters for a command that operates on an address range.</div><div class="ttdef"><b>Definition:</b> picoboot.h:123</div></div>
+<div class="ttc" id="astructpicoboot__range__cmd_html_a3e4f9e9dcae52a430944e20696d08247"><div class="ttname"><a href="structpicoboot__range__cmd.html#a3e4f9e9dcae52a430944e20696d08247">picoboot_range_cmd::dAddr</a></div><div class="ttdeci">uint32_t dAddr</div><div class="ttdoc">Start address of the range.</div><div class="ttdef"><b>Definition:</b> picoboot.h:124</div></div>
+<div class="ttc" id="astructpicoboot__range__cmd_html_af39d5d8630e523759ae726de01fb4954"><div class="ttname"><a href="structpicoboot__range__cmd.html#af39d5d8630e523759ae726de01fb4954">picoboot_range_cmd::dSize</a></div><div class="ttdeci">uint32_t dSize</div><div class="ttdoc">Size of the range in bytes.</div><div class="ttdef"><b>Definition:</b> picoboot.h:125</div></div>
+<div class="ttc" id="astructpicoboot__reboot2__cmd_html"><div class="ttname"><a href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a></div><div class="ttdoc">Parameters for an extended reboot command (not available on RP2040)</div><div class="ttdef"><b>Definition:</b> picoboot.h:101</div></div>
+<div class="ttc" id="astructpicoboot__reboot2__cmd_html_a44ad53254a94c8c88974e5a3d8aa6994"><div class="ttname"><a href="structpicoboot__reboot2__cmd.html#a44ad53254a94c8c88974e5a3d8aa6994">picoboot_reboot2_cmd::dDelayMS</a></div><div class="ttdeci">uint32_t dDelayMS</div><div class="ttdoc">Delay in milliseconds before rebooting.</div><div class="ttdef"><b>Definition:</b> picoboot.h:103</div></div>
+<div class="ttc" id="astructpicoboot__reboot2__cmd_html_a7dbfa58d422f4fbf8a944a947e06377e"><div class="ttname"><a href="structpicoboot__reboot2__cmd.html#a7dbfa58d422f4fbf8a944a947e06377e">picoboot_reboot2_cmd::dFlags</a></div><div class="ttdeci">uint32_t dFlags</div><div class="ttdoc">Reboot flags controlling the boot path.</div><div class="ttdef"><b>Definition:</b> picoboot.h:102</div></div>
+<div class="ttc" id="astructpicoboot__reboot2__cmd_html_ab721f30fb4bf3cf983f19b211f72e288"><div class="ttname"><a href="structpicoboot__reboot2__cmd.html#ab721f30fb4bf3cf983f19b211f72e288">picoboot_reboot2_cmd::dParam0</a></div><div class="ttdeci">uint32_t dParam0</div><div class="ttdoc">First reboot parameter (interpretation depends on flags)</div><div class="ttdef"><b>Definition:</b> picoboot.h:104</div></div>
+<div class="ttc" id="astructpicoboot__reboot2__cmd_html_acb000622c986a2ffd672e4ab8f1afe7b"><div class="ttname"><a href="structpicoboot__reboot2__cmd.html#acb000622c986a2ffd672e4ab8f1afe7b">picoboot_reboot2_cmd::dParam1</a></div><div class="ttdeci">uint32_t dParam1</div><div class="ttdoc">Second reboot parameter (interpretation depends on flags)</div><div class="ttdef"><b>Definition:</b> picoboot.h:105</div></div>
+<div class="ttc" id="astructpicoboot__reboot__cmd_html"><div class="ttname"><a href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a></div><div class="ttdoc">Parameters for a reboot command (RP2040 only)</div><div class="ttdef"><b>Definition:</b> picoboot.h:90</div></div>
+<div class="ttc" id="astructpicoboot__reboot__cmd_html_a036cfd18586057fe537b78ccdd12b1e2"><div class="ttname"><a href="structpicoboot__reboot__cmd.html#a036cfd18586057fe537b78ccdd12b1e2">picoboot_reboot_cmd::dPC</a></div><div class="ttdeci">uint32_t dPC</div><div class="ttdoc">Program counter to reboot to; 0 means reset into the regular boot path, otherwise must be a RAM addre...</div><div class="ttdef"><b>Definition:</b> picoboot.h:91</div></div>
+<div class="ttc" id="astructpicoboot__reboot__cmd_html_a1219ef5704b6b715421cd790fca9f6a5"><div class="ttname"><a href="structpicoboot__reboot__cmd.html#a1219ef5704b6b715421cd790fca9f6a5">picoboot_reboot_cmd::dDelayMS</a></div><div class="ttdeci">uint32_t dDelayMS</div><div class="ttdoc">Delay in milliseconds before rebooting.</div><div class="ttdef"><b>Definition:</b> picoboot.h:93</div></div>
+<div class="ttc" id="astructpicoboot__reboot__cmd_html_a92c8a6ad6bbf18688de8a615715d2173"><div class="ttname"><a href="structpicoboot__reboot__cmd.html#a92c8a6ad6bbf18688de8a615715d2173">picoboot_reboot_cmd::dSP</a></div><div class="ttdeci">uint32_t dSP</div><div class="ttdoc">Stack pointer value at reboot; ignored unless dPC is a RAM address.</div><div class="ttdef"><b>Definition:</b> picoboot.h:92</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 

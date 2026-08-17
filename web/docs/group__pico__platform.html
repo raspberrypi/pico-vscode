@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,7 @@ $(document).ready(function(){initNavTree('group__pico__platform.html',''); initR
 
 <div class="header">
   <div class="summary">
+<a href="#files">Files</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_platform<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
@@ -112,9 +113,18 @@ $(document).ready(function(){initNavTree('group__pico__platform.html',''); initR
 <p>Macros and definitions (and functions when included by non assembly code) for the RP2 family device / architecture to provide a common abstraction over low level compiler / platform specifics.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="files" name="files"></a>
+Files</h2></td></tr>
+<tr class="memitem:common_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="common_8h.html">common.h</a></td></tr>
+<tr class="memdesc:common_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macros and definitions common to all rp2 platforms but not specific to any library. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:compiler_8h"><td class="memItemLeft" align="right" valign="top">file &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compiler_8h.html">compiler.h</a></td></tr>
+<tr class="memdesc:compiler_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macros and definitions (and functions when included by non assembly code) to adapt for different compilers. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:ga1f7eafa00361375ec15412f634ad67b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">__fast_mul</a>(a,  b)</td></tr>
+<tr class="memitem:ga1f7eafa00361375ec15412f634ad67b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">__fast_mul</a>(a,  b)&#160;&#160;&#160;(__builtin_constant_p(b) &amp;&amp; !__builtin_constant_p(a) &amp;&amp; __builtin_popcount(b) &gt;= 2 ? <a class="el" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a>(a,b) : (a)*(b))</td></tr>
 <tr class="memdesc:ga1f7eafa00361375ec15412f634ad67b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">multiply two integer values using the fastest method possible  <a href="group__pico__platform.html#ga1f7eafa00361375ec15412f634ad67b7">More...</a><br /></td></tr>
 <tr class="separator:ga1f7eafa00361375ec15412f634ad67b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7a3538bc029b0e60c2f308008fc095c6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga7a3538bc029b0e60c2f308008fc095c6">__isr</a></td></tr>
@@ -141,27 +151,54 @@ Macros</h2></td></tr>
 <tr class="memitem:ga88c6891ab226690c883f3396611d8dc9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">__after_data</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.after_data.&quot; group)))</td></tr>
 <tr class="memdesc:ga88c6891ab226690c883f3396611d8dc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in RAM after the <code>.data</code> section.  <a href="group__pico__platform.html#ga88c6891ab226690c883f3396611d8dc9">More...</a><br /></td></tr>
 <tr class="separator:ga88c6891ab226690c883f3396611d8dc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad8b78e068558946081789ce1935528bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">__scratch_x</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_x.&quot; group)))</td></tr>
-<tr class="memdesc:gad8b78e068558946081789ce1935528bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement not in flash (i.e in RAM)  <a href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">More...</a><br /></td></tr>
+<tr class="memitem:ga99fdc8f389b2ba2ce3577030b19d04ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga99fdc8f389b2ba2ce3577030b19d04ec">__in_ram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.time_critical.&quot; group)))</td></tr>
+<tr class="memdesc:ga99fdc8f389b2ba2ce3577030b19d04ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in RAM.  <a href="group__pico__platform.html#ga99fdc8f389b2ba2ce3577030b19d04ec">More...</a><br /></td></tr>
+<tr class="separator:ga99fdc8f389b2ba2ce3577030b19d04ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga758b2601a648359a300c2fafefefb0e2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga758b2601a648359a300c2fafefefb0e2">__in_scratch_x</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_x.&quot; group)))</td></tr>
+<tr class="memdesc:ga758b2601a648359a300c2fafefefb0e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the penultimate SRAM bank (known as "scratch X")  <a href="group__pico__platform.html#ga758b2601a648359a300c2fafefefb0e2">More...</a><br /></td></tr>
+<tr class="separator:ga758b2601a648359a300c2fafefefb0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad8b78e068558946081789ce1935528bf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">__scratch_x</a>(group)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga758b2601a648359a300c2fafefefb0e2">__in_scratch_x</a>(group)</td></tr>
+<tr class="memdesc:gad8b78e068558946081789ce1935528bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the penultimate SRAM bank (known as "scratch X")  <a href="group__pico__platform.html#gad8b78e068558946081789ce1935528bf">More...</a><br /></td></tr>
 <tr class="separator:gad8b78e068558946081789ce1935528bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga699cabffc3896ece6ec696e841146b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">__scratch_y</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_y.&quot; group)))</td></tr>
-<tr class="memdesc:ga699cabffc3896ece6ec696e841146b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the SRAM bank 5 (known as "scratch Y")  <a href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">More...</a><br /></td></tr>
+<tr class="memitem:gabfb5bcb3cf14b95a4a1c577cb44dbd1c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gabfb5bcb3cf14b95a4a1c577cb44dbd1c">__in_scratch_y</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.scratch_y.&quot; group)))</td></tr>
+<tr class="memdesc:gabfb5bcb3cf14b95a4a1c577cb44dbd1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the final SRAM bank (known as "scratch Y")  <a href="group__pico__platform.html#gabfb5bcb3cf14b95a4a1c577cb44dbd1c">More...</a><br /></td></tr>
+<tr class="separator:gabfb5bcb3cf14b95a4a1c577cb44dbd1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga699cabffc3896ece6ec696e841146b3c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">__scratch_y</a>(group)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#gabfb5bcb3cf14b95a4a1c577cb44dbd1c">__in_scratch_y</a>(group)</td></tr>
+<tr class="memdesc:ga699cabffc3896ece6ec696e841146b3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in the final SRAM bank (known as "scratch Y")  <a href="group__pico__platform.html#ga699cabffc3896ece6ec696e841146b3c">More...</a><br /></td></tr>
 <tr class="separator:ga699cabffc3896ece6ec696e841146b3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga78d639be6065ba2d3de2a6961be467f9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga78d639be6065ba2d3de2a6961be467f9">__in_psram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.psram_initialised.&quot; group)))</td></tr>
+<tr class="memdesc:ga78d639be6065ba2d3de2a6961be467f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in PSRAM.  <a href="group__pico__platform.html#ga78d639be6065ba2d3de2a6961be467f9">More...</a><br /></td></tr>
+<tr class="separator:ga78d639be6065ba2d3de2a6961be467f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6d3d77066a651d9990285c933c550d79"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga6d3d77066a651d9990285c933c550d79">__uninitialized_psram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.psram_uninitialised.&quot; group)))</td></tr>
+<tr class="memdesc:ga6d3d77066a651d9990285c933c550d79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in uninitialised PSRAM.  <a href="group__pico__platform.html#ga6d3d77066a651d9990285c933c550d79">More...</a><br /></td></tr>
+<tr class="separator:ga6d3d77066a651d9990285c933c550d79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga72b89336f1ac76e1a2887b0ed355b259"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga72b89336f1ac76e1a2887b0ed355b259">__in_xip_ram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.xip_ram.&quot; group)))</td></tr>
+<tr class="memdesc:ga72b89336f1ac76e1a2887b0ed355b259"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in XIP SRAM.  <a href="group__pico__platform.html#ga72b89336f1ac76e1a2887b0ed355b259">More...</a><br /></td></tr>
+<tr class="separator:ga72b89336f1ac76e1a2887b0ed355b259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">__uninitialized_ram</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.uninitialized_data.&quot; #group))) group</td></tr>
 <tr class="memdesc:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for data that is to be left uninitialized.  <a href="group__pico__platform.html#ga118d39a4ebb425b8bef29e7a1f8731c2">More...</a><br /></td></tr>
 <tr class="separator:ga118d39a4ebb425b8bef29e7a1f8731c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7d7f154fdc61427d28d7370e2c447459"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga7d7f154fdc61427d28d7370e2c447459">__persistent_data</a>(name)&#160;&#160;&#160;__attribute__((section(&quot;.persistent_data.&quot; #name))) name</td></tr>
+<tr class="memdesc:ga7d7f154fdc61427d28d7370e2c447459"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in a section persisted across default POWMAN resets.  <a href="group__pico__platform.html#ga7d7f154fdc61427d28d7370e2c447459">More...</a><br /></td></tr>
+<tr class="separator:ga7d7f154fdc61427d28d7370e2c447459"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">__in_flash</a>(group)&#160;&#160;&#160;__attribute__((section(&quot;.flashdata.&quot; group)))</td></tr>
 <tr class="memdesc:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement in flash even in a COPY_TO_RAM binary.  <a href="group__pico__platform.html#ga0f27b5a18b17ef82ff103825a3b7322d">More...</a><br /></td></tr>
 <tr class="separator:ga0f27b5a18b17ef82ff103825a3b7322d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">__no_inline_not_in_flash_func</a>(func_name)&#160;&#160;&#160;__noinline __not_in_flash_func(func_name)</td></tr>
-<tr class="memdesc:gad9ab05c9a8f0ab455a5e11773d610787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function should not be stored in flash.  <a href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">More...</a><br /></td></tr>
+<tr class="memitem:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(group)&#160;&#160;&#160;PICO_NOT_IN_FLASH_PLACEMENT(group)</td></tr>
+<tr class="memdesc:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Section attribute macro for placement not in flash.  <a href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">More...</a><br /></td></tr>
+<tr class="separator:ga98947648f4fd8b22f9cccc4c2f0d64fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7ea262771f71b22e4e720bc2ca31d936"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(__STRING(func_name)) func_name</td></tr>
+<tr class="memdesc:ga7ea262771f71b22e4e720bc2ca31d936"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function should not be stored in flash.  <a href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">More...</a><br /></td></tr>
+<tr class="separator:ga7ea262771f71b22e4e720bc2ca31d936"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">__no_inline_not_in_flash_func</a>(func_name)&#160;&#160;&#160;__noinline <a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td></tr>
+<tr class="memdesc:gad9ab05c9a8f0ab455a5e11773d610787"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicate a function should not be stored in flash and should not be inlined.  <a href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787">More...</a><br /></td></tr>
 <tr class="separator:gad9ab05c9a8f0ab455a5e11773d610787"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga27ef91000958320e25ff481d16786ebf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga27ef91000958320e25ff481d16786ebf">__time_critical_func</a>(func_name)&#160;&#160;&#160;__noinline PICO_TIME_CRITICAL_PLACEMENT(__STRING(func_name)) func_name</td></tr>
+<tr class="memdesc:ga27ef91000958320e25ff481d16786ebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indicates a function is time/latency critical and should not run from flash.  <a href="group__pico__platform.html#ga27ef91000958320e25ff481d16786ebf">More...</a><br /></td></tr>
+<tr class="separator:ga27ef91000958320e25ff481d16786ebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a> (void)</td></tr>
-<tr class="memdesc:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op function for the body of tight loops.  <a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">More...</a><br /></td></tr>
-<tr class="separator:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">busy_wait_at_least_cycles</a> (uint32_t minimum_cycles)</td></tr>
 <tr class="memdesc:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper method to busy-wait for at least the given number of cycles.  <a href="group__pico__platform.html#ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f">More...</a><br /></td></tr>
 <tr class="separator:ga49c4fc3b5d3fbe9f2f6f7bc500b9db4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,12 +221,15 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 <tr class="memitem:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gac157772e2fa6f4c64e1c3e4d761089d9">rp2040_chip_version</a> (void)</td></tr>
 <tr class="memdesc:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 chip revision number for compatibility.  <a href="group__pico__platform.html#gac157772e2fa6f4c64e1c3e4d761089d9">More...</a><br /></td></tr>
 <tr class="separator:gac157772e2fa6f4c64e1c3e4d761089d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">rp2040_rom_version</a> (void)</td></tr>
-<tr class="memdesc:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2040 rom version number.  <a href="group__pico__platform.html#gadcb55b507bb15fbe5a71bcb2f222b6e2">More...</a><br /></td></tr>
-<tr class="separator:gadcb55b507bb15fbe5a71bcb2f222b6e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf0cfe7237c34761fe34d745374892fd5"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gaf0cfe7237c34761fe34d745374892fd5">rp2350_rom_version</a> (void)</td></tr>
+<tr class="memdesc:gaf0cfe7237c34761fe34d745374892fd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the RP2350 rom version number.  <a href="group__pico__platform.html#gaf0cfe7237c34761fe34d745374892fd5">More...</a><br /></td></tr>
+<tr class="separator:gaf0cfe7237c34761fe34d745374892fd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a> (int32_t a, int32_t b)</td></tr>
 <tr class="memdesc:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Multiply two integers using an assembly <code>MUL</code> instruction.  <a href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">More...</a><br /></td></tr>
 <tr class="separator:gab68b1653c84bff361bff5dc2baf2e7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708c36e116a">__force_inline</a> void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">tight_loop_contents</a> (void)</td></tr>
+<tr class="memdesc:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">No-op function for the body of tight loops.  <a href="group__pico__platform.html#gab0d1ba75ceb64131e19f613d7a5313c9">More...</a><br /></td></tr>
+<tr class="separator:gab0d1ba75ceb64131e19f613d7a5313c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="memItemLeft" align="right" valign="top">static __always_inline void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">__compiler_memory_barrier</a> (void)</td></tr>
 <tr class="memdesc:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ensure that the compiler does not move memory access across this method call.  <a href="group__pico__platform.html#gac01ec0ae597f7572f8e298fa4f48c8e6">More...</a><br /></td></tr>
 <tr class="separator:gac01ec0ae597f7572f8e298fa4f48c8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,7 +242,6 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Macros and definitions (and functions when included by non assembly code) for the RP2 family device / architecture to provide a common abstraction over low level compiler / platform specifics. </p>
-<p >Macros and definitions (and functions when included by non assembly code) to adapt for different compilers.</p>
 <p >Macros and definitions for accessing the CPU registers.</p>
 <p >This header may be included by assembly code </p>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -286,15 +325,11 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td>&#160;&#160;&#160;(__builtin_constant_p(b) &amp;&amp; !__builtin_constant_p(a) &amp;&amp; __builtin_popcount(b) &gt;= 2 ? <a class="el" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a>(a,b) : (a)*(b))</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    __builtin_choose_expr(__builtin_constant_p(b) &amp;&amp; !__builtin_constant_p(a), \</div>
-<div class="line">    (__builtin_popcount(b) &gt;= 2 ? <a class="code hl_function" href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a>(a,b) : (a)*(b)), \</div>
-<div class="line">    (a)*(b))</div>
-<div class="ttc" id="agroup__pico__platform_html_gab68b1653c84bff361bff5dc2baf2e7ea"><div class="ttname"><a href="group__pico__platform.html#gab68b1653c84bff361bff5dc2baf2e7ea">__mul_instruction</a></div><div class="ttdeci">static __force_inline int32_t __mul_instruction(int32_t a, int32_t b)</div><div class="ttdoc">Multiply two integers using an assembly MUL instruction.</div><div class="ttdef"><b>Definition:</b> platform.h:258</div></div>
-</div><!-- fragment -->
+
 <p>multiply two integer values using the fastest method possible </p>
 <p >Efficiently multiplies value a by possibly constant value b.</p>
 <p >If b is known to be constant and not zero or a power of 2, then a mul instruction is used rather than gcc's default which is often a slow combination of shifts and adds. If b is a power of 2 then a single shift is of course preferable and will be used</p>
@@ -354,6 +389,151 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 
 </div>
 </div>
+<a id="ga78d639be6065ba2d3de2a6961be467f9" name="ga78d639be6065ba2d3de2a6961be467f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga78d639be6065ba2d3de2a6961be467f9">&#9670;&nbsp;</a></span>__in_psram</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __in_psram</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">group</td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((section(&quot;.psram_initialised.&quot; group)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement in PSRAM. </p>
+<p >PSRAM is commonly used for extra data sections. You can place data in initialised or uninitialised PSRAM, depending on how the data is loaded into the PSRAM.</p>
+<p >For example a <code>uint32_t</code> variable placed in PSRAM </p><pre class="fragment">uint32_t __in_psram("my_group_name") foo = 23;
+</pre><p> Or placed in uninitialised PSRAM </p><pre class="fragment">uint32_t __uninitialized_psram("my_group_name") foo;
+</pre><p> The section attribute is <code>.psram_initialised.&lt;group&gt;</code> or <code>.psram_uninitialised.&lt;group&gt;</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga99fdc8f389b2ba2ce3577030b19d04ec" name="ga99fdc8f389b2ba2ce3577030b19d04ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga99fdc8f389b2ba2ce3577030b19d04ec">&#9670;&nbsp;</a></span>__in_ram</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __in_ram</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">group</td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((section(&quot;.time_critical.&quot; group)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement in RAM. </p>
+<p >For example a 3 element <code>uint32_t</code> array placed in RAM (even though it is <code>static const</code>) </p><pre class="fragment">static const uint32_t __not_in_flash("my_group_name") an_array[3];
+</pre><p> The section attribute is <code>.time_critical.&lt;group&gt;</code>, which is used to maintain compatibility with older linker scripts</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga758b2601a648359a300c2fafefefb0e2" name="ga758b2601a648359a300c2fafefefb0e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga758b2601a648359a300c2fafefefb0e2">&#9670;&nbsp;</a></span>__in_scratch_x</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __in_scratch_x</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">group</td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((section(&quot;.scratch_x.&quot; group)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement in the penultimate SRAM bank (known as "scratch X") </p>
+<p >Scratch X is commonly used for critical data and functions accessed only by one core (when only one core is accessing the RAM bank, there is no opportunity for stalls)</p>
+<p >For example a <code>uint32_t</code> variable placed in "scratch X" </p><pre class="fragment">uint32_t __in_scratch_x("my_group_name") foo = 23;
+</pre><p> The section attribute is <code>.scratch_x.&lt;group&gt;</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="gabfb5bcb3cf14b95a4a1c577cb44dbd1c" name="gabfb5bcb3cf14b95a4a1c577cb44dbd1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabfb5bcb3cf14b95a4a1c577cb44dbd1c">&#9670;&nbsp;</a></span>__in_scratch_y</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __in_scratch_y</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">group</td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((section(&quot;.scratch_y.&quot; group)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement in the final SRAM bank (known as "scratch Y") </p>
+<p >Scratch Y is commonly used for critical data and functions accessed only by one core (when only one core is accessing the RAM bank, there is no opportunity for stalls)</p>
+<p >For example a <code>uint32_t</code> variable placed in "scratch Y" </p><pre class="fragment">uint32_t __scratch_y("my_group_name") foo = 23;
+</pre><p> The section attribute is <code>.scratch_y.&lt;group&gt;</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga72b89336f1ac76e1a2887b0ed355b259" name="ga72b89336f1ac76e1a2887b0ed355b259"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga72b89336f1ac76e1a2887b0ed355b259">&#9670;&nbsp;</a></span>__in_xip_ram</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __in_xip_ram</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">group</td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((section(&quot;.xip_ram.&quot; group)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement in XIP SRAM. </p>
+<p >The XIP Cache can be used as SRAM for extra data sections, however it will give a performance penalty if your binary runs from Flash (e.g. the default binary type).</p>
+<p >For example a <code>uint32_t</code> variable placed in XIP SRAM </p><pre class="fragment">uint32_t __in_xip_ram("my_group_name") foo = 23;
+</pre><p> The section attribute is <code>.xip_ram.&lt;group&gt;</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a id="ga7a3538bc029b0e60c2f308008fc095c6" name="ga7a3538bc029b0e60c2f308008fc095c6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga7a3538bc029b0e60c2f308008fc095c6">&#9670;&nbsp;</a></span>__isr</h2>
 
@@ -362,10 +542,6 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
       <table class="memname">
         <tr>
           <td class="memname">#define __isr</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">void</td><td>)</td>
-          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -386,7 +562,59 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">func_name</td><td>)</td>
-          <td>&#160;&#160;&#160;__noinline __not_in_flash_func(func_name)</td>
+          <td>&#160;&#160;&#160;__noinline <a class="el" href="group__pico__platform.html#ga7ea262771f71b22e4e720bc2ca31d936">__not_in_flash_func</a>(func_name)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Indicate a function should not be stored in flash and should not be inlined. </p>
+<p >Decorates a function name, such that the function will execute from RAM, explicitly marking it as noinline to prevent it being inlined into a flash function by the compiler</p>
+<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __no_inline_not_in_flash_func(my_func)(int some_arg) {
+</pre><p> The function is placed using <a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>, which defaults to <a class="el" href="group__pico__platform.html#ga99fdc8f389b2ba2ce3577030b19d04ec">__in_ram</a> </p>
+
+</div>
+</div>
+<a id="ga98947648f4fd8b22f9cccc4c2f0d64fd" name="ga98947648f4fd8b22f9cccc4c2f0d64fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga98947648f4fd8b22f9cccc4c2f0d64fd">&#9670;&nbsp;</a></span>__not_in_flash</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __not_in_flash</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">group</td><td>)</td>
+          <td>&#160;&#160;&#160;PICO_NOT_IN_FLASH_PLACEMENT(group)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement not in flash. </p>
+<p >For example a 3 element <code>uint32_t</code> array placed in RAM (even though it is <code>static const</code>) </p><pre class="fragment">static const uint32_t __not_in_flash("my_group_name") an_array[3];
+</pre><p> By default, this is identical to <a class="el" href="group__pico__platform.html#ga99fdc8f389b2ba2ce3577030b19d04ec">__in_ram</a>, but this can be adjusted using the <code>PICO_NOT_IN_FLASH_PLACEMENT</code> define. This define can be set using the pico_set_not_in_flash_placement CMake function.</p>
+<p >For example, for binaries that only use core 0, there is the option to use <code>pico_set_not_in_flash_placement(TARGET scratch_x)</code> to place this code/data in scratch X to move it out of the striped SRAM.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga7ea262771f71b22e4e720bc2ca31d936" name="ga7ea262771f71b22e4e720bc2ca31d936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7ea262771f71b22e4e720bc2ca31d936">&#9670;&nbsp;</a></span>__not_in_flash_func</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __not_in_flash_func</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">func_name</td><td>)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>(__STRING(func_name)) func_name</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -394,17 +622,37 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
 <p>Indicates a function should not be stored in flash. </p>
 <p >Decorates a function name, such that the function will execute from RAM (assuming it is not inlined into a flash function by the compiler)</p>
 <p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __not_in_flash_func(my_func)(int some_arg) {
-</pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787" title="Indicates a function should not be stored in flash.">__no_inline_not_in_flash_func</a></dd></dl>
-<p>Indicates a function is time/latency critical and should not run from flash</p>
-<p >Decorates a function name, such that the function will execute from RAM (assuming it is not inlined into a flash function by the compiler) to avoid possible flash latency. Currently this macro is identical in implementation to <code>__not_in_flash_func</code>, however the semantics are distinct and a <code>__time_critical_func</code> may in the future be treated more specially to reduce the overhead when calling such function from a flash function.</p>
-<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __time_critical_func(my_func)(int some_arg) {
-</pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section</p>
-<dl class="section see"><dt>See also</dt><dd>__not_in_flash_func</dd></dl>
-<p>Indicate a function should not be stored in flash and should not be inlined</p>
-<p >Decorates a function name, such that the function will execute from RAM, explicitly marking it as noinline to prevent it being inlined into a flash function by the compiler</p>
-<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __no_inline_not_in_flash_func(my_func)(int some_arg) {
-</pre><p> The function is placed in the <code>.time_critical.&lt;func_name&gt;</code> linker section </p>
+</pre><p> The function is placed using <a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd">__not_in_flash</a>, which defaults to <a class="el" href="group__pico__platform.html#ga99fdc8f389b2ba2ce3577030b19d04ec">__in_ram</a></p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__platform.html#gad9ab05c9a8f0ab455a5e11773d610787" title="Indicate a function should not be stored in flash and should not be inlined.">__no_inline_not_in_flash_func</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga7d7f154fdc61427d28d7370e2c447459" name="ga7d7f154fdc61427d28d7370e2c447459"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga7d7f154fdc61427d28d7370e2c447459">&#9670;&nbsp;</a></span>__persistent_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __persistent_data</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">name</td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((section(&quot;.persistent_data.&quot; #name))) name</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement in a section persisted across default POWMAN resets. </p>
+<p >Data marked this way will retain its value across a default POWMAN reset, and will be zeroed on any other reset.</p>
+<p >For example a <code>uint32_t</code> foo that will be zeroed initially, then retain its value if the program is restarted by default POWMAN reset. </p><pre class="fragment">uint32_t __persistent_data(foo);
+</pre><p> The section attribute is <code>.persistent_data.&lt;name&gt;</code></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>the name of the variable to place in the section </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -419,24 +667,13 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">group</td><td>)</td>
-          <td>&#160;&#160;&#160;__attribute__((section(&quot;.scratch_x.&quot; group)))</td>
+          <td>&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#ga758b2601a648359a300c2fafefefb0e2">__in_scratch_x</a>(group)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Section attribute macro for placement not in flash (i.e in RAM) </p>
-<p >For example a 3 element <code>uint32_t</code> array placed in RAM (even though it is <code>static const</code>) </p><pre class="fragment">static const uint32_t __not_in_flash("my_group_name") an_array[3];
-</pre><p> The section attribute is <code>.time_critical.&lt;group&gt;</code></p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently</td></tr>
-  </table>
-  </dd>
-</dl>
-<p>Section attribute macro for placement in the SRAM bank 4 (known as "scratch X")</p>
-<p >Scratch X is commonly used for critical data and functions accessed only by one core (when only one core is accessing the RAM bank, there is no opportunity for stalls)</p>
-<p >For example a <code>uint32_t</code> variable placed in "scratch X" </p><pre class="fragment">uint32_t __scratch_x("my_group_name") foo = 23;
-</pre><p> The section attribute is <code>.scratch_x.&lt;group&gt;</code></p>
+<p>Section attribute macro for placement in the penultimate SRAM bank (known as "scratch X") </p>
+<p >Alias for <a class="el" href="group__pico__platform.html#ga758b2601a648359a300c2fafefefb0e2">__in_scratch_x</a></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
@@ -457,15 +694,65 @@ static <a class="el" href="group__pico__platform.html#ga23eadd8d1642fb8fe4600708
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">group</td><td>)</td>
-          <td>&#160;&#160;&#160;__attribute__((section(&quot;.scratch_y.&quot; group)))</td>
+          <td>&#160;&#160;&#160;<a class="el" href="group__pico__platform.html#gabfb5bcb3cf14b95a4a1c577cb44dbd1c">__in_scratch_y</a>(group)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Section attribute macro for placement in the SRAM bank 5 (known as "scratch Y") </p>
-<p >Scratch Y is commonly used for critical data and functions accessed only by one core (when only one core is accessing the RAM bank, there is no opportunity for stalls)</p>
-<p >For example a <code>uint32_t</code> variable placed in "scratch Y" </p><pre class="fragment">uint32_t __scratch_y("my_group_name") foo = 23;
-</pre><p> The section attribute is <code>.scratch_y.&lt;group&gt;</code></p>
+<p>Section attribute macro for placement in the final SRAM bank (known as "scratch Y") </p>
+<p >Alias for <a class="el" href="group__pico__platform.html#gabfb5bcb3cf14b95a4a1c577cb44dbd1c">__in_scratch_y</a></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ga27ef91000958320e25ff481d16786ebf" name="ga27ef91000958320e25ff481d16786ebf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga27ef91000958320e25ff481d16786ebf">&#9670;&nbsp;</a></span>__time_critical_func</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __time_critical_func</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">func_name</td><td>)</td>
+          <td>&#160;&#160;&#160;__noinline PICO_TIME_CRITICAL_PLACEMENT(__STRING(func_name)) func_name</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Indicates a function is time/latency critical and should not run from flash. </p>
+<p >Decorates a function name, such that the function will execute from RAM to avoid possible flash latency. By default, this macro is identical in implementation to <code>__no_inline_not_in_flash_func</code>, however the semantics are distinct and a <code>__time_critical_func</code> can be treated more specially to reduce the overhead when calling such a function.</p>
+<p >For example a function called my_func taking an int parameter: </p><pre class="fragment">void __time_critical_func(my_func)(int some_arg) {
+</pre><p> By default, the function is placed using <a class="el" href="group__pico__platform.html#ga99fdc8f389b2ba2ce3577030b19d04ec">__in_ram</a>, but this can be adjusted using the <code>PICO_TIME_CRITICAL_PLACEMENT</code> define. This define can be set using the pico_set_time_critical_placement CMake function.</p>
+<p >For example, for binaries that are not executing from flash (e.g. copy_to_ram and no_flash), there is the option to use <code>pico_set_time_critical_placement(TARGET xip_ram)</code> to place these functions in XIP RAM, as the XIP AHB ports would be otherwise unused.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="group__pico__platform.html#ga98947648f4fd8b22f9cccc4c2f0d64fd" title="Section attribute macro for placement not in flash.">__not_in_flash</a> </dd></dl>
+
+</div>
+</div>
+<a id="ga6d3d77066a651d9990285c933c550d79" name="ga6d3d77066a651d9990285c933c550d79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga6d3d77066a651d9990285c933c550d79">&#9670;&nbsp;</a></span>__uninitialized_psram</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define __uninitialized_psram</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">group</td><td>)</td>
+          <td>&#160;&#160;&#160;__attribute__((section(&quot;.psram_uninitialised.&quot; group)))</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Section attribute macro for placement in uninitialised PSRAM. </p>
+<p >The version of <a class="el" href="group__pico__platform.html#ga78d639be6065ba2d3de2a6961be467f9">__in_psram</a> to use for uninitialised data</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">group</td><td>a string suffix to use in the section name to distinguish groups that can be linker garbage-collected independently </td></tr>
@@ -798,35 +1085,6 @@ uint32_t var_b = *some_other_memory_location
 
 </div>
 </div>
-<a id="gadcb55b507bb15fbe5a71bcb2f222b6e2" name="gadcb55b507bb15fbe5a71bcb2f222b6e2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#gadcb55b507bb15fbe5a71bcb2f222b6e2">&#9670;&nbsp;</a></span>rp2040_rom_version()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static uint8_t rp2040_rom_version </td>
-          <td>(</td>
-          <td class="paramtype">void&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the RP2040 rom version number. </p>
-<dl class="section return"><dt>Returns</dt><dd>the RP2040 rom version number (1 for RP2040-B0, 2 for RP2040-B1, 3 for RP2040-B2) </dd></dl>
-
-</div>
-</div>
 <a id="ga21200eb89a299a9b121d028ad1725fe3" name="ga21200eb89a299a9b121d028ad1725fe3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga21200eb89a299a9b121d028ad1725fe3">&#9670;&nbsp;</a></span>rp2350_chip_version()</h2>
 
@@ -844,7 +1102,36 @@ uint32_t var_b = *some_other_memory_location
 </div><div class="memdoc">
 
 <p>Returns the RP2350 chip revision number. </p>
-<dl class="section return"><dt>Returns</dt><dd>the RP2350 chip revision number (1 for B0/B1, 2 for B2) </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>the RP2350 chip revision number (2 for A2, 3 for A3/A4) </dd></dl>
+
+</div>
+</div>
+<a id="gaf0cfe7237c34761fe34d745374892fd5" name="gaf0cfe7237c34761fe34d745374892fd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf0cfe7237c34761fe34d745374892fd5">&#9670;&nbsp;</a></span>rp2350_rom_version()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static uint8_t rp2350_rom_version </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the RP2350 rom version number. </p>
+<dl class="section return"><dt>Returns</dt><dd>the RP2350 rom version number (2 for RP2350-A2, 3 for RP2350-A3, 4 for RP2350-A4) </dd></dl>
 
 </div>
 </div>

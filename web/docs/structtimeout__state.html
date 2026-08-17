@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,20 +104,30 @@ $(document).ready(function(){initNavTree('structtimeout__state.html',''); initRe
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">timeout_state Struct Reference</div></div>
+  <div class="headertitle"><div class="title">timeout_state Struct Reference<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__time.html">pico_time</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>State used to track a timeout condition.  
+ <a href="structtimeout__state.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="timeout__helper_8h_source.html">timeout_helper.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:aae420ce7ecd38d3337b48eba198ff1dd"><td class="memItemLeft" align="right" valign="top"><a id="aae420ce7ecd38d3337b48eba198ff1dd" name="aae420ce7ecd38d3337b48eba198ff1dd"></a>
 <a class="el" href="group__timestamp.html#ga8b7f3d602cc053f05bacceeacc257ed8">absolute_time_t</a>&#160;</td><td class="memItemRight" valign="bottom"><b>next_timeout</b></td></tr>
+<tr class="memdesc:aae420ce7ecd38d3337b48eba198ff1dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Absolute time at which the timeout expires. <br /></td></tr>
 <tr class="separator:aae420ce7ecd38d3337b48eba198ff1dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a96112f57c3ae1a7b8bbd70021822d5"><td class="memItemLeft" align="right" valign="top"><a id="a9a96112f57c3ae1a7b8bbd70021822d5" name="a9a96112f57c3ae1a7b8bbd70021822d5"></a>
 uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>param</b></td></tr>
+<tr class="memdesc:a9a96112f57c3ae1a7b8bbd70021822d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Optional parameter (e.g. per-iteration duration in microseconds) <br /></td></tr>
 <tr class="separator:a9a96112f57c3ae1a7b8bbd70021822d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >State used to track a timeout condition. </p>
+<p >Holds the deadline and an optional per-iteration parameter used by the check_timeout_fn callbacks returned by the init functions. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/<a class="el" href="timeout__helper_8h_source.html">timeout_helper.h</a></li>
 </ul>
 </div><!-- contents -->

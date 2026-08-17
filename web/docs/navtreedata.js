@@ -53,12 +53,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "btstack__hci__transport__cyw43_8h.html",
-"group__hardware__clocks.html#ggae174e8b50eace53b7752265d166ffce6ac1ad7b83e348265a82c8d234489d62ab",
-"group__hardware__gpio.html#ga6ff6c7a437acc5750c0a290c086347b5",
-"group__hardware__pio.html#ga53c3bbe939b3c58585d0e19ffe91e18e",
-"group__hardware__sha256.html#ga21bca5a93ccad014cc890e734c9436eb",
-"group__mutex.html#gae4b5ca3e872a6823f6580f1388b6585e",
-"group__pico__stdio.html#ga2657ebac5e66ff37d0231b2b94dcd87f"
+"group__hardware__clocks.html#gga1c6adf915fb4a4c82e5e702ebc38b5d5a81a6652dbbb538c5fe6bac61c01cc7a8",
+"group__hardware__dma.html#gga864c3313155ab20116b62a64bf78df6da04665a3e6a5c58a6cbf2d0fe1503cf00",
+"group__hardware__irq.html#ga8478ee26cc144e947ccd75b0169059a6",
+"group__hardware__psram.html#ga8d956e90ed7fc6b40c1eaa9e3babbc6e",
+"group__hardware__timer.html#ga463bb539bf789e6f15ed2d5872360182",
+"group__pico__binary__info.html#gac089df7faec0baa6c3edd975fb7c898a",
+"group__pico__mem__ops.html",
+"group__util__pheap.html#ga08712072a1b1a0c405e0c1807357888f",
+"structpicoboot__reboot2__cmd.html#ab721f30fb4bf3cf983f19b211f72e288"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

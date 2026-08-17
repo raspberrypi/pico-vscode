@@ -1,0 +1,7 @@
+<map id="include/pico/util/fixed_bitset.h" name="include/pico/util/fixed_bitset.h">
+<area shape="rect" id="node1" title=" " alt="" coords="131,5,291,47"/>
+<area shape="rect" id="node2" href="$rp2__common_2hardware__clocks_2include_2hardware_2clocks_8h.html" title=" " alt="" coords="5,95,196,121"/>
+<area shape="rect" id="node5" href="$rp2__common_2hardware__powman_2include_2hardware_2powman_8h.html" title=" " alt="" coords="220,95,427,121"/>
+<area shape="rect" id="node3" href="$psram_8h.html" title=" " alt="" coords="5,169,196,196"/>
+<area shape="rect" id="node4" href="$low__power_8h.html" title=" " alt="" coords="225,169,411,196"/>
+</map>

@@ -7,6 +7,7 @@ import { dirname } from "path/posix";
 import { compareGe } from "./semverUtil.mjs";
 import { extensionName } from "../commands/command.mjs";
 import { EOL } from "os";
+import { toolchainTriple } from "../projectVariants/selectionHelpers.mjs";
 
 interface Configuration {
   includePath: string[];
@@ -54,12 +55,8 @@ async function updateCppPropertiesFile(
       config.compilerPath =
         "${userHome}/.pico-sdk/toolchain" +
         `/${newToolchainVersion}/bin/${
-          newToolchainVersion.includes("RISCV")
-            ? newToolchainVersion.includes("COREV")
-              ? "riscv32-corev-elf-gcc"
-              : "riscv32-unknown-elf-gcc"
-            : "arm-none-eabi-gcc"
-        }${config.compilerPath.endsWith(".exe") ? ".exe" : ""}`;
+          toolchainTriple(newToolchainVersion)
+        }-gcc${config.compilerPath.endsWith(".exe") ? ".exe" : ""}`;
     });
 
     // Write the updated JSON back to the file

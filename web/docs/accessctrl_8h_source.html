@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -124,26 +124,26 @@ $(document).ready(function(){initNavTree('accessctrl_8h_source.html',''); initRe
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structaccessctrl__hw__t.html">   26</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    _REG_(ACCESSCTRL_LOCK_OFFSET) <span class="comment">// ACCESSCTRL_LOCK</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// Once a LOCK bit is written to 1, ACCESSCTRL silently ignores writes from that master</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 0x00000008 [3]     DEBUG        (0) </span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="comment">// 0x00000004 [2]     DMA          (1) </span></div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// 0x00000002 [1]     CORE1        (0) </span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// 0x00000001 [0]     CORE0        (0) </span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 0x00000008 [3]     DEBUG        (0)</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="comment">// 0x00000004 [2]     DMA          (1)</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// 0x00000002 [1]     CORE1        (0)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// 0x00000001 [0]     CORE0        (0)</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    io_rw_32 lock;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    _REG_(ACCESSCTRL_FORCE_CORE_NS_OFFSET) <span class="comment">// ACCESSCTRL_FORCE_CORE_NS</span></div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// Force core 1&#39;s bus accesses to always be Non-secure, no matter the core&#39;s internal state</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 0x00000002 [1]     CORE1        (0) </span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 0x00000002 [1]     CORE1        (0)</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    io_rw_32 force_core_ns;</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    _REG_(ACCESSCTRL_CFGRESET_OFFSET) <span class="comment">// ACCESSCTRL_CFGRESET</span></div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// Write 1 to reset all ACCESSCTRL configuration, except for the LOCK and FORCE_CORE_NS registers</span></div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="comment">// 0x00000001 [0]     CFGRESET     (0) </span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="comment">// 0x00000001 [0]     CFGRESET     (0)</span></div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    io_wo_32 cfgreset;</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="comment">// (Description copied from array index 0 register ACCESSCTRL_GPIO_NSMASK0 applies similarly to other array indexes)</span></div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    _REG_(ACCESSCTRL_GPIO_NSMASK0_OFFSET) <span class="comment">// ACCESSCTRL_GPIO_NSMASK0</span></div>
 <div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="comment">// Control whether GPIO0</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">// 0xffffffff [31:0]  GPIO_NSMASK0 (0x00000000) </span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="comment">// 0xffffffff [31:0]  GPIO_NSMASK0 (0x00000000)</span></div>
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    io_rw_32 gpio_nsmask[2];</div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    _REG_(ACCESSCTRL_ROM_OFFSET) <span class="comment">// ACCESSCTRL_ROM</span></div>
@@ -317,17 +317,17 @@ $(document).ready(function(){initNavTree('accessctrl_8h_source.html',''); initRe
 <div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="comment">// 0x00000001 [0]     NSU          (0) If 1, and NSP is also set, BUSCTRL can be accessed from...</span></div>
 <div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    io_rw_32 busctrl;</div>
 <div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    _REG_(ACCESSCTRL_ADC0_OFFSET) <span class="comment">// ACCESSCTRL_ADC0</span></div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="comment">// Control access to ADC0. Defaults to Secure access from any master.</span></div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="comment">// 0x00000080 [7]     DBG          (1) If 1, ADC0 can be accessed by the debugger, at...</span></div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="comment">// 0x00000040 [6]     DMA          (1) If 1, ADC0 can be accessed by the DMA, at...</span></div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="comment">// 0x00000020 [5]     CORE1        (1) If 1, ADC0 can be accessed by core 1, at...</span></div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="comment">// 0x00000010 [4]     CORE0        (1) If 1, ADC0 can be accessed by core 0, at...</span></div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="comment">// 0x00000008 [3]     SP           (1) If 1, ADC0 can be accessed from a Secure, Privileged context</span></div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="comment">// 0x00000004 [2]     SU           (1) If 1, and SP is also set, ADC0 can be accessed from a...</span></div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="comment">// 0x00000002 [1]     NSP          (0) If 1, ADC0 can be accessed from a Non-secure, Privileged context</span></div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="comment">// 0x00000001 [0]     NSU          (0) If 1, and NSP is also set, ADC0 can be accessed from a...</span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    io_rw_32 adc0;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    _REG_(ACCESSCTRL_ADC_OFFSET) <span class="comment">// ACCESSCTRL_ADC</span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="comment">// Control access to ADC. Defaults to Secure access from any master.</span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="comment">// 0x00000080 [7]     DBG          (1) If 1, ADC can be accessed by the debugger, at...</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="comment">// 0x00000040 [6]     DMA          (1) If 1, ADC can be accessed by the DMA, at...</span></div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="comment">// 0x00000020 [5]     CORE1        (1) If 1, ADC can be accessed by core 1, at...</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="comment">// 0x00000010 [4]     CORE0        (1) If 1, ADC can be accessed by core 0, at...</span></div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="comment">// 0x00000008 [3]     SP           (1) If 1, ADC can be accessed from a Secure, Privileged context</span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="comment">// 0x00000004 [2]     SU           (1) If 1, and SP is also set, ADC can be accessed from a...</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="comment">// 0x00000002 [1]     NSP          (0) If 1, ADC can be accessed from a Non-secure, Privileged context</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="comment">// 0x00000001 [0]     NSU          (0) If 1, and NSP is also set, ADC can be accessed from a...</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    io_rw_32 adc;</div>
 <div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
 <div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    _REG_(ACCESSCTRL_HSTX_OFFSET) <span class="comment">// ACCESSCTRL_HSTX</span></div>
 <div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="comment">// Control access to HSTX. Defaults to Secure access from any master.</span></div>
@@ -561,17 +561,17 @@ $(document).ready(function(){initNavTree('accessctrl_8h_source.html',''); initRe
 <div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>    <span class="comment">// 0x00000001 [0]     NSU          (0) If 1, and NSP is also set, WATCHDOG can be accessed from...</span></div>
 <div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>    io_rw_32 watchdog;</div>
 <div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
-<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>    _REG_(ACCESSCTRL_RSM_OFFSET) <span class="comment">// ACCESSCTRL_RSM</span></div>
-<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>    <span class="comment">// Control access to RSM. Defaults to Secure, Privileged processor or debug access only.</span></div>
-<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>    <span class="comment">// 0x00000080 [7]     DBG          (1) If 1, RSM can be accessed by the debugger, at...</span></div>
-<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    <span class="comment">// 0x00000040 [6]     DMA          (0) If 1, RSM can be accessed by the DMA, at...</span></div>
-<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>    <span class="comment">// 0x00000020 [5]     CORE1        (1) If 1, RSM can be accessed by core 1, at...</span></div>
-<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>    <span class="comment">// 0x00000010 [4]     CORE0        (1) If 1, RSM can be accessed by core 0, at...</span></div>
-<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    <span class="comment">// 0x00000008 [3]     SP           (1) If 1, RSM can be accessed from a Secure, Privileged context</span></div>
-<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>    <span class="comment">// 0x00000004 [2]     SU           (0) If 1, and SP is also set, RSM can be accessed from a...</span></div>
-<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>    <span class="comment">// 0x00000002 [1]     NSP          (0) If 1, RSM can be accessed from a Non-secure, Privileged context</span></div>
-<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>    <span class="comment">// 0x00000001 [0]     NSU          (0) If 1, and NSP is also set, RSM can be accessed from a...</span></div>
-<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>    io_rw_32 rsm;</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>    _REG_(ACCESSCTRL_PSM_OFFSET) <span class="comment">// ACCESSCTRL_PSM</span></div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>    <span class="comment">// Control access to PSM. Defaults to Secure, Privileged processor or debug access only.</span></div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>    <span class="comment">// 0x00000080 [7]     DBG          (1) If 1, PSM can be accessed by the debugger, at...</span></div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    <span class="comment">// 0x00000040 [6]     DMA          (0) If 1, PSM can be accessed by the DMA, at...</span></div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>    <span class="comment">// 0x00000020 [5]     CORE1        (1) If 1, PSM can be accessed by core 1, at...</span></div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>    <span class="comment">// 0x00000010 [4]     CORE0        (1) If 1, PSM can be accessed by core 0, at...</span></div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    <span class="comment">// 0x00000008 [3]     SP           (1) If 1, PSM can be accessed from a Secure, Privileged context</span></div>
+<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>    <span class="comment">// 0x00000004 [2]     SU           (0) If 1, and SP is also set, PSM can be accessed from a...</span></div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>    <span class="comment">// 0x00000002 [1]     NSP          (0) If 1, PSM can be accessed from a Non-secure, Privileged context</span></div>
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>    <span class="comment">// 0x00000001 [0]     NSU          (0) If 1, and NSP is also set, PSM can be accessed from a...</span></div>
+<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>    io_rw_32 psm;</div>
 <div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span> </div>
 <div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span>    _REG_(ACCESSCTRL_XIP_CTRL_OFFSET) <span class="comment">// ACCESSCTRL_XIP_CTRL</span></div>
 <div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>    <span class="comment">// Control access to XIP_CTRL. Defaults to Secure, Privileged processor or debug access only.</span></div>
@@ -614,7 +614,6 @@ $(document).ready(function(){initNavTree('accessctrl_8h_source.html',''); initRe
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span><span class="keyword">static_assert</span>(<span class="keyword">sizeof</span> (<a class="code hl_struct" href="structaccessctrl__hw__t.html">accessctrl_hw_t</a>) == 0x00ec, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span> </div>
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span><span class="preprocessor">#endif </span><span class="comment">// _HARDWARE_STRUCTS_ACCESSCTRL_H</span></div>
-<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span> </div>
 <div class="ttc" id="aaddress__mapped_8h_html"><div class="ttname"><a href="address__mapped_8h.html">address_mapped.h</a></div></div>
 <div class="ttc" id="astructaccessctrl__hw__t_html"><div class="ttname"><a href="structaccessctrl__hw__t.html">accessctrl_hw_t</a></div><div class="ttdef"><b>Definition:</b> accessctrl.h:26</div></div>
 </div><!-- fragment --></div><!-- contents -->

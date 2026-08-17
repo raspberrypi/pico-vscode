@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,7 @@ $(document).ready(function(){initNavTree('group__pico__base.html',''); initResiz
 
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">pico_base<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
@@ -111,6 +112,15 @@ $(document).ready(function(){initNavTree('group__pico__base.html',''); initResiz
 <p>Core types and macros for the Raspberry Pi Pico SDK.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:gabe498a67e230c0ae9d0ab82b878c0c1d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html#gabe498a67e230c0ae9d0ab82b878c0c1d">pico_board_cmake_set</a>(x,  y)</td></tr>
+<tr class="memdesc:gabe498a67e230c0ae9d0ab82b878c0c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A marker used in board headers to specify a CMake variable and value that should be set in the CMake build when the board header is used.  <a href="group__pico__base.html#gabe498a67e230c0ae9d0ab82b878c0c1d">More...</a><br /></td></tr>
+<tr class="separator:gabe498a67e230c0ae9d0ab82b878c0c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga18a37e595035ffa0987953255874bdf5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html#ga18a37e595035ffa0987953255874bdf5">pico_board_cmake_set_default</a>(x,  y)</td></tr>
+<tr class="memdesc:ga18a37e595035ffa0987953255874bdf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A marker used in board headers to specify a CMake variable and value that should be set in the CMake build when the board header is used, if that CMake variable has not already been set.  <a href="group__pico__base.html#ga18a37e595035ffa0987953255874bdf5">More...</a><br /></td></tr>
+<tr class="separator:ga18a37e595035ffa0987953255874bdf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:gaddcb20bc9a61ceff479aa87369a862aa"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__base.html#gaddcb20bc9a61ceff479aa87369a862aa">pico_error_codes</a> { <br />
@@ -151,6 +161,75 @@ Enumerations</h2></td></tr>
 <p >Core types and macros for the Raspberry Pi Pico SDK. </p>
 <p >This header is intended to be included by all source code as it includes configuration headers and overrides in the correct order</p>
 <p >This header may be included by assembly code </p>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="gabe498a67e230c0ae9d0ab82b878c0c1d" name="gabe498a67e230c0ae9d0ab82b878c0c1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gabe498a67e230c0ae9d0ab82b878c0c1d">&#9670;&nbsp;</a></span>pico_board_cmake_set</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pico_board_cmake_set</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">y&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A marker used in board headers to specify a CMake variable and value that should be set in the CMake build when the board header is used. </p>
+<p >Based on the PICO_BOARD CMake variable, the build will scan the board header for <code><a class="el" href="group__pico__base.html#gabe498a67e230c0ae9d0ab82b878c0c1d" title="A marker used in board headers to specify a CMake variable and value that should be set in the CMake ...">pico_board_cmake_set(var, value)</a></code> and set these variables very early in the build configuration process. This allows setting CMake variables like <code>PICO_PLATFORM</code> from the board header, and thus affecting, for example, the choice of compiler made by the build</p>
+<dl class="section note"><dt>Note</dt><dd>Use of this macro will overwrite the CMake variable if it is already set</dd>
+<dd>
+This macro's definition is empty as it is not intended to have any effect on actual compilation </dd></dl>
+
+</div>
+</div>
+<a id="ga18a37e595035ffa0987953255874bdf5" name="ga18a37e595035ffa0987953255874bdf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga18a37e595035ffa0987953255874bdf5">&#9670;&nbsp;</a></span>pico_board_cmake_set_default</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define pico_board_cmake_set_default</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">x, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">y&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A marker used in board headers to specify a CMake variable and value that should be set in the CMake build when the board header is used, if that CMake variable has not already been set. </p>
+<p >Based on the PICO_BOARD CMake variable, the build will scan the board header for <code><a class="el" href="group__pico__base.html#ga18a37e595035ffa0987953255874bdf5" title="A marker used in board headers to specify a CMake variable and value that should be set in the CMake ...">pico_board_cmake_set_default(var, value)</a></code> and set these variables very early in the build configuration process. This allows setting CMake variables like <code>PICO_PLATFORM</code> from the board header, and thus affecting, for example, the choice of compiler made by the build</p>
+<dl class="section note"><dt>Note</dt><dd>Use of this macro will not overwrite the CMake variable if it is already set</dd>
+<dd>
+This macro's definition is empty as it is not intended to have any effect on actual compilation </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="gaddcb20bc9a61ceff479aa87369a862aa" name="gaddcb20bc9a61ceff479aa87369a862aa"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#gaddcb20bc9a61ceff479aa87369a862aa">&#9670;&nbsp;</a></span>pico_error_codes</h2>
@@ -212,7 +291,7 @@ Enumerations</h2></td></tr>
 </td></tr>
 <tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaa6e384327162e80d5a69ef77040cbb2b7" name="ggaddcb20bc9a61ceff479aa87369a862aaa6e384327162e80d5a69ef77040cbb2b7"></a>PICO_ERROR_VERSION_MISMATCH&#160;</td><td class="fielddoc"><p >A version mismatch occurred (e.g. trying to run PIO version 1 code on RP2040) </p>
 </td></tr>
-<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaaae6675ad0b3d3e6618765fa157919154" name="ggaddcb20bc9a61ceff479aa87369a862aaaae6675ad0b3d3e6618765fa157919154"></a>PICO_ERROR_RESOURCE_IN_USE&#160;</td><td class="fielddoc"><p >The call could not proceed because requires resourcesw were unavailable. </p>
+<tr><td class="fieldname"><a id="ggaddcb20bc9a61ceff479aa87369a862aaaae6675ad0b3d3e6618765fa157919154" name="ggaddcb20bc9a61ceff479aa87369a862aaaae6675ad0b3d3e6618765fa157919154"></a>PICO_ERROR_RESOURCE_IN_USE&#160;</td><td class="fielddoc"><p >The call could not proceed because the required resources were unavailable. </p>
 </td></tr>
 </table>
 

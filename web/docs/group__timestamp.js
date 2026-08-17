@@ -11,6 +11,7 @@ var group__timestamp =
     [ "is_nil_time", "group__timestamp.html#ga0753884ef1d9340edacf53e9c06e42de", null ],
     [ "make_timeout_time_ms", "group__timestamp.html#gab11f5a243dd585b6903a87b0127df2cc", null ],
     [ "make_timeout_time_us", "group__timestamp.html#ga70921b9073202a54eec3494b4d19ec84", null ],
+    [ "to_ms_64_since_boot", "group__timestamp.html#ga0f90420f06b30ebeafd22fd82edbfff3", null ],
     [ "to_ms_since_boot", "group__timestamp.html#gab12467c48bde27171b552ac4dc8c7d59", null ],
     [ "to_us_since_boot", "group__timestamp.html#ga173698876ae00331c92ed4e8c3ba98d1", null ],
     [ "update_us_since_boot", "group__timestamp.html#gacb69a734d588b758f1ada8af8efe6968", null ],

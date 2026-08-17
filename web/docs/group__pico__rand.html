@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -103,6 +103,8 @@ $(document).ready(function(){initNavTree('group__pico__rand.html',''); initResiz
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Data Structures</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_rand<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a></div></div></div>
 </div><!--header-->
@@ -111,9 +113,21 @@ $(document).ready(function(){initNavTree('group__pico__rand.html',''); initResiz
 <p>Random Number Generator API.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structrng__128.html">rng_128</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 128-bit random number value.  <a href="structrng__128.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gaf6c69a65fa0468e9af74d1271445c85d"><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structrng__128.html">rng_128</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__rand.html#gaf6c69a65fa0468e9af74d1271445c85d">rng_128_t</a></td></tr>
+<tr class="memdesc:gaf6c69a65fa0468e9af74d1271445c85d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A 128-bit random number value.  <a href="group__pico__rand.html#gaf6c69a65fa0468e9af74d1271445c85d">More...</a><br /></td></tr>
+<tr class="separator:gaf6c69a65fa0468e9af74d1271445c85d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga97a9544b527a3ba865ab70142bdd5d1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__rand.html#ga97a9544b527a3ba865ab70142bdd5d1b">get_rand_128</a> (<a class="el" href="structrng__128.html">rng_128_t</a> *rand128)</td></tr>
+<tr class="memitem:ga97a9544b527a3ba865ab70142bdd5d1b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__rand.html#ga97a9544b527a3ba865ab70142bdd5d1b">get_rand_128</a> (<a class="el" href="group__pico__rand.html#gaf6c69a65fa0468e9af74d1271445c85d">rng_128_t</a> *rand128)</td></tr>
 <tr class="memdesc:ga97a9544b527a3ba865ab70142bdd5d1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 128-bit random number.  <a href="group__pico__rand.html#ga97a9544b527a3ba865ab70142bdd5d1b">More...</a><br /></td></tr>
 <tr class="separator:ga97a9544b527a3ba865ab70142bdd5d1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga783185fba81c03eb0c1d687d322b0112"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__pico__rand.html#ga783185fba81c03eb0c1d687d322b0112">get_rand_64</a> (void)</td></tr>
@@ -129,7 +143,7 @@ Functions</h2></td></tr>
 <p >The random numbers (32 to 128 bit) to be supplied are read from the PRNG which is used to help provide a large number space.</p>
 <p >The following (multiple) sources of entropy are available (of varying quality), each enabled by a #define:</p>
 <ul>
-<li>The Ring Oscillator (ROSC) (PICO_RAND_ENTROPY_SRC_ROSC == 1): PICO_RAND_ROSC_BIT_SAMPLE_COUNT bits are gathered from the ring oscillator "random bit" and mixed in each time. This should not be used if the ROSC is off, or the processor is running from the ROSC. <dl class="section note"><dt>Note</dt><dd>the maximum throughput of ROSC bit sampling is controlled by PICO_RAND_MIN_ROSC_BIT_SAMPLE_TIME_US which defaults to 10us, i.e. 100,000 bits per second.</dd></dl>
+<li>The Ring Oscillator (ROSC) (PICO_RAND_ENTROPY_SRC_ROSC == 1): PICO_RAND_ROSC_BIT_SAMPLE_COUNT bits are gathered from the ring oscillator "random bit" and mixed in each time. This should not be used if the ROSC is off, or the processor is running from the ROSC. <dl class="section note"><dt>Note</dt><dd>The maximum throughput of ROSC bit sampling is controlled by PICO_RAND_MIN_ROSC_BIT_SAMPLE_TIME_US which defaults to 10us, i.e. 100,000 bits per second.</dd></dl>
 </li>
 <li>Time (PICO_RAND_ENTROPY_SRC_TIME == 1): The 64-bit microsecond timer is mixed in each time.</li>
 <li>Bus Performance Counter (PICO_RAND_ENTROPY_SRC_BUS_PERF_COUNTER == 1): One of the bus fabric's performance counters is mixed in each time.</li>
@@ -140,10 +154,28 @@ Functions</h2></td></tr>
 <li>The Ring Oscillator (ROSC) (PICO_RAND_SEED_ENTROPY_SRC_ROSC == 1): 64 bits are gathered from the ring oscillator "random bit" and mixed into the seed.</li>
 <li>Time (PICO_RAND_SEED_ENTROPY_SRC_TIME == 1): The 64-bit microsecond timer is mixed into the seed.</li>
 <li>Board Identifier (PICO_RAND_SEED_ENTROPY_SRC_BOARD_ID == 1): The board id via <a class="el" href="group__pico__unique__id.html#gaf87ef8a55d8dc2520776e427a605b6fb">pico_get_unique_board_id</a> is mixed into the seed.</li>
-<li>RAM hash (PICO_RAND_SEED_ENTROPY_SRC_RAM_HASH (PICO_RAND_SEED_ENTROPY_SRC_RAM_HASH): The hashed contents of a subset of RAM are mixed in. Initial RAM contents are undefined on power up, so provide a reasonable source of entropy. By default the last 1K of RAM (which usually contains the core 0 stack) is hashed, which may also provide for differences after each warm reset.</li>
+<li>RAM hash (PICO_RAND_SEED_ENTROPY_SRC_RAM_HASH): The hashed contents of a subset of RAM are mixed in. Initial RAM contents are undefined on power up, so provide a reasonable source of entropy. By default the last 1K of RAM (which usually contains the core 0 stack) is hashed, which may also provide for differences after each warm reset.</li>
 </ul>
 <p >With default settings, the seed generation takes approximately 1 millisecond while subsequent random numbers generally take between 10 and 20 microseconds to generate.</p>
 <p >pico_rand methods may be safely called from either core or from an IRQ, but be careful in the latter case as the calls may block for a number of microseconds waiting on more entropy. </p>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="gaf6c69a65fa0468e9af74d1271445c85d" name="gaf6c69a65fa0468e9af74d1271445c85d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#gaf6c69a65fa0468e9af74d1271445c85d">&#9670;&nbsp;</a></span>rng_128_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structrng__128.html">rng_128</a> <a class="el" href="group__pico__rand.html#gaf6c69a65fa0468e9af74d1271445c85d">rng_128_t</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>A 128-bit random number value. </p>
+<p >Holds up to 128 bits of entropy returned by <a class="el" href="group__pico__rand.html#ga97a9544b527a3ba865ab70142bdd5d1b">get_rand_128</a>. </p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="ga97a9544b527a3ba865ab70142bdd5d1b" name="ga97a9544b527a3ba865ab70142bdd5d1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ga97a9544b527a3ba865ab70142bdd5d1b">&#9670;&nbsp;</a></span>get_rand_128()</h2>
@@ -154,7 +186,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="memname">void get_rand_128 </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="structrng__128.html">rng_128_t</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="group__pico__rand.html#gaf6c69a65fa0468e9af74d1271445c85d">rng_128_t</a> *&#160;</td>
           <td class="paramname"><em>rand128</em></td><td>)</td>
           <td></td>
         </tr>

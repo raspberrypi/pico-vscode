@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,23 +104,34 @@ $(document).ready(function(){initNavTree('structpicobin__load__map__entry.html',
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">picobin_load_map_entry Struct Reference</div></div>
+  <div class="headertitle"><div class="title">picobin_load_map_entry Struct Reference<div class="ingroups"><a class="el" href="group__misc.html">External API Headers</a> &raquo; <a class="el" href="group__boot__picobin__headers.html">boot_picobin_headers</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>A single entry in a PICOBIN load map.  
+ <a href="structpicobin__load__map__entry.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="picobin_8h_source.html">picobin.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:acbbf6b9175c3bbf54d65768267db4764"><td class="memItemLeft" align="right" valign="top"><a id="acbbf6b9175c3bbf54d65768267db4764" name="acbbf6b9175c3bbf54d65768267db4764"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>storage_address_rel</b></td></tr>
+<tr class="memdesc:acbbf6b9175c3bbf54d65768267db4764"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storage address of the region - if absolute then an absolute address, otherwise relative to the address of the LOAD_MAP item containing this entry. <br /></td></tr>
 <tr class="separator:acbbf6b9175c3bbf54d65768267db4764"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18410afe1e3fd9fc9e1fd5001c5b1234"><td class="memItemLeft" align="right" valign="top"><a id="a18410afe1e3fd9fc9e1fd5001c5b1234" name="a18410afe1e3fd9fc9e1fd5001c5b1234"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>runtime_address</b></td></tr>
+<tr class="memdesc:a18410afe1e3fd9fc9e1fd5001c5b1234"><td class="mdescLeft">&#160;</td><td class="mdescRight">Target runtime address to which the region is loaded. <br /></td></tr>
 <tr class="separator:a18410afe1e3fd9fc9e1fd5001c5b1234"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a924fa452d90cc6ec26fc560f7bb53216"><td class="memItemLeft" align="right" valign="top"><a id="a924fa452d90cc6ec26fc560f7bb53216" name="a924fa452d90cc6ec26fc560f7bb53216"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
+<tr class="memdesc:a924fa452d90cc6ec26fc560f7bb53216"><td class="mdescLeft">&#160;</td><td class="mdescRight">If absolute then the end of the runtime address region, otherwise the size of the region in bytes. <br /></td></tr>
 <tr class="separator:a924fa452d90cc6ec26fc560f7bb53216"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >A single entry in a PICOBIN load map. </p>
+<p >Describes the mapping of one contiguous region from its storage location to its runtime address. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/boot/<a class="el" href="picobin_8h_source.html">picobin.h</a></li>
 </ul>
 </div><!-- contents -->

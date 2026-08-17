@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,43 +104,58 @@ $(document).ready(function(){initNavTree('structboot__info__t.html',''); initRes
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">boot_info_t Struct Reference</div></div>
+  <div class="headertitle"><div class="title">boot_info_t Struct Reference<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a> &raquo; <a class="el" href="group__pico__bootrom.html">pico_bootrom</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Boot information returned by the bootrom SYS_INFO_BOOT_INFO query.  
+ <a href="structboot__info__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="bootrom_8h_source.html">bootrom.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a64deaf6bdd307212bd0b2185117bc7d7"><td class="memItemLeft" ><a id="a64deaf6bdd307212bd0b2185117bc7d7" name="a64deaf6bdd307212bd0b2185117bc7d7"></a>
+<tr class="memitem:acbef779afc8f5cd648bc27d60f9ef312"><td class="memItemLeft" ><a id="acbef779afc8f5cd648bc27d60f9ef312" name="acbef779afc8f5cd648bc27d60f9ef312"></a>
 union {</td></tr>
-<tr class="memitem:a4a2c9da652feac41bd9d3de265c6ba71"><td class="memItemLeft" ><a id="a4a2c9da652feac41bd9d3de265c6ba71" name="a4a2c9da652feac41bd9d3de265c6ba71"></a>
+<tr class="memitem:afd708819ac088a8a4d82c39a30ca482a"><td class="memItemLeft" ><a id="afd708819ac088a8a4d82c39a30ca482a" name="afd708819ac088a8a4d82c39a30ca482a"></a>
 &#160;&#160;&#160;struct <b>__packed</b> {</td></tr>
-<tr class="memitem:a832b7a746a43ba09659f75d219f34e04"><td class="memItemLeft" >
+<tr class="memitem:ade6e125b871d2e9092fe7cee8d5729af"><td class="memItemLeft" >
 &#160;&#160;&#160;&#160;&#160;&#160;int8_t&#160;&#160;&#160;<b>diagnostic_partition_index</b></td></tr>
-<tr class="separator:a832b7a746a43ba09659f75d219f34e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2aed93e89d83ccb5493cdea759de1fa4"><td class="memItemLeft" >
+<tr class="memdesc:ade6e125b871d2e9092fe7cee8d5729af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Partition index used for diagnostics; uses BOOT_PARTITION constants. <br /></td></tr>
+<tr class="separator:ade6e125b871d2e9092fe7cee8d5729af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41f538591f09ced1a190c8f5b9052d4c"><td class="memItemLeft" >
 &#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>boot_type</b></td></tr>
-<tr class="separator:a2aed93e89d83ccb5493cdea759de1fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a272ee82c9da4a9cf262901f99f65c814"><td class="memItemLeft" >
+<tr class="memdesc:a41f538591f09ced1a190c8f5b9052d4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">The type of boot that occurred (e.g. BOOT_TYPE_NORMAL, BOOT_TYPE_BOOTSEL) <br /></td></tr>
+<tr class="separator:a41f538591f09ced1a190c8f5b9052d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a458c106b5eca95845bcc99e646f699ed"><td class="memItemLeft" >
 &#160;&#160;&#160;&#160;&#160;&#160;int8_t&#160;&#160;&#160;<b>partition</b></td></tr>
-<tr class="separator:a272ee82c9da4a9cf262901f99f65c814"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d36449bfed3d0faef004148fd6a9afe"><td class="memItemLeft" >
+<tr class="memdesc:a458c106b5eca95845bcc99e646f699ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">The partition that was booted, or -1 if not applicable. <br /></td></tr>
+<tr class="separator:a458c106b5eca95845bcc99e646f699ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38108a95d7f10c1236772acef70b4b6e"><td class="memItemLeft" >
 &#160;&#160;&#160;&#160;&#160;&#160;uint8_t&#160;&#160;&#160;<b>tbyb_and_update_info</b></td></tr>
-<tr class="separator:a6d36449bfed3d0faef004148fd6a9afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a2c9da652feac41bd9d3de265c6ba71"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a4a2c9da652feac41bd9d3de265c6ba71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94013f7a53ff33616c8e82a4eae76656"><td class="memItemLeft" >
+<tr class="memdesc:a38108a95d7f10c1236772acef70b4b6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try-before-you-buy and flash update status flags. <br /></td></tr>
+<tr class="separator:a38108a95d7f10c1236772acef70b4b6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd708819ac088a8a4d82c39a30ca482a"><td class="memItemLeft" valign="top">&#160;&#160;&#160;}&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:afd708819ac088a8a4d82c39a30ca482a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b0c1b6a330058cfdc0098d2b6695a23"><td class="memItemLeft" >
 &#160;&#160;&#160;uint32_t&#160;&#160;&#160;<b>boot_word</b></td></tr>
-<tr class="separator:a94013f7a53ff33616c8e82a4eae76656"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64deaf6bdd307212bd0b2185117bc7d7"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a64deaf6bdd307212bd0b2185117bc7d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a0b0c1b6a330058cfdc0098d2b6695a23"><td class="mdescLeft">&#160;</td><td class="mdescRight">The four boot fields packed into a single 32-bit word. <br /></td></tr>
+<tr class="separator:a0b0c1b6a330058cfdc0098d2b6695a23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbef779afc8f5cd648bc27d60f9ef312"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:acbef779afc8f5cd648bc27d60f9ef312"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb71e33680471183f7eafb3953c06dbb"><td class="memItemLeft" align="right" valign="top"><a id="aeb71e33680471183f7eafb3953c06dbb" name="aeb71e33680471183f7eafb3953c06dbb"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>boot_diagnostic</b></td></tr>
+<tr class="memdesc:aeb71e33680471183f7eafb3953c06dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Diagnostic word describing the outcome of the most recent boot attempt. <br /></td></tr>
 <tr class="separator:aeb71e33680471183f7eafb3953c06dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59db2ea16c0e54109919a9b98a901c8a"><td class="memItemLeft" align="right" valign="top"><a id="a59db2ea16c0e54109919a9b98a901c8a" name="a59db2ea16c0e54109919a9b98a901c8a"></a>
 uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>reboot_params</b> [2]</td></tr>
+<tr class="memdesc:a59db2ea16c0e54109919a9b98a901c8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters passed to the reboot call that initiated this boot. <br /></td></tr>
 <tr class="separator:a59db2ea16c0e54109919a9b98a901c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Boot information returned by the bootrom SYS_INFO_BOOT_INFO query. </p>
+<p >Contains details about the most recent boot, including the boot type, the partition that was booted, and any diagnostic or reboot parameters. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/<a class="el" href="bootrom_8h_source.html">bootrom.h</a></li>
 </ul>
 </div><!-- contents -->

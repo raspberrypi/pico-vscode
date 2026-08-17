@@ -1,4 +1,4 @@
 <map id="picobin_load_map" name="picobin_load_map">
-<area shape="rect" id="node1" title=" " alt="" coords="26,95,166,121"/>
-<area shape="rect" id="node2" href="$structpicobin__load__map__entry.html" title=" " alt="" coords="5,5,187,32"/>
+<area shape="rect" id="node1" title="PICOBIN load map describing regions to copy from storage to RAM." alt="" coords="26,95,166,121"/>
+<area shape="rect" id="node2" href="$structpicobin__load__map__entry.html" title="A single entry in a PICOBIN load map." alt="" coords="5,5,187,32"/>
 </map>

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -102,29 +102,294 @@ $(document).ready(function(){initNavTree('group__pico__double.html',''); initRes
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_double<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>Optimized double-precision floating point functions.  
-</p>
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga6668f4e6c777292abfc5527363acc938"><td class="memItemLeft" align="right" valign="top"><a id="ga6668f4e6c777292abfc5527363acc938" name="ga6668f4e6c777292abfc5527363acc938"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_INT32_TO_DOUBLE_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga6668f4e6c777292abfc5527363acc938"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga94c9379d987e4ea7c7932a2f13337f65">int2double</a> and <a class="el" href="group__pico__double.html#ga19413410422cd0bff0574a935df1424a">uint2double</a> are available. <br /></td></tr>
+<tr class="separator:ga6668f4e6c777292abfc5527363acc938"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6c4b0a7db9fe1fb20383264ece7aea4a"><td class="memItemLeft" align="right" valign="top"><a id="ga6c4b0a7db9fe1fb20383264ece7aea4a" name="ga6c4b0a7db9fe1fb20383264ece7aea4a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_INT64_TO_DOUBLE_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga6c4b0a7db9fe1fb20383264ece7aea4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga9ef41b9f982a8e417ca503673516dbb9">int642double</a> and <a class="el" href="group__pico__double.html#ga291adbf2879908595c1574ff5ffce2e1">uint642double</a> are available. <br /></td></tr>
+<tr class="separator:ga6c4b0a7db9fe1fb20383264ece7aea4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa1175fab721c596ffb50b4a8dbc1b4d"><td class="memItemLeft" align="right" valign="top"><a id="gaaa1175fab721c596ffb50b4a8dbc1b4d" name="gaaa1175fab721c596ffb50b4a8dbc1b4d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_INT32_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gaaa1175fab721c596ffb50b4a8dbc1b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga8a5049e98d498225467e5129e21a6743">double2int_z</a> and <a class="el" href="group__pico__double.html#gacca5ea293212635ba224913ca7521c8b">double2uint_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:gaaa1175fab721c596ffb50b4a8dbc1b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6628811dfb390bdb6fdd023fd020ef14"><td class="memItemLeft" align="right" valign="top"><a id="ga6628811dfb390bdb6fdd023fd020ef14" name="ga6628811dfb390bdb6fdd023fd020ef14"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_INT64_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga6628811dfb390bdb6fdd023fd020ef14"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#gadaf43730d25530021d87b238da983f6f">double2int64_z</a> and <a class="el" href="group__pico__double.html#ga46cfb037e9b16e02748d64ec398df63c">double2uint64_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:ga6628811dfb390bdb6fdd023fd020ef14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7683f16b397ede676a83c4aa833608ea"><td class="memItemLeft" align="right" valign="top"><a id="ga7683f16b397ede676a83c4aa833608ea" name="ga7683f16b397ede676a83c4aa833608ea"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_FIX32_TO_DOUBLE_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga7683f16b397ede676a83c4aa833608ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#gae7d9032f902dca5d3cb42dfcda497947">fix2double</a> and <a class="el" href="group__pico__double.html#gaf21a6b16444b6b9fd8e7d9d69f967bc6">ufix2double</a> are available. <br /></td></tr>
+<tr class="separator:ga7683f16b397ede676a83c4aa833608ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf9de5e8ff2f28fd8da2754c2cdc24ab6"><td class="memItemLeft" align="right" valign="top"><a id="gaf9de5e8ff2f28fd8da2754c2cdc24ab6" name="gaf9de5e8ff2f28fd8da2754c2cdc24ab6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_FIX64_TO_DOUBLE_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gaf9de5e8ff2f28fd8da2754c2cdc24ab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga85c65543e8632b7fcbfef8ea87a0e993">fix642double</a> and <a class="el" href="group__pico__double.html#ga839c38451211b6a36072eddda3d0d237">ufix642double</a> are available. <br /></td></tr>
+<tr class="separator:gaf9de5e8ff2f28fd8da2754c2cdc24ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad11a531eb66e4ff610060a9c921dd0d4"><td class="memItemLeft" align="right" valign="top"><a id="gad11a531eb66e4ff610060a9c921dd0d4" name="gad11a531eb66e4ff610060a9c921dd0d4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_FIX32_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gad11a531eb66e4ff610060a9c921dd0d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga60cba81d857601ac0f78cc362b9276f5">double2fix_z</a> and <a class="el" href="group__pico__double.html#ga2fbfe3d5ec088f3c0c5a6b624c35835d">double2ufix_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:gad11a531eb66e4ff610060a9c921dd0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61ffdce29a3e4c82b63586748b107eff"><td class="memItemLeft" align="right" valign="top"><a id="ga61ffdce29a3e4c82b63586748b107eff" name="ga61ffdce29a3e4c82b63586748b107eff"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_FIX64_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga61ffdce29a3e4c82b63586748b107eff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#gac0e24f988775b47c5ba569332286d894">double2fix64_z</a> and <a class="el" href="group__pico__double.html#ga70df97d564ef49dcaeb34be376c30e71">double2ufix64_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:ga61ffdce29a3e4c82b63586748b107eff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga41897229325eee7f7fc90aec414faa17"><td class="memItemLeft" align="right" valign="top"><a id="ga41897229325eee7f7fc90aec414faa17" name="ga41897229325eee7f7fc90aec414faa17"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_INT32_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga41897229325eee7f7fc90aec414faa17"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga3eddb12c9919d6755fbcd604286ba526">double2int</a> and <a class="el" href="group__pico__double.html#gac9e99d6773e5971364b76f52522af6ac">double2uint</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga41897229325eee7f7fc90aec414faa17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga24a2216a2844c4a9d44670af447756ba"><td class="memItemLeft" align="right" valign="top"><a id="ga24a2216a2844c4a9d44670af447756ba" name="ga24a2216a2844c4a9d44670af447756ba"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_INT64_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga24a2216a2844c4a9d44670af447756ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga26dbfc007e4b657e4fb2d20e4fcc3d8b">double2int64</a> and <a class="el" href="group__pico__double.html#ga457a2ec01fe31937e1a411495f9b4b31">double2uint64</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga24a2216a2844c4a9d44670af447756ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaaa5306b2b23605d5354837f698bf9b56"><td class="memItemLeft" align="right" valign="top"><a id="gaaa5306b2b23605d5354837f698bf9b56" name="gaaa5306b2b23605d5354837f698bf9b56"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_FIX32_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gaaa5306b2b23605d5354837f698bf9b56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga0bc6577607cf12241eaa2aa648e0a32f">double2fix</a> and <a class="el" href="group__pico__double.html#gafee3c847925ed409465274a10cd61a2e">double2ufix</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:gaaa5306b2b23605d5354837f698bf9b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4212d230eb662862adea1a035985f1fe"><td class="memItemLeft" align="right" valign="top"><a id="ga4212d230eb662862adea1a035985f1fe" name="ga4212d230eb662862adea1a035985f1fe"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DOUBLE_TO_FIX64_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga4212d230eb662862adea1a035985f1fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga505211eebac2858904614f1617ffd9ca">double2fix64</a> and <a class="el" href="group__pico__double.html#ga609fee5031bdf75fa642e435e8422cf6">double2ufix64</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga4212d230eb662862adea1a035985f1fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga90b45b744640a73626a0c72ad6f1dec6"><td class="memItemLeft" align="right" valign="top"><a id="ga90b45b744640a73626a0c72ad6f1dec6" name="ga90b45b744640a73626a0c72ad6f1dec6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_DDIV_FAST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga90b45b744640a73626a0c72ad6f1dec6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#gabd4a8525a1df1d8ce106966dc6f7087e">ddiv_fast</a> is available. <br /></td></tr>
+<tr class="separator:ga90b45b744640a73626a0c72ad6f1dec6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga99714f5cd710e01536b38c59c2c079a9"><td class="memItemLeft" align="right" valign="top"><a id="ga99714f5cd710e01536b38c59c2c079a9" name="ga99714f5cd710e01536b38c59c2c079a9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_SQRT_FAST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga99714f5cd710e01536b38c59c2c079a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga5ef8043267ef893597629a91185bb5a6">sqrt_fast</a> is available. <br /></td></tr>
+<tr class="separator:ga99714f5cd710e01536b38c59c2c079a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae5953546274ffdfb6a8bdec17d6891aa"><td class="memItemLeft" align="right" valign="top"><a id="gae5953546274ffdfb6a8bdec17d6891aa" name="gae5953546274ffdfb6a8bdec17d6891aa"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_FMA_FAST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gae5953546274ffdfb6a8bdec17d6891aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#ga7a99c2678d1abefbc75a6257c8d1da66">fma_fast</a> is available. <br /></td></tr>
+<tr class="separator:gae5953546274ffdfb6a8bdec17d6891aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7d2e165e3865ba2184a8ea19ad49eda3"><td class="memItemLeft" align="right" valign="top"><a id="ga7d2e165e3865ba2184a8ea19ad49eda3" name="ga7d2e165e3865ba2184a8ea19ad49eda3"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_DOUBLE_HAS_POWINT</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga7d2e165e3865ba2184a8ea19ad49eda3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__double.html#gade4b2c16b4fa72737165b12c2b8231dd">powint</a> is available. <br /></td></tr>
+<tr class="separator:ga7d2e165e3865ba2184a8ea19ad49eda3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga94c9379d987e4ea7c7932a2f13337f65"><td class="memItemLeft" align="right" valign="top"><a id="ga94c9379d987e4ea7c7932a2f13337f65" name="ga94c9379d987e4ea7c7932a2f13337f65"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>int2double</b> (int32_t i)</td></tr>
+<tr class="memdesc:ga94c9379d987e4ea7c7932a2f13337f65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 32-bit integer to the nearest double. <br /></td></tr>
+<tr class="separator:ga94c9379d987e4ea7c7932a2f13337f65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga19413410422cd0bff0574a935df1424a"><td class="memItemLeft" align="right" valign="top"><a id="ga19413410422cd0bff0574a935df1424a" name="ga19413410422cd0bff0574a935df1424a"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>uint2double</b> (uint32_t u)</td></tr>
+<tr class="memdesc:ga19413410422cd0bff0574a935df1424a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 32-bit integer to the nearest double. <br /></td></tr>
+<tr class="separator:ga19413410422cd0bff0574a935df1424a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9ef41b9f982a8e417ca503673516dbb9"><td class="memItemLeft" align="right" valign="top"><a id="ga9ef41b9f982a8e417ca503673516dbb9" name="ga9ef41b9f982a8e417ca503673516dbb9"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>int642double</b> (int64_t i)</td></tr>
+<tr class="memdesc:ga9ef41b9f982a8e417ca503673516dbb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 64-bit integer to the nearest double. <br /></td></tr>
+<tr class="separator:ga9ef41b9f982a8e417ca503673516dbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga291adbf2879908595c1574ff5ffce2e1"><td class="memItemLeft" align="right" valign="top"><a id="ga291adbf2879908595c1574ff5ffce2e1" name="ga291adbf2879908595c1574ff5ffce2e1"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>uint642double</b> (uint64_t u)</td></tr>
+<tr class="memdesc:ga291adbf2879908595c1574ff5ffce2e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 64-bit integer to the nearest double. <br /></td></tr>
+<tr class="separator:ga291adbf2879908595c1574ff5ffce2e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8a5049e98d498225467e5129e21a6743"><td class="memItemLeft" align="right" valign="top"><a id="ga8a5049e98d498225467e5129e21a6743" name="ga8a5049e98d498225467e5129e21a6743"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int_z</b> (double d)</td></tr>
+<tr class="memdesc:ga8a5049e98d498225467e5129e21a6743"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 32-bit integer, rounding towards zero. On Arm this conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input except when using pico_double <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga8a5049e98d498225467e5129e21a6743"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacca5ea293212635ba224913ca7521c8b"><td class="memItemLeft" align="right" valign="top"><a id="gacca5ea293212635ba224913ca7521c8b" name="gacca5ea293212635ba224913ca7521c8b"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2uint_z</b> (double d)</td></tr>
+<tr class="memdesc:gacca5ea293212635ba224913ca7521c8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an unsigned 32-bit integer, rounding towards zero On Arm this conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input except when using pico_double <code>compiler</code> <br /></td></tr>
+<tr class="separator:gacca5ea293212635ba224913ca7521c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadaf43730d25530021d87b238da983f6f"><td class="memItemLeft" align="right" valign="top"><a id="gadaf43730d25530021d87b238da983f6f" name="gadaf43730d25530021d87b238da983f6f"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int64_z</b> (double d)</td></tr>
+<tr class="memdesc:gadaf43730d25530021d87b238da983f6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 64-bit integer, rounding towards zero. On Arm this conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input except when using pico_double <code>compiler</code> <br /></td></tr>
+<tr class="separator:gadaf43730d25530021d87b238da983f6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga46cfb037e9b16e02748d64ec398df63c"><td class="memItemLeft" align="right" valign="top"><a id="ga46cfb037e9b16e02748d64ec398df63c" name="ga46cfb037e9b16e02748d64ec398df63c"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2uint64_z</b> (double d)</td></tr>
+<tr class="memdesc:ga46cfb037e9b16e02748d64ec398df63c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an unsigned 64-bit integer, rounding towards zero. On Arm this conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input except when using pico_double <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga46cfb037e9b16e02748d64ec398df63c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gae7d9032f902dca5d3cb42dfcda497947"><td class="memItemLeft" align="right" valign="top"><a id="gae7d9032f902dca5d3cb42dfcda497947" name="gae7d9032f902dca5d3cb42dfcda497947"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>fix2double</b> (int32_t m, int e)</td></tr>
+<tr class="memdesc:gae7d9032f902dca5d3cb42dfcda497947"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 32-bit fixed-point integer with the given number of fractional bits to the nearest double Out of range inputs will convert to +/- Infinity. <br /></td></tr>
+<tr class="separator:gae7d9032f902dca5d3cb42dfcda497947"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf21a6b16444b6b9fd8e7d9d69f967bc6"><td class="memItemLeft" align="right" valign="top"><a id="gaf21a6b16444b6b9fd8e7d9d69f967bc6" name="gaf21a6b16444b6b9fd8e7d9d69f967bc6"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ufix2double</b> (uint32_t m, int e)</td></tr>
+<tr class="memdesc:gaf21a6b16444b6b9fd8e7d9d69f967bc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 32-bit fixed-point integer with the given number of fractional bits to the nearest double Out of range inputs will convert to +Infinity. <br /></td></tr>
+<tr class="separator:gaf21a6b16444b6b9fd8e7d9d69f967bc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga85c65543e8632b7fcbfef8ea87a0e993"><td class="memItemLeft" align="right" valign="top"><a id="ga85c65543e8632b7fcbfef8ea87a0e993" name="ga85c65543e8632b7fcbfef8ea87a0e993"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>fix642double</b> (int64_t m, int e)</td></tr>
+<tr class="memdesc:ga85c65543e8632b7fcbfef8ea87a0e993"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 64-bit fixed-point integer with the given number of fractional bits to the nearest double Out of range inputs will convert to +/- Infinity. <br /></td></tr>
+<tr class="separator:ga85c65543e8632b7fcbfef8ea87a0e993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga839c38451211b6a36072eddda3d0d237"><td class="memItemLeft" align="right" valign="top"><a id="ga839c38451211b6a36072eddda3d0d237" name="ga839c38451211b6a36072eddda3d0d237"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ufix642double</b> (uint64_t m, int e)</td></tr>
+<tr class="memdesc:ga839c38451211b6a36072eddda3d0d237"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 64-bit fixed-point integer with the given number of fractional bits to the nearest double Out of range inputs will convert to +Infinity. <br /></td></tr>
+<tr class="separator:ga839c38451211b6a36072eddda3d0d237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga60cba81d857601ac0f78cc362b9276f5"><td class="memItemLeft" align="right" valign="top"><a id="ga60cba81d857601ac0f78cc362b9276f5" name="ga60cba81d857601ac0f78cc362b9276f5"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix_z</b> (double d, int e)</td></tr>
+<tr class="memdesc:ga60cba81d857601ac0f78cc362b9276f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 32-bit fixed-point integer with the given number of fractional bits, rounding towards zero. On Arm this conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input except when using pico_double <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga60cba81d857601ac0f78cc362b9276f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2fbfe3d5ec088f3c0c5a6b624c35835d"><td class="memItemLeft" align="right" valign="top"><a id="ga2fbfe3d5ec088f3c0c5a6b624c35835d" name="ga2fbfe3d5ec088f3c0c5a6b624c35835d"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix_z</b> (double d, int e)</td></tr>
+<tr class="memdesc:ga2fbfe3d5ec088f3c0c5a6b624c35835d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an unsigned 32-bit fixed-point integer with the given number of fractional bits, rounding towards zero. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga2fbfe3d5ec088f3c0c5a6b624c35835d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac0e24f988775b47c5ba569332286d894"><td class="memItemLeft" align="right" valign="top"><a id="gac0e24f988775b47c5ba569332286d894" name="gac0e24f988775b47c5ba569332286d894"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix64_z</b> (double d, int e)</td></tr>
+<tr class="memdesc:gac0e24f988775b47c5ba569332286d894"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 64-bit fixed-point integer with the given number of fractional bits, rounding towards zero. On Arm this conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input except when using pico_double <code>compiler</code> <br /></td></tr>
+<tr class="separator:gac0e24f988775b47c5ba569332286d894"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga70df97d564ef49dcaeb34be376c30e71"><td class="memItemLeft" align="right" valign="top"><a id="ga70df97d564ef49dcaeb34be376c30e71" name="ga70df97d564ef49dcaeb34be376c30e71"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix64_z</b> (double d, int e)</td></tr>
+<tr class="memdesc:ga70df97d564ef49dcaeb34be376c30e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an unsigned 64-bit fixed-point integer with the given number of fractional bits, rounding towards zero. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga70df97d564ef49dcaeb34be376c30e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3eddb12c9919d6755fbcd604286ba526"><td class="memItemLeft" align="right" valign="top"><a id="ga3eddb12c9919d6755fbcd604286ba526" name="ga3eddb12c9919d6755fbcd604286ba526"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int</b> (double d)</td></tr>
+<tr class="memdesc:ga3eddb12c9919d6755fbcd604286ba526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 32-bit integer, rounding towards -Infinity. This conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga3eddb12c9919d6755fbcd604286ba526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac9e99d6773e5971364b76f52522af6ac"><td class="memItemLeft" align="right" valign="top"><a id="gac9e99d6773e5971364b76f52522af6ac" name="gac9e99d6773e5971364b76f52522af6ac"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2uint</b> (double d)</td></tr>
+<tr class="memdesc:gac9e99d6773e5971364b76f52522af6ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an unsigned 32-bit integer, rounding towards -Infinity. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:gac9e99d6773e5971364b76f52522af6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga26dbfc007e4b657e4fb2d20e4fcc3d8b"><td class="memItemLeft" align="right" valign="top"><a id="ga26dbfc007e4b657e4fb2d20e4fcc3d8b" name="ga26dbfc007e4b657e4fb2d20e4fcc3d8b"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2int64</b> (double d)</td></tr>
+<tr class="memdesc:ga26dbfc007e4b657e4fb2d20e4fcc3d8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 64-bit integer, rounding towards -Infinity. This conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga26dbfc007e4b657e4fb2d20e4fcc3d8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga457a2ec01fe31937e1a411495f9b4b31"><td class="memItemLeft" align="right" valign="top"><a id="ga457a2ec01fe31937e1a411495f9b4b31" name="ga457a2ec01fe31937e1a411495f9b4b31"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2uint64</b> (double d)</td></tr>
+<tr class="memdesc:ga457a2ec01fe31937e1a411495f9b4b31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an usigned 64-bit integer, rounding towards -Infinity. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga457a2ec01fe31937e1a411495f9b4b31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0bc6577607cf12241eaa2aa648e0a32f"><td class="memItemLeft" align="right" valign="top"><a id="ga0bc6577607cf12241eaa2aa648e0a32f" name="ga0bc6577607cf12241eaa2aa648e0a32f"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix</b> (double d, int e)</td></tr>
+<tr class="memdesc:ga0bc6577607cf12241eaa2aa648e0a32f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 32-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga0bc6577607cf12241eaa2aa648e0a32f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gafee3c847925ed409465274a10cd61a2e"><td class="memItemLeft" align="right" valign="top"><a id="gafee3c847925ed409465274a10cd61a2e" name="gafee3c847925ed409465274a10cd61a2e"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix</b> (double d, int e)</td></tr>
+<tr class="memdesc:gafee3c847925ed409465274a10cd61a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an unsigned 32-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:gafee3c847925ed409465274a10cd61a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga505211eebac2858904614f1617ffd9ca"><td class="memItemLeft" align="right" valign="top"><a id="ga505211eebac2858904614f1617ffd9ca" name="ga505211eebac2858904614f1617ffd9ca"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2fix64</b> (double d, int e)</td></tr>
+<tr class="memdesc:ga505211eebac2858904614f1617ffd9ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to a signed 64-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga505211eebac2858904614f1617ffd9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga609fee5031bdf75fa642e435e8422cf6"><td class="memItemLeft" align="right" valign="top"><a id="ga609fee5031bdf75fa642e435e8422cf6" name="ga609fee5031bdf75fa642e435e8422cf6"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>double2ufix64</b> (double d, int e)</td></tr>
+<tr class="memdesc:ga609fee5031bdf75fa642e435e8422cf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a double to an unsigned 64-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga609fee5031bdf75fa642e435e8422cf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaea673cadd2aef111e2ee7a813776b768"><td class="memItemLeft" align="right" valign="top"><a id="gaea673cadd2aef111e2ee7a813776b768" name="gaea673cadd2aef111e2ee7a813776b768"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>exp10</b> (double x)</td></tr>
+<tr class="memdesc:gaea673cadd2aef111e2ee7a813776b768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate 10.0 to the power of the given value. <br /></td></tr>
+<tr class="separator:gaea673cadd2aef111e2ee7a813776b768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaae314e18a364efd169a48a7bebe23819"><td class="memItemLeft" align="right" valign="top"><a id="gaae314e18a364efd169a48a7bebe23819" name="gaae314e18a364efd169a48a7bebe23819"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>sincos</b> (double x, double *sinx, double *cosx)</td></tr>
+<tr class="memdesc:gaae314e18a364efd169a48a7bebe23819"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return both the sine and cosine of an angle efficiently. <br /></td></tr>
+<tr class="separator:gaae314e18a364efd169a48a7bebe23819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gade4b2c16b4fa72737165b12c2b8231dd"><td class="memItemLeft" align="right" valign="top"><a id="gade4b2c16b4fa72737165b12c2b8231dd" name="gade4b2c16b4fa72737165b12c2b8231dd"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>powint</b> (double x, int32_t y)</td></tr>
+<tr class="memdesc:gade4b2c16b4fa72737165b12c2b8231dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raise a floating point number to an integer power. <br /></td></tr>
+<tr class="separator:gade4b2c16b4fa72737165b12c2b8231dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabd4a8525a1df1d8ce106966dc6f7087e"><td class="memItemLeft" align="right" valign="top"><a id="gabd4a8525a1df1d8ce106966dc6f7087e" name="gabd4a8525a1df1d8ce106966dc6f7087e"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>ddiv_fast</b> (double n, double d)</td></tr>
+<tr class="memdesc:gabd4a8525a1df1d8ce106966dc6f7087e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast floating point divide with reduced accuracy. <br /></td></tr>
+<tr class="separator:gabd4a8525a1df1d8ce106966dc6f7087e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5ef8043267ef893597629a91185bb5a6"><td class="memItemLeft" align="right" valign="top"><a id="ga5ef8043267ef893597629a91185bb5a6" name="ga5ef8043267ef893597629a91185bb5a6"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>sqrt_fast</b> (double d)</td></tr>
+<tr class="memdesc:ga5ef8043267ef893597629a91185bb5a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast floating point square-root with reduced accuracy. <br /></td></tr>
+<tr class="separator:ga5ef8043267ef893597629a91185bb5a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7a99c2678d1abefbc75a6257c8d1da66"><td class="memItemLeft" align="right" valign="top"><a id="ga7a99c2678d1abefbc75a6257c8d1da66" name="ga7a99c2678d1abefbc75a6257c8d1da66"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>fma_fast</b> (double x, double y, double z)</td></tr>
+<tr class="memdesc:ga7a99c2678d1abefbc75a6257c8d1da66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast (non-fused) multiply-add (x * y + z) with reduced accuracy. <br /></td></tr>
+<tr class="separator:ga7a99c2678d1abefbc75a6257c8d1da66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga74b2e7d51f9906f0b0877b5e046a2b94"><td class="memItemLeft" align="right" valign="top"><a id="ga74b2e7d51f9906f0b0877b5e046a2b94" name="ga74b2e7d51f9906f0b0877b5e046a2b94"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>mla</b> (double x, double y, double z)</td></tr>
+<tr class="memdesc:ga74b2e7d51f9906f0b0877b5e046a2b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast multiply-add (x * y + z) with reduced accuracy (not fused multiply-add). This is another name for <a class="el" href="group__pico__double.html#ga7a99c2678d1abefbc75a6257c8d1da66">fma_fast</a>. <br /></td></tr>
+<tr class="separator:ga74b2e7d51f9906f0b0877b5e046a2b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Optimized double-precision floating point functions. </p>
-<p >(Replacement) optimized implementations are provided of the following compiler built-ins and math library functions:</p>
+<p >An application can take control of the floating point routines used in the application over and above what is provided by the compiler, by depending on the pico_double library. A user might want to do this:</p>
+<ol type="1">
+<li>To use optimized software implementations provided by the RP2-series device's bootrom or the SDK</li>
+<li>To use optimized combined software/hardware implementations utilizing custom RP2-series hardware for acceleration</li>
+<li>To control the amount of C compiler/library code bloat</li>
+<li>To make sure no floating point is called at all</li>
+</ol>
+<p >The pico_double library comes in three main flavors:</p>
+<ol type="1">
+<li><code>none</code> - all floating point operations cause a <a class="el" href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a> - no double-precision floating point code is included</li>
+<li><code>compiler</code> - no custom functions are provided; all double-precision floating point is handled by the C compiler/library</li>
+<li><code>pico</code> - the smallest and fastest available for the platform, along with additional functionality (e.g. fixed point conversions) which are detailed below</li>
+</ol>
+<p >The user can control which version they want (e.g. pico_double <code>compiler</code> by either setting the CMake global variable <code>PICO_DEFAULT_DOUBLE_IMPL=compiler</code>, or by using the CMake function <code>pico_set_double_implementation(&lt;TARGET&gt; compiler)</code>. Note that in the absence of either, pico_double <code>pico</code> is used by default.</p>
+<p >On RP2040, pico_double <code>pico</code> uses optimized hand coded implementations from the bootrom and the SDK for both basic double-precision floating point operations and floating point math library functions. These implementations are generally faster and smaller than those provided by the C compiler/library, though they don't support all the features of a fully compliant floating point implementation; they are however usually fine for the majority of cases </p>
+<p >On RP2350, pico_double <code>pico</code> uses RP2350 DCP instructions (double co-processor) to implement fast versions of the basic arithmetic functions, and provides optimized M33 implementations of trignometric and scientific functions. These implementations are generally faster and smaller than those provided by the C compiler/library, though they don't support all the features of a fully compliant floating point implementation; they are however usually fine for the majority of cases </p>
+<p >On Arm, (replacement) optimized implementations are provided for the following compiler built-ins and math library functions when using pico_double <code>pico</code>:</p>
 <ul>
-<li>__aeabi_dadd, __aeabi_ddiv, __aeabi_dmul, __aeabi_drsub, __aeabi_dsub, __aeabi_cdcmpeq, __aeabi_cdrcmple, __aeabi_cdcmple, __aeabi_dcmpeq, __aeabi_dcmplt, __aeabi_dcmple, __aeabi_dcmpge, __aeabi_dcmpgt, __aeabi_dcmpun, __aeabi_i2d, __aeabi_l2d, __aeabi_ui2d, __aeabi_ul2d, __aeabi_d2iz, __aeabi_d2lz, __aeabi_d2uiz, __aeabi_d2ulz, __aeabi_d2f</li>
-<li>sqrt, cos, sin, tan, atan2, exp, log, ldexp, copysign, trunc, floor, ceil, round, asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh, exp2, log2, exp10, log10, pow,, hypot, cbrt, fmod, drem, remainder, remquo, expm1, log1p, fma</li>
-<li>powint, sincos (GNU extensions)</li>
+<li><p class="startli">basic arithmetic:</p>
+<p class="startli">__aeabi_dadd, __aeabi_ddiv, __aeabi_dmul, __aeabi_drsub, __aeabi_dsub</p>
+</li>
+<li><p class="startli">comparison:</p>
+<p class="startli">__aeabi_cfcmpeq, __aeabi_cfrcmple, __aeabi_cfcmple, __aeabi_dcmpeq, __aeabi_dcmplt, __aeabi_dcmple, __aeabi_dcmpge, __aeabi_dcmpgt, __aeabi_dcmpun</p>
+</li>
+<li><p class="startli">(u)int32 &lt;-&gt; double:</p>
+<p class="startli">__aeabi_i2d, __aeabi_ui2d, __aeabi_d2iz, __aeabi_d2uiz</p>
+</li>
+<li><p class="startli">(u)int64 &lt;-&gt; double:</p>
+<p class="startli">__aeabi_l2d, __aeabi_ul2d, __aeabi_d2lz, __aeabi_d2ulz</p>
+</li>
+<li><p class="startli">double -&gt; float:</p>
+<p class="startli">__aeabi_d2d</p>
+</li>
+<li><p class="startli">basic trigonometric:</p>
+<p class="startli">sqrt, cos, sin, tan, atan2, exp, log</p>
+</li>
+<li><p class="startli">trigonometric and scientific</p>
+<p class="startli">ldexp, copysign, trunc, floor, ceil, round, asin, acos, atan, sinh, cosh, tanh, asinh, acosh, atanh, exp2, log2, exp10, log10, pow, hypot, cbrt, fmod, drem, remainder, remquo, expm1, log1p, fma</p>
+</li>
+<li><p class="startli">GNU extensions:</p>
+<p class="startli">sincos</p>
+</li>
 </ul>
-<p >The following additional optimized functions are also provided:</p>
+<p >On Arm, the following additional optimized functions are also provided when using pico_double <code>pico</code>, all of which saturate to the nearest representable value for too large input when converting from floating point types:</p>
 <ul>
-<li>int2double, uint2double, int642double, uint642double, fix2double, ufix2double, fix642double, ufix642double</li>
-<li>double2fix, double2ufix, double2fix64, double2ufix64, double2int, double2uint, double2int64, double2uint64, double2int_z, double2int64_z,</li>
-<li>exp10, sincos, powint</li>
+<li>Conversions to/from integer types:<ul>
+<li><p class="startli">(u)int -&gt; double (round to nearest):</p>
+<p class="startli">int2double, uint2double, int642double, uint642double</p>
+</li>
+<li><p class="startli">(u)double -&gt; int (round towards zero):</p>
+<p class="startli">double2int_z, double2uint_z, double2int64_z, double2uint64_z</p>
+</li>
+<li><p class="startli">(u)double -&gt; int (round towards -infinity):</p>
+<p class="startli">double2int, double2uint, double2int64, double2uint64</p>
+</li>
 </ul>
-<p >On RP2350 the following additional functions are available; the _fast methods are faster but do not round correctly"</p>
+</li>
+<li>Conversions to/from fixed point integers:<ul>
+<li><p class="startli">(u)fix -&gt; double (round to nearest):</p>
+<p class="startli">fix2double, ufix2double, fix642double, ufix642double</p>
+</li>
+<li><p class="startli">double -&gt; (u)fix (round towards zero):</p>
+<p class="startli">double2fix_z, double2ufix_z, double2fix64_z, double2ufix64_z</p>
+</li>
+<li><p class="startli">double -&gt; (u)fix (round towards -infinity):</p>
+<p class="startli">double2fix, double2ufix, double2fix64, double2ufix64</p>
+</li>
+</ul>
+</li>
+<li><p class="startli">Scientific functions:</p>
+<p class="startli">powint </p>
+</li>
+</ul>
 <ul>
-<li>ddiv_fast, sqrt_fast </li>
+<li><p class="startli">Even faster versions of divide and square-root functions that do not round correctly:</p>
+<p class="startli">ddiv_fast, sqrt_fast</p>
+</li>
+<li><p class="startli">Faster un-fused multiply and accumulate:</p>
+<p class="startli">mla/fma_fast</p>
+</li>
 </ul>
+<p >On RISC-V there is no custom double-precision floating point support, so pico_double <code>pico</code> is equivalent to pico_double <code>compiler</code>  </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 

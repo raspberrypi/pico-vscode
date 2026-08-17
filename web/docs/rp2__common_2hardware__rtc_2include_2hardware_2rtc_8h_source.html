@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -115,34 +115,44 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__rtc_2include_2h
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#define _HARDWARE_RTC_H</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="pico_8h.html">pico.h</a>&quot;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;hardware/structs/rtc.h&quot;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">   40</a></span><span class="keyword">typedef</span> void (*<a class="code hl_typedef" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a>)(void);</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc_init</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a>(<a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#if HAS_RP2040_RTC</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;hardware/structs/rtc.h&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment">// The RTC clock frequency is 48MHz divided by power of 2 (to ensure an integer</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment">// division ratio will be used in the clocks block).  A divisor of 1024 generates</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment">// an RTC clock tick of 46875Hz.  This frequency is relatively close to the</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">// customary 32 or 32.768kHz &#39;slow clock&#39; crystals and provides good timing resolution.</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#define RTC_CLOCK_FREQ_HZ       (USB_CLK_HZ / 1024)</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">   48</a></span><span class="keyword">typedef</span> void (*<a class="code hl_typedef" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a>)(void);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc_init</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
 <div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#gabf6cc1546be8d1ddb56e3d83a915f683">rtc_running</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253">rtc_set_alarm</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t, <a class="code hl_typedef" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a> user_callback);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a>(<a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span><span class="keywordtype">bool</span> <a class="code hl_function" href="group__hardware__rtc.html#gabf6cc1546be8d1ddb56e3d83a915f683">rtc_running</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gab7f69ee0de1cae2518b2822fd82d5201">rtc_enable_alarm</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#ga718b866eab2ba73221d37f7d15ba9737">rtc_disable_alarm</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__hardware__rtc_html_ga05a9e12c70c56e6e2a9869d0682045d1"><div class="ttname"><a href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a></div><div class="ttdeci">void(* rtc_callback_t)(void)</div><div class="ttdef"><b>Definition:</b> rtc.h:40</div></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gaac8ad85f301295b6a130aa8e00122253">rtc_set_alarm</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structdatetime__t.html">datetime_t</a> *t, <a class="code hl_typedef" href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a> user_callback);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#gab7f69ee0de1cae2518b2822fd82d5201">rtc_enable_alarm</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span><span class="keywordtype">void</span> <a class="code hl_function" href="group__hardware__rtc.html#ga718b866eab2ba73221d37f7d15ba9737">rtc_disable_alarm</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="keywordtype">bool</span> <a class="code hl_function" href="rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h.html#a609bbd5b3add72d95f9d28607d761390">rtc_run_from_external_source</a>(uint32_t src_hz, uint gpio_pin);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__hardware__rtc_html_ga05a9e12c70c56e6e2a9869d0682045d1"><div class="ttname"><a href="group__hardware__rtc.html#ga05a9e12c70c56e6e2a9869d0682045d1">rtc_callback_t</a></div><div class="ttdeci">void(* rtc_callback_t)(void)</div><div class="ttdef"><b>Definition:</b> rtc.h:48</div></div>
 <div class="ttc" id="agroup__hardware__rtc_html_ga076d68dec35129dd2b44d16ae457a3de"><div class="ttname"><a href="group__hardware__rtc.html#ga076d68dec35129dd2b44d16ae457a3de">rtc_set_datetime</a></div><div class="ttdeci">bool rtc_set_datetime(const datetime_t *t)</div><div class="ttdoc">Set the RTC to the specified time.</div><div class="ttdef"><b>Definition:</b> rtc.c:54</div></div>
 <div class="ttc" id="agroup__hardware__rtc_html_ga718b866eab2ba73221d37f7d15ba9737"><div class="ttname"><a href="group__hardware__rtc.html#ga718b866eab2ba73221d37f7d15ba9737">rtc_disable_alarm</a></div><div class="ttdeci">void rtc_disable_alarm(void)</div><div class="ttdoc">Disable the RTC alarm (if active)</div><div class="ttdef"><b>Definition:</b> rtc.c:184</div></div>
 <div class="ttc" id="agroup__hardware__rtc_html_ga7c5528e71733b7bfc0b0543cd3bb6d3f"><div class="ttname"><a href="group__hardware__rtc.html#ga7c5528e71733b7bfc0b0543cd3bb6d3f">rtc_get_datetime</a></div><div class="ttdeci">bool rtc_get_datetime(datetime_t *t)</div><div class="ttdoc">Get the current time from the RTC.</div><div class="ttdef"><b>Definition:</b> rtc.c:87</div></div>
@@ -151,6 +161,7 @@ $(document).ready(function(){initNavTree('rp2__common_2hardware__rtc_2include_2h
 <div class="ttc" id="agroup__hardware__rtc_html_gabf6cc1546be8d1ddb56e3d83a915f683"><div class="ttname"><a href="group__hardware__rtc.html#gabf6cc1546be8d1ddb56e3d83a915f683">rtc_running</a></div><div class="ttdeci">bool rtc_running(void)</div><div class="ttdoc">Is the RTC running?</div><div class="ttdef"><b>Definition:</b> rtc.c:18</div></div>
 <div class="ttc" id="agroup__hardware__rtc_html_gacf9024748b942a7ae375cf75951afa9c"><div class="ttname"><a href="group__hardware__rtc.html#gacf9024748b942a7ae375cf75951afa9c">rtc_init</a></div><div class="ttdeci">void rtc_init(void)</div><div class="ttdoc">Initialise the RTC system.</div><div class="ttdef"><b>Definition:</b> rtc.c:22</div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
+<div class="ttc" id="arp2__common_2hardware__rtc_2include_2hardware_2rtc_8h_html_a609bbd5b3add72d95f9d28607d761390"><div class="ttname"><a href="rp2__common_2hardware__rtc_2include_2hardware_2rtc_8h.html#a609bbd5b3add72d95f9d28607d761390">rtc_run_from_external_source</a></div><div class="ttdeci">bool rtc_run_from_external_source(uint32_t src_hz, uint gpio_pin)</div><div class="ttdoc">Run the RTC from an external clock source through GPIO.</div><div class="ttdef"><b>Definition:</b> rtc.c:192</div></div>
 <div class="ttc" id="astructdatetime__t_html"><div class="ttname"><a href="structdatetime__t.html">datetime_t</a></div><div class="ttdoc">Structure containing date and time information.</div><div class="ttdef"><b>Definition:</b> types.h:107</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

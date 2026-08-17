@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -127,18 +127,22 @@ $(document).ready(function(){initNavTree('btstack__flash__bank_8h_source.html','
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#define PICO_FLASH_BANK_TOTAL_SIZE (FLASH_SECTOR_SIZE * 2u)</span></div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#endif</span></div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">// PICO_CONFIG: PICO_FLASH_BANK_STORAGE_OFFSET, Offset in flash of the Bluetooth flash storage, type=int, default=PICO_FLASH_SIZE_BYTES - PICO_FLASH_BANK_TOTAL_SIZE, group=pico_btstack</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">// PICO_CONFIG: PICO_FLASH_BANK_STORAGE_OFFSET, Offset in flash of the Bluetooth flash storage, type=int, default=PICO_FLASH_SIZE_BYTES - FLASH_SECTOR_SIZE - PICO_FLASH_BANK_TOTAL_SIZE on RP2350 otherwise PICO_FLASH_SIZE_BYTES - PICO_FLASH_BANK_TOTAL_SIZE, group=pico_btstack</span></div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#ifndef PICO_FLASH_BANK_STORAGE_OFFSET</span></div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#define PICO_FLASH_BANK_STORAGE_OFFSET (PICO_FLASH_SIZE_BYTES - PICO_FLASH_BANK_TOTAL_SIZE)</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="keyword">const</span> hal_flash_bank_t *<a class="code hl_function" href="group__pico__btstack.html#ga88f89a9b3339ebb3c570db896b66d65a">pico_flash_bank_instance</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="agroup__pico__btstack_html_ga88f89a9b3339ebb3c570db896b66d65a"><div class="ttname"><a href="group__pico__btstack.html#ga88f89a9b3339ebb3c570db896b66d65a">pico_flash_bank_instance</a></div><div class="ttdeci">const hal_flash_bank_t * pico_flash_bank_instance(void)</div><div class="ttdoc">Return the singleton BTstack HAL flash instance, used for non-volatile storage.</div><div class="ttdef"><b>Definition:</b> btstack_flash_bank.c:176</div></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#if PICO_RP2350 &amp;&amp; PICO_RP2350_A2_SUPPORTED</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#define PICO_FLASH_BANK_STORAGE_OFFSET (PICO_FLASH_SIZE_BYTES - FLASH_SECTOR_SIZE - PICO_FLASH_BANK_TOTAL_SIZE)</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#define PICO_FLASH_BANK_STORAGE_OFFSET (PICO_FLASH_SIZE_BYTES - PICO_FLASH_BANK_TOTAL_SIZE)</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">const</span> hal_flash_bank_t *<a class="code hl_function" href="group__pico__btstack.html#ga88f89a9b3339ebb3c570db896b66d65a">pico_flash_bank_instance</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="agroup__pico__btstack_html_ga88f89a9b3339ebb3c570db896b66d65a"><div class="ttname"><a href="group__pico__btstack.html#ga88f89a9b3339ebb3c570db896b66d65a">pico_flash_bank_instance</a></div><div class="ttdeci">const hal_flash_bank_t * pico_flash_bank_instance(void)</div><div class="ttdoc">Return the singleton BTstack HAL flash instance, used for non-volatile storage.</div><div class="ttdef"><b>Definition:</b> btstack_flash_bank.c:182</div></div>
 <div class="ttc" id="ahardware__flash_2include_2hardware_2flash_8h_html"><div class="ttname"><a href="hardware__flash_2include_2hardware_2flash_8h.html">flash.h</a></div></div>
 <div class="ttc" id="apico_8h_html"><div class="ttname"><a href="pico_8h.html">pico.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

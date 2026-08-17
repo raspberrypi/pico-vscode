@@ -61,10 +61,10 @@ var group__hardware__resets =
       [ "RESET_USBCTRL", "group__hardware__resets.html#gga73554e9181b313ef85698d4e72087de1a715e35a773299ae3bc1457a6f4e83f8b", null ]
     ] ],
     [ "reset_block_mask", "group__hardware__resets.html#gab94a1dac99356f6b632be0b60d1acd63", null ],
-    [ "reset_block_num", "group__hardware__resets.html#gab4ade7bf4b70f31099fa113215d7d1b5", null ],
-    [ "reset_unreset_block_num_wait_blocking", "group__hardware__resets.html#gae077af002bf9e567048bcbe28f1e82b8", null ],
+    [ "reset_block_num", "group__hardware__resets.html#ga095fe55485a0d3cbae20dd5f14595cfa", null ],
+    [ "reset_unreset_block_num_wait_blocking", "group__hardware__resets.html#gab5de2f63e48f488e59bc2d88c6c6e4f3", null ],
     [ "unreset_block_mask", "group__hardware__resets.html#gaa15e86ba29fb6bef52715c8cd2c9b7ce", null ],
     [ "unreset_block_mask_wait_blocking", "group__hardware__resets.html#gaea9779624aa168697879f1f70d46b4cf", null ],
-    [ "unreset_block_num", "group__hardware__resets.html#ga53301718277cacd11e241809786d2569", null ],
-    [ "unreset_block_num_wait_blocking", "group__hardware__resets.html#gae6cc36bc1b58ebcd68b5ba189fdceb9d", null ]
+    [ "unreset_block_num", "group__hardware__resets.html#ga440d2d295c763a1e1e1eec6964b910e8", null ],
+    [ "unreset_block_num_wait_blocking", "group__hardware__resets.html#ga410ecffd9aea6a8df3b35345ac77a5a4", null ]
 ];

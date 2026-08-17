@@ -412,7 +412,8 @@ export function rustProjectGetSelectedChip(
  * @param extensionUri The URI of the extension
  */
 export async function installLatestRustRequirements(
-  extensionUri: Uri
+  extensionUri: Uri,
+  options: { skipSdk?: boolean } = {}
 ): Promise<boolean> {
   const vb = new VersionBundlesLoader(extensionUri);
   const latest = await vb.getLatest();
@@ -434,46 +435,49 @@ export async function installLatestRustRequirements(
     return false;
   }
 
-  let result = await window.withProgress(
-    {
-      location: ProgressLocation.Notification,
-      title: "Downloading and installing SDK",
-      cancellable: false,
-    },
-    async progress2 => {
-      const result = await downloadAndInstallSDK(
-        extensionUri,
-        latest[0],
-        SDK_REPOSITORY_URL,
-        // python3Path is only possible undefined if downloaded and
-        // there is already checked and returned if this happened
-        python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
-      );
-
-      if (!result) {
-        Logger.error(
-          LoggerSource.downloader,
-          "Failed to download and install SDK."
-        );
-        progress2.report({
-          message: "Failed - Make sure all requirements are met.",
-          increment: 100,
-        });
-
-        void window.showErrorMessage(
-          "Failed to download and install SDK. " +
-            "Make sure all requirements are met."
+  let result = true;
+  if (!options.skipSdk) {
+    result = await window.withProgress(
+      {
+        location: ProgressLocation.Notification,
+        title: "Downloading and installing SDK",
+        cancellable: false,
+      },
+      async progress2 => {
+        const result = await downloadAndInstallSDK(
+          extensionUri,
+          latest[0],
+          SDK_REPOSITORY_URL,
+          // python3Path is only possible undefined if downloaded and
+          // there is already checked and returned if this happened
+          python3Path.replace(HOME_VAR, homedir().replaceAll("\\", "/"))
         );
 
-        return false;
+        if (!result) {
+          Logger.error(
+            LoggerSource.downloader,
+            "Failed to download and install SDK."
+          );
+          progress2.report({
+            message: "Failed - Make sure all requirements are met.",
+            increment: 100,
+          });
+
+          void window.showErrorMessage(
+            "Failed to download and install SDK. " +
+              "Make sure all requirements are met."
+          );
+
+          return false;
+        }
+
+        return true;
       }
+    );
 
-      return true;
+    if (!result) {
+      return false;
     }
-  );
-
-  if (!result) {
-    return false;
   }
 
   const supportedToolchains = await getSupportedToolchains(extensionUri);

@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -102,32 +102,292 @@ $(document).ready(function(){initNavTree('group__pico__float.html',''); initResi
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#define-members">Macros</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">pico_float<div class="ingroups"><a class="el" href="group__runtime.html">Runtime Infrastructure</a></div></div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>Optimized single-precision floating point functions.  
-</p>
+<a href="#details">More...</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:gad8f0b82ac0c1dfcf56438350a1a96cbf"><td class="memItemLeft" align="right" valign="top"><a id="gad8f0b82ac0c1dfcf56438350a1a96cbf" name="gad8f0b82ac0c1dfcf56438350a1a96cbf"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_INT32_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gad8f0b82ac0c1dfcf56438350a1a96cbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#gaf5ff3cc5a0abed97b7318a9b49fef3b3">int2float</a> and <a class="el" href="group__pico__float.html#ga3f7ee9f0e69d1bf767c2c8d077fbc19e">uint2float</a> are available. <br /></td></tr>
+<tr class="separator:gad8f0b82ac0c1dfcf56438350a1a96cbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga525eda7b8eeb5e371effb6f7298f84d6"><td class="memItemLeft" align="right" valign="top"><a id="ga525eda7b8eeb5e371effb6f7298f84d6" name="ga525eda7b8eeb5e371effb6f7298f84d6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_INT64_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga525eda7b8eeb5e371effb6f7298f84d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga483e538d7149bc9840110df389bf7031">int642float</a> and <a class="el" href="group__pico__float.html#ga2e474bc80996bfecb7eba8ebafc3db56">uint642float</a> are available. <br /></td></tr>
+<tr class="separator:ga525eda7b8eeb5e371effb6f7298f84d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa100d232b04878d4f0d13b1ca046bb9a"><td class="memItemLeft" align="right" valign="top"><a id="gaa100d232b04878d4f0d13b1ca046bb9a" name="gaa100d232b04878d4f0d13b1ca046bb9a"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT32_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gaa100d232b04878d4f0d13b1ca046bb9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#gaf2d7dbed1b96970bf1b5b156236ab16c">float2int_z</a> and <a class="el" href="group__pico__float.html#ga468e72d99010bf3dd05e730ab49bc9de">float2uint_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:gaa100d232b04878d4f0d13b1ca046bb9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga10d896bcbfeb9bd617e9efd962b0437d"><td class="memItemLeft" align="right" valign="top"><a id="ga10d896bcbfeb9bd617e9efd962b0437d" name="ga10d896bcbfeb9bd617e9efd962b0437d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT64_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga10d896bcbfeb9bd617e9efd962b0437d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga552efd303436008f6113714500f59f06">float2int64_z</a> and <a class="el" href="group__pico__float.html#ga13b4b67c293a3b2f0c24a8d97504ec7f">float2uint64_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:ga10d896bcbfeb9bd617e9efd962b0437d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga884dd156221d5ef67b13e2d14f70bdee"><td class="memItemLeft" align="right" valign="top"><a id="ga884dd156221d5ef67b13e2d14f70bdee" name="ga884dd156221d5ef67b13e2d14f70bdee"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FIX32_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga884dd156221d5ef67b13e2d14f70bdee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#gab73484b3762ce2465e0ac186d5d7a360">fix2float</a> and <a class="el" href="group__pico__float.html#ga75a4600125f2789a1bef8b6c8f39e9e3">ufix2float</a> are available. <br /></td></tr>
+<tr class="separator:ga884dd156221d5ef67b13e2d14f70bdee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac11d647c17b0e11830e155f3118c3cb1"><td class="memItemLeft" align="right" valign="top"><a id="gac11d647c17b0e11830e155f3118c3cb1" name="gac11d647c17b0e11830e155f3118c3cb1"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FIX64_TO_FLOAT_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gac11d647c17b0e11830e155f3118c3cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga36c4e10d198c6ba0d05a29625ac9b0ec">fix642float</a> and <a class="el" href="group__pico__float.html#ga97801a17510ac4d7f6f1223ad1f72258">ufix642float</a> are available. <br /></td></tr>
+<tr class="separator:gac11d647c17b0e11830e155f3118c3cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac2048c385c5862656b32ad33ef5edd9d"><td class="memItemLeft" align="right" valign="top"><a id="gac2048c385c5862656b32ad33ef5edd9d" name="gac2048c385c5862656b32ad33ef5edd9d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX32_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gac2048c385c5862656b32ad33ef5edd9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga289a087519f7bb50cc2993664a406410">float2fix_z</a> and <a class="el" href="group__pico__float.html#ga61f4413f2063e71381cad9920302b765">float2ufix_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:gac2048c385c5862656b32ad33ef5edd9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3c541c273ee3b805ffe9755d96a9c2c2"><td class="memItemLeft" align="right" valign="top"><a id="ga3c541c273ee3b805ffe9755d96a9c2c2" name="ga3c541c273ee3b805ffe9755d96a9c2c2"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX64_Z_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga3c541c273ee3b805ffe9755d96a9c2c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga48c4f205e2e2f59ed5cd687f77cfefac">float2fix64_z</a> and <a class="el" href="group__pico__float.html#ga323b45ef5e2e0a53fcd908479a8da9fe">float2ufix64_z</a> are available (rounding towards zero) <br /></td></tr>
+<tr class="separator:ga3c541c273ee3b805ffe9755d96a9c2c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab6c6207b355d77613fd3063b26a220f9"><td class="memItemLeft" align="right" valign="top"><a id="gab6c6207b355d77613fd3063b26a220f9" name="gab6c6207b355d77613fd3063b26a220f9"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT32_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gab6c6207b355d77613fd3063b26a220f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga99d135e9fc9f4c4f17c6d784a4180602">float2int</a> and <a class="el" href="group__pico__float.html#ga620d63967be6dfe41e7a668a26440fdb">float2uint</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:gab6c6207b355d77613fd3063b26a220f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga80b820d556198c59f26c7e2ca69bf87f"><td class="memItemLeft" align="right" valign="top"><a id="ga80b820d556198c59f26c7e2ca69bf87f" name="ga80b820d556198c59f26c7e2ca69bf87f"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_INT64_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga80b820d556198c59f26c7e2ca69bf87f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga91f8fa3030c3e88eb3fa2059f1ff8130">float2int64</a> and <a class="el" href="group__pico__float.html#ga83263dbf4197a2e48d44d3562693ca97">float2uint64</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga80b820d556198c59f26c7e2ca69bf87f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64ba3c42bdf891987612fe8b1a0fe66d"><td class="memItemLeft" align="right" valign="top"><a id="ga64ba3c42bdf891987612fe8b1a0fe66d" name="ga64ba3c42bdf891987612fe8b1a0fe66d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX32_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga64ba3c42bdf891987612fe8b1a0fe66d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga0d7f7ca64b7a23b815186d387fef7ad0">float2fix</a> and <a class="el" href="group__pico__float.html#ga7c80b0ca533f10d2518075b752a52479">float2ufix</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga64ba3c42bdf891987612fe8b1a0fe66d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga854566d8165ebd7c44e81067310f5db3"><td class="memItemLeft" align="right" valign="top"><a id="ga854566d8165ebd7c44e81067310f5db3" name="ga854566d8165ebd7c44e81067310f5db3"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FLOAT_TO_FIX64_M_CONVERSIONS</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga854566d8165ebd7c44e81067310f5db3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga7b4f61ca3312d2185ea7ba31344672c3">float2fix64</a> and <a class="el" href="group__pico__float.html#ga84deb9a111bf9c9a3f9b522a16648154">float2ufix64</a> are available (rounding towards -Infinity) <br /></td></tr>
+<tr class="separator:ga854566d8165ebd7c44e81067310f5db3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2d043533bd49a6943c8e39e68581c654"><td class="memItemLeft" align="right" valign="top"><a id="ga2d043533bd49a6943c8e39e68581c654" name="ga2d043533bd49a6943c8e39e68581c654"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_FDIV_FAST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga2d043533bd49a6943c8e39e68581c654"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga1fd228c99c70a9e3bedb041a7d82c086">fdiv_fast</a> is available. <br /></td></tr>
+<tr class="separator:ga2d043533bd49a6943c8e39e68581c654"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3ed2ea220f8867bf82f010ec7e39a12d"><td class="memItemLeft" align="right" valign="top"><a id="ga3ed2ea220f8867bf82f010ec7e39a12d" name="ga3ed2ea220f8867bf82f010ec7e39a12d"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_SQRTF_FAST</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:ga3ed2ea220f8867bf82f010ec7e39a12d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga300c47a94afab28a20cb976c92196122">sqrtf_fast</a> is available. <br /></td></tr>
+<tr class="separator:ga3ed2ea220f8867bf82f010ec7e39a12d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabffad60e1c08cdbe4b7c82141e6eb444"><td class="memItemLeft" align="right" valign="top"><a id="gabffad60e1c08cdbe4b7c82141e6eb444" name="gabffad60e1c08cdbe4b7c82141e6eb444"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>PICO_FLOAT_HAS_POWINTF</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memdesc:gabffad60e1c08cdbe4b7c82141e6eb444"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set if <a class="el" href="group__pico__float.html#ga81b95ed9ab7e785d760ff609327a68b8">powintf</a> is available. <br /></td></tr>
+<tr class="separator:gabffad60e1c08cdbe4b7c82141e6eb444"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:gaf5ff3cc5a0abed97b7318a9b49fef3b3"><td class="memItemLeft" align="right" valign="top"><a id="gaf5ff3cc5a0abed97b7318a9b49fef3b3" name="gaf5ff3cc5a0abed97b7318a9b49fef3b3"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>int2float</b> (int32_t i)</td></tr>
+<tr class="memdesc:gaf5ff3cc5a0abed97b7318a9b49fef3b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 32-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:gaf5ff3cc5a0abed97b7318a9b49fef3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga3f7ee9f0e69d1bf767c2c8d077fbc19e"><td class="memItemLeft" align="right" valign="top"><a id="ga3f7ee9f0e69d1bf767c2c8d077fbc19e" name="ga3f7ee9f0e69d1bf767c2c8d077fbc19e"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>uint2float</b> (uint32_t u)</td></tr>
+<tr class="memdesc:ga3f7ee9f0e69d1bf767c2c8d077fbc19e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 32-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:ga3f7ee9f0e69d1bf767c2c8d077fbc19e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga483e538d7149bc9840110df389bf7031"><td class="memItemLeft" align="right" valign="top"><a id="ga483e538d7149bc9840110df389bf7031" name="ga483e538d7149bc9840110df389bf7031"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>int642float</b> (int64_t i)</td></tr>
+<tr class="memdesc:ga483e538d7149bc9840110df389bf7031"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 64-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:ga483e538d7149bc9840110df389bf7031"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga2e474bc80996bfecb7eba8ebafc3db56"><td class="memItemLeft" align="right" valign="top"><a id="ga2e474bc80996bfecb7eba8ebafc3db56" name="ga2e474bc80996bfecb7eba8ebafc3db56"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>uint642float</b> (uint64_t u)</td></tr>
+<tr class="memdesc:ga2e474bc80996bfecb7eba8ebafc3db56"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 64-bit integer to the nearest float. <br /></td></tr>
+<tr class="separator:ga2e474bc80996bfecb7eba8ebafc3db56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf2d7dbed1b96970bf1b5b156236ab16c"><td class="memItemLeft" align="right" valign="top"><a id="gaf2d7dbed1b96970bf1b5b156236ab16c" name="gaf2d7dbed1b96970bf1b5b156236ab16c"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int_z</b> (float f)</td></tr>
+<tr class="memdesc:gaf2d7dbed1b96970bf1b5b156236ab16c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit integer, rounding towards zero. On Arm this conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:gaf2d7dbed1b96970bf1b5b156236ab16c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga468e72d99010bf3dd05e730ab49bc9de"><td class="memItemLeft" align="right" valign="top"><a id="ga468e72d99010bf3dd05e730ab49bc9de" name="ga468e72d99010bf3dd05e730ab49bc9de"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint_z</b> (float f)</td></tr>
+<tr class="memdesc:ga468e72d99010bf3dd05e730ab49bc9de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit integer, rounding towards zero On Arm this conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga468e72d99010bf3dd05e730ab49bc9de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga552efd303436008f6113714500f59f06"><td class="memItemLeft" align="right" valign="top"><a id="ga552efd303436008f6113714500f59f06" name="ga552efd303436008f6113714500f59f06"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int64_z</b> (float f)</td></tr>
+<tr class="memdesc:ga552efd303436008f6113714500f59f06"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit integer, rounding towards zero. On Arm this conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga552efd303436008f6113714500f59f06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga13b4b67c293a3b2f0c24a8d97504ec7f"><td class="memItemLeft" align="right" valign="top"><a id="ga13b4b67c293a3b2f0c24a8d97504ec7f" name="ga13b4b67c293a3b2f0c24a8d97504ec7f"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint64_z</b> (float f)</td></tr>
+<tr class="memdesc:ga13b4b67c293a3b2f0c24a8d97504ec7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit integer, rounding towards zero. On Arm this conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga13b4b67c293a3b2f0c24a8d97504ec7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab73484b3762ce2465e0ac186d5d7a360"><td class="memItemLeft" align="right" valign="top"><a id="gab73484b3762ce2465e0ac186d5d7a360" name="gab73484b3762ce2465e0ac186d5d7a360"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>fix2float</b> (int32_t m, int e)</td></tr>
+<tr class="memdesc:gab73484b3762ce2465e0ac186d5d7a360"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 32-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +/- Infinity. <br /></td></tr>
+<tr class="separator:gab73484b3762ce2465e0ac186d5d7a360"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga75a4600125f2789a1bef8b6c8f39e9e3"><td class="memItemLeft" align="right" valign="top"><a id="ga75a4600125f2789a1bef8b6c8f39e9e3" name="ga75a4600125f2789a1bef8b6c8f39e9e3"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>ufix2float</b> (uint32_t m, int e)</td></tr>
+<tr class="memdesc:ga75a4600125f2789a1bef8b6c8f39e9e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 32-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +Infinity. <br /></td></tr>
+<tr class="separator:ga75a4600125f2789a1bef8b6c8f39e9e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga36c4e10d198c6ba0d05a29625ac9b0ec"><td class="memItemLeft" align="right" valign="top"><a id="ga36c4e10d198c6ba0d05a29625ac9b0ec" name="ga36c4e10d198c6ba0d05a29625ac9b0ec"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>fix642float</b> (int64_t m, int e)</td></tr>
+<tr class="memdesc:ga36c4e10d198c6ba0d05a29625ac9b0ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a signed 64-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +/- Infinity. <br /></td></tr>
+<tr class="separator:ga36c4e10d198c6ba0d05a29625ac9b0ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga97801a17510ac4d7f6f1223ad1f72258"><td class="memItemLeft" align="right" valign="top"><a id="ga97801a17510ac4d7f6f1223ad1f72258" name="ga97801a17510ac4d7f6f1223ad1f72258"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>ufix642float</b> (uint64_t m, int e)</td></tr>
+<tr class="memdesc:ga97801a17510ac4d7f6f1223ad1f72258"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert an unsigned 64-bit fixed-point integer with the given number of fractional bits to the nearest float Out of range inputs will convert to +Infinity. <br /></td></tr>
+<tr class="separator:ga97801a17510ac4d7f6f1223ad1f72258"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga289a087519f7bb50cc2993664a406410"><td class="memItemLeft" align="right" valign="top"><a id="ga289a087519f7bb50cc2993664a406410" name="ga289a087519f7bb50cc2993664a406410"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix_z</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga289a087519f7bb50cc2993664a406410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit fixed-point integer with the given number of fractional bits, rounding towards zero. On Arm this conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga289a087519f7bb50cc2993664a406410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga61f4413f2063e71381cad9920302b765"><td class="memItemLeft" align="right" valign="top"><a id="ga61f4413f2063e71381cad9920302b765" name="ga61f4413f2063e71381cad9920302b765"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix_z</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga61f4413f2063e71381cad9920302b765"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit fixed-point integer with the given number of fractional bits, rounding towards zero. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga61f4413f2063e71381cad9920302b765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48c4f205e2e2f59ed5cd687f77cfefac"><td class="memItemLeft" align="right" valign="top"><a id="ga48c4f205e2e2f59ed5cd687f77cfefac" name="ga48c4f205e2e2f59ed5cd687f77cfefac"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix64_z</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga48c4f205e2e2f59ed5cd687f77cfefac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit fixed-point integer with the given number of fractional bits, rounding towards zero. On Arm this conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input except when using pico_float <code>compiler</code> <br /></td></tr>
+<tr class="separator:ga48c4f205e2e2f59ed5cd687f77cfefac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga323b45ef5e2e0a53fcd908479a8da9fe"><td class="memItemLeft" align="right" valign="top"><a id="ga323b45ef5e2e0a53fcd908479a8da9fe" name="ga323b45ef5e2e0a53fcd908479a8da9fe"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix64_z</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga323b45ef5e2e0a53fcd908479a8da9fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit fixed-point integer with the given number of fractional bits, rounding towards zero. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga323b45ef5e2e0a53fcd908479a8da9fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga99d135e9fc9f4c4f17c6d784a4180602"><td class="memItemLeft" align="right" valign="top"><a id="ga99d135e9fc9f4c4f17c6d784a4180602" name="ga99d135e9fc9f4c4f17c6d784a4180602"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int</b> (float f)</td></tr>
+<tr class="memdesc:ga99d135e9fc9f4c4f17c6d784a4180602"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit integer, rounding towards -Infinity. This conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga99d135e9fc9f4c4f17c6d784a4180602"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga620d63967be6dfe41e7a668a26440fdb"><td class="memItemLeft" align="right" valign="top"><a id="ga620d63967be6dfe41e7a668a26440fdb" name="ga620d63967be6dfe41e7a668a26440fdb"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint</b> (float f)</td></tr>
+<tr class="memdesc:ga620d63967be6dfe41e7a668a26440fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit integer, rounding towards -Infinity. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga620d63967be6dfe41e7a668a26440fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga91f8fa3030c3e88eb3fa2059f1ff8130"><td class="memItemLeft" align="right" valign="top"><a id="ga91f8fa3030c3e88eb3fa2059f1ff8130" name="ga91f8fa3030c3e88eb3fa2059f1ff8130"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2int64</b> (float f)</td></tr>
+<tr class="memdesc:ga91f8fa3030c3e88eb3fa2059f1ff8130"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit integer, rounding towards -Infinity. This conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga91f8fa3030c3e88eb3fa2059f1ff8130"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga83263dbf4197a2e48d44d3562693ca97"><td class="memItemLeft" align="right" valign="top"><a id="ga83263dbf4197a2e48d44d3562693ca97" name="ga83263dbf4197a2e48d44d3562693ca97"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2uint64</b> (float f)</td></tr>
+<tr class="memdesc:ga83263dbf4197a2e48d44d3562693ca97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit integer, rounding towards -Infinity. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga83263dbf4197a2e48d44d3562693ca97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0d7f7ca64b7a23b815186d387fef7ad0"><td class="memItemLeft" align="right" valign="top"><a id="ga0d7f7ca64b7a23b815186d387fef7ad0" name="ga0d7f7ca64b7a23b815186d387fef7ad0"></a>
+int32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga0d7f7ca64b7a23b815186d387fef7ad0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 32-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to INT32_MAX/INT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga0d7f7ca64b7a23b815186d387fef7ad0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7c80b0ca533f10d2518075b752a52479"><td class="memItemLeft" align="right" valign="top"><a id="ga7c80b0ca533f10d2518075b752a52479" name="ga7c80b0ca533f10d2518075b752a52479"></a>
+uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga7c80b0ca533f10d2518075b752a52479"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 32-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to UINT32_MAX/UINT32_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga7c80b0ca533f10d2518075b752a52479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7b4f61ca3312d2185ea7ba31344672c3"><td class="memItemLeft" align="right" valign="top"><a id="ga7b4f61ca3312d2185ea7ba31344672c3" name="ga7b4f61ca3312d2185ea7ba31344672c3"></a>
+int64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2fix64</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga7b4f61ca3312d2185ea7ba31344672c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to a signed 64-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to INT64_MAX/INT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga7b4f61ca3312d2185ea7ba31344672c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga84deb9a111bf9c9a3f9b522a16648154"><td class="memItemLeft" align="right" valign="top"><a id="ga84deb9a111bf9c9a3f9b522a16648154" name="ga84deb9a111bf9c9a3f9b522a16648154"></a>
+uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>float2ufix64</b> (float f, int e)</td></tr>
+<tr class="memdesc:ga84deb9a111bf9c9a3f9b522a16648154"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a float to an unsigned 64-bit fixed-point integer with the given number of fractional bits, rounding towards -Infinity. This conversion is saturating (to UINT64_MAX/UINT64_MIN) for out of range input. <br /></td></tr>
+<tr class="separator:ga84deb9a111bf9c9a3f9b522a16648154"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad27f10a0e30a7fe130c18786bf097e4b"><td class="memItemLeft" align="right" valign="top"><a id="gad27f10a0e30a7fe130c18786bf097e4b" name="gad27f10a0e30a7fe130c18786bf097e4b"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>exp10f</b> (float x)</td></tr>
+<tr class="memdesc:gad27f10a0e30a7fe130c18786bf097e4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Evaluate 10.0f to the power of the given value. <br /></td></tr>
+<tr class="separator:gad27f10a0e30a7fe130c18786bf097e4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga7cc97892a9c28d67f1019a5544c8dd71"><td class="memItemLeft" align="right" valign="top"><a id="ga7cc97892a9c28d67f1019a5544c8dd71" name="ga7cc97892a9c28d67f1019a5544c8dd71"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>sincosf</b> (float x, float *sinx, float *cosx)</td></tr>
+<tr class="memdesc:ga7cc97892a9c28d67f1019a5544c8dd71"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return both the sine and cosine of an angle efficiently. <br /></td></tr>
+<tr class="separator:ga7cc97892a9c28d67f1019a5544c8dd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81b95ed9ab7e785d760ff609327a68b8"><td class="memItemLeft" align="right" valign="top"><a id="ga81b95ed9ab7e785d760ff609327a68b8" name="ga81b95ed9ab7e785d760ff609327a68b8"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>powintf</b> (float x, int32_t y)</td></tr>
+<tr class="memdesc:ga81b95ed9ab7e785d760ff609327a68b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Raise a floating point number to an integer power. <br /></td></tr>
+<tr class="separator:ga81b95ed9ab7e785d760ff609327a68b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1fd228c99c70a9e3bedb041a7d82c086"><td class="memItemLeft" align="right" valign="top"><a id="ga1fd228c99c70a9e3bedb041a7d82c086" name="ga1fd228c99c70a9e3bedb041a7d82c086"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>fdiv_fast</b> (float n, float d)</td></tr>
+<tr class="memdesc:ga1fd228c99c70a9e3bedb041a7d82c086"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast floating point divide with reduced accuracy. <br /></td></tr>
+<tr class="separator:ga1fd228c99c70a9e3bedb041a7d82c086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga300c47a94afab28a20cb976c92196122"><td class="memItemLeft" align="right" valign="top"><a id="ga300c47a94afab28a20cb976c92196122" name="ga300c47a94afab28a20cb976c92196122"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><b>sqrtf_fast</b> (float f)</td></tr>
+<tr class="memdesc:ga300c47a94afab28a20cb976c92196122"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a fast floating point square-root with reduced accuracy. <br /></td></tr>
+<tr class="separator:ga300c47a94afab28a20cb976c92196122"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p >Optimized single-precision floating point functions. </p>
-<p >(Replacement) optimized implementations are provided for the following compiler built-ins and math library functions on Arm:</p>
+<p >An application can take control of the floating point routines used in the application over and above what is provided by the compiler, by depending on the pico_float library. A user might want to do this</p>
+<ol type="1">
+<li>To use optimized software implementations provided by the RP2-series device's bootrom or the SDK</li>
+<li>To use optimized combined software/hardware implementations utilizing custom RP2-series hardware for acceleration</li>
+<li>To control the amount of C compiler/library code bloat</li>
+<li>To make sure no floating point is called at all</li>
+</ol>
+<p >The pico_float library comes in three main flavors:</p>
+<ol type="1">
+<li><code>none</code> - all floating point operations cause a <a class="el" href="group__pico__platform.html#gad1f1a1dc0581a11b597453f148106393">panic</a> - no single-precision floating point code is included</li>
+<li><code>compiler</code> - no custom functions are provided; all single-precision floating point is handled by the C compiler/library</li>
+<li><code>pico</code> - the smallest and fastest available for the platform, along with additional functionality (e.g. fixed-point conversions) which are detailed below</li>
+</ol>
+<p >The user can control which version they want (e.g. pico_float <code>compiler</code> by either setting the CMake global variable <code>PICO_DEFAULT_FLOAT_IMPL=xxx</code>, or by using the CMake function <code>pico_set_float_implementation(&lt;TARGET&gt; xxx)</code>. Note that in the absence of either, pico_float <code>pico</code> is used by default.</p>
+<p >On RP2040, pico_float <code>pico</code> uses optimized hand coded implementations from the bootrom and the SDK for both basic single-precision floating point operations and floating point math library functions. These implementations are generally faster and smaller than those provided by the C compiler/library, though they don't support all the features of a fully compliant floating point implementation; they are however usually fine for the majority of cases </p>
+<p >On Arm on RP2350, there are multiple options for pico_float <code>pico</code>:</p>
+<ol type="1">
+<li>pico_float <code>pico_vfp</code> - this library leaves basic C single-precision floating point operations to the compiler which can use inlined VFP (Arm FPU) code. Custom optimized versions of trigonometric and scientific functions are provided. No DCP (RP2350 Double co-processor) instructions are used.</li>
+<li>pico_float <code>pico_dcp</code> - this library prevents the compiler injecting inlined VFP code, and also implements all single-precision floating point operations in optimized DCP or M33 code. This option is not quite as fast as pico_float <code>pico_vfp</code>, however it allows floating point operations without enabling the floating point co-processor on the CPU; this can be beneficial in certain circumstances, e.g. where leaving stack in tasks or interrupts for the floating point state is undesirable.</li>
+</ol>
+<p >Note: pico_float <code>pico</code> is equivalent to pico_float <code>pico_vfp</code> on RP2350, as this is the most sensible default </p>
+<p >On Arm, (replacement) optimized implementations are provided for the following compiler built-ins and math library functions when using <code>_pico</code> variants of <code>pico_float</code>:</p>
 <ul>
-<li>__aeabi_fadd, __aeabi_fdiv, __aeabi_fmul, __aeabi_frsub, __aeabi_fsub, __aeabi_cfcmpeq, __aeabi_cfrcmple, __aeabi_cfcmple, __aeabi_fcmpeq, __aeabi_fcmplt, __aeabi_fcmple, __aeabi_fcmpge, __aeabi_fcmpgt, __aeabi_fcmpun, __aeabi_i2f, __aeabi_l2f, __aeabi_ui2f, __aeabi_ul2f, __aeabi_f2iz, __aeabi_f2lz, __aeabi_f2uiz, __aeabi_f2ulz, __aeabi_f2d, sqrtf, cosf, sinf, tanf, atan2f, expf, logf</li>
-<li>ldexpf, copysignf, truncf, floorf, ceilf, roundf, asinf, acosf, atanf, sinhf, coshf, tanhf, asinhf, acoshf, atanhf, exp2f, log2f, exp10f, log10f, powf, hypotf, cbrtf, fmodf, dremf, remainderf, remquof, expm1f, log1pf, fmaf</li>
-<li>powintf, sincosf (GNU extensions)</li>
+<li><p class="startli">basic arithmetic: (except pico_float <code>pico_vfp</code>)</p>
+<p class="startli">__aeabi_fadd, __aeabi_fdiv, __aeabi_fmul, __aeabi_frsub, __aeabi_fsub</p>
+</li>
+<li><p class="startli">comparison: (except pico_float <code>pico_vfp</code>)</p>
+<p class="startli">__aeabi_cfcmpeq, __aeabi_cfrcmple, __aeabi_cfcmple, __aeabi_fcmpeq, __aeabi_fcmplt, __aeabi_fcmple, __aeabi_fcmpge, __aeabi_fcmpgt, __aeabi_fcmpun</p>
+</li>
+<li><p class="startli">(u)int32 &lt;-&gt; float: (except pico_float <code>pico_vfp</code>)</p>
+<p class="startli">__aeabi_i2f, __aeabi_ui2f, __aeabi_f2iz, __aeabi_f2uiz</p>
+</li>
+<li><p class="startli">(u)int64 &lt;-&gt; float: (except pico_float <code>pico_vfp</code>)</p>
+<p class="startli">__aeabi_l2f, __aeabi_ul2f, __aeabi_f2lz, __aeabi_f2ulz</p>
+</li>
+<li><p class="startli">float -&gt; double: (except pico_float <code>pico_vfp</code>)</p>
+<p class="startli">__aeabi_f2d</p>
+</li>
+<li><p class="startli">basic trigonometric:</p>
+<p class="startli">sqrtf, cosf, sinf, tanf, atan2f, expf, logf</p>
+</li>
+<li><p class="startli">trigonometric and scientific</p>
+<p class="startli">ldexpf, copysignf, truncf, floorf, ceilf, roundf, asinf, acosf, atanf, sinhf, coshf, tanhf, asinhf, acoshf, atanhf, exp2f, log2f, exp10f, log10f, powf, hypotf, cbrtf, fmodf, dremf, remainderf, remquof, expm1f, log1pf, fmaf</p>
+</li>
+<li><p class="startli">GNU extensions:</p>
+<p class="startli">sincosf</p>
+</li>
 </ul>
-<p >The following additional optimized functions are also provided:</p>
+<p >On Arm, the following additional optimized functions are also provided (when using <code>_pico</code> variants of <code>pico_float</code>), all of which saturate to the nearest representable value for too large input when converting from floating point types:</p>
 <ul>
-<li>int2float, uint2float, int642float, uint642float, fix2float, ufix2float, fix642float, ufix642float</li>
-<li>float2fix, float2ufix, float2fix64, float2ufix64, float2int, float2uint, float2int64, float2uint64, float2int_z, float2int64_z, float2uint_z, float2uint64_z</li>
-<li>exp10f, sincosf, powintf</li>
+<li>Conversions to/from integer types:<ul>
+<li><p class="startli">(u)int -&gt; float (round to nearest):</p>
+<p class="startli">int2float, uint2float, int642float, uint642float</p>
+<p class="startli">note: on pico_float <code>pico_vfp</code> the 32-bit functions are also provided as C macros since they map to inline VFP code</p>
+</li>
+<li><p class="startli">(u)float -&gt; int (round towards zero):</p>
+<p class="startli">float2int_z, float2uint_z, float2int64_z, float2uint64_z</p>
+<p class="startli">note: on pico_float <code>pico_vfp</code> the 32-bit functions are also provided as C macros since they map to inline VFP code</p>
+</li>
+<li><p class="startli">(u)float -&gt; int (round towards -infinity):</p>
+<p class="startli">float2int, float2uint, float2int64, float2uint64</p>
+</li>
 </ul>
-<p >On RP2350 (Arm) the following additional functions are available; the _fast methods are faster but do not round correctly</p>
-<ul>
-<li>float2fix64_z, fdiv_fast, fsqrt_fast,</li>
+</li>
+<li>Conversions to/from fixed-point integers:<ul>
+<li><p class="startli">(u)fix -&gt; float (round to nearest):</p>
+<p class="startli">fix2float, ufix2float, fix642float, ufix642float</p>
+</li>
+<li><p class="startli">float -&gt; (u)fix (round towards zero):</p>
+<p class="startli">float2fix_z, float2ufix_z, float2fix64_z, float2ufix64_z</p>
+<p class="startli">note: on pico_float <code>pico_vfp</code> the 32-bit functions are also provided as C macros since they can map to inline VFP code when the number of fractional bits is a compile time constant between 1 and 32</p>
+</li>
+<li><p class="startli">float -&gt; (u)fix (round towards -infinity):</p>
+<p class="startli">float2fix, float2ufix, float2fix64, float2ufix64</p>
+<p class="startli">note: on pico_float <code>pico_vfp</code> the 32-bit functions are also provided as C macros since they can map to inline VFP code when the number of fractional bits is a compile time constant between 1 and 32</p>
+</li>
 </ul>
-<p >On RP2350 RISC-V, only a small number of compiler runtime functions are overridden with faster implementations:</p>
+</li>
+<li><p class="startli">Scientific functions:</p>
+<p class="startli">powintf </p>
+</li>
+</ul>
 <ul>
-<li>__addsf3, __subsf3, __mulsf3 </li>
+<li><p class="startli">Even faster versions of divide and square-root functions that do not round correctly: (pico_float <code>pico_dcp</code> only)</p>
+<p class="startli">fdiv_fast, sqrtf_fast</p>
+</li>
+</ul>
+<p >On RISC-V, (replacement) optimized implementations are provided for the following compiler built-ins when using the pico_float <code>pico</code> library (note that there are no variants of this library like there are on Arm):</p>
+<ul>
+<li><p class="startli">Basic arithmetic:</p>
+<p class="startli">__addsf3, __subsf3, __mulsf3  </p>
+</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

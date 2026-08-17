@@ -1496,11 +1496,6 @@ rustflags = [
     "-C", "no-vectorize-loops",
 ]
 
-# Use picotool for loading.
-#
-# Load an elf, skipping unchanged flash sectors, verify it, and execute it
-runner = "\${PICOTOOL_PATH} load -u -v -x -t elf"
-#runner = "probe-rs run --chip \${CHIP} --protocol swd"
 
 # This is the hard-float ABI for Arm mode.
 #
@@ -1524,11 +1519,6 @@ rustflags = [
     "-C", "target-cpu=cortex-m33",
 ]
 
-# Use picotool for loading.
-#
-# Load an elf, skipping unchanged flash sectors, verify it, and execute it
-runner = "\${PICOTOOL_PATH} load -u -v -x -t elf"
-#runner = "probe-rs run --chip \${CHIP} --protocol swd"
 
 # This is the soft-float ABI for RISC-V mode.
 #
@@ -1551,11 +1541,6 @@ rustflags = [
     "-C", "link-arg=-Tdefmt.x",
 ]
 
-# Use picotool for loading.
-#
-# Load an elf, skipping unchanged flash sectors, verify it, and execute it
-runner = "\${PICOTOOL_PATH} load -u -v -x -t elf"
-#runner = "probe-rs run --chip \${CHIP} --protocol swd"
 
 [env]
 DEFMT_LOG = "debug"

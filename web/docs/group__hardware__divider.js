@@ -1,5 +1,6 @@
 var group__hardware__divider =
 [
+    [ "hw_divider_state_t", "group__hardware__divider.html#gad3b7774166ef31d2d94bf162eb11641d", null ],
     [ "hw_divider_divmod_s32", "group__hardware__divider.html#ga806e168e895d53a3c261ba3e95ed2639", null ],
     [ "hw_divider_divmod_s32_start", "group__hardware__divider.html#ga3388fa85b0c81ee403a3e5bb34dc7274", null ],
     [ "hw_divider_divmod_u32", "group__hardware__divider.html#gac2f4fea8c3ef19a04e574f64f5f520c2", null ],

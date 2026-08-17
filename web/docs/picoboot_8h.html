@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -120,17 +120,18 @@ Include dependency graph for picoboot.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="picoboot_8h__incl.png" border="0" usemap="#ainclude_2boot_2picoboot_8h" alt=""/></div>
 <map name="ainclude_2boot_2picoboot_8h" id="ainclude_2boot_2picoboot_8h">
-<area shape="rect" title=" " alt="" coords="522,5,697,32"/>
+<area shape="rect" title=" " alt="" coords="627,5,802,32"/>
 <area shape="rect" title=" " alt="" coords="43,304,114,331"/>
 <area shape="rect" title=" " alt="" coords="111,379,193,405"/>
 <area shape="rect" href="assert_8h_source.html" title=" " alt="" coords="288,304,363,331"/>
-<area shape="rect" href="platform_8h.html" title=" " alt="" coords="549,80,670,107"/>
-<area shape="rect" href="picoboot__constants_8h_source.html" title=" " alt="" coords="1147,80,1307,107"/>
-<area shape="rect" href="compiler_8h_source.html" title=" " alt="" coords="93,155,275,181"/>
-<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="709,155,888,181"/>
-<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="912,155,1072,181"/>
-<area shape="rect" title=" " alt="" coords="299,155,509,181"/>
-<area shape="rect" title=" " alt="" coords="534,155,685,181"/>
+<area shape="rect" href="platform_8h.html" title=" " alt="" coords="654,80,775,107"/>
+<area shape="rect" href="picoboot__constants_8h_source.html" title=" " alt="" coords="1355,80,1515,107"/>
+<area shape="rect" href="compiler_8h.html" title="Macros and definitions (and functions when included by non assembly code) to adapt for different comp..." alt="" coords="93,155,275,181"/>
+<area shape="rect" href="sections_8h_source.html" title=" " alt="" coords="917,155,1096,181"/>
+<area shape="rect" href="panic_8h_source.html" title=" " alt="" coords="1120,155,1280,181"/>
+<area shape="rect" href="common_8h.html" title="Macros and definitions common to all rp2 platforms but not specific to any library." alt="" coords="299,155,482,181"/>
+<area shape="rect" title=" " alt="" coords="507,155,717,181"/>
+<area shape="rect" title=" " alt="" coords="742,155,893,181"/>
 <area shape="rect" title=" " alt="" coords="243,229,434,256"/>
 <area shape="rect" href="common_2pico__base__headers_2include_2pico_2types_8h_source.html" title=" " alt="" coords="117,229,219,256"/>
 <area shape="rect" title=" " alt="" coords="189,304,264,331"/>
@@ -142,20 +143,27 @@ Include dependency graph for picoboot.h:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__reboot__cmd.html">picoboot_reboot_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a reboot command (RP2040 only)  <a href="structpicoboot__reboot__cmd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__reboot2__cmd.html">picoboot_reboot2_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for an extended reboot command (not available on RP2040)  <a href="structpicoboot__reboot2__cmd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__address__only__cmd.html">picoboot_address_only_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a command that operates on a single address (RP2040 only)  <a href="structpicoboot__address__only__cmd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__range__cmd.html">picoboot_range_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a command that operates on an address range.  <a href="structpicoboot__range__cmd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__exec2__cmd.html">picoboot_exec2_cmd</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__exclusive__cmd.html">picoboot_exclusive_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for an exclusive-access command.  <a href="structpicoboot__exclusive__cmd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__otp__cmd.html">picoboot_otp_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for an OTP read or write command (not available on RP2040)  <a href="structpicoboot__otp__cmd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structpicoboot__get__info__cmd.html">picoboot_get_info_cmd</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parameters for a get-info command (not available on RP2040)  <a href="structpicoboot__get__info__cmd.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
@@ -218,17 +226,18 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:a8cb7e5f4b3925056daf93a3fc55f189f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a089aa49590ca8ca8ee50e260d396294f"><td class="memItemLeft" align="right" valign="top"><a id="a089aa49590ca8ca8ee50e260d396294f" name="a089aa49590ca8ca8ee50e260d396294f"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>picoboot_exclusive_type</b> { <b>NOT_EXCLUSIVE</b> = 0
-, <b>EXCLUSIVE</b>
-, <b>EXCLUSIVE_AND_EJECT</b>
+<tr class="memitem:ga089aa49590ca8ca8ee50e260d396294f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">picoboot_exclusive_type</a> { <a class="el" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294faf7965a733ae991cc939c36bd1e7e0a50">NOT_EXCLUSIVE</a> = 0
+, <a class="el" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa088b83acb938fbda78ab567a1a6e71e0">EXCLUSIVE</a>
+, <a class="el" href="group__boot__picoboot__headers.html#gga089aa49590ca8ca8ee50e260d396294fa4228e0e9c77cf0a65dc2329cbd747919">EXCLUSIVE_AND_EJECT</a>
  }</td></tr>
-<tr class="separator:a089aa49590ca8ca8ee50e260d396294f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:ga089aa49590ca8ca8ee50e260d396294f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exclusivity level for a PC_EXCLUSIVE_ACCESS command.  <a href="group__boot__picoboot__headers.html#ga089aa49590ca8ca8ee50e260d396294f">More...</a><br /></td></tr>
+<tr class="separator:ga089aa49590ca8ca8ee50e260d396294f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a53a02b321562de1288a42521cdd886bf"><td class="memItemLeft" align="right" valign="top"><a id="a53a02b321562de1288a42521cdd886bf" name="a53a02b321562de1288a42521cdd886bf"></a>
-struct __packed&#160;</td><td class="memItemRight" valign="bottom"><b>__aligned</b> (4) picoboot_cmd</td></tr>
-<tr class="separator:a53a02b321562de1288a42521cdd886bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga53a02b321562de1288a42521cdd886bf"><td class="memItemLeft" align="right" valign="top">struct __packed&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">__aligned</a> (4) picoboot_cmd</td></tr>
+<tr class="memdesc:ga53a02b321562de1288a42521cdd886bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A PICOBOOT command packet sent to the OUT endpoint.  <a href="group__boot__picoboot__headers.html#ga53a02b321562de1288a42521cdd886bf">More...</a><br /></td></tr>
+<tr class="separator:ga53a02b321562de1288a42521cdd886bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

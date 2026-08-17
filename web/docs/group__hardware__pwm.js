@@ -1,5 +1,10 @@
 var group__hardware__pwm =
 [
+    [ "pwm_config", "structpwm__config.html", [
+      [ "csr", "structpwm__config.html#af33db96dff3a325bfb8b22308fbf3f27", null ],
+      [ "div", "structpwm__config.html#a2fa6d7e34245350783f1339034efa9b7", null ],
+      [ "top", "structpwm__config.html#a4e70bcde75ac1170144d6f4d98037efd", null ]
+    ] ],
     [ "PWM_DEFAULT_IRQ_NUM", "group__hardware__pwm.html#ga799affc57db362720ea5f4a5aef381f8", null ],
     [ "PWM_DREQ_NUM", "group__hardware__pwm.html#gab346f319fab9342c66d48bdcc9bb7430", null ],
     [ "PWM_GPIO_SLICE_NUM", "group__hardware__pwm.html#gad7c4554b59132ddd4a9773cca4a27203", null ],

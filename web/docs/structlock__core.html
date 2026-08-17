@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -104,17 +104,26 @@ $(document).ready(function(){initNavTree('structlock__core.html',''); initResiza
 <div class="header">
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
-  <div class="headertitle"><div class="title">lock_core Struct Reference</div></div>
+  <div class="headertitle"><div class="title">lock_core Struct Reference<div class="ingroups"><a class="el" href="group__high__level.html">High Level APIs</a> &raquo; <a class="el" href="group__pico__sync.html">pico_sync</a> &raquo; <a class="el" href="group__lock__core.html">lock_core</a></div></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Core state shared by all lock primitives.  
+ <a href="structlock__core.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="lock__core_8h_source.html">lock_core.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Data Fields</h2></td></tr>
 <tr class="memitem:a02e8b640c69a79995e4a5b39ed457852"><td class="memItemLeft" align="right" valign="top"><a id="a02e8b640c69a79995e4a5b39ed457852" name="a02e8b640c69a79995e4a5b39ed457852"></a>
 spin_lock_t *&#160;</td><td class="memItemRight" valign="bottom"><b>spin_lock</b></td></tr>
+<tr class="memdesc:a02e8b640c69a79995e4a5b39ed457852"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spin lock protecting this lock's state. <br /></td></tr>
 <tr class="separator:a02e8b640c69a79995e4a5b39ed457852"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Core state shared by all lock primitives. </p>
+<p >Contains the spin lock used to protect the internal state of a locking primitive. The spin lock is released before any function returns; it is never held on exit. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/pico/<a class="el" href="lock__core_8h_source.html">lock_core.h</a></li>
 </ul>
 </div><!-- contents -->

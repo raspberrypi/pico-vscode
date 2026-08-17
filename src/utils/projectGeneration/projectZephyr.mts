@@ -305,6 +305,7 @@ async function generateVSCodeConfig(
   // If console is USB, use the local snippet
   if (data.console === "USB") {
     westArgs.push("-S", "usb_serial_port");
+    westArgs.push("-DSNIPPET_ROOT=${workspaceFolder}");
   }
 
   westArgs.push(

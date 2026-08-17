@@ -40,7 +40,7 @@
 		<div class="logo">
 			<a href="index.html"> <img src="logo.svg" alt="Raspberry Pi"></a>
 			<span style="display: inline-block; margin-top: 10px;">
-				v2.1.0
+				v2.3.0
 			</span>
 		</div>
 		<div class="navigation-footer">
@@ -124,7 +124,7 @@ $(document).ready(function(){initNavTree('rp2040_2hardware__structs_2include_2ha
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structrtc__hw__t.html">   26</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span>{</div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    _REG_(RTC_CLKDIV_M1_OFFSET) <span class="comment">// RTC_CLKDIV_M1</span></div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// Divider minus 1 for the 1 second counter</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 0x0000ffff [15:0]  CLKDIV_M1    (0x0000) </span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 0x0000ffff [15:0]  CLKDIV_M1    (0x0000)</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    io_rw_32 clkdiv_m1;</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    _REG_(RTC_SETUP_0_OFFSET) <span class="comment">// RTC_SETUP_0</span></div>
@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('rp2040_2hardware__structs_2include_2ha
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    _REG_(RTC_IRQ_SETUP_0_OFFSET) <span class="comment">// RTC_IRQ_SETUP_0</span></div>
 <div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// Interrupt setup register 0</span></div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 0x20000000 [29]    MATCH_ACTIVE (-) </span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 0x20000000 [29]    MATCH_ACTIVE (-)</span></div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// 0x10000000 [28]    MATCH_ENA    (0) Global match enable</span></div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// 0x04000000 [26]    YEAR_ENA     (0) Enable year matching</span></div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">// 0x02000000 [25]    MONTH_ENA    (0) Enable month matching</span></div>
@@ -182,7 +182,7 @@ $(document).ready(function(){initNavTree('rp2040_2hardware__structs_2include_2ha
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    io_ro_32 rtc_1;</div>
 <div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
 <div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    _REG_(RTC_RTC_0_OFFSET) <span class="comment">// RTC_RTC_0</span></div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="comment">// RTC register 0 +</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="comment">// RTC register 0</span></div>
 <div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="comment">// 0x07000000 [26:24] DOTW         (-) Day of the week</span></div>
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="comment">// 0x001f0000 [20:16] HOUR         (-) Hours</span></div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="comment">// 0x00003f00 [13:8]  MIN          (-) Minutes</span></div>
@@ -191,22 +191,22 @@ $(document).ready(function(){initNavTree('rp2040_2hardware__structs_2include_2ha
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    _REG_(RTC_INTR_OFFSET) <span class="comment">// RTC_INTR</span></div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="comment">// Raw Interrupts</span></div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="comment">// 0x00000001 [0]     RTC          (0) </span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="comment">// 0x00000001 [0]     RTC          (0)</span></div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    io_ro_32 intr;</div>
 <div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    _REG_(RTC_INTE_OFFSET) <span class="comment">// RTC_INTE</span></div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="comment">// Interrupt Enable</span></div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="comment">// 0x00000001 [0]     RTC          (0) </span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="comment">// 0x00000001 [0]     RTC          (0)</span></div>
 <div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    io_rw_32 inte;</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    _REG_(RTC_INTF_OFFSET) <span class="comment">// RTC_INTF</span></div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="comment">// Interrupt Force</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="comment">// 0x00000001 [0]     RTC          (0) </span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="comment">// 0x00000001 [0]     RTC          (0)</span></div>
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    io_rw_32 intf;</div>
 <div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    _REG_(RTC_INTS_OFFSET) <span class="comment">// RTC_INTS</span></div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="comment">// Interrupt status after masking &amp; forcing</span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="comment">// 0x00000001 [0]     RTC          (0) </span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="comment">// 0x00000001 [0]     RTC          (0)</span></div>
 <div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    io_ro_32 ints;</div>
 <div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>} <a class="code hl_struct" href="structrtc__hw__t.html">rtc_hw_t</a>;</div>
 <div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
@@ -214,7 +214,6 @@ $(document).ready(function(){initNavTree('rp2040_2hardware__structs_2include_2ha
 <div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="keyword">static_assert</span>(<span class="keyword">sizeof</span> (<a class="code hl_struct" href="structrtc__hw__t.html">rtc_hw_t</a>) == 0x0030, <span class="stringliteral">&quot;&quot;</span>);</div>
 <div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
 <div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#endif </span><span class="comment">// _HARDWARE_STRUCTS_RTC_H</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
 <div class="ttc" id="aaddress__mapped_8h_html"><div class="ttname"><a href="address__mapped_8h.html">address_mapped.h</a></div></div>
 <div class="ttc" id="astructrtc__hw__t_html"><div class="ttname"><a href="structrtc__hw__t.html">rtc_hw_t</a></div><div class="ttdef"><b>Definition:</b> rtc.h:26</div></div>
 </div><!-- fragment --></div><!-- contents -->
