@@ -29,6 +29,7 @@ CMAKECACHE_FILENAME = "CMakeCache.txt"
 
 ARM_TRIPLE = "arm-none-eabi"
 RISCV_TRIPLE = "riscv32-unknown-elf"
+PICO_TRIPLE = "riscv32-pico-elf"
 COREV_TRIPLE = "riscv32-corev-elf"
 COMPILER_TRIPLE = ARM_TRIPLE
 
@@ -840,8 +841,17 @@ def GenerateCMake(folder, params):
                     for i, line in enumerate(lines):
                         if "${PICO_BTSTACK_PATH}/example/" in line:
                             # Strip path prefix and the now-inaccurate inline comment
-                            lines[i] = re.sub(r"[ \t]*#[^\n]*", "", line.replace("${PICO_BTSTACK_PATH}/example/", "")).rstrip() + "\n"
-                        elif line.strip().startswith("../") and line.strip().split("#")[0].rstrip().endswith(".c"):
+                            lines[i] = (
+                                re.sub(
+                                    r"[ \t]*#[^\n]*",
+                                    "",
+                                    line.replace("${PICO_BTSTACK_PATH}/example/", ""),
+                                ).rstrip()
+                                + "\n"
+                            )
+                        elif line.strip().startswith("../") and line.strip().split("#")[
+                            0
+                        ].rstrip().endswith(".c"):
                             lines[i] = line.replace("../", "")
 
                 # Write all headers
@@ -1530,6 +1540,8 @@ if __name__ == "__main__":
         args.debugger = 0
 
     if "RISCV" in args.toolchainVersion:
+        if "PICO" in args.toolchainVersion:
+            COMPILER_TRIPLE = PICO_TRIPLE
         if "COREV" in args.toolchainVersion:
             COMPILER_TRIPLE = COREV_TRIPLE
         else:

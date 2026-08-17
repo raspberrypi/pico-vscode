@@ -153,12 +153,16 @@ export async function getActiveProjectSupportedToolchain(
 
 export function toolchainTriple(toolchainVersion: string): string {
   if (toolchainVersion.includes("RISCV")) {
-    return toolchainVersion.includes("COREV")
-      ? "riscv32-corev-elf"
-      : "riscv32-unknown-elf";
+    if (toolchainVersion.includes("PICO")) {
+      return "riscv32-pico-elf";
+    } else if (toolchainVersion.includes("COREV")) {
+      return "riscv32-corev-elf";
+    } else {
+      return "riscv32-unknown-elf";
+    }
+  } else {
+    return "arm-none-eabi";
   }
-
-  return "arm-none-eabi";
 }
 
 async function getCmakeProjectPlatform(
