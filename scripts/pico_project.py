@@ -1542,7 +1542,7 @@ if __name__ == "__main__":
     if "RISCV" in args.toolchainVersion:
         if "PICO" in args.toolchainVersion:
             COMPILER_TRIPLE = PICO_TRIPLE
-        if "COREV" in args.toolchainVersion:
+        elif "COREV" in args.toolchainVersion:
             COMPILER_TRIPLE = COREV_TRIPLE
         else:
             COMPILER_TRIPLE = RISCV_TRIPLE
