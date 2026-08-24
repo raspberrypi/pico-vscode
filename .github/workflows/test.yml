@@ -37,3 +37,113 @@ jobs:
       - name: Test Extension (Others)
         if: runner.os != 'Linux'
         run: npm run test
+
+  # The same wired rig will-v-pi/picotool-tests uses: a Pico and a Pico 2, each
+  # with both its native USB port and its own debug probe attached. That's what
+  # lets the erase / run tests actually flash hardware rather than skip.
+  hardware-test:
+    name: Test with hardware (RP2040 + RP2350)
+    runs-on: [self-hosted, linux, arm64, pico, pico2]
+    # One rig, so don't let a burst of pushes stack up jobs on it. Never
+    # cancel-in-progress: that would abandon a board mid-flash.
+    concurrency:
+      group: pico-hardware-rig
+      cancel-in-progress: false
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check for devices
+        # Both probes have to be there: without them the suite still passes,
+        # having quietly skipped every test that touches hardware.
+        timeout-minutes: 2
+        run: |
+          for i in $(seq 1 30); do
+            # lsusb exits non-zero when nothing matches, which -o pipefail
+            # would otherwise turn into an abort with no diagnostics.
+            n=$(lsusb -d 2e8a:000c | wc -l || true)
+            echo "attempt $i: $n debug probe(s) present"
+            [ "$n" -ge 2 ] && break
+            sleep 2
+          done
+          lsusb -d 2e8a: || true
+          if [ "$(lsusb -d 2e8a:000c | wc -l || true)" -lt 2 ]; then
+            echo "::error :: expected two debug probes (2e8a:000c), one per board"
+            exit 1
+          fi
+
+      - name: Check prerequisites
+        # openocd is only needed to work out which board each probe is wired to
+        # (see .vscode-test.js); the extension downloads its own for the tasks.
+        # xvfb because VS Code needs a display. Bounded so an apt lock or a
+        # network stall can't hang the job until the 6-hour default.
+        timeout-minutes: 10
+        run: |
+          sudo apt install -y openocd xvfb libusb-1.0-0-dev build-essential
+          # Give the runner access to the boards and probes over USB. The
+          # distro's rules grant it via TAG+="uaccess" (active login seat only -
+          # a background CI runner has no seat) and MODE=660 GROUP=plugdev, so
+          # neither path works here. Own a separate rules file rather than
+          # sharing picotool-tests', so the two can't clobber each other.
+          echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", MODE:="0666"' | sudo tee /etc/udev/rules.d/99-pico-vscode-ci.rules
+          sudo udevadm control --reload
+          sudo udevadm trigger
+
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup node v22
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        # No global installs on a shared machine, and npm run test needs none.
+        run: npm ci
+
+      - name: Set up token
+        run: |
+          mkdir -p .vscode-test/sampleWorkspace/.vscode
+          echo "{ \"raspberry-pi-pico.githubToken\": \"${{ secrets.GITHUB_TOKEN }}\" }" > .vscode-test/sampleWorkspace/.vscode/settings.json
+
+      - name: Test Extension
+        # A Pi is a lot slower than a hosted runner at both downloading the
+        # toolchain and compiling with it, so stretch the per-test timeouts.
+        timeout-minutes: 120
+        env:
+          PICO_VSCODE_TEST_TIMEOUT_SCALE: '6'
+        run: xvfb-run -a npm run test
+
+      - name: Leave the boards running an application
+        # Always, even after a failure: a test that died between Erase Start and
+        # Run Project leaves its board sitting in BOOTSEL with empty flash, and
+        # this runner misbehaves on its next reset if a board is left that way.
+        # Deliberately not continue-on-error, so a board that's still stuck
+        # fails the job loudly rather than being left for the next one to find.
+        if: always()
+        timeout-minutes: 5
+        run: |
+          picotool=$(ls -1 "$HOME"/.pico-sdk/picotool/*/picotool/picotool 2>/dev/null | tail -1 || true)
+          stuck=0
+          for entry in "0003 pico pico_w" "000f pico2 pico2_w"; do
+            set -- $entry
+            pid=$1
+            shift
+            lsusb -d "2e8a:$pid" > /dev/null 2>&1 || continue
+            echo "board 2e8a:$pid was left in BOOTSEL"
+            # Any blink built for that chip during the run will do - the point
+            # is only to leave valid code in flash so the board boots again.
+            uf2=""
+            for board in "$@"; do
+              uf2=$(ls -1 .vscode-test/sampleWorkspace/projects/*/"$board"/blink/build/blink.uf2 2>/dev/null | tail -1 || true)
+              [ -n "$uf2" ] && break
+            done
+            if [ -z "$uf2" ] || [ -z "$picotool" ]; then
+              echo "::error :: nothing to restore 2e8a:$pid with (picotool='$picotool', uf2='$uf2')"
+              stuck=1
+              continue
+            fi
+            "$picotool" load -x "$uf2" --pid "0x$pid" || stuck=1
+          done
+          exit $stuck
