@@ -113,9 +113,13 @@ jobs:
       - name: Test Extension
         # A Pi is a lot slower than a hosted runner at both downloading the
         # toolchain and compiling with it, so stretch the per-test timeouts.
+        # Worst case measured on the rig: 233s to create the first project
+        # (which downloads everything) against a 300s budget, and 31s to
+        # compile against a 30s one - so a scale of 3 leaves every test at
+        # least 2.9x its slowest observed run.
         timeout-minutes: 120
         env:
-          PICO_VSCODE_TEST_TIMEOUT_SCALE: '6'
+          PICO_VSCODE_TEST_TIMEOUT_SCALE: '3'
         run: |
           # VS Code runs against the desktop session's own display. Only fall
           # back to :0 if the runner's environment doesn't already name one.

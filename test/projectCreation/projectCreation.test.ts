@@ -35,10 +35,9 @@ function pinTasksToBoard(projectPath: string, board: string): void {
 	const serial = rig.probeSerials[chip];
 	const bootselPid = rig.bootselPids[chip];
 	const tasksFile = path.join(projectPath, '.vscode', 'tasks.json');
-	// The generated file has trailing commas: fine for VS Code, not for JSON.parse.
-	const tasks = JSON.parse(
-		fs.readFileSync(tasksFile, 'utf8').replace(/,(\s*[}\]])/g, '$1')
-	) as { tasks: Array<{ command?: string, args?: string[] }> };
+	const tasks = JSON.parse(fs.readFileSync(tasksFile, 'utf8')) as {
+		tasks: Array<{ command?: string, args?: string[] }>
+	};
 
 	for (const task of tasks.tasks) {
 		const args = task.args;

@@ -1279,7 +1279,7 @@ ${{env:PATH}}"
             ],
             "problemMatcher": [],
             "windows": {{
-                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}"
             }}
         }},
         {{
