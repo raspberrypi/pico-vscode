@@ -59,7 +59,7 @@ jobs:
         with:
           name: examples.json
           path: |
-            data/0.18.0/examples.json
+            data/0.22.0/examples.json
       - name: Print diff
         run: |
-          git diff data/0.18.0/examples.json
+          git diff data/0.22.0/examples.json

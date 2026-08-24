@@ -5,7 +5,7 @@ export const WINDOWS_ARM64_PYTHON_DOWNLOAD_URL =
 export const CURRENT_PYTHON_VERSION = "3.13.7";
 export const GET_PIP_URL = "https://bootstrap.pypa.io/get-pip.py";
 
-export const CURRENT_DATA_VERSION = "0.18.0";
+export const CURRENT_DATA_VERSION = "0.22.0";
 export const OPENOCD_VERSION = "0.12.0+dev";
 
 export const WINDOWS_X86_GIT_DOWNLOAD_URL =
