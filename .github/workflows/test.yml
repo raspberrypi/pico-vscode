@@ -38,12 +38,15 @@ jobs:
         if: runner.os != 'Linux'
         run: npm run test
 
-  # The same wired rig will-v-pi/picotool-tests uses: a Pico and a Pico 2, each
-  # with both its native USB port and its own debug probe attached. That's what
-  # lets the erase / run tests actually flash hardware rather than skip.
+  # The same wired rig will-v-pi/picotool-tests runs on: a Pico and a Pico 2,
+  # each with both its native USB port and its own debug probe attached. That's
+  # what lets the erase / run tests actually flash hardware rather than skip.
   hardware-test:
     name: Test with hardware (RP2040 + RP2350)
-    runs-on: [self-hosted, linux, arm64, pico, pico2]
+    # trixie_desktop on top of picotool-tests' own labels: VS Code is an
+    # Electron app, so it needs the GTK stack that the headless image lacks and
+    # xvfb can't substitute for.
+    runs-on: [self-hosted, linux, arm64, pico, pico2, trixie_desktop]
     # One rig, so don't let a burst of pushes stack up jobs on it. Never
     # cancel-in-progress: that would abandon a board mid-flash.
     concurrency:
@@ -75,11 +78,11 @@ jobs:
       - name: Check prerequisites
         # openocd is only needed to work out which board each probe is wired to
         # (see .vscode-test.js); the extension downloads its own for the tasks.
-        # xvfb because VS Code needs a display. Bounded so an apt lock or a
-        # network stall can't hang the job until the 6-hour default.
+        # Bounded so an apt lock or a network stall can't hang the job until the
+        # 6-hour default.
         timeout-minutes: 10
         run: |
-          sudo apt install -y openocd xvfb libusb-1.0-0-dev build-essential
+          sudo apt install -y openocd libusb-1.0-0-dev build-essential
           # Give the runner access to the boards and probes over USB. The
           # distro's rules grant it via TAG+="uaccess" (active login seat only -
           # a background CI runner has no seat) and MODE=660 GROUP=plugdev, so
@@ -113,7 +116,11 @@ jobs:
         timeout-minutes: 120
         env:
           PICO_VSCODE_TEST_TIMEOUT_SCALE: '6'
-        run: xvfb-run -a npm run test
+        run: |
+          # VS Code runs against the desktop session's own display. Only fall
+          # back to :0 if the runner's environment doesn't already name one.
+          export DISPLAY="${DISPLAY:-:0}"
+          npm run test
 
       - name: Leave the boards running an application
         # Always, even after a failure: a test that died between Erase Start and
