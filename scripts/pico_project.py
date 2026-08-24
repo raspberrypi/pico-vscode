@@ -1081,7 +1081,7 @@ def generateProjectFiles(
                 "monitor reset init",
                 "load \\"${{command:raspberry-pi-pico.launchTargetPath}}\\""
             ]
-        }},
+        }}
     ]
 }}
 """
@@ -1147,10 +1147,10 @@ def generateProjectFiles(
             "statusBarVisibility": "hidden"
         }},
         "variant": {{
-            "statusBarVisibility": "{"compact" if useCmakeTools else "hidden"}",
+            "statusBarVisibility": "{"compact" if useCmakeTools else "hidden"}"
         }},
         "buildTarget": {{
-            "statusBarVisibility": "{"visible" if useCmakeTools else "hidden"}",
+            "statusBarVisibility": "{"visible" if useCmakeTools else "hidden"}"
         }}
     }},
     "cmake.configureOnEdit": {"true" if useCmakeTools else "false"},
@@ -1260,7 +1260,7 @@ ${{env:PATH}}"
             ],
             "problemMatcher": [],
             "windows": {{
-                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}"
             }}
         }},
         {{
@@ -1279,7 +1279,7 @@ ${{env:PATH}}"
             ],
             "problemMatcher": [],
             "windows": {{
-                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}"
             }}
         }},
         {{
@@ -1304,7 +1304,7 @@ ${{env:PATH}}"
             ],
             "problemMatcher": [],
             "windows": {{
-                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}",
+                "command": "{openocd_path.replace("${userHome}", "${env:USERPROFILE}") if openocd_path else "openocd"}"
             }}
         }}
     ]
