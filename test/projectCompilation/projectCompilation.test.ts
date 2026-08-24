@@ -26,14 +26,11 @@ suite(`${testName} Project Test Suite`, () => {
 		throw new Error(`${testName} not found in testNames.json`);
 	}
 
-	if (testNames[testName].runBoards.includes(board)) {
-		test(`${testName} Erase Start`, async () => {
-			const result = await vscode.commands.executeCommand("raspberry-pi-pico.testRunTask", "Erase Start") as string;
-			assert.strictEqual(result, "Task completed");
-		});
-	}
-
-	test(`${testName} Compile Project ${type}`, async () => {
+	// Before any test, not just the compile one: fetching a task waits on every
+	// task provider, and CMake Tools' provider doesn't answer until it has a kit
+	// and a launch target. Erase Start used to be the test that discovered that,
+	// timing out instead of running openocd at all.
+	suiteSetup(async () => {
 		if (type === "cmakeTools") {
 			// Wait for a bit
 			await new Promise(resolve => setTimeout(resolve, 5000));
@@ -44,6 +41,16 @@ suite(`${testName} Project Test Suite`, () => {
 			// Select launch target
 			await vscode.commands.executeCommand("cmake.selectLaunchTarget", "", testName);	// takes folder then name, but folder can be empty string
 		}
+	});
+
+	if (testNames[testName].runBoards.includes(board)) {
+		test(`${testName} Erase Start`, async () => {
+			const result = await vscode.commands.executeCommand("raspberry-pi-pico.testRunTask", "Erase Start") as string;
+			assert.strictEqual(result, "Task completed");
+		});
+	}
+
+	test(`${testName} Compile Project ${type}`, async () => {
 		const result = await vscode.commands.executeCommand("raspberry-pi-pico.compileProject") as boolean;
 		assert.strictEqual(result, true);
 		assert.strictEqual(fs.existsSync(path.join(projectPath, "build", `${testName}.elf`)), true);

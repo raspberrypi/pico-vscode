@@ -58,7 +58,16 @@ function pinTasksToBoard(projectPath: string, board: string): void {
 		} else if (command.startsWith('picotool') && !args.includes('--pid')) {
 			// Erase Start leaves the board in BOOTSEL, where its product id is
 			// what tells it apart from the other chip on the rig.
-			args.push('--pid', `0x${bootselPid.toString(16).padStart(4, '0')}`);
+			//
+			// It has to go ahead of the existing flags: picotool rejects any
+			// device selector that follows --force ("unexpected option: --pid"),
+			// and the generated task passes -fx.
+			const firstFlag = args.findIndex(arg => arg.startsWith('-'));
+			args.splice(
+				firstFlag < 0 ? args.length : firstFlag,
+				0,
+				'--pid', `0x${bootselPid.toString(16).padStart(4, '0')}`
+			);
 		}
 	}
 
