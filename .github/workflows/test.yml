@@ -27,6 +27,8 @@ jobs:
           - windows-latest
           - [self-hosted, linux, arm64, trixie_desktop, no_pico, no_pico2]
     runs-on: ${{ matrix.os }}
+    env:
+      PICO_VSCODE_TEST_ZEPHYR: ${{ inputs.run_zephyr_tests && '1' || '0' }}
     steps:
       - name: Check no devices are attached (RPi only)
         if: contains(matrix.os, 'self-hosted')
@@ -38,6 +40,22 @@ jobs:
           if [ "$(lsusb -d 2e8a:000c | wc -l || true)" -gt 0 ]; then
             echo "::error :: a debug probe is attached, so the wrong runner was chosen"
             exit 1
+          fi
+      - name: Install Zephyr requirements
+        if: env.PICO_VSCODE_TEST_ZEPHYR == '1'
+        shell: bash
+        timeout-minutes: 15
+        run: |
+          if [ "$RUNNER_OS" = "macOS" ]; then
+            brew install wget p7zip
+          elif [ "$RUNNER_OS" = "Windows" ]; then
+            # sdk-ng shells out to wget to fetch toolchains. setupFakeWget is
+            # dead code and its directory is commented out of PATH, so Windows
+            # needs a real one just like the other platforms.
+            choco install wget -y --no-progress
+          else
+            sudo apt-get update
+            sudo apt-get install -y wget p7zip-full python3-venv
           fi
       - name: Checkout
         uses: actions/checkout@v5
@@ -60,10 +78,11 @@ jobs:
       - name: Test Extension (self-hosted)
         if: contains(matrix.os, 'self-hosted')
         shell: bash
-        timeout-minutes: 120
+        # 240 rather than 120: with the Zephyr tests on, this runner is wiped
+        # between runs and rebuilds the whole Zephyr workspace, SDK and venv.
+        timeout-minutes: 240
         env:
           PICO_VSCODE_TEST_TIMEOUT_SCALE: '3'
-          PICO_VSCODE_TEST_ZEPHYR: ${{ inputs.run_zephyr_tests && '1' || '0' }}
         run: |
           export DISPLAY="${DISPLAY:-:0}"
           npm run test
