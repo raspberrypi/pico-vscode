@@ -241,7 +241,10 @@ const configs = [
     workspaceFolder: '.vscode-test/sampleWorkspace',
     mocha: {
       ui: 'tdd',
-      timeout: 300000 * timeoutScale, // 5 minutes, as it will download everything
+      // 10 minutes: this downloads the SDK, toolchain, CMake, Ninja and
+      // picotool, so it is bounded by the network rather than the machine.
+      // Typically 70-90s on a hosted runner, but a slow one has exceeded 5.
+      timeout: 600000 * timeoutScale,
     },
   },
 ];
