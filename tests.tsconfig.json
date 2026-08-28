@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "ES2022",
+		"lib": [
+			"ES2022"
+		],
+		"outDir": "out",
+		"sourceMap": true,
+		"strict": true,
+		"rootDir": "test",
+		"types": ["node", "mocha"]
+	},
+	"include": [
+		"test/**/*.ts",
+		"./node_modules/vscode/vscode.d.ts",
+		"./node_modules/vscode/lib/*"
+	]
+}

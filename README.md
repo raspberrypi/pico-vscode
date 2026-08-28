@@ -175,3 +175,11 @@ To test the latest version of the extension, you can download a `.vsix` file fro
 3. Scroll to the bottom of that page and download the artifact (`raspberry-pi-pico-xxxxxxx`)
 4. Unzip that downloaded file to find the `.vsix` files
 5. Install the chosen `.vsix` file using `Ctrl+Shift+P` -> `Extensions: Install from VSIX`
+
+## Test Instructions
+
+First follow the build instructions above, then:
+
+1. Create a `.vscode-test/sampleWorkspace/.vscode/settings.json` file in the project directory, containing your GitHub PAT (eg `{ "raspberry-pi-pico.githubToken": "ghp_xxxxxxxxxxxxxxxxxxxx" }`)
+2. (Optional) Connect a single Pico-series device, with a debug probe attached
+3. Run `npm run test`
