@@ -28,7 +28,9 @@ jobs:
           - [self-hosted, linux, arm64, trixie_desktop, no_pico, no_pico2]
     runs-on: ${{ matrix.os }}
     env:
-      PICO_VSCODE_TEST_ZEPHYR: ${{ inputs.run_zephyr_tests && '1' || '0' }}
+      # TEMPORARY: forced on so every push runs the Zephyr tests. Revert to
+      # ${{ inputs.run_zephyr_tests && '1' || '0' }} before merging.
+      PICO_VSCODE_TEST_ZEPHYR: '1'
     steps:
       - name: Check no devices are attached (RPi only)
         if: contains(matrix.os, 'self-hosted')
