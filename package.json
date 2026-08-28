@@ -298,6 +298,12 @@
         "enablement": "false"
       },
       {
+        "command": "raspberry-pi-pico.testCreateZephyrProject",
+        "title": "Test create Zephyr project",
+        "category": "Raspberry Pi Pico Tests",
+        "enablement": "false"
+      },
+      {
         "command": "raspberry-pi-pico.testRunTask",
         "title": "Test run task",
         "category": "Raspberry Pi Pico Tests",
