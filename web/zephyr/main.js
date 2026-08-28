@@ -6,6 +6,8 @@ const CMD_CANCEL = "cancel";
 const CMD_SET_THEME = "setTheme";
 const CMD_ERROR = "error";
 const CMD_SUBMIT_DENIED = "submitDenied";
+const CMD_WEBVIEW_LOADED = "webviewLoaded";
+const CMD_TEST_CREATE_PROJECT = "testCreateProject";
 
 var submitted = false;
 
@@ -649,6 +651,40 @@ var submitted = false;
       case CMD_SUBMIT_DENIED:
         submitted = false;
         break;
+      case CMD_TEST_CREATE_PROJECT:
+        console.log("testCreateProject", message.value);
+        if (message.value.name) {
+          const nameInput = document.getElementById("inp-project-name");
+          nameInput.value = message.value.name;
+          nameInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+        if (message.value.board) {
+          const boardTypeSelector = document.getElementById("sel-board-type");
+          const option = document.getElementById(
+            `option-board-type-${message.value.board}`
+          );
+          if (boardTypeSelector && option) {
+            boardTypeSelector.value = option.value;
+            // the board drives which templates and features are selectable
+            boardTypeSelector.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+        if (message.value.template) {
+          const templateSelect = document.getElementById("sel-template");
+          if (templateSelect) {
+            templateSelect.value = message.value.template;
+            templateSelect.dispatchEvent(new Event("change", { bubbles: true }));
+          }
+        }
+        if (message.value.console) {
+          const consoleRadio = document.getElementsByName("console-radio");
+          for (let i = 0; i < consoleRadio.length; i++) {
+            consoleRadio[i].checked =
+              consoleRadio[i].value === message.value.console;
+          }
+        }
+        document.getElementById("btn-create").click();
+        break;
       default:
         console.error("Unknown command: " + message.command);
         break;
@@ -678,4 +714,8 @@ var submitted = false;
 
   const pythonVersionRadio = document.getElementsByName("python-version-radio");
   if (pythonVersionRadio.length > 0) pythonVersionRadio[0].checked = true;
+
+  vscode.postMessage({
+    command: CMD_WEBVIEW_LOADED,
+  });
 })();

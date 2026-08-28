@@ -72,6 +72,7 @@ import { UninstallerPanel } from "./webview/uninstallerPanel.mjs";
 import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
 import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
 import TestCreateProjectCommand, {
+  TestCreateZephyrProjectCommand,
   TestRunTaskCommand,
 } from "./commands/testCommands.mjs";
 import { getProjectVariantRegistry } from "./projectVariants/index.mjs";
@@ -150,6 +151,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new GetGitPathCommand(settings),
     new CleanZephyrCommand(),
     new TestCreateProjectCommand(context.extensionUri),
+    new TestCreateZephyrProjectCommand(context.extensionUri),
     new TestRunTaskCommand(),
   ];
 

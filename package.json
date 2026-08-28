@@ -391,7 +391,7 @@
     "lint": "eslint src",
     "compile-tests": "tsc --build tests.tsconfig.json",
     "watch-tests": "tsc --build tests.tsconfig.json --watch",
-    "clean-tests": "node -e \"require('fs').rmSync('out',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/sampleWorkspace/projects',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/user-data',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/extensions',{recursive:true,force:true});\"",
+    "clean-tests": "node -e \"require('fs').rmSync('out',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/sampleWorkspace/projects',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/sampleWorkspace/zephyrProjects',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/user-data',{recursive:true,force:true}); require('fs').rmSync('.vscode-test/extensions',{recursive:true,force:true});\"",
     "pretest": "npm run clean-tests && npm run package && npm run compile-tests",
     "test": "vscode-test"
   },

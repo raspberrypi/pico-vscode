@@ -179,6 +179,10 @@ export class NewZephyrProjectPanel {
               }
             }
             break;
+          case "webviewLoaded":
+            // for tests to detect when the webview is ready for a message
+            NewZephyrProjectPanel._isLoaded = true;
+            break;
           case "cancel":
             this.dispose();
             break;
@@ -363,6 +367,13 @@ export class NewZephyrProjectPanel {
     this._logger.info(
       `Zephyr Project generated at ${projectPath}/${data.projectName}`
     );
+
+    // for tests which don't want to change the workspace folder
+    if (NewZephyrProjectPanel._noOpenFolder) {
+      NewZephyrProjectPanel._isCreated = true;
+
+      return;
+    }
 
     // Open the folder
     void commands.executeCommand(
@@ -898,6 +909,36 @@ export class NewZephyrProjectPanel {
         <script nonce="${nonce}" src="${mainScriptUri.toString()}"></script>
       </body>
     </html>`;
+  }
+
+  // for tests only, to interact with the webview
+  private static _isLoaded: boolean = false;
+  private static _isCreated: boolean = false;
+  public static _noOpenFolder: boolean = false;
+
+  public static async sendTestMessage(message: WebviewMessage): Promise<void> {
+    if (!NewZephyrProjectPanel.currentPanel) {
+      throw new Error("NewZephyrProjectPanel.currentPanel is undefined");
+    }
+    const result =
+      await NewZephyrProjectPanel.currentPanel._panel.webview.postMessage(
+        message
+      );
+    NewZephyrProjectPanel.currentPanel._logger.info(
+      `sendTestMessage result: ${result}`
+    );
+  }
+
+  public static testIfLoaded(): boolean {
+    NewZephyrProjectPanel._isCreated = false;
+
+    return NewZephyrProjectPanel._isLoaded;
+  }
+
+  public static testIfCreated(): boolean {
+    NewZephyrProjectPanel._isLoaded = false;
+
+    return NewZephyrProjectPanel._isCreated;
   }
 }
 

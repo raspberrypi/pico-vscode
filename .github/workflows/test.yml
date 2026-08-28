@@ -3,6 +3,15 @@ name: Test extension
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      run_zephyr_tests:
+        description: >-
+          Also run the Zephyr tests on the self-hosted runner. Off by default:
+          the runner is wiped between runs, so each one rebuilds the whole
+          Zephyr workspace, SDK and venv from scratch.
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -54,6 +63,7 @@ jobs:
         timeout-minutes: 120
         env:
           PICO_VSCODE_TEST_TIMEOUT_SCALE: '3'
+          PICO_VSCODE_TEST_ZEPHYR: ${{ inputs.run_zephyr_tests && '1' || '0' }}
         run: |
           export DISPLAY="${DISPLAY:-:0}"
           npm run test

@@ -1,6 +1,7 @@
 import { CommandWithResultAndArgs } from "./command.mjs";
 import { Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
+import { NewZephyrProjectPanel } from "../webview/newZephyrProjectPanel.mjs";
 import { workspace, tasks } from "vscode";
 import Logger from "../logger.mjs";
 import { EventEmitter } from "events";
@@ -58,6 +59,62 @@ export default class TestCreateProjectCommand
   }
 }
 
+
+export class TestCreateZephyrProjectCommand
+    extends CommandWithResultAndArgs<string> {
+  constructor(private readonly _extensionUri: Uri) {
+    super("testCreateZephyrProject");
+  }
+
+  async execute(
+    name: string,
+    board: string,
+    template: string = "simple",
+    consoleType: string = "UART"
+  ): Promise<string> {
+    const projectUri = workspace.workspaceFolders?.[0]?.uri;
+    if (!projectUri) {
+      return "No project URI";
+    }
+    Logger.log(`Project URI: ${projectUri.toString()}`);
+
+    // one directory per board, so the same project name can be built for each
+    const fspathUri = Uri.file(
+      projectUri.fsPath + `/zephyrProjects/${board}`
+    );
+    Logger.log(`fspath URI: ${fspathUri.toString()}`);
+
+    NewZephyrProjectPanel._noOpenFolder = true;
+
+    NewZephyrProjectPanel.createOrShow(this._extensionUri, fspathUri);
+    while (!NewZephyrProjectPanel.testIfLoaded()) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    await NewZephyrProjectPanel.sendTestMessage({
+      command: "testCreateProject",
+      value: {
+        name: name,
+        board: board,
+        template: template,
+        console: consoleType,
+      },
+    });
+
+    // Zephyr setup downloads a workspace, an SDK and a venv on first run, so
+    // this can sit here for a long time before the project appears
+    while (!NewZephyrProjectPanel.testIfCreated()) {
+      Logger.log("Waiting for Zephyr project to be created");
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    Logger.log("Zephyr project created");
+
+    return "Project created";
+  }
+}
 
 export class TestRunTaskCommand extends CommandWithResultAndArgs<string> {
   constructor() {

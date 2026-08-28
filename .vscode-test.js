@@ -35,6 +35,14 @@ const openocdInterface =
 // let the rig stretch every timeout instead of hard-coding the worst case.
 const timeoutScale = Number(process.env.PICO_VSCODE_TEST_TIMEOUT_SCALE) || 1;
 
+// Zephyr sets up a whole workspace, SDK and venv on first run, so these are
+// opt-in: set PICO_VSCODE_TEST_ZEPHYR=1 to include them.
+const runZephyrTests = process.env.PICO_VSCODE_TEST_ZEPHYR === '1';
+const zephyrTests = [
+  { name: 'zephyr_hello', board: 'pico', template: 'simple', console: 'UART' },
+  { name: 'zephyr_blinky', board: 'pico2', template: 'blinky', console: 'UART' },
+];
+
 const testNames = {
   'blink': {
     'name': 'blink',
@@ -253,6 +261,31 @@ for (const testName of Object.values(testNames)) {
   configs.push(...getProjectTestConfigs(name, boards, cmakeToolsOptions));
 }
 
+if (runZephyrTests) {
+  configs.push({
+    name: `Zephyr Project Creation Tests`,
+    files: `out/zephyrProjectCreation/*.test.js`,
+    workspaceFolder: '.vscode-test/sampleWorkspace',
+    mocha: {
+      ui: 'tdd',
+      // the first one installs the Zephyr workspace, SDK and venv from scratch
+      timeout: 3600000 * timeoutScale,
+    },
+  });
+
+  for (const { name, board } of zephyrTests) {
+    configs.push({
+      name: `${name} Zephyr Project Compilation Test`,
+      files: `out/zephyrProjectCompilation/*.test.js`,
+      workspaceFolder: `.vscode-test/sampleWorkspace/zephyrProjects/${board}/${name}`,
+      mocha: {
+        ui: 'tdd',
+        timeout: 600000 * timeoutScale,
+      },
+    });
+  }
+}
+
 // How the hardware is wired up, for the project creation tests to pin each new
 // project's tasks to the board it was created for.
 const rig = {
@@ -264,5 +297,8 @@ const rig = {
 fs.writeFileSync('out/projectCreation/testNames.json', JSON.stringify(testNames));
 fs.writeFileSync('out/projectCompilation/testNames.json', JSON.stringify(testNames));
 fs.writeFileSync('out/projectCreation/rig.json', JSON.stringify(rig));
+if (runZephyrTests) {
+  fs.writeFileSync('out/zephyrProjectCreation/zephyrTests.json', JSON.stringify(zephyrTests));
+}
 
 module.exports = defineConfig(configs);
