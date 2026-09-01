@@ -1332,6 +1332,28 @@ export async function setupZephyr(
         return false;
       }
 
+      // Before zephyr-export, matching the order in Zephyr's getting-started:
+      // the export command imports build_helpers, which has imported jsonschema
+      // since zephyrproject-rtos/zephyr@0f07a53.
+      installedSuccessfully = await installWestPyDeps(
+        westExe,
+        zephyrWorkspaceDirectory,
+        customEnv
+      );
+      if (!installedSuccessfully) {
+        progress.report({
+          message: "Failed",
+          increment: 100,
+        });
+        void window.showErrorMessage(
+          "Failed to install West Python dependencies. " +
+            "Cannot continue Zephyr setup. " +
+            "See extension host output for more details."
+        );
+
+        return false;
+      }
+
       const zephyrExportCommand: string = `"${westExe}" zephyr-export`;
       Logger.info(LoggerSource.zephyrSetup, "Exporting Zephyr CMake Files...");
 
@@ -1351,25 +1373,6 @@ export async function setupZephyr(
           increment: 100,
         });
         void window.showErrorMessage("Error exporting Zephyr CMake files.");
-
-        return false;
-      }
-
-      installedSuccessfully = await installWestPyDeps(
-        westExe,
-        zephyrWorkspaceDirectory,
-        customEnv
-      );
-      if (!installedSuccessfully) {
-        progress.report({
-          message: "Failed",
-          increment: 100,
-        });
-        void window.showErrorMessage(
-          "Failed to install West Python dependencies. " +
-            "Cannot continue Zephyr setup. " +
-            "See extension host output for more details."
-        );
 
         return false;
       }
