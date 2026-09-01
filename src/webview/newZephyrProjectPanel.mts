@@ -246,8 +246,18 @@ export class NewZephyrProjectPanel {
                     data.projectName ?? "undefined"
                   } in ${this._projectRoot?.fsPath}...`,
                 },
-                async progress =>
-                  this._generateProjectOperation(progress, data, message)
+                async progress => {
+                  await this._generateProjectOperation(progress, data, message);
+                  // every failure path in there just returns, so for tests
+                  // treat "finished without creating" as a failure rather than
+                  // leaving them to wait out their timeout
+                  if (
+                    NewZephyrProjectPanel._noOpenFolder &&
+                    !NewZephyrProjectPanel._isCreated
+                  ) {
+                    NewZephyrProjectPanel._isFailed = true;
+                  }
+                }
               );
             }
             break;
@@ -914,9 +924,11 @@ export class NewZephyrProjectPanel {
   // for tests only, to interact with the webview
   private static _isLoaded: boolean = false;
   private static _isCreated: boolean = false;
+  private static _isFailed: boolean = false;
   public static _noOpenFolder: boolean = false;
 
   public static async sendTestMessage(message: WebviewMessage): Promise<void> {
+    NewZephyrProjectPanel._isFailed = false;
     if (!NewZephyrProjectPanel.currentPanel) {
       throw new Error("NewZephyrProjectPanel.currentPanel is undefined");
     }
@@ -939,6 +951,10 @@ export class NewZephyrProjectPanel {
     NewZephyrProjectPanel._isLoaded = false;
 
     return NewZephyrProjectPanel._isCreated;
+  }
+
+  public static testIfFailed(): boolean {
+    return NewZephyrProjectPanel._isFailed;
   }
 }
 

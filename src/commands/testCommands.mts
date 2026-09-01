@@ -106,6 +106,11 @@ export class TestCreateZephyrProjectCommand
     // Zephyr setup downloads a workspace, an SDK and a venv on first run, so
     // this can sit here for a long time before the project appears
     while (!NewZephyrProjectPanel.testIfCreated()) {
+      if (NewZephyrProjectPanel.testIfFailed()) {
+        Logger.log("Zephyr project creation failed");
+
+        return "Project creation failed";
+      }
       Logger.log("Waiting for Zephyr project to be created");
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
