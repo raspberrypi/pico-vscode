@@ -1,0 +1,4 @@
+{
+  "_comment": "Set to today's date (YYYY-MM-DD) to offer the pre-release build to release users. Each user is asked once per value. Set to null to stop asking.",
+  "promptSince": "2026-09-01"
+}

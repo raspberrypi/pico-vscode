@@ -47,6 +47,7 @@ export enum LoggerSource {
   zephyrSetup = "setupZephyr",
   projectZephyr = "projectZephyr",
   uninstallUtil = "uninstallUtil",
+  preReleasePrompt = "preReleasePrompt",
 }
 
 /**

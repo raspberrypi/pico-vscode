@@ -14,6 +14,7 @@ import {
 } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger, { LoggerSource } from "./logger.mjs";
+import { promptForPreRelease } from "./utils/preReleasePrompt.mjs";
 import Settings, { type PackageJSON } from "./settings.mjs";
 import UI from "./ui.mjs";
 import SwitchSDKCommand from "./commands/switchSDK.mjs";
@@ -94,6 +95,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
   );
   GithubApiCache.createInstance(context);
   LastUsedDepsStore.instance.setup(context.globalState);
+
+  void promptForPreRelease(context);
 
   const picoProjectActivityBarProvider = new PicoProjectActivityBar();
   const ui = new UI(picoProjectActivityBarProvider);

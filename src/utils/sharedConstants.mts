@@ -23,6 +23,10 @@ export const EXAMPLES_JSON_URL =
 export const EXAMPLES_GITREF = "c81c855ffdedc825975a40ba357723a71358ddf0";
 export const EXAMPLES_TAG = "sdk-2.3.0";
 
+// Not under the data version, so it reaches users on any of them
+export const PRE_RELEASE_PROMPT_URL =
+  "https://raspberrypi.github.io/pico-vscode/preReleasePrompt.json";
+
 export const VERSION_BUNDLES_URL =
   "https://raspberrypi.github.io/pico-vscode/" +
   `${CURRENT_DATA_VERSION}/versionBundles.json`;
