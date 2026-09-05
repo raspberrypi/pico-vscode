@@ -67,5 +67,17 @@
         "toolchain": "13_2_Rel1"
       }
     }
+  },
+  "2.3.1": {
+    "ninja": "v1.13.2",
+    "cmake": "v4.3.4",
+    "picotool": "2.3.1",
+    "toolchain": "15_2_Rel1",
+    "riscvToolchain": "RISCV_PICO_2_3_1_0",
+    "modifiers": {
+      "darwin_x64": {
+        "toolchain": "13_2_Rel1"
+      }
+    }
   }
 }
