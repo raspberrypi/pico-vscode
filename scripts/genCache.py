@@ -109,8 +109,10 @@ for k, v in ret.items():
     print(f"{k} is {stuff.GithubRepository[idx]}")
     if isinstance(v, list):
         print(v)
-    else:
+    elif v["assets"]:
         print(v["assets"][0])
+    else:
+        print("no assets")
 
 with open(f"data/{stuff.CURRENT_DATA_VERSION}/github-cache.json", "w") as f:
     json.dump(ret, f, indent=2)
