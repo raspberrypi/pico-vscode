@@ -4,11 +4,20 @@ All notable changes to the "raspberry-pi-pico" extension will be documented in t
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [0.22.0] - 2026-08-28
+
+### Added
+- Support for RISCV_PICO toolchains
 
 ### Fixed
 - Fixed toolchain version parsing when CMakeLists.txt has a trailing comment on the `sdkVersion`/`toolchainVersion`/`picotoolVersion` lines (#274)
 - Guard against a crash when downloading the toolchain if a toolchain has no download URL for the current platform
+- Fix updating the examples repository (#273)
+- Don't fail when a system Ninja is installed but cannot be run, such as a `ninja.bat` on Windows (#276)
+- Remove trailing commas from the generated `.vscode` JSON files, so they can be read by a strict JSON parser
+
+### Changed
+- Use the RISCV_PICO_2_3_0_1 toolchain for SDK 2.3.0
 
 ## [0.21.0] - 2026-07-03
 
