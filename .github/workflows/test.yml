@@ -1,0 +1,153 @@
+name: Test extension
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+          - windows-latest
+          - [self-hosted, linux, arm64, trixie_desktop, no_pico, no_pico2]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check no devices are attached (RPi only)
+        if: contains(matrix.os, 'self-hosted')
+        shell: bash
+        timeout-minutes: 2
+        run: |
+          # lsusb exits non-zero when nothing matches
+          lsusb -d 2e8a: || true
+          if [ "$(lsusb -d 2e8a:000c | wc -l || true)" -gt 0 ]; then
+            echo "::error :: a debug probe is attached, so the wrong runner was chosen"
+            exit 1
+          fi
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Setup node v22
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+      - name: Install Dependencies
+        run: |
+          npm ci
+      - name: Set up token
+        shell: bash
+        run: |
+          mkdir -p .vscode-test/sampleWorkspace/.vscode
+          echo "{ \"raspberry-pi-pico.githubToken\": \"${{ secrets.GITHUB_TOKEN }}\" }" > .vscode-test/sampleWorkspace/.vscode/settings.json
+      - name: Test Extension (Linux)
+        if: runner.os == 'Linux' && !contains(matrix.os, 'self-hosted')
+        run: xvfb-run -a npm run test
+      - name: Test Extension (self-hosted)
+        if: contains(matrix.os, 'self-hosted')
+        shell: bash
+        timeout-minutes: 120
+        env:
+          PICO_VSCODE_TEST_TIMEOUT_SCALE: '3'
+        run: |
+          export DISPLAY="${DISPLAY:-:0}"
+          npm run test
+      - name: Test Extension (Others)
+        if: runner.os != 'Linux'
+        run: npm run test
+
+  # The wired rig picotool-tests runs on: a Pico and a Pico 2, each with its
+  # native USB port and its own debug probe attached
+  hardware-test:
+    name: Test with hardware (RP2040 + RP2350)
+    # trixie_desktop because VS Code is an Electron app and needs the GTK stack
+    runs-on: [self-hosted, linux, arm64, pico, pico2, trixie_desktop]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check for devices
+        # Without both probes the hardware tests would quietly skip
+        timeout-minutes: 2
+        run: |
+          for i in $(seq 1 30); do
+            # lsusb exits non-zero when nothing matches
+            n=$(lsusb -d 2e8a:000c | wc -l || true)
+            echo "attempt $i: $n debug probe(s) present"
+            [ "$n" -ge 2 ] && break
+            sleep 2
+          done
+          lsusb -d 2e8a: || true
+          if [ "$(lsusb -d 2e8a:000c | wc -l || true)" -lt 2 ]; then
+            echo "::error :: expected two debug probes (2e8a:000c), one per board"
+            exit 1
+          fi
+
+      - name: Check prerequisites
+        # openocd only to work out which board each probe is wired to
+        timeout-minutes: 10
+        run: |
+          sudo apt install -y openocd libusb-1.0-0-dev build-essential
+          # The distro rules grant USB access via uaccess and plugdev, neither of which covers a CI runner
+          echo 'SUBSYSTEM=="usb", ATTRS{idVendor}=="2e8a", MODE:="0666"' | sudo tee /etc/udev/rules.d/99-pico-vscode-ci.rules
+          sudo udevadm control --reload
+          sudo udevadm trigger
+
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup node v22
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+
+      - name: Set up token
+        run: |
+          mkdir -p .vscode-test/sampleWorkspace/.vscode
+          echo "{ \"raspberry-pi-pico.githubToken\": \"${{ secrets.GITHUB_TOKEN }}\" }" > .vscode-test/sampleWorkspace/.vscode/settings.json
+
+      - name: Test Extension
+        # A Pi is slow: 233s to create the first project, 31s to compile
+        timeout-minutes: 120
+        env:
+          PICO_VSCODE_TEST_TIMEOUT_SCALE: '3'
+        run: |
+          export DISPLAY="${DISPLAY:-:0}"
+          npm run test
+
+      - name: Leave the boards running an application
+        # A test that dies between Erase Start and Run Project leaves its board in BOOTSEL
+        if: always()
+        timeout-minutes: 5
+        run: |
+          picotool=$(ls -1 "$HOME"/.pico-sdk/picotool/*/picotool/picotool 2>/dev/null | tail -1 || true)
+          stuck=0
+          for entry in "0003 pico pico_w" "000f pico2 pico2_w"; do
+            set -- $entry
+            pid=$1
+            shift
+            lsusb -d "2e8a:$pid" > /dev/null 2>&1 || continue
+            echo "board 2e8a:$pid was left in BOOTSEL"
+            uf2=""
+            for board in "$@"; do
+              uf2=$(ls -1 .vscode-test/sampleWorkspace/projects/*/"$board"/blink/build/blink.uf2 2>/dev/null | tail -1 || true)
+              [ -n "$uf2" ] && break
+            done
+            if [ -z "$uf2" ] || [ -z "$picotool" ]; then
+              echo "::error :: nothing to restore 2e8a:$pid with (picotool='$picotool', uf2='$uf2')"
+              stuck=1
+              continue
+            fi
+            "$picotool" load -x "$uf2" --pid "0x$pid" || stuck=1
+          done
+          exit $stuck
