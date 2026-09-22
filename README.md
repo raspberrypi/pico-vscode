@@ -60,6 +60,8 @@ This command installs all of the necessary tools, including but not limited to:
 - **Git 2.28 or later** (ensure it's in your PATH)
 - **Tar** (ensure it's in your PATH)
 
+You may also need to accept the xcode license with `sudo xcodebuild -license`
+
 ### Other Linux
 - **Python 3.10 or later** (ensure it’s in your PATH or set in settings)
 - **Git 2.28 or later** (ensure it’s in your PATH)
