@@ -37,6 +37,7 @@ export enum LoggerSource {
   examples = "examplesUtil",
   githubApiCache = "githubApiCache",
   extension = "extension",
+  compileProject = "compileProject",
   cmake = "cmakeUtil",
   downloadHelper = "downloadHelper",
   pythonHelper = "pythonHelper",

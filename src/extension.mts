@@ -11,6 +11,7 @@ import {
   type Command,
   type CommandWithArgs,
   type CommandWithResult,
+  type CommandWithResultAndArgs,
 } from "./commands/command.mjs";
 import NewProjectCommand from "./commands/newProject.mjs";
 import Logger, { LoggerSource } from "./logger.mjs";
@@ -70,6 +71,9 @@ import { getWebviewOptions } from "./webview/sharedFunctions.mjs";
 import { UninstallerPanel } from "./webview/uninstallerPanel.mjs";
 import OpenUninstallerCommand from "./commands/openUninstaller.mjs";
 import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
+import TestCreateProjectCommand, {
+  TestRunTaskCommand,
+} from "./commands/testCommands.mjs";
 import { getProjectVariantRegistry } from "./projectVariants/index.mjs";
 import { setProjectContext } from "./projectVariants/common.mjs";
 import type {
@@ -105,6 +109,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     | CommandWithResult<string | undefined>
     | CommandWithResult<boolean>
     | CommandWithArgs
+    | CommandWithResultAndArgs<string>
   > = [
     new NewProjectCommand(context.extensionUri),
     new SwitchSDKCommand(ui, context.extensionUri),
@@ -144,6 +149,8 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new OpenUninstallerCommand(context.extensionUri),
     new GetGitPathCommand(settings),
     new CleanZephyrCommand(),
+    new TestCreateProjectCommand(context.extensionUri),
+    new TestRunTaskCommand(),
   ];
 
   // register all command handlers

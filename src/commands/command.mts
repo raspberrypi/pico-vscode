@@ -52,3 +52,20 @@ export abstract class CommandWithArgs {
 
   abstract execute(...args: unknown[]): Promise<void> | void;
 }
+
+export abstract class CommandWithResultAndArgs<T> {
+  private readonly commandId: string;
+
+  protected constructor(commandId: string) {
+    this.commandId = commandId;
+  }
+
+  register(): Disposable {
+    return commands.registerCommand(
+      extensionName + "." + this.commandId,
+      this.execute.bind(this)
+    );
+  }
+
+  abstract execute(...args: unknown[]): Promise<T> | T;
+}
