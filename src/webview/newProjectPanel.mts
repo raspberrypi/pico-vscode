@@ -2364,7 +2364,7 @@ export class NewProjectPanel {
               options.projectRoot.lastIndexOf("/")
             )
           : isWindows
-          ? options.projectRoot
+          ? options.projectRoot.replaceAll("\\", "/")
           : options.projectRoot.replaceAll("\\", "\\\\")
       }"`,
       "--userHome",
