@@ -266,6 +266,11 @@ export async function configureCmakeNinja(
           for (const snippet of snippets) {
             zephyrCommand += ` -S ${snippet}`;
           }
+          if (snippets.length > 0) {
+            zephyrCommand +=
+              ` -- -DSNIPPET_ROOT=` +
+              `"${folder.fsPath.replaceAll("\\", "/")}"`;
+          }
         }
 
         await new Promise<void>((resolve, reject) => {
