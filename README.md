@@ -113,7 +113,6 @@ For further context, see this discussion in the Zephyr project: https://github.c
 
 * Must allow PowerShell script execution to activate the virtual environment - this can be done by running the following commands from an Administrator PowerShell:
 ```
-Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
