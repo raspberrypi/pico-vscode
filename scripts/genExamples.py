@@ -171,6 +171,21 @@ if BUILD_TOOLS:
     os.system(f"cmake --build pioasm-build")
     os.system(f"cmake --install pioasm-build --prefix ~/.pico-sdk/tools/{SDK_VERSION}")
 
+    # Build ffsgen (if present)
+    try:
+        shutil.rmtree("ffsgen-build")
+    except FileNotFoundError:
+        pass
+    try:
+        shutil.rmtree(os.path.expanduser(f"~/.pico-sdk/tools/{SDK_VERSION}"))
+    except FileNotFoundError:
+        pass
+    os.system(
+        f"cmake -S ~/.pico-sdk/sdk/{SDK_VERSION}/tools/ffsgen -B ffsgen-build -GNinja -DFFSGEN_FLAT_INSTALL=1 -DFFSGEN_VERSION_STRING={SDK_VERSION}"
+    )
+    os.system(f"cmake --build ffsgen-build")
+    os.system(f"cmake --install ffsgen-build --prefix ~/.pico-sdk/tools/{SDK_VERSION}")
+
 try:
     shutil.rmtree("pico-examples")
 except FileNotFoundError:
