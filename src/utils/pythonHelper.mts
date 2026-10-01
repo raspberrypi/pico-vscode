@@ -1,6 +1,6 @@
 import Settings, { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { PythonExtension } from "@vscode/python-extension";
-import { downloadEmbedPython } from "./download.mjs";
+import { buildPython3Path, downloadEmbedPython } from "./download.mjs";
 import { pyenvInstallPython, setupPyenv } from "./pyenvUtil.mjs";
 import { commands, ProgressLocation, window } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
@@ -9,6 +9,7 @@ import { unknownErrorToString } from "./errorHelper.mjs";
 import type { Progress as GotProgress } from "got";
 import { existsSync } from "fs";
 import { homedir } from "os";
+import { join as joinPosix } from "path/posix";
 import { extensionName } from "../commands/command.mjs";
 import { ZEPHYR_PYTHON_VERSION } from "./sharedConstants.mjs";
 
@@ -155,6 +156,19 @@ export default async function findPython(
             undefined
           );
         }
+      }
+
+      // Use the requested version if it has already been downloaded, rather
+      // than searching the Python extension again every time
+      if (
+        version &&
+        (process.platform === "darwin" || process.platform === "win32") &&
+        existsSync(joinPosix(buildPython3Path(version), "python.exe"))
+      ) {
+        pythonPath = `${HOME_VAR}/.pico-sdk/python/${version}/python.exe`;
+        await persistPythonPath(pythonPath);
+
+        return pythonPath;
       }
 
       // Check python extension for any python environments with version >= 3.9
