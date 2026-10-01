@@ -10,6 +10,7 @@ import type { Progress as GotProgress } from "got";
 import { existsSync } from "fs";
 import { homedir } from "os";
 import { extensionName } from "../commands/command.mjs";
+import { ZEPHYR_PYTHON_VERSION } from "./sharedConstants.mjs";
 
 function checkUnsupportedPython(pythonPath: string): boolean {
   // Problems seem to occur on some Windows systems when using the Windows Store Python
@@ -68,6 +69,19 @@ export default async function findPython(
       cancellable: false,
     },
     async progress => {
+      // A valid Python from the user settings that doesn't match the requested
+      // exact version. The setting is shared with non-Zephyr projects, so it is
+      // kept (and not overwritten) and used as the fallback where applicable.
+      let userSettingFallback: string | undefined;
+      const persistPythonPath = async (path: string): Promise<void> => {
+        if (userSettingFallback === undefined) {
+          await Settings.getInstance()?.updateGlobal(
+            SettingsKey.python3Path,
+            path
+          );
+        }
+      };
+
       // Check if python path is set in user settings
       let pythonPath = findPythonPathInUserSettings()?.replace(
         HOME_VAR,
@@ -96,6 +110,18 @@ export default async function findPython(
               checkPythonVersionRaw(versionOutput[1], exactVersion)
             ) {
               return pythonPath;
+            } else if (
+              exactVersion &&
+              versionOutput.length === 2 &&
+              checkPythonVersionRaw(versionOutput[1])
+            ) {
+              Logger.info(
+                LoggerSource.pythonHelper,
+                "Python in user settings does not match requested version " +
+                  `${exactVersion.major}.${exactVersion.minor}:`,
+                versionOutput
+              );
+              userSettingFallback = pythonPath;
             } else {
               Logger.warn(
                 LoggerSource.pythonHelper,
@@ -151,10 +177,7 @@ export default async function findPython(
       });
 
       if (pythonPath) {
-        await Settings.getInstance()?.updateGlobal(
-          SettingsKey.python3Path,
-          pythonPath
-        );
+        await persistPythonPath(pythonPath);
 
         return pythonPath;
       }
@@ -172,10 +195,7 @@ export default async function findPython(
               if (await setupPyenv()) {
                 pythonPath = (await pyenvInstallPython(version)) ?? undefined;
                 if (pythonPath) {
-                  await Settings.getInstance()?.updateGlobal(
-                    SettingsKey.python3Path,
-                    pythonPath
-                  );
+                  await persistPythonPath(pythonPath);
 
                   return pythonPath;
                 }
@@ -209,10 +229,7 @@ export default async function findPython(
               version
             );
             if (pythonPath) {
-              await Settings.getInstance()?.updateGlobal(
-                SettingsKey.python3Path,
-                pythonPath
-              );
+              await persistPythonPath(pythonPath);
 
               return pythonPath;
             }
@@ -228,23 +245,26 @@ export default async function findPython(
         process.platform !== "darwin" &&
         process.platform !== "win32"
       ) {
-        const awaitFallback = findPythonInPythonExtension(undefined, true);
-        const onFallbackTimeout = new Promise<string>(resolve => {
-          setTimeout(resolve, 30000, "timeout");
-        });
+        if (userSettingFallback !== undefined) {
+          pythonPath = userSettingFallback;
+        } else {
+          const awaitFallback = findPythonInPythonExtension(undefined, true);
+          const onFallbackTimeout = new Promise<string>(resolve => {
+            setTimeout(resolve, 30000, "timeout");
+          });
 
-        await Promise.race([awaitFallback, onFallbackTimeout]).then(value => {
-          if (value !== "timeout") {
-            pythonPath = value;
-          }
-        });
+          await Promise.race([awaitFallback, onFallbackTimeout]).then(
+            value => {
+              if (value !== "timeout") {
+                pythonPath = value;
+              }
+            }
+          );
+        }
 
         if (pythonPath) {
           void window.showWarningMessage(versionFallbackMessage);
-          await Settings.getInstance()?.updateGlobal(
-            SettingsKey.python3Path,
-            pythonPath
-          );
+          await persistPythonPath(pythonPath);
 
           return pythonPath;
         }
@@ -393,10 +413,10 @@ export function showPythonNotFoundError(
 }
 
 export function showZephyrPythonNotFoundError(): void {
+  const version = ZEPHYR_PYTHON_VERSION.split(".").slice(0, 2).join(".");
   showPythonNotFoundError(
-    "Failed to find a Python 3.12 installation. " +
-      "Zephyr requires exactly Python 3.12 — " +
-      "other versions are not supported. " +
+    `Failed to find a Python ${version} installation. ` +
+      `Zephyr requires Python ${version}. ` +
       "You can set a Python executable directly in your " +
       "user settings or select in the Python extension."
   );

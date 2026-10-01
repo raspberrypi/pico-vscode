@@ -991,9 +991,9 @@ export async function setupZephyr(
       // install python (if necessary)
       const python3Path = (await findPython(
         ZEPHYR_PYTHON_VERSION,
-        "Python 3.12 is strongly recommended for Zephyr. " +
-          "Other versions may fail to install required packages. " +
-          "Consider installing Python 3.12 for full compatibility."
+        `Python ${ZEPHYR_PYTHON_VERSION.split(".").slice(0, 2).join(".")} ` +
+          "is strongly recommended for Zephyr. " +
+          "Other versions may fail to install required packages."
       ))?.replace(
         HOME_VAR,
         homedir().replaceAll("\\", "/")
