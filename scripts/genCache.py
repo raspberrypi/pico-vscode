@@ -46,7 +46,7 @@ print("Num repos", num_repos)
 
 # Only provide data for these versions
 versions = [
-    ["1.5.1", "2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.3.0"],  # SDK
+    ["1.5.1", "2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.3.0", "2.3.1"],  # SDK
     ["v3.28.6", "v3.29.6", "v3.29.9", "v3.31.5", "v4.3.4"],  # CMake
     ["v1.12.1", "v1.13.2"],  # Ninja
     [
@@ -65,8 +65,9 @@ versions = [
         "v2.2.0-2",
         "v2.2.0-3",
         "v2.3.0-0",
+        "v2.3.1-0",
     ],  # pico-sdk-tools
-    ["2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.2.0-a4", "2.3.0"],  # picotool
+    ["2.0.0", "2.1.0", "2.1.1", "2.2.0", "2.2.0-a4", "2.3.0", "2.3.1"],  # picotool
     ["v4.2.0"],  # zephyr
 ]
 
@@ -108,8 +109,10 @@ for k, v in ret.items():
     print(f"{k} is {stuff.GithubRepository[idx]}")
     if isinstance(v, list):
         print(v)
-    else:
+    elif v["assets"]:
         print(v["assets"][0])
+    else:
+        print("no assets")
 
 with open(f"data/{stuff.CURRENT_DATA_VERSION}/github-cache.json", "w") as f:
     json.dump(ret, f, indent=2)

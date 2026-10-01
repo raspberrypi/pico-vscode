@@ -45,7 +45,7 @@ import { compare, compareGe } from "../utils/semverUtil.mjs";
 import { updateZephyrVersion } from "../utils/setupZephyr.mjs";
 import Settings, { SettingsKey } from "../settings.mjs";
 
-const DEFAULT_PICOTOOL_VERSION = "2.3.0";
+const DEFAULT_PICOTOOL_VERSION = "2.3.1";
 
 export interface AdvancedSwitchSDKOptions {
   toolchainVersion: { label: string; toolchain: SupportedToolchainVersion };

@@ -4,6 +4,11 @@ All notable changes to the "raspberry-pi-pico" extension will be documented in t
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.23.0] - 2026-09-05
+
+### Added
+- Support for SDK 2.3.1
+
 ## [0.22.0] - 2026-08-28
 
 ### Added

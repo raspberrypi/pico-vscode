@@ -60,6 +60,8 @@ This command installs all of the necessary tools, including but not limited to:
 - **Git 2.28 or later** (ensure it's in your PATH)
 - **Tar** (ensure it's in your PATH)
 
+You may also need to accept the xcode license with `sudo xcodebuild -license`
+
 ### Other Linux
 - **Python 3.10 or later** (ensure it’s in your PATH or set in settings)
 - **Git 2.28 or later** (ensure it’s in your PATH)
@@ -111,9 +113,8 @@ For further context, see this discussion in the Zephyr project: https://github.c
 
 ### Windows only
 
-* Must allow PowerShell script execution to activate the virtual environment - this can be done by running the following commands from an Administrator PowerShell:
-```
-Set-ExecutionPolicy RemoteSigned -Scope LocalMachine
+* Must allow PowerShell script execution to activate the virtual environment - this can be done by running the following command in PowerShell:
+```powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
 
