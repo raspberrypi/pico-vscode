@@ -398,10 +398,10 @@
   },
   "dependencies": {
     "@vscode/python-extension": "^1.0.6",
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.6.1",
     "got": "^14.6.5",
     "ini": "^6.0.0",
-    "toml": "^3.0.0",
+    "toml": "^5.0.0",
     "undici": "^7.16.0",
     "which": "^5.0.0",
     "yaml": "^2.8.2"
