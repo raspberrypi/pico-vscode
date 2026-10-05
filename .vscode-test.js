@@ -73,9 +73,10 @@ function getProjectTestConfigs(name, boards, cmakeToolsOptions, compileTimeout=3
       });
     }
     // TEMPORARY: on Windows, VS Code hangs (with cmake still running) when
-    // starting the pico_w CMake Tools compile config, before mocha's timeout
-    // starts, so skip it until that's been looked into
-    const skipCmakeTools = process.platform === 'win32' && board === 'pico_w';
+    // starting the CMake Tools compile config for the wireless boards, before
+    // mocha's timeout starts, so skip them until that's been looked into
+    const skipCmakeTools = process.platform === 'win32' &&
+      (board === 'pico_w' || board === 'pico2_w');
     if (cmakeToolsOptions.includes(true) && !skipCmakeTools) {
       ret.push({
         name: `${name} Project Compilation Test with CMake Tools`,
