@@ -76,6 +76,8 @@ jobs:
           echo "{ \"raspberry-pi-pico.githubToken\": \"${{ secrets.GITHUB_TOKEN }}\" }" > .vscode-test/sampleWorkspace/.vscode/settings.json
       - name: Test Extension (Linux)
         if: runner.os == 'Linux' && !contains(matrix.os, 'self-hosted')
+        # A hang would otherwise run to the 6 hour job limit
+        timeout-minutes: 60
         run: xvfb-run -a npm run test
       - name: Test Extension (self-hosted)
         if: contains(matrix.os, 'self-hosted')
@@ -90,6 +92,8 @@ jobs:
           npm run test
       - name: Test Extension (Others)
         if: runner.os != 'Linux'
+        # A hang would otherwise run to the 6 hour job limit
+        timeout-minutes: 60
         run: npm run test
 
   # The wired rig picotool-tests runs on: a Pico and a Pico 2, each with its

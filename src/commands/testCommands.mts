@@ -49,6 +49,11 @@ export default class TestCreateProjectCommand
     });
 
     while (!NewProjectPanel.testIfCreated()) {
+      if (NewProjectPanel.testIfFailed()) {
+        Logger.log("Project creation failed");
+
+        return "Project creation failed";
+      }
       Logger.log("Waiting for project to be created");
       await new Promise(resolve => setTimeout(resolve, 1000));
     }

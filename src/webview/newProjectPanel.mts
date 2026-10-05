@@ -411,7 +411,7 @@ export class NewProjectPanel {
 
     // Handle messages from the webview
     this._panel.webview.onDidReceiveMessage(
-      async (message: WebviewMessage) => {
+      NewProjectPanel._failTestIfNotCreated(async (message: WebviewMessage) => {
         switch (message.command) {
           case "changeLocation":
             {
@@ -720,7 +720,7 @@ export class NewProjectPanel {
             }
             break;
         }
-      },
+      }),
       null,
       this._disposables
     );
@@ -2451,9 +2451,34 @@ export class NewProjectPanel {
   // for tests only, to interact with the webview
   private static _isLoaded: boolean = false;
   private static _isCreated: boolean = false;
+  private static _isFailed: boolean = false;
   public static _noOpenFolder: boolean = false;
 
+  // The submit handlers have many early returns on failure, so for tests treat
+  // a submission that finishes without creating the project as a failure
+  // rather than leaving them to wait out their timeout
+  private static _failTestIfNotCreated(
+    handler: (message: WebviewMessage) => Promise<void>
+  ): (message: WebviewMessage) => Promise<void> {
+    return async message => {
+      try {
+        await handler(message);
+      } finally {
+        if (
+          NewProjectPanel._noOpenFolder &&
+          ["submit", "submitExample", "importProject"].includes(
+            message.command
+          ) &&
+          !NewProjectPanel._isCreated
+        ) {
+          NewProjectPanel._isFailed = true;
+        }
+      }
+    };
+  }
+
   public static async sendTestMessage(message: WebviewMessage): Promise<void> {
+    NewProjectPanel._isFailed = false;
     if (!NewProjectPanel.currentPanel) {
       throw new Error("NewProjectPanel.currentPanel is undefined");
     }
@@ -2471,5 +2496,9 @@ export class NewProjectPanel {
     NewProjectPanel._isLoaded = false;
 
     return NewProjectPanel._isCreated;
+  }
+
+  public static testIfFailed(): boolean {
+    return NewProjectPanel._isFailed;
   }
 }
