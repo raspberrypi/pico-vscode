@@ -183,4 +183,5 @@ First follow the build instructions above, then:
 
 1. Create a `.vscode-test/sampleWorkspace/.vscode/settings.json` file in the project directory, containing your GitHub PAT (eg `{ "raspberry-pi-pico.githubToken": "ghp_xxxxxxxxxxxxxxxxxxxx" }`)
 2. (Optional) Connect a single Pico-series device, with a debug probe attached
-3. Run `npm run test`
+3. (Optional) Set `PICO_VSCODE_TEST_ZEPHYR=1` to also run the Zephyr tests - these set up the whole Zephyr workspace, so take a while on first run
+4. Run `npm run test`

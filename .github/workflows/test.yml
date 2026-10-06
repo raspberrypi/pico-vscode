@@ -7,9 +7,9 @@ on:
     inputs:
       run_zephyr_tests:
         description: >-
-          Also run the Zephyr tests on the self-hosted runner. Off by default:
-          the runner is wiped between runs, so each one rebuilds the whole
-          Zephyr workspace, SDK and venv from scratch.
+          Also run the Zephyr tests. Off by default: each run sets up the whole
+          Zephyr workspace, SDK and venv from scratch, which adds 5-15 minutes
+          per runner.
         type: boolean
         default: false
 
