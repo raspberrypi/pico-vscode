@@ -182,7 +182,7 @@ export class CCppProjectVariant implements PicoProjectVariant {
     if (input.settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
       await cmakeSetupAutoConfigure(input.folder, input.ui);
     } else if (input.settings.getBoolean(SettingsKey.useCmakeTools)) {
-      const kitForced = await cmakeToolsForcePicoKit();
+      const kitForced = await cmakeToolsForcePicoKit(false);
       if (!kitForced) {
         Logger.warn(
           LoggerSource.extension,
@@ -190,7 +190,7 @@ export class CCppProjectVariant implements PicoProjectVariant {
         );
 
         setTimeout(() => {
-          void cmakeToolsForcePicoKit().catch(error => {
+          void cmakeToolsForcePicoKit(false).catch(error => {
             Logger.error(
               LoggerSource.extension,
               "Failed to force Pico kit in CMake Tools on second attempt",

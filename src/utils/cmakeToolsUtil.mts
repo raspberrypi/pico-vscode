@@ -48,36 +48,17 @@ export async function cmakeToolsActivate(): Promise<boolean> {
 }
 
 
-// Long enough for CMake Tools to scan for kits, which setKitByName can trigger
-const CMAKE_TOOLS_COMMAND_TIMEOUT_MS = 15000;
-
 /**
- * Run a CMake Tools command, giving up if it doesn't return in time.
+ * Set the CMake Tools kit to Pico.
  *
- * If CMake Tools has already started with no kit selected, these commands can
- * wait indefinitely (e.g. on a kit selection prompt), and as they're awaited
- * during activation that would stall the whole extension.
+ * @param checkKit Only set the kit if it isn't already Pico. Checking uses
+ * cmake.buildKit, which prompts the user to select a kit if none is active, so
+ * pass false when CMake Tools may not have a kit yet (e.g. on activation).
+ * cmake.setKitByName never prompts, and closes the prompt if it's open.
  */
-async function cmakeToolsCommand(
-  command: string,
-  ...args: unknown[]
-): Promise<{ timedOut: boolean; result?: unknown }> {
-  const onCommand = commands
-    .executeCommand(command, ...args)
-    .then(result => ({ timedOut: false, result }));
-  const onTimeout = new Promise<{ timedOut: boolean }>(resolve => {
-    setTimeout(resolve, CMAKE_TOOLS_COMMAND_TIMEOUT_MS, { timedOut: true });
-  });
-
-  const value = await Promise.race([onCommand, onTimeout]);
-  if (value.timedOut) {
-    Logger.warn(LoggerSource.cmake, `CMake Tools command ${command} timed out`);
-  }
-
-  return value;
-}
-
-export async function cmakeToolsForcePicoKit(): Promise<boolean> {
+export async function cmakeToolsForcePicoKit(
+  checkKit: boolean = true
+): Promise<boolean> {
 
   if (!await cmakeToolsActivate()) {
     // Give up and return, as this function is non-essential
@@ -86,16 +67,14 @@ export async function cmakeToolsForcePicoKit(): Promise<boolean> {
     return false;
   }
 
-  const buildKit = await cmakeToolsCommand("cmake.buildKit");
-  if (buildKit.timedOut) {
-    return false;
-  }
-  if (buildKit.result !== "Pico") {
-    const setKit = await cmakeToolsCommand("cmake.setKitByName", "Pico");
-    if (setKit.timedOut) {
-      return false;
+  if (checkKit) {
+    const cmakeToolsKit = await commands.executeCommand("cmake.buildKit");
+    if (cmakeToolsKit === "Pico") {
+      return true;
     }
   }
+
+  await commands.executeCommand("cmake.setKitByName", "Pico");
 
   return true;
 }
