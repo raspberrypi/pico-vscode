@@ -35,6 +35,9 @@ const openocdInterface =
 // let the rig stretch every timeout instead of hard-coding the worst case.
 const timeoutScale = Number(process.env.PICO_VSCODE_TEST_TIMEOUT_SCALE) || 1;
 
+// The Pico SDK tests run unless PICO_VSCODE_TEST_PICO=0, e.g. to run only the
+// Zephyr tests.
+const runPicoTests = process.env.PICO_VSCODE_TEST_PICO !== '0';
 // Zephyr sets up a whole workspace, SDK and venv on first run, so these are
 // opt-in: set PICO_VSCODE_TEST_ZEPHYR=1 to include them.
 const runZephyrTests = process.env.PICO_VSCODE_TEST_ZEPHYR === '1';
@@ -234,8 +237,13 @@ function detectSingleProbe() {
   return probes;
 }
 
-const configs = [
-  {
+const configs = [];
+
+// Only the Pico SDK tests use the hardware
+const probes = runPicoTests ? detectProbes() : {};
+
+if (runPicoTests) {
+  configs.push({
     name: `Project Creation Tests`,
     files: `out/projectCreation/*.test.js`,
     workspaceFolder: '.vscode-test/sampleWorkspace',
@@ -246,22 +254,20 @@ const configs = [
       // Typically 70-90s on a hosted runner, but a slow one has exceeded 5.
       timeout: 600000 * timeoutScale,
     },
-  },
-];
+  });
 
-const probes = detectProbes();
-
-for (const testName of Object.values(testNames)) {
-  for (const board of testName.boards) {
-    if (BOARD_CHIPS[board] in probes) {
-      testName.runBoards.push(board);
+  for (const testName of Object.values(testNames)) {
+    for (const board of testName.boards) {
+      if (BOARD_CHIPS[board] in probes) {
+        testName.runBoards.push(board);
+      }
     }
   }
-}
 
-for (const testName of Object.values(testNames)) {
-  const { name, boards, runBoards, cmakeToolsOptions } = testName;
-  configs.push(...getProjectTestConfigs(name, boards, cmakeToolsOptions));
+  for (const testName of Object.values(testNames)) {
+    const { name, boards, runBoards, cmakeToolsOptions } = testName;
+    configs.push(...getProjectTestConfigs(name, boards, cmakeToolsOptions));
+  }
 }
 
 if (runZephyrTests) {
@@ -287,6 +293,12 @@ if (runZephyrTests) {
       },
     });
   }
+}
+
+if (configs.length === 0) {
+  throw new Error(
+    'No tests selected - PICO_VSCODE_TEST_PICO=0 and PICO_VSCODE_TEST_ZEPHYR is not 1'
+  );
 }
 
 // How the hardware is wired up, for the project creation tests to pin each new

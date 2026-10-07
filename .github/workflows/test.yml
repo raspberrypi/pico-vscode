@@ -5,9 +5,15 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
+      run_pico_tests:
+        description: >-
+          Run the Pico SDK tests, including the hardware tests. Untick to run
+          only the Zephyr tests.
+        type: boolean
+        default: true
       run_zephyr_tests:
         description: >-
-          Also run the Zephyr tests. Off by default: each run sets up the whole
+          Run the Zephyr tests. Off by default: each run sets up the whole
           Zephyr workspace, SDK and venv from scratch, which adds 5-15 minutes
           per runner.
         type: boolean
@@ -28,6 +34,9 @@ jobs:
           - [self-hosted, linux, arm64, trixie_desktop, no_pico, no_pico2]
     runs-on: ${{ matrix.os }}
     env:
+      # inputs are only set on workflow_dispatch, so push and pull_request runs
+      # get the Pico SDK tests and not the Zephyr ones
+      PICO_VSCODE_TEST_PICO: ${{ (github.event_name != 'workflow_dispatch' || inputs.run_pico_tests) && '1' || '0' }}
       PICO_VSCODE_TEST_ZEPHYR: ${{ inputs.run_zephyr_tests && '1' || '0' }}
     steps:
       - name: Check no devices are attached (RPi only)
@@ -98,6 +107,8 @@ jobs:
   # native USB port and its own debug probe attached
   hardware-test:
     name: Test with hardware (RP2040 + RP2350)
+    # Only runs the Pico SDK tests
+    if: github.event_name != 'workflow_dispatch' || inputs.run_pico_tests
     # trixie_desktop because VS Code is an Electron app and needs the GTK stack
     runs-on: [self-hosted, linux, arm64, pico, pico2, trixie_desktop]
     defaults:
