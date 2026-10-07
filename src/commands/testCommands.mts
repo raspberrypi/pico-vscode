@@ -1,10 +1,11 @@
-import { CommandWithResultAndArgs } from "./command.mjs";
+import { CommandWithResult, CommandWithResultAndArgs } from "./command.mjs";
 import { Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
 import { NewZephyrProjectPanel } from "../webview/newZephyrProjectPanel.mjs";
 import { workspace, tasks } from "vscode";
 import Logger from "../logger.mjs";
 import { EventEmitter } from "events";
+import { cmakeToolsWaitForPicoKit } from "../utils/cmakeToolsUtil.mjs";
 
 /* ------------------------------ Main command ------------------------------ */
 
@@ -183,5 +184,16 @@ export class TestRunTaskCommand extends CommandWithResultAndArgs<string> {
 
       return "Task not found";
     }
+  }
+}
+
+export class TestWaitForPicoKitCommand extends CommandWithResult<boolean> {
+  constructor() {
+    super("testWaitForPicoKit");
+  }
+
+  async execute(): Promise<boolean> {
+    // CMake Tools needs a kit before a launch target can be selected
+    return cmakeToolsWaitForPicoKit();
   }
 }

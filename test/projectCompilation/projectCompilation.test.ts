@@ -32,13 +32,10 @@ suite(`${testName} Project Test Suite`, () => {
 	// timing out instead of running openocd at all.
 	suiteSetup(async () => {
 		if (type === "cmakeTools") {
-			// Wait for a bit
-			await new Promise(resolve => setTimeout(resolve, 5000));
-			// Kit selection may not have run yet
-			await vscode.commands.executeCommand("cmake.setKitByName", "Pico");
-			// Wait for a bit more
-			await new Promise(resolve => setTimeout(resolve, 5000));
-			// Select launch target
+			// The extension sets the kit once CMake Tools has created its project
+			const kitSet = await vscode.commands.executeCommand("raspberry-pi-pico.testWaitForPicoKit") as boolean;
+			assert.strictEqual(kitSet, true, "Pico kit was not set in CMake Tools");
+			// Select launch target, which configures first if needed
 			await vscode.commands.executeCommand("cmake.selectLaunchTarget", "", testName);	// takes folder then name, but folder can be empty string
 		}
 	});

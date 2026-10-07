@@ -308,6 +308,12 @@
         "title": "Test run task",
         "category": "Raspberry Pi Pico Tests",
         "enablement": "false"
+      },
+      {
+        "command": "raspberry-pi-pico.testWaitForPicoKit",
+        "title": "Test wait for Pico kit",
+        "category": "Raspberry Pi Pico Tests",
+        "enablement": "false"
       }
     ],
     "configuration": {
@@ -429,6 +435,7 @@
     "ini": "^6.0.0",
     "toml": "^5.0.0",
     "undici": "^7.16.0",
+    "vscode-cmake-tools": "^1.7.0",
     "which": "^5.0.0",
     "yaml": "^2.8.2"
   },

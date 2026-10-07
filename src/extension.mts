@@ -74,6 +74,7 @@ import { CleanZephyrCommand } from "./commands/cleanZephyr.mjs";
 import TestCreateProjectCommand, {
   TestCreateZephyrProjectCommand,
   TestRunTaskCommand,
+  TestWaitForPicoKitCommand,
 } from "./commands/testCommands.mjs";
 import { getProjectVariantRegistry } from "./projectVariants/index.mjs";
 import { setProjectContext } from "./projectVariants/common.mjs";
@@ -153,6 +154,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
     new TestCreateProjectCommand(context.extensionUri),
     new TestCreateZephyrProjectCommand(context.extensionUri),
     new TestRunTaskCommand(),
+    new TestWaitForPicoKitCommand(),
   ];
 
   // register all command handlers

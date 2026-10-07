@@ -18,7 +18,9 @@ import {
   downloadAndInstallNinja,
 } from "../utils/download.mjs";
 import findPython, { showPythonNotFoundError } from "../utils/pythonHelper.mjs";
-import { cmakeToolsForcePicoKit } from "../utils/cmakeToolsUtil.mjs";
+import {
+  cmakeToolsForcePicoKitOnActivation,
+} from "../utils/cmakeToolsUtil.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type {
   AfterActivationInput,
@@ -182,23 +184,23 @@ export class CCppProjectVariant implements PicoProjectVariant {
     if (input.settings.getBoolean(SettingsKey.cmakeAutoConfigure)) {
       await cmakeSetupAutoConfigure(input.folder, input.ui);
     } else if (input.settings.getBoolean(SettingsKey.useCmakeTools)) {
-      const kitForced = await cmakeToolsForcePicoKit(false);
-      if (!kitForced) {
-        Logger.warn(
-          LoggerSource.extension,
-          "Failed to force Pico kit in CMake Tools - attempting to do it later"
-        );
-
-        setTimeout(() => {
-          void cmakeToolsForcePicoKit(false).catch(error => {
-            Logger.error(
+      // Not awaited, as it waits for CMake Tools to create its project
+      void cmakeToolsForcePicoKitOnActivation(input.folder.uri)
+        .then(kitSet => {
+          if (!kitSet) {
+            Logger.warn(
               LoggerSource.extension,
-              "Failed to force Pico kit in CMake Tools on second attempt",
-              unknownErrorToString(error)
+              "Failed to force Pico kit in CMake Tools"
             );
-          });
-        }, 1000);
-      }
+          }
+        })
+        .catch(error => {
+          Logger.error(
+            LoggerSource.extension,
+            "Failed to force Pico kit in CMake Tools",
+            unknownErrorToString(error)
+          );
+        });
     } else {
       Logger.info(
         LoggerSource.extension,
