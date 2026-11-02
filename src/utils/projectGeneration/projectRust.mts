@@ -850,7 +850,7 @@ SECTIONS {
 } INSERT AFTER .vector_table;
 
 /* move .text to start /after/ the boot info */
-_stext = ADDR(.boot_info) + SIZEOF(.boot_info);
+_stext = ALIGN(ADDR(.boot_info) + SIZEOF(.boot_info), ALIGNOF(.text));
 
 SECTIONS {
     /* ### Picotool 'Binary Info' Entries
@@ -918,7 +918,7 @@ MEMORY {
   } INSERT AFTER .vector_table;
 
   /* move .text to start /after/ the boot info */
-  _stext = ADDR(.start_block) + SIZEOF(.start_block);
+  _stext = ALIGN(ADDR(.start_block) + SIZEOF(.start_block), ALIGNOF(.text));
 
   SECTIONS {
       /* ### Picotool 'Binary Info' Entries
