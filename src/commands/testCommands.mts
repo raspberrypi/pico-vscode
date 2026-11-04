@@ -174,13 +174,13 @@ export class TestRunTaskCommand extends CommandWithResultAndArgs<string> {
       end.dispose();
       end2.dispose();
       Logger.log(
-        "Task '${taskName}' completed with code " + code.toString()
+        `Task '${taskName}' completed with code ${code}`
       );
 
       return code === 0 ? "Task completed" : "Task failed";
     } else {
       // Task not found
-      Logger.log("Task '${taskName}' not found.");
+      Logger.log(`Task '${taskName}' not found.`);
 
       return "Task not found";
     }

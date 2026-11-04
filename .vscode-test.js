@@ -301,6 +301,10 @@ if (configs.length === 0) {
   );
 }
 
+// VS Code opens a missing workspace folder as an empty window, which fails
+// every creation test with "No project URI" rather than saying why
+fs.mkdirSync('.vscode-test/sampleWorkspace', { recursive: true });
+
 // How the hardware is wired up, for the project creation tests to pin each new
 // project's tasks to the board it was created for.
 const rig = {

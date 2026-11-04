@@ -158,7 +158,8 @@ export class NewZephyrProjectPanel {
     );
 
     this._panel.webview.onDidReceiveMessage(
-      async (message: WebviewMessage) => {
+      NewZephyrProjectPanel._failTestIfNotCreated(
+        async (message: WebviewMessage) => {
         switch (message.command) {
           case "changeLocation":
             {
@@ -246,23 +247,13 @@ export class NewZephyrProjectPanel {
                     data.projectName ?? "undefined"
                   } in ${this._projectRoot?.fsPath}...`,
                 },
-                async progress => {
-                  await this._generateProjectOperation(progress, data, message);
-                  // every failure path in there just returns, so for tests
-                  // treat "finished without creating" as a failure rather than
-                  // leaving them to wait out their timeout
-                  if (
-                    NewZephyrProjectPanel._noOpenFolder &&
-                    !NewZephyrProjectPanel._isCreated
-                  ) {
-                    NewZephyrProjectPanel._isFailed = true;
-                  }
-                }
+                async progress =>
+                  this._generateProjectOperation(progress, data, message)
               );
             }
             break;
         }
-      },
+      }),
       null,
       this._disposables
     );
@@ -926,6 +917,27 @@ export class NewZephyrProjectPanel {
   private static _isCreated: boolean = false;
   private static _isFailed: boolean = false;
   public static _noOpenFolder: boolean = false;
+
+  // Both a denied submission and every failure path in project generation just
+  // return, so for tests treat a submission that finishes without creating the
+  // project as a failure rather than leaving them to wait out their timeout
+  private static _failTestIfNotCreated(
+    handler: (message: WebviewMessage) => Promise<void>
+  ): (message: WebviewMessage) => Promise<void> {
+    return async message => {
+      try {
+        await handler(message);
+      } finally {
+        if (
+          NewZephyrProjectPanel._noOpenFolder &&
+          message.command === "submit" &&
+          !NewZephyrProjectPanel._isCreated
+        ) {
+          NewZephyrProjectPanel._isFailed = true;
+        }
+      }
+    };
+  }
 
   public static async sendTestMessage(message: WebviewMessage): Promise<void> {
     NewZephyrProjectPanel._isFailed = false;
