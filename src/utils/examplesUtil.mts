@@ -20,7 +20,7 @@ import { cp } from "fs/promises";
 import { get } from "https";
 import { isInternetConnected, getDataRoot } from "./downloadHelpers.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { type Uri, window } from "vscode";
+import { l10n, type Uri, window } from "vscode";
 import {
   EXAMPLES_GITREF,
   EXAMPLES_JSON_URL,
@@ -291,10 +291,10 @@ export async function setupExample(
             `${examplesRepoPath}.`
         );
         void window.showErrorMessage(
-          "Failed to update the examples repository - it may be in use " +
-            `by another process. Please close any programs that might be ` +
-            `using files in ${examplesRepoPath} and try again, or delete ` +
-            "this folder manually."
+          l10n.t(
+            "Failed to update the examples repository - it may be in use by another process. Please close any programs that might be using files in {0} and try again, or delete this folder manually.",
+            examplesRepoPath
+          )
         );
 
         return false;
@@ -309,8 +309,10 @@ export async function setupExample(
         `Failed to remove invalid examples repo at ${examplesRepoPath}.`
       );
       void window.showErrorMessage(
-        `Failed to prepare the examples repository. Please delete ` +
-          `${examplesRepoPath} and try again.`
+        l10n.t(
+          "Failed to prepare the examples repository. Please delete {0} and try again.",
+          examplesRepoPath
+        )
       );
 
       return false;
@@ -342,8 +344,11 @@ export async function setupExample(
       unknownErrorToString(result)
     );
     void window.showErrorMessage(
-      `Failed to checkout example: ${example.name}. ` +
-        `Please delete ${examplesRepoPath} and try again.`
+      l10n.t(
+        "Failed to checkout example: {0}. Please delete {1} and try again.",
+        example.name,
+        examplesRepoPath
+      )
     );
 
     return result;
@@ -362,8 +367,11 @@ export async function setupExample(
         unknownErrorToString(result)
       );
       void window.showErrorMessage(
-        `Failed to checkout example required path '${libPath}'. ` +
-          `Please delete ${examplesRepoPath} and try again.`
+        l10n.t(
+          "Failed to checkout example required path '{0}'. Please delete {1} and try again.",
+          libPath,
+          examplesRepoPath
+        )
       );
 
       return result;
@@ -423,14 +431,16 @@ export async function setupExample(
         msg
       );
       void window.showErrorMessage(
-        "Failed to copy example. " +
-          "Please check if the target path is writable."
+        l10n.t(
+          "Failed to copy example. Please check if the target path is writable."
+        )
       );
     } else {
       Logger.error(LoggerSource.examples, "Failed to copy example.", msg);
       void window.showErrorMessage(
-        "Failed to copy example. " +
-          "Please check the output window for more details."
+        l10n.t(
+          "Failed to copy example. Please check the output window for more details."
+        )
       );
     }
 
@@ -460,8 +470,10 @@ export async function setupExample(
         unknownErrorToString(error)
       );
       void window.showErrorMessage(
-        `Failed to copy example requirement '${libName}'. ` +
-          "Please check the output window for more details."
+        l10n.t(
+          "Failed to copy example requirement '{0}'. Please check the output window for more details.",
+          libName
+        )
       );
 
       return false;

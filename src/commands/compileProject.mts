@@ -1,5 +1,6 @@
 import {
   commands,
+  l10n,
   tasks,
   Uri,
   window,
@@ -48,9 +49,9 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
           return;
         } catch {
           void window.showWarningMessage(
-            "wifi_info.h is listed in .gitignore but does not exist. " +
-              "Make sure to create it with your WiFi credentials " +
-              "for the build to succeed."
+            l10n.t(
+              "wifi_info.h is listed in .gitignore but does not exist. Make sure to create it with your WiFi credentials for the build to succeed."
+            )
           );
 
           return;
@@ -66,7 +67,7 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
     const isZephyrProject = State.getInstance().isZephyrProject;
     const workspaceFolders = workspace.workspaceFolders;
     if (workspaceFolders === undefined || workspaceFolders.length === 0) {
-      void window.showErrorMessage("No workspace folder found.");
+      void window.showErrorMessage(l10n.t("No workspace folder found."));
 
       return false;
     }
@@ -150,13 +151,14 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
       );
 
       if (isZephyrProject && !compileCommandsPreExistance) {
+        const reloadLabel = l10n.t("Reload");
         const reload = await window.showInformationMessage(
-          "Project compiled. Reload window for IntelliSense to update.",
-          "Reload",
-          "Later"
+          l10n.t("Project compiled. Reload window for IntelliSense to update."),
+          reloadLabel,
+          l10n.t("Later")
         );
 
-        if (reload === "Reload") {
+        if (reload === reloadLabel) {
           // TODO: mark as intentional reload so extension.mts doesn't run setupZephyr again
           await commands.executeCommand("workbench.action.reloadWindow");
         }
@@ -166,7 +168,9 @@ export default class CompileProjectCommand extends CommandWithResult<boolean> {
     } else {
       // Task not found
       this._logger.error("Task 'Compile Project' not found.");
-      void window.showErrorMessage("Task 'Compile Project' not found.");
+      void window.showErrorMessage(
+        l10n.t("Task '{0}' not found.", "Compile Project")
+      );
 
       return false;
     }

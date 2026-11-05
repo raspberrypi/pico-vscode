@@ -2,6 +2,7 @@
 import { CommandWithArgs } from "./command.mjs";
 import Logger from "../logger.mjs";
 import {
+  l10n,
   type QuickPickItem,
   ViewColumn,
   window,
@@ -18,12 +19,22 @@ export enum DocumentationId {
   runtimeInfrastructure = 3,
 }
 
-export const DOCUMENTATION_LABEL_BY_ID: string[] = [
-  "Hardware APIs",
-  "High Level APIs",
-  "Networking Libraries",
-  "Runtime Infrastructure",
-];
+/**
+ * Translated display label of a documentation category. Only for display:
+ * identify categories by {@link DocumentationId}, not by this label.
+ */
+export function getDocumentationLabel(id: DocumentationId): string {
+  switch (id) {
+    case DocumentationId.hardware:
+      return l10n.t("Hardware APIs");
+    case DocumentationId.highLevel:
+      return l10n.t("High Level APIs");
+    case DocumentationId.networking:
+      return l10n.t("Networking Libraries");
+    case DocumentationId.runtimeInfrastructure:
+      return l10n.t("Runtime Infrastructure");
+  }
+}
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DOCUMENTATION_URLS_BY_ID: string[] = [
@@ -57,15 +68,18 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
     } else if (fileName !== undefined) {
       url = fileName;
     } else {
-      const options: QuickPickItem[] = DOCUMENTATION_LABEL_BY_ID.map(
-        (label, index) => ({
-          label,
-          detail: LOCAL_DOCUMENTATION_URLS_BY_ID[index],
-        })
-      );
+      const options: QuickPickItem[] = [
+        DocumentationId.hardware,
+        DocumentationId.highLevel,
+        DocumentationId.networking,
+        DocumentationId.runtimeInfrastructure,
+      ].map(id => ({
+        label: getDocumentationLabel(id),
+        detail: LOCAL_DOCUMENTATION_URLS_BY_ID[id],
+      }));
 
       const result = await window.showQuickPick(options, {
-        placeHolder: "Select Category",
+        placeHolder: l10n.t("Select Category"),
         canPickMany: false,
         ignoreFocusOut: false,
       });
@@ -83,7 +97,7 @@ export default class OpenSdkDocumentationCommand extends CommandWithArgs {
       Logger.log("New panel");
       this._panel = window.createWebviewPanel(
         "pico-sdk-documentation",
-        "Pico SDK Documentation",
+        l10n.t("Pico SDK Documentation"),
         { viewColumn: ViewColumn.Two, preserveFocus: false },
         {
           enableScripts: true,

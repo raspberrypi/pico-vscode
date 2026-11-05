@@ -1,7 +1,7 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import GithubApiCache from "../utils/githubApiCache.mjs";
-import { window } from "vscode";
+import { l10n, window } from "vscode";
 import { CLEAR_GITHUB_API_CACHE } from "./cmdIds.mjs";
 
 export default class ClearGithubApiCacheCommand extends Command {
@@ -16,6 +16,6 @@ export default class ClearGithubApiCacheCommand extends Command {
 
     await GithubApiCache.getInstance().clear();
 
-    await window.showInformationMessage("Github API cache cleared.");
+    await window.showInformationMessage(l10n.t("Github API cache cleared."));
   }
 }

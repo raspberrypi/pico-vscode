@@ -1,4 +1,4 @@
-import { window } from "vscode";
+import { l10n, window } from "vscode";
 
 /**
  * Shows an error message that the requirements for development are not met
@@ -10,9 +10,9 @@ export async function showRequirementsNotMetErrorMessage(
   missing: string[]
 ): Promise<void> {
   await window.showErrorMessage(
-    "Development for the Pico requires " +
-      missing.join(", ") +
-      " to be installed and available in PATH. " +
-      "Please install and restart VS Code."
+    l10n.t(
+      "Development for the Pico requires {0} to be installed and available in PATH. Please install and restart VS Code.",
+      missing.join(", ")
+    )
   );
 }

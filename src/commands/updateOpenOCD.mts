@@ -1,6 +1,6 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { window, commands } from "vscode";
+import { l10n, window, commands } from "vscode";
 import { rm } from "fs/promises";
 import { join } from "path";
 import { homedir } from "os";
@@ -29,7 +29,7 @@ export default class UpdateOpenOCDCommand extends Command {
 
       this._logger.info("OpenOCD uninstalled successfully - reloading window");
       void window.showInformationMessage(
-        "OpenOCD uninstalled successfully - reloading window"
+        l10n.t("OpenOCD uninstalled successfully - reloading window")
       );
 
       // reload window to install the latest version
@@ -39,7 +39,7 @@ export default class UpdateOpenOCDCommand extends Command {
         "Failed to update OpenOCD",
         unknownErrorToString(error)
       );
-      void window.showErrorMessage("Failed to update OpenOCD");
+      void window.showErrorMessage(l10n.t("Failed to update OpenOCD"));
 
       return;
     }

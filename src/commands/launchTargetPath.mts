@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { CommandWithResult } from "./command.mjs";
-import { commands, window, workspace } from "vscode";
+import { commands, l10n, window, workspace } from "vscode";
 import { join } from "path";
 import Settings, { SettingsKey } from "../settings.mjs";
 import State from "../state.mjs";
@@ -79,14 +79,23 @@ const readProjectNameFromCMakeLists = async (
   const hasPoll = /pico_cyw43_arch_lwip_poll/.test(fileContent);
 
   if (hasBg && hasPoll) {
-    const choice = await window.showQuickPick(
-      ["Threadsafe Background", "Poll"],
-      { placeHolder: "Select PicoW Architecture" }
-    );
-    if (choice === "Threadsafe Background") {
+    const background = l10n.t({
+      message: "Threadsafe Background",
+      comment: [
+        "Pico W lwIP architecture (pico_cyw43_arch_lwip_threadsafe_background)",
+      ],
+    });
+    const poll = l10n.t({
+      message: "Poll",
+      comment: ["Pico W lwIP architecture (pico_cyw43_arch_lwip_poll)"],
+    });
+    const choice = await window.showQuickPick([background, poll], {
+      placeHolder: l10n.t("Select PicoW Architecture"),
+    });
+    if (choice === background) {
       return `${projectName}_background`;
     }
-    if (choice === "Poll") {
+    if (choice === poll) {
       return `${projectName}_poll`;
     }
     // user dismissed → fall back to base name
@@ -149,8 +158,12 @@ export default class LaunchTargetPathCommand extends CommandWithResult<string> {
       "raspberry-pi-pico.compileProject"
     );
     if (!compiled) {
+      // shown to the user by VS Code when resolving the launch configuration
       throw new Error(
-        "Failed to compile project - check output from the Compile Project task"
+        l10n.t(
+          "Failed to compile project - check output from the {0} task",
+          "Compile Project"
+        )
       );
     }
 

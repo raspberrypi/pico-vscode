@@ -1,5 +1,6 @@
 import { Command } from "./command.mjs";
 import {
+  l10n,
   ProgressLocation,
   type Uri,
   window,
@@ -75,18 +76,23 @@ export default class SwitchSDKCommand extends Command {
     versionBundleAvailable: boolean
   ): Promise<string | undefined> {
     const cmakeVersions = await getCmakeReleases();
-    const quickPickItems = ["Specific version", "Custom path"];
+    // labels are only compared against this array, so translating is safe
+    const quickPickItems = [
+      l10n.t("Specific version"),
+      l10n.t("Custom path"),
+    ];
     if (versionBundleAvailable) {
-      quickPickItems.unshift("Default");
+      quickPickItems.unshift(l10n.t("Default"));
     }
     if (await SwitchSDKCommand.isSystemCMakeAvailable()) {
-      quickPickItems.push("Use system CMake");
+      quickPickItems.push(l10n.t("Use system CMake"));
     }
 
     if (cmakeVersions.length === 0) {
       void window.showErrorMessage(
-        "Failed to get CMake releases. " +
-          "Make sure you are connected to the internet."
+        l10n.t(
+          "Failed to get CMake releases. Make sure you are connected to the internet."
+        )
       );
 
       return;
@@ -94,7 +100,7 @@ export default class SwitchSDKCommand extends Command {
 
     // show quick pick for cmake version
     const selectedCmakeVersion = await window.showQuickPick(quickPickItems, {
-      placeHolder: "Select CMake version",
+      placeHolder: l10n.t("Select CMake version"),
     });
 
     if (selectedCmakeVersion === undefined) {
@@ -107,7 +113,7 @@ export default class SwitchSDKCommand extends Command {
       case quickPickItems[1]: {
         // show quick pick for cmake version
         const selectedCmakeVersion = await window.showQuickPick(cmakeVersions, {
-          placeHolder: "Select CMake version",
+          placeHolder: l10n.t("Select CMake version"),
         });
 
         if (selectedCmakeVersion === undefined) {
@@ -123,8 +129,11 @@ export default class SwitchSDKCommand extends Command {
           canSelectFiles: true,
           canSelectFolders: false,
           canSelectMany: false,
-          openLabel: "Select",
-          title: "Select a cmake executable to use for this project",
+          openLabel: l10n.t({
+            message: "Select",
+            comment: ["Button of a file picker dialog"],
+          }),
+          title: l10n.t("Select a cmake executable to use for this project"),
         });
 
         if (cmakeExePath && cmakeExePath[0]) {
@@ -143,18 +152,23 @@ export default class SwitchSDKCommand extends Command {
     versionBundleAvailable: boolean
   ): Promise<string | undefined> {
     const ninjaVersions = await getNinjaReleases();
-    const quickPickItems = ["Specific version", "Custom path"];
+    // labels are only compared against this array, so translating is safe
+    const quickPickItems = [
+      l10n.t("Specific version"),
+      l10n.t("Custom path"),
+    ];
     if (versionBundleAvailable) {
-      quickPickItems.unshift("Default");
+      quickPickItems.unshift(l10n.t("Default"));
     }
     if (await SwitchSDKCommand.isSystemNinjaAvailable()) {
-      quickPickItems.push("Use system Ninja");
+      quickPickItems.push(l10n.t("Use system Ninja"));
     }
 
     if (ninjaVersions.length === 0) {
       void window.showErrorMessage(
-        "Failed to get Ninja releases. " +
-          "Make sure you are connected to the internet."
+        l10n.t(
+          "Failed to get Ninja releases. Make sure you are connected to the internet."
+        )
       );
 
       return;
@@ -162,7 +176,7 @@ export default class SwitchSDKCommand extends Command {
 
     // show quick pick for ninja version
     const selectedNinjaVersion = await window.showQuickPick(quickPickItems, {
-      placeHolder: "Select Ninja version",
+      placeHolder: l10n.t("Select Ninja version"),
     });
 
     if (selectedNinjaVersion === undefined) {
@@ -175,7 +189,7 @@ export default class SwitchSDKCommand extends Command {
       case quickPickItems[1]: {
         // show quick pick for ninja version
         const selectedNinjaVersion = await window.showQuickPick(ninjaVersions, {
-          placeHolder: "Select Ninja version",
+          placeHolder: l10n.t("Select Ninja version"),
         });
 
         if (selectedNinjaVersion === undefined) {
@@ -191,8 +205,11 @@ export default class SwitchSDKCommand extends Command {
           canSelectFiles: true,
           canSelectFolders: false,
           canSelectMany: false,
-          openLabel: "Select",
-          title: "Select a cmake executable to use for this project",
+          openLabel: l10n.t({
+            message: "Select",
+            comment: ["Button of a file picker dialog"],
+          }),
+          title: l10n.t("Select a cmake executable to use for this project"),
         });
 
         if (ninjaExePath && ninjaExePath[0]) {
@@ -223,13 +240,14 @@ export default class SwitchSDKCommand extends Command {
           toolchain: toolchain,
         })),
         {
-          placeHolder: "Select ARM/RISCV Embedded Toolchain version",
+          placeHolder: l10n.t("Select ARM/RISCV Embedded Toolchain version"),
         }
       );
     } catch {
       void window.showErrorMessage(
-        "Failed to get supported toolchain versions. " +
-          "Make sure you are connected to the internet."
+        l10n.t(
+          "Failed to get supported toolchain versions. Make sure you are connected to the internet."
+        )
       );
 
       return;
@@ -252,8 +270,9 @@ export default class SwitchSDKCommand extends Command {
 
     if (sdks.length === 0) {
       void window.showErrorMessage(
-        "Failed to get SDK releases. " +
-          "Make sure you are connected to the internet."
+        l10n.t(
+          "Failed to get SDK releases. Make sure you are connected to the internet."
+        )
       );
 
       return;
@@ -267,7 +286,7 @@ export default class SwitchSDKCommand extends Command {
         sdk: sdk,
       })),
       {
-        placeHolder: "Select SDK version",
+        placeHolder: l10n.t("Select SDK version"),
       }
     );
 
@@ -375,11 +394,16 @@ export default class SwitchSDKCommand extends Command {
         // Notify user that the selected toolchain has changed
         // because the previous one isn't available anymore
         void window.showInformationMessage(
-          `The selected toolchain version ${
-            versionsFromCmake === null ? "N/A" : versionsFromCmake[1]
-          } ` +
-            "is not available anymore. The default version of the " +
-            `selected SDK (${versionBundle.toolchain}) will be used instead.`
+          l10n.t(
+            "The selected toolchain version {0} is not available anymore. The default version of the selected SDK ({1}) will be used instead.",
+            versionsFromCmake === null
+              ? l10n.t({
+                  message: "N/A",
+                  comment: ["Shown when a value is not available"],
+                })
+              : versionsFromCmake[1],
+            versionBundle.toolchain
+          )
         );
 
         return {
@@ -401,8 +425,9 @@ export default class SwitchSDKCommand extends Command {
     const releases = await getZephyrReleases();
     if (releases.length === 0) {
       void window.showErrorMessage(
-        "Failed to get Zephyr releases. " +
-          "Make sure you are connected to the internet."
+        l10n.t(
+          "Failed to get Zephyr releases. Make sure you are connected to the internet."
+        )
       );
 
       return;
@@ -430,7 +455,7 @@ export default class SwitchSDKCommand extends Command {
     const selectedVersion = await window.showQuickPick(
       [{ label: "main" }, ...sorted.map(v => ({ label: v }))],
       {
-        placeHolder: "Select Zephyr version",
+        placeHolder: l10n.t("Select Zephyr version"),
       }
     );
 
@@ -442,13 +467,16 @@ export default class SwitchSDKCommand extends Command {
     if (result) {
       this._ui.updateSDKVersion(selectedVersion.label.replace("v", ""));
 
+      const yes = l10n.t("Yes");
       const pinVersion = await window.showInformationMessage(
-        "Do you want to pin this Zephyr version for the current project?",
+        l10n.t(
+          "Do you want to pin this Zephyr version for the current project?"
+        ),
         { modal: true },
-        "Yes",
-        "No"
+        yes,
+        l10n.t("No")
       );
-      if (pinVersion === "Yes") {
+      if (pinVersion === yes) {
         const settings = Settings.getInstance();
         await settings?.update(
           SettingsKey.zephyrVersion,
@@ -460,8 +488,10 @@ export default class SwitchSDKCommand extends Command {
       void commands.executeCommand("workbench.action.reloadWindow");
     } else {
       void window.showErrorMessage(
-        `Failed to switch to Zephyr version ${selectedVersion.label}. ` +
-          "Make sure all requirements are met."
+        l10n.t(
+          "Failed to switch to Zephyr version {0}. Make sure all requirements are met.",
+          selectedVersion.label
+        )
       );
     }
   }
@@ -471,7 +501,9 @@ export default class SwitchSDKCommand extends Command {
       workspace.workspaceFolders === undefined ||
       workspace.workspaceFolders.length === 0
     ) {
-      void window.showErrorMessage("Please open a Pico project folder first.");
+      void window.showErrorMessage(
+        l10n.t("Please open a Pico project folder first.")
+      );
 
       return;
     }
@@ -500,9 +532,11 @@ export default class SwitchSDKCommand extends Command {
     const selectedPicotool =
       versionBundle?.picotool ?? DEFAULT_PICOTOOL_VERSION;
 
-    const configureAdvancedOptions = await window.showQuickPick(["No", "Yes"], {
-      title: "Switch Tools",
-      placeHolder: "Configure advanced options?",
+    const no = l10n.t("No");
+    const yes = l10n.t("Yes");
+    const configureAdvancedOptions = await window.showQuickPick([no, yes], {
+      title: l10n.t("Switch Tools"),
+      placeHolder: l10n.t("Configure advanced options?"),
     });
 
     if (configureAdvancedOptions === undefined) {
@@ -517,15 +551,16 @@ export default class SwitchSDKCommand extends Command {
       // internet is not required if locally cached version bundles are available
       // but in this case a use shouldn't see this message
       void window.showErrorMessage(
-        "Failed to get supported toolchain versions. " +
-          "Make sure you are connected to the internet."
+        l10n.t(
+          "Failed to get supported toolchain versions. Make sure you are connected to the internet."
+        )
       );
 
       return;
     }
 
     // TODO: || versionBundle === undefined
-    if (configureAdvancedOptions === "Yes") {
+    if (configureAdvancedOptions === yes) {
       const advancedOptions = await SwitchSDKCommand.getAdvancedOptions(
         supportedToolchainVersions,
         versionBundle
@@ -539,11 +574,9 @@ export default class SwitchSDKCommand extends Command {
 
     // if configureAdvancedOptions is not "No" then
     // options.advancedOptions is defined
-    console.assert(
-      configureAdvancedOptions !== "No" || options.advancedOptions
-    );
+    console.assert(configureAdvancedOptions !== no || options.advancedOptions);
     const selectedToolchain =
-      configureAdvancedOptions === "No"
+      configureAdvancedOptions === no
         ? await this.querySelectedToolchain(
             versionBundle,
             supportedToolchainVersions,
@@ -555,7 +588,7 @@ export default class SwitchSDKCommand extends Command {
     let result = await window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Installing SDK...",
+        title: l10n.t("Installing SDK..."),
         cancellable: false,
       },
       async progress => {
@@ -573,7 +606,10 @@ export default class SwitchSDKCommand extends Command {
           progress.report({
             increment: 100,
             // TODO: maybe only finished or sth like that
-            message: `Successfully installed SDK ${selectedSDK.label}.`,
+            message: l10n.t(
+              "Successfully installed SDK {0}.",
+              selectedSDK.label
+            ),
           });
 
           return true;
@@ -586,8 +622,10 @@ export default class SwitchSDKCommand extends Command {
         });
 
         void window.showErrorMessage(
-          `Failed to install SDK ${selectedSDK.label}. ` +
-            "Make sure all requirements are met."
+          l10n.t(
+            "Failed to install SDK {0}. Make sure all requirements are met.",
+            selectedSDK.label
+          )
         );
 
         return false;
@@ -602,7 +640,7 @@ export default class SwitchSDKCommand extends Command {
     result = await window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Installing toolchain...",
+        title: l10n.t("Installing toolchain..."),
         cancellable: false,
       },
       async progress => {
@@ -623,9 +661,10 @@ export default class SwitchSDKCommand extends Command {
 
           progress.report({
             increment: 100,
-            message:
-              "Successfully installed " +
-              `toolchain ${selectedToolchain.label}.`,
+            message: l10n.t(
+              "Successfully installed toolchain {0}.",
+              selectedToolchain.label
+            ),
           });
 
           return true;
@@ -638,7 +677,7 @@ export default class SwitchSDKCommand extends Command {
         });
 
         void window.showErrorMessage(
-          `Failed to install toolchain ${selectedToolchain.label}.`
+          l10n.t("Failed to install toolchain {0}.", selectedToolchain.label)
         );
 
         return false;
@@ -653,7 +692,7 @@ export default class SwitchSDKCommand extends Command {
     result = await window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Installing tools...",
+        title: l10n.t("Installing tools..."),
         cancellable: false,
       },
       async progress => {
@@ -674,7 +713,7 @@ export default class SwitchSDKCommand extends Command {
 
           progress.report({
             increment: 100,
-            message: "Successfully installed tools.",
+            message: l10n.t("Successfully installed tools."),
           });
 
           return true;
@@ -686,7 +725,7 @@ export default class SwitchSDKCommand extends Command {
           increment: 100,
         });
 
-        void window.showErrorMessage("Failed to install tools.");
+        void window.showErrorMessage(l10n.t("Failed to install tools."));
 
         return false;
       }
@@ -701,7 +740,7 @@ export default class SwitchSDKCommand extends Command {
       result = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing Ninja...",
+          title: l10n.t("Downloading and installing Ninja..."),
           cancellable: false,
         },
         async progress => {
@@ -719,7 +758,7 @@ export default class SwitchSDKCommand extends Command {
           if (result) {
             progress.report({
               increment: 100,
-              message: "Successfully installed Ninja.",
+              message: l10n.t("Successfully installed Ninja."),
             });
 
             return true;
@@ -729,7 +768,7 @@ export default class SwitchSDKCommand extends Command {
             increment: 100,
           });
 
-          void window.showWarningMessage("Failed to install Ninja.");
+          void window.showWarningMessage(l10n.t("Failed to install Ninja."));
 
           return false;
         }
@@ -766,7 +805,7 @@ export default class SwitchSDKCommand extends Command {
       result = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing CMake...",
+          title: l10n.t("Downloading and installing CMake..."),
           cancellable: false,
         },
         async progress => {
@@ -788,7 +827,9 @@ export default class SwitchSDKCommand extends Command {
               increment: 100,
             });
 
-            void window.showInformationMessage("Successfully installed CMake.");
+            void window.showInformationMessage(
+              l10n.t("Successfully installed CMake.")
+            );
 
             return true;
           }
@@ -799,7 +840,7 @@ export default class SwitchSDKCommand extends Command {
             increment: 100,
           });
 
-          void window.showWarningMessage("Failed to install CMake.");
+          void window.showWarningMessage(l10n.t("Failed to install CMake."));
 
           return false;
         }
@@ -813,7 +854,7 @@ export default class SwitchSDKCommand extends Command {
     result = await window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Updating project configuration...",
+        title: l10n.t("Updating project configuration..."),
         cancellable: false,
       },
       async progress => {
@@ -828,7 +869,7 @@ export default class SwitchSDKCommand extends Command {
 
         progress.report({
           increment: 50,
-          message: "Project configuration updated.",
+          message: l10n.t("Project configuration updated."),
         });
 
         const cmakeUpdateResult = await cmakeUpdateSDK(
@@ -840,12 +881,12 @@ export default class SwitchSDKCommand extends Command {
 
         progress.report({
           increment: 50,
-          message: "CMakeLists.txt updated.",
+          message: l10n.t("CMakeLists.txt updated."),
         });
 
         if (!cmakeUpdateResult) {
           void window.showWarningMessage(
-            "Failed to update CMakeLists.txt for new SDK version."
+            l10n.t("Failed to update CMakeLists.txt for new SDK version.")
           );
 
           return false;
@@ -858,12 +899,13 @@ export default class SwitchSDKCommand extends Command {
     if (result) {
       this._ui.updateSDKVersion(selectedSDK.label.replace("v", ""));
 
-      const reloadWindowBtn = "Reload Window";
+      const reloadWindowBtn = l10n.t("Reload Window");
       // notify user that reloading the window is
       // recommended to update intellisense
       const reload = await window.showInformationMessage(
-        "It is recommended to reload the window to update intellisense " +
-          "with the new SDK version.",
+        l10n.t(
+          "It is recommended to reload the window to update intellisense with the new SDK version."
+        ),
         reloadWindowBtn
       );
 

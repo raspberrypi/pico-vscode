@@ -6,12 +6,13 @@ import {
   type Event,
   TreeItemCollapsibleState,
   ThemeIcon,
+  l10n,
 } from "vscode";
 import Logger from "../logger.mjs";
 import { extensionName } from "../commands/command.mjs";
 import {
-  DOCUMENTATION_LABEL_BY_ID,
   DocumentationId,
+  getDocumentationLabel,
 } from "../commands/openSdkDocumentation.mjs";
 import {
   CLEAN_CMAKE,
@@ -32,45 +33,136 @@ import {
 } from "../commands/cmdIds.mjs";
 import { ProjectLang } from "../models/projectLang.mjs";
 
-export class QuickAccessCommand extends TreeItem {
-  constructor(
-    public readonly label: string,
-    public readonly collapsibleState: TreeItemCollapsibleState,
-    public readonly command?: Command
-  ) {
-    super(label, collapsibleState);
+/**
+ * Identifies a Quick Access tree item independently of its (translated) label.
+ */
+enum QuickAccessItem {
+  commonCommandsParent = "commonCommandsParent",
+  projectCommandsParent = "projectCommandsParent",
+  documentationCommandsParent = "documentationCommandsParent",
+
+  newCCppProject = "newCCppProject",
+  newMicroPythonProject = "newMicroPythonProject",
+  newRustProject = "newRustProject",
+  newZephyrProject = "newZephyrProject",
+  importProject = "importProject",
+  exampleProject = "exampleProject",
+  switchSdk = "switchSdk",
+  switchBoard = "switchBoard",
+  compileProject = "compileProject",
+  runProject = "runProject",
+  flashProject = "flashProject",
+  configureCmakeProject = "configureCmakeProject",
+  cleanCmakeProject = "cleanCmakeProject",
+  switchBuildType = "switchBuildType",
+  debugProject = "debugProject",
+  debugLayoutProject = "debugLayoutProject",
+  manageComponents = "manageComponents",
+
+  docHardware = "docHardware",
+  docHighLevel = "docHighLevel",
+  docNetworking = "docNetworking",
+  docRuntimeInfrastructure = "docRuntimeInfrastructure",
+}
+
+function quickAccessLabel(item: QuickAccessItem): string {
+  switch (item) {
+    case QuickAccessItem.commonCommandsParent:
+      return l10n.t({
+        message: "General",
+        comment: ["Quick Access tree group of general commands"],
+      });
+    case QuickAccessItem.projectCommandsParent:
+      return l10n.t({
+        message: "Project",
+        comment: ["Quick Access tree group of project commands"],
+      });
+    case QuickAccessItem.documentationCommandsParent:
+      return l10n.t({
+        message: "Documentation",
+        comment: ["Quick Access tree group of documentation links"],
+      });
+    case QuickAccessItem.newCCppProject:
+      return l10n.t("New C/C++ Project");
+    case QuickAccessItem.newMicroPythonProject:
+      return l10n.t("New MicroPython Project");
+    case QuickAccessItem.newRustProject:
+      return l10n.t("New Rust Project");
+    case QuickAccessItem.newZephyrProject:
+      return l10n.t("New Zephyr Project");
+    case QuickAccessItem.importProject:
+      return l10n.t("Import Project");
+    case QuickAccessItem.exampleProject:
+      return l10n.t("New Project From Example");
+    case QuickAccessItem.switchSdk:
+      return l10n.t("Switch SDK");
+    case QuickAccessItem.switchBoard:
+      return l10n.t("Switch Board");
+    case QuickAccessItem.compileProject:
+      return l10n.t("Compile Project");
+    case QuickAccessItem.runProject:
+      return l10n.t("Run Project (USB)");
+    case QuickAccessItem.flashProject:
+      return l10n.t("Flash Project (SWD)");
+    case QuickAccessItem.configureCmakeProject:
+      return l10n.t("Configure CMake");
+    case QuickAccessItem.cleanCmakeProject:
+      return l10n.t("Clean CMake");
+    case QuickAccessItem.switchBuildType:
+      return l10n.t("Switch Build Type");
+    case QuickAccessItem.debugProject:
+      return l10n.t("Debug Project");
+    case QuickAccessItem.debugLayoutProject:
+      return l10n.t("Debug Layout");
+    case QuickAccessItem.manageComponents:
+      return l10n.t("Manage Components");
+    case QuickAccessItem.docHardware:
+      return getDocumentationLabel(DocumentationId.hardware);
+    case QuickAccessItem.docHighLevel:
+      return getDocumentationLabel(DocumentationId.highLevel);
+    case QuickAccessItem.docNetworking:
+      return getDocumentationLabel(DocumentationId.networking);
+    case QuickAccessItem.docRuntimeInfrastructure:
+      return getDocumentationLabel(DocumentationId.runtimeInfrastructure);
   }
 }
 
-const COMMON_COMMANDS_PARENT_LABEL = "General";
-const PROJECT_COMMANDS_PARENT_LABEL = "Project";
-const DOCUMENTATION_COMMANDS_PARENT_LABEL = "Documentation";
+export class QuickAccessCommand extends TreeItem {
+  public readonly label: string;
 
-const NEW_C_CPP_PROJECT_LABEL = "New C/C++ Project";
-const NEW_MICROPYTHON_PROJECT_LABEL = "New MicroPython Project";
-const NEW_RUST_PROJECT_LABEL = "New Rust Project";
-const NEW_ZEPHYR_PROJECT_LABEL = "New Zephyr Project";
-const IMPORT_PROJECT_LABEL = "Import Project";
-const EXAMPLE_PROJECT_LABEL = "New Project From Example";
-const SWITCH_SDK_LABEL = "Switch SDK";
-const SWITCH_BOARD_LABEL = "Switch Board";
-const COMPILE_PROJECT_LABEL = "Compile Project";
-const RUN_PROJECT_LABEL = "Run Project (USB)";
-const FLASH_PROJECT_LABEL = "Flash Project (SWD)";
-const CONFIGURE_CMAKE_PROJECT_LABEL = "Configure CMake";
-const CLEAN_CMAKE_PROJECT_LABEL = "Clean CMake";
-const SWITCH_BUILD_TYPE_LABEL = "Switch Build Type";
-const DEBUG_PROJECT_LABEL = "Debug Project";
-const DEBUG_LAYOUT_PROJECT_LABEL = "Debug Layout";
-const MANAGE_COMPONENTS_LABEL = "Manage Components";
+  constructor(
+    public readonly item: QuickAccessItem,
+    public readonly collapsibleState: TreeItemCollapsibleState,
+    public readonly command?: Command
+  ) {
+    const label = quickAccessLabel(item);
+    super(label, collapsibleState);
+    this.label = label;
+  }
+}
+
+/**
+ * Creates a leaf item that runs an extension command, titled with its label.
+ */
+function commandItem(
+  item: QuickAccessItem,
+  commandId: string,
+  args?: unknown[]
+): QuickAccessCommand {
+  return new QuickAccessCommand(item, TreeItemCollapsibleState.None, {
+    command: `${extensionName}.${commandId}`,
+    title: quickAccessLabel(item),
+    arguments: args,
+  });
+}
 
 export class PicoProjectActivityBar
   implements TreeDataProvider<QuickAccessCommand>
 {
   public static readonly viewType = "raspberry-pi-pico-project-quick-access";
-  private _sdkVersion: string = "N/A";
-  private _board: string = "N/A";
-  private _buildType: string = "N/A";
+  private _sdkVersion?: string;
+  private _board?: string;
+  private _buildType?: string;
 
   private _onDidChangeTreeData = new EventEmitter<
     QuickAccessCommand | undefined | void
@@ -106,80 +198,85 @@ export class PicoProjectActivityBar
   public getTreeItem(
     element: QuickAccessCommand
   ): TreeItem | Thenable<TreeItem> {
-    switch (element.label) {
-      case NEW_C_CPP_PROJECT_LABEL:
+    const notAvailable = l10n.t({
+      message: "N/A",
+      comment: ["Shown when a value is not available"],
+    });
+
+    switch (element.item) {
+      case QuickAccessItem.newCCppProject:
         // alt. "new-folder"
         element.iconPath = new ThemeIcon("file-directory-create");
         break;
-      case NEW_MICROPYTHON_PROJECT_LABEL:
+      case QuickAccessItem.newMicroPythonProject:
         element.iconPath = new ThemeIcon("file-directory-create");
         break;
-      case NEW_RUST_PROJECT_LABEL:
+      case QuickAccessItem.newRustProject:
         element.iconPath = new ThemeIcon("file-directory-create");
         break;
-      case NEW_ZEPHYR_PROJECT_LABEL:
+      case QuickAccessItem.newZephyrProject:
         element.iconPath = new ThemeIcon("file-directory-create");
         break;
-      case IMPORT_PROJECT_LABEL:
+      case QuickAccessItem.importProject:
         // alt. "repo-pull"
         element.iconPath = new ThemeIcon("repo-clone");
         break;
-      case EXAMPLE_PROJECT_LABEL:
+      case QuickAccessItem.exampleProject:
         // alt. "file-code"
         element.iconPath = new ThemeIcon("file-symlink-directory");
         break;
-      case MANAGE_COMPONENTS_LABEL:
+      case QuickAccessItem.manageComponents:
         element.iconPath = new ThemeIcon("package");
         break;
 
-      case DEBUG_PROJECT_LABEL:
+      case QuickAccessItem.debugProject:
         element.iconPath = new ThemeIcon("debug-alt");
         break;
-      case COMPILE_PROJECT_LABEL:
+      case QuickAccessItem.compileProject:
         // alt. "gear", "notifications-configure"
         element.iconPath = new ThemeIcon("file-binary");
         break;
-      case RUN_PROJECT_LABEL:
+      case QuickAccessItem.runProject:
         element.iconPath = new ThemeIcon("run");
         break;
-      case FLASH_PROJECT_LABEL:
+      case QuickAccessItem.flashProject:
         element.iconPath = new ThemeIcon("desktop-download");
         break;
-      case CONFIGURE_CMAKE_PROJECT_LABEL:
+      case QuickAccessItem.configureCmakeProject:
         // alt. "gather"
         element.iconPath = new ThemeIcon("beaker");
         break;
-      case CLEAN_CMAKE_PROJECT_LABEL:
+      case QuickAccessItem.cleanCmakeProject:
         // or "trash" or "sync"
         element.iconPath = new ThemeIcon("squirrel");
         break;
-      case SWITCH_BUILD_TYPE_LABEL:
+      case QuickAccessItem.switchBuildType:
         element.iconPath = new ThemeIcon("gear");
-        element.description = `${this._buildType}`;
+        element.description = this._buildType ?? notAvailable;
         break;
-      case SWITCH_SDK_LABEL:
+      case QuickAccessItem.switchSdk:
         // repo-forked or extensions; alt. "replace-all"
         element.iconPath = new ThemeIcon("find-replace-all");
-        element.description = `${this._sdkVersion}`;
+        element.description = this._sdkVersion ?? notAvailable;
         break;
-      case SWITCH_BOARD_LABEL:
+      case QuickAccessItem.switchBoard:
         element.iconPath = new ThemeIcon("circuit-board");
-        element.description = `${this._board}`;
+        element.description = this._board ?? notAvailable;
         break;
-      case DEBUG_LAYOUT_PROJECT_LABEL:
+      case QuickAccessItem.debugLayoutProject:
         element.iconPath = new ThemeIcon("debug-console");
         break;
 
-      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware]:
+      case QuickAccessItem.docHardware:
         element.iconPath = new ThemeIcon("device-camera");
         break;
-      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel]:
+      case QuickAccessItem.docHighLevel:
         element.iconPath = new ThemeIcon("device-camera-video");
         break;
-      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking]:
+      case QuickAccessItem.docNetworking:
         element.iconPath = new ThemeIcon("server");
         break;
-      case DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure]:
+      case QuickAccessItem.docRuntimeInfrastructure:
         element.iconPath = new ThemeIcon("server-process");
         break;
     }
@@ -191,203 +288,66 @@ export class PicoProjectActivityBar
     if (element === undefined) {
       return [
         new QuickAccessCommand(
-          COMMON_COMMANDS_PARENT_LABEL,
+          QuickAccessItem.commonCommandsParent,
           TreeItemCollapsibleState.Expanded
         ),
         new QuickAccessCommand(
-          PROJECT_COMMANDS_PARENT_LABEL,
+          QuickAccessItem.projectCommandsParent,
           TreeItemCollapsibleState.Expanded
         ),
         new QuickAccessCommand(
-          DOCUMENTATION_COMMANDS_PARENT_LABEL,
+          QuickAccessItem.documentationCommandsParent,
           TreeItemCollapsibleState.Expanded
         ),
       ];
-    } else if (element.label === COMMON_COMMANDS_PARENT_LABEL) {
+    } else if (element.item === QuickAccessItem.commonCommandsParent) {
       return [
-        new QuickAccessCommand(
-          NEW_C_CPP_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${NEW_PROJECT}`,
-            title: NEW_C_CPP_PROJECT_LABEL,
-            arguments: [ProjectLang.cCpp],
-          }
-        ),
-        new QuickAccessCommand(
-          NEW_MICROPYTHON_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${NEW_PROJECT}`,
-            title: NEW_MICROPYTHON_PROJECT_LABEL,
-            arguments: [ProjectLang.micropython],
-          }
-        ),
-        new QuickAccessCommand(
-          NEW_RUST_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${NEW_PROJECT}`,
-            title: NEW_RUST_PROJECT_LABEL,
-            arguments: [ProjectLang.rust],
-          }
-        ),
-        new QuickAccessCommand(
-          NEW_ZEPHYR_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${NEW_PROJECT}`,
-            title: NEW_ZEPHYR_PROJECT_LABEL,
-            arguments: [ProjectLang.zephyr],
-          }
-        ),
-        new QuickAccessCommand(
-          IMPORT_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${IMPORT_PROJECT}`,
-            title: IMPORT_PROJECT_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          EXAMPLE_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${NEW_EXAMPLE_PROJECT}`,
-            title: EXAMPLE_PROJECT_LABEL,
-            arguments: [true],
-          }
-        ),
-        new QuickAccessCommand(
-          MANAGE_COMPONENTS_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${OPEN_UNINSTALLER}`,
-            title: MANAGE_COMPONENTS_LABEL,
-          }
-        ),
+        commandItem(QuickAccessItem.newCCppProject, NEW_PROJECT, [
+          ProjectLang.cCpp,
+        ]),
+        commandItem(QuickAccessItem.newMicroPythonProject, NEW_PROJECT, [
+          ProjectLang.micropython,
+        ]),
+        commandItem(QuickAccessItem.newRustProject, NEW_PROJECT, [
+          ProjectLang.rust,
+        ]),
+        commandItem(QuickAccessItem.newZephyrProject, NEW_PROJECT, [
+          ProjectLang.zephyr,
+        ]),
+        commandItem(QuickAccessItem.importProject, IMPORT_PROJECT),
+        commandItem(QuickAccessItem.exampleProject, NEW_EXAMPLE_PROJECT, [
+          true,
+        ]),
+        commandItem(QuickAccessItem.manageComponents, OPEN_UNINSTALLER),
       ];
-    } else if (element.label === PROJECT_COMMANDS_PARENT_LABEL) {
+    } else if (element.item === QuickAccessItem.projectCommandsParent) {
       return [
-        new QuickAccessCommand(
-          DEBUG_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${CONDITIONAL_DEBUGGING}`,
-            title: DEBUG_PROJECT_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          COMPILE_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${COMPILE_PROJECT}`,
-            title: COMPILE_PROJECT_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          RUN_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${RUN_PROJECT}`,
-            title: RUN_PROJECT_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          FLASH_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${FLASH_PROJECT_SWD}`,
-            title: FLASH_PROJECT_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          CONFIGURE_CMAKE_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${CONFIGURE_CMAKE}`,
-            title: CONFIGURE_CMAKE_PROJECT_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          CLEAN_CMAKE_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${CLEAN_CMAKE}`,
-            title: CLEAN_CMAKE_PROJECT_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          SWITCH_BUILD_TYPE_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${SWITCH_BUILD_TYPE}`,
-            title: SWITCH_BUILD_TYPE_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          SWITCH_SDK_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${SWITCH_SDK}`,
-            title: SWITCH_SDK_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          SWITCH_BOARD_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${SWITCH_BOARD}`,
-            title: SWITCH_BOARD_LABEL,
-          }
-        ),
-        new QuickAccessCommand(
-          DEBUG_LAYOUT_PROJECT_LABEL,
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${DEBUG_LAYOUT}`,
-            title: DEBUG_LAYOUT_PROJECT_LABEL,
-          }
-        ),
+        commandItem(QuickAccessItem.debugProject, CONDITIONAL_DEBUGGING),
+        commandItem(QuickAccessItem.compileProject, COMPILE_PROJECT),
+        commandItem(QuickAccessItem.runProject, RUN_PROJECT),
+        commandItem(QuickAccessItem.flashProject, FLASH_PROJECT_SWD),
+        commandItem(QuickAccessItem.configureCmakeProject, CONFIGURE_CMAKE),
+        commandItem(QuickAccessItem.cleanCmakeProject, CLEAN_CMAKE),
+        commandItem(QuickAccessItem.switchBuildType, SWITCH_BUILD_TYPE),
+        commandItem(QuickAccessItem.switchSdk, SWITCH_SDK),
+        commandItem(QuickAccessItem.switchBoard, SWITCH_BOARD),
+        commandItem(QuickAccessItem.debugLayoutProject, DEBUG_LAYOUT),
       ];
-    } else if (element.label === DOCUMENTATION_COMMANDS_PARENT_LABEL) {
+    } else if (element.item === QuickAccessItem.documentationCommandsParent) {
       return [
-        new QuickAccessCommand(
-          DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware],
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
-            title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.hardware],
-            arguments: [DocumentationId.hardware],
-          }
-        ),
-        new QuickAccessCommand(
-          DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel],
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
-            title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.highLevel],
-            arguments: [DocumentationId.highLevel],
-          }
-        ),
-        new QuickAccessCommand(
-          DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking],
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
-            title: DOCUMENTATION_LABEL_BY_ID[DocumentationId.networking],
-            arguments: [DocumentationId.networking],
-          }
-        ),
-        new QuickAccessCommand(
-          DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure],
-          TreeItemCollapsibleState.None,
-          {
-            command: `${extensionName}.${OPEN_SDK_DOCUMENTATION}`,
-            title:
-              DOCUMENTATION_LABEL_BY_ID[DocumentationId.runtimeInfrastructure],
-            arguments: [DocumentationId.runtimeInfrastructure],
-          }
+        commandItem(QuickAccessItem.docHardware, OPEN_SDK_DOCUMENTATION, [
+          DocumentationId.hardware,
+        ]),
+        commandItem(QuickAccessItem.docHighLevel, OPEN_SDK_DOCUMENTATION, [
+          DocumentationId.highLevel,
+        ]),
+        commandItem(QuickAccessItem.docNetworking, OPEN_SDK_DOCUMENTATION, [
+          DocumentationId.networking,
+        ]),
+        commandItem(
+          QuickAccessItem.docRuntimeInfrastructure,
+          OPEN_SDK_DOCUMENTATION,
+          [DocumentationId.runtimeInfrastructure]
         ),
       ];
     } else {

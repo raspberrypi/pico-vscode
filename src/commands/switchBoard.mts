@@ -2,6 +2,7 @@ import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
 import {
   commands,
+  l10n,
   ProgressLocation,
   Uri,
   window,
@@ -150,7 +151,7 @@ export default class SwitchBoardCommand extends Command {
 
     // show quick pick for board type
     const board = await window.showQuickPick(quickPickItems, {
-      placeHolder: "Select Board",
+      placeHolder: l10n.t("Select Board"),
     });
 
     if (board === undefined) {
@@ -166,15 +167,17 @@ export default class SwitchBoardCommand extends Command {
       return [board, false];
     }
 
-    const useRiscV = await window.showQuickPick(["No", "Yes"], {
-      placeHolder: "Use RISC-V?",
+    const no = l10n.t("No");
+    const yes = l10n.t("Yes");
+    const useRiscV = await window.showQuickPick([no, yes], {
+      placeHolder: l10n.t("Use RISC-V?"),
     });
 
     if (useRiscV === undefined) {
       return;
     }
 
-    return [board, useRiscV === "Yes"];
+    return [board, useRiscV === yes];
   }
 
   async execute(): Promise<void> {
@@ -195,10 +198,10 @@ export default class SwitchBoardCommand extends Command {
       const board = await window.showQuickPick(
         ["RP2040", "RP2350", "RP2350-RISCV"],
         {
-          placeHolder: "Select chip",
+          placeHolder: l10n.t("Select chip"),
           canPickMany: false,
           ignoreFocusOut: false,
-          title: "Switch project target chip",
+          title: l10n.t("Switch project target chip"),
         }
       );
 
@@ -218,8 +221,9 @@ export default class SwitchBoardCommand extends Command {
         );
 
         void window.showErrorMessage(
-          "Failed to write .pico-rs file. " +
-            "Please check the logs for more information."
+          l10n.t(
+            "Failed to write .pico-rs file. Please check the logs for more information."
+          )
         );
 
         return;
@@ -251,7 +255,7 @@ export default class SwitchBoardCommand extends Command {
     const latestSdkVersion = await this._versionBundlesLoader.getLatestSDK();
     if (latestSdkVersion === undefined) {
       void window.showErrorMessage(
-        "Failed to get latest SDK version - cannot update board"
+        l10n.t("Failed to get latest SDK version - cannot update board")
       );
 
       return;
@@ -279,7 +283,9 @@ export default class SwitchBoardCommand extends Command {
       } else if (board === ZEPHYR_PICO) {
         this._ui.updateBoard("Pico");
       } else {
-        this._ui.updateBoard("Other");
+        this._ui.updateBoard(
+          l10n.t({ message: "Other", comment: ["An unrecognised board"] })
+        );
       }
     }
   }
@@ -293,7 +299,7 @@ export default class SwitchBoardCommand extends Command {
 
     if (versions === null) {
       void window.showErrorMessage(
-        "Failed to get sdk version - cannot update board"
+        l10n.t("Failed to get sdk version - cannot update board")
       );
 
       return;
@@ -318,7 +324,10 @@ export default class SwitchBoardCommand extends Command {
 
     if (versionBundle === undefined) {
       void window.showErrorMessage(
-        `Cannot switch board automatically with SDK version ${versions[0]}`
+        l10n.t(
+          "Cannot switch board automatically with SDK version {0}",
+          versions[0]
+        )
       );
 
       return;
@@ -338,8 +347,9 @@ export default class SwitchBoardCommand extends Command {
         // internet is not required if locally cached version bundles are available
         // but in this case a use shouldn't see this message
         void window.showErrorMessage(
-          "Failed to get supported toolchain versions. " +
-            "Make sure you are connected to the internet."
+          l10n.t(
+            "Failed to get supported toolchain versions. Make sure you are connected to the internet."
+          )
         );
 
         return;
@@ -350,14 +360,16 @@ export default class SwitchBoardCommand extends Command {
       );
 
       if (selectedToolchain === undefined) {
-        void window.showErrorMessage("Error switching to Risc-V toolchain");
+        void window.showErrorMessage(
+          l10n.t("Error switching to Risc-V toolchain")
+        );
 
         return;
       }
 
       await window.withProgress(
         {
-          title: `Installing toolchain ${selectedToolchain.version} `,
+          title: l10n.t("Installing toolchain {0} ", selectedToolchain.version),
           location: ProgressLocation.Notification,
         },
         async progress => {
@@ -388,7 +400,9 @@ export default class SwitchBoardCommand extends Command {
 
             if (!cmakeUpdateResult) {
               void window.showWarningMessage(
-                "Failed to update CMakeLists.txt for new toolchain version."
+                l10n.t(
+                  "Failed to update CMakeLists.txt for new toolchain version."
+                )
               );
             }
           }
@@ -400,12 +414,13 @@ export default class SwitchBoardCommand extends Command {
     if (success) {
       this._ui.updateBoard(board);
 
-      const reloadWindowBtn = "Reload Window";
+      const reloadWindowBtn = l10n.t("Reload Window");
       // notify user that reloading the window is
       // recommended to update intellisense
       const reload = await window.showInformationMessage(
-        "It is recommended to reload the window to update intellisense " +
-          "with the new board.",
+        l10n.t(
+          "It is recommended to reload the window to update intellisense with the new board."
+        ),
         reloadWindowBtn
       );
 

@@ -1,4 +1,5 @@
 import {
+  l10n,
   workspace,
   type ExtensionContext,
   window,
@@ -59,7 +60,6 @@ import SwitchBoardCommand from "./commands/switchBoard.mjs";
 import UninstallPicoSDKCommand from "./commands/uninstallPicoSDK.mjs";
 import UpdateOpenOCDCommand from "./commands/updateOpenOCD.mjs";
 import FlashProjectSWDCommand from "./commands/flashProjectSwd.mjs";
-// eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "./webview/newMicroPythonProjectPanel.mjs";
 import State from "./state.mjs";
 import { NewRustProjectPanel } from "./webview/newRustProjectPanel.mjs";
@@ -322,12 +322,15 @@ async function handleUnsupportedProject(
   await resetProjectContext();
 
   if (detection.kind === "unsupported" && detection.offerImport) {
+    const yes = l10n.t("Yes");
     const wantToImport = await window.showInformationMessage(
-      "Do you want to import this project as Raspberry Pi Pico project?",
-      "Yes",
-      "No"
+      l10n.t(
+        "Do you want to import this project as Raspberry Pi Pico project?"
+      ),
+      yes,
+      l10n.t("No")
     );
-    if (wantToImport === "Yes") {
+    if (wantToImport === yes) {
       void commands.executeCommand(
         `${extensionName}.${IMPORT_PROJECT}`,
         workspaceFolder.uri

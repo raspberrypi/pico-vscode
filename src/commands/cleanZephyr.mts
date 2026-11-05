@@ -1,4 +1,4 @@
-import { commands, Uri, window, workspace } from "vscode";
+import { commands, l10n, Uri, window, workspace } from "vscode";
 import { CLEAN_ZEPHYR } from "./cmdIds.mjs";
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
@@ -28,18 +28,20 @@ export class CleanZephyrCommand extends Command {
         `Zephyr workspace at ${zephyrWorkspaceUri.fsPath} has been removed.`
       );
       if (State.getInstance().isZephyrProject) {
+        const reloadWindow = l10n.t("Reload Window");
         const answer = await window.showInformationMessage(
-          "Zephyr workspace has been removed. " +
-            "Reload the window to reinitialize the Zephyr workspace.",
-          "Reload Window"
+          l10n.t(
+            "Zephyr workspace has been removed. Reload the window to reinitialize the Zephyr workspace."
+          ),
+          reloadWindow
         );
 
-        if (answer === "Reload Window") {
+        if (answer === reloadWindow) {
           await commands.executeCommand("workbench.action.reloadWindow");
         }
       } else {
         void window.showInformationMessage(
-          "Zephyr workspace has been removed."
+          l10n.t("Zephyr workspace has been removed.")
         );
       }
     } catch (e) {
@@ -48,7 +50,7 @@ export class CleanZephyrCommand extends Command {
           `does not exist or could not be accessed: ${unknownErrorToString(e)}`
       );
       void window.showInformationMessage(
-        "A Zephyr workspace does not exist or could not be accessed."
+        l10n.t("A Zephyr workspace does not exist or could not be accessed.")
       );
     }
   }

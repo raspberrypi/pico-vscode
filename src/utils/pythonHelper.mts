@@ -2,7 +2,7 @@ import Settings, { HOME_VAR, SettingsKey } from "../settings.mjs";
 import { PythonExtension } from "@vscode/python-extension";
 import { buildPython3Path, downloadEmbedPython } from "./download.mjs";
 import { pyenvInstallPython, setupPyenv } from "./pyenvUtil.mjs";
-import { commands, ProgressLocation, window } from "vscode";
+import { commands, l10n, ProgressLocation, window } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { execSync } from "child_process";
 import { unknownErrorToString } from "./errorHelper.mjs";
@@ -64,9 +64,9 @@ export default async function findPython(
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title:
-        "Searching for Python. " +
-        "This may take a while if it has to be downloaded.",
+      title: l10n.t(
+        "Searching for Python. This may take a while if it has to be downloaded."
+      ),
       cancellable: false,
     },
     async progress => {
@@ -201,7 +201,7 @@ export default async function findPython(
           await window.withProgress(
             {
               location: ProgressLocation.Notification,
-              title: "Downloading Python",
+              title: l10n.t("Downloading Python"),
               cancellable: false,
             },
             // TODO: add progress and maybe cancelable
@@ -228,7 +228,10 @@ export default async function findPython(
                 process.arch
               );
               void window.showErrorMessage(
-                "Unsupported architecture for Windows: " + process.arch
+                l10n.t(
+                  "Unsupported architecture for Windows: {0}",
+                  process.arch
+                )
               );
 
               return undefined;
@@ -406,18 +409,18 @@ async function findPythonInPythonExtension(
 }
 
 export function showPythonNotFoundError(
-  message =
-    "Failed to find any valid Python installation. " +
-    "Make sure Python >=3.9 is installed. " +
-    "You can set a Python executable directly in your " +
-    "user settings or select in the Python extension."
+  message = l10n.t(
+    "Failed to find any valid Python installation. Make sure Python >=3.9 is installed. You can set a Python executable directly in your user settings or select in the Python extension."
+  )
 ): void {
+  const openPythonExtension = l10n.t("Open Python Extension");
+  const editSettings = l10n.t("Edit Settings");
   void window
-    .showErrorMessage(message, "Open Python Extension", "Edit Settings")
+    .showErrorMessage(message, openPythonExtension, editSettings)
     .then(selected => {
-      if (selected === "Open Python Extension") {
+      if (selected === openPythonExtension) {
         void commands.executeCommand("python.setInterpreter");
-      } else if (selected === "Edit Settings") {
+      } else if (selected === editSettings) {
         void commands.executeCommand(
           "workbench.action.openSettings",
           extensionName + "." + SettingsKey.python3Path
@@ -429,10 +432,10 @@ export function showPythonNotFoundError(
 export function showZephyrPythonNotFoundError(): void {
   const version = ZEPHYR_PYTHON_VERSION.split(".").slice(0, 2).join(".");
   showPythonNotFoundError(
-    `Failed to find a Python ${version} installation. ` +
-      `Zephyr requires Python ${version}. ` +
-      "You can set a Python executable directly in your " +
-      "user settings or select in the Python extension."
+    l10n.t(
+      "Failed to find a Python {0} installation. Zephyr requires Python {0}. You can set a Python executable directly in your user settings or select in the Python extension.",
+      version
+    )
   );
 }
 

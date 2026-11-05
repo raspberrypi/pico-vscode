@@ -1,4 +1,4 @@
-import { ProgressLocation, window, type Uri } from "vscode";
+import { l10n, ProgressLocation, window, type Uri } from "vscode";
 import type { Progress as GotProgress } from "got";
 import Logger, { LoggerSource } from "../logger.mjs";
 import {
@@ -59,14 +59,17 @@ export async function ensureBasePicoDependencies(input: {
       LoggerSource.extension,
       "Failed to detect project toolchain version."
     );
-    void window.showErrorMessage("Failed to detect project toolchain version.");
+    void window.showErrorMessage(
+      l10n.t("Failed to detect project toolchain version.")
+    );
 
     return false;
   }
 
   const toolchainInstalled = await withDownloadProgress(
-    "Downloading and installing toolchain as selected. " +
-      "This may take a while...",
+    l10n.t(
+      "Downloading and installing toolchain as selected. This may take a while..."
+    ),
     progress => downloadAndInstallToolchain(selectedToolchain, progress)
   );
   if (!toolchainInstalled) {
@@ -76,7 +79,7 @@ export async function ensureBasePicoDependencies(input: {
       `version: ${input.selections.toolchainVersion}`
     );
     void window.showErrorMessage(
-      "Failed to install project toolchain version."
+      l10n.t("Failed to install project toolchain version.")
     );
 
     return false;
@@ -88,7 +91,9 @@ export async function ensureBasePicoDependencies(input: {
   );
 
   const toolsInstalled = await withDownloadProgress(
-    "Downloading and installing tools as selected. This may take a while...",
+    l10n.t(
+      "Downloading and installing tools as selected. This may take a while..."
+    ),
     progress => downloadAndInstallTools(input.selections.sdkVersion!, progress)
   );
   if (!toolsInstalled) {
@@ -98,7 +103,9 @@ export async function ensureBasePicoDependencies(input: {
       `version: ${input.selections.sdkVersion}.`,
       "Make sure all requirements are met."
     );
-    void window.showErrorMessage("Failed to install project SDK version.");
+    void window.showErrorMessage(
+      l10n.t("Failed to install project SDK version.")
+    );
 
     return false;
   }
@@ -109,21 +116,22 @@ export async function ensureBasePicoDependencies(input: {
   );
 
   const picotoolInstalled = await withDownloadProgress(
-    "Downloading and installing picotool as selected. " +
-      "This may take a while...",
+    l10n.t(
+      "Downloading and installing picotool as selected. This may take a while..."
+    ),
     progress =>
       downloadAndInstallPicotool(input.selections.picotoolVersion!, progress)
   );
   if (!picotoolInstalled) {
     Logger.error(LoggerSource.extension, "Failed to install picotool.");
-    void window.showErrorMessage("Failed to install picotool.");
+    void window.showErrorMessage(l10n.t("Failed to install picotool."));
 
     return false;
   }
   Logger.debug(LoggerSource.extension, "Found/installed picotool.");
 
   const openOcdInstalled = await withDownloadProgress(
-    "Downloading and installing OpenOCD. This may take a while...",
+    l10n.t("Downloading and installing OpenOCD. This may take a while..."),
     progress => downloadAndInstallOpenOCD(OPENOCD_VERSION, progress)
   );
   if (!openOcdInstalled) {
@@ -131,10 +139,14 @@ export async function ensureBasePicoDependencies(input: {
       LoggerSource.extension,
       "Failed to download and install OpenOCD."
     );
-    void window.showWarningMessage("Failed to download and install OpenOCD.");
+    void window.showWarningMessage(
+      l10n.t("Failed to download and install OpenOCD.")
+    );
   } else {
     Logger.debug(LoggerSource.extension, "Found/installed OpenOCD.");
-    void window.showInformationMessage("OpenOCD found/installed successfully.");
+    void window.showInformationMessage(
+      l10n.t("OpenOCD found/installed successfully.")
+    );
   }
 
   return true;

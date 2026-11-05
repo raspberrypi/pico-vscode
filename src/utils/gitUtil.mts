@@ -6,7 +6,7 @@ import Settings from "../settings.mjs";
 import { SettingsKey, HOME_VAR } from "../settings.mjs";
 import { homedir } from "os";
 import which from "which";
-import { ProgressLocation, window } from "vscode";
+import { l10n, ProgressLocation, window } from "vscode";
 import { compareGe } from "./semverUtil.mjs";
 import { downloadGit } from "./downloadGit.mjs";
 import LastUsedDepsStore from "./lastUsedDeps.mjs";
@@ -65,15 +65,18 @@ export async function ensureGit(
 
   // If custom path is invalid, offer to reset to default
   if (gitExe !== DEFAULT_GIT_EXE && gitPath === null) {
+    const yes = l10n.t("Yes");
+    const no = l10n.t("No");
     const selection = await window.showErrorMessage(
-      "The path to the git executable is invalid. " +
-        "Do you want to reset it and search in system PATH?",
+      l10n.t(
+        "The path to the git executable is invalid. Do you want to reset it and search in system PATH?"
+      ),
       { modal: true, detail: gitExe },
-      "Yes",
-      "No"
+      yes,
+      no
     );
 
-    if (selection === "Yes") {
+    if (selection === yes) {
       await settings.updateGlobal(SettingsKey.gitPath, undefined);
       settings.reload();
       gitExe = DEFAULT_GIT_EXE;
@@ -115,9 +118,11 @@ export async function ensureGit(
           "and a new version could not be downloaded."
       );
       void window.showErrorMessage(
-        `Found Git version ${gitVersion}, but requires ${MIN_GIT_VERSION}. ` +
-          "Please install and add to PATH or " +
-          "set the path to the git executable in global settings."
+        l10n.t(
+          "Found Git version {0}, but requires {1}. Please install and add to PATH or set the path to the git executable in global settings.",
+          gitVersion,
+          MIN_GIT_VERSION
+        )
       );
     } else {
       Logger.error(
@@ -125,12 +130,13 @@ export async function ensureGit(
         "Git is not installed and could not be downloaded."
       );
       void window.showErrorMessage(
-        "Git is not installed. Please install and add to PATH or " +
-          "set the path to the git executable in global settings." +
-          (process.platform === "darwin"
-            ? " You can install it by running " +
-              "`xcode-select --install` in the terminal."
-            : "")
+        process.platform === "darwin"
+          ? l10n.t(
+              "Git is not installed. Please install and add to PATH or set the path to the git executable in global settings. You can install it by running `xcode-select --install` in the terminal."
+            )
+          : l10n.t(
+              "Git is not installed. Please install and add to PATH or set the path to the git executable in global settings."
+            )
       );
     }
   }
@@ -301,7 +307,7 @@ export async function checkGitWithProgress(): Promise<string | undefined> {
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Ensuring Git is available",
+      title: l10n.t("Ensuring Git is available"),
       cancellable: false,
     },
     async progress2 => {
@@ -309,7 +315,7 @@ export async function checkGitWithProgress(): Promise<string | undefined> {
       const gitPath = await ensureGit(settings, { returnPath: true });
       if (typeof gitPath !== "string" || gitPath.length === 0) {
         progress2.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -317,7 +323,7 @@ export async function checkGitWithProgress(): Promise<string | undefined> {
       }
 
       progress2.report({
-        message: "Success",
+        message: l10n.t("Success"),
         increment: 100,
       });
 

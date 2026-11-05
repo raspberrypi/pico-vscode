@@ -167,6 +167,17 @@ For advanced users who want to build the extension `.vsix` file, follow these st
 
 This will generate a `.vsix` file, which you can install in VS Code using `Ctrl+Shift+P` -> `Extensions: Install from VSIX`.
 
+## Translations
+
+The extension follows the VS Code display language. User-visible strings in `src/` and `web/` are wrapped in `l10n.t("...")` (the webview scripts in `web/` get a global `l10n.t` from `getL10nScript`), and strings in `package.json` are `%key%` references to `package.nls.json`.
+
+- `npm run l10n` extracts the English strings to `l10n/bundle.l10n.json` and writes the bundles the extension loads to `dist/l10n` (this also runs as part of the build). Commit `l10n/bundle.l10n.json` with your change.
+- To add a language, copy `l10n/bundle.l10n.json` to `l10n/bundle.l10n.<locale>.json` and `package.nls.json` to `package.nls.<locale>.json`, then translate the values, keeping `{0}`-style placeholders. The keys stay in English.
+- The English text is the key, so rewording a string in `src/` or `web/` leaves its translations behind. If the meaning is unchanged (a typo or wording fix), add `"new text": "old text"` to `l10n/renames.json`, and the build will use each language's translation of the old text until it is updated. Strings with a translator comment are keyed as `text/comment`. Entries can be removed once the build says no translation needs them.
+- Strings in `package.nls.json` have fixed keys, so their translations are kept when the English changes. Update the translations if the meaning changes.
+- `npm run lint` fails if `l10n/bundle.l10n.json` is out of date, or if a translation has mismatched placeholders, adds HTML characters, or is for an English string that no longer exists and isn't covered by `l10n/renames.json` (so rewording a string means either adding a rename or deleting its translations). It warns about untranslated strings and about old translations that can be removed. The build reports the same problems without failing.
+- To check that nothing is left untranslated, run `node scripts/l10n.mjs --pseudo` to generate a pseudo-language, then install the Pseudo Language pack and run the extension with `--locale=qps-ploc`.
+
 ## Installing from GitHub Actions
 
 To test the latest version of the extension, you can download a `.vsix` file from GitHub Actions (you must be logged into GitHub):

@@ -1,5 +1,5 @@
 import { exec, execFile } from "child_process";
-import { Uri, workspace, window, ProgressLocation } from "vscode";
+import { l10n, Uri, workspace, window, ProgressLocation } from "vscode";
 import { showRequirementsNotMetErrorMessage } from "./requirementsUtil.mjs";
 import { dirname, join, resolve } from "path";
 import Settings from "../settings.mjs";
@@ -22,10 +22,8 @@ import {
 } from "./setupZephyr.mjs";
 
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX =
-  // eslint-disable-next-line max-len
   "== DO NOT EDIT THE FOLLOWING LINES for the Raspberry Pi Pico VS Code Extension to work ==";
 export const CMAKE_DO_NOT_EDIT_HEADER_PREFIX_OLD =
-  // eslint-disable-next-line max-len
   "== DO NEVER EDIT THE NEXT LINES for Raspberry Pi Pico VS Code Extension to work ==";
 
 export async function getPythonPath(): Promise<string> {
@@ -140,7 +138,9 @@ export async function configureCmakeNinja(
     Logger.error(LoggerSource.cmake, errorMsg);
 
     void window.showErrorMessage(
-      "Failed to configure cmake for the current project. " + errorMsg
+      l10n.t(
+        "Failed to configure cmake for the current project. CMake currently does not support folder names with backslashes."
+      )
     );
 
     return false;
@@ -207,7 +207,7 @@ export async function configureCmakeNinja(
       {
         location: ProgressLocation.Notification,
         cancellable: true,
-        title: "Configuring CMake...",
+        title: l10n.t("Configuring CMake..."),
       },
       async (progress, token) => {
         const cmake =
@@ -247,8 +247,9 @@ export async function configureCmakeNinja(
           : undefined;
         if (isZephyrProject && zephyrBoard === undefined) {
           void window.showErrorMessage(
-            "Failed to configure CMake for the current Zephyr project. " +
-              "Could not determine the board from .vscode/tasks.json."
+            l10n.t(
+              "Failed to configure CMake for the current Zephyr project. Could not determine the board from .vscode/tasks.json."
+            )
           );
 
           return false;
@@ -446,7 +447,6 @@ export async function cmakeUpdateSDK(
         EOL +
         "endif()" +
         EOL +
-        // eslint-disable-next-line max-len
         "# ===================================================================================="
     );
 
@@ -466,10 +466,12 @@ export async function cmakeUpdateSDK(
         quickPickItems.push("pico2_w");
       }
       const result = await window.showQuickPick(quickPickItems, {
-        placeHolder: "The new SDK version does not support your current board",
+        placeHolder: l10n.t(
+          "The new SDK version does not support your current board"
+        ),
         canPickMany: false,
         ignoreFocusOut: true,
-        title: "Please select a new board type",
+        title: l10n.t("Please select a new board type"),
       });
 
       if (result === undefined) {

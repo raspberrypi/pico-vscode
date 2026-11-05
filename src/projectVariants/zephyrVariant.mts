@@ -2,6 +2,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import {
   FileSystemError,
+  l10n,
   Uri,
   window,
   workspace,
@@ -102,7 +103,7 @@ export class ZephyrProjectVariant implements PicoProjectVariant {
         "Failed to get latest version bundle for Zephyr project."
       );
       void window.showErrorMessage(
-        "Failed to get latest version bundle for Zephyr project."
+        l10n.t("Failed to get latest version bundle for Zephyr project.")
       );
 
       return false;
@@ -115,7 +116,7 @@ export class ZephyrProjectVariant implements PicoProjectVariant {
         "CMake path not set in settings. Cannot setup Zephyr project."
       );
       void window.showErrorMessage(
-        "CMake path not set in settings. Cannot setup Zephyr project."
+        l10n.t("CMake path not set in settings. Cannot setup Zephyr project.")
       );
 
       return false;
@@ -138,7 +139,7 @@ export class ZephyrProjectVariant implements PicoProjectVariant {
         "Ninja path not set in settings. Cannot setup Zephyr project."
       );
       void window.showErrorMessage(
-        "Ninja path not set in settings. Cannot setup Zephyr project."
+        l10n.t("Ninja path not set in settings. Cannot setup Zephyr project.")
       );
 
       return false;
@@ -175,14 +176,14 @@ export class ZephyrProjectVariant implements PicoProjectVariant {
     });
     if (result === undefined) {
       void window.showErrorMessage(
-        "Failed to setup Zephyr Toolchain. See logs for details."
+        l10n.t("Failed to setup Zephyr Toolchain. See logs for details.")
       );
 
       return false;
     }
 
     void window.showInformationMessage(
-      "Zephyr Toolchain setup done. You can now build your project."
+      l10n.t("Zephyr Toolchain setup done. You can now build your project.")
     );
 
     const selectedZephyrVersion = await getZephyrVersion();
@@ -214,7 +215,7 @@ export class ZephyrProjectVariant implements PicoProjectVariant {
 
     if (!cppCompilerUpdated) {
       void window.showErrorMessage(
-        "Failed to update C++ compiler path in c_cpp_properties.json"
+        l10n.t("Failed to update C++ compiler path in c_cpp_properties.json")
       );
     }
 
@@ -241,7 +242,9 @@ async function ensurePinnedZephyrVersion(
       "Failed to get system Zephyr version."
     );
     void window.showErrorMessage(
-      "Failed to get system Zephyr version. Cannot setup Zephyr project."
+      l10n.t(
+        "Failed to get system Zephyr version. Cannot setup Zephyr project."
+      )
     );
 
     return false;
@@ -251,29 +254,35 @@ async function ensurePinnedZephyrVersion(
     return true;
   }
 
+  const yes = l10n.t("Yes");
+  const pinToSystemVersion = l10n.t("No - Pin to system version");
   const switchVersion = await window.showInformationMessage(
-    `Project Zephyr version (${pinnedVersion}) differs from system ` +
-      `version (${systemVersion}). ` +
-      "Do you want to switch the system version?",
+    l10n.t(
+      "Project Zephyr version ({0}) differs from system version ({1}). Do you want to switch the system version?",
+      pinnedVersion,
+      systemVersion
+    ),
     { modal: true },
-    "Yes",
-    "No - Use system version",
-    "No - Pin to system version"
+    yes,
+    l10n.t("No - Use system version"),
+    pinToSystemVersion
   );
 
-  if (switchVersion === "Yes") {
+  if (switchVersion === yes) {
     const switchResult = await updateZephyrVersion(pinnedVersion);
     if (!switchResult) {
       void window.showErrorMessage(
-        `Failed to switch Zephyr version to ${pinnedVersion}. ` +
-          "Cannot setup Zephyr project."
+        l10n.t(
+          "Failed to switch Zephyr version to {0}. Cannot setup Zephyr project.",
+          pinnedVersion
+        )
       );
 
       return false;
     }
 
     void window.showInformationMessage(
-      `Switched Zephyr version to ${pinnedVersion}.`
+      l10n.t("Switched Zephyr version to {0}.", pinnedVersion)
     );
     Logger.info(
       LoggerSource.extension,
@@ -283,10 +292,10 @@ async function ensurePinnedZephyrVersion(
     return true;
   }
 
-  if (switchVersion === "No - Pin to system version") {
+  if (switchVersion === pinToSystemVersion) {
     await settings.update(SettingsKey.zephyrVersion, systemVersion);
     void window.showInformationMessage(
-      `Pinned Zephyr version to ${systemVersion}.`
+      l10n.t("Pinned Zephyr version to {0}.", systemVersion)
     );
     Logger.info(
       LoggerSource.extension,
@@ -307,13 +316,17 @@ async function warnIfZephyrBuildFolderIsEmpty(
 
     if (buildDirContents.length === 0) {
       void window.showWarningMessage(
-        "To get full intellisense support please build the project once."
+        l10n.t(
+          "To get full intellisense support please build the project once."
+        )
       );
     }
   } catch (error) {
     if (error instanceof FileSystemError && error.code === "FileNotFound") {
       void window.showWarningMessage(
-        "To get full intellisense support please build the project once."
+        l10n.t(
+          "To get full intellisense support please build the project once."
+        )
       );
 
       Logger.debug(
@@ -342,7 +355,7 @@ function zephyrBoardLabel(board: string): string {
     return "Pico";
   }
 
-  return "Other";
+  return l10n.t({ message: "Other", comment: ["An unrecognised board"] });
 }
 
 function zephyrBoardChip(

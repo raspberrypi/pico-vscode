@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "fs";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { unknownErrorToString } from "./errorHelper.mjs";
-import { env, ProgressLocation, Uri, window } from "vscode";
+import { env, l10n, ProgressLocation, Uri, window } from "vscode";
 import { promisify } from "util";
 import { exec } from "child_process";
 import { join } from "path";
@@ -175,7 +175,7 @@ export async function checkRustInstallation(): Promise<boolean> {
       const result = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Installing Rust toolchain",
+          title: l10n.t("Installing Rust toolchain"),
           cancellable: true,
         },
         async () => installHostToolchain()
@@ -183,8 +183,9 @@ export async function checkRustInstallation(): Promise<boolean> {
 
       if (!result) {
         void window.showErrorMessage(
-          "Failed to install Rust toolchain. " +
-            "Please install it manually with `rustup show`."
+          l10n.t(
+            "Failed to install Rust toolchain. Please install it manually with `rustup show`."
+          )
         );
 
         return false;
@@ -213,9 +214,13 @@ export async function checkRustInstallation(): Promise<boolean> {
     if (!rustupOk) {
       void window
         .showErrorMessage(
-          "Rustup is not installed. Please install it " +
-            "manually and restart VS Code.",
-          "Install"
+          l10n.t(
+            "Rustup is not installed. Please install it manually and restart VS Code."
+          ),
+          l10n.t({
+            message: "Install",
+            comment: ["Button that opens the Rust installation website"],
+          })
         )
         .then(result => {
           if (result) {
@@ -226,15 +231,15 @@ export async function checkRustInstallation(): Promise<boolean> {
         });
     } else if (!rustcOk) {
       void window.showErrorMessage(
-        "Rustc is not installed. Please install it manually."
+        l10n.t("Rustc is not installed. Please install it manually.")
       );
     } else if (!cargoOk) {
       void window.showErrorMessage(
-        "Cargo is not installed. Please install it manually."
+        l10n.t("Cargo is not installed. Please install it manually.")
       );
     } else {
       void window.showErrorMessage(
-        "Failed to check Rust installation. Please check the logs."
+        l10n.t("Failed to check Rust installation. Please check the logs.")
       );
     }
 
@@ -273,7 +278,7 @@ export async function downloadAndInstallRust(): Promise<boolean> {
       );
 
       void window.showErrorMessage(
-        `Failed to install target '${target}'. Please check the logs.`
+        l10n.t("Failed to install target '{0}'. Please check the logs.", target)
       );
 
       return false;
@@ -285,18 +290,19 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   let cargoInstResult = await cargoInstall(flipLink, false);
   if (cargoInstResult !== undefined) {
     if (cargoInstResult.includes("error: linker `link.exe` not found")) {
+      const moreInfo = l10n.t("More Info");
       void window
         .showErrorMessage(
-          `Failed to install cargo package '${flipLink}'` +
-            " because the MSVC linker is not found" +
-            " or Windows SDK components are missing.",
-          "More Info"
+          l10n.t(
+            "Failed to install cargo package '{0}' because the MSVC linker is not found or Windows SDK components are missing.",
+            flipLink
+          ),
+          moreInfo
         )
         .then(selection => {
-          if (selection === "More Info") {
+          if (selection === moreInfo) {
             env.openExternal(
               Uri.parse(
-                // eslint-disable-next-line max-len
                 "https://rust-lang.github.io/rustup/installation/windows-msvc.html#manual-install",
                 true
               )
@@ -305,8 +311,10 @@ export async function downloadAndInstallRust(): Promise<boolean> {
         });
     } else {
       void window.showErrorMessage(
-        `Failed to install cargo package '${flipLink}'.` +
-          "Please check the logs."
+        l10n.t(
+          "Failed to install cargo package '{0}'.Please check the logs.",
+          flipLink
+        )
       );
     }
 
@@ -318,8 +326,10 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   cargoInstResult = await cargoInstall(probeRsTools, true);
   if (cargoInstResult !== undefined) {
     void window.showErrorMessage(
-      `Failed to install cargo package '${probeRsTools}'.` +
-        "Please check the logs."
+      l10n.t(
+        "Failed to install cargo package '{0}'.Please check the logs.",
+        probeRsTools
+      )
     );
 
     return false;
@@ -342,8 +352,10 @@ export async function downloadAndInstallRust(): Promise<boolean> {
   cargoInstResult = await cargoInstall(cargoSbom, true);
   if (cargoInstResult !== undefined) {
     void window.showErrorMessage(
-      `Failed to install cargo package '${cargoSbom}'.` +
-        "Please check the logs."
+      l10n.t(
+        "Failed to install cargo package '{0}'.Please check the logs.",
+        cargoSbom
+      )
     );
 
     return false;
@@ -419,8 +431,9 @@ export async function installLatestRustRequirements(
   const latest = await vb.getLatest();
   if (latest === undefined) {
     void window.showErrorMessage(
-      "Failed to get latest version bundles. " +
-        "Please try again and check your settings."
+      l10n.t(
+        "Failed to get latest version bundles. Please try again and check your settings."
+      )
     );
 
     return false;
@@ -440,7 +453,7 @@ export async function installLatestRustRequirements(
     result = await window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Downloading and installing SDK",
+        title: l10n.t("Downloading and installing SDK"),
         cancellable: false,
       },
       async progress2 => {
@@ -459,13 +472,14 @@ export async function installLatestRustRequirements(
             "Failed to download and install SDK."
           );
           progress2.report({
-            message: "Failed - Make sure all requirements are met.",
+            message: l10n.t("Failed - Make sure all requirements are met."),
             increment: 100,
           });
 
           void window.showErrorMessage(
-            "Failed to download and install SDK. " +
-              "Make sure all requirements are met."
+            l10n.t(
+              "Failed to download and install SDK. Make sure all requirements are met."
+            )
           );
 
           return false;
@@ -485,7 +499,7 @@ export async function installLatestRustRequirements(
   result = await window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: `Downloading ARM Toolchain for debugging...`,
+      title: l10n.t("Downloading ARM Toolchain for debugging..."),
     },
     async progress => {
       const toolchain = supportedToolchains.find(
@@ -494,8 +508,9 @@ export async function installLatestRustRequirements(
 
       if (toolchain === undefined) {
         void window.showErrorMessage(
-          "Failed to get default toolchain. " +
-            "Please try again and check your internet connection."
+          l10n.t(
+            "Failed to get default toolchain. Please try again and check your internet connection."
+          )
         );
 
         return false;
@@ -513,8 +528,9 @@ export async function installLatestRustRequirements(
 
   if (!result) {
     void window.showErrorMessage(
-      "Failed to download ARM Toolchain. " +
-        "Please try again and check your settings."
+      l10n.t(
+        "Failed to download ARM Toolchain. Please try again and check your settings."
+      )
     );
 
     return false;
@@ -523,7 +539,7 @@ export async function installLatestRustRequirements(
   result = await window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading RISC-V Toolchain for debugging...",
+      title: l10n.t("Downloading RISC-V Toolchain for debugging..."),
     },
     async progress => {
       const toolchain = supportedToolchains.find(
@@ -532,8 +548,9 @@ export async function installLatestRustRequirements(
 
       if (toolchain === undefined) {
         void window.showErrorMessage(
-          "Failed to get default RISC-V toolchain. " +
-            "Please try again and check your internet connection."
+          l10n.t(
+            "Failed to get default RISC-V toolchain. Please try again and check your internet connection."
+          )
         );
 
         return false;
@@ -551,8 +568,9 @@ export async function installLatestRustRequirements(
 
   if (!result) {
     void window.showErrorMessage(
-      "Failed to download RISC-V Toolchain. " +
-        "Please try again and check your internet connection."
+      l10n.t(
+        "Failed to download RISC-V Toolchain. Please try again and check your internet connection."
+      )
     );
 
     return false;
@@ -561,7 +579,7 @@ export async function installLatestRustRequirements(
   result = await window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing OpenOCD...",
+      title: l10n.t("Downloading and installing OpenOCD..."),
     },
     async progress => {
       let progressState = 0;
@@ -575,8 +593,9 @@ export async function installLatestRustRequirements(
   );
   if (!result) {
     void window.showErrorMessage(
-      "Failed to download OpenOCD. " +
-        "Please try again and check your internet connection."
+      l10n.t(
+        "Failed to download OpenOCD. Please try again and check your internet connection."
+      )
     );
 
     return false;
@@ -585,7 +604,7 @@ export async function installLatestRustRequirements(
   result = await window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing picotool...",
+      title: l10n.t("Downloading and installing picotool..."),
     },
     async progress => {
       let progressState = 0;
@@ -602,8 +621,9 @@ export async function installLatestRustRequirements(
   );
   if (!result) {
     void window.showErrorMessage(
-      "Failed to download picotool. " +
-        "Please try again and check your internet connection."
+      l10n.t(
+        "Failed to download picotool. Please try again and check your internet connection."
+      )
     );
   }
 

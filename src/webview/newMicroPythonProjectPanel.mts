@@ -10,6 +10,8 @@ import {
   workspace,
   ProgressLocation,
   commands,
+  env,
+  l10n,
 } from "vscode";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
@@ -20,6 +22,7 @@ import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import { getSystemPythonVersion } from "../utils/pythonHelper.mjs";
 import type { WebviewMessage } from "./sharedEnums.mjs";
 import {
+  getL10nScript,
   getNonce,
   getProjectFolderDialogOptions,
   getWebviewOptions,
@@ -70,7 +73,7 @@ export class NewMicroPythonProjectPanel {
 
     const panel = window.createWebviewPanel(
       NewMicroPythonProjectPanel.viewType,
-      "New MicroPython Pico Project",
+      l10n.t("New MicroPython Pico Project"),
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -79,13 +82,16 @@ export class NewMicroPythonProjectPanel {
     if (!settings) {
       panel.dispose();
 
+      const reloadWindow = l10n.t("Reload Window");
       void window
         .showErrorMessage(
-          "Failed to load settings. Please restart VS Code or reload the window.",
-          "Reload Window"
+          l10n.t(
+            "Failed to load settings. Please restart VS Code or reload the window."
+          ),
+          reloadWindow
         )
         .then(selected => {
-          if (selected === "Reload Window") {
+          if (selected === reloadWindow) {
             commands.executeCommand("workbench.action.reloadWindow");
           }
         });
@@ -106,7 +112,7 @@ export class NewMicroPythonProjectPanel {
     if (settings === undefined) {
       // TODO: maybe add restart button
       void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
+        l10n.t("Failed to load settings. Please restart VSCode.")
       );
 
       return;
@@ -192,7 +198,7 @@ export class NewMicroPythonProjectPanel {
                 this._projectRoot.fsPath === ""
               ) {
                 void window.showErrorMessage(
-                  "No project root selected. Please select a project root."
+                  l10n.t("No project root selected. Please select a project root.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -206,7 +212,7 @@ export class NewMicroPythonProjectPanel {
                 data.projectName.length === 0
               ) {
                 void window.showWarningMessage(
-                  "The project name is empty. Please enter a project name."
+                  l10n.t("The project name is empty. Please enter a project name.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -220,8 +226,9 @@ export class NewMicroPythonProjectPanel {
                 existsSync(join(this._projectRoot.fsPath, data.projectName))
               ) {
                 void window.showErrorMessage(
-                  "Project already exists. " +
-                    "Please select a different project name or root."
+                  l10n.t(
+                    "Project already exists. Please select a different project name or root."
+                  )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -236,9 +243,11 @@ export class NewMicroPythonProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Generating MicroPico project ${
-                    data.projectName ?? "undefined"
-                  } in ${this._projectRoot?.fsPath}...`,
+                  title: l10n.t(
+                    "Generating MicroPico project {0} in {1}...",
+                    data.projectName ?? "undefined",
+                    String(this._projectRoot?.fsPath)
+                  ),
                 },
                 async progress =>
                   this._generateProjectOperation(progress, data, message)
@@ -273,8 +282,9 @@ export class NewMicroPythonProjectPanel {
       projectPath.length === 0
     ) {
       void window.showErrorMessage(
-        "Failed to generate MicroPython project. " +
-          "Please try again and check your settings."
+        l10n.t(
+          "Failed to generate MicroPython project. Please try again and check your settings."
+        )
       );
 
       return;
@@ -297,10 +307,12 @@ export class NewMicroPythonProjectPanel {
 
       if (python3Path === undefined) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
-        await window.showErrorMessage("Failed to find python3 executable.");
+        await window.showErrorMessage(
+          l10n.t("Failed to find python3 executable.")
+        );
 
         return;
       }
@@ -314,7 +326,7 @@ export class NewMicroPythonProjectPanel {
     // create the project folder
     const projectFolder = join(projectPath, data.projectName);
     progress.report({
-      message: `Creating project folder ${projectFolder}`,
+      message: l10n.t("Creating project folder {0}", projectFolder),
       increment: 10,
     });
 
@@ -342,11 +354,11 @@ print("Finished.")\r\n`;
       );
     } catch {
       progress.report({
-        message: "Failed",
+        message: l10n.t("Failed"),
         increment: 100,
       });
       await window.showErrorMessage(
-        `Failed to create project folder ${projectFolder}`
+        l10n.t("Failed to create project folder {0}", projectFolder)
       );
 
       return;
@@ -354,7 +366,7 @@ print("Finished.")\r\n`;
 
     commands.executeCommand("micropico.initialise", projectFolder, python3Path);
     progress.report({
-      message: "Project initialized",
+      message: l10n.t("Project initialized"),
       increment: 90,
     });
 
@@ -368,7 +380,7 @@ print("Finished.")\r\n`;
   }
 
   private async _update(): Promise<void> {
-    this._panel.title = "New MicroPython Pico Project";
+    this._panel.title = l10n.t("New MicroPython Pico Project");
 
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
@@ -396,7 +408,7 @@ print("Finished.")\r\n`;
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load webview for new MicroPython project"
+        l10n.t("Failed to load webview for new MicroPython project")
       );
       this.dispose();
     }
@@ -483,7 +495,7 @@ print("Finished.")\r\n`;
         : "light";
 
     return `<!DOCTYPE html>
-    <html lang="en">
+    <html lang="${env.language}">
       <head>
         <meta charset="UTF-8">
         
@@ -496,7 +508,7 @@ print("Finished.")\r\n`;
 
         <link href="${mainStyleUri.toString()}" rel="stylesheet">
 
-        <title>New Pico MicroPython Project</title>
+        <title>${l10n.t("New Pico MicroPython Project")}</title>
 
         <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
         <script nonce="${nonce}">
@@ -507,6 +519,7 @@ print("Finished.")\r\n`;
           localStorage.theme = "${defaultTheme}";
 
         </script>
+        ${getL10nScript(nonce)}
       </head>
       <body class="scroll-smooth w-screen${
         defaultTheme === "dark" ? " dark" : ""
@@ -516,17 +529,17 @@ print("Finished.")\r\n`;
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
           <!-- Navigation links go here -->
           <ul class="overlay-menu">
-            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Basic Settings</li>
+            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Basic Settings")}</li>
           </ul>
         </div>
         <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 pr-5 h-24 bg-opacity-95 bg-slate-400 dark:bg-slate-800 rounded-md">
             <div class="inline-flex h-32 align-middle">
-                <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
-                <img src="${navHeaderDarkSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
+                <img src="${navHeaderSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
+                <img src="${navHeaderDarkSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
             </div>
             <ul class="pl-3 pr-3 space-x-4 h-auto align-middle hidden md:flex">
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
-                    Basic Settings
+                    ${l10n.t("Basic Settings")}
                 </li>
             </ul>
             <div id="burger-menu" class="flex md:hidden cursor-pointer h-auto me-7">
@@ -537,24 +550,24 @@ print("Finished.")\r\n`;
         </nav>
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
           <div id="section-basic" class="snap-start">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Settings</h3>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">${l10n.t("Basic Settings")}</h3>
               <div id="project-name-grid" class="grid gap-6 md:grid-cols-2">
                 <div>
-                  <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                  <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Name")}</label>
                   <div class="flex">
                     <div class="relative inline-flex w-full">
-                        <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="Project name" required/>
+                        <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="${l10n.t("Project name")}" required/>
                         <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border border-l-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 hidden">&#9660;</button>
                     </div>
                   </div>
 
                   <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden>
-                      <span class="font-medium">Error</span> Please enter a valid project name.
+                      <span class="font-medium">${l10n.t("Error")}</span> ${l10n.t("Please enter a valid project name.")}
                   </p>
                 </div>
 
                 <fieldset id="python-fieldset" class="ms-6">
-                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Python Version:</label>
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Python Version:")}</label>
 
                   <div class="flex items-center gap-3 flex-wrap">
                     <!-- Primary mode selector -->
@@ -564,22 +577,22 @@ print("Finished.")\r\n`;
                                   dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                       ${
                         knownEnvironments && knownEnvironments.length > 0
-                          ? `<option value="known">From Python extension</option>`
+                          ? `<option value="known">${l10n.t("From Python extension")}</option>`
                           : ""
                       }
                       ${
                         isPythonSystemAvailable
-                          ? `<option value="system">Use System version</option>`
+                          ? `<option value="system">${l10n.t("Use System version")}</option>`
                           : ""
                       }
-                      <option value="custom">Custom path</option>
+                      <option value="custom">${l10n.t("Custom path")}</option>
                     </select>
 
                     <!-- Secondary areas; one shown at a time -->
 
                     <!-- Shown for "known" -->
                     <div id="python-secondary-known" class="hidden">
-                      <label for="sel-python" class="sr-only">Select Python environment:</label>
+                      <label for="sel-python" class="sr-only">${l10n.t("Select Python environment:")}</label>
                       <select id="sel-pyenv-known" data-input data-required="true"
                               class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                     focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
@@ -603,7 +616,7 @@ print("Finished.")\r\n`;
 
                     <!-- Shown for "system" -->
                     <div id="python-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                      System: <span id="python-system-label">${
+                      ${l10n.t("System:")} <span id="python-system-label">${
                         this._systemPythonVersion
                       }</span>
                     </div>
@@ -627,14 +640,14 @@ print("Finished.")\r\n`;
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
                           <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
                         </svg>
-                        <span id="python-file-label" class="truncate select-none">No file selected</span>
+                        <span id="python-file-label" class="truncate select-none">${l10n.t("No file selected")}</span>
                       </label>
                     </div>
                   </div>
                 </fieldset>
 
                 <div class="mt-6 mb-4 col-span-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">${l10n.t("Location")}</label>
                     <div class="flex">
                         <div class="w-full left-0 flex">
                             <span class="inline-flex items-center px-3 text-lg text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -692,16 +705,16 @@ print("Finished.")\r\n`;
                             id="btn-change-project-location"
                             type="button"
                             class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 py-2 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800">
-                            Change
+                            ${l10n.t("Change")}
                         </button>
                     </div>
                 </div>
           </div>
 
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
-              <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
+              <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">${l10n.t("Cancel")}</button>
               <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">
-                Create
+                ${l10n.t("Create")}
               </button>
           </div>
         </main>

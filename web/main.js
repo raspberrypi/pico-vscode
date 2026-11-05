@@ -34,7 +34,7 @@ var exampleSupportedBoards = [];
     // Update label text when a file is chosen
     fileInput?.addEventListener('change', () => {
       const f = fileInput.files && fileInput.files[0];
-      fileLabel.textContent = f ? f.name : 'No file selected';
+      fileLabel.textContent = f ? f.name : l10n.t('No file selected');
     });
 
     // Make label keyboard-activatable (Enter/Space)
@@ -90,7 +90,7 @@ var exampleSupportedBoards = [];
     // Update label text when a file is chosen
     fileInput?.addEventListener('change', () => {
       const f = fileInput.files && fileInput.files[0];
-      fileLabel.textContent = f ? f.name : 'No file selected';
+      fileLabel.textContent = f ? f.name : l10n.t('No file selected');
     });
 
     // Make label keyboard-activatable (Enter/Space)
@@ -197,7 +197,7 @@ var exampleSupportedBoards = [];
       console.error("example not selected");
       vscode.postMessage({
         command: CMD_ERROR,
-        value: "Please select an example or enter custom project creation."
+        value: l10n.t("Please select an example or enter custom project creation.")
       });
       submitted = false;
       return;
@@ -250,7 +250,7 @@ var exampleSupportedBoards = [];
         console.debug('Invalid ninja mode string: ' + ninjaModeStr);
         vscode.postMessage({
           command: CMD_ERROR,
-          value: `Please select a valid Ninja mode (got: ${ninjaModeModeStr}).`
+          value: l10n.t("Please select a valid Ninja mode (got: {0}).", ninjaModeStr)
         });
         submitted = false;
         return;
@@ -267,7 +267,7 @@ var exampleSupportedBoards = [];
         console.debug("Please select a valid ninja executable file");
         vscode.postMessage({
           command: CMD_ERROR,
-          value: "Please select a valid ninja executable file."
+          value: l10n.t("Please select a valid ninja executable file.")
         });
         submitted = false;
 
@@ -298,7 +298,7 @@ var exampleSupportedBoards = [];
         console.debug('Invalid cmake mode string: ' + cmakeModeStr);
         vscode.postMessage({
           command: CMD_ERROR,
-          value: `Please select a valid CMake mode (got: ${cmakeModeStr}).`
+          value: l10n.t("Please select a valid CMake mode (got: {0}).", cmakeModeStr)
         });
         submitted = false;
         return;
@@ -315,7 +315,7 @@ var exampleSupportedBoards = [];
         console.debug("Please select a valid cmake executable file");
         vscode.postMessage({
           command: CMD_ERROR,
-          value: "Please select a valid cmake executable file."
+          value: l10n.t("Please select a valid cmake executable file.")
         });
         submitted = false;
 
@@ -338,7 +338,7 @@ var exampleSupportedBoards = [];
       console.debug('Invalid debugger selection value: ' + debuggerSelection);
       vscode.postMessage({
         command: CMD_ERROR,
-        value: "Please select a valid debugger"
+        value: l10n.t("Please select a valid debugger")
       });
       submitted = false;
       return;
@@ -421,7 +421,7 @@ var exampleSupportedBoards = [];
       console.debug('Invalid pico wireless value: ' + picoWireless);
       vscode.postMessage({
         command: CMD_ERROR,
-        value: "Please select a valid pico wireless option"
+        value: l10n.t("Please select a valid pico wireless option")
       });
       submitted = false;
       return;
@@ -714,9 +714,9 @@ var exampleSupportedBoards = [];
     }
     let hidden = advancedOptions[0].hidden;
     if (hidden) {
-      document.getElementById('btn-advanced-options').innerText = "Show Advanced Options";
+      document.getElementById('btn-advanced-options').innerText = l10n.t("Show Advanced Options");
     } else {
-      document.getElementById('btn-advanced-options').innerText = "Hide Advanced Options";
+      document.getElementById('btn-advanced-options').innerText = l10n.t("Hide Advanced Options");
     }
   });
   document.getElementById('btn-create').addEventListener('click', submitBtnClick);

@@ -9,10 +9,16 @@ import {
   window,
   workspace,
   type Disposable,
+  env,
+  l10n,
 } from "vscode";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
-import { getNonce, getWebviewOptions } from "./sharedFunctions.mjs";
+import {
+  getL10nScript,
+  getNonce,
+  getWebviewOptions,
+} from "./sharedFunctions.mjs";
 import { unknownErrorToString } from "../utils/errorHelper.mjs";
 import type { DependencyItem } from "./sharedEnums.mjs";
 import LastUsedDepsStore from "../utils/lastUsedDeps.mjs";
@@ -45,7 +51,7 @@ export class UninstallerPanel {
 
     const panel = window.createWebviewPanel(
       UninstallerPanel.viewType,
-      "Manage Installed Components",
+      l10n.t("Manage Installed Components"),
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -54,14 +60,16 @@ export class UninstallerPanel {
     if (!settings) {
       panel.dispose();
 
+      const reloadWindow = l10n.t("Reload Window");
       void window
         .showErrorMessage(
-          "Failed to load settings. Please restart VS Code " +
-            "or reload the window.",
-          "Reload Window"
+          l10n.t(
+            "Failed to load settings. Please restart VS Code or reload the window."
+          ),
+          reloadWindow
         )
         .then(selected => {
-          if (selected === "Reload Window") {
+          if (selected === reloadWindow) {
             void commands.executeCommand("workbench.action.reloadWindow");
           }
         });
@@ -81,7 +89,7 @@ export class UninstallerPanel {
     if (settings === undefined) {
       // TODO: maybe add restart button
       void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
+        l10n.t("Failed to load settings. Please restart VSCode.")
       );
 
       return;
@@ -150,9 +158,13 @@ export class UninstallerPanel {
 
                 this._panel.webview.postMessage({
                   type: "uninstall:progress",
-                  text: `Uninstalling ${depId} ${version ?? ""} (${i + 1}/${
+                  text: l10n.t(
+                    "Uninstalling {0} {1} ({2}/{3})…",
+                    depId,
+                    version ?? "",
+                    i + 1,
                     ids.length
-                  })…`,
+                  ),
                 });
 
                 await uninstallOne(depId, version);
@@ -176,7 +188,7 @@ export class UninstallerPanel {
   }
 
   private async _update(): Promise<void> {
-    this._panel.title = "Manage Installed Components";
+    this._panel.title = l10n.t("Manage Installed Components");
 
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
@@ -202,7 +214,7 @@ export class UninstallerPanel {
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load webview for the Uninstaller."
+        l10n.t("Failed to load webview for the Uninstaller.")
       );
       this.dispose();
     }
@@ -273,7 +285,7 @@ export class UninstallerPanel {
         : "light";
 
     return `<!DOCTYPE html>
-        <html lang="en">
+        <html lang="${env.language}">
           <head>
             <meta charset="UTF-8">
             
@@ -286,7 +298,7 @@ export class UninstallerPanel {
     
             <link href="${mainStyleUri.toString()}" rel="stylesheet">
     
-            <title>Pico SDK Uninstaller</title>
+            <title>${l10n.t("Pico SDK Uninstaller")}</title>
     
             <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
             <script nonce="${nonce}">
@@ -297,6 +309,7 @@ export class UninstallerPanel {
               localStorage.theme = "${defaultTheme}";
     
             </script>
+            ${getL10nScript(nonce)}
           </head>
           <body class="h-screen w-screen overflow-x-hidden overflow-y-hidden${
             defaultTheme === "dark" ? " dark" : ""

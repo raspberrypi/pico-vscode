@@ -1,6 +1,6 @@
 import { Command } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { window } from "vscode";
+import { l10n, window } from "vscode";
 import { rm } from "fs/promises";
 import { join } from "path";
 import { homedir } from "os";
@@ -19,19 +19,21 @@ export default class UninstallPicoSDKCommand extends Command {
     // all its automatically installed dependencies from the system
     // and ask for confirmation
 
+    const yes = l10n.t("Yes");
+    const no = l10n.t("No");
     const response = await window.showWarningMessage(
-      "Uninstalling Pico SDK - Are you sure you want to continue?",
+      l10n.t("Uninstalling Pico SDK - Are you sure you want to continue?"),
       {
         modal: true,
-        detail:
-          "This will delete the Pico SDK and all its automatically installed " +
-          "dependencies from the system. This action cannot be undone.",
+        detail: l10n.t(
+          "This will delete the Pico SDK and all its automatically installed dependencies from the system. This action cannot be undone."
+        ),
       },
-      "Yes",
-      "No"
+      yes,
+      no
     );
 
-    if (response === "Yes") {
+    if (response === yes) {
       // uninstall the Pico SDK and all its automatically installed dependencies
       this._logger.info("Uninstalling Pico SDK...");
 
@@ -44,13 +46,15 @@ export default class UninstallPicoSDKCommand extends Command {
         });
 
         this._logger.info("Pico SDK uninstalled successfully");
-        void window.showInformationMessage("Pico SDK uninstalled successfully");
+        void window.showInformationMessage(
+          l10n.t("Pico SDK uninstalled successfully")
+        );
       } catch (error) {
         this._logger.error(
           "Failed to uninstall Pico SDK",
           unknownErrorToString(error)
         );
-        void window.showErrorMessage("Failed to uninstall Pico SDK");
+        void window.showErrorMessage(l10n.t("Failed to uninstall Pico SDK"));
 
         return;
       }
