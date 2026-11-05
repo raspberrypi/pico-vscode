@@ -18,5 +18,13 @@
 		"noImplicitReturns": true,
 		"moduleResolution": "node16",
 		"esModuleInterop": true,
-	}
+		// not the WebUSB types the usb test dependency pulls in, which need DOM
+		"types": [
+			"node",
+			"vscode"
+		],
+	},
+	"include": [
+		"src"
+	]
 }
