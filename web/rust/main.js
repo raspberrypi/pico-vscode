@@ -45,9 +45,10 @@ var submitted = false;
     ) {
       projectNameError.hidden = false;
       projectNameError.innerHTML =
-        `<span class="font-medium">Error</span> \
-Project name must start with a letter and contain only lowercase letters, digits, '-' or '_' (no spaces), \
-and must not be a reserved Windows name.`;
+        `<span class="font-medium">${l10n.t("Error")}</span> ` +
+        l10n.t(
+          "Project name must start with a letter and contain only lowercase letters, digits, '-' or '_' (no spaces), and must not be a reserved Windows name."
+        );
       window.scrollTo({
         top: projectNameElement.offsetTop - navbarOffsetHeight,
         behavior: 'smooth'

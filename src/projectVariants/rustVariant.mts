@@ -1,6 +1,11 @@
 import { existsSync } from "fs";
 import { join } from "path";
-import { ProgressLocation, window, type WorkspaceFolder } from "vscode";
+import {
+  l10n,
+  ProgressLocation,
+  window,
+  type WorkspaceFolder,
+} from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
 import VersionBundlesLoader from "../utils/versionBundles.mjs";
 import { getSupportedToolchains } from "../utils/toolchainUtil.mjs";
@@ -46,7 +51,13 @@ export class RustProjectVariant implements PicoProjectVariant {
     return {
       chip: chip ?? undefined,
       target: chip ?? undefined,
-      boardLabel: chip !== null ? chip.toUpperCase() : "N/A",
+      boardLabel:
+        chip !== null
+          ? chip.toUpperCase()
+          : l10n.t({
+              message: "N/A",
+              comment: ["Shown when a value is not available"],
+            }),
     };
   }
 
@@ -61,7 +72,7 @@ export class RustProjectVariant implements PicoProjectVariant {
         "Failed to get latest Pico SDK version for Rust project."
       );
       void window.showErrorMessage(
-        "Failed to get latest Pico SDK version for Rust project."
+        l10n.t("Failed to get latest Pico SDK version for Rust project.")
       );
 
       return false;
@@ -71,8 +82,9 @@ export class RustProjectVariant implements PicoProjectVariant {
     const latest = await vb.getLatest();
     if (latest === undefined) {
       void window.showErrorMessage(
-        "Failed to get latest version bundles. " +
-          "Please try again and check your settings."
+        l10n.t(
+          "Failed to get latest version bundles. Please try again and check your settings."
+        )
       );
 
       return false;
@@ -90,8 +102,9 @@ export class RustProjectVariant implements PicoProjectVariant {
       ) === undefined
     ) {
       void window.showErrorMessage(
-        "Failed to get default toolchain. " +
-          "Please try again and check your internet connection."
+        l10n.t(
+          "Failed to get default toolchain. Please try again and check your internet connection."
+        )
       );
 
       return false;
@@ -117,12 +130,13 @@ export class RustProjectVariant implements PicoProjectVariant {
         HOME_VAR,
         homedir().replaceAll("\\", "/")
       ),
-      title:
-        "Downloading and installing latest Pico SDK (" +
-        latestSDK +
-        "). This may take a while...",
-      sdkFailureMessage:
-        "Failed to install latest SDK version for rust project.",
+      title: l10n.t(
+        "Downloading and installing latest Pico SDK ({0}). This may take a while...",
+        latestSDK
+      ),
+      sdkFailureMessage: l10n.t(
+        "Failed to install latest SDK version for rust project."
+      ),
       sdkLogFailurePrefix: "Failed to install latest SDK",
       sdkLogSuccessPrefix: "Found/installed latest SDK",
     });
@@ -133,13 +147,15 @@ export class RustProjectVariant implements PicoProjectVariant {
     const cargo = await window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Downloading and installing Rust. This may take a while...",
+        title: l10n.t(
+          "Downloading and installing Rust. This may take a while..."
+        ),
         cancellable: false,
       },
       async () => downloadAndInstallRust()
     );
     if (!cargo) {
-      void window.showErrorMessage("Failed to install Rust.");
+      void window.showErrorMessage(l10n.t("Failed to install Rust."));
 
       return false;
     }
@@ -151,6 +167,12 @@ export class RustProjectVariant implements PicoProjectVariant {
 
   public updateUi(input: UpdateProjectUiInput): void {
     input.ui.showStatusBarItems(true);
-    input.ui.updateBoard(input.selections.boardLabel ?? "N/A");
+    input.ui.updateBoard(
+      input.selections.boardLabel ??
+        l10n.t({
+          message: "N/A",
+          comment: ["Shown when a value is not available"],
+        })
+    );
   }
 }

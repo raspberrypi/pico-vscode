@@ -26,7 +26,7 @@ var submitted = false;
     // Update label text when a file is chosen
     fileInput?.addEventListener('change', () => {
       const f = fileInput.files && fileInput.files[0];
-      fileLabel.textContent = f ? f.name : 'No file selected';
+      fileLabel.textContent = f ? f.name : l10n.t('No file selected');
     });
 
     // Make label keyboard-activatable (Enter/Space)
@@ -147,7 +147,7 @@ var submitted = false;
         console.debug('Invalid python mode string: ' + pythonModeStr);
         vscode.postMessage({
           command: CMD_ERROR,
-          value: `Please select a valid Python mode (got: ${pythonModeStr}).`
+          value: l10n.t('Please select a valid Python mode (got: {0}).', pythonModeStr)
         });
         submitted = false;
         return;
@@ -164,7 +164,7 @@ var submitted = false;
         console.debug("Please select a valid python executable file");
         vscode.postMessage({
           command: CMD_ERROR,
-          value: "Please select a valid python executable file."
+          value: l10n.t("Please select a valid python executable file.")
         });
         submitted = false;
 

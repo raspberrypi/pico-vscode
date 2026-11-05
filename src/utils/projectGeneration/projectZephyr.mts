@@ -5,7 +5,7 @@ import { dirname as dirnamePosix } from "path/posix";
 import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
 import { extensionName } from "../../commands/command.mjs";
-import { commands, Uri, window, workspace } from "vscode";
+import { commands, l10n, Uri, window, workspace } from "vscode";
 import type { VersionBundle } from "../versionBundles.mjs";
 import { HOME_VAR } from "../../settings.mjs";
 import { TextEncoder } from "util";
@@ -93,7 +93,7 @@ async function generateVSCodeConfig(
   if (!openOCDPath) {
     Logger.error(LoggerSource.projectRust, "Failed to get OpenOCD path");
 
-    void window.showErrorMessage("Failed to get OpenOCD path");
+    void window.showErrorMessage(l10n.t("Failed to get OpenOCD path"));
 
     return false;
   }
@@ -102,7 +102,9 @@ async function generateVSCodeConfig(
   if (zephyrVersion === undefined) {
     Logger.error(LoggerSource.projectZephyr, "Failed to get Zephyr version");
     void window.showErrorMessage(
-      "Failed to detect the currently installed Zephyr version. Please delete `~/.pico-sdk/zephyr_workspace` and try again."
+      l10n.t(
+        "Failed to detect the currently installed Zephyr version. Please delete `~/.pico-sdk/zephyr_workspace` and try again."
+      )
     );
 
     return false;
@@ -115,7 +117,9 @@ async function generateVSCodeConfig(
       "Failed to get Zephyr SDK version"
     );
     void window.showErrorMessage(
-      "Failed to detect the currently installed Zephyr SDK version. Please delete `~/.pico-sdk/zephyr_workspace` and try again."
+      l10n.t(
+        "Failed to detect the currently installed Zephyr SDK version. Please delete `~/.pico-sdk/zephyr_workspace` and try again."
+      )
     );
 
     return false;
@@ -1212,8 +1216,9 @@ export async function generateZephyrProject(
       );
 
       void window.showErrorMessage(
-        "Failed to create project folder. " +
-          "Permission denied - Please check your permissions."
+        l10n.t(
+          "Failed to create project folder. Permission denied - Please check your permissions."
+        )
       );
     } else {
       Logger.error(
@@ -1223,8 +1228,9 @@ export async function generateZephyrProject(
       );
 
       void window.showErrorMessage(
-        "Failed to create project folder. " +
-          "See the output panel for more details."
+        l10n.t(
+          "Failed to create project folder. See the output panel for more details."
+        )
       );
     }
 

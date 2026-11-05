@@ -6,7 +6,7 @@ import Logger, { LoggerSource } from "../../logger.mjs";
 import { unknownErrorToString } from "../errorHelper.mjs";
 import { mkdir, writeFile } from "fs/promises";
 import { extensionName } from "../../commands/command.mjs";
-import { commands, window } from "vscode";
+import { commands, l10n, window } from "vscode";
 import {
   GET_CHIP,
   GET_OPENOCD_ROOT,
@@ -37,7 +37,7 @@ async function generateVSCodeConfig(projectRoot: string): Promise<boolean> {
   if (!openOCDPath) {
     Logger.error(LoggerSource.projectRust, "Failed to get OpenOCD path");
 
-    void window.showErrorMessage("Failed to get OpenOCD path");
+    void window.showErrorMessage(l10n.t("Failed to get OpenOCD path"));
 
     return false;
   }
@@ -1582,7 +1582,9 @@ export async function generateRustProject(
     Logger.error(LoggerSource.projectRust, "Failed to get picotool path.");
 
     void window.showErrorMessage(
-      "Failed to detect or install picotool. Please try again and check your settings."
+      l10n.t(
+        "Failed to detect or install picotool. Please try again and check your settings."
+      )
     );
 
     return false;
@@ -1598,7 +1600,9 @@ export async function generateRustProject(
     );
 
     void window.showErrorMessage(
-      "Failed to detect picotool version. Please try again and check your settings."
+      l10n.t(
+        "Failed to detect picotool version. Please try again and check your settings."
+      )
     );
 
     return false;
@@ -1620,7 +1624,9 @@ export async function generateRustProject(
       );
 
       void window.showErrorMessage(
-        "Failed to create project folder. Permission denied - Please check your permissions."
+        l10n.t(
+          "Failed to create project folder. Permission denied - Please check your permissions."
+        )
       );
     } else {
       Logger.error(
@@ -1630,7 +1636,9 @@ export async function generateRustProject(
       );
 
       void window.showErrorMessage(
-        "Failed to create project folder. See the output panel for more details."
+        l10n.t(
+          "Failed to create project folder. See the output panel for more details."
+        )
       );
     }
 

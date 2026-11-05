@@ -20,7 +20,7 @@ import { cloneRepository, initSubmodules, ensureGit } from "./gitUtil.mjs";
 import { HOME_VAR, SettingsKey } from "../settings.mjs";
 import Settings from "../settings.mjs";
 import which from "which";
-import { Uri, window, workspace } from "vscode";
+import { l10n, Uri, window, workspace } from "vscode";
 import {
   type GithubReleaseAssetData,
   getGithubReleaseByTag,
@@ -624,8 +624,9 @@ export async function downloadAndInstallSDK(
       );
 
       void window.showErrorMessage(
-        "Python 3 was not found. " +
-          "Please install Python 3 to complete Pico SDK setup."
+        l10n.t(
+          "Python 3 was not found. Please install Python 3 to complete Pico SDK setup."
+        )
       );
 
       return false;

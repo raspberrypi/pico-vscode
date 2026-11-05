@@ -1,5 +1,5 @@
 import { existsSync } from "fs";
-import { window, workspace, ProgressLocation, Uri, env } from "vscode";
+import { env, l10n, ProgressLocation, Uri, window, workspace } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { dirname, join } from "path";
 import { join as joinPosix } from "path/posix";
@@ -193,7 +193,7 @@ async function checkCmake(
       installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing CMake",
+          title: l10n.t("Downloading and installing CMake"),
           cancellable: false,
         },
         async progress => {
@@ -210,7 +210,7 @@ async function checkCmake(
 
           if (!result) {
             progress.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
@@ -218,7 +218,7 @@ async function checkCmake(
           }
 
           progress.report({
-            message: "Success",
+            message: l10n.t("Success"),
             increment: 100,
           });
 
@@ -242,7 +242,7 @@ async function checkCmake(
           joinPosix(...cmakePath.split("\\"))
         : cmakePath;
     default:
-      void window.showErrorMessage("Unknown CMake version selected.");
+      void window.showErrorMessage(l10n.t("Unknown CMake version selected."));
 
       return;
   }
@@ -262,7 +262,7 @@ async function checkNinja(
       installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing Ninja",
+          title: l10n.t("Downloading and installing Ninja"),
           cancellable: false,
         },
         async progress => {
@@ -279,7 +279,7 @@ async function checkNinja(
 
           if (!result) {
             progress.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
@@ -287,7 +287,7 @@ async function checkNinja(
           }
 
           progress.report({
-            message: "Success",
+            message: l10n.t("Success"),
             increment: 100,
           });
 
@@ -311,7 +311,7 @@ async function checkNinja(
           joinPosix(...ninjaPath.split("\\"))
         : ninjaPath;
     default:
-      void window.showErrorMessage("Unknown Ninja version selected.");
+      void window.showErrorMessage(l10n.t("Unknown Ninja version selected."));
 
       return;
   }
@@ -323,7 +323,7 @@ async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing Picotool",
+      title: l10n.t("Downloading and installing Picotool"),
       cancellable: false,
     },
     async progress => {
@@ -340,14 +340,14 @@ async function checkPicotool(latestVb: VersionBundle): Promise<boolean> {
         )
       ) {
         progress.report({
-          message: "Success",
+          message: l10n.t("Success"),
           increment: 100,
         });
 
         return true;
       } else {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -443,7 +443,7 @@ async function checkSdk(
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing Pico SDK",
+      title: l10n.t("Downloading and installing Pico SDK"),
       cancellable: false,
     },
     async progress => {
@@ -461,14 +461,14 @@ async function checkSdk(
         );
 
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
         return false;
       } else {
         progress.report({
-          message: "Success",
+          message: l10n.t("Success"),
           increment: 100,
         });
 
@@ -483,7 +483,7 @@ async function checkDtc(): Promise<boolean> {
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing DTC",
+      title: l10n.t("Downloading and installing DTC"),
       cancellable: false,
     },
     async progress => {
@@ -501,14 +501,14 @@ async function checkDtc(): Promise<boolean> {
         );
 
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
         return false;
       } else {
         progress.report({
-          message: "Success",
+          message: l10n.t("Success"),
           increment: 100,
         });
 
@@ -523,7 +523,7 @@ async function checkGperf(): Promise<boolean> {
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing gperf",
+      title: l10n.t("Downloading and installing gperf"),
       cancellable: false,
     },
     async progress => {
@@ -536,14 +536,14 @@ async function checkGperf(): Promise<boolean> {
 
       if (!result) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
         return false;
       } else {
         progress.report({
-          message: "Success",
+          message: l10n.t("Success"),
           increment: 100,
         });
 
@@ -576,7 +576,7 @@ async function setupFakeWget(extensionUri: Uri): Promise<boolean> {
       `Failed to create fake wget script: ${unknownErrorToString(e)}`
     );
     void window.showErrorMessage(
-      "Failed to create fake wget script. Cannot continue Zephyr setup."
+      l10n.t("Failed to create fake wget script. Cannot continue Zephyr setup.")
     );
 
     return false;
@@ -587,7 +587,7 @@ async function check7Zip(): Promise<boolean> {
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing 7-Zip",
+      title: l10n.t("Downloading and installing 7-Zip"),
       cancellable: false,
     },
     async progress => {
@@ -603,7 +603,7 @@ async function check7Zip(): Promise<boolean> {
           Logger.info(LoggerSource.zephyrSetup, "7-Zip is already installed.");
 
           progress.report({
-            message: "7-Zip already installed.",
+            message: l10n.t("7-Zip already installed."),
             increment: 100,
           });
 
@@ -618,7 +618,7 @@ async function check7Zip(): Promise<boolean> {
       const licenseResult = await downloadFileGot(licenseURL, licenseTarget);
       if (!licenseResult) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -632,7 +632,7 @@ async function check7Zip(): Promise<boolean> {
 
       if (!result) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -640,7 +640,7 @@ async function check7Zip(): Promise<boolean> {
       }
 
       progress.report({
-        message: "Success",
+        message: l10n.t("Success"),
         increment: 100,
       });
       await LastUsedDepsStore.instance.record("7zip", "latest");
@@ -651,19 +651,19 @@ async function check7Zip(): Promise<boolean> {
 }
 
 async function showNoWgetError(): Promise<void> {
+  const openReadme = l10n.t("Open README");
   const response = await window.showErrorMessage(
-    "wget not found in Path. Please install wget and ensure " +
-      "it is available in Path. " +
-      "See the Zephyr notes in the pico-vscode README for guidance.",
+    l10n.t(
+      "wget not found in Path. Please install wget and ensure it is available in Path. See the Zephyr notes in the pico-vscode README for guidance."
+    ),
     {
       modal: true,
     },
-    "Open README"
+    openReadme
   );
-  if (response === "Open README") {
+  if (response === openReadme) {
     await env.openExternal(
       Uri.parse(
-        // eslint-disable-next-line max-len
         "https://github.com/raspberrypi/pico-vscode/tree/main?tab=readme-ov-file#zephyr-notes"
       )
     );
@@ -694,7 +694,7 @@ async function checkWindowsDeps(): Promise<boolean> {
   /*let installedSuccessfully = await checkDtc();
   if (!installedSuccessfully) {
     void window.showErrorMessage(
-      "Failed to install DTC. Cannot continue Zephyr setup."
+      l10n.t("Failed to install DTC. Cannot continue Zephyr setup.")
     );
 
     return false;
@@ -704,7 +704,7 @@ async function checkWindowsDeps(): Promise<boolean> {
   /*installedSuccessfully = await checkGperf();
   if (!installedSuccessfully) {
     void window.showErrorMessage(
-      "Failed to install gperf. Cannot continue Zephyr setup."
+      l10n.t("Failed to install gperf. Cannot continue Zephyr setup.")
     );
 
     return false;
@@ -720,7 +720,7 @@ async function checkWindowsDeps(): Promise<boolean> {
   const installedSuccessfully = await check7Zip();
   if (!installedSuccessfully) {
     void window.showErrorMessage(
-      "Failed to install 7-Zip. Cannot continue Zephyr setup."
+      l10n.t("Failed to install 7-Zip. Cannot continue Zephyr setup.")
     );
 
     return false;
@@ -735,7 +735,7 @@ async function checkOpenOCD(): Promise<boolean> {
   return window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: "Downloading and installing OpenOCD",
+      title: l10n.t("Downloading and installing OpenOCD"),
       cancellable: false,
     },
     async progress => {
@@ -752,14 +752,14 @@ async function checkOpenOCD(): Promise<boolean> {
 
       if (result) {
         progress.report({
-          message: "Success",
+          message: l10n.t("Success"),
           increment: 100,
         });
 
         return true;
       } else {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -781,7 +781,7 @@ async function fetchBinaryBlobs(
     window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Fetching Zephyr binary blobs",
+        title: l10n.t("Fetching Zephyr binary blobs"),
         cancellable: false,
       },
       async progress2 => {
@@ -796,14 +796,14 @@ async function fetchBinaryBlobs(
 
         if (result === 0) {
           progress2.report({
-            message: "Success",
+            message: l10n.t("Success"),
             increment: 100,
           });
 
           return true;
         } else {
           progress2.report({
-            message: "Failed",
+            message: l10n.t("Failed"),
             increment: 100,
           });
 
@@ -836,7 +836,7 @@ async function installWestPyDeps(
     window.withProgress(
       {
         location: ProgressLocation.Notification,
-        title: "Installing West Python dependencies",
+        title: l10n.t("Installing West Python dependencies"),
         cancellable: false,
       },
       async progress2 => {
@@ -855,7 +855,7 @@ async function installWestPyDeps(
             "West Python dependencies installed."
           );
           progress2.report({
-            message: "Success",
+            message: l10n.t("Success"),
             increment: 100,
           });
 
@@ -866,7 +866,7 @@ async function installWestPyDeps(
             "Error installing West Python dependencies."
           );
           progress2.report({
-            message: "Failed",
+            message: l10n.t("Failed"),
             increment: 100,
           });
 
@@ -902,7 +902,9 @@ export async function setupZephyr(
       "Failed to get latest version bundles."
     );
     void window.showErrorMessage(
-      "Failed to get latest version bundles. Cannot continue Zephyr setup."
+      l10n.t(
+        "Failed to get latest version bundles. Cannot continue Zephyr setup."
+      )
     );
 
     return;
@@ -918,7 +920,7 @@ export async function setupZephyr(
   const endResult: boolean = await window.withProgress(
     {
       location: ProgressLocation.Window,
-      title: "Setting up Zephyr Toolchain",
+      title: l10n.t("Setting up Zephyr Toolchain"),
     },
     async progress => {
       let installedSuccessfully = true;
@@ -927,7 +929,7 @@ export async function setupZephyr(
         const gitPath = await checkGitWithProgress();
         if (gitPath === undefined) {
           progress.report({
-            message: "Failed",
+            message: l10n.t("Failed"),
             increment: 100,
           });
 
@@ -946,11 +948,13 @@ export async function setupZephyr(
       );
       if (cmakePath === undefined) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install or find CMake. Cannot continue Zephyr setup."
+          l10n.t(
+            "Failed to install or find CMake. Cannot continue Zephyr setup."
+          )
         );
 
         return false;
@@ -964,11 +968,13 @@ export async function setupZephyr(
       );
       if (ninjaPath === undefined) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install or find Ninja. Cannot continue Zephyr setup."
+          l10n.t(
+            "Failed to install or find Ninja. Cannot continue Zephyr setup."
+          )
         );
 
         return false;
@@ -978,11 +984,11 @@ export async function setupZephyr(
       installedSuccessfully = await checkPicotool(latestVb[1]);
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install Picotool. Cannot continue Zephyr setup."
+          l10n.t("Failed to install Picotool. Cannot continue Zephyr setup.")
         );
 
         return false;
@@ -1000,7 +1006,7 @@ export async function setupZephyr(
       );
       if (!python3Path) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         Logger.error(
@@ -1013,12 +1019,13 @@ export async function setupZephyr(
       }
       if (!(await preparePython(python3Path))) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to prepare Python for Zephyr setup. " +
-            "Cannot continue Zephyr setup."
+          l10n.t(
+            "Failed to prepare Python for Zephyr setup. Cannot continue Zephyr setup."
+          )
         );
 
         return false;
@@ -1028,11 +1035,11 @@ export async function setupZephyr(
       const sdk = await checkSdk(data.extUri, latestVb, python3Path);
       if (!sdk) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install Pico SDK. Cannot continue Zephyr setup."
+          l10n.t("Failed to install Pico SDK. Cannot continue Zephyr setup.")
         );
 
         return false;
@@ -1041,7 +1048,7 @@ export async function setupZephyr(
       installedSuccessfully = await checkWindowsDeps();
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -1051,7 +1058,7 @@ export async function setupZephyr(
       installedSuccessfully = await checkMacosLinuxDeps();
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -1061,11 +1068,11 @@ export async function setupZephyr(
       installedSuccessfully = await checkOpenOCD();
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install OpenOCD. Cannot continue Zephyr setup."
+          l10n.t("Failed to install OpenOCD. Cannot continue Zephyr setup.")
         );
 
         return false;
@@ -1122,7 +1129,7 @@ export async function setupZephyr(
       installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Setup Python virtual environment for Zephyr",
+          title: l10n.t("Setup Python virtual environment for Zephyr"),
           cancellable: false,
         },
         async progress2 => {
@@ -1155,7 +1162,7 @@ export async function setupZephyr(
 
             if (result !== 0) {
               progress2.report({
-                message: "Failed",
+                message: l10n.t("Failed"),
                 increment: 100,
               });
 
@@ -1164,7 +1171,7 @@ export async function setupZephyr(
           }
 
           progress2.report({
-            message: "Success",
+            message: l10n.t("Success"),
             increment: 100,
           });
 
@@ -1178,12 +1185,13 @@ export async function setupZephyr(
       );
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to create Python virtual environment for Zephyr. " +
-            "Cannot continue Zephyr setup."
+          l10n.t(
+            "Failed to create Python virtual environment for Zephyr. Cannot continue Zephyr setup."
+          )
         );
 
         return false;
@@ -1197,7 +1205,7 @@ export async function setupZephyr(
       installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Install Zephyr Python dependencies",
+          title: l10n.t("Install Zephyr Python dependencies"),
           cancellable: false,
         },
         async progress2 => {
@@ -1211,14 +1219,14 @@ export async function setupZephyr(
           });
           if (installExitCode === 0) {
             progress2.report({
-              message: "Success",
+              message: l10n.t("Success"),
               increment: 100,
             });
 
             return true;
           } else {
             progress2.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
@@ -1228,12 +1236,13 @@ export async function setupZephyr(
       );
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install West and / or pyelftools in the Zephyr Python " +
-            "virtual environment. Cannot continue Zephyr setup."
+          l10n.t(
+            "Failed to install West and / or pyelftools in the Zephyr Python virtual environment. Cannot continue Zephyr setup."
+          )
         );
 
         return false;
@@ -1249,7 +1258,7 @@ export async function setupZephyr(
       installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Setting up West workspace",
+          title: l10n.t("Setting up West workspace"),
           cancellable: false,
         },
         async progress2 => {
@@ -1285,7 +1294,7 @@ export async function setupZephyr(
 
             if (result !== 0) {
               progress2.report({
-                message: "Failed",
+                message: l10n.t("Failed"),
                 increment: 100,
               });
 
@@ -1304,14 +1313,14 @@ export async function setupZephyr(
 
           if (result === 0) {
             progress2.report({
-              message: "Success",
+              message: l10n.t("Success"),
               increment: 100,
             });
 
             return true;
           } else {
             progress2.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
@@ -1321,12 +1330,13 @@ export async function setupZephyr(
       );
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to setup West workspace and / or download zephyr. " +
-            "Cannot continue Zephyr setup."
+          l10n.t(
+            "Failed to setup West workspace and / or download zephyr. Cannot continue Zephyr setup."
+          )
         );
 
         return false;
@@ -1342,13 +1352,13 @@ export async function setupZephyr(
       );
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install West Python dependencies. " +
-            "Cannot continue Zephyr setup. " +
-            "See extension host output for more details."
+          l10n.t(
+            "Failed to install West Python dependencies. Cannot continue Zephyr setup. See extension host output for more details."
+          )
         );
 
         return false;
@@ -1369,10 +1379,12 @@ export async function setupZephyr(
           "Error exporting Zephyr CMake files."
         );
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
-        void window.showErrorMessage("Error exporting Zephyr CMake files.");
+        void window.showErrorMessage(
+          l10n.t("Error exporting Zephyr CMake files.")
+        );
 
         return false;
       }
@@ -1384,13 +1396,13 @@ export async function setupZephyr(
       );
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to fetch Zephyr binary blobs. " +
-            "Cannot continue Zephyr setup. " +
-            "See extension host output for more details."
+          l10n.t(
+            "Failed to fetch Zephyr binary blobs. Cannot continue Zephyr setup. See extension host output for more details."
+          )
         );
 
         return false;
@@ -1399,7 +1411,7 @@ export async function setupZephyr(
       installedSuccessfully = await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Installing Zephyr SDK",
+          title: l10n.t("Installing Zephyr SDK"),
           cancellable: false,
         },
         async progress2 => {
@@ -1430,7 +1442,7 @@ export async function setupZephyr(
 
           if (result === 0) {
             progress2.report({
-              message: "Success",
+              message: l10n.t("Success"),
               increment: 100,
             });
             await LastUsedDepsStore.instance.record("7zip", "latest");
@@ -1438,7 +1450,7 @@ export async function setupZephyr(
             return true;
           } else {
             progress2.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
@@ -1448,19 +1460,20 @@ export async function setupZephyr(
       );
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         void window.showErrorMessage(
-          "Failed to install Zephyr SDK. Cannot continue Zephyr setup. " +
-            "See extension host output for more details."
+          l10n.t(
+            "Failed to install Zephyr SDK. Cannot continue Zephyr setup. See extension host output for more details."
+          )
         );
 
         return false;
       }
 
       progress.report({
-        message: "Complete",
+        message: l10n.t("Complete"),
         increment: 100,
       });
 
@@ -1523,17 +1536,20 @@ export async function zephyrTouchTasksJson(
 
     if (overwriteBoard !== undefined) {
       if (!VALID_ZEPHYR_BOARDS.includes(currentBoard)) {
+        const continueLabel = l10n.t("Continue");
         const cont = await window.showWarningMessage(
-          `Current board "${currentBoard}" is not a known ` +
-            "Zephyr board. Do you want to continue?",
+          l10n.t(
+            'Current board "{0}" is not a known Zephyr board. Do you want to continue?',
+            currentBoard
+          ),
           {
             modal: true,
           },
-          "Continue",
-          "Cancel"
+          continueLabel,
+          l10n.t("Cancel")
         );
 
-        if (cont !== "Continue") {
+        if (cont !== continueLabel) {
           return;
         }
       }
@@ -1557,8 +1573,9 @@ export async function zephyrTouchTasksJson(
       `Failed to read tasks.json file: ${unknownErrorToString(error)}`
     );
     void window.showErrorMessage(
-      "Failed to read tasks.json file. " +
-        "Make sure the file exists and has a Compile Project task."
+      l10n.t(
+        "Failed to read tasks.json file. Make sure the file exists and has a Compile Project task."
+      )
     );
 
     return undefined;
@@ -1584,8 +1601,9 @@ export async function updateZephyrVersion(gitTag: string): Promise<boolean> {
       `Failed to update Zephyr version: ${unknownErrorToString(error)}`
     );
     void window.showErrorMessage(
-      "Failed to update Zephyr version. " +
-        "Make sure the Zephyr workspace is correctly setup."
+      l10n.t(
+        "Failed to update Zephyr version. Make sure the Zephyr workspace is correctly setup."
+      )
     );
 
     return false;
@@ -1607,7 +1625,7 @@ export async function getZephyrSDKVersion(
   const zVersion = zephyrVersion ?? (await getZephyrVersion());
   if (zVersion === undefined) {
     void window.showErrorMessage(
-      "Failed to get Zephyr version. Cannot get Zephyr SDK version."
+      l10n.t("Failed to get Zephyr version. Cannot get Zephyr SDK version.")
     );
 
     return undefined;
@@ -1634,8 +1652,9 @@ export async function getZephyrSDKVersion(
       `Failed to read Zephyr SDK version file: ${unknownErrorToString(error)}`
     );
     void window.showErrorMessage(
-      "Failed to read Zephyr SDK version file. " +
-        "Make sure the Zephyr workspace is correctly setup."
+      l10n.t(
+        "Failed to read Zephyr SDK version file. Make sure the Zephyr workspace is correctly setup."
+      )
     );
 
     return undefined;
@@ -1649,7 +1668,9 @@ export async function updateZephyrCompilerPath(
   const sdkVersion = await getZephyrSDKVersion(zephyrVersion);
   if (sdkVersion === undefined) {
     void window.showErrorMessage(
-      "Failed to get Zephyr version. Cannot update Zephyr compiler path."
+      l10n.t(
+        "Failed to get Zephyr version. Cannot update Zephyr compiler path."
+      )
     );
 
     return false;
@@ -1686,8 +1707,9 @@ export async function updateZephyrCompilerPath(
         "Failed to find Zephyr configuration in c_cpp_properties.json file."
       );
       void window.showErrorMessage(
-        "Failed to find Zephyr configuration in c_cpp_properties.json file. " +
-          "Cannot update Zephyr version."
+        l10n.t(
+          "Failed to find Zephyr configuration in c_cpp_properties.json file. Cannot update Zephyr version."
+        )
       );
 
       return false;
@@ -1703,8 +1725,9 @@ export async function updateZephyrCompilerPath(
         "Failed to find Zephyr SDK path in c_cpp_properties.json file."
       );
       void window.showErrorMessage(
-        "The compiler path in c_cpp_properties.json does not seem to " +
-          "contain a Zephyr SDK path. Cannot update Zephyr version."
+        l10n.t(
+          "The compiler path in c_cpp_properties.json does not seem to contain a Zephyr SDK path. Cannot update Zephyr version."
+        )
       );
 
       return false;
@@ -1819,8 +1842,9 @@ export async function updateZephyrCompilerPath(
       )}`
     );
     void window.showErrorMessage(
-      "Failed to read c_cpp_properties.json file. " +
-        "Make sure the file exists and has a Zephyr configuration."
+      l10n.t(
+        "Failed to read c_cpp_properties.json file. Make sure the file exists and has a Zephyr configuration."
+      )
     );
 
     return false;
@@ -1838,7 +1862,7 @@ export async function zephyrVerifyCMakeCache(
   const zephyrVer = zephyrVersion ?? (await getZephyrVersion());
   if (zephyrVer === undefined) {
     void window.showErrorMessage(
-      "Failed to get Zephyr version. Cannot verify CMake cache."
+      l10n.t("Failed to get Zephyr version. Cannot verify CMake cache.")
     );
 
     return;
@@ -1878,7 +1902,7 @@ export async function zephyrVerifyCMakeCache(
         "Deleted build folder to clear old Zephyr CMake cache."
       );
       void window.showInformationMessage(
-        "Deleted build folder to clear old Zephyr CMake cache."
+        l10n.t("Deleted build folder to clear old Zephyr CMake cache.")
       );
     } catch {
       // does not exist
@@ -1932,8 +1956,9 @@ export async function zephyrGetSelectedSnippets(
       `Failed to read tasks.json file: ${unknownErrorToString(error)}`
     );
     void window.showWarningMessage(
-      "Failed to read tasks.json file. " +
-        "Make sure the file exists and has a Compile Project task."
+      l10n.t(
+        "Failed to read tasks.json file. Make sure the file exists and has a Compile Project task."
+      )
     );
 
     return [];

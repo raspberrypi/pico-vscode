@@ -1,7 +1,6 @@
 import { CommandWithArgs } from "./command.mjs";
-import { window, type Uri } from "vscode";
+import { l10n, window, type Uri } from "vscode";
 import { NewProjectPanel } from "../webview/newProjectPanel.mjs";
-// eslint-disable-next-line max-len
 import { NewMicroPythonProjectPanel } from "../webview/newMicroPythonProjectPanel.mjs";
 import { NewRustProjectPanel } from "../webview/newRustProjectPanel.mjs";
 import { NewZephyrProjectPanel } from "../webview/newZephyrProjectPanel.mjs";
@@ -12,7 +11,10 @@ export default class NewProjectCommand extends CommandWithArgs {
   private readonly _extensionUri: Uri;
   private static readonly micropythonOption = "MicroPython";
   private static readonly cCppOption = "C/C++";
-  private static readonly rustOption = "Rust (experimental)";
+  // a getter so l10n.t runs at use time, not at import time
+  private static get rustOption(): string {
+    return l10n.t("Rust (experimental)");
+  }
   private static readonly zephyrOption = "Zephyr";
 
   constructor(extensionUri: Uri) {
@@ -45,10 +47,12 @@ export default class NewProjectCommand extends CommandWithArgs {
           NewProjectCommand.zephyrOption,
         ],
         {
-          placeHolder: "Select which language to use for your new project",
+          placeHolder: l10n.t(
+            "Select which language to use for your new project"
+          ),
           canPickMany: false,
           ignoreFocusOut: false,
-          title: "New Pico Project",
+          title: l10n.t("New Pico Project"),
         }
       ));
 

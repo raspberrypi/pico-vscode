@@ -120,7 +120,10 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
 
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'false');
-      createFromExampleBtn.innerText = 'Example';
+      createFromExampleBtn.innerText = l10n.t({
+        message: 'Example',
+        comment: ['Button that switches to creating a project from an example'],
+      });
       // add md:grid-cols-2 from projectNameGrid
       projectNameGrid.classList.add('md:grid-cols-2');
       // hide dropdown button
@@ -163,7 +166,7 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       if (window.projectNameInputOnKeyup) {
         projectNameInput.removeEventListener('keyup', window.projectNameInputOnKeyup);
       }
-      projectNameInput.setAttribute('placeholder', 'Project name');
+      projectNameInput.setAttribute('placeholder', l10n.t('Project name'));
     }
 
     if (projectOptionsDivs) {
@@ -175,7 +178,10 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
 
     if (createFromExampleBtn) {
       createFromExampleBtn.setAttribute('data-example-mode', 'true');
-      createFromExampleBtn.innerText = 'Custom';
+      createFromExampleBtn.innerText = l10n.t({
+        message: 'Custom',
+        comment: ['Button that switches back to creating a custom project'],
+      });
       // remove md:grid-cols-2 from projectNameGrid
       projectNameGrid.classList.remove('md:grid-cols-2');
       // show dropdown button
@@ -191,7 +197,7 @@ window.toggleCreateFromExampleMode = function (forceOn, forceOff) {
       projectNameInput.value = '';
 
       //projectNameInput.setAttribute('list', "examples-list");
-      projectNameInput.setAttribute('placeholder', 'Select an example');
+      projectNameInput.setAttribute('placeholder', l10n.t('Select an example'));
 
       if (defaultBoardTypeOption) {
         defaultBoardTypeOption.hidden = false;

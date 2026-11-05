@@ -1,7 +1,7 @@
 {
   "name": "raspberry-pi-pico",
-  "displayName": "Raspberry Pi Pico",
-  "description": "The official VS Code extension for Raspberry Pi Pico development. It includes several features to simplify project creation and deployment. (Single folder workspaces only)",
+  "displayName": "%extension.displayName%",
+  "description": "%extension.description%",
   "version": "0.23.1",
   "author": "paulober",
   "publisher": "raspberry-pi",
@@ -48,6 +48,7 @@
     "ms-python.python"
   ],
   "main": "./dist/extension.js",
+  "l10n": "./dist/l10n",
   "markdown": "github",
   "minimumNodeVersion": 20,
   "capabilities": {
@@ -74,269 +75,269 @@
     "commands": [
       {
         "command": "raspberry-pi-pico.newProject",
-        "title": "New Pico Project",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.newProject.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.switchSDK",
-        "title": "Switch Pico SDK",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.switchSDK.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.switchBoard",
-        "title": "Switch Board",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.switchBoard.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPath",
-        "title": "Get path of the project executable",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.launchTargetPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.launchTargetPathRelease",
-        "title": "Get path of the project release executable (rust only)",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.launchTargetPathRelease.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getPythonPath",
-        "title": "Get python path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getPythonPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getEnvPath",
-        "title": "Get environment path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getEnvPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getGDBPath",
-        "title": "Get GDB path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getGDBPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getCompilerPath",
-        "title": "Get compiler path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getCompilerPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getCxxCompilerPath",
-        "title": "Get C++ compiler path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getCxxCompilerPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getChip",
-        "title": "Get Chip",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getChip.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getChipUppercase",
-        "title": "Get Chip Uppercase",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getChipUppercase.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getTarget",
-        "title": "Get OpenOCD Target",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getTarget.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getPicotoolPath",
-        "title": "Get Picotool path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getPicotoolPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getOpenOCDRoot",
-        "title": "Get OpenOCD root",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getOpenOCDRoot.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getSVDPath",
-        "title": "Get SVD Path (rust only)",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getSVDPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getWestPath",
-        "title": "Get West path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getWestPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getZephyrWorkspacePath",
-        "title": "Get Zephyr workspace path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getZephyrWorkspacePath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.compileProject",
-        "title": "Compile Pico Project",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.compileProject.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.runProject",
-        "title": "Run Pico Project (USB)",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.runProject.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.clearGithubApiCache",
-        "title": "Clear GitHub API cache",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.clearGithubApiCache.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.conditionalDebugging",
-        "title": "Conditional Debugging",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.conditionalDebugging.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject && !inQuickOpen"
       },
       {
         "command": "raspberry-pi-pico.debugLayout",
-        "title": "Debug Layout",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.debugLayout.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject"
       },
       {
         "command": "raspberry-pi-pico.openSdkDocumentation",
-        "title": "Open SDK Documentation",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.openSdkDocumentation.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.configureCmake",
-        "title": "Configure CMake",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.configureCmake.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.switchBuildType",
-        "title": "Switch Build Type",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.switchBuildType.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject && !raspberry-pi-pico.isZephyrProject"
       },
       {
         "command": "raspberry-pi-pico.importProject",
-        "title": "Import Pico Project",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.importProject.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.newExampleProject",
-        "title": "New Example Pico Project",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.newExampleProject.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.uninstallPicoSDK",
-        "title": "Uninstall Pico SDK",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.uninstallPicoSDK.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.updateOpenOCD",
-        "title": "Update OpenOCD",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.updateOpenOCD.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.flashProject",
-        "title": "Flash Pico Project (SWD)",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.flashProject.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.cleanCmake",
-        "title": "Clean CMake",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.cleanCmake.title%",
+        "category": "%command.category%",
         "enablement": "raspberry-pi-pico.isPicoProject && !raspberry-pi-pico.isRustProject"
       },
       {
         "command": "raspberry-pi-pico.sbomTargetPathDebug",
-        "title": "Get path of the project debug SBOM (rust only)",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.sbomTargetPathDebug.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.sbomTargetPathRelease",
-        "title": "Get path of the project release SBOM (rust only)",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.sbomTargetPathRelease.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.getZephyrSDKPath",
-        "title": "Get Zephyr SDK path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getZephyrSDKPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.openUninstaller",
-        "title": "Manage Installed Components",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.openUninstaller.title%",
+        "category": "%command.category%"
       },
       {
         "command": "raspberry-pi-pico.getGitPath",
-        "title": "Get git path",
-        "category": "Raspberry Pi Pico",
+        "title": "%command.getGitPath.title%",
+        "category": "%command.category%",
         "enablement": "false"
       },
       {
         "command": "raspberry-pi-pico.cleanZephyr",
-        "title": "Remove Zephyr workspace",
-        "category": "Raspberry Pi Pico"
+        "title": "%command.cleanZephyr.title%",
+        "category": "%command.category%"
       }
     ],
     "configuration": {
-      "title": "Raspberry Pi Pico Extension",
+      "title": "%configuration.title%",
       "properties": {
         "raspberry-pi-pico.cmakePath": {
           "type": "string",
           "default": "",
-          "description": "Path to the CMake executable [no spaces]"
+          "description": "%configuration.cmakePath.description%"
         },
         "raspberry-pi-pico.python3Path": {
           "type": "string",
           "default": "",
           "scope": "machine",
-          "description": "Path to the Python executable [no spaces]"
+          "description": "%configuration.python3Path.description%"
         },
         "raspberry-pi-pico.ninjaPath": {
           "type": "string",
           "default": "",
-          "description": "Path to Ninja executable [no spaces]"
+          "description": "%configuration.ninjaPath.description%"
         },
         "raspberry-pi-pico.gitPath": {
           "type": "string",
           "default": "",
-          "description": "Path to git executable [no spaces]"
+          "description": "%configuration.gitPath.description%"
         },
         "raspberry-pi-pico.cmakeAutoConfigure": {
           "type": "boolean",
           "default": true,
-          "description": "Automatically run configure when opening a Pico project"
+          "description": "%configuration.cmakeAutoConfigure.description%"
         },
         "raspberry-pi-pico.useCmakeTools": {
           "type": "boolean",
           "default": false,
-          "description": "Use the CMake Tools extension for CMake configuration, instead of this extension"
+          "description": "%configuration.useCmakeTools.description%"
         },
         "raspberry-pi-pico.githubToken": {
           "type": "string",
           "default": "",
-          "markdownDescription": "A GitHub personal access token (classic) with the `public_repo` scope. Used to check GitHub for available versions of the Pico SDK and other tools."
+          "markdownDescription": "%configuration.githubToken.markdownDescription%"
         },
         "raspberry-pi-pico.zephyrVersion": {
           "type": "string",
           "default": "",
           "pattern": "^(?:main|v?\\d+\\.\\d+\\.\\d+(?:-rc\\d+)?)?$",
           "scope": "resource",
-          "description": "Pin a Zephyr version (e.g. v4.2.0 or 4.2.0) for you project. Leave empty to always use the current system version."
+          "description": "%configuration.zephyrVersion.description%"
         }
       }
     },
@@ -344,7 +345,7 @@
       "activitybar": [
         {
           "id": "raspberry-pi-pico-project",
-          "title": "Raspberry Pi Pico Project",
+          "title": "%viewsContainer.raspberry-pi-pico-project.title%",
           "icon": "images/24x24-RPi-Pico.svg"
         }
       ]
@@ -353,17 +354,17 @@
       "raspberry-pi-pico-project": [
         {
           "id": "raspberry-pi-pico-project-quick-access",
-          "name": "Quick Access",
+          "name": "%view.raspberry-pi-pico-project-quick-access.name%",
           "type": "tree",
           "icon": "images/24x24-RPi-Pico.svg",
-          "contextualTitle": "Raspberry Pi Pico Project"
+          "contextualTitle": "%view.raspberry-pi-pico-project-quick-access.contextualTitle%"
         }
       ]
     },
     "viewsWelcome": [
       {
         "view": "explorer",
-        "contents": "[Create Pico Project](command:raspberry-pi-pico.newProject)\r\nTo learn more about working with the Raspberry Pi Pico SDK see our [Getting Started](https://datasheets.raspberrypi.com/pico/getting-started-with-pico.pdf) guide.",
+        "contents": "%viewsWelcome.explorer.0.contents%",
         "when": "workspaceFolderCount == 0"
       }
     ]
@@ -373,10 +374,11 @@
     "vscode:prepublish": "npm run package",
     "compile": "tsc --build tsconfig.json --noEmit false",
     "genCache": "tsc --build genCache.tsconfig.json --noEmit false && python3 scripts/genCache.py",
-    "watch": "webpack --watch --mode development",
+    "watch": "node scripts/l10n.mjs && webpack --watch --mode development",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "package": "npm run clean && node scripts/build.mjs",
-    "lint": "eslint src",
+    "l10n": "node scripts/l10n.mjs",
+    "lint": "eslint src && node scripts/l10n.mjs --check",
     "test": "npm run lint"
   },
   "devDependencies": {
@@ -386,6 +388,7 @@
     "@types/node": "^22.19.1",
     "@types/vscode": "^1.105.1",
     "@types/which": "^3.0.4",
+    "@vscode/l10n-dev": "^0.0.35",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^16.5.0",

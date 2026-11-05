@@ -1,6 +1,6 @@
 import { existsSync } from "fs";
 import { homedir } from "os";
-import { commands, ProgressLocation, window } from "vscode";
+import { commands, l10n, ProgressLocation, window } from "vscode";
 import type { Progress as GotProgress } from "got";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { ContextKeys } from "../contextKeys.mjs";
@@ -106,9 +106,10 @@ export async function ensureManagedTool(
   const result = await window.withProgress(
     {
       location: ProgressLocation.Notification,
-      title: `Downloading and installing ${
+      title: l10n.t(
+        "Downloading and installing {0}. This may take a while...",
         tool === "cmake" ? "CMake" : "Ninja"
-      }. This may take a while...`,
+      ),
       cancellable: false,
     },
     async progress => {

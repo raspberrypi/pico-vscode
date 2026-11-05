@@ -32,7 +32,7 @@ var submitted = false;
     // Update label text when a file is chosen
     fileInput?.addEventListener('change', () => {
       const f = fileInput.files && fileInput.files[0];
-      fileLabel.textContent = f ? f.name : 'No file selected';
+      fileLabel.textContent = f ? f.name : l10n.t('No file selected');
     });
 
     // Make label keyboard-activatable (Enter/Space)
@@ -92,7 +92,7 @@ var submitted = false;
     // Update label text when a file is chosen
     fileInput?.addEventListener('change', () => {
       const f = fileInput.files && fileInput.files[0];
-      fileLabel.textContent = f ? f.name : 'No file selected';
+      fileLabel.textContent = f ? f.name : l10n.t('No file selected');
     });
 
     // Make label keyboard-activatable (Enter/Space)
@@ -151,7 +151,7 @@ var submitted = false;
         opt.disabled = disabled;
         opt.classList.toggle("opacity-50", disabled);      // optional visuals
         opt.classList.toggle("cursor-not-allowed", disabled);
-        if (disabled) opt.title = "Not available for the selected board";
+        if (disabled) opt.title = l10n.t("Not available for the selected board");
         else opt.removeAttribute("title");
       };
 
@@ -359,7 +359,7 @@ var submitted = false;
       console.debug("Invalid python version value: " + pythonMode.toString());
       vscode.postMessage({
         command: CMD_ERROR,
-        value: "Please select a valid python version.",
+        value: l10n.t("Please select a valid python version."),
       });
       submitted = false;
 
@@ -405,7 +405,7 @@ var submitted = false;
       console.debug("Invalid console selection value: " + consoleSelection);
       vscode.postMessage({
         command: CMD_ERROR,
-        value: `Please select a valid console, got: ${consoleSelection}`,
+        value: l10n.t("Please select a valid console, got: {0}", consoleSelection),
       });
       submitted = false;
       return;
@@ -448,7 +448,7 @@ var submitted = false;
         console.debug('Invalid cmake mode string: ' + cmakeModeStr);
         vscode.postMessage({
           command: CMD_ERROR,
-          value: `Please select a valid CMake mode (got: ${cmakeModeStr}).`
+          value: l10n.t('Please select a valid CMake mode (got: {0}).', cmakeModeStr)
         });
         submitted = false;
         return;
@@ -460,7 +460,7 @@ var submitted = false;
         console.error('Latest CMake version element not found');
         vscode.postMessage({
           command: CMD_ERROR,
-          value: 'Internal error: latest CMake version not found.'
+          value: l10n.t('Internal error: latest CMake version not found.')
         });
         submitted = false;
         return;
@@ -471,7 +471,7 @@ var submitted = false;
       if (!selCmake || !selCmake.value) {
         vscode.postMessage({
           command: CMD_ERROR,
-          value: 'Please select a CMake version.'
+          value: l10n.t('Please select a CMake version.')
         });
         submitted = false;
         return;
@@ -484,7 +484,7 @@ var submitted = false;
         console.debug('Please select a valid CMake executable file');
         vscode.postMessage({
           command: CMD_ERROR,
-          value: 'Please select a valid CMake executable file.'
+          value: l10n.t('Please select a valid CMake executable file.')
         });
         submitted = false;
         return;
@@ -498,7 +498,7 @@ var submitted = false;
       console.debug('Invalid cmake version value: ' + cmakeMode);
       vscode.postMessage({
         command: CMD_ERROR,
-        value: 'Please select a valid CMake version.'
+        value: l10n.t('Please select a valid CMake version.')
       });
       submitted = false;
       return;
@@ -531,7 +531,7 @@ var submitted = false;
         console.debug('Invalid ninja mode string: ' + ninjaModeStr);
         vscode.postMessage({
           command: CMD_ERROR,
-          value: `Please select a valid Ninja mode (got: ${ninjaModeModeStr}).`
+          value: l10n.t('Please select a valid Ninja mode (got: {0}).', ninjaModeStr)
         });
         submitted = false;
         return;
@@ -543,7 +543,7 @@ var submitted = false;
         console.error('Latest Ninja version element not found');
         vscode.postMessage({
           command: CMD_ERROR,
-          value: 'Internal error: latest Ninja version not found.'
+          value: l10n.t('Internal error: latest Ninja version not found.')
         });
         submitted = false;
         return;
@@ -554,7 +554,7 @@ var submitted = false;
       if (!selNinja || !selNinja.value) {
         vscode.postMessage({
           command: CMD_ERROR,
-          value: 'Please select a Ninja version.'
+          value: l10n.t('Please select a Ninja version.')
         });
         submitted = false;
         return;
@@ -567,7 +567,7 @@ var submitted = false;
         console.debug('Please select a valid Ninja executable file');
         vscode.postMessage({
           command: CMD_ERROR,
-          value: 'Please select a valid Ninja executable file.'
+          value: l10n.t('Please select a valid Ninja executable file.')
         });
         submitted = false;
         return;
@@ -581,7 +581,7 @@ var submitted = false;
       console.debug('Invalid ninja version value: ' + ninjaMode);
       vscode.postMessage({
         command: CMD_ERROR,
-        value: 'Please select a valid Ninja version.'
+        value: l10n.t('Please select a valid Ninja version.')
       });
       submitted = false;
       return;

@@ -10,6 +10,8 @@ import {
   workspace,
   ProgressLocation,
   commands,
+  env,
+  l10n,
 } from "vscode";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
@@ -30,6 +32,7 @@ import {
 import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
 import { checkGitWithProgress } from "../utils/gitUtil.mjs";
 import {
+  getL10nScript,
   getNonce,
   getProjectFolderDialogOptions,
   getWebviewOptions,
@@ -73,7 +76,7 @@ export class NewZephyrProjectPanel {
 
     const panel = window.createWebviewPanel(
       NewZephyrProjectPanel.viewType,
-      "New Zephyr Pico Project",
+      l10n.t("New Zephyr Pico Project"),
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -82,13 +85,16 @@ export class NewZephyrProjectPanel {
     if (!settings) {
       panel.dispose();
 
+      const reloadWindow = l10n.t("Reload Window");
       void window
         .showErrorMessage(
-          "Failed to load settings. Please restart VS Code or reload the window.",
-          "Reload Window"
+          l10n.t(
+            "Failed to load settings. Please restart VS Code or reload the window."
+          ),
+          reloadWindow
         )
         .then(selected => {
-          if (selected === "Reload Window") {
+          if (selected === reloadWindow) {
             void commands.executeCommand("workbench.action.reloadWindow");
           }
         });
@@ -109,7 +115,7 @@ export class NewZephyrProjectPanel {
     if (settings === undefined) {
       // TODO: maybe add restart button
       void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
+        l10n.t("Failed to load settings. Please restart VSCode.")
       );
 
       return;
@@ -194,7 +200,7 @@ export class NewZephyrProjectPanel {
                 this._projectRoot.fsPath === ""
               ) {
                 void window.showErrorMessage(
-                  "No project root selected. Please select a project root."
+                  l10n.t("No project root selected. Please select a project root.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -208,7 +214,7 @@ export class NewZephyrProjectPanel {
                 data.projectName.length === 0
               ) {
                 void window.showWarningMessage(
-                  "The project name is empty. Please enter a project name."
+                  l10n.t("The project name is empty. Please enter a project name.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -222,8 +228,9 @@ export class NewZephyrProjectPanel {
                 existsSync(join(this._projectRoot.fsPath, data.projectName))
               ) {
                 void window.showErrorMessage(
-                  "Project already exists. " +
-                    "Please select a different project name or root."
+                  l10n.t(
+                    "Project already exists. Please select a different project name or root."
+                  )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -238,9 +245,11 @@ export class NewZephyrProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Generating Zephyr project ${
-                    data.projectName ?? "undefined"
-                  } in ${this._projectRoot?.fsPath}...`,
+                  title: l10n.t(
+                    "Generating Zephyr project {0} in {1}...",
+                    data.projectName ?? "undefined",
+                    String(this._projectRoot?.fsPath)
+                  ),
                 },
                 async progress =>
                   this._generateProjectOperation(progress, data, message)
@@ -275,8 +284,9 @@ export class NewZephyrProjectPanel {
       projectPath.length === 0
     ) {
       void window.showErrorMessage(
-        "Failed to generate Zephyrproject. " +
-          "Please try again and check your settings."
+        l10n.t(
+          "Failed to generate Zephyrproject. Please try again and check your settings."
+        )
       );
 
       return;
@@ -284,18 +294,18 @@ export class NewZephyrProjectPanel {
 
     if (data.cmakeMode === 0) {
       progress.report({
-        message: "Failed",
+        message: l10n.t("Failed"),
         increment: 100,
       });
-      void window.showErrorMessage("Unknown cmake version selected.");
+      void window.showErrorMessage(l10n.t("Unknown cmake version selected."));
 
       return;
     } else if (data.ninjaMode === 0) {
       progress.report({
-        message: "Failed",
+        message: l10n.t("Failed"),
         increment: 100,
       });
-      void window.showErrorMessage("Unknown ninja version selected.");
+      void window.showErrorMessage(l10n.t("Unknown ninja version selected."));
 
       return;
     }
@@ -303,12 +313,13 @@ export class NewZephyrProjectPanel {
     const gitPath = await checkGitWithProgress();
     if (gitPath === undefined) {
       progress.report({
-        message: "Failed",
+        message: l10n.t("Failed"),
         increment: 100,
       });
       void window.showErrorMessage(
-        "Git is required to clone the Zephyr repository. " +
-          "Please install Git and try again."
+        l10n.t(
+          "Git is required to clone the Zephyr repository. Please install Git and try again."
+        )
       );
 
       return;
@@ -330,7 +341,7 @@ export class NewZephyrProjectPanel {
 
     if (zephyrSetupOutputs === undefined) {
       progress.report({
-        message: "Failed",
+        message: l10n.t("Failed"),
         increment: 100,
       });
 
@@ -349,12 +360,13 @@ export class NewZephyrProjectPanel {
     );
     if (!result) {
       progress.report({
-        message: "Failed",
+        message: l10n.t("Failed"),
         increment: 100,
       });
       void window.showErrorMessage(
-        "Failed to generate Zephyrproject. " +
-          "Please try again and check your settings."
+        l10n.t(
+          "Failed to generate Zephyrproject. Please try again and check your settings."
+        )
       );
 
       return;
@@ -377,7 +389,7 @@ export class NewZephyrProjectPanel {
   }
 
   private async _update(): Promise<void> {
-    this._panel.title = "New Zephyr Pico Project";
+    this._panel.title = l10n.t("New Zephyr Pico Project");
 
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
@@ -405,7 +417,7 @@ export class NewZephyrProjectPanel {
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load webview for new Zephyr project"
+        l10n.t("Failed to load webview for new Zephyr project")
       );
       this.dispose();
     }
@@ -509,7 +521,7 @@ export class NewZephyrProjectPanel {
         : "light";
 
     return `<!DOCTYPE html>
-    <html lang="en">
+    <html lang="${env.language}">
       <head>
         <meta charset="UTF-8">
         
@@ -522,7 +534,7 @@ export class NewZephyrProjectPanel {
 
         <link href="${mainStyleUri.toString()}" rel="stylesheet">
 
-        <title>New Pico Zephyr Project</title>
+        <title>${l10n.t("New Pico Zephyr Project")}</title>
 
         <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
         <script nonce="${nonce}">
@@ -533,6 +545,7 @@ export class NewZephyrProjectPanel {
           localStorage.theme = "${defaultTheme}";
 
         </script>
+        ${getL10nScript(nonce)}
       </head>
       <body class="scroll-smooth w-screen${
         defaultTheme === "dark" ? " dark" : ""
@@ -542,21 +555,21 @@ export class NewZephyrProjectPanel {
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
           <!-- Navigation links go here -->
           <ul class="overlay-menu">
-            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Basic Settings</li>
-            <li id="ov-nav-features" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Modules</li>
+            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Basic Settings")}</li>
+            <li id="ov-nav-features" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Modules")}</li>
           </ul>
         </div>
         <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 pr-5 h-24 bg-opacity-95 bg-slate-400 dark:bg-slate-800 rounded-md">
             <div class="inline-flex h-32 align-middle">
-                <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
-                <img src="${navHeaderDarkSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
+                <img src="${navHeaderSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
+                <img src="${navHeaderDarkSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
             </div>
             <ul class="pl-3 pr-3 space-x-4 h-auto align-middle hidden md:flex">
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
-                    Basic Settings
+                    ${l10n.t("Basic Settings")}
                 </li>
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-features">
-                    Modules
+                    ${l10n.t("Modules")}
                 </li>
             </ul>
             <div id="burger-menu" class="flex md:hidden cursor-pointer h-auto me-7">
@@ -567,25 +580,25 @@ export class NewZephyrProjectPanel {
         </nav>
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
           <div id="section-basic" class="snap-start">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Settings</h3>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">${l10n.t("Basic Settings")}</h3>
               <div id="project-name-grid" class="grid gap-6 md:grid-cols-2">
                 <div>
-                  <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                  <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Name")}</label>
                   <div class="flex">
                     <div class="relative inline-flex w-full">
-                        <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="Project name" required/>
+                        <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="${l10n.t("Project name")}" required/>
                         <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border border-l-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 hidden">&#9660;</button>
                     </div>
                   </div>
 
                   <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden>
-                      <span class="font-medium">Error</span> Please enter a valid project name.
+                      <span class="font-medium">${l10n.t("Error")}</span> ${l10n.t("Please enter a valid project name.")}
                   </p>
                 </div>
 
                 <div id="board-type-riscv-grid" class="grid gap-6 grid-cols-2">
                 <div>
-                    <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
+                    <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Board type")}</label>
                     <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <option id="option-board-type-${
                         BoardType.pico2
@@ -602,7 +615,7 @@ export class NewZephyrProjectPanel {
                     </select>
                 </div>
                 <div>
-                    <label for="sel-template" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Project template</label>
+                    <label for="sel-template" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Project template")}</label>
                     <select id="sel-template" class="bg-grey-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                       <option id="option-template-simple" value="simple" selected>Hello World</option>
                       <option id="option-template-blinky" value="blinky">Blinky</option>
@@ -613,7 +626,7 @@ export class NewZephyrProjectPanel {
               </div>
 
               <div class="mt-6 mb-4 col-span-2">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">${l10n.t("Location")}</label>
                     <div class="flex">
                         <div class="w-full left-0 flex">
                             <span class="inline-flex items-center px-3 text-lg text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -671,14 +684,14 @@ export class NewZephyrProjectPanel {
                             id="btn-change-project-location"
                             type="button"
                             class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 py-2 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800">
-                            Change
+                            ${l10n.t("Change")}
                         </button>
                     </div>
                 </div>
 
               <div id="section-features" class="snap-start mt-10 project-options">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Modules</h3>
-                <h4 class="text-sm text-gray-900 dark:text-white mb-8">Kconfig options to enable the below modules</h4>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">${l10n.t("Modules")}</h3>
+                <h4 class="text-sm text-gray-900 dark:text-white mb-8">${l10n.t("Kconfig options to enable the below modules")}</h4>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
@@ -689,7 +702,7 @@ export class NewZephyrProjectPanel {
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="i2c-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="i2c-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I2C interface</label>
+                            <label for="i2c-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("I2C interface")}</label>
                         </div>
                     </li>
                     <li class="w-full dark:border-gray-600">
@@ -709,13 +722,13 @@ export class NewZephyrProjectPanel {
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="sensor-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="sensor-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sensor interface</label>
+                            <label for="sensor-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Sensor interface")}</label>
                         </div>
                     </li>
                     <li class="w-full dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="shell-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="shell-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Shell</label>
+                            <label for="shell-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t({ message: "Shell", comment: ["Zephyr shell module (command-line console)"] })}</label>
                         </div>
                     </li>
                 </ul>
@@ -723,15 +736,15 @@ export class NewZephyrProjectPanel {
 
           <div class="grid gap-6 grid-cols-2 mt-10">
               <div id="section-console" class="snap-start">
-                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Stdio support:</h3>
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">${l10n.t("Stdio support:")}</h3>
                   <div class="flex items-stretch space-x-4">
                       <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                           <input checked id="console-radio-uart" type="radio" value="UART" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                          <label for="console-radio-uart" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Console over UART</label>
+                          <label for="console-radio-uart" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Console over UART")}</label>
                       </div>
                       <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                           <input id="console-radio-usb" type="radio" value="USB" name="console-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                          <label for="console-radio-usb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Console over USB</label>
+                          <label for="console-radio-usb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Console over USB")}</label>
                       </div>
                   </div>
               </div>
@@ -740,7 +753,7 @@ export class NewZephyrProjectPanel {
               <!-- CMake Version -->
               <fieldset id="cmake-fieldset">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">
-                  CMake Version:
+                  ${l10n.t("CMake Version:")}
                 </h3>
 
                 <div class="flex items-center gap-3 flex-wrap">
@@ -751,33 +764,33 @@ export class NewZephyrProjectPanel {
                                 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     ${
                       this._systemCmakeVersion !== undefined
-                        ? `<option value="system">Use system version</option>`
+                        ? `<option value="system">${l10n.t("Use system version")}</option>`
                         : ""
                     }
-                    <option value="latest" selected>Latest</option>
-                    <option value="select">Select</option>
-                    <option value="custom">Custom path</option>
+                    <option value="latest" selected>${l10n.t("Latest")}</option>
+                    <option value="select">${l10n.t({ message: "Select", comment: ["Option to pick a specific version from a list"] })}</option>
+                    <option value="custom">${l10n.t("Custom path")}</option>
                   </select>
 
                   <!-- Secondary areas; one shown at a time -->
 
                   <!-- Shown for "system" -->
                   <div id="cmake-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                    System: <span id="cmake-system-label">${
+                    ${l10n.t("System:")} <span id="cmake-system-label">${
                       this._systemCmakeVersion
                     }</span>
                   </div>
 
                   <!-- Shown for "latest" -->
                   <div id="cmake-secondary-latest" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                    Latest: <span id="cmake-latest-label">${
+                    ${l10n.t("Latest:")} <span id="cmake-latest-label">${
                       cmakeReleases.length > 0 ? cmakeReleases[0] : "unknown"
                     }</span>
                   </div>
 
                   <!-- Shown for "select" -->
                   <div id="cmake-secondary-select" class="hidden">
-                    <label for="sel-cmake" class="sr-only">Select CMake version</label>
+                    <label for="sel-cmake" class="sr-only">${l10n.t("Select CMake version")}</label>
                     <select id="sel-cmake" data-input data-required="true"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                   focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
@@ -805,7 +818,7 @@ export class NewZephyrProjectPanel {
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
                         <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
                       </svg>
-                      <span id="cmake-file-label" class="truncate select-none">No file selected</span>
+                      <span id="cmake-file-label" class="truncate select-none">${l10n.t("No file selected")}</span>
                     </label>
                   </div>
                 </div>
@@ -814,7 +827,7 @@ export class NewZephyrProjectPanel {
               <!-- Ninja Version -->
               <fieldset id="ninja-fieldset">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">
-                  Ninja Version:
+                  ${l10n.t("Ninja Version:")}
                 </h3>
 
                 <div class="flex items-center gap-3 flex-wrap">
@@ -825,33 +838,33 @@ export class NewZephyrProjectPanel {
                                 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     ${
                       this._systemNinjaVersion !== undefined
-                        ? `<option value="system">Use system version</option>`
+                        ? `<option value="system">${l10n.t("Use system version")}</option>`
                         : ""
                     }
-                    <option value="latest" selected>Latest</option>
-                    <option value="select">Select</option>
-                    <option value="custom">Custom path</option>
+                    <option value="latest" selected>${l10n.t("Latest")}</option>
+                    <option value="select">${l10n.t({ message: "Select", comment: ["Option to pick a specific version from a list"] })}</option>
+                    <option value="custom">${l10n.t("Custom path")}</option>
                   </select>
 
                   <!-- Secondary areas; one shown at a time -->
 
                   <!-- Shown for "system" (optional) -->
                   <div id="ninja-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                    System: <span id="ninja-system-label">${
+                    ${l10n.t("System:")} <span id="ninja-system-label">${
                       this._systemNinjaVersion
                     }</span>
                   </div>
 
                   <!-- Shown for "latest" -->
                   <div id="ninja-secondary-latest" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                    Latest: <span id="ninja-latest-label">${
+                    ${l10n.t("Latest:")} <span id="ninja-latest-label">${
                       ninjaReleases.length > 0 ? ninjaReleases[0] : "unknown"
                     }</span>
                   </div>
 
                   <!-- Shown for "select" -->
                   <div id="ninja-secondary-select" class="hidden">
-                    <label for="sel-ninja" class="sr-only">Select Ninja version</label>
+                    <label for="sel-ninja" class="sr-only">${l10n.t("Select Ninja version")}</label>
                     <select id="sel-ninja" data-input data-required="true"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                   focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
@@ -879,7 +892,7 @@ export class NewZephyrProjectPanel {
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
                         <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
                       </svg>
-                      <span id="ninja-file-label" class="truncate select-none">No file selected</span>
+                      <span id="ninja-file-label" class="truncate select-none">${l10n.t("No file selected")}</span>
                     </label>
                   </div>
                 </div>
@@ -888,9 +901,9 @@ export class NewZephyrProjectPanel {
           </div>
 
           <div class="bottom-3 mt-14 mb-12 w-full flex justify-end">
-              <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
+              <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">${l10n.t("Cancel")}</button>
               <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">
-                Create
+                ${l10n.t("Create")}
               </button>
           </div>
         </main>

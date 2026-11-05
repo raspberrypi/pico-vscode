@@ -5,7 +5,7 @@ import GithubApiCache, {
 } from "./githubApiCache.mjs";
 import { type RequestOptions, request } from "https";
 import { unknownErrorToString, unknownToError } from "./errorHelper.mjs";
-import { window } from "vscode";
+import { l10n, window } from "vscode";
 import {
   EXT_USER_AGENT,
   GITHUB_API_BASE_URL,
@@ -422,8 +422,9 @@ export async function githubApiUnauthorized(): Promise<void> {
   );
   // show a warning to the user
   void window.showWarningMessage(
-    "Your GitHub Personal Access Token might be invalid or expired. " +
-      "It has now been removed from the settings."
+    l10n.t(
+      "Your GitHub Personal Access Token might be invalid or expired. It has now been removed from the settings."
+    )
   );
   await Settings.getInstance()?.updateGlobal(SettingsKey.githubToken, "");
 }

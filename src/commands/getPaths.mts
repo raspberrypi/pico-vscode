@@ -1,5 +1,5 @@
 import { CommandWithResult } from "./command.mjs";
-import { Uri, window, workspace, type WorkspaceFolder } from "vscode";
+import { l10n, Uri, window, workspace, type WorkspaceFolder } from "vscode";
 import { getPythonPath, getPath } from "../utils/cmakeUtil.mjs";
 import { join as joinPosix } from "path/posix";
 import {
@@ -121,11 +121,11 @@ export class GetGDBPathCommand extends CommandWithResult<string> {
     if (toolchainVersion === undefined) {
       if (variant?.id === "rust") {
         void window.showErrorMessage(
-          "No supported toolchain found for the latest version."
+          l10n.t("No supported toolchain found for the latest version.")
         );
       } else if (variant?.id !== "zephyr") {
         void window.showErrorMessage(
-          "No supported toolchain found for this project."
+          l10n.t("No supported toolchain found for this project.")
         );
       }
 
@@ -258,9 +258,11 @@ export class GetChipCommand extends CommandWithResult<string> {
     if (variant?.id === "zephyr" && selections?.boardId !== undefined) {
       this._logger.error(`Unsupported Zephyr board: ${selections.boardId}`);
       void window.showErrorMessage(
-        `Unsupported Zephyr board: ${selections.boardId}. ` +
-          `Supported boards are: ${ZEPHYR_PICO}, ${ZEPHYR_PICO_W}, ` +
-          `${ZEPHYR_PICO2}, ${ZEPHYR_PICO2_W}`
+        l10n.t(
+          "Unsupported Zephyr board: {0}. Supported boards are: {1}",
+          selections.boardId,
+          [ZEPHYR_PICO, ZEPHYR_PICO_W, ZEPHYR_PICO2, ZEPHYR_PICO2_W].join(", ")
+        )
       );
 
       return;

@@ -1,5 +1,5 @@
 import { basename, join } from "path";
-import { workspace, type WorkspaceFolder } from "vscode";
+import { l10n, workspace, type WorkspaceFolder } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
 import type UI from "../ui.mjs";
 import { cmakeGetPicoVar, configureCmakeNinja } from "../utils/cmakeUtil.mjs";
@@ -13,7 +13,10 @@ export async function cmakeSetupAutoConfigure(
   const ws = workspaceFolder.uri.fsPath;
   const cMakeCachePath = join(ws, "build", "CMakeCache.txt");
   const newBuildType = cmakeGetPicoVar(cMakeCachePath, "CMAKE_BUILD_TYPE");
-  ui.updateBuildType(newBuildType ?? "unknown");
+  ui.updateBuildType(
+    newBuildType ??
+      l10n.t({ message: "unknown", comment: ["Shown for an unknown value"] })
+  );
 
   workspace.onDidChangeTextDocument(event => {
     if (basename(event.document.fileName) === "CMakeLists.txt") {

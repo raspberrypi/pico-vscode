@@ -45,3 +45,5 @@ scripts/vscodeUninstaller.mjs
 scripts/genCache.py
 scripts/genExamples.py
 scripts/build.mjs
+scripts/l10n.mjs
+l10n/**

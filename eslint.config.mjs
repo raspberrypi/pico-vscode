@@ -41,7 +41,16 @@ export default tseslint.config(
       "no-this-before-super": "warn",
       "no-unreachable": "warn",
       "no-unused-vars": "off",
-      "max-len": ["warn", { code: 80, comments: 100, ignoreComments: false }],
+      "max-len": [
+        "warn",
+        {
+          code: 80,
+          comments: 100,
+          ignoreComments: false,
+          // Translatable strings must stay single literals for extraction
+          ignoreStrings: true,
+        },
+      ],
       "no-fallthrough": "warn",
       "newline-before-return": "warn",
       "no-return-await": "warn",

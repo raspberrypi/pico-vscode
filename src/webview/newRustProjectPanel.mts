@@ -10,6 +10,8 @@ import {
   workspace,
   ProgressLocation,
   commands,
+  env,
+  l10n,
 } from "vscode";
 import Settings from "../settings.mjs";
 import Logger from "../logger.mjs";
@@ -22,6 +24,7 @@ import {
 } from "../utils/rustUtil.mjs";
 import { generateRustProject } from "../utils/projectGeneration/projectRust.mjs";
 import {
+  getL10nScript,
   getNonce,
   getProjectFolderDialogOptions,
   getWebviewOptions,
@@ -67,7 +70,7 @@ export class NewRustProjectPanel {
 
     const panel = window.createWebviewPanel(
       NewRustProjectPanel.viewType,
-      "New Rust Pico Project",
+      l10n.t("New Rust Pico Project"),
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -76,13 +79,16 @@ export class NewRustProjectPanel {
     if (!settings) {
       panel.dispose();
 
+      const reloadWindow = l10n.t("Reload Window");
       void window
         .showErrorMessage(
-          "Failed to load settings. Please restart VS Code or reload the window.",
-          "Reload Window"
+          l10n.t(
+            "Failed to load settings. Please restart VS Code or reload the window."
+          ),
+          reloadWindow
         )
         .then(selected => {
-          if (selected === "Reload Window") {
+          if (selected === reloadWindow) {
             commands.executeCommand("workbench.action.reloadWindow");
           }
         });
@@ -103,7 +109,7 @@ export class NewRustProjectPanel {
     if (settings === undefined) {
       // TODO: maybe add restart button
       void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
+        l10n.t("Failed to load settings. Please restart VSCode.")
       );
 
       return;
@@ -189,7 +195,7 @@ export class NewRustProjectPanel {
                 this._projectRoot.fsPath === ""
               ) {
                 void window.showErrorMessage(
-                  "No project root selected. Please select a project root."
+                  l10n.t("No project root selected. Please select a project root.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -203,7 +209,7 @@ export class NewRustProjectPanel {
                 data.projectName.length === 0
               ) {
                 void window.showWarningMessage(
-                  "The project name is empty. Please enter a project name."
+                  l10n.t("The project name is empty. Please enter a project name.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -217,8 +223,9 @@ export class NewRustProjectPanel {
                 existsSync(join(this._projectRoot.fsPath, data.projectName))
               ) {
                 void window.showErrorMessage(
-                  "Project already exists. " +
-                    "Please select a different project name or root."
+                  l10n.t(
+                    "Project already exists. Please select a different project name or root."
+                  )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -233,9 +240,11 @@ export class NewRustProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Generating Rust Pico project ${
-                    data.projectName ?? "undefined"
-                  } in ${this._projectRoot?.fsPath}...`,
+                  title: l10n.t(
+                    "Generating Rust Pico project {0} in {1}...",
+                    data.projectName ?? "undefined",
+                    String(this._projectRoot?.fsPath)
+                  ),
                 },
                 async progress =>
                   this._generateProjectOperation(progress, data, message)
@@ -270,8 +279,9 @@ export class NewRustProjectPanel {
       projectPath.length === 0
     ) {
       void window.showErrorMessage(
-        "Failed to generate MicroPython project. " +
-          "Please try again and check your settings."
+        l10n.t(
+          "Failed to generate MicroPython project. Please try again and check your settings."
+        )
       );
 
       return;
@@ -281,7 +291,9 @@ export class NewRustProjectPanel {
     const cargo = await downloadAndInstallRust();
     if (!cargo) {
       void window.showErrorMessage(
-        "Failed to install Rust. Please try again and check your settings."
+        l10n.t(
+          "Failed to install Rust. Please try again and check your settings."
+        )
       );
 
       return;
@@ -301,7 +313,9 @@ export class NewRustProjectPanel {
       this._logger.error("Failed to generate Rust project.");
 
       void window.setStatusBarMessage(
-        "Failed to generate Rust project. See the output panel for more details.",
+        l10n.t(
+          "Failed to generate Rust project. See the output panel for more details."
+        ),
         7000
       );
 
@@ -318,7 +332,7 @@ export class NewRustProjectPanel {
   }
 
   private async _update(): Promise<void> {
-    this._panel.title = "New Rust Pico Project";
+    this._panel.title = l10n.t("New Rust Pico Project");
     // TODO: setup latest SDK and Toolchain VB before creating the project
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
@@ -343,7 +357,7 @@ export class NewRustProjectPanel {
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load webview for new Rust Pico project"
+        l10n.t("Failed to load webview for new Rust Pico project")
       );
       this.dispose();
     }
@@ -409,7 +423,7 @@ export class NewRustProjectPanel {
     const nonce = getNonce();
 
     return `<!DOCTYPE html>
-    <html lang="en">
+    <html lang="${env.language}">
       <head>
         <meta charset="UTF-8">
         
@@ -422,7 +436,7 @@ export class NewRustProjectPanel {
 
         <link href="${mainStyleUri.toString()}" rel="stylesheet">
 
-        <title>New Pico Rust Project</title>
+        <title>${l10n.t("New Pico Rust Project")}</title>
 
         <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
         <script nonce="${nonce}">
@@ -430,6 +444,7 @@ export class NewRustProjectPanel {
             darkMode: 'class',
           };
         </script>
+        ${getL10nScript(nonce)}
       </head>
       <body class="scroll-smooth w-screen">
         <div id="above-nav" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-0 z-10 pl-5 h-5">
@@ -437,17 +452,17 @@ export class NewRustProjectPanel {
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
           <!-- Navigation links go here -->
           <ul class="overlay-menu">
-            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Basic Settings</li>
+            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Basic Settings")}</li>
           </ul>
         </div>
         <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 pr-5 h-24 bg-opacity-95 bg-slate-400 dark:bg-slate-800 rounded-md">
             <div class="inline-flex h-32 align-middle">
-                <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
-                <img src="${navHeaderDarkSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
+                <img src="${navHeaderSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
+                <img src="${navHeaderDarkSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
             </div>
             <ul class="pl-3 pr-3 space-x-4 h-auto align-middle hidden md:flex">
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
-                    Basic Settings
+                    ${l10n.t("Basic Settings")}
                 </li>
             </ul>
             <div id="burger-menu" class="flex md:hidden cursor-pointer h-auto me-7">
@@ -458,28 +473,28 @@ export class NewRustProjectPanel {
         </nav>
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
           <div id="section-basic" class="snap-start">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Settings</h3>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">${l10n.t("Basic Settings")}</h3>
             <div id="project-name-grid" class="grid gap-6 md:grid-cols-2">
               <div>
-                <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Name")}</label>
                 <div class="flex">
                   <div class="relative inline-flex w-full">
-                      <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="Project name" required/>
+                      <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="${l10n.t("Project name")}" required/>
                       <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border border-l-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 hidden">&#9660;</button>
                   </div>
                 </div>
 
                 <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden>
-                    <span class="font-medium">Error</span> Please enter a valid project name.
+                    <span class="font-medium">${l10n.t("Error")}</span> ${l10n.t("Please enter a valid project name.")}
                 </p>
               </div>
 
               <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                Note: Ensure that you have the latest version of the Rustup toolchain manager installed.
+                ${l10n.t("Note: Ensure that you have the latest version of the Rustup toolchain manager installed.")}
               </h3>
 
               <div class="mt-6 mb-4 col-span-2">
-                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
+                  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">${l10n.t("Location")}</label>
                   <div class="flex">
                       <div class="w-full left-0 flex">
                           <span class="inline-flex items-center px-3 text-lg text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -537,16 +552,16 @@ export class NewRustProjectPanel {
                           id="btn-change-project-location"
                           type="button"
                           class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 py-2 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800">
-                          Change
+                          ${l10n.t("Change")}
                       </button>
                   </div>
               </div>
           </div>
 
           <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
-              <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
+              <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">${l10n.t("Cancel")}</button>
               <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">
-                Create
+                ${l10n.t("Create")}
               </button>
           </div>
         </main>

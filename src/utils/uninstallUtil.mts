@@ -1,4 +1,4 @@
-import { Uri, window, workspace } from "vscode";
+import { l10n, Uri, window, workspace } from "vscode";
 import {
   ALL_DEPS,
   type DependencyMeta,
@@ -82,8 +82,10 @@ export async function uninstallOne(
           "zephyr SDK version not found"
       );
       void window.showWarningMessage(
-        `Cannot uninstall zephyr ${version}: matching ` +
-          "zephyr SDK version not found"
+        l10n.t(
+          "Cannot uninstall zephyr {0}: matching zephyr SDK version not found",
+          version ?? ""
+        )
       );
 
       return;
@@ -128,9 +130,12 @@ export async function uninstallOne(
         )}`
       );
       void window.showWarningMessage(
-        `Failed to uninstall ${depId} ${version ?? ""}: ${unknownErrorToString(
-          e2
-        )}`
+        l10n.t(
+          "Failed to uninstall {0} {1}: {2}",
+          depId,
+          version ?? "",
+          unknownErrorToString(e2)
+        )
       );
 
       return;

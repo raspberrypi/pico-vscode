@@ -1,6 +1,6 @@
 import { Command, extensionName } from "./command.mjs";
 import Logger from "../logger.mjs";
-import { commands, window, workspace, debug } from "vscode";
+import { commands, l10n, window, workspace, debug } from "vscode";
 import State from "../state.mjs";
 import { CONDITIONAL_DEBUGGING, DEBUG_LAYOUT } from "./cmdIds.mjs";
 
@@ -22,7 +22,7 @@ export default class ConditionalDebuggingCommand extends Command {
       const wsFolder = workspace.workspaceFolders?.[0];
       if (!wsFolder) {
         this._logger.error("No workspace folder found.");
-        void window.showErrorMessage("No workspace folder found.");
+        void window.showErrorMessage(l10n.t("No workspace folder found."));
 
         return;
       }

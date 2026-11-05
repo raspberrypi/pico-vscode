@@ -1,9 +1,6 @@
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
-import {
-  commands,
-  type WorkspaceFolder,
-} from "vscode";
+import { commands, l10n, type WorkspaceFolder } from "vscode";
 import Logger, { LoggerSource } from "../logger.mjs";
 import { ContextKeys } from "../contextKeys.mjs";
 import { SettingsKey } from "../settings.mjs";
@@ -93,7 +90,9 @@ export class CCppProjectVariant implements PicoProjectVariant {
       toolchainVersion: selectedVersions[1],
       picotoolVersion: selectedVersions[2],
       boardId: cmakeGetSelectedBoard(folder.uri) ?? undefined,
-      boardLabel: cmakeGetSelectedBoard(folder.uri) ?? "unknown",
+      boardLabel:
+        cmakeGetSelectedBoard(folder.uri) ??
+        l10n.t({ message: "unknown", comment: ["Shown for an unknown value"] }),
     };
   }
 
@@ -112,10 +111,10 @@ export class CCppProjectVariant implements PicoProjectVariant {
     const baseDependenciesInstalled = await ensureBasePicoDependencies({
       extensionUri: context.extensionUri,
       selections,
-      title:
-        "Downloading and installing Pico SDK as selected. " +
-        "This may take a while...",
-      sdkFailureMessage: "Failed to install project SDK version.",
+      title: l10n.t(
+        "Downloading and installing Pico SDK as selected. This may take a while..."
+      ),
+      sdkFailureMessage: l10n.t("Failed to install project SDK version."),
       sdkLogFailurePrefix: "Failed to install project SDK",
       sdkLogSuccessPrefix: "Found/installed project SDK",
     });
@@ -174,8 +173,12 @@ export class CCppProjectVariant implements PicoProjectVariant {
 
   public updateUi(input: UpdateProjectUiInput): void {
     input.ui.showStatusBarItems();
-    input.ui.updateSDKVersion(input.selections.sdkVersion ?? "unknown");
-    input.ui.updateBoard(input.selections.boardLabel ?? "unknown");
+    const unknown = l10n.t({
+      message: "unknown",
+      comment: ["Shown for an unknown value"],
+    });
+    input.ui.updateSDKVersion(input.selections.sdkVersion ?? unknown);
+    input.ui.updateBoard(input.selections.boardLabel ?? unknown);
   }
 
   public async afterActivation(input: AfterActivationInput): Promise<boolean> {

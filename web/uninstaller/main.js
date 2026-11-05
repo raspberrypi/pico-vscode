@@ -143,7 +143,7 @@ function renderToolbar() {
   return `
   <div class="flex flex-wrap items-center justify-between gap-3 mb-2">
     <div class="flex items-center gap-2 flex-1">
-      <input id="search" type="search" placeholder="Search (name, id, version)…"
+      <input id="search" type="search" placeholder="${l10n.t("Search (name, id, version)…")}"
         class="w-full md:w-96 px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-zinc-900/80 focus:outline-none focus:ring focus:ring-blue-500/40 prevent-select"
         value="${state.filter}">
     </div>
@@ -151,18 +151,18 @@ function renderToolbar() {
     <div class="flex items-center gap-2">
       <button id="sort-installed"
         class="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800 ${state.sortKey === 'installedAt' ? 'ring-1 ring-blue-500/50' : ''}"
-        title="Sort by install date">
-        <span class="mr-1 prevent-select">Installed</span>
+        title="${l10n.t("Sort by install date")}">
+        <span class="mr-1 prevent-select">${l10n.t("Installed")}</span>
         <span aria-hidden="true">${state.sortKey === 'installedAt' ? (state.sortDir === 'desc' ? '↓' : '↑') : ''}</span>
       </button>  
 
-      <button id="sort-last" class="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800 ${state.sortKey === 'lastUsed' ? 'ring-1 ring-blue-500/50' : ''}" title="Sort by last used">
-        <span class="mr-1 prevent-select">Last used</span>
+      <button id="sort-last" class="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800 ${state.sortKey === 'lastUsed' ? 'ring-1 ring-blue-500/50' : ''}" title="${l10n.t("Sort by last used")}">
+        <span class="mr-1 prevent-select">${l10n.t("Last used")}</span>
         <span aria-hidden="true">${state.sortKey === 'lastUsed' ? (state.sortDir === 'desc' ? '↓' : '↑') : ''}</span>
       </button>
 
-      <button id="sort-name" class="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800 ${state.sortKey === 'name' ? 'ring-1 ring-blue-500/50' : ''}" title="Sort by name">
-        <span class="mr-1 prevent-select">Name</span>
+      <button id="sort-name" class="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800 ${state.sortKey === 'name' ? 'ring-1 ring-blue-500/50' : ''}" title="${l10n.t("Sort by name")}">
+        <span class="mr-1 prevent-select">${l10n.t("Name")}</span>
         <span aria-hidden="true">${state.sortKey === 'name' ? (state.sortDir === 'asc' ? '↑' : '↓') : ''}</span>
       </button>
 
@@ -170,16 +170,16 @@ function renderToolbar() {
 
       <label class="inline-flex items-center gap-2 px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800 cursor-pointer">
         <input id="select-all" type="checkbox" class="h-4 w-4 accent-blue-600">
-        <span class="prevent-select">Select all (visible)</span>
+        <span class="prevent-select">${l10n.t("Select all (visible)")}</span>
       </label>
 
       <button id="select-stale" class="px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-zinc-800 prevent-select"
-        title="Select items last used > 30 days ago that are not the latest version">
-        Select stale & not-latest
+        title="${l10n.t("Select items last used > 30 days ago that are not the latest version")}">
+        ${l10n.t("Select stale & not-latest")}
       </button>
 
       <button id="uninstall-selected" class="px-3 py-2 rounded-xl bg-red-600 text-white disabled:bg-red-300 hover:bg-red-700 transition" ${state.selected.size ? "" : "disabled"}>
-        Uninstall selected (${state.selected.size})
+        ${l10n.t("Uninstall selected ({0})", state.selected.size)}
       </button>
     </div>
   </div>
@@ -188,9 +188,9 @@ function renderToolbar() {
 
 function itemRow(i) {
   const checked = state.selected.has(i.id) ? "checked" : "";
-  const last = i.lastUsed || "Never";
-  let installed = i.installedAt || "Unknown";
-  if (installed === "1970-01-01") installed = "Unknown"; // fallback for missing dates
+  const last = i.lastUsed || l10n.t("Never");
+  let installed = i.installedAt || l10n.t("Unknown");
+  if (installed === "1970-01-01") installed = l10n.t("Unknown"); // fallback for missing dates
   return `
   <div class="flex items-center justify-between gap-3 p-3 rounded-2xl border border-gray-200 dark:border-zinc-800 bg-white/70 dark:bg-zinc-900/60 hover:border-gray-300 dark:hover:border-zinc-700">
     <label class="flex items-center gap-3 flex-1 cursor-pointer">
@@ -198,7 +198,7 @@ function itemRow(i) {
       <div class="flex flex-col">
         <div class="text-sm font-medium prevent-select">
           ${escapeHtml(i.label)}
-          <span class="text-gray-500 dark:text-gray-400 font-normal">• ${escapeHtml(i.version || "unknown")}</span>
+          <span class="text-gray-500 dark:text-gray-400 font-normal">• ${escapeHtml(i.version || l10n.t("unknown"))}</span>
         </div>
         <div class="text-xs text-gray-500 dark:text-gray-400 truncate" title="${escapeHtml((i.path || i.depId) + (i.path ? "" : ""))}">
           <span class="prevent-select">${escapeHtml(i.depId)}</span>${i.path ? `<span class="prevent-select"> • </span>${escapeHtml(i.path)}` : ""}
@@ -208,14 +208,14 @@ function itemRow(i) {
 
     <div class="flex items-center gap-2 sm:gap-3 shrink-0">
       <span class="text-xs px-2 py-1 rounded-full border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-zinc-800">
-        <span class="prevent-select">Last used: </span>${escapeHtml(last)}
+        <span class="prevent-select">${l10n.t("Last used:")} </span>${escapeHtml(last)}
       </span>
       <span class="text-xs px-2 py-1 rounded-full border border-gray-300 dark:border-zinc-700 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-zinc-800">
-        <span class="prevent-select">Installed: </span>${escapeHtml(installed)}
+        <span class="prevent-select">${l10n.t("Installed:")} </span>${escapeHtml(installed)}
       </span>
       <button data-role="uninstall-one" data-id="${i.id}"
         class="px-3 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700 prevent-select">
-        Uninstall
+        ${l10n.t("Uninstall")}
       </button>
     </div>
   </div>`;
@@ -226,7 +226,7 @@ function renderList() {
   const rows = visible.map(itemRow).join("");
   return `
     <div class="mt-4 space-y-2" id="list">
-      ${rows || `<div class="text-sm text-gray-500 dark:text-gray-400 p-6 text-center">No matching components.</div>`}
+      ${rows || `<div class="text-sm text-gray-500 dark:text-gray-400 p-6 text-center">${l10n.t("No matching components.")}</div>`}
     </div>
   `;
 }
@@ -240,7 +240,7 @@ function renderOverlay(visible = false) {
          role="status" aria-live="polite">
       <div class="h-10 w-10 rounded-full border-4 border-gray-300 dark:border-zinc-700 border-t-transparent animate-spin"
            aria-hidden="true"></div>
-      <div id="overlay-text" class="text-sm text-gray-700 dark:text-gray-200">Uninstalling…</div>
+      <div id="overlay-text" class="text-sm text-gray-700 dark:text-gray-200">${l10n.t("Uninstalling…")}</div>
     </div>
   </div>`;
 }
@@ -249,9 +249,9 @@ function renderFrame() {
   document.body.innerHTML = `
   <div class="h-full w-full overflow-hidden grid grid-rows-[auto,1fr] text-[13px] text-gray-900 dark:text-gray-100">
     <header class="px-5 py-4 shrink-0 prevent-select">
-      <h1 class="text-lg font-semibold">Uninstall components</h1>
+      <h1 class="text-lg font-semibold">${l10n.t("Uninstall components")}</h1>
       <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
-        Select one or more installed items to uninstall. Sort by last used to find stale components quickly.
+        ${l10n.t("Select one or more installed items to uninstall. Sort by last used to find stale components quickly.")}
       </p>
     </header>
 
@@ -282,7 +282,7 @@ function renderListOnly() {
   const rows = visible.map(itemRow).join("");
   listEl.innerHTML =
     rows ||
-    `<div class="text-sm text-gray-500 dark:text-gray-400 p-6 text-center">No matching components.</div>`;
+    `<div class="text-sm text-gray-500 dark:text-gray-400 p-6 text-center">${l10n.t("No matching components.")}</div>`;
 
   updateSelectAllCheckbox();
   // keep the “Uninstall selected” button state in sync
@@ -390,13 +390,10 @@ function bindEvents() {
         if (uninstallSelectedBtn) {
           uninstallSelectedBtn.disabled = state.selected.size === 0;
           // Update content without having to re-render the whole toolbar
-          // replace (<number>) in button text with current count
-          const m = uninstallSelectedBtn.textContent.match(/\((\d+)\)/);
-          if (m) {
-            uninstallSelectedBtn.textContent = uninstallSelectedBtn.textContent.replace(
-              m[0],
-              `(${state.selected.size})`);
-          }
+          uninstallSelectedBtn.textContent = l10n.t(
+            "Uninstall selected ({0})",
+            state.selected.size
+          );
           if (state.selected.size) uninstallSelectedBtn.removeAttribute("disabled");
         }
       }
@@ -416,7 +413,11 @@ function updateSelectAllCheckbox() {
 function beginUninstall(ids) {
   if (state.uninstalling) return;
   state.uninstalling = true;
-  showOverlay(`Uninstalling ${ids.length} item${ids.length > 1 ? "s" : ""}…`);
+  showOverlay(
+    ids.length > 1
+      ? l10n.t("Uninstalling {0} items…", ids.length)
+      : l10n.t("Uninstalling {0} item…", ids.length)
+  );
   vscode.postMessage({ type: "uninstall", ids });
 }
 
@@ -433,7 +434,7 @@ function showOverlay(text) {
   if (!ov) return;
   const ovT = $("#overlay-text");
   if (!ovT) return;
-  ovT.textContent = text || "Working…";
+  ovT.textContent = text || l10n.t("Working…");
 
   ov.classList.remove("hidden");
   // prevent interaction underneath
@@ -517,7 +518,7 @@ window.addEventListener("message", (event) => {
       state.uninstalling = false;
       //hideOverlay();
       scheduleHideOverlay();
-      alert(msg.error || "Uninstall failed."); // simple; VS Code shows alerts fine
+      alert(msg.error || l10n.t("Uninstall failed.")); // simple; VS Code shows alerts fine
       break;
     }
     case "update:items": {
@@ -537,7 +538,7 @@ window.addEventListener("message", (event) => {
   }
 });
 
-function renderBootLoading(text = "Loading installed components…") {
+function renderBootLoading(text = l10n.t("Loading installed components…")) {
   document.body.innerHTML = `
     <div class="h-full w-full grid place-items-center">
       <div class="flex flex-col items-center gap-4 p-8 rounded-2xl bg-white/90 dark:bg-zinc-900/90 border border-gray-200 dark:border-zinc-800">

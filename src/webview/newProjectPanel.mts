@@ -11,6 +11,8 @@ import {
   ColorThemeKind,
   ProgressLocation,
   type Progress,
+  l10n,
+  env,
 } from "vscode";
 import { type ExecOptions, exec } from "child_process";
 import { HOME_VAR } from "../settings.mjs";
@@ -72,6 +74,7 @@ import {
 import { getSystemNinjaVersion } from "../utils/ninjaUtil.mjs";
 import { getSystemCmakeVersion } from "../utils/cmakeUtil.mjs";
 import {
+  getL10nScript,
   getNonce,
   getProjectFolderDialogOptions,
   getWebviewOptions,
@@ -137,7 +140,7 @@ async function enumToBoard(e: BoardType, sdkPath: string): Promise<string> {
 
       // show quick pick for board type
       board = await window.showQuickPick(quickPickItems, {
-        placeHolder: "Select Board",
+        placeHolder: l10n.t("Select Board"),
       });
 
       return `-board ${board}`;
@@ -307,7 +310,9 @@ export class NewProjectPanel {
 
     const panel = window.createWebviewPanel(
       NewProjectPanel.viewType,
-      isProjectImport ? "Import Pico Project" : "New Pico Project",
+      isProjectImport
+        ? l10n.t("Import Pico Project")
+        : l10n.t("New Pico Project"),
       column || ViewColumn.One,
       getWebviewOptions(extensionUri)
     );
@@ -316,13 +321,16 @@ export class NewProjectPanel {
     if (settings === undefined) {
       panel.dispose();
 
+      const reloadWindow = l10n.t("Reload Window");
       void window
         .showErrorMessage(
-          "Failed to load settings. Please restart VS Code or reload the window.",
-          "Reload Window"
+          l10n.t(
+            "Failed to load settings. Please restart VS Code or reload the window."
+          ),
+          reloadWindow
         )
         .then(selected => {
-          if (selected === "Reload Window") {
+          if (selected === reloadWindow) {
             commands.executeCommand("workbench.action.reloadWindow");
           }
         });
@@ -350,7 +358,7 @@ export class NewProjectPanel {
     if (settings === undefined) {
       // TODO: maybe add restart button
       void window.showErrorMessage(
-        "Failed to load settings. Please restart VSCode."
+        l10n.t("Failed to load settings. Please restart VSCode.")
       );
 
       return;
@@ -472,8 +480,12 @@ export class NewProjectPanel {
               ) {
                 void window.showErrorMessage(
                   this._isProjectImport
-                    ? "No project to import selected. Please select a project folder."
-                    : "No project root selected. Please select a project root."
+                    ? l10n.t(
+                        "No project to import selected. Please select a project folder."
+                      )
+                    : l10n.t(
+                        "No project root selected. Please select a project root."
+                      )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -493,7 +505,7 @@ export class NewProjectPanel {
               // if a project is imported
               if (projectFolderName.includes(" ")) {
                 void window.showErrorMessage(
-                  "Project folder name cannot contain spaces."
+                  l10n.t("Project folder name cannot contain spaces.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -507,7 +519,7 @@ export class NewProjectPanel {
               // check the project to import exists
               if (!existsSync(this._projectRoot.fsPath)) {
                 void window.showErrorMessage(
-                  "The project you are trying to import does not exist."
+                  l10n.t("The project you are trying to import does not exist.")
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -522,7 +534,11 @@ export class NewProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Importing project ${projectFolderName} from ${this._projectRoot?.fsPath}, this may take a while...`,
+                  title: l10n.t(
+                    "Importing project {0} from {1}, this may take a while...",
+                    projectFolderName,
+                    this._projectRoot.fsPath
+                  ),
                 },
                 async progress =>
                   this._generateProjectOperation(progress, data, message)
@@ -536,7 +552,9 @@ export class NewProjectPanel {
                 this._projectRoot.fsPath === ""
               ) {
                 void window.showErrorMessage(
-                  "No project root selected. Please select a project root."
+                  l10n.t(
+                    "No project root selected. Please select a project root."
+                  )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -550,7 +568,9 @@ export class NewProjectPanel {
               // check if projectRoot/projectName folder already exists
               if (existsSync(join(this._projectRoot.fsPath, data.example))) {
                 void window.showErrorMessage(
-                  "Project already exists. Please select a different project root or example."
+                  l10n.t(
+                    "Project already exists. Please select a different project root or example."
+                  )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -568,7 +588,9 @@ export class NewProjectPanel {
               );
               if (example === undefined) {
                 await window.showErrorMessage(
-                  "Failed to find example. Try reinstalling the extension."
+                  l10n.t(
+                    "Failed to find example. Try reinstalling the extension."
+                  )
                 );
 
                 return;
@@ -586,7 +608,7 @@ export class NewProjectPanel {
               const result = await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Downloading ${example.name} example...`,
+                  title: l10n.t("Downloading {0} example...", example.name),
                   cancellable: false,
                 },
                 async progress => {
@@ -600,7 +622,10 @@ export class NewProjectPanel {
 
                     progress.report({
                       increment: 100,
-                      message: `Successfully downloaded ${example.name} example.`,
+                      message: l10n.t(
+                        "Successfully downloaded {0} example.",
+                        example.name
+                      ),
                     });
 
                     return true;
@@ -620,7 +645,10 @@ export class NewProjectPanel {
 
               if (!result) {
                 void window.setStatusBarMessage(
-                  `Failed to setup example ${example.name}. Please check the output window for more details.`,
+                  l10n.t(
+                    "Failed to setup example {0}. Please check the output window for more details.",
+                    example.name
+                  ),
                   5000
                 );
 
@@ -630,11 +658,11 @@ export class NewProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Generating project based on the ${
-                    data.example ?? "undefined"
-                  } example in ${
-                    this._projectRoot?.fsPath
-                  }, this may take a while...`,
+                  title: l10n.t(
+                    "Generating project based on the {0} example in {1}, this may take a while...",
+                    data.example ?? "undefined",
+                    this._projectRoot.fsPath
+                  ),
                 },
                 async progress =>
                   this._generateProjectOperation(
@@ -655,7 +683,9 @@ export class NewProjectPanel {
                 this._projectRoot.fsPath === ""
               ) {
                 void window.showErrorMessage(
-                  "No project root selected. Please select a project root."
+                  l10n.t(
+                    "No project root selected. Please select a project root."
+                  )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -665,7 +695,9 @@ export class NewProjectPanel {
               }
 
               if (data.projectName === undefined || data.projectName === "") {
-                void window.showWarningMessage("Project name cannot be empty.");
+                void window.showWarningMessage(
+                  l10n.t("Project name cannot be empty.")
+                );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
                 });
@@ -678,7 +710,9 @@ export class NewProjectPanel {
                 existsSync(join(this._projectRoot.fsPath, data.projectName))
               ) {
                 void window.showErrorMessage(
-                  "Project already exists. Please select a different project name or root."
+                  l10n.t(
+                    "Project already exists. Please select a different project name or root."
+                  )
                 );
                 await this._panel.webview.postMessage({
                   command: "submitDenied",
@@ -693,9 +727,11 @@ export class NewProjectPanel {
               await window.withProgress(
                 {
                   location: ProgressLocation.Notification,
-                  title: `Generating project ${
-                    data.projectName ?? "undefined"
-                  } in ${this._projectRoot?.fsPath}, this may take a while...`,
+                  title: l10n.t(
+                    "Generating project {0} in {1}, this may take a while...",
+                    data.projectName ?? "undefined",
+                    this._projectRoot.fsPath
+                  ),
                 },
                 async progress =>
                   this._generateProjectOperation(progress, data, message)
@@ -758,7 +794,9 @@ export class NewProjectPanel {
       const selectedPicotool = data.selectedPicotool.slice(0);
 
       if (!selectedToolchain) {
-        void window.showErrorMessage("Failed to find selected toolchain.");
+        void window.showErrorMessage(
+          l10n.t("Failed to find selected toolchain.")
+        );
 
         return;
       }
@@ -774,10 +812,12 @@ export class NewProjectPanel {
         (data.ninjaMode === 0 || data.cmakeMode === 0)
       ) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
-        void window.showErrorMessage("Failed to find selected SDK version.");
+        void window.showErrorMessage(
+          l10n.t("Failed to find selected SDK version.")
+        );
 
         return;
       }
@@ -786,7 +826,7 @@ export class NewProjectPanel {
       const python3Path = await findPython();
       if (!python3Path) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
         this._logger.error("Failed to find Python3 executable.");
@@ -801,7 +841,7 @@ export class NewProjectPanel {
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing SDK",
+          title: l10n.t("Downloading and installing SDK"),
           cancellable: false,
         },
         async progress2 => {
@@ -817,12 +857,14 @@ export class NewProjectPanel {
             this._logger.error(`Failed to download and install SDK.`);
             installedSuccessfully = false;
             progress2.report({
-              message: "Failed - Make sure all requirements are met.",
+              message: l10n.t("Failed - Make sure all requirements are met."),
               increment: 100,
             });
 
             void window.showErrorMessage(
-              "Failed to download and install SDK. Make sure all requirements are met."
+              l10n.t(
+                "Failed to download and install SDK. Make sure all requirements are met."
+              )
             );
 
             return;
@@ -832,7 +874,7 @@ export class NewProjectPanel {
 
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -850,7 +892,7 @@ export class NewProjectPanel {
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing toolchain",
+          title: l10n.t("Downloading and installing toolchain"),
           cancellable: false,
         },
         async progress2 => {
@@ -869,12 +911,12 @@ export class NewProjectPanel {
             this._logger.error(`Failed to download and install toolchain.`);
             installedSuccessfully = false;
             progress2.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
             void window.showErrorMessage(
-              "Failed to download and install toolchain."
+              l10n.t("Failed to download and install toolchain.")
             );
 
             return;
@@ -884,7 +926,7 @@ export class NewProjectPanel {
 
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -895,7 +937,7 @@ export class NewProjectPanel {
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing tools",
+          title: l10n.t("Downloading and installing tools"),
           cancellable: false,
         },
         async progress2 => {
@@ -914,12 +956,12 @@ export class NewProjectPanel {
             this._logger.error(`Failed to download and install tools.`);
             installedSuccessfully = false;
             progress2.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
             void window.showErrorMessage(
-              "Failed to download and install tools."
+              l10n.t("Failed to download and install tools.")
             );
 
             return;
@@ -929,7 +971,7 @@ export class NewProjectPanel {
 
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -940,7 +982,7 @@ export class NewProjectPanel {
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing picotool",
+          title: l10n.t("Downloading and installing picotool"),
           cancellable: false,
         },
         async progress2 => {
@@ -959,12 +1001,12 @@ export class NewProjectPanel {
             this._logger.error(`Failed to download and install picotool.`);
             installedSuccessfully = false;
             progress2.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
             void window.showErrorMessage(
-              "Failed to download and install picotool."
+              l10n.t("Failed to download and install picotool.")
             );
 
             return;
@@ -974,7 +1016,7 @@ export class NewProjectPanel {
 
       if (!installedSuccessfully) {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
 
@@ -985,7 +1027,7 @@ export class NewProjectPanel {
       await window.withProgress(
         {
           location: ProgressLocation.Notification,
-          title: "Downloading and installing OpenOCD",
+          title: l10n.t("Downloading and installing OpenOCD"),
           cancellable: false,
         },
         async progress2 => {
@@ -1005,7 +1047,7 @@ export class NewProjectPanel {
             // not required
             //installedSuccessfully = false;
             progress2.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
 
@@ -1023,11 +1065,13 @@ export class NewProjectPanel {
           } else {
             this._logger.error("Failed to get version bundle for ninja.");
             progress.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
             await window.showErrorMessage(
-              "Failed to get ninja version for the selected Pico SDK version."
+              l10n.t(
+                "Failed to get ninja version for the selected Pico SDK version."
+              )
             );
 
             return;
@@ -1039,7 +1083,7 @@ export class NewProjectPanel {
           await window.withProgress(
             {
               location: ProgressLocation.Notification,
-              title: "Download and install Ninja",
+              title: l10n.t("Download and install Ninja"),
               cancellable: false,
             },
             async progress2 => {
@@ -1056,7 +1100,9 @@ export class NewProjectPanel {
                 )
               ) {
                 progress2.report({
-                  message: "Successfully downloaded and installed Ninja.",
+                  message: l10n.t(
+                    "Successfully downloaded and installed Ninja."
+                  ),
                   increment: 100,
                 });
 
@@ -1064,7 +1110,7 @@ export class NewProjectPanel {
               } else {
                 installedSuccessfully = false;
                 progress2.report({
-                  message: "Failed",
+                  message: l10n.t("Failed"),
                   increment: 100,
                 });
               }
@@ -1073,11 +1119,13 @@ export class NewProjectPanel {
 
           if (!installedSuccessfully) {
             progress.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
             void window.showErrorMessage(
-              "Failed to download and install ninja. Make sure all requirements are met."
+              l10n.t(
+                "Failed to download and install ninja. Make sure all requirements are met."
+              )
             );
 
             return;
@@ -1102,10 +1150,10 @@ export class NewProjectPanel {
 
         default:
           progress.report({
-            message: "Failed",
+            message: l10n.t("Failed"),
             increment: 100,
           });
-          void window.showErrorMessage("Unknown ninja selection.");
+          void window.showErrorMessage(l10n.t("Unknown ninja selection."));
           this._logger.error("Unknown ninja selection.");
 
           return;
@@ -1123,7 +1171,7 @@ export class NewProjectPanel {
           await window.withProgress(
             {
               location: ProgressLocation.Notification,
-              title: "Download and install CMake",
+              title: l10n.t("Download and install CMake"),
               cancellable: false,
             },
             async progress2 => {
@@ -1141,7 +1189,9 @@ export class NewProjectPanel {
               ) {
                 progress.report({
                   // TODO: maybe just finished or something like that
-                  message: "Successfully downloaded and installed CMake.",
+                  message: l10n.t(
+                    "Successfully downloaded and installed CMake."
+                  ),
                   increment: 100,
                 });
 
@@ -1149,7 +1199,7 @@ export class NewProjectPanel {
               } else {
                 installedSuccessfully = false;
                 progress2.report({
-                  message: "Failed",
+                  message: l10n.t("Failed"),
                   increment: 100,
                 });
               }
@@ -1158,12 +1208,14 @@ export class NewProjectPanel {
 
           if (!installedSuccessfully) {
             progress.report({
-              message: "Failed",
+              message: l10n.t("Failed"),
               increment: 100,
             });
             void window.showErrorMessage(
               // TODO: maybe remove all requirements met part
-              "Failed to download and install CMake. Make sure all requirements are met."
+              l10n.t(
+                "Failed to download and install CMake. Make sure all requirements are met."
+              )
             );
 
             return;
@@ -1187,10 +1239,10 @@ export class NewProjectPanel {
           break;
         default:
           progress.report({
-            message: "Failed",
+            message: l10n.t("Failed"),
             increment: 100,
           });
-          void window.showErrorMessage("Unknown cmake selection.");
+          void window.showErrorMessage(l10n.t("Unknown cmake selection."));
           this._logger.error("Unknown cmake selection.");
 
           return;
@@ -1301,10 +1353,10 @@ export class NewProjectPanel {
         );
       } else {
         progress.report({
-          message: "Failed",
+          message: l10n.t("Failed"),
           increment: 100,
         });
-        await window.showErrorMessage("Unknown project type.");
+        await window.showErrorMessage(l10n.t("Unknown project type."));
 
         return;
       }
@@ -1313,10 +1365,10 @@ export class NewProjectPanel {
 
   private async _update(forceCreateFromExample: boolean): Promise<void> {
     this._panel.title = this._isProjectImport
-      ? "Import Pico Project"
+      ? l10n.t("Import Pico Project")
       : forceCreateFromExample
-      ? "New Example Pico Project"
-      : "New Pico Project";
+      ? l10n.t("New Example Pico Project")
+      : l10n.t("New Pico Project");
     this._panel.iconPath = Uri.joinPath(
       this._extensionUri,
       "web",
@@ -1343,7 +1395,9 @@ export class NewProjectPanel {
       await this._updateTheme();
     } else {
       void window.showErrorMessage(
-        "Failed to load available Pico SDKs and/or supported toolchains. This may be due to an outdated personal access token for GitHub or a exceeded rate limit."
+        l10n.t(
+          "Failed to load available Pico SDKs and/or supported toolchains. This may be due to an outdated personal access token for GitHub or a exceeded rate limit."
+        )
       );
       this.dispose();
     }
@@ -1566,7 +1620,7 @@ export class NewProjectPanel {
 
       this.dispose();
       void window.showErrorMessage(
-        "Error while retrieving SDK and toolchain versions."
+        l10n.t("Error while retrieving SDK and toolchain versions.")
       );
 
       return "";
@@ -1577,7 +1631,9 @@ export class NewProjectPanel {
     if (this._systemNinjaVersion === undefined && NINJA_AUTO_INSTALL_DISABLED) {
       this.dispose();
       await window.showErrorMessage(
-        "Not all requirements are met. Automatic ninja installation is currently not supported on aarch64 Linux systems. Please install ninja manually."
+        l10n.t(
+          "Not all requirements are met. Automatic ninja installation is currently not supported on aarch64 Linux systems. Please install ninja manually."
+        )
       );
 
       return "";
@@ -1598,7 +1654,7 @@ export class NewProjectPanel {
     const defaultUseCmakeTools = this._settings.getCMakeToolsPref();
 
     return `<!DOCTYPE html>
-    <html lang="en">
+    <html lang="${env.language}">
       <head>
         <meta charset="UTF-8">
         
@@ -1613,10 +1669,10 @@ export class NewProjectPanel {
 
         <title>${
           this._isProjectImport
-            ? "Import Pico Project"
+            ? l10n.t("Import Pico Project")
             : forceCreateFromExample
-            ? "New Example Pico Project"
-            : "New Pico Project"
+            ? l10n.t("New Example Pico Project")
+            : l10n.t("New Pico Project")
         }</title>
 
         <script nonce="${nonce}" src="${tailwindcssScriptUri.toString()}"></script>
@@ -1648,6 +1704,7 @@ export class NewProjectPanel {
           const riscvBlackSvgUri = "${riscvBlackSvgUri.toString()}";
           const riscvColorSvgUri = "${riscvColorSvgUri.toString()}";
         </script>
+        ${getL10nScript(nonce)}
       </head>
       <body class="scroll-smooth w-screen${
         defaultTheme === "dark" ? " dark" : ""
@@ -1657,49 +1714,49 @@ export class NewProjectPanel {
         <div id="nav-overlay" class="overlay hidden md:hidden inset-y-0 right-0 w-auto z-50 overflow-y-auto ease-out bg-slate-400 dark:bg-slate-800 drop-shadow-lg">
           <!-- Navigation links go here -->
           <ul class="overlay-menu">
-            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Basic Settings</li>
+            <li id="ov-nav-basic" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Basic Settings")}</li>
             ${
               !this._isProjectImport
                 ? `
-            <li id="ov-nav-features" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Features</li>
-            <li id="ov-nav-stdio" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Stdio support</li>
-            <li id="ov-nav-pico-wireless" class="overlay-item project-options hidden text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Pico wireless options</li>
-            <li id="ov-nav-code-gen" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Code generation options</li>
+            <li id="ov-nav-features" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Features")}</li>
+            <li id="ov-nav-stdio" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Stdio support")}</li>
+            <li id="ov-nav-pico-wireless" class="overlay-item project-options hidden text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Pico wireless options")}</li>
+            <li id="ov-nav-code-gen" class="overlay-item project-options text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Code generation options")}</li>
             `
                 : ""
             }
-            <li id="ov-nav-debugger" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">Debugger</li>
+            <li id="ov-nav-debugger" class="overlay-item text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md">${l10n.t("Debugger")}</li>
           </ul>
         </div>
         <nav id="top-navbar" class="container max-w-6xl mx-auto flex justify-between items-center w-full sticky top-5 z-10 pl-5 pr-5 h-24 bg-opacity-95 bg-slate-400 dark:bg-slate-800 rounded-md">
             <div class="inline-flex h-32 align-middle">
-                <img src="${navHeaderSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
-                <img src="${navHeaderDarkSvgUri.toString()}" alt="raspberry pi logo" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
+                <img src="${navHeaderSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed hidden dark:block mb-2"/>
+                <img src="${navHeaderDarkSvgUri.toString()}" alt="${l10n.t("raspberry pi logo")}" class="h-32 rounded cursor-not-allowed block dark:hidden mb-2"/>
             </div>
             <ul class="pl-3 pr-3 space-x-4 h-auto align-middle hidden md:flex">
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-basic">
-                    Basic Settings
+                    ${l10n.t("Basic Settings")}
                 </li>
                 ${
                   !this._isProjectImport
                     ? `
                 <li class="nav-item project-options text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-features">
-                    Features
+                    ${l10n.t("Features")}
                 </li>
                 <li class="nav-item project-options text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-stdio">
-                    Stdio support
+                    ${l10n.t("Stdio support")}
                 </li>
                 <li class="nav-item project-options hidden text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-pico-wireless">
-                    Pico wireless options
+                    ${l10n.t("Pico wireless options")}
                 </li>
                 <li class="nav-item project-options text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-code-gen">
-                    Code generation options
+                    ${l10n.t("Code generation options")}
                 </li>
                 `
                     : ""
                 }
                 <li class="nav-item text-black dark:text-white max-h-14 text-lg flex items-center cursor-pointer p-2 hover:bg-slate-500 hover:bg-opacity-50 dark:hover:bg-slate-600 hover:shadow-md transition-colors motion-reduce:transition-none ease-in-out rounded-md" id="nav-debugger">
-                    Debugger
+                    ${l10n.t("Debugger")}
                 </li>
             </ul>
             <div id="burger-menu" class="flex md:hidden cursor-pointer h-auto me-7">
@@ -1710,7 +1767,7 @@ export class NewProjectPanel {
         </nav>
         <main class="container max-w-3xl xl:max-w-5xl mx-auto relative top-14 snap-y mb-20">
             <div id="section-basic" class="snap-start">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Settings</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">${l10n.t("Basic Settings")}</h3>
                   ${
                     !this._isProjectImport
                       ? `<div id="project-name-grid" class="grid gap-6 ${
@@ -1718,13 +1775,13 @@ export class NewProjectPanel {
                           !forceCreateFromExample ? "md:grid-cols-2" : ""
                         }">
                         <div>
-                          <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                          <label for="inp-project-name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Name")}</label>
                           <div class="flex">
                             <div class="relative inline-flex w-full">
                                 <input type="text" id="inp-project-name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 invalid:border-pink-500 invalid:text-pink-600 focus:invalid:border-pink-500 focus:invalid:ring-pink-500" placeholder="${
                                   forceCreateFromExample
-                                    ? "Select an example"
-                                    : "Project name"
+                                    ? l10n.t("Select an example")
+                                    : l10n.t("Project name")
                                 }" required/> <!-- without this required the webview will crash every time you hit the examples button -->
                                 <button id="project-name-dropdown-button" class="absolute inset-y-0 right-0 flex items-center px-2 border bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white rounded-r-lg border-gray-300 dark:border-gray-600 ${
                                   !forceCreateFromExample ? "hidden" : ""
@@ -1743,17 +1800,26 @@ export class NewProjectPanel {
                                     : ""
                                 }
                             </div>
-                            <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 py-2 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="Create from example">Example</button>
+                            <button id="btn-create-from-example" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 py-2 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800" tooltip="${l10n.t(
+                              "Create from example"
+                            )}">${l10n.t({
+                              message: "Example",
+                              comment: [
+                                "Button that switches to creating a project from an example",
+                              ],
+                            })}</button>
                           </div>
 
                           <p id="inp-project-name-error" class="mt-2 text-sm text-red-600 dark:text-red-500" hidden>
-                              <span class="font-medium">Error</span> Please enter a valid project name.
+                              <span class="font-medium">${l10n.t(
+                                "Error"
+                              )}</span> ${l10n.t("Please enter a valid project name.")}
                           </p>
                         </div>
                 
                         <div id="board-type-riscv-grid" class="grid gap-6 grid-cols-2">
                           <div>
-                            <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Board type</label>
+                            <label for="sel-board-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Board type")}</label>
                             <select id="sel-board-type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                              <option id="option-board-type-${
                                BoardType.pico2
@@ -1769,24 +1835,31 @@ export class NewProjectPanel {
                               }" value="${BoardType.pico2W}">Pico 2 W</option>
                               <option id="option-board-type-${
                                 BoardType.other
-                              }" value="${BoardType.other}">Other</option>
+                              }" value="${BoardType.other}">${l10n.t({
+                                message: "Other",
+                                comment: [
+                                  "Board type option for boards not listed",
+                                ],
+                              })}</option>
                             </select>
                           </div>
                           <div class="use-riscv text-sm font-medium text-gray-900 dark:text-white" hidden>
-                            <label for="riscvToggle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Architecture (Pico 2)</label>
+                            <label for="riscvToggle" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Architecture (Pico 2)")}</label>
                             <div class="flex items-center justify-between p-2 bg-gray-100 rounded-lg dark:bg-gray-700">
                               <input type="checkbox" id="sel-riscv" class="ms-2" />
-                              <img id="riscvIcon" src="${riscvDefaultSvgUri.toString()}" alt="RISC-V Logo" class="h-6 mx-auto w-28">
+                              <img id="riscvIcon" src="${riscvDefaultSvgUri.toString()}" alt="${l10n.t("RISC-V Logo")}" class="h-6 mx-auto w-28">
                             </div>
                           </div>
                         </div>
                       </div>`
                       : `<h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                            Warning: Project Import Wizard may not work for all projects, and will often require manual correction after the import
+                            ${l10n.t(
+                              "Warning: Project Import Wizard may not work for all projects, and will often require manual correction after the import"
+                            )}
                         </h3>`
                   }
                     <div class="mt-6 mb-4">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Location</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">${l10n.t("Location")}</label>
                         <div class="flex">
                             <div class="w-full left-0 flex">
                                 <span class="inline-flex items-center px-3 text-lg text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -1848,26 +1921,31 @@ export class NewProjectPanel {
                                 id="btn-change-project-location"
                                 type="button"
                                 class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-blue-400 dark:ring-blue-700 font-medium rounded-lg px-4 py-2 ml-4 hover:bg-blue-500 dark:hover:bg-blue-700 focus:ring-blue-600 dark:focus:ring-blue-800">
-                                Change
+                                ${l10n.t({
+                                  message: "Change",
+                                  comment: [
+                                    "Button that changes the project location",
+                                  ],
+                                })}
                             </button>
                         </div>
                     </div>
                     <div class="grid gap-6 md:grid-cols-2 mt-6">
                       <div id="pico-sdk-selector">
-                        <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Pico SDK version</label>
+                        <label for="sel-pico-sdk" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Select Pico SDK version")}</label>
                         <select id="sel-pico-sdk" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${picoSDKsHtml}
                         </select>
                       </div>
                       
                       <div class="advanced-option" hidden>
-                        <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select ARM/RISCV Embedded Toolchain version</label>
+                        <label for="sel-toolchain" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Select ARM/RISCV Embedded Toolchain version")}</label>
                         <select id="sel-toolchain" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${toolchainsHtml}
                         </select>
                       </div>
                       <div hidden>
-                        <label for="sel-picotool" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select picotool version</label>
+                        <label for="sel-picotool" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Select picotool version")}</label>
                         <select id="sel-picotool" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             ${picotoolsHtml}
                         </select>
@@ -1877,7 +1955,7 @@ export class NewProjectPanel {
                       ${
                         !NINJA_AUTO_INSTALL_DISABLED
                           ? `<fieldset id="ninja-fieldset" class="col-span-2">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ninja Version:</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("Ninja Version:")}</label>
 
                         <div class="flex items-center gap-3 flex-wrap">
                           <!-- Primary mode selector -->
@@ -1887,37 +1965,46 @@ export class NewProjectPanel {
                                         dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             ${
                               this._versionBundle !== undefined
-                                ? `<option value="default" selected>Default version</option>`
+                                ? `<option value="default" selected>${l10n.t(
+                                    "Default version"
+                                  )}</option>`
                                 : ""
                             }
                             ${
                               this._systemNinjaVersion !== undefined
-                                ? `<option value="system">Use system version</option>`
+                                ? `<option value="system">${l10n.t(
+                                    "Use system version"
+                                  )}</option>`
                                 : ""
                             }
-                            <option value="select">Select</option>
-                            <option value="custom">Custom path</option>
+                            <option value="select">${l10n.t({
+                              message: "Select",
+                              comment: [
+                                "Option to pick a specific version from a list",
+                              ],
+                            })}</option>
+                            <option value="custom">${l10n.t("Custom path")}</option>
                           </select>
 
                           <!-- Secondary areas; one shown at a time -->
 
                           <!-- Shown for "default" -->
                           <div id="ninja-secondary-default" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                            Default: <span id="ninja-default-label">${
-                              this._versionBundle?.ninja ?? "N/A"
+                            ${l10n.t("Default:")} <span id="ninja-default-label">${
+                              this._versionBundle?.ninja ?? l10n.t("N/A")
                             }</span>
                           </div>
 
                           <!-- Shown for "system" -->
                           <div id="ninja-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                            System: <span id="ninja-system-label">${
+                            ${l10n.t("System:")} <span id="ninja-system-label">${
                               this._systemNinjaVersion
                             }</span>
                           </div>
 
                           <!-- Shown for "select" -->
                           <div id="ninja-secondary-select" class="hidden">
-                            <label for="sel-ninja" class="sr-only">Select Ninja version</label>
+                            <label for="sel-ninja" class="sr-only">${l10n.t("Select Ninja version")}</label>
                             <select id="sel-ninja" data-input data-required="true"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                           focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
@@ -1945,7 +2032,9 @@ export class NewProjectPanel {
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
                                 <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
                               </svg>
-                              <span id="ninja-file-label" class="truncate select-none">No file selected</span>
+                              <span id="ninja-file-label" class="truncate select-none">${l10n.t(
+                                "No file selected"
+                              )}</span>
                             </label>
                           </div>
                         </div>
@@ -1955,7 +2044,7 @@ export class NewProjectPanel {
 
                       <!-- CMake Version -->
                       <fieldset id="cmake-fieldset" class="col-span-2">
-                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CMake Version:</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">${l10n.t("CMake Version:")}</label>
 
                         <div class="flex items-center gap-3 flex-wrap">
                           <!-- Primary mode selector -->
@@ -1965,37 +2054,46 @@ export class NewProjectPanel {
                                         dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             ${
                               this._versionBundle !== undefined
-                                ? `<option value="default" selected>Default version</option>`
+                                ? `<option value="default" selected>${l10n.t(
+                                    "Default version"
+                                  )}</option>`
                                 : ""
                             }
                             ${
                               this._systemCmakeVersion !== undefined
-                                ? `<option value="system">Use system version</option>`
+                                ? `<option value="system">${l10n.t(
+                                    "Use system version"
+                                  )}</option>`
                                 : ""
                             }
-                            <option value="select">Select</option>
-                            <option value="custom">Custom path</option>
+                            <option value="select">${l10n.t({
+                              message: "Select",
+                              comment: [
+                                "Option to pick a specific version from a list",
+                              ],
+                            })}</option>
+                            <option value="custom">${l10n.t("Custom path")}</option>
                           </select>
 
                           <!-- Secondary areas; one shown at a time -->
 
                           <!-- Shown for "default" -->
                           <div id="cmake-secondary-default" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                            Default: <span id="cmake-default-label">${
-                              this._versionBundle?.cmake ?? "N/A"
+                            ${l10n.t("Default:")} <span id="cmake-default-label">${
+                              this._versionBundle?.cmake ?? l10n.t("N/A")
                             }</span>
                           </div>
 
                           <!-- Shown for "system" -->
                           <div id="cmake-secondary-system" class="hidden text-sm text-gray-600 dark:text-gray-300">
-                            System: <span id="cmake-system-label">${
+                            ${l10n.t("System:")} <span id="cmake-system-label">${
                               this._systemCmakeVersion
                             }</span>
                           </div>
 
                           <!-- Shown for "select" -->
                           <div id="cmake-secondary-select" class="hidden">
-                            <label for="sel-cmake" class="sr-only">Select CMake version</label>
+                            <label for="sel-cmake" class="sr-only">${l10n.t("Select CMake version")}</label>
                             <select id="sel-cmake" data-input data-required="true"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
                                           focus:ring-blue-500 focus:border-blue-500 p-2.5 w-44
@@ -2023,7 +2121,9 @@ export class NewProjectPanel {
                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder2-open" viewBox="0 0 16 16">
                                 <path d="M1 3.5A1.5 1.5 0 0 1 2.5 2h2.764c.958 0 1.76.56 2.311 1.184C7.985 3.648 8.48 4 9 4h4.5A1.5 1.5 0 0 1 15 5.5v.64c.57.265.94.876.856 1.546l-.64 5.124A2.5 2.5 0 0 1 12.733 15H3.266a2.5 2.5 0 0 1-2.481-2.19l-.64-5.124A1.5 1.5 0 0 1 1 6.14zM2 6h12v-.5a.5.5 0 0 0-.5-.5H9c-.964 0-1.71-.629-2.174-1.154C6.374 3.334 5.82 3 5.264 3H2.5a.5.5 0 0 0-.5.5zm-.367 1a.5.5 0 0 0-.496.562l.64 5.124A1.5 1.5 0 0 0 3.266 14h9.468a1.5 1.5 0 0 0 1.489-1.314l.64-5.124A.5.5 0 0 0 14.367 7z"/>
                               </svg>
-                              <span id="cmake-file-label" class="truncate select-none">No file selected</span>
+                              <span id="cmake-file-label" class="truncate select-none">${l10n.t(
+                                "No file selected"
+                              )}</span>
                             </label>
                           </div>
                         </div>
@@ -2033,8 +2133,10 @@ export class NewProjectPanel {
             ${
               !this._isProjectImport
                 ? `<div id="section-features" class="snap-start mt-10 project-options">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Features</h3>
-                <h4 class="text-sm text-gray-900 dark:text-white mb-8">Add example code snippets to demonstrate use of these features</h4>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">${l10n.t("Features")}</h3>
+                <h4 class="text-sm text-gray-900 dark:text-white mb-8">${l10n.t(
+                  "Add example code snippets to demonstrate use of these features"
+                )}</h4>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
@@ -2045,7 +2147,7 @@ export class NewProjectPanel {
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="i2c-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="i2c-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I2C interface</label>
+                            <label for="i2c-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("I2C interface")}</label>
                         </div>
                     </li>
                     <li class="w-full dark:border-gray-600">
@@ -2059,19 +2161,19 @@ export class NewProjectPanel {
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="pio-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="pio-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">PIO interface</label>
+                            <label for="pio-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("PIO interface")}</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="dma-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="dma-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">DMA support</label>
+                            <label for="dma-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("DMA support")}</label>
                         </div>
                     </li>
                     <li class="w-full dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="hwinterpolation-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="hwinterpolation-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">HW interpolation</label>
+                            <label for="hwinterpolation-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("HW interpolation")}</label>
                         </div>
                     </li>
                 </ul>
@@ -2079,19 +2181,19 @@ export class NewProjectPanel {
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="hwwatchdog-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="hwwatchdog-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">HW watchdog</label>
+                            <label for="hwwatchdog-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("HW watchdog")}</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="hwtimer-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="hwtimer-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">HW timer</label>
+                            <label for="hwtimer-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("HW timer")}</label>
                         </div>
                     </li>
                     <li class="w-full dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="hwclocks-features-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="hwclocks-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">HW clocks</label>
+                            <label for="hwclocks-features-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("HW clocks")}</label>
                         </div>
                     </li>
                 </ul>
@@ -2102,50 +2204,50 @@ export class NewProjectPanel {
             ${
               !this._isProjectImport
                 ? `<div id="section-stdio" class="snap-start mt-10 project-options">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Stdio support</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">${l10n.t("Stdio support")}</h3>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div class="flex items-center pl-3">
                       <input id="uart-stdio-support-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="uart-stdio-support-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Console over UART</label>
+                      <label for="uart-stdio-support-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Console over UART")}</label>
                     </div>
                   </li>
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div class="flex items-center pl-3">
                       <input id="usb-stdio-support-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="usb-stdio-support-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Console over USB (disables other USB use)</label>
+                      <label for="usb-stdio-support-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Console over USB (disables other USB use)")}</label>
                     </div>
                   </li>
                 </ul>
             </div>
             <div id="section-pico-wireless" class="snap-start mt-10 project-options" hidden>
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Pico wireless options</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">${l10n.t("Pico wireless options")}</h3>
                 <div class="flex items-stretch space-x-4">
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                         <input checked id="pico-wireless-radio-none" type="radio" value="0" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="pico-wireless-radio-none" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">None</label>
+                        <label for="pico-wireless-radio-none" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t({ message: "None", comment: ["Pico wireless option: no wireless support"] })}</label>
                     </div>
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                         <input id="pico-wireless-radio-led" type="radio" value="1" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="pico-wireless-radio-led" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Pico W onboard LED</label>
+                        <label for="pico-wireless-radio-led" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Pico W onboard LED")}</label>
                     </div>
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                         <input id="pico-wireless-radio-pool" type="radio" value="2" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="pico-wireless-radio-pool" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Polled lwIP</label>
+                        <label for="pico-wireless-radio-pool" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Polled lwIP")}</label>
                     </div>
                     <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                         <input id="pico-wireless-radio-background" type="radio" value="3" name="pico-wireless-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="pico-wireless-radio-background" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Background lwIP</label>
+                        <label for="pico-wireless-radio-background" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Background lwIP")}</label>
                     </div>
                 </div>
             </div>
             <div id="section-code-gen" class="snap-start mt-10 project-options">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Code generation options</h3>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">${l10n.t("Code generation options")}</h3>
                 <ul class="mb-2 items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                         <div class="flex items-center pl-3">
                             <input id="run-from-ram-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                            <label for="run-from-ram-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Run the program from RAM rather than flash</label>
+                            <label for="run-from-ram-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Run the program from RAM rather than flash")}</label>
                         </div>
                     </li>
                     <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
@@ -2155,7 +2257,7 @@ export class NewProjectPanel {
                                 ? "checked"
                                 : ""
                             }>
-                            <label for="entry-project-name-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Use project name as entry point file name</label>
+                            <label for="entry-project-name-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Use project name as entry point file name")}</label>
                         </div>
                     </li>
                 </ul>
@@ -2163,19 +2265,19 @@ export class NewProjectPanel {
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div class="flex items-center pl-3">
                       <input id="cpp-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="cpp-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Generate C++ code</label>
+                      <label for="cpp-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Generate C++ code")}</label>
                     </div>
                   </li>
                   <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                     <div class="flex items-center pl-3">
                       <input id="cpp-rtti-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="cpp-rtti-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Enable C++ RTTI (Uses more memory)</label>
+                      <label for="cpp-rtti-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Enable C++ RTTI (Uses more memory)")}</label>
                     </div>
                   </li>    
                   <li class="w-full dark:border-gray-600">
                     <div class="flex items-center pl-3">
                       <input id="cpp-exceptions-code-gen-cblist" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                      <label for="cpp-exceptions-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Enable C++ exceptions (Uses more memory)</label>
+                      <label for="cpp-exceptions-code-gen-cblist" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Enable C++ exceptions (Uses more memory)")}</label>
                     </div>
                   </li>
                 </ul>
@@ -2185,15 +2287,15 @@ export class NewProjectPanel {
             
             <div class="grid gap-6 grid-cols-3 mt-10">
                 <div id="section-debugger" class="snap-start col-span-2">
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">Debugger</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-8">${l10n.t("Debugger")}</h3>
                     <div class="flex items-stretch space-x-4">
                         <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                             <input checked id="debugger-radio-debug-probe" type="radio" value="0" name="debugger-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="debugger-radio-debug-probe" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">DebugProbe (CMSIS-DAP) [Default]</label>
+                            <label for="debugger-radio-debug-probe" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("DebugProbe (CMSIS-DAP) [Default]")}</label>
                         </div>
                         <div class="flex items-center px-4 py-2 border border-gray-200 rounded dark:border-gray-700">
                             <input id="debugger-radio-swd" type="radio" value="1" name="debugger-radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600">
-                            <label for="debugger-radio-swd" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">SWD (Pi host, on Pi 5 it requires Linux Kernel >= 6.6.47)</label>
+                            <label for="debugger-radio-swd" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("SWD (Pi host, on Pi 5 it requires Linux Kernel >= 6.6.47)")}</label>
                         </div>
                     </div>
                 </div>
@@ -2204,16 +2306,26 @@ export class NewProjectPanel {
                           <input id="use-cmake-tools-cb" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 outline-none focus:ring-0 focus:ring-offset-5 dark:bg-gray-700 dark:border-gray-600" ${
                             defaultUseCmakeTools ? "checked" : ""
                           }>
-                          <label for="use-cmake-tools-cb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Enable CMake-Tools extension integration</label>
+                          <label for="use-cmake-tools-cb" class="w-full py-4 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">${l10n.t("Enable CMake-Tools extension integration")}</label>
                       </div>
                   </div>
                 </div>
             </div>
             <div class="bottom-3 mt-8 mb-12 w-full flex justify-end">
-                <button id="btn-advanced-options" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-yellow-400 dark:ring-yellow-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-yellow-500 dark:hover:bg-yellow-700 focus:ring-yellow-600 dark:focus:ring-yellow-800">Show Advanced Options</button>
-                <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">Cancel</button>
+                <button id="btn-advanced-options" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-yellow-400 dark:ring-yellow-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-yellow-500 dark:hover:bg-yellow-700 focus:ring-yellow-600 dark:focus:ring-yellow-800">${l10n.t("Show Advanced Options")}</button>
+                <button id="btn-cancel" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-red-400 dark:ring-red-700 font-medium rounded-lg text-lg px-4 py-2 mr-4 hover:bg-red-500 dark:hover:bg-red-700 focus:ring-red-600 dark:focus:ring-red-800">${l10n.t("Cancel")}</button>
                 <button id="btn-create" class="focus:outline-none bg-transparent ring-2 focus:ring-4 ring-green-400 dark:ring-green-700 font-medium rounded-lg text-lg px-4 py-2 mr-2 hover:bg-green-500 dark:hover:bg-green-700 focus:ring-green-600 dark:focus:ring-green-800">
-                  ${this._isProjectImport ? "Import" : "Create"}
+                  ${
+                    this._isProjectImport
+                      ? l10n.t({
+                          message: "Import",
+                          comment: ["Button that imports the project"],
+                        })
+                      : l10n.t({
+                          message: "Create",
+                          comment: ["Button that creates the project"],
+                        })
+                  }
                 </button>
             </div>
         </main>
@@ -2277,7 +2389,7 @@ export class NewProjectPanel {
         );
       } catch {
         await window.showErrorMessage(
-          "Unknown board type: " + options.boardType
+          l10n.t("Unknown board type: {0}", options.boardType)
         );
 
         return;
@@ -2400,7 +2512,7 @@ export class NewProjectPanel {
       generatorExitCode === 0
     ) {
       void window.showInformationMessage(
-        `Successfully generated new project: ${projectName}`
+        l10n.t("Successfully generated new project: {0}", projectName)
       );
 
       const folderAlreadyOpen = workspace.workspaceFolders?.some(
@@ -2431,9 +2543,9 @@ export class NewProjectPanel {
       );
 
       void window.showErrorMessage(
-        `Could not ${
-          this._isProjectImport ? "import" : "create"
-        } new project: ${projectName}`
+        this._isProjectImport
+          ? l10n.t("Could not import new project: {0}", projectName)
+          : l10n.t("Could not create new project: {0}", projectName)
       );
     }
   }
