@@ -318,17 +318,23 @@ export class GetPicotoolPathCommand extends CommandWithResult<
     }
     this.running = true;
 
-    // get latest release
-    const picotoolReleases = await getPicotoolReleases();
+    // C/C++ tasks.json uses this, so prefer the version the project pins
+    const workspaceFolder = workspace.workspaceFolders?.[0];
+    let picotoolVersion =
+      workspaceFolder !== undefined
+        ? (await getActiveProjectSelections(workspaceFolder))?.picotoolVersion
+        : undefined;
 
-    if (picotoolReleases === null) {
+    if (picotoolVersion === undefined) {
+      // sorted latest to oldest
+      picotoolVersion = (await getPicotoolReleases())?.[0];
+    }
+
+    if (picotoolVersion === undefined) {
       this.running = false;
 
       return undefined;
     }
-
-    // it is sorted latest to oldest
-    const picotoolVersion = picotoolReleases[0];
 
     // check if it is installed if not install it
     const result = await downloadAndInstallPicotool(picotoolVersion);
